@@ -1,0 +1,102 @@
+:local(.loginInputBg) {
+    text-align:center;
+}
+:local(.loginInput) {
+    margin:12px auto;
+    height: 37px;
+    width:79%;
+    border-radius: 0;
+}
+:local(.loginButton) {
+    margin:14px auto;
+    width:40%;
+    height: 40px;
+    border: none;
+    background-color:#0F4172;
+}
+:local(.loginButton:hover) {
+    background-color:#0F4172;
+}
+:local(.loginButton span) {
+    font-weight: 100;
+
+}
+:local(.loginBg) {
+    width:100%;
+    min-height:550px;
+    text-align:center;
+    padding-top:8%; overflow: hidden;
+    background-size: 30px 30px;
+    background-color: #11244d;
+    background-image: repeating-linear-gradient(135deg,
+    rgba(255, 255, 255, .02), rgba(255, 255, 255, .02) 5%,
+    transparent 5%, transparent 10%
+   );
+}
+:local(.loginBorder) {
+    width:450px;
+    height:351px;
+    z-index: 10;
+    margin:0 auto;
+    position: relative;
+}
+:local(.loginBorderCon) {
+    width:450px;
+    height:351px;
+    padding:30px 65px 50px;
+    background-color:#fff;
+    z-index: 10;
+    position: absolute;
+}
+
+:local(.loginBorderBg1){
+    width: 367px;
+    height: 570px;
+    transform: rotate(52deg);
+    position: absolute;
+    top: 35px;
+    left: 154px;
+    z-index: 5;
+    background: linear-gradient(to right, rgba(10, 30, 60, .5), transparent);
+}
+
+:local(.loginTitle) {
+    font-size: 30px;
+    line-height: 70px;
+    margin:0 auto 15px;
+    border-bottom:1px dashed #eeeef5;
+    color: #0c3665;
+}
+:local(.loginIcon) {
+    display: inline-block;
+    vertical-align: middle;margin-right:10px;
+    color: #1c4469;
+}
+:local(.loginlogo) {
+    width:120px;
+    height:120px;
+    border-radius: 60px;
+    margin: -100px auto 0;
+    background-size: 30px 30px;
+    background-color: #11244d;
+    background-image: repeating-linear-gradient(135deg,
+    rgba(255, 255, 255, .02), rgba(255, 255, 255, .02) 5%,
+    transparent 5%, transparent 10%
+    );
+}
+:local(.loginlogo img) {
+    margin-top: 55px;
+    width: 70px;}
+
+:local(.hr){
+    opacity: 0;
+}
+:local(.loginBorderBg){
+    margin:0 10px;
+}
+:local(.loginLeft){
+    width:20%;
+    font-size:14px;
+    display: inline-block;
+    text-align: left;
+}

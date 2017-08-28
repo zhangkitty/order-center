@@ -1,0 +1,28 @@
+.layoutAside {
+    display: flex;
+    height: 100%;
+}
+
+.layoutAside aside {
+    width: 180px;
+    height: 100%;
+    border-right: 1px solid #eeeef5;
+}
+
+.main {
+    flex: 1;
+}
+
+.crumb {
+    border-bottom: 1px solid #eeeef5;
+}
+
+.menubtn {
+    margin-top: 20px;
+    text-align: center;
+    padding-right: 20px;
+}
+
+.menubtn a {
+    margin-left: 40px;
+}
