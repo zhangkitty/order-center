@@ -20,6 +20,9 @@ module.exports = Object.keys(languages).map((lang) => ({
     path: path.join(__dirname, 'dist', lang),
     publicPath: 'dist/' + lang + '/'
   },
+  resolve: {
+    extensions: ['.js', '.jsx', '.scss', '.css', '.json'],
+  },
   module: {
     rules: [
       {
@@ -64,7 +67,7 @@ module.exports = Object.keys(languages).map((lang) => ({
     new webpack.DefinePlugin({
       process: {
         env: {
-          // BASE_URI: JSON.stringify('/index_new.php/Home'),
+          BASE_URI: JSON.stringify('/index_new.php/Order'),
           NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
           LOCALE: JSON.stringify(lang),
         },

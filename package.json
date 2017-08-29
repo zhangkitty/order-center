@@ -1,12 +1,14 @@
 {
   "name": "order-center",
   "version": "1.0.0",
-  "description": "",
+  "description": "订单中心",
   "main": "index.js",
   "private": true,
   "scripts": {
     "test": "",
-    "build": "webpack"
+    "start": "node createNginx.js supplydevelop.dotfashion.cn 8000",
+    "build": "webpack",
+    "dev": "webpack -w"
   },
   "repository": {
     "type": "git",
@@ -32,6 +34,7 @@
   "dependencies": {
     "antd": "^2.12.8",
     "babel-polyfill": "^6.26.0",
+    "chalk": "^2.1.0",
     "moment": "^2.18.1",
     "object-assign": "^4.1.1",
     "prop-types": "^15.5.10",
