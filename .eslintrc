@@ -1,0 +1,15 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "rules": {
+    "react/require-default-props": "off",
+    "react/jsx-max-props-per-line": "off"
+  },
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "process": true,
+    "__": true
+  }
+}

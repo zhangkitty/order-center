@@ -27,14 +27,6 @@ function showMessage(msg, fn = () => {}) {
     }, 3000);
   }
 }
-const relogin = {
-  230102: 'user status is wrong',
-  230103: 'user not exist',
-  230104: 'IP not allowed',
-  230105: 'system not allowed',
-  230106: 'token not valid',
-  800005: 'token error',
-};
 
 export default (url, args = {}, header) => {
   let newUrl;
@@ -44,25 +36,25 @@ export default (url, args = {}, header) => {
     newUrl = `${url}?language=${process.env.LOCALE}`
   }
   return fetch(`${process.env.BASE_URI}${newUrl}`, assign({
-      credentials: 'include',
-      headers: header || {
-        'content-type': 'application/json',
-      },
-    }, args)).then((res) => {
-    const { status } = res;
-    if (status === 302) {
-      return hashHistory.push('/fileCompany/list');  // 跳转登录
-    } else if(status === 403) {
-      return showMessage('没有权限操作');
-    } else if(status === 500) {
-      showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
-      throw new Error(status);
-    } else if (status !== 200) {
-      showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
-    }
+    credentials: 'include',
+    headers: header || {
+      'content-type': 'application/json',
+    },
+  }, args)).then((res) => {
+  const { status } = res;
+  if (res.redirected) { //  302
+  //  location.href = res.url; // 跳转登录
+  } else if (status === 403) {
+    return showMessage('没有权限操作');
+  } else if (status === 500) {
+    showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
+    throw new Error(status);
+  } else if (status !== 200) {
+    return showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
+  }
     // const lagunage = res.headers.get('systemLagunage');
 
-
+  console.log(res.headers.get('Location'));
     // 流，下载
     if (res.headers.get('content-type') === 'application/vnd.ms-excel;charset=UTF-8') {
       return res.blob();

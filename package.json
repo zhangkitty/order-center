@@ -29,7 +29,13 @@
     "i18n-webpack-plugin": "^1.0.0",
     "react-redux-component-loader": "^3.2.2",
     "style-loader": "^0.18.2",
-    "webpack": "^3.5.5"
+    "webpack": "^3.5.5",
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-jsx-a11y": "^5.1.0",
+    "eslint-plugin-react": "^7.1.0"
   },
   "dependencies": {
     "antd": "^2.12.8",

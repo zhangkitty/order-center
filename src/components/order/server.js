@@ -6,8 +6,8 @@ import queryString from '../../lib/query-string';
 
 const list = {
   init: '/skuDay/fetchSkuDaySumPage',    // 列表
-  initType: '/category/fetchAllFirst',   // 获取所有一级分类
-  initWarehouse: '/warehouse/getWarehouseSearchList',   // 获取所有仓库
+  initType: '/Order/getCountry',   // 获取所有国家
+  initSite: '/Site/getSite',   // 获取所有站点
   dataExport: '/skuDay/exportSkuDaySum',   // 数据导出
 };
 
@@ -32,7 +32,7 @@ export const initTypeSer = () => (
 );
 
 export const initWarehouseSer = () => (
-  fetch(list.initWarehouse, {
+  fetch(list.initSite, {
     method: 'GET',
   })
 );

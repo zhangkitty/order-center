@@ -6,11 +6,12 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Table, Button, DatePicker, Select, message } from 'antd';
+import { Table, Button, DatePicker, Select, message, Input } from 'antd';
 import Pagination from '../../publicComponent/pagination';
 import ThousandsPoints from '../../publicComponent/thousandsPoints';
 import SKURemote from '../../publicComponent/SKURemote';
 import { search, exportAll, change, commit, initType, initWarehouse, init } from './action';
+import SingleRow from './singleRow';
 
 import styles from './style.css';
 
@@ -20,27 +21,27 @@ class orderList extends Component {
   constructor(props) {
     super(props);
     const { dispatch } = props;
-    dispatch(init());
+    // dispatch(init());
     props.dispatch(initType());
     props.dispatch(initWarehouse());
-    const { query } = props.location;    // 仓库+分类收发存汇总表带的数据
-    if (Object.keys(query).length) {
-      props.dispatch(change('queryString', assign({}, props.queryString, query)));
-      props.dispatch(search(assign({},
-        query,
-        {
-          pageNumber: 1,
-        })));
-    }
+  //   const { query } = props.location;    // 仓库+分类收发存汇总表带的数据
+  //   if (Object.keys(query).length) {
+  //     props.dispatch(change('queryString', assign({}, props.queryString, query)));
+  //     props.dispatch(search(assign({},
+  //       query,
+  //       {
+  //         pageNumber: 1,
+  //       })));
+  //   }
   }
 
   // time control
   disabledDate(current) {
-    const { checkDateBegin } = this.props.queryString;
+    const { paytimeStart } = this.props.queryString;
     return (
-      (current && current.valueOf() < moment(checkDateBegin).valueOf())
+      (current && current.valueOf() < moment(paytimeStart).valueOf())
       ||
-      (current.valueOf() > moment(checkDateBegin).endOf('month').valueOf())
+      (current.valueOf() > moment(paytimeStart).endOf('month').valueOf())
     );
   }
 
@@ -51,6 +52,7 @@ class orderList extends Component {
     } = this.props;
     const {
       warehouseId, categoryFirst, checkDateBegin, checkDateEnd, goodsSn,
+      billno, orderId, shippingNo, referenceNumber, telephone, email, paytimeStart, paytimeEnd,
     } = queryString;
     return (
       <div className={styles.content}>
@@ -58,17 +60,13 @@ class orderList extends Component {
           className={styles.filterBg}
           onSubmit={(e) => {
             e.preventDefault();
-            if (!warehouseId) {
-              return message.warning('缺少仓库');
-            } else if (!categoryFirst) {
-              return message.warning('缺少分类');
-            } else if (!checkDateBegin || !checkDateEnd) {
+            if (!paytimeStart || !paytimeEnd) {
               return message.warning('缺少时间');
-            } else if (moment(checkDateBegin).format('YYYY-MM') !== moment(checkDateEnd).format('YYYY-MM')) {
+            } else if (moment(paytimeStart).format('YYYY-MM') !== moment(paytimeEnd).format('YYYY-MM')) {
               return message.warning('不支持跨月查询');
             } else if (
-              !moment(checkDateEnd).isAfter(checkDateBegin)
-              && !moment(checkDateEnd).isSame(checkDateBegin)
+              !moment(paytimeEnd).isAfter(paytimeStart)
+              && !moment(paytimeEnd).isSame(paytimeStart)
             ) {
               return message.warning('结束时间必须大于开始时间');
             }
@@ -81,58 +79,74 @@ class orderList extends Component {
         >
           <div className={styles.rowSpace}>
             <div className={styles.rowSpaceList}>
-              <span className={styles.filterName}><span style={{ color: 'red' }}>*</span>仓库</span>
-              <Select
+              <span className={styles.filterName}><span style={{ color: 'red' }}>*</span>{__('order.name.order_number')}</span>
+              <Input
                 className={styles.colSpace}
-                value={warehouseId}
-                onChange={val => dispatch(commit('warehouseId', val))}
-              >
-                {
-                  fetchWarehouse.map(item => (
-                    <Option key={item.warehouseId} > {item.warehouseName}</Option>
-                  ))
-                }
-              </Select>
+                value={billno}
+                onChange={e => dispatch(commit('billno', e.target.value))}
+              />
             </div>
             <div className={styles.rowSpaceList}>
-              <span className={styles.filterName}><span style={{ color: 'red' }}>*</span>分类</span>
-              <Select
+              <span className={styles.filterName}>{__('order.name.order_id')}</span>
+              <Input
                 className={styles.colSpace}
-                value={categoryFirst}
-                onChange={val => dispatch(commit('categoryFirst', val))}
-              >
-                {
-                  fetchType.map(item => (<Option key={item.id} > {item.name}</Option>))
-                }
-              </Select>
+                value={orderId}
+                onChange={e => dispatch(commit('orderId', e.target.value))}
+              />
             </div>
             <div className={styles.rowSpaceList}>
-              <span className={styles.filterName}>货料SKU</span>
-              <div className={styles.colSpace}>
-                <SKURemote
-                  value={`${goodsSn || ''}`}
-                  onChange={value => (value ? dispatch(commit('goodsSn', value.goodsSn)) : '')}
-                />
-              </div>
+              <span className={styles.filterName}>{__('order.name.email')}</span>
+              <Input
+                className={styles.colSpace}
+                value={email}
+                onChange={e => dispatch(commit('email', e.target.value))}
+              />
             </div>
             <div className={styles.rowSpaceList}>
-              <span className={styles.filterName}><span style={{ color: 'red' }}>*</span>时间</span>
+              <span className={styles.filterName}>{__('order.name.shipping_no')}</span>
+              <Input
+                className={styles.colSpace}
+                value={shippingNo}
+                onChange={e => dispatch(commit('shippingNo', e.target.value))}
+              />
+            </div>
+            <div className={styles.rowSpaceList}>
+              <span className={styles.filterName}>{__('order.name.reference')}</span>
+              <Input
+                className={styles.colSpace}
+                value={referenceNumber}
+                onChange={e => dispatch(commit('referenceNumber', e.target.value))}
+              />
+            </div>
+            <div className={styles.rowSpaceList}>
+              <span className={styles.filterName}>{__('order.name.telephone')}</span>
+              <Input
+                className={styles.colSpace}
+                value={telephone}
+                onChange={e => dispatch(commit('telephone', e.target.value))}
+              />
+            </div>
+
+            <div className={styles.rowSpaceList}>
+              <span className={styles.filterName}><span style={{ color: 'red' }}>*</span>{__('order.name.paytime')}</span>
               <div className={styles.colSpace2}>
                 <DatePicker
                   style={{ width: '130px' }}
                   allowClear={false}
-                  format="YYYY-MM-DD"
-                  value={moment(checkDateBegin, 'YYYY-MM-DD')}
-                  onChange={(value, str) => dispatch(commit('checkDateBegin', str))}
+                  showTime
+                  format="YYYY-MM-DD HH:mm:SS"
+                  value={moment(paytimeStart, 'YYYY-MM-DD HH:mm:SS')}
+                  onChange={(value, str) => dispatch(commit('paytimeStart', str))}
                 />
                 &nbsp; - &nbsp;
                 <DatePicker
                   style={{ width: '130px' }}
                   allowClear={false}
                   disabledDate={cur => this.disabledDate(cur)}
-                  format="YYYY-MM-DD"
-                  value={moment(checkDateEnd, 'YYYY-MM-DD')}
-                  onChange={(value, str) => dispatch(commit('checkDateEnd', str))}
+                  showTime
+                  format="YYYY-MM-DD HH:mm:SS"
+                  value={moment(paytimeEnd, 'YYYY-MM-DD HH:mm:SS')}
+                  onChange={(value, str) => dispatch(commit('paytimeEnd', str))}
                 />
               </div>
             </div>
@@ -145,60 +159,12 @@ class orderList extends Component {
             loading={searchLoad}
             htmlType={'submit'}
           >
+            {__('common.search')}
             查询</Button>
         </form>
-
-        <Table
-          rowKey="key"
-          bordered
-          pagination={false}
-          loading={load}
-          dataSource={dataSource}
-          columns={
-          [{
-            title: '仓库',
-            dataIndex: 'warehouseName',
-          }, {
-            title: '货料分类',
-            dataIndex: 'categoryFirstName',
-          }, {
-            title: '货料SKU',
-            dataIndex: 'goodsSn',
-          }, {
-            title: '期初数量',
-            dataIndex: 'openingNum',
-            render: data => ThousandsPoints(data),
-          }, {
-            title: '期初金额',
-            dataIndex: 'openingMoney',
-            render: data => ThousandsPoints(data),
-          }, {
-            title: '入库数量',
-            dataIndex: 'instoreNum',
-            render: data => ThousandsPoints(data),
-          }, {
-            title: '入库金额',
-            dataIndex: 'instoreMoney',
-            render: data => ThousandsPoints(data),
-          }, {
-            title: '出库数量',
-            dataIndex: 'outstoreNum',
-            render: data => ThousandsPoints(data),
-          }, {
-            title: '出库金额',
-            dataIndex: 'outstoreMoney',
-            render: data => ThousandsPoints(data),
-          }, {
-            title: '结存数量',
-            dataIndex: 'endingNum',
-            render: data => ThousandsPoints(data),
-          }, {
-            title: '结存金额',
-            dataIndex: 'endingMoney',
-            render: data => ThousandsPoints(data),
-          }]
-          }
-        />
+        {
+          dataSource.map((v, i) => <SingleRow data={v} index={i} key={v.a} />)
+        }
         <Pagination
           total={total}
           current={queryString.pageNumber}

@@ -7,7 +7,26 @@ import * as TYPES from './types';
 
 
 const defaultState = {
-  dataSource: [],
+  dataSource: [{
+    order_id: 1,
+    billno: 'PKC11549',
+    goods_quantity: 2,   // 商品总数(不包含换货商品数)
+    check: false,
+    goods: [
+    { c: 'cc', d: 'dd' },
+    { c: 'ee', d: 'ff' },
+    ],
+  }, {
+    order_id: 2,
+    billno: 'PKC11548',
+    goods_quantity: 3,
+    check: false,
+    goods: [
+      { c: 'cc', d: 'dd' },
+      { c: 'ee', d: 'ff' },
+      { c: 'ee', d: 'ff' },
+    ],
+  }],
   fetchType: [],
   fetchWarehouse: [],
   queryString: {
@@ -15,8 +34,8 @@ const defaultState = {
     pageNumber: 1,
     warehouseId: null,
     categoryFirst: null,
-    checkDateBegin: moment(Date.now()).subtract(1, 'd').format('YYYY-MM-DD'),
-    checkDateEnd: moment(Date.now()).subtract(1, 'd').format('YYYY-MM-DD'),
+    paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:SS'),
+    paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),
     goodsSn: '',
   },
   clickVisible: false,

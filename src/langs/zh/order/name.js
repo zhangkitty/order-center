@@ -2,5 +2,32 @@
  * Created by fed on 2017/8/28.
  */
 module.exports = {
-  fuck: '嘿嘿恶化'
-}
+  fuck: '嘿嘿恶化123412',
+  choose: '请选择',
+  search1: '普通搜索',
+  search2: '高级搜索',
+  order_number: '订单号',
+  order_id: '订单号',
+  email: '邮箱',
+  shipping_no: '发货号',
+  reference: '包裹号',
+  telephone: '手机号',
+  paytime: '付款时间',
+  site: '站点',
+  country: '国家',
+  txn: '付款流水号',
+  payment_method: '支付方式',
+  trouble: '问题件类型',
+  remark_user: '标记人',
+  total_select: '美金金额',
+  search: '搜索',
+  tip: 'Tip',
+  tip_title: '搜索说明：\n 1. 只可搜索一年内的订单；\n 2. 付款时间最长可搜索一个月；',
+  sku: 'sku',
+  count: '有货件数>',
+  member_level: '会员等级',
+  order_status: '订单状态',
+  goods_status: '商品状态',
+  cancel_type: '取消类型',
+  goods_time: '商品状态更新时间',
+};

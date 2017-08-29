@@ -16,8 +16,8 @@ const menus = [
         crumbName: __('nav.helloCrumb'),
         nav: true,
       },
-    ]
-  }
+    ],
+  },
 ];
 
 const linkList = menus.reduce((concated, { children }) => (
@@ -40,7 +40,7 @@ const defaultState = {
 const routerMatch = (current) => {
   return linkList
     .filter(({ link }) => (link === '/' || `${current}/`.startsWith(`${link}/`)))
-    .sort((item1, item2) => item1.link.length > item2.link.length)
+    .sort((item1, item2) => item1.link.length > item2.link.length);
 };
 
 
