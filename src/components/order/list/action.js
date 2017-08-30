@@ -52,3 +52,25 @@ export const initSiteSuccess = data => ({
 export const initSiteFail = () => ({
   type: TYPES.INIT_SITE_FAIL,
 });
+
+export const initPayment = () => ({
+  type: TYPES.INIT_PAYMENT,
+});
+export const initPaymentSuccess = data => ({
+  type: TYPES.INIT_PAYMENT_SUCCESS,
+  data,
+});
+export const initPaymentFail = () => ({
+  type: TYPES.INIT_PAYMENT_FAIL,
+});
+
+export const initTrouble = () => ({
+  type: TYPES.INIT_TROUBLE,
+});
+export const initTroubleSuccess = data => ({
+  type: TYPES.INIT_TROUBLE_SUCCESS,
+  data,
+});
+export const iitTroubleFail = () => ({
+  type: TYPES.INIT_TROUBLE_FAIL,
+});

@@ -29,19 +29,28 @@ const defaultState = {
   }],
   fetchCountry: [],    // 国家
   fetchSite: [],  // 站点
+  fetchPayment: [],    // 支付方式
+  fetchTrouble: [],  // 问题件
   queryString: {
     pageSize: 10,
     pageNumber: 1,
-    billno: null,
-    orderId: null,
-    shippingNo: null,
-    referenceNumber: null,
-    telephone: null,
-    email: null,
-    paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:SS'),
-    paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),
-    countryName: '',
-    siteFrom: '',
+    billno: null,    // 订单号
+    orderId: null,   // 订单ID
+    email: null,    //
+    shippingNo: null,  // 发货号
+    referenceNumber: null,    // 包裹号
+    telephone: null,    // 手机号
+    paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:SS'),   // 付款时间
+    paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),          // 付款时间
+    siteFrom: null,   // 站点
+    countryName: null,   // 国家
+    xnId: null,   // 付款流水号
+    paymentMethod: null,   // 支付方式
+    troubleType: null,   // 问题件类型
+    remarkser: null,   // 标记人
+    totalSelect: null,   // 美金金额比较符
+    totalInput: null,   // 美金金额
+    searchType: null,   // 搜索类型
   },
   clickVisible: false,
   load: false,
@@ -101,6 +110,32 @@ const reducer = (state = defaultState, action) => {
     case TYPES.INIT_SITE_SUCCESS:
       return assign({}, state, {
         fetchSite: action.data.data,
+        load: false,
+      });
+    case TYPES.INIT_PAYMENT:
+      return assign({}, state, {
+        load: true,
+      });
+    case TYPES.INIT_PAYMENT_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.INIT_PAYMENT_SUCCESS:
+      return assign({}, state, {
+        fetchPayment: action.data.data,
+        load: false,
+      });
+    case TYPES.INIT_TROUBLE:
+      return assign({}, state, {
+        load: true,
+      });
+    case TYPES.INIT_TROUBLE_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.INIT_TROUBLE_SUCCESS:
+      return assign({}, state, {
+        fetchTrouble: action.data.data,
         load: false,
       });
     default:

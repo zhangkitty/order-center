@@ -19,13 +19,12 @@ class Navigation extends Component {
       ?
       [...routerMatchList].reverse()[0].crumbName : '';
     const crumbList = pathList.map((v, i) => (
-        <Link
-          key={v.link}
-          style={i === pathList.length - 1 ? { color: '#d9d9d9' } : { color: '#919191' }}
-          className={styles.tabActive}
-          to={v.link}
-        >{v.crumbName}</Link>
-
+      <Link
+        key={v.link}
+        style={i === pathList.length - 1 ? { color: '#d9d9d9' } : { color: '#919191' }}
+        className={styles.tabActive}
+        to={v.link}
+      >{v.crumbName}</Link>
     ));
 
     return (
@@ -41,18 +40,18 @@ class Navigation extends Component {
         <div className={styles.main}>
           <div className={styles.crumb}>
             <div>
-                {
-                    crumbList
-                }
+              {
+                  crumbList
+              }
             </div>
             <div className={styles.menubtn}>
               <a
-                  href={'index.html' + location.hash }
-                  className={styles.language}
+                href={'index.html' + location.hash}
+                className={styles.language}
               >中</a>
               <a
-                  href={'en.html' + location.hash}
-                  className={styles.language}
+                href={'en.html' + location.hash}
+                className={styles.language}
               >En</a>
             </div>
           </div>

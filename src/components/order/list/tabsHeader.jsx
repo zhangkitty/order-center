@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Collapse, Tabs, Select, Input, DatePicker, Button, Icon, message } from 'antd';
 import moment from 'moment';
-import { search, commit, initCountry, initSite } from './action';
+import { search, commit, initCountry, initSite, initPayment, initTrouble } from './action';
 
 import styles from './style.css';
 
@@ -31,6 +31,8 @@ class TabsHeader extends Component {
     // dispatch(init());
     props.dispatch(initCountry());
     props.dispatch(initSite());
+    props.dispatch(initPayment());
+    props.dispatch(initTrouble());
   }
   // time control
   disabledDate(current) {
@@ -44,12 +46,12 @@ class TabsHeader extends Component {
 
   render() {
     const {
-      dispatch, fetchCountry, fetchSite,
+      dispatch, fetchCountry, fetchSite, fetchPayment, fetchTrouble,
       queryString, searchLoad,
     } = this.props;
     const {
       billno, orderId, shippingNo, referenceNumber, telephone, email, paytimeStart, paytimeEnd,
-      countryName, siteFrom,
+      countryName, siteFrom, txnId, paymentMethod, troubleType, totalSelect, totalInput,
     } = queryString;
     return (
       <Collapse defaultActiveKey={['1']}>
@@ -84,7 +86,7 @@ class TabsHeader extends Component {
               >
                 <div className={styles.rowSpace}>
                   <div className={styles.rowSpaceList}>
-                    <span className={styles.filterName}><span style={{ color: 'red' }}>*</span>{__('order.name.order_number')}</span>
+                    <span className={styles.filterName}>{__('order.name.order_number')}</span>
                     <Input
                       className={styles.colSpace}
                       value={billno}
@@ -132,7 +134,21 @@ class TabsHeader extends Component {
                     />
                   </div>
                   <div className={styles.rowSpaceList}>
-                    <span className={styles.filterName}><span style={{ color: 'red' }}>*</span>国家qq</span>
+                    <span className={styles.filterName}>{__('order.name.site')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      value={siteFrom}
+                      onChange={val => dispatch(commit('siteFrom', val))}
+                    >
+                      {
+                        fetchSite.map(item => (
+                          <Option key={item.id} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </div>
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.country')}</span>
                     <Select
                       className={styles.colSpace}
                       value={countryName}
@@ -146,20 +162,61 @@ class TabsHeader extends Component {
                     </Select>
                   </div>
                   <div className={styles.rowSpaceList}>
-                    <span className={styles.filterName}><span style={{ color: 'red' }}>*</span>站点qq</span>
+                    <span className={styles.filterName}>{__('order.name.txn')}</span>
+                    <Input
+                      className={styles.colSpace}
+                      value={txnId}
+                      onChange={e => dispatch(commit('txnId', e.target.value))}
+                    />
+                  </div>
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.payment_method')}</span>
                     <Select
                       className={styles.colSpace}
-                      value={siteFrom}
-                      onChange={val => dispatch(commit('siteFrom', val))}
+                      value={paymentMethod}
+                      onChange={val => dispatch(commit('paymentMethod', val))}
                     >
+                      <Option key={null} > {__('order.name.choose')}</Option>
                       {
-                        fetchSite.map(item => (
+                        fetchPayment.map(item => (
                           <Option key={item.id} > {item.name}</Option>
                         ))
                       }
                     </Select>
                   </div>
-
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.trouble')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      value={troubleType}
+                      onChange={val => dispatch(commit('troubleType', val))}
+                    >
+                      <Option key={null} > {__('order.name.choose')}</Option>
+                      {
+                        fetchTrouble.map(item => (
+                          <Option key={item.id} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </div>
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.total_select')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      style={{ width: '70px', marginRight: '10px' }}
+                      value={totalSelect}
+                      onChange={val => dispatch(commit('totalSelect', val))}
+                    >
+                      <Option key={null} > {__('order.name.choose')}</Option>
+                      <Option key={0} > > </Option>
+                      <Option key={1} > = </Option>
+                    </Select>
+                    <Input
+                      className={styles.colSpace}
+                      value={totalInput}
+                      onChange={e => dispatch(commit('totalInput', e.target.value))}
+                    />
+                  </div>
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}><span style={{ color: 'red' }}>*</span>{__('order.name.paytime')}</span>
                     <div className={styles.colSpace2}>
@@ -212,5 +269,7 @@ TabsHeader.propTypes = {
   queryString: PropTypes.shape(),
   fetchCountry: PropTypes.arrayOf(PropTypes.shape()),
   fetchSite: PropTypes.arrayOf(PropTypes.shape()),
+  fetchPayment: PropTypes.arrayOf(PropTypes.shape()),
+  fetchTrouble: PropTypes.arrayOf(PropTypes.shape()),
 };
 export default TabsHeader;

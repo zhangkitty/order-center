@@ -19,3 +19,14 @@ export const INIT_COUNTRY_FAIL = `${prefix}init_country_fail`;
 export const INIT_SITE = `${prefix}init_site`;
 export const INIT_SITE_SUCCESS = `${prefix}init_site_success`;
 export const INIT_SITE_FAIL = `${prefix}init_site_fail`;
+
+// 支付方式
+export const INIT_PAYMENT = `${prefix}init_payment`;
+export const INIT_PAYMENT_SUCCESS = `${prefix}init_payment_success`;
+export const INIT_PAYMENT_FAIL = `${prefix}init_payment_fail`;
+
+// 问题件类型
+export const INIT_TROUBLE = `${prefix}init_trouble`;
+export const INIT_TROUBLE_SUCCESS = `${prefix}init_trouble_success`;
+export const INIT_TROUBLE_FAIL = `${prefix}init_trouble_fail`;
+

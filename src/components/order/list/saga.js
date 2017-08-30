@@ -4,9 +4,10 @@
 import { message } from 'antd';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 import assign from 'object-assign';
-import { searchSubmit, initCountrySer, initSiteSer } from '../server';
+import { searchSubmit, initCountrySer, initSiteSer, initPaymentSer, initTroubleSer } from '../server';
 import {
   searchSuccess, searchFail, initCountrySuccess, initCountryFail, initSiteSuccess, initSiteFail,
+  initPaymentFail, initPaymentSuccess, initTroubleFail, initTroubleSuccess,
 } from './action';
 
 import * as TYPES from './types';
@@ -34,7 +35,6 @@ function* initCountrySaga() {
 
 function* initSiteSaga() {
   const data = yield initSiteSer();
-  console.log('site', data);
   if (!data || data.code !== 0) {
     message.error(`获取站点列表失败: ${data.error}`);
     return yield put(initSiteFail());
@@ -42,8 +42,29 @@ function* initSiteSaga() {
   return yield put(initSiteSuccess(data));
 }
 
+function* initPaymentSaga() {
+  const data = yield initPaymentSer();
+  if (!data || data.code !== 0) {
+    message.error(`获取站点列表失败: ${data.error}`);
+    return yield put(initPaymentFail());
+  }
+  return yield put(initPaymentSuccess(data));
+}
+
+function* initTroubleSaga() {
+  const data = yield initTroubleSer();
+  if (!data || data.code !== 0) {
+    message.error(`获取站点列表失败: ${data.error}`);
+    return yield put(initTroubleFail());
+  }
+  return yield put(initTroubleSuccess(data));
+}
+
+
 export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
   yield takeEvery(TYPES.INIT_COUNTRY, initCountrySaga);
   yield takeEvery(TYPES.INIT_SITE, initSiteSaga);
+  yield takeEvery(TYPES.INIT_PAYMENT, initPaymentSaga);
+  yield takeEvery(TYPES.INIT_TROUBLE, initTroubleSaga);
 }

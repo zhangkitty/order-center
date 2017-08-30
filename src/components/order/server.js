@@ -9,6 +9,8 @@ const list = {
   initHigh: '/skuDay/fetchSkuDaySumPage',    // 普通搜索
   initCountry: '/Order/getCountry',   // 获取所有国家
   initSite: '/Site/getSite',   // 获取所有站点
+  initPayment: '/Order/getPaymentMethod', // 获取支付方式列表
+  initTrouble: '/Order/getTroubleType',    // 获取问题件类型列表
 };
 
 const diffRefund = {
@@ -43,6 +45,19 @@ export const initSiteSer = () => (
     method: 'GET',
   })
 );
+
+export const initPaymentSer = () => (
+  fetch(list.initPayment, {
+    method: 'GET',
+  })
+);
+
+export const initTroubleSer = () => (
+  fetch(list.initTrouble, {
+    method: 'GET',
+  })
+);
+
 
 
 
