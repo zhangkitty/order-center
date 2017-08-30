@@ -12,4 +12,5 @@ module.exports = {
   search2: '高级搜索',
   order_number: 'order number',
   order_id: 'order Id',
+  diff_refund: '差价退款',
 }
