@@ -140,5 +140,6 @@ exec(startCmd, function(error, stdout, stderr) {
       });
     }
   }
+  console.error(error)
   return log(chalk.magenta('====== nginx 启动成功 ！======'));
 });
