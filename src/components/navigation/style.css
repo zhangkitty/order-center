@@ -18,11 +18,17 @@
 }
 
 .menubtn {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
     text-align: center;
     padding-right: 20px;
 }
 
 .menubtn a {
     margin-left: 40px;
+}
+
+.bread_crumbs_bg {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
 }

@@ -6,7 +6,7 @@ import assign from 'object-assign';
 
 const menus = [
   {
-    name: __('nav.hello'),
+    name: __('common.order_manage'),
     key: 'hello',
     icon: 'bars',
     children: [
@@ -14,6 +14,21 @@ const menus = [
         link: '/hello',
         name: __('nav.hello'),
         crumbName: __('nav.helloCrumb'),
+        nav: true,
+      }, {
+        link: '/order',
+        name: __('common.order_list'),
+        crumbName: __('common.order_list'),
+        nav: true,
+      }, {
+        link: '/order/goodsRefunds',
+        name: __('common.goods_refunds'),
+        crumbName: __('common.goods_refunds'),
+        nav: true,
+      }, {
+        link: '/order/chooseGoods',
+        name: __('common.choose_goods'),
+        crumbName: __('common.choose_goods'),
         nav: true,
       },
     ],
