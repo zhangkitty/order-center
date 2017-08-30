@@ -6,16 +6,15 @@ import { commit } from './action';
 
 import Styles from './style.css';
 
-const SingleRow = ({ data, index, dispatch, dataSource }) => {
+const SingleRow = ({ data, index }) => {
   return (
     <div className={Styles.orderList}>
-      <div>
+      <div className={Styles.orderTitle}>
         <Checkbox >{ data.billno }</Checkbox> Qty: { data.goods_quantity }
       </div>
-      <div>
+      <div className={Styles.orderTable}>
         <Table
           rowKey="c"
-          bordered
           rowSelection={{
             type: 'checkbox',
             onChange: t => console.log(t),
@@ -34,12 +33,12 @@ const SingleRow = ({ data, index, dispatch, dataSource }) => {
           }
         />
       </div>
-      <div>
+      <div className={Styles.orderOperate}>
         进行中
       </div>
     </div>
   );
-}
+};
 
 SingleRow.proptypes = {
   data: PropTypes.arrayOf(PropTypes.shape()),

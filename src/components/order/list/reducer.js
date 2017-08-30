@@ -22,21 +22,26 @@ const defaultState = {
     goods_quantity: 3,
     check: false,
     goods: [
-      { c: 'cc', d: 'dd' },
-      { c: 'ee', d: 'ff' },
-      { c: 'ee', d: 'ff' },
+      { c: 'cc1', d: 'dd1' },
+      { c: 'ee1', d: 'ff1' },
+      { c: 'ee2', d: 'ff3' },
     ],
   }],
-  fetchType: [],
-  fetchWarehouse: [],
+  fetchCountry: [],    // 国家
+  fetchSite: [],  // 站点
   queryString: {
     pageSize: 10,
     pageNumber: 1,
-    warehouseId: null,
-    categoryFirst: null,
+    billno: null,
+    orderId: null,
+    shippingNo: null,
+    referenceNumber: null,
+    telephone: null,
+    email: null,
     paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:SS'),
     paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),
-    goodsSn: '',
+    countryName: '',
+    siteFrom: '',
   },
   clickVisible: false,
   load: false,
@@ -72,39 +77,30 @@ const reducer = (state = defaultState, action) => {
         total: action.data.total,
         load: false,
       });
-    case TYPES.INIT_TYPE:
+    case TYPES.INIT_COUNTRY:
       return assign({}, state, {
         load: true,
       });
-    case TYPES.INIT_TYPE_FAIL:
+    case TYPES.INIT_COUNTRY_FAIL:
       return assign({}, state, {
         load: false,
       });
-    case TYPES.INIT_TYPE_SUCCESS:
+    case TYPES.INIT_COUNTRY_SUCCESS:
       return assign({}, state, {
-        fetchType: action.data,
+        fetchCountry: action.data.data,
         load: false,
       });
-    case TYPES.INIT_WAREHOUSE:
+    case TYPES.INIT_SITE:
       return assign({}, state, {
         load: true,
       });
-    case TYPES.INIT_WAREHOUSE_FAIL:
+    case TYPES.INIT_SITE_FAIL:
       return assign({}, state, {
         load: false,
       });
-    case TYPES.INIT_WAREHOUSE_SUCCESS:
+    case TYPES.INIT_SITE_SUCCESS:
       return assign({}, state, {
-        fetchWarehouse: action.data,
-        load: false,
-      });
-    case TYPES.EXPORT:
-      return assign({}, state, {
-        load: true,
-      });
-    case TYPES.EXPORT_FAIL:
-    case TYPES.EXPORT_SUCCESS:
-      return assign({}, state, {
+        fetchSite: action.data.data,
         load: false,
       });
     default:

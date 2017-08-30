@@ -5,33 +5,33 @@ import fetch from '../../lib/fetch';
 import queryString from '../../lib/query-string';
 
 const list = {
-  init: '/skuDay/fetchSkuDaySumPage',    // 列表
-  initType: '/Order/getCountry',   // 获取所有国家
+  init: '/skuDay/fetchSkuDaySumPage',    // 普通搜索
+  initHigh: '/skuDay/fetchSkuDaySumPage',    // 普通搜索
+  initCountry: '/Order/getCountry',   // 获取所有国家
   initSite: '/Site/getSite',   // 获取所有站点
-  dataExport: '/skuDay/exportSkuDaySum',   // 数据导出
 };
 
 export const searchSubmit = (page) => {
-  const keys = ['pageSize', 'pageNumber','warehouseId', 'categoryFirst', 'checkDateBegin', 'checkDateEnd', 'goodsSn'];
+  const keys = ['paytimeStart', 'paytimeEnd', 'countryName', 'siteFrom'];
   return fetch(`${list.init}?${queryString(keys, page)}`, {
     method: 'GET',
   })
 };
 
-export const exportAll = (page) => {
-  const keys = ['warehouseId', 'categoryFirst', 'checkDateBegin', 'checkDateEnd', 'goodsSn'];
-  return fetch(`${list.dataExport}?${queryString(keys, page)}`, {
+export const seachHighSubmit = (page) => {
+  const keys = ['paytimeStart', 'paytimeEnd', 'countryName', 'siteFrom'];
+  return fetch(`${list.initHigh}?${queryString(keys, page)}`, {
     method: 'GET',
   })
 };
 
-export const initTypeSer = () => (
-  fetch(list.initType, {
+export const initCountrySer = () => (
+  fetch(list.initCountry, {
     method: 'GET',
   })
 );
 
-export const initWarehouseSer = () => (
+export const initSiteSer = () => (
   fetch(list.initSite, {
     method: 'GET',
   })

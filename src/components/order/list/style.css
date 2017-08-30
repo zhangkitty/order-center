@@ -22,7 +22,7 @@ form .colSpace{
     display: inline-block;
 }
 form .colSpace2{
-    width:300px;
+    width:330px;
     display: inline-block;
 }
 .filterSpace {
@@ -38,7 +38,26 @@ form .colSpace2{
 .filterButton {
     margin: 0 0 0 36px;
 }
-
+.table_bg {
+    margin-top:15px;
+}
 .orderList {
-    margin:10px;
+    margin-bottom:10px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #e9e9e9;
+}
+.orderTitle {
+    width:100%;
+    border-bottom:1px solid #e9e9e9;
+    padding:10px 20px;
+    box-sizing: border-box;
+}
+.orderTable { width:85%;}
+.orderOperate {
+    border-left:1px solid #e9e9e9;
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

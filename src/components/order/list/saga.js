@@ -1,15 +1,12 @@
 /**
- * Create by liufeng on 2017/6/28
+ * Create by liufeng on 2017/8/30
  */
-import React from 'react';
 import { message } from 'antd';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
-import { hashHistory } from 'react-router';
 import assign from 'object-assign';
-import { searchSubmit, initTypeSer, initWarehouseSer, exportAll } from '../server';
+import { searchSubmit, initCountrySer, initSiteSer } from '../server';
 import {
-  searchSuccess, searchFail, initTypeSuccess, initTypeFail, initWarehouseSuccess, initWarehouseFail,
-  exportAllFail, exportAllSuccess,
+  searchSuccess, searchFail, initCountrySuccess, initCountryFail, initSiteSuccess, initSiteFail,
 } from './action';
 
 import * as TYPES from './types';
@@ -26,46 +23,27 @@ function* searchSaga(action) {
   return yield put(searchSuccess(data));
 }
 
-function* exportSaga(action) {
-  const { goodsSn } = action.data;
-  const data = yield exportAll(assign({}, action.data, {
-    goodsSn: goodsSn ? encodeURIComponent(goodsSn.trim()) : null,
-  }));
-  if (data.error) {
-    message.error(`数据导出文件生成失败: ${data.error}`);
-    return yield put(exportAllFail());
+function* initCountrySaga() {
+  const data = yield initCountrySer();
+  if (!data || data.code !== 0) {
+    message.error(`获取国家列表失败: ${data.error}`);
+    return yield put(initCountryFail());
   }
-  message.success(
-    <span>
-      数据导出文件生成成功。<br />
-      请在"
-      <a onClick={() => hashHistory.push('/exportDownload')} >导出下载</a>
-      "里下载文件 </span>
-  );
-  return yield put(exportAllSuccess());
+  return yield put(initCountrySuccess(data));
 }
 
-function* initTypeSaga() {
-  const data = yield initTypeSer();
-  if (data.error) {
-    message.error(`获取一级分类失败: ${data.error}`);
-    return yield put(initTypeFail());
+function* initSiteSaga() {
+  const data = yield initSiteSer();
+  console.log('site', data);
+  if (!data || data.code !== 0) {
+    message.error(`获取站点列表失败: ${data.error}`);
+    return yield put(initSiteFail());
   }
-  return yield put(initTypeSuccess(data));
-}
-
-function* initWarehouseSaga() {
-  const data = yield initWarehouseSer();
-  if (data.error) {
-    message.error(`获取仓库失败: ${data.error}`);
-    return yield put(initWarehouseFail());
-  }
-  return yield put(initWarehouseSuccess(data));
+  return yield put(initSiteSuccess(data));
 }
 
 export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
-  yield takeLatest(TYPES.EXPORT, exportSaga);
-  yield takeEvery(TYPES.INIT_TYPE, initTypeSaga);
-  yield takeEvery(TYPES.INIT_WAREHOUSE, initWarehouseSaga);
+  yield takeEvery(TYPES.INIT_COUNTRY, initCountrySaga);
+  yield takeEvery(TYPES.INIT_SITE, initSiteSaga);
 }

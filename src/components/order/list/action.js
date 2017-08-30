@@ -31,35 +31,24 @@ export const searchFail = () => ({
   type: TYPES.SEARCH_FAIL,
 });
 
-export const exportAll = data => ({
-  type: TYPES.EXPORT,
+export const initCountry = () => ({
+  type: TYPES.INIT_COUNTRY,
+});
+export const initCountrySuccess = data => ({
+  type: TYPES.INIT_COUNTRY_SUCCESS,
   data,
 });
-export const exportAllSuccess = () => ({
-  type: TYPES.EXPORT_SUCCESS,
-});
-export const exportAllFail = () => ({
-  type: TYPES.EXPORT_FAIL,
+export const initCountryFail = () => ({
+  type: TYPES.INIT_COUNTRY_FAIL,
 });
 
-export const initType = () => ({
-  type: TYPES.INIT_TYPE,
+export const initSite = () => ({
+  type: TYPES.INIT_SITE,
 });
-export const initTypeSuccess = data => ({
-  type: TYPES.INIT_TYPE_SUCCESS,
+export const initSiteSuccess = data => ({
+  type: TYPES.INIT_SITE_SUCCESS,
   data,
 });
-export const initTypeFail = () => ({
-  type: TYPES.INIT_TYPE_FAIL,
-});
-
-export const initWarehouse = () => ({
-  type: TYPES.INIT_WAREHOUSE,
-});
-export const initWarehouseSuccess = data => ({
-  type: TYPES.INIT_WAREHOUSE_SUCCESS,
-  data,
-});
-export const initWarehouseFail = () => ({
-  type: TYPES.INIT_WAREHOUSE_FAIL,
+export const initSiteFail = () => ({
+  type: TYPES.INIT_SITE_FAIL,
 });
