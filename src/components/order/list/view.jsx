@@ -27,9 +27,14 @@ class orderList extends Component {
 
         {/*  列表  */}
         <div className={styles.table_bg}>
+
           {
-            dataSource.map((v, i) => <SingleRow data={v} index={i} key={v.order_id} />)
+            Object.values(dataSource)
+              .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} />)
           }
+          {/*
+            dataSource.map((v, i) => <SingleRow data={v} index={i} key={v.order_id} />)
+            */}
         </div>
         <Pagination
           total={total}

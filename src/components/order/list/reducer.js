@@ -7,30 +7,94 @@ import * as TYPES from './types';
 
 
 const defaultState = {
-  dataSource: [{
-    order_id: 1,
-    billno: 'PKC11549',
-    goods_quantity: 2,   // 商品总数(不包含换货商品数)
-    check: false,
-    goods: [
-    { c: 'cc', d: 'dd' },
-    { c: 'ee', d: 'ff' },
-    ],
-  }, {
-    order_id: 2,
-    billno: 'PKC11548',
-    goods_quantity: 3,
-    check: false,
-    goods: [
-      { c: 'cc1', d: 'dd1' },
-      { c: 'ee1', d: 'ff1' },
-      { c: 'ee2', d: 'ff3' },
-    ],
-  }],
+  // dataSource: {
+  //   "29464515": {
+  //     "order_id": "29464515",
+  //     "billno": "ECCPP",
+  //     "goods_quantity": 20,
+  //     "goods_quantity_with_change": 20,
+  //     "email": "wangke@dotfashion.cn",
+  //     "buy_cnt": "12",
+  //     "pay_time": "2017-08-23 19:20:12",
+  //     "site_from": "ec",
+  //     "country_name": "Germany",
+  //     "order_type": 1,
+  //     "remark_admin": ";Risk Verification, Do Not Ship (大金额待确认，不可发)",
+  //     "payment_method": "worldpay",
+  //     "usd_price": "471.60",
+  //     "currency_price": "471.60",
+  //     "order_status": "1",
+  //     "is_trouble": "3",
+  //     "remark": ";Risk Verification, Do Not Ship (大金额待确认，不可发)",
+  //     "order_goods": {
+  //       "41252123": {
+  //         "order_goods_id": "41252123",
+  //         "order_goods_img": "images/emmacloth.com/201508/1440729950889455716.jpg",
+  //         "goods_sn": "skirt150819502",
+  //         "goods_attr": null,
+  //         "goods_status": "11",
+  //         "price": "22.39",
+  //         "is_replace": "0"
+  //       },
+  //       "41252124": {
+  //         "order_goods_id": "41252124",
+  //         "order_goods_img": "images/emmacloth.com/201508/1440729950889455716.jpg",
+  //         "goods_sn": "skirt150819502",
+  //         "goods_attr": null,
+  //         "goods_status": "11",
+  //         "price": "22.39",
+  //         "is_replace": "0"
+  //       }
+  //     }
+  //   }, "29464516": {
+  //     "order_id": "29464515",
+  //     "billno": "ECCPP",
+  //     "goods_quantity": 20,
+  //     "goods_quantity_with_change": 20,
+  //     "email": "wangke@dotfashion.cn",
+  //     "buy_cnt": "12",
+  //     "pay_time": "2017-08-23 19:20:12",
+  //     "site_from": "ec",
+  //     "country_name": "Germany",
+  //     "order_type": 1,
+  //     "remark_admin": ";Risk Verification, Do Not Ship (大金额待确认，不可发)",
+  //     "payment_method": "worldpay",
+  //     "usd_price": "471.60",
+  //     "currency_price": "471.60",
+  //     "order_status": "1",
+  //     "is_trouble": "3",
+  //     "remark": ";Risk Verification, Do Not Ship (大金额待确认，不可发)",
+  //     "order_goods": {
+  //       "41252123": {
+  //         "order_goods_id": "41252123",
+  //         "order_goods_img": "images/emmacloth.com/201508/1440729950889455716.jpg",
+  //         "goods_sn": "skirt150819502",
+  //         "goods_attr": null,
+  //         "goods_status": "11",
+  //         "price": "22.39",
+  //         "is_replace": "0"
+  //       },
+  //       "41252124": {
+  //         "order_goods_id": "41252124",
+  //         "order_goods_img": "images/emmacloth.com/201508/1440729950889455716.jpg",
+  //         "goods_sn": "skirt150819502",
+  //         "goods_attr": null,
+  //         "goods_status": "11",
+  //         "price": "22.39",
+  //         "is_replace": "0"
+  //       }
+  //     }
+  //   }
+  // },
+  dataSource: {},
   fetchCountry: [],    // 国家
   fetchSite: [],  // 站点
   fetchPayment: [],    // 支付方式
   fetchTrouble: [],  // 问题件
+  fetchMemberLevel: [],  // 会员等级
+  fetchOrderStatus: [],    // 订单状态
+  fetchCancelReason: [],  // 取消类型
+  fetchGoodsStatus: [],  // 商品状态
   queryString: {
     pageSize: 10,
     pageNumber: 1,
@@ -44,13 +108,32 @@ const defaultState = {
     paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),          // 付款时间
     siteFrom: null,   // 站点
     countryName: null,   // 国家
-    xnId: null,   // 付款流水号
+    txnId: null,   // 付款流水号
     paymentMethod: null,   // 支付方式
-    troubleType: null,   // 问题件类型
-    remarkser: null,   // 标记人
+    troubleType: null,   // 问题件类型-选中后显示标记人
+    remarkUser: null,   // 标记人
     totalSelect: null,   // 美金金额比较符
     totalInput: null,   // 美金金额
-    searchType: null,   // 搜索类型
+    searchType: 0,   // 搜索类型
+  },
+  queryString2: {
+    pageSize: 10,
+    pageNumber: 1,
+    paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:SS'),   // 付款时间
+    paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),          // 付款时间
+    siteFrom: null,   // 站点
+    countryName: null,   // 国家
+    paymentMethod: null,   // 支付方式
+    troubleType: null,   // 问题件类型
+    goodsSn: null,    // sku
+    count: null,   // 有货件数
+    memberLevel: null,    // 会员等级
+    orderStatus: null,  // 订单状态 - 订单状态=“已取消”，显示 取消类型
+    cancelReason: null,  // 取消类型
+    goodsStatus: null,  // 商品状态  -选中订单状态，显示 商品状态
+    handleTimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:SS'),   // 商品状态更新时间
+    handleTimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),          // 商品状态更新时间
+    searchType: 1,  // 搜索类型
   },
   clickVisible: false,
   load: false,
@@ -82,7 +165,8 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.SEARCH_SUCCESS:
       return assign({}, state, {
-        dataSource: action.data.rows.map((v, i) => assign({}, v, { key: i })),
+        // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
+        dataSource: action.data.data,
         total: action.data.total,
         load: false,
       });
@@ -136,6 +220,59 @@ const reducer = (state = defaultState, action) => {
     case TYPES.INIT_TROUBLE_SUCCESS:
       return assign({}, state, {
         fetchTrouble: action.data.data,
+        load: false,
+      });
+    case TYPES.INIT_MEMBER:
+      return assign({}, state, {
+        load: true,
+      });
+    case TYPES.INIT_MEMBER_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.INIT_MEMBER_SUCCESS:
+      return assign({}, state, {
+        fetchMemberLevel: action.data.data,
+        load: false,
+      });
+
+    case TYPES.INIT_ORDER:
+      return assign({}, state, {
+        load: true,
+      });
+    case TYPES.INIT_ORDER_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.INIT_ORDER_SUCCESS:
+      return assign({}, state, {
+        fetchOrderStatus: action.data.data,
+        load: false,
+      });
+    case TYPES.INIT_CANCEL:
+      return assign({}, state, {
+        load: true,
+      });
+    case TYPES.INIT_CANCEL_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.INIT_CANCEL_SUCCESS:
+      return assign({}, state, {
+        fetchCancelReason: action.data.data,
+        load: false,
+      });
+    case TYPES.INIT_GOODS:
+      return assign({}, state, {
+        load: true,
+      });
+    case TYPES.INIT_GOODS_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.INIT_GOODS_SUCCESS:
+      return assign({}, state, {
+        fetchGoodsStatus: action.data.data,
         load: false,
       });
     default:

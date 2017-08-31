@@ -4,9 +4,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Collapse, Tabs, Select, Input, DatePicker, Button, Icon, message } from 'antd';
+import { Collapse, Tabs, Select, Input, DatePicker, Button, Icon, message, Tooltip } from 'antd';
 import moment from 'moment';
-import { search, commit, initCountry, initSite, initPayment, initTrouble } from './action';
+import {
+  search, commit, initCountry, initSite, initPayment, initTrouble,
+  initMember, initOrder, initCancel, initGoods,
+} from './action';
 
 import styles from './style.css';
 
@@ -33,6 +36,10 @@ class TabsHeader extends Component {
     props.dispatch(initSite());
     props.dispatch(initPayment());
     props.dispatch(initTrouble());
+    props.dispatch(initMember());  // 会员等级- 高
+    props.dispatch(initOrder());  // 订单状态
+    props.dispatch(initCancel());  // 取消类型 - 参数-订单状态=“已取消”
+    props.dispatch(initGoods());  // 商品状态 - 选中订单状态，显示 商品状态
   }
   // time control
   disabledDate(current) {
@@ -48,39 +55,46 @@ class TabsHeader extends Component {
     const {
       dispatch, fetchCountry, fetchSite, fetchPayment, fetchTrouble,
       queryString, searchLoad,
+      queryString2, fetchMemberLevel, fetchOrderStatus, fetchCancelReason, fetchGoodsStatus,
     } = this.props;
     const {
       billno, orderId, shippingNo, referenceNumber, telephone, email, paytimeStart, paytimeEnd,
-      countryName, siteFrom, txnId, paymentMethod, troubleType, totalSelect, totalInput,
+      countryName, siteFrom, txnId, paymentMethod, troubleType, remarkUser, totalSelect, totalInput,
     } = queryString;
+    const {
+      paytimeStart: paytimeStart2,
+      paytimeEnd: paytimeEnd2,
+      countryName: countryName2,
+      siteFrom: siteFrom2,
+      paymentMethod: paymentMethod2,
+      troubleType: troubleType2, goodsSn, count, memberLevel, orderStatus,
+      cancelReason, goodsStatus, handleTimeStart, handleTimeEnd,
+    } = queryString2;
     return (
       <Collapse defaultActiveKey={['1']}>
         <Panel
           key="1"
           header={
-            <span style={fontColor}>自定义列表</span>
+            <span style={fontColor}>{__('order.name.search_list')}</span>
           }
         >
           <Tabs {...tabConfig}>
-            <TabItem tab={'搜索'} key="search">
+            <TabItem
+              tab={__('order.name.search')}
+              key="search"
+            >
               <form
                 className={styles.filterBg}
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (!paytimeStart || !paytimeEnd) {
                     return message.warning('缺少时间');
-                  } else if (moment(paytimeStart).format('YYYY-MM') !== moment(paytimeEnd).format('YYYY-MM')) {
-                    return message.warning('不支持跨月查询');
-                  } else if (
-                    !moment(paytimeEnd).isAfter(paytimeStart)
-                    && !moment(paytimeEnd).isSame(paytimeStart)
-                  ) {
-                    return message.warning('结束时间必须大于开始时间');
                   }
                   return dispatch(search(assign({},
                     queryString,
                     {
                       pageNumber: 1,
+                      searchType: 0,
                     })));
                 }}
               >
@@ -137,6 +151,9 @@ class TabsHeader extends Component {
                     <span className={styles.filterName}>{__('order.name.site')}</span>
                     <Select
                       className={styles.colSpace}
+                      mode="tags"
+                      style={{ width: '250px' }}
+                      tokenSeparators={[',']}
                       value={siteFrom}
                       onChange={val => dispatch(commit('siteFrom', val))}
                     >
@@ -200,6 +217,15 @@ class TabsHeader extends Component {
                     </Select>
                   </div>
                   <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.remark_user')}</span>
+                    <Input
+                      className={styles.colSpace}
+                      value={remarkUser}
+                      onChange={e => dispatch(commit('remarkUser', e.target.value))}
+                    />
+                  </div>
+
+                  <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.total_select')}</span>
                     <Select
                       className={styles.colSpace}
@@ -218,7 +244,9 @@ class TabsHeader extends Component {
                     />
                   </div>
                   <div className={styles.rowSpaceList}>
-                    <span className={styles.filterName}><span style={{ color: 'red' }}>*</span>{__('order.name.paytime')}</span>
+                    <span className={styles.filterName}>
+                      <span style={{ color: 'red' }}>*</span>{__('order.name.paytime')}
+                    </span>
                     <div className={styles.colSpace2}>
                       <DatePicker
                         style={{ width: '150px' }}
@@ -250,12 +278,243 @@ class TabsHeader extends Component {
                   htmlType={'submit'}
                 >
                   {__('common.search')}
-                  查询</Button>
+                </Button>
+                <Tooltip placement="topLeft" title={__('order.name.tip_title')}>
+                  <a>{__('order.name.tip')}</a>
+                </Tooltip>
               </form>
-
             </TabItem>
-            <TabItem tab={'列表显示'} key="show">
-              高级搜索
+
+            {/* 高级搜索 */}
+            <TabItem tab={__('order.name.search2')} key="show">
+              <form
+                className={styles.filterBg}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!paytimeStart || !paytimeEnd) {
+                    return message.warning('缺少时间');
+                  } else if (
+                    !moment(paytimeEnd).isAfter(paytimeStart)
+                    && !moment(paytimeEnd).isSame(paytimeStart)
+                  ) {
+                    return message.warning('结束时间必须大于开始时间');
+                  }
+                  return dispatch(search(assign({},
+                    queryString2,
+                    {
+                      pageNumber: 1,
+                      searchType: 0,
+                    })));
+                }}
+              >
+                <div className={styles.rowSpace}>
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>
+                      <span style={{ color: 'red' }}>*</span>{__('order.name.paytime')}
+                    </span>
+                    <div className={styles.colSpace2}>
+                      <DatePicker
+                        style={{ width: '150px' }}
+                        allowClear={false}
+                        showTime
+                        format="YYYY-MM-DD HH:mm:SS"
+                        value={moment(paytimeStart, 'YYYY-MM-DD HH:mm:SS')}
+                        onChange={(value, str) => dispatch(commit('paytimeStart', str))}
+                      />
+                      &nbsp; - &nbsp;
+                      <DatePicker
+                        style={{ width: '150px' }}
+                        allowClear={false}
+                        disabledDate={cur => this.disabledDate(cur)}
+                        showTime
+                        format="YYYY-MM-DD HH:mm:SS"
+                        value={moment(paytimeEnd, 'YYYY-MM-DD HH:mm:SS')}
+                        onChange={(value, str) => dispatch(commit('paytimeEnd', str))}
+                      />
+                    </div>
+                  </div>
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.site')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      mode="tags"
+                      style={{ width: '250px' }}
+                      value={siteFrom}
+                      onChange={val => dispatch(commit('siteFrom', val))}
+                    >
+                      {
+                        fetchSite.map(item => (
+                          <Option key={item.id} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </div>
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.country')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      value={countryName}
+                      onChange={val => dispatch(commit('countryName', val))}
+                    >
+                      {
+                        fetchCountry.map(item => (
+                          <Option key={item.id} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </div>
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.payment_method')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      value={paymentMethod}
+                      onChange={val => dispatch(commit('paymentMethod', val))}
+                    >
+                      <Option key={null} > {__('order.name.choose')}</Option>
+                      {
+                        fetchPayment.map(item => (
+                          <Option key={item.id} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </div>
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.trouble')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      value={troubleType}
+                      onChange={val => dispatch(commit('troubleType', val))}
+                    >
+                      <Option key={null} > {__('order.name.choose')}</Option>
+                      {
+                        fetchTrouble.map(item => (
+                          <Option key={item.id} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </div>
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.sku')}</span>
+                    <Input
+                      className={styles.colSpace}
+                      value={goodsSn}
+                      onChange={e => dispatch(commit('goodsSn', e.target.value))}
+                    />
+                  </div>
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.count')}</span>
+                    <Input
+                      className={styles.colSpace}
+                      value={count}
+                      onChange={e => dispatch(commit('count', e.target.value))}
+                    />
+                  </div>
+                  {/* 会员等级 */}
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.member_level')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      value={memberLevel}
+                      onChange={val => dispatch(commit('memberLevel', val))}
+                    >
+                      <Option key={null} > {__('order.name.choose')}</Option>
+                      {
+                        fetchMemberLevel.map(item => (
+                          <Option key={item.id} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </div>
+                  {/* 订单状态 */}
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.order_status')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      value={orderStatus}
+                      onChange={val => dispatch(commit('orderStatus', val))}
+                    >
+                      <Option key={null} > {__('order.name.choose')}</Option>
+                      {
+                        fetchOrderStatus.map(item => (
+                          <Option key={item.id} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </div>
+                  {/* 取消类型 */}
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.cancel_type')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      value={cancelReason}
+                      onChange={val => dispatch(commit('cancelReason', val))}
+                    >
+                      <Option key={null} > {__('order.name.choose')}</Option>
+                      {
+                        fetchCancelReason.map(item => (
+                          <Option key={item.id} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </div>
+
+                  {/* 商品状态 */}
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.goods_status')}</span>
+                    <Select
+                      className={styles.colSpace}
+                      value={goodsStatus}
+                      onChange={val => dispatch(commit('goodsStatus', val))}
+                    >
+                      <Option key={null} > {__('order.name.choose')}</Option>
+                      {
+                        fetchGoodsStatus.map(item => (
+                          <Option key={item.id} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                  </div>
+
+                  <div className={styles.rowSpaceList} style={{ maxWidth: '460px' }}>
+                    <span className={styles.filterName} style={{ maxWidth: '160px' }}>
+                      <span style={{ color: 'red' }}>*</span>{__('order.name.goods_time')}
+                    </span>
+                    <div className={styles.colSpace2}>
+                      <DatePicker
+                        style={{ width: '150px' }}
+                        allowClear={false}
+                        showTime
+                        format="YYYY-MM-DD HH:mm:SS"
+                        value={moment(handleTimeStart, 'YYYY-MM-DD HH:mm:SS')}
+                        onChange={(value, str) => dispatch(commit('handleTimeStart', str))}
+                      />
+                      &nbsp; - &nbsp;
+                      <DatePicker
+                        style={{ width: '150px' }}
+                        allowClear={false}
+                        // disabledDate={cur => this.disabledDate(cur)}
+                        showTime
+                        format="YYYY-MM-DD HH:mm:SS"
+                        value={moment(handleTimeEnd, 'YYYY-MM-DD HH:mm:SS')}
+                        onChange={(value, str) => dispatch(commit('handleTimeEnd', str))}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Button
+                  className={styles.filterButton}
+                  type="primary"
+                  icon="search"
+                  loading={searchLoad}
+                  htmlType={'submit'}
+                >
+                  {__('common.search')}
+                </Button>
+                <Tooltip placement="topLeft" title={__('order.name.tip_title')}>
+                  <a>{__('order.name.tip')}</a>
+                </Tooltip>
+              </form>
             </TabItem>
           </Tabs>
         </Panel>
@@ -267,9 +526,14 @@ TabsHeader.propTypes = {
   dispatch: PropTypes.func,
   searchLoad: PropTypes.bool,
   queryString: PropTypes.shape(),
-  fetchCountry: PropTypes.arrayOf(PropTypes.shape()),
-  fetchSite: PropTypes.arrayOf(PropTypes.shape()),
-  fetchPayment: PropTypes.arrayOf(PropTypes.shape()),
-  fetchTrouble: PropTypes.arrayOf(PropTypes.shape()),
+  queryString2: PropTypes.shape(),   // 高级搜索
+  fetchCountry: PropTypes.arrayOf(PropTypes.shape()),  // 国家
+  fetchSite: PropTypes.arrayOf(PropTypes.shape()),   // 站点
+  fetchPayment: PropTypes.arrayOf(PropTypes.shape()),     // 支付方式
+  fetchTrouble: PropTypes.arrayOf(PropTypes.shape()),      // 问题件类型
+  fetchMemberLevel: PropTypes.arrayOf(PropTypes.shape()),   // 会员等级 - 高
+  fetchOrderStatus: PropTypes.arrayOf(PropTypes.shape()),   // 订单状态 - 高
+  fetchCancelReason: PropTypes.arrayOf(PropTypes.shape()),   // 取消类型 - 高
+  fetchGoodsStatus: PropTypes.arrayOf(PropTypes.shape()),   // 商品状态 - 高
 };
 export default TabsHeader;

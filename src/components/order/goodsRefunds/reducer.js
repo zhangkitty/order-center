@@ -44,32 +44,6 @@ const reducer = (state = defaultState, action) => {
         total: action.data.total,
         load: false,
       });
-    case TYPES.INIT_TYPE:
-      return assign({}, state, {
-        load: true,
-      });
-    case TYPES.INIT_TYPE_FAIL:
-      return assign({}, state, {
-        load: false,
-      });
-    case TYPES.INIT_TYPE_SUCCESS:
-      return assign({}, state, {
-        fetchType: action.data,
-        load: false,
-      });
-    case TYPES.INIT_WAREHOUSE:
-      return assign({}, state, {
-        load: true,
-      });
-    case TYPES.INIT_WAREHOUSE_FAIL:
-      return assign({}, state, {
-        load: false,
-      });
-    case TYPES.INIT_WAREHOUSE_SUCCESS:
-      return assign({}, state, {
-        fetchWarehouse: action.data,
-        load: false,
-      });
     default:
       return state;
   }

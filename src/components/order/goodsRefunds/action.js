@@ -31,24 +31,3 @@ export const searchFail = () => ({
   type: TYPES.SEARCH_FAIL,
 });
 
-export const initType = () => ({
-  type: TYPES.INIT_TYPE,
-});
-export const initTypeSuccess = data => ({
-  type: TYPES.INIT_TYPE_SUCCESS,
-  data,
-});
-export const initTypeFail = () => ({
-  type: TYPES.INIT_TYPE_FAIL,
-});
-
-export const initWarehouse = () => ({
-  type: TYPES.INIT_WAREHOUSE,
-});
-export const initWarehouseSuccess = data => ({
-  type: TYPES.INIT_WAREHOUSE_SUCCESS,
-  data,
-});
-export const initWarehouseFail = () => ({
-  type: TYPES.INIT_WAREHOUSE_FAIL,
-});

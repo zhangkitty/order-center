@@ -5,6 +5,7 @@ module.exports = {
   fuck: 'zzzz123412',
   orderNumber: '',
   choose: '请选择en',
+  search_list: '自定义列表',
   search1: '普通搜索en',
   search2: '高级搜索',
   order_number: 'order number',

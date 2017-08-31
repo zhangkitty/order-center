@@ -4,10 +4,11 @@
 module.exports = {
   fuck: '嘿嘿恶化123412',
   choose: '请选择',
+  search_list: '自定义列表',
   search1: '普通搜索',
   search2: '高级搜索',
   order_number: '订单号',
-  order_id: '订单号',
+  order_id: '订单Id',
   email: '邮箱',
   shipping_no: '发货号',
   reference: '包裹号',

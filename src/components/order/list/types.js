@@ -9,6 +9,10 @@ export const SEARCH = `${prefix}search`;
 export const SEARCH_SUCCESS = `${prefix}search_success`;
 export const SEARCH_FAIL = `${prefix}search_fail`;
 
+export const SEARCH_HEIGHT = `${prefix}search_high`;
+export const SEARCH_HEIGHT_SUCCESS = `${prefix}search_high_success`;
+export const SEARCH_HEIGHT_FAIL = `${prefix}search_high_fail`;
+
 export const CHANGE = `${prefix}change`;
 export const COMMIT = `${prefix}commit`;
 
@@ -30,3 +34,22 @@ export const INIT_TROUBLE = `${prefix}init_trouble`;
 export const INIT_TROUBLE_SUCCESS = `${prefix}init_trouble_success`;
 export const INIT_TROUBLE_FAIL = `${prefix}init_trouble_fail`;
 
+// 会员等级
+export const INIT_MEMBER = `${prefix}init_member`;
+export const INIT_MEMBER_SUCCESS = `${prefix}init_member_success`;
+export const INIT_MEMBER_FAIL = `${prefix}init_member_fail`;
+
+// 订单状态
+export const INIT_ORDER = `${prefix}init_order`;
+export const INIT_ORDER_SUCCESS = `${prefix}init_order_success`;
+export const INIT_ORDER_FAIL = `${prefix}init_order_fail`;
+
+// 取消类型
+export const INIT_CANCEL = `${prefix}init_cancel`;
+export const INIT_CANCEL_SUCCESS = `${prefix}init_cancel_success`;
+export const INIT_CANCEL_FAIL = `${prefix}init_cancel_fail`;
+
+// 商品状态
+export const INIT_GOODS = `${prefix}init_goods`;
+export const INIT_GOODS_SUCCESS = `${prefix}init_goods_success`;
+export const INIT_GOODS_FAIL = `${prefix}init_goods_fail`;

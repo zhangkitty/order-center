@@ -31,6 +31,18 @@ export const searchFail = () => ({
   type: TYPES.SEARCH_FAIL,
 });
 
+export const searchHeight = data => ({
+  type: TYPES.SEARCH_HEIGHT,
+  data,
+});
+export const searchHeightSuccess = data => ({
+  data,
+  type: TYPES.SEARCH_HEIGHT_SUCCESS,
+});
+export const searchHeightFail = () => ({
+  type: TYPES.SEARCH_HEIGHT_FAIL,
+});
+
 export const initCountry = () => ({
   type: TYPES.INIT_COUNTRY,
 });
@@ -71,6 +83,54 @@ export const initTroubleSuccess = data => ({
   type: TYPES.INIT_TROUBLE_SUCCESS,
   data,
 });
-export const iitTroubleFail = () => ({
+export const initTroubleFail = () => ({
   type: TYPES.INIT_TROUBLE_FAIL,
+});
+
+// 会员等级
+export const initMember = () => ({
+  type: TYPES.INIT_MEMBER,
+});
+export const initMemberSuccess = data => ({
+  type: TYPES.INIT_MEMBER_SUCCESS,
+  data,
+});
+export const initMemberFail = () => ({
+  type: TYPES.INIT_MEMBER_FAIL,
+});
+
+// 订单状态
+export const initOrder = () => ({
+  type: TYPES.INIT_ORDER,
+});
+export const initOrderSuccess = data => ({
+  type: TYPES.INIT_ORDER_SUCCESS,
+  data,
+});
+export const initOrderFail = () => ({
+  type: TYPES.INIT_ORDER_FAIL,
+});
+
+// 取消类型
+export const initCancel = () => ({
+  type: TYPES.INIT_CANCEL,
+});
+export const initCancelSuccess = data => ({
+  type: TYPES.INIT_CANCEL_SUCCESS,
+  data,
+});
+export const initCancelFail = () => ({
+  type: TYPES.INIT_CANCEL_FAIL,
+});
+
+// 商品状态
+export const initGoods = () => ({
+  type: TYPES.INIT_GOODS,
+});
+export const initGoodsSuccess = data => ({
+  type: TYPES.INIT_GOODS_SUCCESS,
+  data,
+});
+export const initGoodsFail = () => ({
+  type: TYPES.INIT_GOODS_FAIL,
 });
