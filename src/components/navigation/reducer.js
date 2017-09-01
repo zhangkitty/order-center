@@ -21,7 +21,7 @@ const menus = [
         crumbName: __('common.order_list'),
         nav: true,
       }, {
-        link: '/order/goodsRefunds',
+        link: '/order/goodsRefund',
         name: __('common.goods_refunds'),
         crumbName: __('common.goods_refunds'),
         nav: true,

@@ -5,6 +5,8 @@ import fetch from '../../lib/fetch';
 import { camel2Under } from '../../lib/camal';
 import queryString from '../../lib/query-string';
 
+const urlPrefix = process.env.BASE_URI;
+
 const list = {
   init: '/Order/orderList',    // 普通搜索
   initHigh: '/Order/orderListAdv',    // 高级搜索
@@ -23,7 +25,9 @@ const diffRefund = {
     initPriceInfo: 'index_new.php/Home/Common/getOrderDiffRefundPriceInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
     submitOrder: 'index_new.php/Home/Common/submitOrderDiffRefund'   //订单差价退款（提交）(接口负责人:周利宝)
 };
-
+const goodsRefund = {
+  getData: `${urlPrefix}/OrderRefund/getRefundInfo`,
+};
 
 export const searchSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'remarkUser', 'totalSelect', 'totalInput', 'searchType'];
@@ -109,5 +113,10 @@ export const submitOrder = data=>{
         body:JSON.stringify(data),
     })
 }
+export const getDataSer = (orderId, goodsId) => (
+  fetch(`${goodsRefund.getData}?order_id=${orderId}&goods_id=${goodsId}`,{
+    method: 'GET',
+  })
+);
 
 
