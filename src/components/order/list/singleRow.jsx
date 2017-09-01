@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Checkbox } from 'antd';
+import { Table, Checkbox, Button } from 'antd';
 import assign from 'object-assign';
 import { commit } from './action';
 
@@ -10,25 +10,39 @@ const SingleRow = ({ data, index }) => {
   return (
     <div className={Styles.orderList}>
       <div className={Styles.orderTitle}>
-        <Checkbox >{ data.billno }</Checkbox> Qty: { data.goods_quantity }
+        <div className={Styles.orderTitleL} >
+          <Checkbox >{ data.billno }</Checkbox> <span>Qty~~: { data.goods_quantity }</span>
+          <span>{data.email}({data.buy_cnt})</span>
+          <span>{ data.member_level }</span> <span>{data.pay_time}</span>
+          <span> {data.site_from}</span> <span>{data.country_name}</span>
+        </div>
+        <div className={Styles.orderTitleR}>
+          {
+            data.order_type === 1 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
+          }
+          <span> {data.payment_method}</span>
+          <span>{data.usd_price} </span>
+          <span> {data.currency_price}</span>
+        </div>
       </div>
       <div className={Styles.orderTable}>
         <Table
-          rowKey="c"
+          rowKey="order_goods_id"
           rowSelection={{
             type: 'checkbox',
             onChange: t => console.log(t),
           }}
           pagination={false}
           showHeader={false}
-          dataSource={data.goods}
+          dataSource={data.order_goods}
           columns={
           [{
-            title: '仓库',
-            dataIndex: 'c',
+            title: '订单商品编号',
+            dataIndex: 'order_goods_sort',
           }, {
-            title: '货料分类',
-            dataIndex: 'd',
+            title: '商品图片',
+            dataIndex: 'order_goods_img',
+            render: data =>  <img src={data} />,
           }]
           }
         />

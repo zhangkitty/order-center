@@ -4,23 +4,56 @@
 import { message } from 'antd';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 import assign from 'object-assign';
-import { searchSubmit, initCountrySer, initSiteSer } from '../server';
 import {
-  searchSuccess, searchFail, initCountrySuccess, initCountryFail, initSiteSuccess, initSiteFail,
+  searchSubmit, seachHighSubmit,
+  initCountrySer, initSiteSer, initPaymentSer, initTroubleSer,
+  initMemberSer, initOrderSer, initCancelSer, initGoodsSer,
+} from '../server';
+import {
+  searchSuccess, searchFail, searchHeightFail, searchHeightSuccess,
+  initCountrySuccess, initCountryFail, initSiteSuccess, initSiteFail,
+  initPaymentFail, initPaymentSuccess, initTroubleFail, initTroubleSuccess,
+  initMemberFail, initMemberSuccess, initOrderFail, initOrderSuccess,
+  initCancelFail, initCancelSuccess, initGoodsFail, initGoodsSuccess,
 } from './action';
 
 import * as TYPES from './types';
 
 function* searchSaga(action) {
-  const { goodsSn } = action.data;
+  const {
+    billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, remarkUser, totalInput,
+  } = action.data;
   const data = yield searchSubmit(assign({}, action.data, {
-    goodsSn: goodsSn ? encodeURIComponent(goodsSn.trim()) : null,
+    billno: billno ? encodeURIComponent(billno.trim()) : null,
+    orderId: billno ? encodeURIComponent(orderId.trim()) : null,
+    email: billno ? encodeURIComponent(email.trim()) : null,
+    shippingNo: billno ? encodeURIComponent(shippingNo.trim()) : null,
+    referenceNumber: billno ? encodeURIComponent(referenceNumber.trim()) : null,
+    telephone: billno ? encodeURIComponent(telephone.trim()) : null,
+    txnId: billno ? encodeURIComponent(txnId.trim()) : null,
+    remarkUser: billno ? encodeURIComponent(remarkUser.trim()) : null,
+    totalInput: billno ? encodeURIComponent(totalInput.trim()) : null,
   }));
   if (data.error) {
-    message.error(`查找失败: ${data.error}`);
+    message.error(`搜索失败: ${data.error}`);
     return yield put(searchFail());
   }
   return yield put(searchSuccess(data));
+}
+
+function* searchHeightSaga(action) {
+  const {
+    goodsSn, count,
+  } = action.data;
+  const data = yield seachHighSubmit(assign({}, action.data, {
+    goodsSn: goodsSn ? encodeURIComponent(goodsSn.trim()) : null,
+    count: count ? encodeURIComponent(count.trim()) : null,
+  }));
+  if (data.error) {
+    message.error(`高级搜索失败: ${data.error}`);
+    return yield put(searchHeightFail());
+  }
+  return yield put(searchHeightSuccess(data));
 }
 
 function* initCountrySaga() {
@@ -34,7 +67,6 @@ function* initCountrySaga() {
 
 function* initSiteSaga() {
   const data = yield initSiteSer();
-  console.log('site', data);
   if (!data || data.code !== 0) {
     message.error(`获取站点列表失败: ${data.error}`);
     return yield put(initSiteFail());
@@ -42,8 +74,69 @@ function* initSiteSaga() {
   return yield put(initSiteSuccess(data));
 }
 
+function* initPaymentSaga() {
+  const data = yield initPaymentSer();
+  if (!data || data.code !== 0) {
+    message.error(`获取支付方式失败: ${data.error}`);
+    return yield put(initPaymentFail());
+  }
+  return yield put(initPaymentSuccess(data));
+}
+
+function* initTroubleSaga() {
+  const data = yield initTroubleSer();
+  if (!data || data.code !== 0) {
+    message.error(`获取问题件类型失败: ${data.error}`);
+    return yield put(initTroubleFail());
+  }
+  return yield put(initTroubleSuccess(data));
+}
+
+function* initMemberSaga() {
+  const data = yield initMemberSer();
+  if (!data || data.code !== 0) {
+    message.error(`获取问题件类型失败: ${data.error}`);
+    return yield put(initMemberFail());
+  }
+  return yield put(initMemberSuccess(data));
+}
+
+function* initOrderSaga() {
+  const data = yield initOrderSer();
+  if (!data || data.code !== 0) {
+    message.error(`获取问题件类型失败: ${data.error}`);
+    return yield put(initOrderFail());
+  }
+  return yield put(initOrderSuccess(data));
+}
+
+function* initCancelSaga() {
+  const data = yield initCancelSer();
+  if (!data || data.code !== 0) {
+    message.error(`获取问题件类型失败: ${data.error}`);
+    return yield put(initCancelFail());
+  }
+  return yield put(initCancelSuccess(data));
+}
+
+function* initGoodsSaga() {
+  const data = yield initGoodsSer();
+  if (!data || data.code !== 0) {
+    message.error(`获取问题件类型失败: ${data.error}`);
+    return yield put(initGoodsFail());
+  }
+  return yield put(initGoodsSuccess(data));
+}
+
 export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
+  yield takeLatest(TYPES.SEARCH_HEIGHT, searchHeightSaga);
   yield takeEvery(TYPES.INIT_COUNTRY, initCountrySaga);
   yield takeEvery(TYPES.INIT_SITE, initSiteSaga);
+  yield takeEvery(TYPES.INIT_PAYMENT, initPaymentSaga);
+  yield takeEvery(TYPES.INIT_TROUBLE, initTroubleSaga);
+  yield takeEvery(TYPES.INIT_MEMBER, initMemberSaga);
+  yield takeEvery(TYPES.INIT_ORDER, initOrderSaga);
+  yield takeEvery(TYPES.INIT_CANCEL, initCancelSaga);
+  yield takeEvery(TYPES.INIT_GOODS, initGoodsSaga);
 }

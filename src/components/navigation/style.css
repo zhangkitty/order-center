@@ -15,6 +15,9 @@
 
 .crumb {
     border-bottom: 1px solid #eeeef5;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .menubtn {

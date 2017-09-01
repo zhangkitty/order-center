@@ -23,7 +23,6 @@ module.exports = Object.keys(languages).map((lang) => ({
   resolve: {
     extensions: ['.js', '.jsx', '.scss', '.css', '.json'],
   },
-  devtool: 'eval-source-map',
   module: {
     rules: [
       {
