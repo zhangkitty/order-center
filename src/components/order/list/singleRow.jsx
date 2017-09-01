@@ -34,7 +34,7 @@ const SingleRow = ({ data, index }) => {
           }}
           pagination={false}
           showHeader={false}
-          dataSource={data.goods}
+          dataSource={data.order_goods}
           columns={
           [{
             title: '订单商品编号',

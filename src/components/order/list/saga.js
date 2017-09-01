@@ -38,8 +38,6 @@ function* searchSaga(action) {
     message.error(`搜索失败: ${data.error}`);
     return yield put(searchFail());
   }
-  // console.log(data.data.order_id, '搜索成功,order_id');
-  // console.log(data.data, '搜索成功data');
   return yield put(searchSuccess(data));
 }
 

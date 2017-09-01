@@ -14,4 +14,4 @@ module.exports = {
   order_id: 'order Id',
   diff_refund: '差价退款',
   order_type: '红人订单',
-}
+};
