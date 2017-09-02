@@ -37,7 +37,7 @@ const Price = ({ dataSource }) => {
       <div style={space}>
         <span className={style.descWidth}>{__('order.goodsRefund.RL_price')}{star}</span>
         <Rg>
-          {RLPrice.map(v => (<Radio value={v.id} key={v.id}>${v.value}</Radio>))}
+          {RLPrice.map(v => (<Radio value={v} key={v}>${v}</Radio>))}
         </Rg>
       </div>
       <div style={space}>
