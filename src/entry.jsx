@@ -12,7 +12,7 @@ import '!!style-loader!css-loader!antd/dist/antd.min.css';
 
 import rootReducer, { rootSaga } from './components';
 
-import RootView from './components/root.jsx';
+import RootView from './components/root';
 
 // reducers
 const reducersWithRouter = combineReducers(rootReducer);
@@ -33,6 +33,6 @@ const history = syncHistoryWithStore(hashHistory, store);
 sagaMiddleware.run(rootSaga);
 
 render(<Provider store={store}>
-        <RootView history={history} store={store}/>
-        </Provider>,
+  <RootView history={history} store={store} />
+</Provider>,
   document.getElementById('container'));

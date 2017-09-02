@@ -5,8 +5,6 @@ import fetch from '../../lib/fetch';
 import { camel2Under } from '../../lib/camal';
 import queryString from '../../lib/query-string';
 
-const urlPrefix = process.env.BASE_URI;
-
 const list = {
   init: '/Order/orderList',    // 普通搜索
   initHigh: '/Order/orderListAdv',    // 高级搜索
@@ -26,7 +24,8 @@ const diffRefund = {
     submitOrder: 'index_new.php/Home/Common/submitOrderDiffRefund'   //订单差价退款（提交）(接口负责人:周利宝)
 };
 const goodsRefund = {
-  getData: `${urlPrefix}/OrderRefund/getRefundInfo`,
+  getData: '/OrderRefund/getRefundInfo',
+  getReason: '/OrderRefund/getRefundReason',
 };
 
 export const searchSubmit = (page) => {
@@ -115,6 +114,11 @@ export const submitOrder = data=>{
 }
 export const getDataSer = (orderId, goodsId) => (
   fetch(`${goodsRefund.getData}?order_id=${orderId}&goods_id=${goodsId}`,{
+    method: 'GET',
+  })
+);
+export const getReasonSer = (type) => (
+  fetch(`${goodsRefund.getReason}?type=${type}`, {
     method: 'GET',
   })
 );

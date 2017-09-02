@@ -20,7 +20,7 @@ function* getDataSaga(action) {
   return yield put(getDataSuccess(data.data));
 }
 function* getReasonSaga() {
-  const data = yield getReasonSer(1);
+  const data = yield getReasonSer(2);
   if (data.code !== 0) {
     message.error(`获取退款原因信息: ${data.msg}`);
     return yield put(change('load', false));

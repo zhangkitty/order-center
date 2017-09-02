@@ -8,13 +8,12 @@ import { Spin, Input, Button } from 'antd';
 import { change, getData, getReason } from './action';
 import SumOfMoney from './sumOfMoney';
 import RefundGoods from './refundGoods';
-import Price from './price';
 import Resason from './resason';
 import style from './style.css';
 
 const TextArea = Input.TextArea;
 
-class GoodsRefund extends Component {
+class CancelGoods extends Component {
   componentWillMount() {
     const {
       dispatch, params: { orderId, goodsId },
@@ -34,7 +33,6 @@ class GoodsRefund extends Component {
         <form className={style.content}>
           <SumOfMoney {...this.props} />
           <RefundGoods {...this.props} />
-          <Price {...this.props} />
           <Resason {...this.props} />
           <div className={style.mark}>
             <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
@@ -50,7 +48,7 @@ class GoodsRefund extends Component {
     );
   }
 }
-GoodsRefund.propTypes = {
+CancelGoods.propTypes = {
   dispatch: PropTypes.func,
   ready: PropTypes.bool,
   submitLoad: PropTypes.bool,
@@ -59,5 +57,5 @@ GoodsRefund.propTypes = {
   params: PropTypes.shape(),
 };
 
-const mapStateToProps = state => state['order/goodsRefund'];
-export default connect(mapStateToProps)(GoodsRefund);
+const mapStateToProps = state => state['order/cancelGoods'];
+export default connect(mapStateToProps)(CancelGoods);

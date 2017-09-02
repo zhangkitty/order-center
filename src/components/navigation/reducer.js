@@ -2,7 +2,6 @@
  * Created by yeyangmei on 16/9/13.
  */
 import { LOCATION_CHANGE } from 'react-router-redux';
-import assign from 'object-assign';
 
 const menus = [
   {
@@ -26,7 +25,7 @@ const menus = [
         crumbName: __('common.goods_refunds'),
         nav: true,
       }, {
-        link: '/order/chooseGoods',
+        link: '/order/cancelGoods',
         name: __('common.choose_goods'),
         crumbName: __('common.choose_goods'),
         nav: true,
@@ -51,17 +50,15 @@ const defaultState = {
   expandable: 'expand',
   navs: {
     root_permission_list: [],
-    sub_permission_list: []
+    sub_permission_list: [],
   },
   curPath: {},
   pathList: [],
 };
 
-const routerMatch = (current) => {
-  return linkList
+const routerMatch = current => linkList
     .filter(({ link }) => (link === '/' || `${current}/`.startsWith(`${link}/`)))
     .sort((item1, item2) => item1.link.length > item2.link.length);
-};
 
 
 export default (state = defaultState, action) => {

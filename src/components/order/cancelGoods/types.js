@@ -2,7 +2,7 @@
  * Create by liufeng on 2017/6/28
  */
 
-const prefix = 'order_goods_refund_';
+const prefix = 'order_cancel_goods_';
 export const INIT = `${prefix}init`;
 export const CHANGE = `${prefix}change`;
 export const GET_DATA = `${prefix}get_data`;
