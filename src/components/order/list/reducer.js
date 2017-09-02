@@ -7,86 +7,82 @@ import * as TYPES from './types';
 
 
 const defaultState = {
-  // dataSource: {
-  //   "29464515": {
-  //     "order_id": "29464515",
-  //     "billno": "ECCPP",
-  //     "goods_quantity": 20,
-  //     "goods_quantity_with_change": 20,
-  //     "email": "wangke@dotfashion.cn",
-  //     "buy_cnt": "12",
-  //     "pay_time": "2017-08-23 19:20:12",
-  //     "site_from": "ec",
-  //     "country_name": "Germany",
-  //     "order_type": 1,
-  //     "remark_admin": ";Risk Verification, Do Not Ship (大金额待确认，不可发)",
-  //     "payment_method": "worldpay",
-  //     "usd_price": "471.60",
-  //     "currency_price": "471.60",
-  //     "order_status": "1",
-  //     "is_trouble": "3",
-  //     "remark": ";Risk Verification, Do Not Ship (大金额待确认，不可发)",
-  //     "order_goods": {
-  //       "41252123": {
-  //         "order_goods_id": "41252123",
-  //         "order_goods_img": "images/emmacloth.com/201508/1440729950889455716.jpg",
-  //         "goods_sn": "skirt150819502",
-  //         "goods_attr": null,
-  //         "goods_status": "11",
-  //         "price": "22.39",
-  //         "is_replace": "0"
-  //       },
-  //       "41252124": {
-  //         "order_goods_id": "41252124",
-  //         "order_goods_img": "images/emmacloth.com/201508/1440729950889455716.jpg",
-  //         "goods_sn": "skirt150819502",
-  //         "goods_attr": null,
-  //         "goods_status": "11",
-  //         "price": "22.39",
-  //         "is_replace": "0"
-  //       }
-  //     }
-  //   }, "29464516": {
-  //     "order_id": "29464515",
-  //     "billno": "ECCPP",
-  //     "goods_quantity": 20,
-  //     "goods_quantity_with_change": 20,
-  //     "email": "wangke@dotfashion.cn",
-  //     "buy_cnt": "12",
-  //     "pay_time": "2017-08-23 19:20:12",
-  //     "site_from": "ec",
-  //     "country_name": "Germany",
-  //     "order_type": 1,
-  //     "remark_admin": ";Risk Verification, Do Not Ship (大金额待确认，不可发)",
-  //     "payment_method": "worldpay",
-  //     "usd_price": "471.60",
-  //     "currency_price": "471.60",
-  //     "order_status": "1",
-  //     "is_trouble": "3",
-  //     "remark": ";Risk Verification, Do Not Ship (大金额待确认，不可发)",
-  //     "order_goods": {
-  //       "41252123": {
-  //         "order_goods_id": "41252123",
-  //         "order_goods_img": "images/emmacloth.com/201508/1440729950889455716.jpg",
-  //         "goods_sn": "skirt150819502",
-  //         "goods_attr": null,
-  //         "goods_status": "11",
-  //         "price": "22.39",
-  //         "is_replace": "0"
-  //       },
-  //       "41252124": {
-  //         "order_goods_id": "41252124",
-  //         "order_goods_img": "images/emmacloth.com/201508/1440729950889455716.jpg",
-  //         "goods_sn": "skirt150819502",
-  //         "goods_attr": null,
-  //         "goods_status": "11",
-  //         "price": "22.39",
-  //         "is_replace": "0"
-  //       }
-  //     }
-  //   }
-  // },
-  dataSource: {},
+  dataSource: [
+    { order_id: '29464515',
+      billno: 'ECCPP',
+      goods_quantity: 20,
+      goods_quantity_with_change: 20,
+      email: 'wangke@dotfashion.cn',
+      buy_cnt: '12',
+      pay_time: '2017-08-23 19:20:12',
+      site_from: 'ec',
+      country_name: 'Germany',
+      order_type: 1,
+      remark_admin: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
+      payment_method: 'worldpay',
+      usd_price: '471.60',
+      currency_price: '471.60',
+      order_status: '1',
+      is_trouble: '3',
+      remark: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
+      order_goods: [
+        {
+          order_goods_id: '41252120',
+          order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
+          goods_sn: 'skirt150819505',
+          goods_attr: null,
+          goods_status: '11',
+          price: '22.39',
+          is_replace: '0',
+        }, {
+          order_goods_id: '41252121',
+          order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
+          goods_sn: 'skirt150819504',
+          goods_attr: null,
+          goods_status: '11',
+          price: '22.39',
+          is_replace: '0',
+        },
+      ],
+    }, { order_id: '29464516',
+      billno: 'ECCPP',
+      goods_quantity: 20,
+      goods_quantity_with_change: 20,
+      email: 'wangke@dotfashion.cn',
+      buy_cnt: '12',
+      pay_time: '2017-08-23 19:20:12',
+      site_from: 'ec',
+      country_name: 'Germany',
+      order_type: 1,
+      remark_admin: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
+      payment_method: 'worldpay',
+      usd_price: '471.60',
+      currency_price: '471.60',
+      order_status: '1',
+      is_trouble: '3',
+      remark: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
+      order_goods: [
+        {
+          order_goods_id: '41252122',
+          order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
+          goods_sn: 'skirt150819503',
+          goods_attr: null,
+          goods_status: '11',
+          price: '22.39',
+          is_replace: '0',
+        }, {
+          order_goods_id: '41252123',
+          order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
+          goods_sn: 'skirt150819502',
+          goods_attr: null,
+          goods_status: '11',
+          price: '22.39',
+          is_replace: '0',
+        },
+      ],
+    },
+  ],
+  // dataSource: [],
   fetchCountry: [],    // 国家
   fetchSite: [],  // 站点
   fetchPayment: [],    // 支付方式
@@ -95,6 +91,7 @@ const defaultState = {
   fetchOrderStatus: [],    // 订单状态
   fetchCancelReason: [],  // 取消类型
   fetchGoodsStatus: [],  // 商品状态
+  fetchOperation: [],  // 操作状态
   queryString: {
     pageSize: 10,
     pageNumber: 1,
@@ -136,6 +133,7 @@ const defaultState = {
     searchType: 1,  // 搜索类型
   },
   clickVisible: false,
+  visible: false,   // add
   load: false,
   loadUpdata: false,
   total: 0,
@@ -154,6 +152,12 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         [action.key]: action.val,
       });
+    case TYPES.OPEN_MODAL:
+      return assign({}, state, {
+        clickVisible: false,
+        visible: true,
+      //  loadUpdata: false,
+      });
     case TYPES.SEARCH:
       return assign({}, state, {
         queryString: action.data,
@@ -167,7 +171,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
         dataSource: action.data.data,
-        total: action.data.total,
+        total: action.data.total,   // TODO
         load: false,
       });
     case TYPES.INIT_COUNTRY:
@@ -235,7 +239,6 @@ const reducer = (state = defaultState, action) => {
         fetchMemberLevel: action.data.data,
         load: false,
       });
-
     case TYPES.INIT_ORDER:
       return assign({}, state, {
         load: true,
@@ -274,6 +277,44 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         fetchGoodsStatus: action.data.data,
         load: false,
+      });
+    case TYPES.OPERATION_GOODS:
+      return assign({}, state, {
+        load: true,
+      });
+    case TYPES.OPERATION_GOODS_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.OPERATION_GOODS_SUCCESS:
+      return assign({}, state, {
+        fetchOperation: action.data.data,
+        load: false,
+      });
+    case TYPES.REMARK:
+      return assign({}, state, {
+        load: true,
+      });
+    case TYPES.REMARK_FAIL:
+      return assign({}, state, {
+        load: false,
+        clickVisible: true,
+      });
+    case TYPES.REMARK_SUCCESS:
+      return assign({}, state, {
+        fetchRemark: action.data.data,
+        clickVisible: true,
+        load: false,
+      });
+    case TYPES.REMARK_SAVE:
+      return assign({}, state, {
+        loadUpdata: true,
+      });
+    case TYPES.REMARK_SAVE_FAIL:
+    case TYPES.REMARK_SAVE_SUCCESS:
+      return assign({}, state, {
+        visible: false,
+        loadUpdata: false,
       });
     default:
       return state;

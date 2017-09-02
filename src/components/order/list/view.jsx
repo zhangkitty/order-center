@@ -4,9 +4,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
+import { Button, Input, Modal, message } from 'antd';
 import { connect } from 'react-redux';
 import Pagination from '../../publicComponent/pagination';
-import { search, change, commit, init } from './action';
+import { search, change, commit, init, remarkSave } from './action';
 import TabsHeader from './tabsHeader';
 import SingleRow from './singleRow';
 
@@ -19,7 +20,9 @@ class orderList extends Component {
     this.props.dispatch(init());
   }
   render() {
-    const { dispatch, dataSource, total, queryString } = this.props;
+    const {
+      dispatch, dataSource, total, queryString, visible, remark, loadUpdata,
+    } = this.props;
     return (
       <div className={styles.content}>
         {/*  搜索  */}
@@ -29,13 +32,44 @@ class orderList extends Component {
         <div className={styles.table_bg}>
 
           {
-            Object.values(dataSource)
-              .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} />)
+            dataSource
+              .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} {...this.props} />)
           }
-          {/*
-            dataSource.map((v, i) => <SingleRow data={v} index={i} key={v.order_id} />)
-            */}
         </div>
+        <Modal
+          visible={visible}
+          onCancel={() => dispatch(change('visible', false))}
+          footer={null}
+        >
+          <div style={{ margin: '30px 50px 15px' }}>
+            <div>{__('common.order_operation6')}
+              <Input.TextArea
+                style={{ margin: '10px auto' }}
+                rows={3}
+                value={remark}
+                onChange={e => dispatch(change('remark', e.target.value))}
+              />
+            </div>
+            <Button
+              key="submit"
+              type="primary"
+              loading={loadUpdata}
+              onClick={() => {
+                if (remark.trim().length === 0) {
+                  return message.warning(__('common.order_operation9'));
+                }
+                return dispatch(remarkSave(5693173, remark));
+              }}
+                 // dataSource.order_id
+              style={{ marginRight: '20px' }}
+            >
+              {__('common.order_operation7')}
+            </Button>
+            <Button key="back" onClick={() => dispatch(change('visible', false))}>
+              {__('common.order_operation8')}
+            </Button>
+          </div>
+        </Modal>
         <Pagination
           total={total}
           current={queryString.pageNumber}
@@ -62,10 +96,13 @@ orderList.propTypes = {
   dispatch: PropTypes.func,
   load: PropTypes.bool,
   searchLoad: PropTypes.bool,
+  visible: PropTypes.bool,
+  loadUpdata: PropTypes.bool,
   total: PropTypes.number,
   dataSource: PropTypes.arrayOf(PropTypes.shape()),
   queryString: PropTypes.shape(),
   location: PropTypes.shape(),
+  remark: PropTypes.string,
 };
 
 const mapStateToProps = state => state['order/list'];

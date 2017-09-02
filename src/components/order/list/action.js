@@ -134,3 +134,50 @@ export const initGoodsSuccess = data => ({
 export const initGoodsFail = () => ({
   type: TYPES.INIT_GOODS_FAIL,
 });
+
+// 商品操作查询
+export const operationGoods = () => ({
+  type: TYPES.OPERATION_GOODS,
+});
+export const operationGoodsSuccess = data => ({
+  type: TYPES.OPERATION_GOODS_SUCCESS,
+  data,
+});
+export const operationGoodsFail = () => ({
+  type: TYPES.OPERATION_GOODS_FAIL,
+});
+
+// 备注显示
+export const remarkShow = id => ({
+  type: TYPES.REMARK,
+  id,
+});
+export const remarkShowSuccess = data => ({
+  type: TYPES.REMARK_SUCCESS,
+  data,
+});
+export const remarkShowFail = () => ({
+  type: TYPES.REMARK_FAIL,
+});
+
+// 备注更新
+export const remarkSave = (orderId, remark) => ({
+  type: TYPES.REMARK_SAVE,
+  orderId,
+  remark,
+});
+export const remarkSaveSuccess = data => ({
+  type: TYPES.REMARK_SAVE_SUCCESS,
+  data,
+});
+export const remarkSaveFail = () => ({
+  type: TYPES.REMARK_SAVE_FAIL,
+});
+
+// 弹窗
+export const openModal = () => (
+  {
+    type: TYPES.OPEN_MODAL,
+  }
+);
+

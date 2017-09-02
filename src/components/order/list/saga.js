@@ -8,6 +8,8 @@ import {
   searchSubmit, seachHighSubmit,
   initCountrySer, initSiteSer, initPaymentSer, initTroubleSer,
   initMemberSer, initOrderSer, initCancelSer, initGoodsSer,
+  operationGoodsSer,
+  remarkSer, remarkSaveSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHeightFail, searchHeightSuccess,
@@ -15,6 +17,8 @@ import {
   initPaymentFail, initPaymentSuccess, initTroubleFail, initTroubleSuccess,
   initMemberFail, initMemberSuccess, initOrderFail, initOrderSuccess,
   initCancelFail, initCancelSuccess, initGoodsFail, initGoodsSuccess,
+  operationGoodsFail, operationGoodsSuccess,
+  remarkShowFail, remarkShowSuccess, remarkSaveFail, remarkSaveSuccess,
 } from './action';
 
 import * as TYPES from './types';
@@ -113,7 +117,7 @@ function* initOrderSaga() {
 function* initCancelSaga() {
   const data = yield initCancelSer();
   if (!data || data.code !== 0) {
-    message.error(`获取问题件类型失败: ${data.error}`);
+    message.error(`获取取消类型失败: ${data.error}`);
     return yield put(initCancelFail());
   }
   return yield put(initCancelSuccess(data));
@@ -122,11 +126,42 @@ function* initCancelSaga() {
 function* initGoodsSaga() {
   const data = yield initGoodsSer();
   if (!data || data.code !== 0) {
-    message.error(`获取问题件类型失败: ${data.error}`);
+    message.error(`获取商品状态失败: ${data.error}`);
     return yield put(initGoodsFail());
   }
   return yield put(initGoodsSuccess(data));
 }
+
+// 商品操作查询
+function* operationGoodsSaga(action) {
+  const data = yield operationGoodsSer(assign({}, action.data));
+  if (!data || data.code !== 0) {
+    message.error(`获取商品操作查询失败: ${data.error}`);
+    return yield put(operationGoodsFail());
+  }
+  return yield put(operationGoodsSuccess(data));
+}
+
+// 备注查看
+function* remarkSaga(action) {
+  const data = yield remarkSer(action.id);
+  if (!data || data.code !== 0) {
+    message.error(`获取备注失败: ${data.error}`);
+    return yield put(remarkShowFail());
+  }
+  return yield put(remarkShowSuccess(data));
+}
+
+// 备注更新
+function* remarkSaveSaga(action) {
+  const data = yield remarkSaveSer(action.orderId, action.remark); // assign({}, action.orderId, action.remark)
+  if (!data || data.code !== 0) {
+    message.error(`添加备注失败: ${data.error}`);
+    return yield put(remarkSaveFail());
+  }
+  return yield put(remarkSaveSuccess());
+}
+
 
 export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
@@ -139,4 +174,7 @@ export default function* () {
   yield takeEvery(TYPES.INIT_ORDER, initOrderSaga);
   yield takeEvery(TYPES.INIT_CANCEL, initCancelSaga);
   yield takeEvery(TYPES.INIT_GOODS, initGoodsSaga);
+  yield takeEvery(TYPES.OPERATION_GOODS, operationGoodsSaga);
+  yield takeEvery(TYPES.REMARK, remarkSaga);
+  yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
 }

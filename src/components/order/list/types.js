@@ -4,6 +4,7 @@
 
 const prefix = 'order_';
 export const INIT = `${prefix}init`;
+export const OPEN_MODAL = `${prefix}open_modal`;
 
 export const SEARCH = `${prefix}search`;
 export const SEARCH_SUCCESS = `${prefix}search_success`;
@@ -53,3 +54,18 @@ export const INIT_CANCEL_FAIL = `${prefix}init_cancel_fail`;
 export const INIT_GOODS = `${prefix}init_goods`;
 export const INIT_GOODS_SUCCESS = `${prefix}init_goods_success`;
 export const INIT_GOODS_FAIL = `${prefix}init_goods_fail`;
+
+// 商品操作查询
+export const OPERATION_GOODS = `${prefix}operation_goods`;
+export const OPERATION_GOODS_SUCCESS = `${prefix}operation_goods_success`;
+export const OPERATION_GOODS_FAIL = `${prefix}operation_goods_fail`;
+
+// 备注显示
+export const REMARK = `${prefix}remark`;
+export const REMARK_SUCCESS = `${prefix}remark_success`;
+export const REMARK_FAIL = `${prefix}remark_fail`;
+
+// 备注更新
+export const REMARK_SAVE = `${prefix}remark_save`;
+export const REMARK_SAVE_SUCCESS = `${prefix}remark_save_success`;
+export const REMARK_SAVE_FAIL = `${prefix}remark_save_fail`;
