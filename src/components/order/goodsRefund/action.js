@@ -27,3 +27,14 @@ export const getReasonSuccess = res => ({
   res,
 });
 
+export const subchange = (key, value) => ({
+  type: TYPES.SUBMIT_CHANGE,
+  key,
+  value,
+});
+
+export const submitForward = data => ({
+  type: TYPES.SUBMIT,
+  data,
+});
+

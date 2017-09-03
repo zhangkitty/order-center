@@ -26,4 +26,12 @@ export const getReasonSuccess = res => ({
   type: TYPES.GET_REASON_SUCCESS,
   res,
 });
-
+export const subchange = (key, value) => ({
+  type: TYPES.SUBMIT_CHANGE,
+  key,
+  value,
+});
+export const submitForward = data => ({
+  type: TYPES.SUBMIT,
+  data,
+});

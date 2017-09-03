@@ -18,4 +18,11 @@ module.exports = {
   gift_refunded: '礼品卡可退金额',
   wallet_refunded: '钱包或用户可退金额',
   wait_refund: '待退款金额',
+  no_over_price: '金额不可超过',
+  no_back: '均退',
+  no_no_back: '均不退',
+  missing_something: '缺少必填项',
+  get_goodsinfo_fail: '获取商品信息失败',
+  get_backmoney_fail: '获取退款原因信息',
+  submit_fail: '提交失败',
 };

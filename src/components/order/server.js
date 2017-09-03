@@ -26,6 +26,7 @@ const diffRefund = {
 const goodsRefund = {
   getData: '/OrderRefund/getRefundInfo',
   getReason: '/OrderRefund/getRefundReason',
+  submit: '/OrderRefund/submit',
 };
 
 export const searchSubmit = (page) => {
@@ -123,4 +124,10 @@ export const getReasonSer = (type) => (
   })
 );
 
+export const goodsRefundSubmit = d => (
+  fetch(goodsRefund.submit, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under(d)),
+  })
+);
 
