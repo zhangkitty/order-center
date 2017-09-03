@@ -4,8 +4,9 @@
 import * as TYPES from './types';
 
 
-export const initPriceInfo = () => ({
+export const initPriceInfo = data => ({
   type: TYPES.INIT_PRICEINFO,
+  data,
 });
 export const initPriceInfoSuccess = data => ({
   type: TYPES.INIT_PRICEINFO_SUCCESS,
@@ -16,8 +17,9 @@ export const initPriceInfoFail = () => ({
 });
 
 
-export const initReasonList = () => ({
+export const initReasonList = data => ({
   type: TYPES.INIT_REASONLIST,
+  data,
 });
 export const initReasonListSuccess = data => ({
   type: TYPES.INIT_REASONLIST_SUCCESS,
@@ -31,4 +33,19 @@ export const commit = data => ({
   type: TYPES.COMMIT,
   data,
 });
+
+export const commitSuccess = data => ({
+  type: TYPES.COMMITSUCCESS,
+  data,
+});
+
+export const commitFail = () => ({
+  type: TYPES.COMMITFAIL,
+});
+
+export const change = (key, value) => ({
+  type: TYPES.CHANGE,
+  key,
+  value,
+})
 

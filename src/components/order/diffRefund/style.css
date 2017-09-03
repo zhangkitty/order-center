@@ -1,7 +1,142 @@
-.btn {
-    width:50px
+.input {
+    width:100px
 }
 
-.btn1 {
+.input1 {
+    width: 300px;
+    margin-left: 30px;
+}
+
+.gift_card{
+    width:400px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.wallet{
+    width:400px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.client{
+    width:400px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.overflow{
+    width:400px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.refund{
+    display: flex;
+    margin-top: 20px;
+}
+.refundtitle{
+
+}
+.refundcontent{
+    margin-left: 50px;
+
+}
+
+.radio{
     width: 100px;
 }
+
+.placeholder{
+    display: flex;
+}
+
+.refundreason{
+    display: flex;
+}
+
+.reasonDom{
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+}
+
+.remark{
+    display: flex;
+    width: 800px;
+    margin-left: 200px;
+    margin-top: 50px;
+}
+
+.textarea{
+    width: 500px;
+    margin-left: 100px;
+}
+
+.button{
+    display: flex;
+    width: 250px;
+    margin-left: 550px;
+    transform: translateX(-50%);
+    margin-top: 50px;
+    justify-content: space-around;
+}
+.top{
+    display:flex;
+}
+
+.left{
+    display: flex;
+}
+
+.left>div:nth-child(2){
+    margin-left: 50px;
+}
+
+.right{
+    display: flex;
+    margin-left: 100px;
+}
+
+.right>div:nth-child(2){
+    margin-left: 50px;
+}
+.adjustmentRefund{
+    background: black;
+    color:white ;
+}
+.content {
+    padding:10px;
+}
+.sumofmoney_left {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+.descWidth {
+    width: 150px;
+    color: rgb(148, 148, 148);
+}
+.refundsgoods {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.reason {
+    display: flex;
+    flex-direction: row;
+}
+.reasonitem {
+    display: flex;
+    flex-direction: column;
+}
+.mark {
+    display: flex;
+    margin-top: 20px;
+}
+
+
