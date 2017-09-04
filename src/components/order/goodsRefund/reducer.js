@@ -29,9 +29,9 @@ const defaultState = {
 };
 const maxTypes = data => (
   {
-    1: data.orderPriceInfo.giftCardPaymentPrice.priceUsd.amount,
-    2: data.orderPriceInfo.walletPaymentPrice.priceUsd.amount,
-    3: data.orderPriceInfo.cardPaymentPrice.priceUsd.amount,
+    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
+    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
+    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
   }
 );
 const reducer = (state = defaultState, action) => {
