@@ -9,7 +9,7 @@ import moment from 'moment';
 import {
   search, searchHigh, commit, commit2,
   initCountry, initSite, initPayment, initTrouble,
-  initMember, initOrder, initCancel, initGoods,
+  initMember, initOrder, initCancel, initGoods, change,
 } from './action';
 
 import styles from './style.css';
@@ -54,7 +54,7 @@ class TabsHeader extends Component {
 
   render() {
     const {
-      dispatch, fetchCountry, fetchSite, fetchPayment, fetchTrouble,
+      dispatch, fetchCountry, fetchSite, fetchPayment, fetchTrouble, dataSource,
       queryString, searchLoad,
       queryString2, fetchMemberLevel, fetchOrderStatus, fetchCancelReason, fetchGoodsStatus,
     } = this.props;
@@ -82,7 +82,7 @@ class TabsHeader extends Component {
           <Tabs {...tabConfig}>
             <TabItem
               tab={__('order.name.search')}
-              key="search"
+              key="1"
             >
               <form
                 className={styles.filterBg}
@@ -286,7 +286,7 @@ class TabsHeader extends Component {
             </TabItem>
 
             {/* 高级搜索 */}
-            <TabItem tab={__('order.name.search2')} key="show">
+            <TabItem tab={__('order.name.search2')} key="2">
               <form
                 className={styles.filterBg}
                 onSubmit={(e) => {
@@ -509,6 +509,14 @@ class TabsHeader extends Component {
                   <a>{__('order.name.tip')}</a>
                 </Tooltip>
               </form>
+            </TabItem>
+            <TabItem tab={__('order.name.search3')} key="3">
+              <Button
+                onClick={() => dispatch(change('batchChooseOrder', dataSource.map(v => v.order_id)))}
+              >全选</Button>
+              <Button
+                onClick={() => dispatch(change('batchChooseOrder', []))}
+              >取消</Button>
             </TabItem>
           </Tabs>
         </Panel>

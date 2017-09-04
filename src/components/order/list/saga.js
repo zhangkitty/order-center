@@ -49,6 +49,7 @@ function* searchSaga(action) {
 }
 
 function* searchHighSaga(action) {
+  console.log(action.data, 'search-high');
   const {
     goodsSn, count,
   } = action.data;

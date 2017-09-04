@@ -8,6 +8,7 @@ module.exports = {
   search_list: '自定义列表',
   search1: '普通搜索en',
   search2: '高级搜索',
+  search3: '批量操作en',
   order_number: 'order number',
   order_id: 'order Id',
   email: 'email',

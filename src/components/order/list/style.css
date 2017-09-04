@@ -100,14 +100,16 @@ form .colSpace2{
     color: #fff;
     margin-right:30px;
 }
-.buttonBorder {
+.buttonBorderBg {
     display: flex;
     flex-direction: column;
     color:#49a9ee;
 }
-.buttonBorder > span {
-    cursor: pointer;
+.buttonBorder, .buttonBorderBg > span {
     margin: 5px;
+    cursor: pointer;
+    outline: 0;
+    text-align: center;
 }
 
 .tableFloat {
@@ -121,3 +123,4 @@ form .colSpace2{
     clear: both;
     visibility: hidden;
 }
+.haveRemark { color:#f00; border-color: #f00;}
