@@ -16,7 +16,6 @@ const defaultState = {
   load: false,
   loadUpdata: false,
   total: 0,
-  max: 0,
   submitLoad: false,
   submitValue: {
     orderId: null,
@@ -28,6 +27,13 @@ const defaultState = {
     remark: '',
   },
 };
+const maxTypes = data => (
+  {
+    1: data.orderPriceInfo.giftCardPaymentPrice.priceUsd.amount,
+    2: data.orderPriceInfo.walletPaymentPrice.priceUsd.amount,
+    3: data.orderPriceInfo.cardPaymentPrice.priceUsd.amount,
+  }
+);
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT:
@@ -46,6 +52,7 @@ const reducer = (state = defaultState, action) => {
             rate2: v.priceWithExchangeRate.rate,
             currency: v.priceWithExchangeRate.symbol,
             check: false,
+            max: maxTypes(under2Camal(action.res))[v.refundPathId],
           })),
         }),
       });
