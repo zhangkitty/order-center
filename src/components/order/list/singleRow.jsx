@@ -227,7 +227,7 @@ SingleRow.propTypes = {
   dataSource: PropTypes.arrayOf(PropTypes.shape()),
   operationVisible: PropTypes.bool,
   fetchRemark: PropTypes.arrayOf(PropTypes.shape()),
-  fetchLogisticsRemark: PropTypes.shape(),
+  fetchLogisticsRemark: PropTypes.string,
   logisticsVisible: PropTypes.bool,
   remark: PropTypes.string,
 };

@@ -26,19 +26,20 @@ import {
 import * as TYPES from './types';
 
 function* searchSaga(action) {
+  console.log(action.data, 'search');
   const {
     billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, remarkUser, totalInput,
   } = action.data;
   const data = yield searchSubmit(assign({}, action.data, {
     billno: billno ? encodeURIComponent(billno.trim()) : null,
-    orderId: billno ? encodeURIComponent(orderId.trim()) : null,
-    email: billno ? encodeURIComponent(email.trim()) : null,
-    shippingNo: billno ? encodeURIComponent(shippingNo.trim()) : null,
-    referenceNumber: billno ? encodeURIComponent(referenceNumber.trim()) : null,
-    telephone: billno ? encodeURIComponent(telephone.trim()) : null,
-    txnId: billno ? encodeURIComponent(txnId.trim()) : null,
-    remarkUser: billno ? encodeURIComponent(remarkUser.trim()) : null,
-    totalInput: billno ? encodeURIComponent(totalInput.trim()) : null,
+    orderId: orderId ? encodeURIComponent(orderId.trim()) : null,
+    email: email ? encodeURIComponent(email.trim()) : null,
+    shippingNo: shippingNo ? encodeURIComponent(shippingNo.trim()) : null,
+    referenceNumber: referenceNumber ? encodeURIComponent(referenceNumber.trim()) : null,
+    telephone: telephone ? encodeURIComponent(telephone.trim()) : null,
+    txnId: txnId ? encodeURIComponent(txnId.trim()) : null,
+    remarkUser: remarkUser ? encodeURIComponent(remarkUser.trim()) : null,
+    totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
   }));
   if (data.error) {
     message.error(`搜索失败: ${data.msg}`);
@@ -163,6 +164,7 @@ function* remarkSaveSaga(action) {
     message.error(`添加备注失败: ${data.msg}`);
     return yield put(remarkSaveFail());
   }
+  message.success('添加备注成功');
   return yield put(remarkSaveSuccess());
 }
 
@@ -184,7 +186,7 @@ function* logisticsRemarkSaveSaga(action) {
     message.error(`添加备注失败: ${data.msg}`);
     return yield put(logisticsRemarkSaveFail());
   }
-  message.success('备注添加成功');
+  message.success('添加物流备注成功');
   return yield put(logisticsRemarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
 

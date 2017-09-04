@@ -22,7 +22,7 @@ class orderList extends Component {
   }
   render() {
     const {
-      dispatch, dataSource, total, queryString, queryString2, visible, remark,
+      dispatch, dataSource, total, queryString, queryString2, visible,
       loadUpdata, searchType, remarkModal, exchange,
     } = this.props;
     return (
@@ -49,8 +49,8 @@ class orderList extends Component {
               <Input.TextArea
                 style={{ margin: '10px auto' }}
                 rows={3}
-                value={remark}
-                onChange={e => dispatch(change('remark', e.target.value))}
+                value={remarkModal.remark}
+                onChange={e => dispatch(change('remarkModal', assign({}, remarkModal, { remark: e.target.value})))}
               />
             </div>
             <Button
@@ -58,10 +58,10 @@ class orderList extends Component {
               type="primary"
               loading={loadUpdata}
               onClick={() => {
-                if (remark.trim().length === 0) {
+                if (remarkModal.remark.trim().length === 0) {
                   return message.warning(__('common.order_operation9'));
                 }
-                return dispatch(remarkSave(remarkModal.order_id, remark));   // TODO 没有获取订单id
+                return dispatch(remarkSave(remarkModal.order_id, remarkModal.remark));
               }}
                  // dataSource.order_id
               style={{ marginRight: '20px' }}

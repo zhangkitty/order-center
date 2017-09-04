@@ -93,7 +93,7 @@ const defaultState = {
   fetchGoodsStatus: [],  // 商品状态
   fetchOperation: [],  // 操作状态
   fetchRemark: [], // 备注
-  fetchLogisticsRemark: {}, // 物流备注
+  fetchLogisticsRemark: '', // 物流备注
   queryString: {
     pageSize: 10,
     pageNumber: 1,

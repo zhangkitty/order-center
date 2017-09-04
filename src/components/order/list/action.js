@@ -30,9 +30,10 @@ export const commit3 = (key, val) => ({
 });
 
 // 弹窗
-export const openModal = orderId => ({
+export const openModal = (orderId, remark) => ({
   type: TYPES.OPEN_MODAL,
   orderId,
+  remark,
 });
 
 // 弹窗-size
