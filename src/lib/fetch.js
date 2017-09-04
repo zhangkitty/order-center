@@ -52,8 +52,6 @@ export default (url, args = {}, header) => {
       return showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
     }
     // const lagunage = res.headers.get('systemLagunage');
-
-    console.log(res.headers.get('Location'));
     // 流，下载
     if (res.headers.get('content-type') === 'application/vnd.ms-excel;charset=UTF-8') {
       return res.blob();

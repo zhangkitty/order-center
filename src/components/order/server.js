@@ -32,7 +32,11 @@ const diffRefund = {
     initPriceInfo: 'index_new.php/Home/Common/getOrderDiffRefundPriceInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
     submitOrder: 'index_new.php/Home/Common/submitOrderDiffRefund'   //订单差价退款（提交）(接口负责人:周利宝)
 };
-
+const goodsRefund = {
+  getData: '/OrderRefund/getRefundInfo',
+  getReason: '/OrderRefund/getRefundReason',
+  submit: '/OrderRefund/submit',
+};
 
 export const searchSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'remarkUser', 'totalSelect', 'totalInput', 'searchType'];
@@ -167,5 +171,21 @@ export const submitOrder = data=>{
         body:JSON.stringify(data),
     })
 }
+export const getDataSer = (orderId, goodsId) => (
+  fetch(`${goodsRefund.getData}?order_id=${orderId}&goods_id=${goodsId}`,{
+    method: 'GET',
+  })
+);
+export const getReasonSer = (type) => (
+  fetch(`${goodsRefund.getReason}?type=${type}`, {
+    method: 'GET',
+  })
+);
 
+export const goodsRefundSubmit = d => (
+  fetch(goodsRefund.submit, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under(d)),
+  })
+);
 
