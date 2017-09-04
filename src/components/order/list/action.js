@@ -231,11 +231,9 @@ export const logisticsRemarkSaveFail = () => ({
 });
 
 //  sku查size
-export const goodSize = (goodsId, orderId, siteFrom) => ({
+export const goodSize = data => ({
   type: TYPES.GOODS_SIZE,
-  goodsId,
-  orderId,
-  siteFrom,
+  data,
 });
 export const goodSizeSuccess = data => ({
   type: TYPES.GOODS_SIZE_SUCCESS,

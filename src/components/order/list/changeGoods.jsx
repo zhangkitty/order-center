@@ -10,6 +10,7 @@ const Option = Select.Option;
 const ChnageGoods = (props) => {
   const { exchange, dispatch, fetchgoodSize } = props;
   const { orderId, goods_sn, site_from, goods_attr_new } = exchange;
+  console.log(exchange, 'exchange')
   return (
     <Modal
       visible={exchange.visible}
@@ -21,12 +22,7 @@ const ChnageGoods = (props) => {
           if (goods_sn.trim().length === 0) {
             return message.warning('缺少SKU');
           }
-          return dispatch(goodSize(
-            orderId,
-            goods_sn,
-            site_from,
-            goods_attr_new,
-          ));
+          return dispatch(goodSize(exchange));
         }}
       >
         <Input

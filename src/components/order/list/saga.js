@@ -195,12 +195,12 @@ function* logisticsRemarkSaveSaga(action) {
 // 商品尺寸查看
 function* goodSizeSaga(action) {
   console.log(action, 'action_size')
-  const data = yield goodSizeSer(action.goodsId, action.orderId, action.siteFrom);
+  const data = yield goodSizeSer(action.data);
   if (!data || data.code !== 0) {
     message.error(`获取备注失败: ${data.msg}`);
     return yield put(goodSizeFail());
   }
-  return yield put(goodSizeSuccess(action.id, data.data));
+  return yield put(goodSizeSuccess(data));
 }
 
 // 批量操作

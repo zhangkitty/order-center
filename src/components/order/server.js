@@ -2,6 +2,7 @@
  * Create by liufeng on 2017/6/28
  */
 import fetch from '../../lib/fetch';
+import assign from 'object-assign';
 import { camel2Under } from '../../lib/camal';
 import queryString from '../../lib/query-string';
 
@@ -152,11 +153,13 @@ export const logisticsRemarkSaveSer = (orderId, remark) => (
 
 
 // 产品尺码-查
-export const goodSizeSer = (goodsId, orderId, siteFrom,) => (
+export const goodSizeSer = (data) => (
   fetch(list.sizeBySku, {
     method: 'POST',
-    body: JSON.stringify(camel2Under({
-      goodsId, orderId , siteFrom
+    body: JSON.stringify(assign({}, data, {
+      order_id: Symbol('noneed'),
+      load: Symbol('noneed'),
+      visible: Symbol('noneed'),
     })),
   })
 );

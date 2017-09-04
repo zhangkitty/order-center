@@ -143,8 +143,10 @@ const SingleRow = (props) => {
 
                     {/* 换货 */}
                     <span
-                      onClick={() =>
+                      onClick={() => {
+                        console.log(data.site_from, 'data.site_from')
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from))
+                      }
                       }
                       role="button" tabIndex={0}
                     >

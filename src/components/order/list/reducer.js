@@ -345,7 +345,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         exchange: {
           goods_sn: action.goods_sn,
-          site_from: action.site_from,
+          site_from: action.siteFrom,
           order_goods_id: action.goodsId,
           order_id: action.orderId,
           load: false,
@@ -353,14 +353,15 @@ const reducer = (state = defaultState, action) => {
         },
       });
     case TYPES.GOODS_SIZE:
+      console.log(action, 'action-re');
       return assign({}, state, {
         exchange: {
-          goods_sn: '',
-          site_from: action.site_from,
-          order_goods_id: action.goodsId,
-          order_id: action.orderId,
-          load: false,
-          visible: true,
+          goods_sn: action.data.goods_sn,
+          site_from: action.data.site_from,
+          order_goods_id: action.data.order_goods_id,
+          // order_id: action.data.order_id,
+          // load: false,
+          // visible: true,
         },
       });
     case TYPES.GOODS_SIZE_FAIL:
