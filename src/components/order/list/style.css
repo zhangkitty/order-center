@@ -20,7 +20,7 @@
     max-width: 450px;
     margin: 5px 0;
 }
-form .colSpace{
+form .colSpace, .colSpace{
     width:150px;
     display: inline-block;
 }

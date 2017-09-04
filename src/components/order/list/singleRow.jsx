@@ -6,7 +6,7 @@ import assign from 'object-assign';
 import {
   change, commit, remarkShow, openModal,
   logisticsRemark, logisticsRemarkSave, operationGoods,
-  openModalCgs, cancelRisk, cancelTroubleTag, markTag
+  openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange,
 } from './action';
 
 import Styles from './style.css';
@@ -157,7 +157,6 @@ const SingleRow = (props) => {
                     {/* 换货 */}
                     <span
                       onClick={() => {
-                        console.log(data.site_from, 'data.site_from')
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from))
                       }
                       }
@@ -165,6 +164,16 @@ const SingleRow = (props) => {
                     >
                       {__('common.change_goods')}
                     </span>
+
+                    {/*  删除换货 */}
+
+                        <Popconfirm
+                          onConfirm={() => dispatch(delChange(data.order_id, rec.goods_id))} //rec.order_goods_id
+                        >
+                          <a>{__('common.del_goods')}</a>
+                        </Popconfirm>
+
+
                   </div>
                 );
               },

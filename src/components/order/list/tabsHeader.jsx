@@ -236,8 +236,8 @@ class TabsHeader extends Component {
                       onChange={val => dispatch(commit('totalSelect', val))}
                     >
                       <Option key={null} > {__('order.name.choose')}</Option>
-                      <Option key={0} > > </Option>
-                      <Option key={1} > = </Option>
+                      <Option key={1} > > </Option>
+                      <Option key={2} > = </Option>
                     </Select>
                     <Input
                       className={styles.colSpace}

@@ -244,26 +244,29 @@ export const goodSizeFail = () => ({
 });
 
 // 换货
-export const changeGoods = id => ({
+export const changeGoods = data => ({
   type: TYPES.CHANGE_GOODS,
-  id,
+  data,
 });
-export const changeGoodsSuccess = data => ({
+export const changeGoodsSuccess = (orderId, data) => ({
   type: TYPES.CHANGE_GOODS_SUCCESS,
   data,
+  orderId,
 });
 export const changeGoodsFail = () => ({
   type: TYPES.CHANGE_GOODS_FAIL,
 });
 
 // 删除换货
-export const delChange = id => ({
+export const delChange = (oid, gid) => ({
   type: TYPES.DEL_CHANGE,
-  id,
+  oid,
+  gid,
 });
-export const delChangeSuccess = data => ({
+export const delChangeSuccess = (oid, gid) => ({
   type: TYPES.DEL_CHANGE_SUCCESS,
-  data,
+  oid,
+  gid,
 });
 export const delChangeFail = () => ({
   type: TYPES.DEL_CHANGE_FAIL,

@@ -11,9 +11,9 @@ import {
   operationGoodsSer,
   remarkSer, remarkSaveSer,
   logisticsRemarkSer, logisticsRemarkSaveSer,
-  goodSizeSer,
+  goodSizeSer, changeGoodsSer,
   batchOperateSer, getRisk, cancelTroubleTag,
-  updateOrderTagSer,
+  updateOrderTagSer, delChangeSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess,
@@ -24,14 +24,14 @@ import {
   operationGoodsFail, operationGoodsSuccess,
   remarkShowFail, remarkShowSuccess, remarkSaveFail, remarkSaveSuccess,
   logisticsRemarkFail, logisticsRemarkSuccess, logisticsRemarkSaveFail, logisticsRemarkSaveSuccess,
-  goodSizeFail, goodSizeSuccess,
-  cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
+  goodSizeFail, goodSizeSuccess, changeGoodsFail, changeGoodsSuccess,
+  cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess, delChangeSuccess,
 } from './action';
 
 import * as TYPES from './types';
 
 function* searchSaga(action) {
-  console.log(action.data, 'search');
+ // console.log(action.data, 'search');
   const {
     billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, remarkUser, totalInput,
   } = action.data;
@@ -196,13 +196,34 @@ function* logisticsRemarkSaveSaga(action) {
 
 // 商品尺寸查看
 function* goodSizeSaga(action) {
-  console.log(action, 'action_size')
   const data = yield goodSizeSer(action.data);
   if (!data || data.code !== 0) {
-    message.error(`获取备注失败: ${data.msg}`);
+    message.error(`获取商品尺码失败: ${data.msg}`);
     return yield put(goodSizeFail());
   }
   return yield put(goodSizeSuccess(data));
+}
+
+// 换货
+function* changeGoodsSaga(action) {
+  const data = yield changeGoodsSer(action.data);
+  console.log(data, 'sdfsdfsdfdsf');
+  if (!data || data.code !== 0) {
+    message.error(`换货失败: ${data.msg}`);
+    return yield put(changeGoodsFail());
+  }
+  return yield put(changeGoodsSuccess(action.data.order_id, data));
+}
+
+// 删除换货
+function* delChangeSaga(action) {
+  const data = yield delChangeSer(action.oid, action.gid);
+  console.log(data, 'sdfsdfsdfdsf');
+  if (!data || data.code !== 0) {
+    message.error(`换货失败: ${data.msg}`);
+    return yield put(changeGoodsFail()); // TODO: 失败
+  }
+  return yield put(delChangeSuccess(action.oid, action.gid));
 }
 
 // 批量操作
@@ -252,8 +273,10 @@ export default function* () {
   yield takeEvery(TYPES.LOGISITICS_REMARK, logisticsRemarkSaga);
   yield takeEvery(TYPES.LOGISITICS_REMARK_SAVE, logisticsRemarkSaveSaga);
   yield takeEvery(TYPES.GOODS_SIZE, goodSizeSaga);
+  yield takeEvery(TYPES.CHANGE_GOODS, changeGoodsSaga);
   yield takeLatest(TYPES.BATCH_OPERATE, batchOperateSaga);
   yield takeLatest(TYPES.CANCEL_RISK, cancelRiskSaga);
   yield takeLatest(TYPES.CANCEL_TROUBLE_TAG, cancelTroubleTagSaga);
   yield takeLatest(TYPES.UPDATE_ORDER_TAG, updateOrderTagSaga);
+  yield  takeLatest(TYPES.DEL_CHANGE, delChangeSaga);
 }

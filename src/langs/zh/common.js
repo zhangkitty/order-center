@@ -18,6 +18,7 @@ module.exports = {
   order_type: '红人订单',
   operation: '操作查询',
   change_goods: '换货',
+  del_goods: '删除换货',
   order_operation: '查看',
   order_operation1: '订单标记',
   order_operation2: '退款/取消',
