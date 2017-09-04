@@ -189,3 +189,9 @@ export const goodsRefundSubmit = d => (
   })
 );
 
+export const batchOperateSer = (url, data) => (
+  fetch(url, {
+  method: 'POST',
+  body: JSON.stringify(data),
+  })
+);

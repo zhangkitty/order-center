@@ -98,3 +98,6 @@ export const CHANGE_GOODS_FAIL = `${prefix}change_goods_fail`;
 export const DEL_CHANGE = `${prefix}del_change`;
 export const DEL_CHANGE_SUCCESS = `${prefix}del_change_success`;
 export const DEL_CHANGE_FAIL = `${prefix}del_change_fail`;
+
+// 批量操作
+export const BATCH_OPERATE = `${prefix}batch_operate`;

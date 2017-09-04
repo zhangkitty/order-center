@@ -270,3 +270,8 @@ export const delChangeSuccess = data => ({
 export const delChangeFail = () => ({
   type: TYPES.DEL_CHANGE_FAIL,
 });
+export const batchOperate = (url, data) => ({
+  type: TYPES.BATCH_OPERATE,
+  url,
+  data,
+});
