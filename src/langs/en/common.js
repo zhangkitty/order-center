@@ -10,6 +10,8 @@ module.exports = {
   choose: '请选择en',
   search1: '普通搜索en',
   search2: '高级搜索',
+  Qty: 'Qty :',
+  table: 'table :',
   order_number: 'order number',
   order_id: 'order Id',
   diff_refund: '差价退款en',

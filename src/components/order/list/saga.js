@@ -138,8 +138,6 @@ function* initGoodsSaga() {
 
 // 商品操作查询
 function* operationGoodsSaga(action) {
-  console.log(action, 'action');
-  console.log(action.id, 'action.id');
   const data = yield operationGoodsSer(action.id);
   if (!data || data.code !== 0) {
     message.error(`获取商品操作查询失败: ${data.msg}`);

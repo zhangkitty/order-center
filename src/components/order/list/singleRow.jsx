@@ -55,7 +55,7 @@ const SingleRow = (props) => {
               }
             }}
           >{ data.billno }</Checkbox>
-          <span>Qty~~: { data.goods_quantity }</span>
+          <span>{__('common.Qty')} { data.goods_quantity }</span>
           <span>{data.email}({data.buy_cnt})</span>
           <span>{ data.member_level }</span> <span>{data.pay_time}</span>
           <span> {data.site_from}</span> <span>{data.country_name}</span>
@@ -65,7 +65,7 @@ const SingleRow = (props) => {
             data.order_type === 1 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
           }
           <span> {data.payment_method}</span>
-          <span>{data.usd_price} </span>
+          <span>{__('common.table')} {data.usd_price} </span>
           <span> {data.currency_price}</span>
         </div>
       </div>
@@ -96,10 +96,10 @@ const SingleRow = (props) => {
                 <div>
                   <a href={res.order_detail_url} target="_blank"> {d}</a>
                   <span style={{ color: '#108ee9' }}>
-                {
-                  replaceGoods(res.is_replace, res.replace_goods_sort)
-                }
-              </span>
+                    {
+                      replaceGoods(res.is_replace, res.replace_goods_sort)
+                    }
+                  </span>
                   <p> {res.goods_attr ? res.goods_attr : <span>--</span>}</p>
                 </div>
               ),
@@ -163,16 +163,19 @@ const SingleRow = (props) => {
           <p> {data.order_status_title} { data.order_status === 3 ? <Icon type="message" /> : <Icon type="message" style={{ color: 'rgb(255,35,0)' }} /> } </p>
           <Button>{__('common.order_operation')}</Button>
           <Button>{__('common.order_operation1')}</Button>
+
+          {/*  退款/取消 */}
           {
             (data.payment_method === 'cod' && data.order_status === 5)
             ||
             data.order_status > 7
               ?
               null
-              : <Link to={`/order/goodsRefund/${data.order_id}/${batchGoods}`}>修改</Link>
+              : <Link to={`/order/goodsRefund/${data.order_id}/${batchGoods}`}>{__('common.order_operation2')}</Link>
           }
 
-          <Button>{__('common.order_operation3')}</Button>
+          {/*  差价退款 */}
+          <Link to={`/order/diffRefund/${data.order_id}`}>{__('common.order_operation3')}</Link>
 
           {/*  备注 */}
           <Popover

@@ -517,6 +517,12 @@ class TabsHeader extends Component {
               <Button
                 onClick={() => dispatch(change('batchChooseOrder', []))}
               >取消</Button>
+              <Button
+              >批量部分发 XX</Button>
+              <Button
+              >平台订单取消 XX</Button>
+              <Button
+              >批量审核 XX</Button>
             </TabItem>
           </Tabs>
         </Panel>
