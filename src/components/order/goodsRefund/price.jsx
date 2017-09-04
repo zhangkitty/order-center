@@ -32,7 +32,7 @@ const types = {
 
 const star = (<span style={{ color: 'red' }}>*</span>);
 
-const Price = ({ dataSource, submitValue, dispatch, max }) => {
+const Price = ({ dataSource, submitValue, dispatch }) => {
   const RLPrice = dataSource.rlFee || [];
   return (
     <div style={{ marginBottom: '15px' }}>
@@ -61,18 +61,35 @@ const Price = ({ dataSource, submitValue, dispatch, max }) => {
           {
             submitValue.refundPaths.map((v, i) => (
               v.isShow ?
-                <div
+                <Rg
                   style={i === 0 ? { display: 'flex', alignItems: 'center' } : { display: 'flex', marginTop: '5px', alignItems: 'center' }}
                   key={v.refundTypeId}
+                  value={submitValue.radiochoose}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const arr = submitValue.refundPaths.filter(d => d.refundTypeId > 1);
+                    const radio = arr.map(d => (
+                      d.refundTypeId === value ?
+                        assign({}, d, { check: true }) : assign({}, d, { check: false })
+                    ));
+                    const result = submitValue.refundPaths
+                                              .filter(d => d.refundTypeId < 2).concat(radio);
+                    dispatch(subchange('radiochoose', value));
+                    return dispatch(subchange('refundPaths', result));
+                  }}
                 >
-                  <Checkbox
-                    value={v.check}
-                    onChange={e => dispatch(subchange('refundPaths', [
-                      ...submitValue.refundPaths.slice(0, i),
-                      assign({}, submitValue.refundPaths[i], { check: e.target.checked }),
-                      ...submitValue.refundPaths.slice(i + 1),
-                    ]))}
-                  />
+                  {
+                    v.refundTypeId > 1 ?
+                      <Radio value={v.refundTypeId} />
+                      :
+                      <Checkbox
+                        onChange={e => dispatch(subchange('refundPaths', [
+                          ...submitValue.refundPaths.slice(0, i),
+                          assign({}, submitValue.refundPaths[i], { check: e.target.checked }),
+                          ...submitValue.refundPaths.slice(i + 1),
+                        ]))}
+                      />
+                  }
                   <span style={inline}>{types[v.refundTypeId]}</span>
                   <span style={spanWidth}>$</span>
                   <Input
@@ -87,7 +104,7 @@ const Price = ({ dataSource, submitValue, dispatch, max }) => {
                       ...submitValue.refundPaths.slice(i + 1),
                     ]))}
                   />
-                  <span style={spanWidth}>{v.symbol}</span>
+                  <span style={spanWidth}>{v.currency}</span>
                   <Input
                     style={{ width: '150px' }}
                     value={v.refundAmount2}
@@ -100,8 +117,8 @@ const Price = ({ dataSource, submitValue, dispatch, max }) => {
                       ...submitValue.refundPaths.slice(i + 1),
                     ]))}
                   />
-                  <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${max}</span>
-                </div>
+                  <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${v.max}</span>
+                </Rg>
                 : null
             ))
           }
@@ -115,6 +132,5 @@ Price.propTypes = {
   dataSource: PropTypes.shape(),
   submitValue: PropTypes.shape(),
   dispatch: PropTypes.func,
-  max: PropTypes.number,
 };
 export default Price;

@@ -2,6 +2,7 @@
  * Create by liufeng on 2017/6/28
  */
 import { message } from 'antd';
+import { hashHistory } from 'react-router';
 import { put, takeLatest } from 'redux-saga/effects';
 import { getDataSer, getReasonSer, goodsRefundSubmit } from '../server';
 import {
@@ -16,6 +17,9 @@ function* getDataSaga(action) {
   if (data.code !== 0) {
     message.error(`${__('order.goodsRefund.get_goodsinfo_fail')}: ${data.msg}`);
     return yield put(change('load', false));
+  }
+  if (data.data.page_to === 'cod') {
+    return hashHistory.push(`/order/cancelGoods/${orderId}/${goodsId}`);
   }
   return yield put(getDataSuccess(data.data));
 }
