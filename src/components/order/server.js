@@ -16,6 +16,15 @@ const list = {
   initOrder: '/Order/getOrderStatusType',    // 订单状态 -
   initCance: '/Order/getCancelType',    // 取消类型列表 --
   initGoods: '/Order/getOrderGoodsStatusType',    // 商品状态列表--
+  operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
+  orderRemark: '/order/remark',  // 备注查询
+  orderSaveRemark: '/order/saveRemark',  // 添加备注
+  logisticsRemark: '/order/logisticsRemark',  // 物流备注查询
+  logisticsRemarkSave: '/order/saveLogisticsRemark',  // 添加物流备注
+  sizeBySku: '/order/listAvailabeGoodsSizeBySku',  // sku查尺码
+  chageGoods: '/order/exchageOrderGoods',  // 换货
+  delGoods: '/order/delExchagedOrderGoods',  // 删除换货
+
 };
 
 const diffRefund = {
@@ -31,36 +40,40 @@ const goodsRefund = {
 
 export const searchSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'remarkUser', 'totalSelect', 'totalInput', 'searchType'];
-  return fetch(`${list.init}?${queryString(camel2Under(keys), page)}`, {
+  return fetch(`${list.init}?${camel2Under(queryString(keys, page))}`, {
     method: 'GET',
   })
 };
 
 export const seachHighSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd', 'searchType'];
-  return fetch(`${list.initHigh}?${queryString(camel2Under(keys), page)}`, {
+  return fetch(`${list.initHigh}?${camel2Under(queryString(keys, page))}`, {
     method: 'GET',
   })
 };
 
+// 国家
 export const initCountrySer = () => (
   fetch(list.initCountry, {
     method: 'GET',
   })
 );
 
+// 站点
 export const initSiteSer = () => (
   fetch(list.initSite, {
     method: 'GET',
   })
 );
 
+// 支付方式
 export const initPaymentSer = () => (
   fetch(list.initPayment, {
     method: 'GET',
   })
 );
 
+// 问题件类型
 export const initTroubleSer = () => (
   fetch(list.initTrouble, {
     method: 'GET',
@@ -91,6 +104,51 @@ export const initGoodsSer = () => (
     method: 'GET',
   })
 );
+
+// 商品操作查询
+export const operationGoodsSer = id => (
+  fetch(`${list.operationGoods}?order_goods_id=${id}`, {  // order_goods_id
+    method: 'GET',
+  })
+);
+
+// 订单备注-查看
+export const remarkSer = id => {
+//  const keys = ['order_id'];
+  return fetch(`${list.orderRemark}?order_id=${id}`, {
+    method: 'GET',
+  })
+};
+
+// 订单备注-更新
+export const remarkSaveSer = (orderId, remark) => (
+  fetch(list.orderSaveRemark, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under({
+      orderId , remark
+    })),
+  })
+);
+
+
+// 物流备注-查看
+export const logisticsRemarkSer = id => {
+  const keys = ['order_id'];
+  return fetch(`${list.logisticsRemark}?order_id=${id}`, {
+    method: 'GET',
+  })
+};
+
+// 物流备注-更新
+export const logisticsRemarkSaveSer = (orderId, remark) => (
+  fetch(list.logisticsRemarkSave, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under({
+      orderId , remark
+    })),
+  })
+);
+
 
 
 
