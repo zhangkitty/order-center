@@ -73,9 +73,21 @@ form .colSpace2{
     margin:0 auto;
     text-align: center;
 }
-.orderOperate > button {
+.orderOperate > button, .orderOperate > a  {
     width: 100px;
     margin: 6px;
+}
+.orderOperate > a  {
+    display: inline-block;
+    color: rgba(0,0,0,.65);
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    line-height: 26px;
+}
+.orderOperate > a:hover {
+    color: #108ee9;
+    border-color: #108ee9;
 }
 .orderTitleL {
     display: flex;
@@ -100,14 +112,16 @@ form .colSpace2{
     color: #fff;
     margin-right:30px;
 }
-.buttonBorder {
+.buttonBorderBg {
     display: flex;
     flex-direction: column;
     color:#49a9ee;
 }
-.buttonBorder > span {
-    cursor: pointer;
+.buttonBorder, .buttonBorderBg > span {
     margin: 5px;
+    cursor: pointer;
+    outline: 0;
+    text-align: center;
 }
 
 .tableFloat {
@@ -121,3 +135,4 @@ form .colSpace2{
     clear: both;
     visibility: hidden;
 }
+.haveRemark { color:#f00; border-color: #f00;}

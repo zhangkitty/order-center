@@ -7,81 +7,8 @@ import * as TYPES from './types';
 
 
 const defaultState = {
-  // dataSource: [
-  //   { order_id: '29464515',
-  //     billno: 'ECCPP',
-  //     goods_quantity: 20,
-  //     goods_quantity_with_change: 20,
-  //     email: 'wangke@dotfashion.cn',
-  //     buy_cnt: '12',
-  //     pay_time: '2017-08-23 19:20:12',
-  //     site_from: 'ec',
-  //     country_name: 'Germany',
-  //     order_type: 1,
-  //     remark_admin: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
-  //     payment_method: 'worldpay',
-  //     usd_price: '471.60',
-  //     currency_price: '471.60',
-  //     order_status: '1',
-  //     is_trouble: '3',
-  //     remark: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
-  //     order_goods: [
-  //       {
-  //         order_goods_id: '41252120',
-  //         order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
-  //         goods_sn: 'skirt150819505',
-  //         goods_attr: null,
-  //         goods_status: '11',
-  //         price: '22.39',
-  //         is_replace: '0',
-  //       }, {
-  //         order_goods_id: '41252121',
-  //         order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
-  //         goods_sn: 'skirt150819504',
-  //         goods_attr: null,
-  //         goods_status: '11',
-  //         price: '22.39',
-  //         is_replace: '0',
-  //       },
-  //     ],
-  //   }, { order_id: '29464516',
-  //     billno: 'ECCPP',
-  //     goods_quantity: 20,
-  //     goods_quantity_with_change: 20,
-  //     email: 'wangke@dotfashion.cn',
-  //     buy_cnt: '12',
-  //     pay_time: '2017-08-23 19:20:12',
-  //     site_from: 'ec',
-  //     country_name: 'Germany',
-  //     order_type: 1,
-  //     remark_admin: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
-  //     payment_method: 'worldpay',
-  //     usd_price: '471.60',
-  //     currency_price: '471.60',
-  //     order_status: '1',
-  //     is_trouble: '3',
-  //     remark: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
-  //     order_goods: [
-  //       {
-  //         order_goods_id: '41252122',
-  //         order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
-  //         goods_sn: 'skirt150819503',
-  //         goods_attr: null,
-  //         goods_status: '11',
-  //         price: '22.39',
-  //         is_replace: '0',
-  //       }, {
-  //         order_goods_id: '41252123',
-  //         order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
-  //         goods_sn: 'skirt150819502',
-  //         goods_attr: null,
-  //         goods_status: '11',
-  //         price: '22.39',
-  //         is_replace: '0',
-  //       },
-  //     ],
-  //   },
-  // ],
+  batchChooseOrder: [],
+  batchChooseGoods: [],
   dataSource: [],
   fetchCountry: [],    // 国家
   fetchSite: [],  // 站点
@@ -154,6 +81,7 @@ const defaultState = {
     load: false,
     visible: false,
   },
+  markTag: {},
 };
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => v.order_id === orderId);
@@ -445,7 +373,30 @@ const reducer = (state = defaultState, action) => {
           visible: false,
         }),
       });
-
+    case TYPES.CANCEL_RISK_SUCCESS:
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.id ? assign({}, v, { cancelRiskDesc: action.data }) : v
+        )),
+      });
+    case TYPES.CANCEL_TROUBLE_TAG_SUCCESS:
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.id ? assign({}, v, { is_trouble: 0 }) : v
+        )),
+      });
+    case TYPES.MARK_TAG:
+      return assign({}, state, {
+        markTag: { order_id: action.oid, markTagVisible: true },
+      });
+    case TYPES.UPDATE_ORDER_TAG_SUCCESS:
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.data.order_id ?
+            assign({}, v, { is_trouble: action.data.is_trouble }) : v
+        )),
+        markTag: assign({}, state.markTag, { markTagVisible: false }),
+      });
     default:
       return state;
   }

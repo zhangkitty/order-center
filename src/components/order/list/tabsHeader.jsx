@@ -9,7 +9,8 @@ import moment from 'moment';
 import {
   search, searchHigh, commit, commit2,
   initCountry, initSite, initPayment, initTrouble,
-  initMember, initOrder, initCancel, initGoods,
+  initMember, initOrder, initCancel, initGoods, change,
+  batchOperate,
 } from './action';
 
 import styles from './style.css';
@@ -29,6 +30,7 @@ const tabConfig = {
   defaultActiveKey: 'search',
   type: 'card',
 };
+
 class TabsHeader extends Component {
   constructor(props) {
     super(props);
@@ -54,8 +56,8 @@ class TabsHeader extends Component {
 
   render() {
     const {
-      dispatch, fetchCountry, fetchSite, fetchPayment, fetchTrouble,
-      queryString, searchLoad,
+      dispatch, fetchCountry, fetchSite, fetchPayment, fetchTrouble, dataSource, batchChooseOrder,
+      queryString, searchLoad, partDeliveryBase,
       queryString2, fetchMemberLevel, fetchOrderStatus, fetchCancelReason, fetchGoodsStatus,
     } = this.props;
     const {
@@ -82,7 +84,7 @@ class TabsHeader extends Component {
           <Tabs {...tabConfig}>
             <TabItem
               tab={__('order.name.search')}
-              key="search"
+              key="1"
             >
               <form
                 className={styles.filterBg}
@@ -286,7 +288,7 @@ class TabsHeader extends Component {
             </TabItem>
 
             {/* 高级搜索 */}
-            <TabItem tab={__('order.name.search2')} key="show">
+            <TabItem tab={__('order.name.search2')} key="2">
               <form
                 className={styles.filterBg}
                 onSubmit={(e) => {
@@ -510,6 +512,36 @@ class TabsHeader extends Component {
                 </Tooltip>
               </form>
             </TabItem>
+            <TabItem tab={__('order.name.search3')} key="3">
+              <Button
+                onClick={() => dispatch(change('batchChooseOrder', dataSource.map(v => v.order_id)))}
+              >全选</Button>
+              <Button
+                onClick={() => dispatch(change('batchChooseOrder', []))}
+              >取消</Button>
+              <Button
+                onClick={() => dispatch(batchOperate('/Order/partDelivery', {
+                  order_ids: batchChooseOrder.map(v => Number(v)),
+                  inventory_type: Number(partDeliveryBase),
+                }))}
+              >批量部分发 XX</Button>
+              <Select
+                style={{ width: '150px' }}
+                onChange={
+                  v => dispatch(change('partDeliveryBase', v))
+                }
+                placeholder="请选择仓库..."
+              >
+                <Option key="1">广州</Option>
+                <Option key="0">西部</Option>
+              </Select>
+              <Button
+                onClick={() => dispatch(batchOperate('/Order/orderDelete', { order_ids: batchChooseOrder.join(',') }))}
+              >平台订单取消 XX</Button>
+              <Button
+                onClick={() => dispatch(batchOperate('/Order/orderBatchCheck', { order_ids: batchChooseOrder.join(',') }))}
+              >批量审核 XX</Button>
+            </TabItem>
           </Tabs>
         </Panel>
       </Collapse>
@@ -518,10 +550,13 @@ class TabsHeader extends Component {
 }
 TabsHeader.propTypes = {
   dispatch: PropTypes.func,
+  partDeliveryBase: PropTypes.string,
   searchLoad: PropTypes.bool,
   queryString: PropTypes.shape(),
   queryString2: PropTypes.shape(),   // 高级搜索
   fetchCountry: PropTypes.arrayOf(PropTypes.shape()),  // 国家
+  dataSource: PropTypes.arrayOf(PropTypes.shape()),  // 国家
+  batchChooseOrder: PropTypes.arrayOf(PropTypes.number),  // 国家
   fetchSite: PropTypes.arrayOf(PropTypes.shape()),   // 站点
   fetchPayment: PropTypes.arrayOf(PropTypes.shape()),     // 支付方式
   fetchTrouble: PropTypes.arrayOf(PropTypes.shape()),      // 问题件类型

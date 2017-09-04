@@ -11,6 +11,8 @@ import {
   operationGoodsSer,
   remarkSer, remarkSaveSer,
   logisticsRemarkSer, logisticsRemarkSaveSer,
+  batchOperateSer, getRisk, cancelTroubleTag,
+  updateOrderTagSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess,
@@ -21,6 +23,7 @@ import {
   operationGoodsFail, operationGoodsSuccess,
   remarkShowFail, remarkShowSuccess, remarkSaveFail, remarkSaveSuccess,
   logisticsRemarkFail, logisticsRemarkSuccess, logisticsRemarkSaveFail, logisticsRemarkSaveSuccess,
+  cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
 } from './action';
 
 import * as TYPES from './types';
@@ -49,6 +52,7 @@ function* searchSaga(action) {
 }
 
 function* searchHighSaga(action) {
+  console.log(action.data, 'search-high');
   const {
     goodsSn, count,
   } = action.data;
@@ -137,8 +141,6 @@ function* initGoodsSaga() {
 
 // 商品操作查询
 function* operationGoodsSaga(action) {
-  console.log(action, 'action');
-  console.log(action.id, 'action.id');
   const data = yield operationGoodsSer(action.id);
   if (!data || data.code !== 0) {
     message.error(`获取商品操作查询失败: ${data.msg}`);
@@ -189,7 +191,35 @@ function* logisticsRemarkSaveSaga(action) {
   message.success('添加物流备注成功');
   return yield put(logisticsRemarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
-
+// 批量操作
+function* batchOperateSaga(action) {
+  const data = yield batchOperateSer(action.url, action.data);
+  if (!data || data.code !== 0) {
+    return message.error(`操作失败: ${data.msg}`);
+  }
+  return message.success('操作成功');
+}
+function* cancelRiskSaga(action) {
+  const data = yield getRisk(action.id);
+  if (!data || data.code !== 0) {
+    return message.error(`操作失败: ${data.msg}`);
+  }
+  return yield put(cancelRiskSuccess(data.data, action.id));
+}
+function* cancelTroubleTagSaga(action) {
+  const data = yield cancelTroubleTag(action.troubleId, action.orderId);
+  if (!data || data.code !== 0) {
+    return message.error(`操作失败: ${data.msg}`);
+  }
+  return yield put(cancelTroubleTagSuccess(action.orderId));
+}
+function* updateOrderTagSaga(action) {
+  const data = yield updateOrderTagSer(action.data);
+  if (!data || data.code !== 0) {
+    return message.error(`操作失败: ${data.msg}`);
+  }
+  return yield put(updateOrderTagSuccess(action.data));
+}
 
 export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
@@ -207,4 +237,8 @@ export default function* () {
   yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
   yield takeEvery(TYPES.LOGISITICS_REMARK, logisticsRemarkSaga);
   yield takeEvery(TYPES.LOGISITICS_REMARK_SAVE, logisticsRemarkSaveSaga);
+  yield takeLatest(TYPES.BATCH_OPERATE, batchOperateSaga);
+  yield takeLatest(TYPES.CANCEL_RISK, cancelRiskSaga);
+  yield takeLatest(TYPES.CANCEL_TROUBLE_TAG, cancelTroubleTagSaga);
+  yield takeLatest(TYPES.UPDATE_ORDER_TAG, updateOrderTagSaga);
 }

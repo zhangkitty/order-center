@@ -1,6 +1,7 @@
 /**
  * Create by liufeng on 2017/6/28
  */
+import assign from 'object-assign';
 import fetch from '../../lib/fetch';
 import { camel2Under } from '../../lib/camal';
 import queryString from '../../lib/query-string';
@@ -24,6 +25,8 @@ const list = {
   sizeBySku: '/order/listAvailabeGoodsSizeBySku',  // sku查尺码
   chageGoods: '/order/exchageOrderGoods',  // 换货
   delGoods: '/order/delExchagedOrderGoods',  // 删除换货
+  getRisk: '/order/riskReason',  // 删除换货
+  cancelTroubleTag: '/order/tag',  // 订单标记 更新，取消
 
 };
 
@@ -193,3 +196,26 @@ export const goodsRefundSubmit = d => (
   })
 );
 
+export const batchOperateSer = (url, data) => (
+  fetch(url, {
+  method: 'POST',
+  body: JSON.stringify(data),
+  })
+);
+export const getRisk = (order_id) => (
+  fetch(`${list.getRisk}?order_id=${order_id}`, {
+    method: 'get',
+  })
+);
+export const cancelTroubleTag = (tid, oid) => (
+  fetch(list.cancelTroubleTag, {
+    method: 'POST',
+    body: JSON.stringify({ order_id: oid, is_trouble: Number(tid), type: 2 })
+  })
+);
+export const updateOrderTagSer = (data) => (
+  fetch(list.cancelTroubleTag, {
+    method: 'POST',
+    body: JSON.stringify(assign({}, data, { type: 1, markTagVisible: Symbol('no') }))
+  })
+);
