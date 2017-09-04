@@ -4,10 +4,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Collapse, Tabs, Select, Input, DatePicker, Button, Icon, message, Tooltip } from 'antd';
+import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Tooltip } from 'antd';
 import moment from 'moment';
 import {
-  search, commit, initCountry, initSite, initPayment, initTrouble,
+  search, searchHigh, commit, commit2,
+  initCountry, initSite, initPayment, initTrouble,
   initMember, initOrder, initCancel, initGoods,
 } from './action';
 
@@ -42,14 +43,14 @@ class TabsHeader extends Component {
     props.dispatch(initGoods());  // 商品状态 - 选中订单状态，显示 商品状态
   }
   // time control
-  disabledDate(current) {
-    const { paytimeStart } = this.props.queryString;
-    return (
-      (current && current.valueOf() < moment(paytimeStart).valueOf())
-      ||
-      (current.valueOf() > moment(paytimeStart).endOf('month').valueOf())
-    );
-  }
+  // disabledDate(current) {
+  //   const { paytimeStart } = this.props.queryString;
+  //   return (
+  //     (current && current.valueOf() < moment(paytimeStart).valueOf())
+  //     ||
+  //     (current.valueOf() > moment(paytimeStart).endOf('month').valueOf())
+  //   );
+  // }
 
   render() {
     const {
@@ -94,7 +95,6 @@ class TabsHeader extends Component {
                     queryString,
                     {
                       pageNumber: 1,
-                      searchType: 0,
                     })));
                 }}
               >
@@ -260,7 +260,7 @@ class TabsHeader extends Component {
                       <DatePicker
                         style={{ width: '150px' }}
                         allowClear={false}
-                        disabledDate={cur => this.disabledDate(cur)}
+                      //  disabledDate={cur => this.disabledDate(cur)}
                         showTime
                         format="YYYY-MM-DD HH:mm:SS"
                         value={moment(paytimeEnd, 'YYYY-MM-DD HH:mm:SS')}
@@ -293,17 +293,11 @@ class TabsHeader extends Component {
                   e.preventDefault();
                   if (!paytimeStart || !paytimeEnd) {
                     return message.warning('缺少时间');
-                  } else if (
-                    !moment(paytimeEnd).isAfter(paytimeStart)
-                    && !moment(paytimeEnd).isSame(paytimeStart)
-                  ) {
-                    return message.warning('结束时间必须大于开始时间');
                   }
-                  return dispatch(search(assign({},
+                  return dispatch(searchHigh(assign({},
                     queryString2,
                     {
                       pageNumber: 1,
-                      searchType: 0,
                     })));
                 }}
               >
@@ -319,17 +313,17 @@ class TabsHeader extends Component {
                         showTime
                         format="YYYY-MM-DD HH:mm:SS"
                         value={moment(paytimeStart, 'YYYY-MM-DD HH:mm:SS')}
-                        onChange={(value, str) => dispatch(commit('paytimeStart', str))}
+                        onChange={(value, str) => dispatch(commit2('paytimeStart', str))}
                       />
                       &nbsp; - &nbsp;
                       <DatePicker
                         style={{ width: '150px' }}
                         allowClear={false}
-                        disabledDate={cur => this.disabledDate(cur)}
+                     //   disabledDate={cur => this.disabledDate(cur)}
                         showTime
                         format="YYYY-MM-DD HH:mm:SS"
                         value={moment(paytimeEnd, 'YYYY-MM-DD HH:mm:SS')}
-                        onChange={(value, str) => dispatch(commit('paytimeEnd', str))}
+                        onChange={(value, str) => dispatch(commit2('paytimeEnd', str))}
                       />
                     </div>
                   </div>
@@ -340,7 +334,7 @@ class TabsHeader extends Component {
                       mode="tags"
                       style={{ width: '250px' }}
                       value={siteFrom}
-                      onChange={val => dispatch(commit('siteFrom', val))}
+                      onChange={val => dispatch(commit2('siteFrom', val))}
                     >
                       {
                         fetchSite.map(item => (
@@ -354,7 +348,7 @@ class TabsHeader extends Component {
                     <Select
                       className={styles.colSpace}
                       value={countryName}
-                      onChange={val => dispatch(commit('countryName', val))}
+                      onChange={val => dispatch(commit2('countryName', val))}
                     >
                       {
                         fetchCountry.map(item => (
@@ -368,7 +362,7 @@ class TabsHeader extends Component {
                     <Select
                       className={styles.colSpace}
                       value={paymentMethod}
-                      onChange={val => dispatch(commit('paymentMethod', val))}
+                      onChange={val => dispatch(commit2('paymentMethod', val))}
                     >
                       <Option key={null} > {__('order.name.choose')}</Option>
                       {
@@ -383,7 +377,7 @@ class TabsHeader extends Component {
                     <Select
                       className={styles.colSpace}
                       value={troubleType}
-                      onChange={val => dispatch(commit('troubleType', val))}
+                      onChange={val => dispatch(commit2('troubleType', val))}
                     >
                       <Option key={null} > {__('order.name.choose')}</Option>
                       {
@@ -398,7 +392,7 @@ class TabsHeader extends Component {
                     <Input
                       className={styles.colSpace}
                       value={goodsSn}
-                      onChange={e => dispatch(commit('goodsSn', e.target.value))}
+                      onChange={e => dispatch(commit2('goodsSn', e.target.value))}
                     />
                   </div>
                   <div className={styles.rowSpaceList}>
@@ -406,7 +400,7 @@ class TabsHeader extends Component {
                     <Input
                       className={styles.colSpace}
                       value={count}
-                      onChange={e => dispatch(commit('count', e.target.value))}
+                      onChange={e => dispatch(commit2('count', e.target.value))}
                     />
                   </div>
                   {/* 会员等级 */}
@@ -415,7 +409,7 @@ class TabsHeader extends Component {
                     <Select
                       className={styles.colSpace}
                       value={memberLevel}
-                      onChange={val => dispatch(commit('memberLevel', val))}
+                      onChange={val => dispatch(commit2('memberLevel', val))}
                     >
                       <Option key={null} > {__('order.name.choose')}</Option>
                       {
@@ -431,7 +425,7 @@ class TabsHeader extends Component {
                     <Select
                       className={styles.colSpace}
                       value={orderStatus}
-                      onChange={val => dispatch(commit('orderStatus', val))}
+                      onChange={val => dispatch(commit2('orderStatus', val))}
                     >
                       <Option key={null} > {__('order.name.choose')}</Option>
                       {
@@ -447,7 +441,7 @@ class TabsHeader extends Component {
                     <Select
                       className={styles.colSpace}
                       value={cancelReason}
-                      onChange={val => dispatch(commit('cancelReason', val))}
+                      onChange={val => dispatch(commit2('cancelReason', val))}
                     >
                       <Option key={null} > {__('order.name.choose')}</Option>
                       {
@@ -464,7 +458,7 @@ class TabsHeader extends Component {
                     <Select
                       className={styles.colSpace}
                       value={goodsStatus}
-                      onChange={val => dispatch(commit('goodsStatus', val))}
+                      onChange={val => dispatch(commit2('goodsStatus', val))}
                     >
                       <Option key={null} > {__('order.name.choose')}</Option>
                       {
@@ -486,7 +480,7 @@ class TabsHeader extends Component {
                         showTime
                         format="YYYY-MM-DD HH:mm:SS"
                         value={moment(handleTimeStart, 'YYYY-MM-DD HH:mm:SS')}
-                        onChange={(value, str) => dispatch(commit('handleTimeStart', str))}
+                        onChange={(value, str) => dispatch(commit2('handleTimeStart', str))}
                       />
                       &nbsp; - &nbsp;
                       <DatePicker
@@ -496,7 +490,7 @@ class TabsHeader extends Component {
                         showTime
                         format="YYYY-MM-DD HH:mm:SS"
                         value={moment(handleTimeEnd, 'YYYY-MM-DD HH:mm:SS')}
-                        onChange={(value, str) => dispatch(commit('handleTimeEnd', str))}
+                        onChange={(value, str) => dispatch(commit2('handleTimeEnd', str))}
                       />
                     </div>
                   </div>

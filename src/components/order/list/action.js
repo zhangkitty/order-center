@@ -18,6 +18,32 @@ export const commit = (key, val) => ({
   key,
   val,
 });
+export const commit2 = (key, val) => ({
+  type: TYPES.COMMIT_HIGH,
+  key,
+  val,
+});
+export const commit3 = (key, val) => ({
+  type: TYPES.COMMIT3,
+  key,
+  val,
+});
+
+// 弹窗
+export const openModal = orderId => ({
+  type: TYPES.OPEN_MODAL,
+  orderId,
+});
+
+// 弹窗-size
+export const openModalCgs = (goodsId, orderId, siteFrom) => (
+  {
+    type: TYPES.OPEN_MODAL_CGS,
+    goodsId,
+    orderId,
+    siteFrom,
+  }
+);
 
 export const search = data => ({
   type: TYPES.SEARCH,
@@ -31,16 +57,16 @@ export const searchFail = () => ({
   type: TYPES.SEARCH_FAIL,
 });
 
-export const searchHeight = data => ({
-  type: TYPES.SEARCH_HEIGHT,
+export const searchHigh = data => ({
+  type: TYPES.SEARCH_HIGH,
   data,
 });
-export const searchHeightSuccess = data => ({
+export const searchHighSuccess = data => ({
   data,
-  type: TYPES.SEARCH_HEIGHT_SUCCESS,
+  type: TYPES.SEARCH_HIGH_SUCCESS,
 });
-export const searchHeightFail = () => ({
-  type: TYPES.SEARCH_HEIGHT_FAIL,
+export const searchHighFail = () => ({
+  type: TYPES.SEARCH_HIGH_FAIL,
 });
 
 export const initCountry = () => ({
@@ -136,8 +162,9 @@ export const initGoodsFail = () => ({
 });
 
 // 商品操作查询
-export const operationGoods = () => ({
+export const operationGoods = id => ({
   type: TYPES.OPERATION_GOODS,
+  id,
 });
 export const operationGoodsSuccess = data => ({
   type: TYPES.OPERATION_GOODS_SUCCESS,
@@ -174,10 +201,71 @@ export const remarkSaveFail = () => ({
   type: TYPES.REMARK_SAVE_FAIL,
 });
 
-// 弹窗
-export const openModal = () => (
-  {
-    type: TYPES.OPEN_MODAL,
-  }
-);
+// 物流备注显示
+export const logisticsRemark = id => ({
+  type: TYPES.LOGISITICS_REMARK,
+  id,
+});
+export const logisticsRemarkSuccess = (id, data) => ({
+  type: TYPES.LOGISITICS_REMARK_SUCCESS,
+  id,
+  data,
+});
+export const logisticsRemarkFail = () => ({
+  type: TYPES.LOGISITICS_REMARK_FAIL,
+});
 
+// 物流备注更新
+export const logisticsRemarkSave = (orderId, remark) => ({
+  type: TYPES.LOGISITICS_REMARK_SAVE,
+  orderId,
+  remark,
+});
+export const logisticsRemarkSaveSuccess = data => ({
+  type: TYPES.LOGISITICS_REMARK_SAVE_SUCCESS,
+  data,
+});
+export const logisticsRemarkSaveFail = () => ({
+  type: TYPES.LOGISITICS_REMARK_SAVE_FAIL,
+});
+
+//  sku查size
+export const goodSize = (goodsId, orderId, siteFrom) => ({
+  type: TYPES.GOODS_SIZE,
+  goodsId,
+  orderId,
+  siteFrom,
+});
+export const goodSizeSuccess = data => ({
+  type: TYPES.GOODS_SIZE_SUCCESS,
+  data,
+});
+export const goodSizeFail = () => ({
+  type: TYPES.GOODS_SIZE_FAIL,
+});
+
+// 换货
+export const changeGoods = id => ({
+  type: TYPES.CHANGE_GOODS,
+  id,
+});
+export const changeGoodsSuccess = data => ({
+  type: TYPES.CHANGE_GOODS_SUCCESS,
+  data,
+});
+export const changeGoodsFail = () => ({
+  type: TYPES.CHANGE_GOODS_FAIL,
+});
+
+// 删除换货
+export const delChange = id => ({
+  type: TYPES.DEL_CHANGE,
+  id,
+});
+export const delChangeSuccess = data => ({
+  type: TYPES.DEL_CHANGE_SUCCESS,
+  data,
+});
+export const delChangeFail = () => ({
+  type: TYPES.DEL_CHANGE_FAIL,
+});

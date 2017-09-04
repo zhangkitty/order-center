@@ -26,5 +26,5 @@ module.exports = {
   order_operation7: '保存',
   order_operation8: '取消',
   order_operation9: '缺少备注',
-  order_operation10: 'xxx',
+  order_operation10: '缺少物流备注',
 };

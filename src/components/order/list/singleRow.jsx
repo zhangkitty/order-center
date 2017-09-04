@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Checkbox, Button, Input, Icon, Popover } from 'antd';
-import { Link, hashHistory } from 'react-router';
+import { Table, Checkbox, Button, Input, Icon, Popover, message } from 'antd';
 import assign from 'object-assign';
-import { change, commit, operationGoods, remarkShow, openModal } from './action';
+import {
+  change, commit, remarkShow, openModal,
+  logisticsRemark, logisticsRemarkSave, operationGoods,
+  openModalCgs,
+} from './action';
 
 import Styles from './style.css';
 
@@ -30,7 +33,9 @@ const columns = [{
 }];
 
 const SingleRow = ({
-  data, index, dispatch, fetchOperation, fetchRemark, fetchRemarkSave, clickVisible,
+  data, index, dispatch, fetchRemark,
+  record, fetchOperation, operationVisible,
+  logisticsVisible, remark, fetchLogisticsRemark, dataSource,
 }) => (
   <div className={Styles.orderList}>
     <div className={Styles.orderTitle}>
@@ -89,14 +94,39 @@ const SingleRow = ({
         }, {
           title: '退款单状态', // TODO 具体值没定，需判断
           dataIndex: 'refund_bill_status',
-          render: (d, res) => (<div> {d} 根据退款单的状态 <br /> 判断显示（未做）</div>),
+          render: (d, res) => (<div> {d} 根据退款单的状态(没有) <br />判断显示（未做）</div>),
         }, {
-          title: '操作', // TODO 操作查询，换货
-          render: record => (<div className={Styles.buttonBorder}>
-            <span onClick={() => dispatch(operationGoods(data.order_goods_id))} role="button" tabIndex={0}>{__('common.operation')}</span>
+          title: '操作', // TODO 换货-少站点
+          render: (rec) => {
+            return (
+              <div className={Styles.buttonBorder} key={rec.order_goods_id}>
+                {/* 操作查询 */}
+                <Popover
+                  placement="bottomRight"
+                  trigger="click"
+                  arrowPointAtCenter
+                  content={
+                    <div className={Styles.tableFloat}>
+                      <Table
+                        rowKey={fetchOperation.id}
+                        dataSource={fetchOperation}
+                        columns={columns} size="small"
+                        pagination={false}
+                        style={{ width: '350px', maxHeight: '300px', overflow: 'auto' }}
+                      />
+                    </div>
+                  }
+                >
+                  <Button onClick={() => dispatch(operationGoods(rec.order_goods_id))} >
+                    {__('common.operation')}
+                  </Button>
+                </Popover>
 
-            <span>{__('common.change_goods')}</span>
-          </div>),
+                {/* 换货 data.site_from */}
+                <Button onClick={() => dispatch(openModalCgs(rec.order_goods_id, data.order_id, 'shein'))}>{__('common.change_goods')}</Button>
+              </div>
+            );
+          },
         }]
         }
       />
@@ -120,12 +150,11 @@ const SingleRow = ({
 
         <Button>{__('common.order_operation3')}</Button>
 
+        {/*  备注 */}
         <Popover
           placement="bottomRight"
           trigger="click"
           arrowPointAtCenter
-          visible={clickVisible}
-          onVisibleChange={visible => dispatch(change('clickVisible', !visible))}
           content={
             <div className={Styles.tableFloat}>
               <Table
@@ -134,17 +163,10 @@ const SingleRow = ({
                 pagination={false}
                 style={{ width: window.innerWidth * 0.4, maxHeight: '400px', overflow: 'auto' }}
               />
-              <Button  // TODO 隐藏有问题
-                style={{ margin: '10px' }}
-                type="primary"
-                onClick={() => dispatch(change('clickVisible', false))}
-              >
-                {__('common.order_operation8')}
-              </Button>
               <Button
                 style={{ margin: '10px' }}
                 type="primary"
-                onClick={() => dispatch(openModal())}
+                onClick={() => dispatch(openModal(data.order_id))}
               >
                 {__('common.order_operation6')}
               </Button>
@@ -158,50 +180,39 @@ const SingleRow = ({
         </Popover>
 
         {/*  物流备注 */}
-        {/*
-
-         <Popover
-         placement="bottomRight"
-         trigger="click"
-         arrowPointAtCenter
-         visible={clickVisible}
-         onVisibleChange={visible => dispatch(change('clickVisible', !visible))}
-         content={
-         <div className={Styles.tableFloat}>
-         <Input.TextArea
-         style={{ margin: '10px auto' }}
-         rows={3}
-         value={remark}
-         onChange={e => dispatch(change('remark', e.target.value))}
-         />
-         <Button  // TODO 隐藏有问题
-         style={{ margin: '10px' }}
-         type="primary"
-         onClick={() => dispatch(change('clickVisible', false))}
-         >
-         {__('common.order_operation8')}
-         </Button>
-         <Button
-         style={{ margin: '10px' }}
-         type="primary"
-         onClick={() => {
-         if (remark.trim().length === 0) {
-         return message.warning(__('common.order_operation9'));
-         }
-         return dispatch(remarkSave( 5693173, remark));
-         }}
-         >
-         {__('common.order_operation7')}
-         </Button>
-         </div>
-         }
-         >
-         <Button onClick={() => dispatch(remarkShow(data.order_id))}>{__('common.order_operation5')}</Button>
-         </Popover>
-
-        */}
-        <Button onClick={() => dispatch(remarkShow(data.order_id))}>{__('common.order_operation5')}</Button>
-
+        <Popover
+          placement="bottomRight"
+          trigger="click"
+          arrowPointAtCenter
+          content={
+            <div className={Styles.tableFloat}>
+              <Input.TextArea
+                style={{ margin: '10px auto' }}
+                rows={3}
+                value={data.transhRemark}
+                onChange={e => dispatch(change('dataSource', [
+                  ...dataSource.slice(0, index),
+                  assign({}, data, { transhRemark: e.target.value }),
+                  ...dataSource.slice(index + 1),
+                ]))}
+              />
+              <Button
+                style={{ margin: '10px' }}
+                type="primary"
+                onClick={() => {
+                  if (data.transhRemark.trim().length === 0) {
+                    return message.warning(__('common.order_operation9'));
+                  }
+                  return dispatch(logisticsRemarkSave(data.order_id, data.transhRemark));
+                }}
+              >
+                {__('common.order_operation7')}
+              </Button>
+            </div>
+          }
+        >
+          <Button onClick={() => dispatch(logisticsRemark(data.order_id))}>{__('common.order_operation5')}</Button>
+        </Popover>
       </div>
     </div>
   </div>
@@ -211,9 +222,13 @@ SingleRow.propTypes = {
   data: PropTypes.shape(),
   index: PropTypes.number,
   dispatch: PropTypes.func,
+  record: PropTypes.number,
   fetchOperation: PropTypes.arrayOf(PropTypes.shape()),
+  dataSource: PropTypes.arrayOf(PropTypes.shape()),
+  operationVisible: PropTypes.bool,
   fetchRemark: PropTypes.arrayOf(PropTypes.shape()),
-  fetchRemarkSave: PropTypes.arrayOf(PropTypes.shape()),
-  clickVisible: PropTypes.bool,
+  fetchLogisticsRemark: PropTypes.shape(),
+  logisticsVisible: PropTypes.bool,
+  remark: PropTypes.string,
 };
 export default SingleRow;

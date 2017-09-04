@@ -7,9 +7,10 @@ import assign from 'object-assign';
 import { Button, Input, Modal, message } from 'antd';
 import { connect } from 'react-redux';
 import Pagination from '../../publicComponent/pagination';
-import { search, change, commit, init, remarkSave } from './action';
+import { search, change, commit, commit2, init, remarkSave } from './action';
 import TabsHeader from './tabsHeader';
 import SingleRow from './singleRow';
+import ChnageGoods from './changeGoods';
 
 import styles from './style.css';
 
@@ -21,7 +22,8 @@ class orderList extends Component {
   }
   render() {
     const {
-      dispatch, dataSource, total, queryString, visible, remark, loadUpdata,
+      dispatch, dataSource, total, queryString, queryString2, visible, remark,
+      loadUpdata, searchType, remarkModal, exchange,
     } = this.props;
     return (
       <div className={styles.content}>
@@ -36,6 +38,7 @@ class orderList extends Component {
               .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} {...this.props} />)
           }
         </div>
+        {/* 备注提交 */}
         <Modal
           visible={visible}
           onCancel={() => dispatch(change('visible', false))}
@@ -58,7 +61,7 @@ class orderList extends Component {
                 if (remark.trim().length === 0) {
                   return message.warning(__('common.order_operation9'));
                 }
-                return dispatch(remarkSave(5693173, remark));
+                return dispatch(remarkSave(remarkModal.order_id, remark));   // TODO 没有获取订单id
               }}
                  // dataSource.order_id
               style={{ marginRight: '20px' }}
@@ -70,21 +73,35 @@ class orderList extends Component {
             </Button>
           </div>
         </Modal>
+        {/* 换货 */}
+        <ChnageGoods {...this.props} />
         <Pagination
           total={total}
           current={queryString.pageNumber}
           onChange={
             (pageNumber, pageSize) => {
-              dispatch(commit('pageNumber', pageNumber));
-              dispatch(commit('pageSize', pageSize));
-              return dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
+              if (searchType) {
+                dispatch(commit('pageNumber', pageNumber));
+                dispatch(commit('pageSize', pageSize));
+                dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
+              } else {
+                dispatch(commit2('pageNumber', pageNumber));
+                dispatch(commit2('pageSize', pageSize));
+                dispatch(search(assign({}, queryString2, { pageNumber, pageSize })));
+              }
             }
           }
           onShowSizeChange={
             (pageNumber, pageSize) => {
-              dispatch(commit('pageNumber', pageNumber));
-              dispatch(commit('pageSize', pageSize));
-              return dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
+              if (searchType) {
+                dispatch(commit('pageNumber', pageNumber));
+                dispatch(commit('pageSize', pageSize));
+                dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
+              } else {
+                dispatch(commit2('pageNumber', pageNumber));
+                dispatch(commit2('pageSize', pageSize));
+                dispatch(search(assign({}, queryString2, { pageNumber, pageSize })));
+              }
             }
           }
         />
@@ -101,8 +118,12 @@ orderList.propTypes = {
   total: PropTypes.number,
   dataSource: PropTypes.arrayOf(PropTypes.shape()),
   queryString: PropTypes.shape(),
+  queryString2: PropTypes.shape(),
   location: PropTypes.shape(),
   remark: PropTypes.string,
+  searchType: PropTypes.number,
+  remarkModal: PropTypes.shape(),
+  exchange: PropTypes.shape(),
 };
 
 const mapStateToProps = state => state['order/list'];

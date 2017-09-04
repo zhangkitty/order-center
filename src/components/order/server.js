@@ -19,8 +19,12 @@ const list = {
   operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
   orderRemark: '/order/remark',  // 备注查询
   orderSaveRemark: '/order/saveRemark',  // 添加备注
-  logisticsRemark: '/order/remark',  // 物流备注查询
-  logisticsRemarkSave: '/order/saveRemark',  // 添加物流备注
+  logisticsRemark: '/order/logisticsRemark',  // 物流备注查询
+  logisticsRemarkSave: '/order/saveLogisticsRemark',  // 添加物流备注
+  sizeBySku: '/order/listAvailabeGoodsSizeBySku',  // sku查尺码
+  chageGoods: '/order/exchageOrderGoods',  // 换货
+  delGoods: '/order/delExchagedOrderGoods',  // 删除换货
+
 };
 
 const diffRefund = {
@@ -44,24 +48,28 @@ export const seachHighSubmit = (page) => {
   })
 };
 
+// 国家
 export const initCountrySer = () => (
   fetch(list.initCountry, {
     method: 'GET',
   })
 );
 
+// 站点
 export const initSiteSer = () => (
   fetch(list.initSite, {
     method: 'GET',
   })
 );
 
+// 支付方式
 export const initPaymentSer = () => (
   fetch(list.initPayment, {
     method: 'GET',
   })
 );
 
+// 问题件类型
 export const initTroubleSer = () => (
   fetch(list.initTrouble, {
     method: 'GET',
@@ -94,8 +102,8 @@ export const initGoodsSer = () => (
 );
 
 // 商品操作查询
-export const operationGoodsSer = () => (
-  fetch(list.operationGoods, {
+export const operationGoodsSer = id => (
+  fetch(`${list.operationGoods}?order_goods_id=${id}`, {  // order_goods_id
     method: 'GET',
   })
 );

@@ -10,15 +10,17 @@ import {
   initMemberSer, initOrderSer, initCancelSer, initGoodsSer,
   operationGoodsSer,
   remarkSer, remarkSaveSer,
+  logisticsRemarkSer, logisticsRemarkSaveSer,
 } from '../server';
 import {
-  searchSuccess, searchFail, searchHeightFail, searchHeightSuccess,
+  searchSuccess, searchFail, searchHighFail, searchHighSuccess,
   initCountrySuccess, initCountryFail, initSiteSuccess, initSiteFail,
   initPaymentFail, initPaymentSuccess, initTroubleFail, initTroubleSuccess,
   initMemberFail, initMemberSuccess, initOrderFail, initOrderSuccess,
   initCancelFail, initCancelSuccess, initGoodsFail, initGoodsSuccess,
   operationGoodsFail, operationGoodsSuccess,
   remarkShowFail, remarkShowSuccess, remarkSaveFail, remarkSaveSuccess,
+  logisticsRemarkFail, logisticsRemarkSuccess, logisticsRemarkSaveFail, logisticsRemarkSaveSuccess,
 } from './action';
 
 import * as TYPES from './types';
@@ -39,13 +41,13 @@ function* searchSaga(action) {
     totalInput: billno ? encodeURIComponent(totalInput.trim()) : null,
   }));
   if (data.error) {
-    message.error(`搜索失败: ${data.error}`);
+    message.error(`搜索失败: ${data.msg}`);
     return yield put(searchFail());
   }
   return yield put(searchSuccess(data));
 }
 
-function* searchHeightSaga(action) {
+function* searchHighSaga(action) {
   const {
     goodsSn, count,
   } = action.data;
@@ -54,16 +56,16 @@ function* searchHeightSaga(action) {
     count: count ? encodeURIComponent(count.trim()) : null,
   }));
   if (data.error) {
-    message.error(`高级搜索失败: ${data.error}`);
-    return yield put(searchHeightFail());
+    message.error(`高级搜索失败: ${data.msg}`);
+    return yield put(searchHighFail());
   }
-  return yield put(searchHeightSuccess(data));
+  return yield put(searchHighSuccess(data));
 }
 
 function* initCountrySaga() {
   const data = yield initCountrySer();
   if (!data || data.code !== 0) {
-    message.error(`获取国家列表失败: ${data.error}`);
+    message.error(`获取国家失败: ${data.msg}`);
     return yield put(initCountryFail());
   }
   return yield put(initCountrySuccess(data));
@@ -72,7 +74,7 @@ function* initCountrySaga() {
 function* initSiteSaga() {
   const data = yield initSiteSer();
   if (!data || data.code !== 0) {
-    message.error(`获取站点列表失败: ${data.error}`);
+    message.error(`获取站点失败: ${data.msg}`);
     return yield put(initSiteFail());
   }
   return yield put(initSiteSuccess(data));
@@ -81,7 +83,7 @@ function* initSiteSaga() {
 function* initPaymentSaga() {
   const data = yield initPaymentSer();
   if (!data || data.code !== 0) {
-    message.error(`获取支付方式失败: ${data.error}`);
+    message.error(`获取支付方式失败: ${data.msg}`);
     return yield put(initPaymentFail());
   }
   return yield put(initPaymentSuccess(data));
@@ -90,7 +92,7 @@ function* initPaymentSaga() {
 function* initTroubleSaga() {
   const data = yield initTroubleSer();
   if (!data || data.code !== 0) {
-    message.error(`获取问题件类型失败: ${data.error}`);
+    message.error(`获取问题件类型失败: ${data.msg}`);
     return yield put(initTroubleFail());
   }
   return yield put(initTroubleSuccess(data));
@@ -99,7 +101,7 @@ function* initTroubleSaga() {
 function* initMemberSaga() {
   const data = yield initMemberSer();
   if (!data || data.code !== 0) {
-    message.error(`获取问题件类型失败: ${data.error}`);
+    message.error(`获取会员等级失败: ${data.msg}`);
     return yield put(initMemberFail());
   }
   return yield put(initMemberSuccess(data));
@@ -108,7 +110,7 @@ function* initMemberSaga() {
 function* initOrderSaga() {
   const data = yield initOrderSer();
   if (!data || data.code !== 0) {
-    message.error(`获取问题件类型失败: ${data.error}`);
+    message.error(`获取订单状态失败: ${data.msg}`);
     return yield put(initOrderFail());
   }
   return yield put(initOrderSuccess(data));
@@ -117,7 +119,7 @@ function* initOrderSaga() {
 function* initCancelSaga() {
   const data = yield initCancelSer();
   if (!data || data.code !== 0) {
-    message.error(`获取取消类型失败: ${data.error}`);
+    message.error(`获取取消类型失败: ${data.msg}`);
     return yield put(initCancelFail());
   }
   return yield put(initCancelSuccess(data));
@@ -126,7 +128,7 @@ function* initCancelSaga() {
 function* initGoodsSaga() {
   const data = yield initGoodsSer();
   if (!data || data.code !== 0) {
-    message.error(`获取商品状态失败: ${data.error}`);
+    message.error(`获取商品状态失败: ${data.msg}`);
     return yield put(initGoodsFail());
   }
   return yield put(initGoodsSuccess(data));
@@ -134,9 +136,11 @@ function* initGoodsSaga() {
 
 // 商品操作查询
 function* operationGoodsSaga(action) {
-  const data = yield operationGoodsSer(assign({}, action.data));
+  console.log(action, 'action');
+  console.log(action.id, 'action.id');
+  const data = yield operationGoodsSer(action.id);
   if (!data || data.code !== 0) {
-    message.error(`获取商品操作查询失败: ${data.error}`);
+    message.error(`获取商品操作查询失败: ${data.msg}`);
     return yield put(operationGoodsFail());
   }
   return yield put(operationGoodsSuccess(data));
@@ -146,7 +150,7 @@ function* operationGoodsSaga(action) {
 function* remarkSaga(action) {
   const data = yield remarkSer(action.id);
   if (!data || data.code !== 0) {
-    message.error(`获取备注失败: ${data.error}`);
+    message.error(`获取备注失败: ${data.msg}`);
     return yield put(remarkShowFail());
   }
   return yield put(remarkShowSuccess(data));
@@ -156,16 +160,38 @@ function* remarkSaga(action) {
 function* remarkSaveSaga(action) {
   const data = yield remarkSaveSer(action.orderId, action.remark); // assign({}, action.orderId, action.remark)
   if (!data || data.code !== 0) {
-    message.error(`添加备注失败: ${data.error}`);
+    message.error(`添加备注失败: ${data.msg}`);
     return yield put(remarkSaveFail());
   }
   return yield put(remarkSaveSuccess());
 }
 
 
+// 物流备注查看
+function* logisticsRemarkSaga(action) {
+  const data = yield logisticsRemarkSer(action.id);
+  if (!data || data.code !== 0) {
+    message.error(`获取备注失败: ${data.msg}`);
+    return yield put(logisticsRemarkFail());
+  }
+  return yield put(logisticsRemarkSuccess(action.id, data.data));
+}
+
+// 物流备注更新
+function* logisticsRemarkSaveSaga(action) {
+  const data = yield logisticsRemarkSaveSer(action.orderId, action.remark);
+  if (!data || data.code !== 0) {
+    message.error(`添加备注失败: ${data.msg}`);
+    return yield put(logisticsRemarkSaveFail());
+  }
+  message.success('备注添加成功');
+  return yield put(logisticsRemarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
+}
+
+
 export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
-  yield takeLatest(TYPES.SEARCH_HEIGHT, searchHeightSaga);
+  yield takeLatest(TYPES.SEARCH_HIGH, searchHighSaga);
   yield takeEvery(TYPES.INIT_COUNTRY, initCountrySaga);
   yield takeEvery(TYPES.INIT_SITE, initSiteSaga);
   yield takeEvery(TYPES.INIT_PAYMENT, initPaymentSaga);
@@ -177,4 +203,6 @@ export default function* () {
   yield takeEvery(TYPES.OPERATION_GOODS, operationGoodsSaga);
   yield takeEvery(TYPES.REMARK, remarkSaga);
   yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
+  yield takeEvery(TYPES.LOGISITICS_REMARK, logisticsRemarkSaga);
+  yield takeEvery(TYPES.LOGISITICS_REMARK_SAVE, logisticsRemarkSaveSaga);
 }

@@ -7,82 +7,82 @@ import * as TYPES from './types';
 
 
 const defaultState = {
-  dataSource: [
-    { order_id: '29464515',
-      billno: 'ECCPP',
-      goods_quantity: 20,
-      goods_quantity_with_change: 20,
-      email: 'wangke@dotfashion.cn',
-      buy_cnt: '12',
-      pay_time: '2017-08-23 19:20:12',
-      site_from: 'ec',
-      country_name: 'Germany',
-      order_type: 1,
-      remark_admin: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
-      payment_method: 'worldpay',
-      usd_price: '471.60',
-      currency_price: '471.60',
-      order_status: '1',
-      is_trouble: '3',
-      remark: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
-      order_goods: [
-        {
-          order_goods_id: '41252120',
-          order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
-          goods_sn: 'skirt150819505',
-          goods_attr: null,
-          goods_status: '11',
-          price: '22.39',
-          is_replace: '0',
-        }, {
-          order_goods_id: '41252121',
-          order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
-          goods_sn: 'skirt150819504',
-          goods_attr: null,
-          goods_status: '11',
-          price: '22.39',
-          is_replace: '0',
-        },
-      ],
-    }, { order_id: '29464516',
-      billno: 'ECCPP',
-      goods_quantity: 20,
-      goods_quantity_with_change: 20,
-      email: 'wangke@dotfashion.cn',
-      buy_cnt: '12',
-      pay_time: '2017-08-23 19:20:12',
-      site_from: 'ec',
-      country_name: 'Germany',
-      order_type: 1,
-      remark_admin: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
-      payment_method: 'worldpay',
-      usd_price: '471.60',
-      currency_price: '471.60',
-      order_status: '1',
-      is_trouble: '3',
-      remark: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
-      order_goods: [
-        {
-          order_goods_id: '41252122',
-          order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
-          goods_sn: 'skirt150819503',
-          goods_attr: null,
-          goods_status: '11',
-          price: '22.39',
-          is_replace: '0',
-        }, {
-          order_goods_id: '41252123',
-          order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
-          goods_sn: 'skirt150819502',
-          goods_attr: null,
-          goods_status: '11',
-          price: '22.39',
-          is_replace: '0',
-        },
-      ],
-    },
-  ],
-  // dataSource: [],
+  // dataSource: [
+  //   { order_id: '29464515',
+  //     billno: 'ECCPP',
+  //     goods_quantity: 20,
+  //     goods_quantity_with_change: 20,
+  //     email: 'wangke@dotfashion.cn',
+  //     buy_cnt: '12',
+  //     pay_time: '2017-08-23 19:20:12',
+  //     site_from: 'ec',
+  //     country_name: 'Germany',
+  //     order_type: 1,
+  //     remark_admin: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
+  //     payment_method: 'worldpay',
+  //     usd_price: '471.60',
+  //     currency_price: '471.60',
+  //     order_status: '1',
+  //     is_trouble: '3',
+  //     remark: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
+  //     order_goods: [
+  //       {
+  //         order_goods_id: '41252120',
+  //         order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
+  //         goods_sn: 'skirt150819505',
+  //         goods_attr: null,
+  //         goods_status: '11',
+  //         price: '22.39',
+  //         is_replace: '0',
+  //       }, {
+  //         order_goods_id: '41252121',
+  //         order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
+  //         goods_sn: 'skirt150819504',
+  //         goods_attr: null,
+  //         goods_status: '11',
+  //         price: '22.39',
+  //         is_replace: '0',
+  //       },
+  //     ],
+  //   }, { order_id: '29464516',
+  //     billno: 'ECCPP',
+  //     goods_quantity: 20,
+  //     goods_quantity_with_change: 20,
+  //     email: 'wangke@dotfashion.cn',
+  //     buy_cnt: '12',
+  //     pay_time: '2017-08-23 19:20:12',
+  //     site_from: 'ec',
+  //     country_name: 'Germany',
+  //     order_type: 1,
+  //     remark_admin: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
+  //     payment_method: 'worldpay',
+  //     usd_price: '471.60',
+  //     currency_price: '471.60',
+  //     order_status: '1',
+  //     is_trouble: '3',
+  //     remark: ';Risk Verification, Do Not Ship (大金额待确认，不可发)',
+  //     order_goods: [
+  //       {
+  //         order_goods_id: '41252122',
+  //         order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
+  //         goods_sn: 'skirt150819503',
+  //         goods_attr: null,
+  //         goods_status: '11',
+  //         price: '22.39',
+  //         is_replace: '0',
+  //       }, {
+  //         order_goods_id: '41252123',
+  //         order_goods_img: 'images/emmacloth.com/201508/1440729950889455716.jpg',
+  //         goods_sn: 'skirt150819502',
+  //         goods_attr: null,
+  //         goods_status: '11',
+  //         price: '22.39',
+  //         is_replace: '0',
+  //       },
+  //     ],
+  //   },
+  // ],
+  dataSource: [],
   fetchCountry: [],    // 国家
   fetchSite: [],  // 站点
   fetchPayment: [],    // 支付方式
@@ -92,6 +92,8 @@ const defaultState = {
   fetchCancelReason: [],  // 取消类型
   fetchGoodsStatus: [],  // 商品状态
   fetchOperation: [],  // 操作状态
+  fetchRemark: [], // 备注
+  fetchLogisticsRemark: {}, // 物流备注
   queryString: {
     pageSize: 10,
     pageNumber: 1,
@@ -111,8 +113,9 @@ const defaultState = {
     remarkUser: null,   // 标记人
     totalSelect: null,   // 美金金额比较符
     totalInput: null,   // 美金金额
-    searchType: 0,   // 搜索类型
+ //   searchType: 0,   // 搜索类型
   },
+  searchType: 0,
   queryString2: {
     pageSize: 10,
     pageNumber: 1,
@@ -130,13 +133,37 @@ const defaultState = {
     goodsStatus: null,  // 商品状态  -选中订单状态，显示 商品状态
     handleTimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:SS'),   // 商品状态更新时间
     handleTimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),          // 商品状态更新时间
-    searchType: 1,  // 搜索类型
+  //  searchType: 1,  // 搜索类型
   },
+  operationVisible: false,  // 操作查询
   clickVisible: false,
   visible: false,   // add
+  logisticsVisible: false,  // 物流备注
   load: false,
   loadUpdata: false,
   total: 0,
+  remarkModal: {
+    order_goods_id: '',
+    remark: '',
+  },
+  exchange: {
+    goods_sn: '',
+    site_from: '',
+    order_goods_id: '',
+    order_id: '',
+    load: false,
+    visible: false,
+  },
+};
+const cgsReducer = (dataSource, orderId, result) => {
+  const index = dataSource.findIndex(v => v.order_id === orderId);
+  return [
+    ...dataSource.slice(0, index),
+    assign({}, dataSource[index], {
+      order_goods: [...dataSource[index].order_goods, result],
+    }),
+    ...dataSource.slice(index + 1),
+  ];
 };
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -148,20 +175,36 @@ const reducer = (state = defaultState, action) => {
           [action.key]: action.val,
         }),
       });
+    case TYPES.COMMIT_HIGH:
+      return assign({}, state, {
+        queryString2: assign({}, state.queryString2, {
+          [action.key]: action.val,
+        }),
+      });
+    case TYPES.COMMIT3:
+      return assign({}, state, {
+        exchange: assign({}, state.exchange, {
+          [action.key]: action.val,
+        }),
+      });
     case TYPES.CHANGE:
       return assign({}, state, {
         [action.key]: action.val,
       });
-    case TYPES.OPEN_MODAL:
+    case TYPES.OPEN_MODAL:  // add remark
       return assign({}, state, {
-        clickVisible: false,
+       // clickVisible: false,
         visible: true,
-      //  loadUpdata: false,
+        remarkModal: {
+          order_id: action.orderId,
+          remark: '',
+        },
       });
     case TYPES.SEARCH:
       return assign({}, state, {
         queryString: action.data,
         load: true,
+        searchHigh: 0,
       });
     case TYPES.SEARCH_FAIL:
       return assign({}, state, {
@@ -171,7 +214,24 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
         dataSource: action.data.data,
-        total: action.data.total,   // TODO
+        total: action.data.total,
+        load: false,
+      });
+    case TYPES.SEARCH_HIGH:
+      return assign({}, state, {
+        queryString2: action.data,
+        load: true,
+        searchHigh: 1,
+      });
+    case TYPES.SEARCH_HIGH_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.SEARCH_HIGH_SUCCESS:
+      return assign({}, state, {
+        // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
+        dataSource: action.data.data,
+        total: action.data.total,
         load: false,
       });
     case TYPES.INIT_COUNTRY:
@@ -281,15 +341,18 @@ const reducer = (state = defaultState, action) => {
     case TYPES.OPERATION_GOODS:
       return assign({}, state, {
         load: true,
+        operationVisible: false,
       });
     case TYPES.OPERATION_GOODS_FAIL:
       return assign({}, state, {
         load: false,
+        operationVisible: true,
       });
     case TYPES.OPERATION_GOODS_SUCCESS:
       return assign({}, state, {
         fetchOperation: action.data.data,
         load: false,
+        operationVisible: true,
       });
     case TYPES.REMARK:
       return assign({}, state, {
@@ -316,6 +379,73 @@ const reducer = (state = defaultState, action) => {
         visible: false,
         loadUpdata: false,
       });
+    case TYPES.LOGISITICS_REMARK:
+      return assign({}, state, {
+        load: true,
+      });
+    case TYPES.LOGISITICS_REMARK_FAIL:
+      return assign({}, state, {
+        load: false,
+        logisticsVisible: true,
+      });
+    case TYPES.LOGISITICS_REMARK_SUCCESS:
+      return assign({}, state, {
+        fetchLogisticsRemark: action.data,
+        logisticsVisible: true,
+        load: false,
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.id ?
+            assign({}, v, { transhRemark: action.data }) : v
+        )),
+      });
+    case TYPES.LOGISITICS_REMARK_SAVE:
+      return assign({}, state, {
+        loadUpdata: true,
+      });
+    case TYPES.LOGISITICS_REMARK_SAVE_FAIL:
+    case TYPES.LOGISITICS_REMARK_SAVE_SUCCESS:
+      return assign({}, state, {
+        logisticsVisible: false,
+        loadUpdata: false,
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.orderId ?
+            assign({}, v, { transhRemark: action.mark }) : v
+        )),
+      });
+    case TYPES.OPEN_MODAL_CGS:
+      return assign({}, state, {
+        exchange: {
+          goods_sn: '',
+          site_from: 'shein',
+          order_goods_id: action.goodsId,
+          order_id: action.orderId,
+          load: false,
+          visible: true,
+        },
+      });
+    case TYPES.CHANGE_GOODS:
+      return assign({}, state, {
+        exchange: {
+          goods_sn: '',
+          site_from: 'shein',
+          order_goods_id: action.goodsId,
+          order_id: action.orderId,
+          load: false,
+          visible: true,
+        },
+      });
+    case TYPES.CHANGE_GOODS_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.CHANGE_GOODS_SUCCESS:
+      return assign({}, state, {
+        dataSource: cgsReducer(state.dataSource, action.orderId, action.data),
+        exchange: assign({}, state.exchange, {
+          visible: false,
+        }),
+      });
+
     default:
       return state;
   }
