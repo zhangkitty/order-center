@@ -59,12 +59,23 @@ form .colSpace2{
     align-items: center;
     justify-content: center;
 }
-.orderTable { width:85%;}
-.orderOperate {
+.orderTable { width:75%;}
+.orderOperateBg {
     border-left:1px solid #e9e9e9;
-    width: 15%;
-    display: flex;
-    align-items: center;
+    width: 25%;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*flex-wrap: wrap;*/
+    /*justify-content: center;*/
+}
+.orderOperate {
+    width: 230px;
+    margin:0 auto;
+    text-align: center;
+}
+.orderOperate > button {
+    width: 100px;
+    margin: 6px;
 }
 .orderTitleL {
     display: flex;
@@ -88,4 +99,25 @@ form .colSpace2{
     border: none;
     color: #fff;
     margin-right:30px;
+}
+.buttonBorder {
+    display: flex;
+    flex-direction: column;
+    color:#49a9ee;
+}
+.buttonBorder > span {
+    cursor: pointer;
+    margin: 5px;
+}
+
+.tableFloat {
+    background-color: #fff;
+    border-radius: 5px;
+}
+.tableFloat:after{
+    content: "020";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
 }

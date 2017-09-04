@@ -4,17 +4,21 @@
 
 const prefix = 'order_';
 export const INIT = `${prefix}init`;
+export const OPEN_MODAL = `${prefix}open_modal`;
+export const OPEN_MODAL_CGS = `${prefix}open_modal_cgs`;
 
 export const SEARCH = `${prefix}search`;
 export const SEARCH_SUCCESS = `${prefix}search_success`;
 export const SEARCH_FAIL = `${prefix}search_fail`;
 
-export const SEARCH_HEIGHT = `${prefix}search_high`;
-export const SEARCH_HEIGHT_SUCCESS = `${prefix}search_high_success`;
-export const SEARCH_HEIGHT_FAIL = `${prefix}search_high_fail`;
+export const SEARCH_HIGH = `${prefix}search_high`;
+export const SEARCH_HIGH_SUCCESS = `${prefix}search_high_success`;
+export const SEARCH_HIGH_FAIL = `${prefix}search_high_fail`;
 
 export const CHANGE = `${prefix}change`;
 export const COMMIT = `${prefix}commit`;
+export const COMMIT_HIGH = `${prefix}commit2`;
+export const COMMIT3 = `${prefix}commit3`;
 
 export const INIT_COUNTRY = `${prefix}init_country`;
 export const INIT_COUNTRY_SUCCESS = `${prefix}init_country_success`;
@@ -53,3 +57,44 @@ export const INIT_CANCEL_FAIL = `${prefix}init_cancel_fail`;
 export const INIT_GOODS = `${prefix}init_goods`;
 export const INIT_GOODS_SUCCESS = `${prefix}init_goods_success`;
 export const INIT_GOODS_FAIL = `${prefix}init_goods_fail`;
+
+// 商品操作查询
+export const OPERATION_GOODS = `${prefix}operation_goods`;
+export const OPERATION_GOODS_SUCCESS = `${prefix}operation_goods_success`;
+export const OPERATION_GOODS_FAIL = `${prefix}operation_goods_fail`;
+
+// 备注显示
+export const REMARK = `${prefix}remark`;
+export const REMARK_SUCCESS = `${prefix}remark_success`;
+export const REMARK_FAIL = `${prefix}remark_fail`;
+
+// 备注更新
+export const REMARK_SAVE = `${prefix}remark_save`;
+export const REMARK_SAVE_SUCCESS = `${prefix}remark_save_success`;
+export const REMARK_SAVE_FAIL = `${prefix}remark_save_fail`;
+
+// 物流备注显示
+export const LOGISITICS_REMARK = `${prefix}logistics_remark`;
+export const LOGISITICS_REMARK_SUCCESS = `${prefix}logistics_remark_success`;
+export const LOGISITICS_REMARK_FAIL = `${prefix}logistics_remark_fail`;
+
+// 物流备注更新
+export const LOGISITICS_REMARK_SAVE = `${prefix}logistics_remark_save`;
+export const LOGISITICS_REMARK_SAVE_SUCCESS = `${prefix}logistics_remark_save_success`;
+export const LOGISITICS_REMARK_SAVE_FAIL = `${prefix}logistics_remark_save_fail`;
+
+
+// sku查size
+export const GOODS_SIZE = `${prefix}goods_size`;
+export const GOODS_SIZE_SUCCESS = `${prefix}goods_size_success`;
+export const GOODS_SIZE_FAIL = `${prefix}goods_size_fail`;
+
+// 换货
+export const CHANGE_GOODS = `${prefix}change_goods`;
+export const CHANGE_GOODS_SUCCESS = `${prefix}change_goods_success`;
+export const CHANGE_GOODS_FAIL = `${prefix}change_goods_fail`;
+
+// 删除换货
+export const DEL_CHANGE = `${prefix}del_change`;
+export const DEL_CHANGE_SUCCESS = `${prefix}del_change_success`;
+export const DEL_CHANGE_FAIL = `${prefix}del_change_fail`;

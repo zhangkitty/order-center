@@ -6,11 +6,13 @@ import style from './style.css';
 const infoStyle = {
   fontSize: '13px',
   margin: '5px 15px',
+  padding: '0 10px',
 };
 const infoStyle2 = {
   fontSize: '13px',
   margin: '5px 15px',
   color: 'red',
+  padding: '0 10px',
 };
 const priceTypes = (data, type = 'warning') => (
   <Alert
