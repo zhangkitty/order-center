@@ -11,7 +11,8 @@ import {
   operationGoodsSer,
   remarkSer, remarkSaveSer,
   logisticsRemarkSer, logisticsRemarkSaveSer,
-  batchOperateSer,
+  batchOperateSer, getRisk, cancelTroubleTag,
+  updateOrderTagSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess,
@@ -22,6 +23,7 @@ import {
   operationGoodsFail, operationGoodsSuccess,
   remarkShowFail, remarkShowSuccess, remarkSaveFail, remarkSaveSuccess,
   logisticsRemarkFail, logisticsRemarkSuccess, logisticsRemarkSaveFail, logisticsRemarkSaveSuccess,
+  cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
 } from './action';
 
 import * as TYPES from './types';
@@ -197,7 +199,27 @@ function* batchOperateSaga(action) {
   }
   return message.success('操作成功');
 }
-
+function* cancelRiskSaga(action) {
+  const data = yield getRisk(action.id);
+  if (!data || data.code !== 0) {
+    return message.error(`操作失败: ${data.msg}`);
+  }
+  return yield put(cancelRiskSuccess(data.data, action.id));
+}
+function* cancelTroubleTagSaga(action) {
+  const data = yield cancelTroubleTag(action.troubleId, action.orderId);
+  if (!data || data.code !== 0) {
+    return message.error(`操作失败: ${data.msg}`);
+  }
+  return yield put(cancelTroubleTagSuccess(action.orderId));
+}
+function* updateOrderTagSaga(action) {
+  const data = yield updateOrderTagSer(action.data);
+  if (!data || data.code !== 0) {
+    return message.error(`操作失败: ${data.msg}`);
+  }
+  return yield put(updateOrderTagSuccess(action.data));
+}
 
 export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
@@ -216,4 +238,7 @@ export default function* () {
   yield takeEvery(TYPES.LOGISITICS_REMARK, logisticsRemarkSaga);
   yield takeEvery(TYPES.LOGISITICS_REMARK_SAVE, logisticsRemarkSaveSaga);
   yield takeLatest(TYPES.BATCH_OPERATE, batchOperateSaga);
+  yield takeLatest(TYPES.CANCEL_RISK, cancelRiskSaga);
+  yield takeLatest(TYPES.CANCEL_TROUBLE_TAG, cancelTroubleTagSaga);
+  yield takeLatest(TYPES.UPDATE_ORDER_TAG, updateOrderTagSaga);
 }

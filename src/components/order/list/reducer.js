@@ -81,6 +81,7 @@ const defaultState = {
     load: false,
     visible: false,
   },
+  markTag: {},
 };
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => v.order_id === orderId);
@@ -372,7 +373,30 @@ const reducer = (state = defaultState, action) => {
           visible: false,
         }),
       });
-
+    case TYPES.CANCEL_RISK_SUCCESS:
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.id ? assign({}, v, { cancelRiskDesc: action.data }) : v
+        )),
+      });
+    case TYPES.CANCEL_TROUBLE_TAG_SUCCESS:
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.id ? assign({}, v, { is_trouble: 0 }) : v
+        )),
+      });
+    case TYPES.MARK_TAG:
+      return assign({}, state, {
+        markTag: { order_id: action.oid, markTagVisible: true },
+      });
+    case TYPES.UPDATE_ORDER_TAG_SUCCESS:
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.data.order_id ?
+            assign({}, v, { is_trouble: action.data.is_trouble }) : v
+        )),
+        markTag: assign({}, state.markTag, { markTagVisible: false }),
+      });
     default:
       return state;
   }
