@@ -29,4 +29,11 @@ module.exports = {
   order_operation8: '取消',
   order_operation9: '缺少备注',
   order_operation10: '缺少物流备注',
+  allChoose: '全选',
+  cancel: '取消',
+  guangzhou: '广州',
+  west: '西部',
+  platform: '平台订单取消',
+  review: '批量审核',
+  xxxx: '西部',
 };

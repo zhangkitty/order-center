@@ -3,6 +3,7 @@
  */
 import assign from 'object-assign';
 import fetch from '../../lib/fetch';
+import assign from 'object-assign';
 import { camel2Under } from '../../lib/camal';
 import queryString from '../../lib/query-string';
 
@@ -148,6 +149,20 @@ export const logisticsRemarkSaveSer = (orderId, remark) => (
     method: 'POST',
     body: JSON.stringify(camel2Under({
       orderId , remark
+    })),
+  })
+);
+
+
+
+// 产品尺码-查
+export const goodSizeSer = (data) => (
+  fetch(list.sizeBySku, {
+    method: 'POST',
+    body: JSON.stringify(assign({}, data, {
+      order_id: Symbol('noneed'),
+      load: Symbol('noneed'),
+      visible: Symbol('noneed'),
     })),
   })
 );

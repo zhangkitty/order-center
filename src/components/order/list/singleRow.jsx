@@ -75,7 +75,7 @@ const SingleRow = (props) => {
         </div>
         <div className={Styles.orderTitleR}>
           {
-            data.order_type === 1 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
+            data.order_type === 3 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
           }
           <span> {data.payment_method}</span>
           <span>{__('common.table')} {data.usd_price} </span>
@@ -156,8 +156,10 @@ const SingleRow = (props) => {
 
                     {/* 换货 */}
                     <span
-                      onClick={() =>
+                      onClick={() => {
+                        console.log(data.site_from, 'data.site_from')
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from))
+                      }
                       }
                       role="button" tabIndex={0}
                     >

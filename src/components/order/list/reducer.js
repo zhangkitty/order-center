@@ -9,6 +9,7 @@ import * as TYPES from './types';
 const defaultState = {
   batchChooseOrder: [],
   batchChooseGoods: [],
+  fetchgoodSize: [],
   dataSource: [],
   fetchCountry: [],    // 国家
   fetchSite: [],  // 站点
@@ -74,10 +75,11 @@ const defaultState = {
     remark: '',
   },
   exchange: {
-    goods_sn: '',
-    site_from: '',
-    order_goods_id: '',
-    order_id: '',
+    goods_sn: '',   // sku
+    site_from: '',    // 站点
+    order_goods_id: '',  // 订单商品id（被换）
+    order_id: '',      // 订单id
+    goods_attr_new: '',    // 新商品 size
     load: false,
     visible: false,
   },
@@ -343,19 +345,38 @@ const reducer = (state = defaultState, action) => {
     case TYPES.OPEN_MODAL_CGS:
       return assign({}, state, {
         exchange: {
-          goods_sn: '',
-          site_from: 'shein',
+          goods_sn: action.goods_sn,
+          site_from: action.siteFrom,
           order_goods_id: action.goodsId,
           order_id: action.orderId,
           load: false,
           visible: true,
         },
       });
+    case TYPES.GOODS_SIZE:
+      console.log(action, 'action-re');
+      return assign({}, state, {
+        exchange: {
+          goods_sn: action.data.goods_sn,
+          site_from: action.data.site_from,
+          order_goods_id: action.data.order_goods_id,
+          // order_id: action.data.order_id,
+          // load: false,
+          // visible: true,
+        },
+      });
+    case TYPES.GOODS_SIZE_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.GOODS_SIZE_SUCCESS:
+      return assign({}, state, {
+        fetchgoodSize: action.data.data,
+      });
     case TYPES.CHANGE_GOODS:
       return assign({}, state, {
         exchange: {
-          goods_sn: '',
-          site_from: 'shein',
+          site_from: action.siteFrom,
           order_goods_id: action.goodsId,
           order_id: action.orderId,
           load: false,

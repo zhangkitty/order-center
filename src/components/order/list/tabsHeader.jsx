@@ -515,10 +515,10 @@ class TabsHeader extends Component {
             <TabItem tab={__('order.name.search3')} key="3">
               <Button
                 onClick={() => dispatch(change('batchChooseOrder', dataSource.map(v => v.order_id)))}
-              >全选</Button>
+              >{__('common.allChoose')}</Button>
               <Button
                 onClick={() => dispatch(change('batchChooseOrder', []))}
-              >取消</Button>
+              >{__('common.cancel')}</Button>
               <Button
                 onClick={() => dispatch(batchOperate('/Order/partDelivery', {
                   order_ids: batchChooseOrder.map(v => Number(v)),
@@ -530,17 +530,17 @@ class TabsHeader extends Component {
                 onChange={
                   v => dispatch(change('partDeliveryBase', v))
                 }
-                placeholder="请选择仓库..."
+                placeholder={__('common.choose')}
               >
-                <Option key="1">广州</Option>
-                <Option key="0">西部</Option>
+                <Option key="1"> {__('common.guangzhou')}</Option>
+                <Option key="0">{__('common.west')}</Option>
               </Select>
               <Button
                 onClick={() => dispatch(batchOperate('/Order/orderDelete', { order_ids: batchChooseOrder.join(',') }))}
-              >平台订单取消 XX</Button>
+              > {__('common.platform')}</Button>
               <Button
                 onClick={() => dispatch(batchOperate('/Order/orderBatchCheck', { order_ids: batchChooseOrder.join(',') }))}
-              >批量审核 XX</Button>
+              > {__('common.review')}</Button>
             </TabItem>
           </Tabs>
         </Panel>
