@@ -75,7 +75,7 @@ const SingleRow = (props) => {
         </div>
         <div className={Styles.orderTitleR}>
           {
-            data.order_type === 1 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
+            data.order_type === 3 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
           }
           <span> {data.payment_method}</span>
           <span>{__('common.table')} {data.usd_price} </span>
