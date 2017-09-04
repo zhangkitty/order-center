@@ -11,6 +11,7 @@ import {
   operationGoodsSer,
   remarkSer, remarkSaveSer,
   logisticsRemarkSer, logisticsRemarkSaveSer,
+  goodSizeSer,
   batchOperateSer,
 } from '../server';
 import {
@@ -22,6 +23,7 @@ import {
   operationGoodsFail, operationGoodsSuccess,
   remarkShowFail, remarkShowSuccess, remarkSaveFail, remarkSaveSuccess,
   logisticsRemarkFail, logisticsRemarkSuccess, logisticsRemarkSaveFail, logisticsRemarkSaveSuccess,
+  goodSizeFail, goodSizeSuccess,
 } from './action';
 
 import * as TYPES from './types';
@@ -189,6 +191,18 @@ function* logisticsRemarkSaveSaga(action) {
   message.success('添加物流备注成功');
   return yield put(logisticsRemarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
+
+// 商品尺寸查看
+function* goodSizeSaga(action) {
+  console.log(action, 'action_size')
+  const data = yield goodSizeSer(action.goodsId, action.orderId, action.siteFrom);
+  if (!data || data.code !== 0) {
+    message.error(`获取备注失败: ${data.msg}`);
+    return yield put(goodSizeFail());
+  }
+  return yield put(goodSizeSuccess(action.id, data.data));
+}
+
 // 批量操作
 function* batchOperateSaga(action) {
   const data = yield batchOperateSer(action.url, action.data);
@@ -215,5 +229,6 @@ export default function* () {
   yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
   yield takeEvery(TYPES.LOGISITICS_REMARK, logisticsRemarkSaga);
   yield takeEvery(TYPES.LOGISITICS_REMARK_SAVE, logisticsRemarkSaveSaga);
+  yield takeEvery(TYPES.GOODS_SIZE, goodSizeSaga);
   yield takeLatest(TYPES.BATCH_OPERATE, batchOperateSaga);
 }

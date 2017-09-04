@@ -151,6 +151,18 @@ export const logisticsRemarkSaveSer = (orderId, remark) => (
 
 
 
+// 产品尺码-查
+export const goodSizeSer = (goodsId, orderId, siteFrom,) => (
+  fetch(list.sizeBySku, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under({
+      goodsId, orderId , siteFrom
+    })),
+  })
+);
+
+
+
 
 
 export const initReasonList = () =>{
