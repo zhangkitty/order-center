@@ -9,7 +9,7 @@ const RG = Radio.Group;
 const TextArea = Input.TextArea;
 const orderTagName = {
   0: '正常',
-  1: '是问题订单',
+  1: '问题订单',
   2: '作废订单',
   3: '风控订单',
   4: '特殊订单',
