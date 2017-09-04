@@ -11,6 +11,7 @@ import { search, change, commit, commit2, init, remarkSave } from './action';
 import TabsHeader from './tabsHeader';
 import SingleRow from './singleRow';
 import ChnageGoods from './changeGoods';
+import MarkTag from './markTag';
 
 import styles from './style.css';
 
@@ -75,6 +76,8 @@ class orderList extends Component {
         </Modal>
         {/* 换货 */}
         <ChnageGoods {...this.props} />
+        {/* 标签 */}
+        <MarkTag {...this.props} />
         <Pagination
           total={total}
           current={queryString.pageNumber}

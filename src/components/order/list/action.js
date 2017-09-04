@@ -273,3 +273,33 @@ export const batchOperate = (url, data) => ({
   url,
   data,
 });
+export const cancelRisk = id => ({
+  type: TYPES.CANCEL_RISK,
+  id,
+});
+export const cancelRiskSuccess = (data, id) => ({
+  type: TYPES.CANCEL_RISK_SUCCESS,
+  data,
+  id,
+});
+export const cancelTroubleTag = (troubleId, orderId) => ({
+  type: TYPES.CANCEL_TROUBLE_TAG,
+  troubleId,
+  orderId,
+});
+export const cancelTroubleTagSuccess = oid => ({
+  type: TYPES.CANCEL_TROUBLE_TAG_SUCCESS,
+  oid,
+});
+export const markTag = oid => ({
+  type: TYPES.MARK_TAG,
+  oid,
+});
+export const updateOrderTag = data => ({
+  type: TYPES.UPDATE_ORDER_TAG,
+  data,
+});
+export const updateOrderTagSuccess = data => ({
+  type: TYPES.UPDATE_ORDER_TAG_SUCCESS,
+  data,
+});

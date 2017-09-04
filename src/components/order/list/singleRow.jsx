@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Checkbox, Button, Input, Icon, Popover, message } from 'antd';
+import { Table, Checkbox, Button, Input, Icon, Popover, message, Popconfirm, Spin } from 'antd';
 import { Link, hashHistory } from 'react-router';
 import assign from 'object-assign';
 import {
   change, commit, remarkShow, openModal,
   logisticsRemark, logisticsRemarkSave, operationGoods,
-  openModalCgs,
+  openModalCgs, cancelRisk, cancelTroubleTag, markTag
 } from './action';
 
 import Styles from './style.css';
@@ -19,7 +19,12 @@ const replaceGoods = (source, d) => {
   };
   return obj[source];
 };
-
+const showRisk = (a, b) => {
+  if (Number(a) === 3) {
+    return b ? b.map(v => (<p>{v}</p>)) : <Spin />;
+  }
+  return null;
+};
 const columns = [{
   title: '操作人',
   dataIndex: 'user_name',
@@ -32,12 +37,20 @@ const columns = [{
   title: '备注',
   dataIndex: 'remark',
 }];
-
+// TODO: 加语言包
+const orderTagName = {
+  0: '正常',
+  1: '是问题订单',
+  2: '作废订单',
+  3: '风控订单',
+  4: '特殊订单',
+  5: '紧急订单',
+};
 const SingleRow = (props) => {
   const { data, index, dispatch, fetchRemark,
     record, fetchOperation, operationVisible,
     logisticsVisible, remark, fetchLogisticsRemark, dataSource,
-    batchChooseOrder, batchChooseGoods,
+    batchChooseOrder, batchChooseGoods, cancelRiskDesc,
   } = props;
   const batchGoods = batchChooseGoods.join(',');
   return (
@@ -164,8 +177,34 @@ const SingleRow = (props) => {
         <div className={Styles.orderOperate}>
           <p> {data.order_status_title} { data.order_status === 3 ? <Icon type="message" /> : <Icon type="message" style={{ color: 'rgb(255,35,0)' }} /> } </p>
           <Button>{__('common.order_operation')}</Button>
-          <Button>{__('common.order_operation1')}</Button>
-
+          {/*  订单标记 */}
+          {
+            data.is_trouble > 0 ?
+              <Popconfirm
+                title={
+                  <div>
+                    <p>是否取消标记</p>
+                    {
+                      showRisk(data.is_trouble, data.cancelRiskDesc)
+                    }
+                  </div>
+                }
+                onConfirm={() => {
+                  if (Number(data.is_trouble) > 0) {
+                    dispatch(cancelTroubleTag(data.is_trouble, data.order_id));
+                  }
+                }}
+              >
+                <Button
+                  onClick={() =>
+                    (Number(data.is_trouble) === 3 && dispatch(cancelRisk(data.order_id)))}
+                >{orderTagName[data.is_trouble]}</Button>
+              </Popconfirm>
+              :
+              <Button
+                onClick={() => dispatch(markTag(data.order_id))}
+              >{orderTagName[data.is_trouble]}</Button>
+          }
           {/*  退款/取消 */}
           {
             (data.payment_method === 'cod' && data.order_status === 5)
@@ -268,6 +307,7 @@ SingleRow.propTypes = {
   dispatch: PropTypes.func,
   record: PropTypes.number,
   fetchOperation: PropTypes.arrayOf(PropTypes.shape()),
+  cancelRiskDesc: PropTypes.arrayOf(PropTypes.string),
   batchChooseOrder: PropTypes.arrayOf(PropTypes.number),
   batchChooseGoods: PropTypes.arrayOf(PropTypes.string),
   dataSource: PropTypes.arrayOf(PropTypes.shape()),

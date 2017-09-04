@@ -101,3 +101,15 @@ export const DEL_CHANGE_FAIL = `${prefix}del_change_fail`;
 
 // 批量操作
 export const BATCH_OPERATE = `${prefix}batch_operate`;
+// 取消风控
+export const CANCEL_RISK = `${prefix}cancel_risk`;
+export const CANCEL_RISK_SUCCESS = `${prefix}cancel_risk_success`;
+
+// 取消问题订单标签
+export const CANCEL_TROUBLE_TAG = `${prefix}cancel_trouble_tag`;
+export const CANCEL_TROUBLE_TAG_SUCCESS = `${prefix}cancel_trouble_tag_success`;
+
+// 更新订单标签
+export const MARK_TAG = `${prefix}mark_tag`;
+export const UPDATE_ORDER_TAG = `${prefix}update_mark_tag`;
+export const UPDATE_ORDER_TAG_SUCCESS = `${prefix}update_mark_tag_success`;
