@@ -473,7 +473,7 @@ class TabsHeader extends Component {
 
                   <div className={styles.rowSpaceList} style={{ maxWidth: '510px' }}>
                     <span className={styles.filterName} style={{ maxWidth: '160px' }}>
-                      <span style={{ color: 'red' }}>*</span>{__('order.name.goods_time')}
+                      {__('order.name.goods_time')}
                     </span>
                     <div className={styles.colSpace2}>
                       <DatePicker
@@ -481,17 +481,16 @@ class TabsHeader extends Component {
                         allowClear={false}
                         showTime
                         format="YYYY-MM-DD HH:mm:SS"
-                        value={moment(handleTimeStart, 'YYYY-MM-DD HH:mm:SS')}
+                        value={handleTimeStart}
                         onChange={(value, str) => dispatch(commit2('handleTimeStart', str))}
                       />
                       &nbsp; - &nbsp;
                       <DatePicker
                         style={{ width: '150px' }}
                         allowClear={false}
-                        // disabledDate={cur => this.disabledDate(cur)}
                         showTime
                         format="YYYY-MM-DD HH:mm:SS"
-                        value={moment(handleTimeEnd, 'YYYY-MM-DD HH:mm:SS')}
+                        value={handleTimeEnd}
                         onChange={(value, str) => dispatch(commit2('handleTimeEnd', str))}
                       />
                     </div>

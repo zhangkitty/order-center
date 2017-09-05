@@ -11,7 +11,7 @@ module.exports = {
   search1: 'General Search',
   search2: 'Advanced Search',
   Qty: 'Qty :',
-  table: 'table :',
+  total: 'total :',
   order_number: 'Order No.',
   order_id: 'Order ID',
   diff_refund: 'Price Difference Refund',

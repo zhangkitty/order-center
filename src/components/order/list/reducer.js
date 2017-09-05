@@ -59,8 +59,8 @@ const defaultState = {
     orderStatus: null,  // 订单状态 - 订单状态=“已取消”，显示 取消类型
     cancelReason: null,  // 取消类型
     goodsStatus: null,  // 商品状态  -选中订单状态，显示 商品状态
-    handleTimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:SS'),   // 商品状态更新时间
-    handleTimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),          // 商品状态更新时间
+    handleTimeStart: null,   // 商品状态更新时间
+    handleTimeEnd: null,          // 商品状态更新时间
   //  searchType: 1,  // 搜索类型
   },
   operationVisible: false,  // 操作查询
@@ -108,6 +108,7 @@ const reducer = (state = defaultState, action) => {
         }),
       });
     case TYPES.COMMIT_HIGH:
+      console.log(action, 'COMMIT_HIGH');
       return assign({}, state, {
         queryString2: assign({}, state.queryString2, {
           [action.key]: action.val,
