@@ -23,7 +23,6 @@ const priceTypes = (data, type = 'warning') => (
 );
 
 const SumOfMoney = ({ dataSource: { data: { orderPriceInfo } } }) => {
-
   const {
     totalPrice: {
       priceUsd: { amount: totalPrice },

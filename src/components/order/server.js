@@ -3,7 +3,6 @@
  */
 import assign from 'object-assign';
 import fetch from '../../lib/fetch';
-import assign from 'object-assign';
 import { camel2Under } from '../../lib/camal';
 import queryString from '../../lib/query-string';
 

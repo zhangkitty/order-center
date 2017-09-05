@@ -16,4 +16,7 @@ export const COMMIT = `${prefix}commit`;
 export const COMMITSUCCESS = `${prefix}commitSuccess`;
 export const COMMITFAIL = `${prefix}commitFail`;
 
+export const SUBMIT = `${prefix}submit`;
+export const SUBMIT_CHANGE = `${prefix}submit_change`;
+export const ACTIVATION = `${prefix}activation`;
 export const CHANGE = `${prefix}change`;
