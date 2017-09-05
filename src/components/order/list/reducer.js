@@ -407,7 +407,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.CANCEL_TROUBLE_TAG_SUCCESS:
       return assign({}, state, {
         dataSource: state.dataSource.map(v => (
-          v.order_id === action.id ? assign({}, v, { is_trouble: 0 }) : v
+          v.order_id === action.oid ? assign({}, v, { is_trouble: 0 }) : v
         )),
       });
     case TYPES.MARK_TAG:

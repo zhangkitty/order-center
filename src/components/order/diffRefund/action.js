@@ -4,8 +4,9 @@
 import * as TYPES from './types';
 
 
-export const initPriceInfo = () => ({
+export const initPriceInfo = data => ({
   type: TYPES.INIT_PRICEINFO,
+  data,
 });
 export const initPriceInfoSuccess = data => ({
   type: TYPES.INIT_PRICEINFO_SUCCESS,
@@ -16,8 +17,9 @@ export const initPriceInfoFail = () => ({
 });
 
 
-export const initReasonList = () => ({
+export const initReasonList = data => ({
   type: TYPES.INIT_REASONLIST,
+  data,
 });
 export const initReasonListSuccess = data => ({
   type: TYPES.INIT_REASONLIST_SUCCESS,
@@ -27,8 +29,25 @@ export const initReasonListFail = () => ({
   type: TYPES.INIT_REASONLIST_FAIL,
 });
 
-export const commit = data => ({
-  type: TYPES.COMMIT,
+export const subchange = (key, value) => ({
+  type: TYPES.SUBMIT_CHANGE,
+  key,
+  value,
+});
+
+export const submitForward = data => ({
+  type: TYPES.SUBMIT,
   data,
+});
+
+export const activation =data=>({
+  type:TYPES.ACTIVATION,
+  data,
+})
+
+export const change = (key, val) => ({
+  type: TYPES.CHANGE,
+  key,
+  val,
 });
 

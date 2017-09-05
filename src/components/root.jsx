@@ -30,8 +30,8 @@ if (process.env.LOCALE === 'zh') {
   moment.locale('zh-cn');
 }
 
-const RootView = ({ history, store }) => {
-  store = store;
+const RootView = ({ history, store: storeRedux }) => {
+  store = storeRedux;
   return (
     <LocaleProvider locale={locale}>
       <Router history={ history }>

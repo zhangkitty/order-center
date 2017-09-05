@@ -58,6 +58,6 @@ export default (url, args = {}, header) => {
     }
 
 
-    return res.json();
+    return res.json().catch(e => console.log(e));
   });
 };
