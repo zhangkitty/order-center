@@ -6,16 +6,16 @@ import assign from 'object-assign';
 import {
   change, commit, remarkShow, openModal,
   logisticsRemark, logisticsRemarkSave, operationGoods,
-  openModalCgs, cancelRisk, cancelTroubleTag, markTag
+  openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange,
 } from './action';
 
 import Styles from './style.css';
 
 const replaceGoods = (source, d) => {
   const obj = {
-    0: '--',
-    1: '(被换)',
-    2: `(${d}换来的货)`,
+    0: '',
+    1: __('common.change1'),
+    2: `(${d}{__('common.change2')}`,
   };
   return obj[source];
 };
@@ -26,25 +26,33 @@ const showRisk = (a, b) => {
   return null;
 };
 const columns = [{
-  title: '操作人',
+  title: __('common.operationCheck'),
   dataIndex: 'user_name',
   width: '80px',
 }, {
-  title: '时间',
+  title: __('common.operationCheck1'),
   dataIndex: 'add_time',
   width: '150px',
 }, {
-  title: '备注',
+  title: __('common.operationCheck2'),
   dataIndex: 'remark',
 }];
-// TODO: 加语言包
+// 标记订单名
 const orderTagName = {
-  0: '正常',
-  1: '问题订单',
-  2: '作废订单',
-  3: '风控订单',
-  4: '特殊订单',
-  5: '紧急订单',
+  0: __('common.orderTrouble'),
+  1: __('common.orderTrouble1'),
+  2: __('common.orderTrouble2'),
+  3: __('common.orderTrouble3'),
+  4: __('common.orderTrouble4'),
+  5: __('common.orderTrouble5'),
+};
+// 商品对应的退款单状态名称
+const refundBillStatus = {
+  0: __('common.refundBillStatus'),
+  1: __('common.refundBillStatus1'),
+  2: __('common.refundBillStatus2'),
+  3: __('common.refundBillStatus3'),
+  4: __('common.refundBillStatus4'),
 };
 const SingleRow = (props) => {
   const { data, index, dispatch, fetchRemark,
@@ -93,83 +101,92 @@ const SingleRow = (props) => {
           pagination={false}
           showHeader={false}
           dataSource={data.order_goods}
-          columns={
-            [{
-              title: '订单商品编号',
-              dataIndex: 'order_goods_sort',
-              render: d => (d || '--'),
-            }, {
-              title: '商品图片',
-              dataIndex: 'order_goods_img',
-              render: d => (<img src={d} width="50px" height="50px" alt="goods images" />),
-            }, {
-              title: '商品属性',
-              dataIndex: 'goods_sn',
-              render: (d, res) => (
-                <div>
-                  <a href={res.order_detail_url} target="_blank"> {d}</a>
-                  <span style={{ color: '#108ee9' }}>
-                    {
-                      replaceGoods(res.is_replace, res.replace_goods_sort)
+          columns={[{
+            title: '订单商品编号',
+            dataIndex: 'order_goods_sort',
+            render: d => (d || '--'),
+          }, {
+            title: '商品图片',
+            dataIndex: 'order_goods_img',
+            render: d => (<img src={d} width="50px" height="50px" alt="goods images" />),
+          }, {
+            title: '商品属性',
+            dataIndex: 'goods_sn',
+            render: (d, res) => (
+              <div>
+                <a href={res.order_detail_url} target="_blank"> {d}</a>
+                <span style={{ color: '#108ee9' }}>
+                  {
+                    replaceGoods(res.is_replace, res.replace_goods_sort)
+                  }
+                </span>
+                <p> {res.goods_attr ? res.goods_attr : <span>--</span>}</p>
+              </div>
+            ),
+          }, {
+            title: '价格',
+            dataIndex: 'price',
+            render: (d, res) => (<div> ${d} <p style={{ color: '#f00' }}>(${res.coupon_price})</p></div>),
+          }, {
+            title: '退款单状态', // TODO 退款单id没定
+            dataIndex: 'refund_bill_status',
+            render: (d, res) => (
+              Number(res.goods_status) === 75 && Number(data.order_id) !== 14 ?
+                __('common.customerCancel')
+                : refundBillStatus[d]
+            ),
+          }, {
+            title: '操作',
+            render: (rec) => {
+              return (
+                <div className={Styles.buttonBorderBg} key={rec.order_goods_id}>
+                  {/* 操作查询 */}
+                  <Popover
+                    placement="bottomRight"
+                    trigger="click"
+                    arrowPointAtCenter
+                    content={
+                      <div className={Styles.tableFloat}>
+                        <Table
+                          rowKey={fetchOperation.id}
+                          dataSource={fetchOperation}
+                          columns={columns} size="small"
+                          pagination={false}
+                          style={{ width: '350px', maxHeight: '300px', overflow: 'auto' }}
+                        />
+                      </div>
                     }
-                  </span>
-                  <p> {res.goods_attr ? res.goods_attr : <span>--</span>}</p>
-                </div>
-              ),
-            }, {
-              title: '价格',
-              dataIndex: 'price',
-              render: (d, res) => (<div> ${d} <p style={{ color: '#f00' }}>(${res.coupon_price})</p></div>),
-            }, {
-              title: '退款单状态', // TODO 具体值没定，需判断
-              dataIndex: 'refund_bill_status',
-              render: (d, res) => (<div> {d} 根据退款单的状态(没有) <br />判断显示（未做）</div>),
-            }, {
-              title: '操作', // TODO 换货-少站点
-              render: (rec) => {
-                return (
-                  <div className={Styles.buttonBorderBg} key={rec.order_goods_id}>
-                    {/* 操作查询 */}
-                    <Popover
-                      placement="bottomRight"
-                      trigger="click"
-                      arrowPointAtCenter
-                      content={
-                        <div className={Styles.tableFloat}>
-                          <Table
-                            rowKey={fetchOperation.id}
-                            dataSource={fetchOperation}
-                            columns={columns} size="small"
-                            pagination={false}
-                            style={{ width: '350px', maxHeight: '300px', overflow: 'auto' }}
-                          />
-                        </div>
-                      }
-                    >
-                      <span
-                        onClick={() => dispatch(operationGoods(rec.order_goods_id))}
-                        role="button" tabIndex={0}
-                      >
-                        {__('common.operation')}
-                      </span>
-                    </Popover>
-
-                    {/* 换货 */}
+                  >
                     <span
-                      onClick={() => {
-                        console.log(data.site_from, 'data.site_from')
-                        dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from))
-                      }
-                      }
+                      onClick={() => dispatch(operationGoods(rec.order_goods_id))}
                       role="button" tabIndex={0}
                     >
-                      {__('common.change_goods')}
+                      {__('common.operation')}
                     </span>
-                  </div>
-                );
-              },
-            }]
-          }
+                  </Popover>
+
+                  {/* 换货 */}
+                  <span
+                    onClick={() => {
+                      dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
+                    }
+                    }
+                    role="button" tabIndex={0}
+                  >
+                    {__('common.change_goods')}
+                  </span>
+
+                  {/*  删除换货 // TODO 返回值少order_goods_id字段 */}
+                  { rec.order_goods_id === 2 ? null : null }
+                  <Popconfirm
+                    onConfirm={() => dispatch(delChange(data.order_id, rec.goods_id))}
+                  >
+                    <span>{__('common.del_goods')}</span>
+                  </Popconfirm>
+                </div>
+              );
+            },
+          }]}
         />
       </div>
       <div className={Styles.orderOperateBg}>
@@ -179,11 +196,11 @@ const SingleRow = (props) => {
           <Button>{__('common.order_operation')}</Button>
           {/*  订单标记 */}
           {
-            data.is_trouble > 0 ?
+            Number(data.is_trouble) > 0 ?
               <Popconfirm
                 title={
                   <div>
-                    <p>是否取消标记</p>
+                    <p>{__('common.TroubleCancel')}</p>
                     {
                       showRisk(data.is_trouble, data.cancelRiskDesc)
                     }
@@ -191,17 +208,19 @@ const SingleRow = (props) => {
                 }
                 onConfirm={() => {
                   if (Number(data.is_trouble) > 0) {
-                    dispatch(cancelTroubleTag(data.is_trouble, data.order_id));
+                    dispatch(cancelTroubleTag(0, data.order_id)); // data.is_trouble
                   }
                 }}
               >
                 <Button
+                  className={Styles.haveRemark}
                   onClick={() =>
                     (Number(data.is_trouble) === 3 && dispatch(cancelRisk(data.order_id)))}
                 >{orderTagName[data.is_trouble]}</Button>
               </Popconfirm>
               :
               <Button
+                className={Styles.haveRemark}
                 onClick={() => dispatch(markTag(data.order_id))}
               >{orderTagName[data.is_trouble]}</Button>
           }

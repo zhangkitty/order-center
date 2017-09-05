@@ -79,13 +79,15 @@ const defaultState = {
     site_from: '',    // 站点
     order_goods_id: '',  // 订单商品id（被换）
     order_id: '',      // 订单id
-    goods_attr_new: '',    // 新商品 size
+  //  goods_attr_new: '',    // 新商品 size
+    goods_size: '', // 新商品 size
     load: false,
     visible: false,
   },
   markTag: {},
 };
 const cgsReducer = (dataSource, orderId, result) => {
+//  console.log(dataSource.find(v => v.order_id === orderId), 'xxxxxx');
   const index = dataSource.findIndex(v => v.order_id === orderId);
   return [
     ...dataSource.slice(0, index),
@@ -354,15 +356,14 @@ const reducer = (state = defaultState, action) => {
         },
       });
     case TYPES.GOODS_SIZE:
-      console.log(action, 'action-re');
       return assign({}, state, {
         exchange: {
           goods_sn: action.data.goods_sn,
           site_from: action.data.site_from,
           order_goods_id: action.data.order_goods_id,
-          // order_id: action.data.order_id,
-          // load: false,
-          // visible: true,
+          order_id: action.data.order_id,
+          load: false,
+          visible: true,
         },
       });
     case TYPES.GOODS_SIZE_FAIL:
@@ -371,15 +372,17 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.GOODS_SIZE_SUCCESS:
       return assign({}, state, {
-        fetchgoodSize: action.data.data,
+        fetchgoodSize: action.data.data.goods_size,
       });
     case TYPES.CHANGE_GOODS:
       return assign({}, state, {
         exchange: {
-          site_from: action.siteFrom,
-          order_goods_id: action.goodsId,
-          order_id: action.orderId,
-          load: false,
+          goods_sn: action.data.goods_sn,
+          site_from: action.data.site_from,
+          order_goods_id: action.data.order_goods_id,
+          order_id: action.data.order_id,
+          goods_size: action.data.goods_size,
+          load: true,
           visible: true,
         },
       });
@@ -389,8 +392,9 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.CHANGE_GOODS_SUCCESS:
       return assign({}, state, {
-        dataSource: cgsReducer(state.dataSource, action.orderId, action.data),
+        dataSource: cgsReducer(state.dataSource, action.orderId, action.data.data),
         exchange: assign({}, state.exchange, {
+          load: false,
           visible: false,
         }),
       });
@@ -417,6 +421,20 @@ const reducer = (state = defaultState, action) => {
             assign({}, v, { is_trouble: action.data.is_trouble }) : v
         )),
         markTag: assign({}, state.markTag, { markTagVisible: false }),
+      });
+    case TYPES.DEL_CHANGE:
+      return assign({}, state, {});
+    case TYPES.DEL_CHANGE_FAIL:
+      return assign({}, state, {});
+    case TYPES.DEL_CHANGE_SUCCESS:
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.oid ?
+            assign({}, v, {
+              order_goods: v.order_goods.filter(d => d.goods_id !== action.gid), // order_goods_id
+            })
+            : v
+        )),
       });
     default:
       return state;

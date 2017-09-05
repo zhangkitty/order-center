@@ -20,7 +20,7 @@
     max-width: 450px;
     margin: 5px 0;
 }
-form .colSpace{
+form .colSpace, .colSpace{
     width:150px;
     display: inline-block;
 }
@@ -136,3 +136,19 @@ form .colSpace2{
     visibility: hidden;
 }
 .haveRemark { color:#f00; border-color: #f00;}
+
+
+/* trouble order */
+.troubleBg {
+    padding:20px 20px 0;
+}
+.troubleBg > span {
+    vertical-align: top;
+    width: 100px;
+    display: inline-block;
+}
+.troubleContent {
+    width: 300px;
+    display: inline-block;
+    margin-bottom: 15px;
+}

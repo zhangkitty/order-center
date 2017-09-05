@@ -11,9 +11,9 @@ import {
   operationGoodsSer,
   remarkSer, remarkSaveSer,
   logisticsRemarkSer, logisticsRemarkSaveSer,
-  goodSizeSer,
+  goodSizeSer, changeGoodsSer,
   batchOperateSer, getRisk, cancelTroubleTag,
-  updateOrderTagSer,
+  updateOrderTagSer, delChangeSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess,
@@ -24,14 +24,15 @@ import {
   operationGoodsFail, operationGoodsSuccess,
   remarkShowFail, remarkShowSuccess, remarkSaveFail, remarkSaveSuccess,
   logisticsRemarkFail, logisticsRemarkSuccess, logisticsRemarkSaveFail, logisticsRemarkSaveSuccess,
-  goodSizeFail, goodSizeSuccess,
+  goodSizeFail, goodSizeSuccess, changeGoodsFail, changeGoodsSuccess,
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
+  delChangeFail, delChangeSuccess,
 } from './action';
 
 import * as TYPES from './types';
 
 function* searchSaga(action) {
-  console.log(action.data, 'search');
+ // console.log(action.data, 'search');
   const {
     billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, remarkUser, totalInput,
   } = action.data;
@@ -47,7 +48,7 @@ function* searchSaga(action) {
     totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
   }));
   if (data.error) {
-    message.error(`搜索失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle')}${data.msg}`);
     return yield put(searchFail());
   }
   return yield put(searchSuccess(data));
@@ -63,7 +64,7 @@ function* searchHighSaga(action) {
     count: count ? encodeURIComponent(count.trim()) : null,
   }));
   if (data.error) {
-    message.error(`高级搜索失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle1')} ${data.msg}`);
     return yield put(searchHighFail());
   }
   return yield put(searchHighSuccess(data));
@@ -72,7 +73,7 @@ function* searchHighSaga(action) {
 function* initCountrySaga() {
   const data = yield initCountrySer();
   if (!data || data.code !== 0) {
-    message.error(`获取国家失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle2')} ${data.msg}`);
     return yield put(initCountryFail());
   }
   return yield put(initCountrySuccess(data));
@@ -81,7 +82,7 @@ function* initCountrySaga() {
 function* initSiteSaga() {
   const data = yield initSiteSer();
   if (!data || data.code !== 0) {
-    message.error(`获取站点失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle3')}${data.msg}`);
     return yield put(initSiteFail());
   }
   return yield put(initSiteSuccess(data));
@@ -90,7 +91,7 @@ function* initSiteSaga() {
 function* initPaymentSaga() {
   const data = yield initPaymentSer();
   if (!data || data.code !== 0) {
-    message.error(`获取支付方式失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle4')}${data.msg}`);
     return yield put(initPaymentFail());
   }
   return yield put(initPaymentSuccess(data));
@@ -99,7 +100,7 @@ function* initPaymentSaga() {
 function* initTroubleSaga() {
   const data = yield initTroubleSer();
   if (!data || data.code !== 0) {
-    message.error(`获取问题件类型失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle5')}${data.msg}`);
     return yield put(initTroubleFail());
   }
   return yield put(initTroubleSuccess(data));
@@ -108,7 +109,7 @@ function* initTroubleSaga() {
 function* initMemberSaga() {
   const data = yield initMemberSer();
   if (!data || data.code !== 0) {
-    message.error(`获取会员等级失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle6')}${data.msg}`);
     return yield put(initMemberFail());
   }
   return yield put(initMemberSuccess(data));
@@ -117,7 +118,7 @@ function* initMemberSaga() {
 function* initOrderSaga() {
   const data = yield initOrderSer();
   if (!data || data.code !== 0) {
-    message.error(`获取订单状态失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle7')}${data.msg}`);
     return yield put(initOrderFail());
   }
   return yield put(initOrderSuccess(data));
@@ -126,7 +127,7 @@ function* initOrderSaga() {
 function* initCancelSaga() {
   const data = yield initCancelSer();
   if (!data || data.code !== 0) {
-    message.error(`获取取消类型失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle8')}${data.msg}`);
     return yield put(initCancelFail());
   }
   return yield put(initCancelSuccess(data));
@@ -135,7 +136,7 @@ function* initCancelSaga() {
 function* initGoodsSaga() {
   const data = yield initGoodsSer();
   if (!data || data.code !== 0) {
-    message.error(`获取商品状态失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle9')} ${data.msg}`);
     return yield put(initGoodsFail());
   }
   return yield put(initGoodsSuccess(data));
@@ -145,7 +146,7 @@ function* initGoodsSaga() {
 function* operationGoodsSaga(action) {
   const data = yield operationGoodsSer(action.id);
   if (!data || data.code !== 0) {
-    message.error(`获取商品操作查询失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle10')}${data.msg}`);
     return yield put(operationGoodsFail());
   }
   return yield put(operationGoodsSuccess(data));
@@ -155,7 +156,7 @@ function* operationGoodsSaga(action) {
 function* remarkSaga(action) {
   const data = yield remarkSer(action.id);
   if (!data || data.code !== 0) {
-    message.error(`获取备注失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle11')} ${data.msg}`);
     return yield put(remarkShowFail());
   }
   return yield put(remarkShowSuccess(data));
@@ -163,12 +164,12 @@ function* remarkSaga(action) {
 
 // 备注更新
 function* remarkSaveSaga(action) {
-  const data = yield remarkSaveSer(action.orderId, action.remark); // assign({}, action.orderId, action.remark)
+  const data = yield remarkSaveSer(action.orderId, action.remark);
   if (!data || data.code !== 0) {
-    message.error(`添加备注失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle12')}${data.msg}`);
     return yield put(remarkSaveFail());
   }
-  message.success('添加备注成功');
+  message.success(__('common.sagaTitle13'));
   return yield put(remarkSaveSuccess());
 }
 
@@ -177,7 +178,7 @@ function* remarkSaveSaga(action) {
 function* logisticsRemarkSaga(action) {
   const data = yield logisticsRemarkSer(action.id);
   if (!data || data.code !== 0) {
-    message.error(`获取备注失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle14')}${data.msg}`);
     return yield put(logisticsRemarkFail());
   }
   return yield put(logisticsRemarkSuccess(action.id, data.data));
@@ -187,51 +188,75 @@ function* logisticsRemarkSaga(action) {
 function* logisticsRemarkSaveSaga(action) {
   const data = yield logisticsRemarkSaveSer(action.orderId, action.remark);
   if (!data || data.code !== 0) {
-    message.error(`添加备注失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle15')}${data.msg}`);
     return yield put(logisticsRemarkSaveFail());
   }
-  message.success('添加物流备注成功');
+  message.success(__('common.sagaTitle16'));
   return yield put(logisticsRemarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
 
 // 商品尺寸查看
 function* goodSizeSaga(action) {
-  console.log(action, 'action_size')
   const data = yield goodSizeSer(action.data);
   if (!data || data.code !== 0) {
-    message.error(`获取备注失败: ${data.msg}`);
+    message.error(`{__('common.sagaTitle17')}${data.msg}`);
     return yield put(goodSizeFail());
   }
   return yield put(goodSizeSuccess(data));
+}
+
+// 换货
+function* changeGoodsSaga(action) {
+  const data = yield changeGoodsSer(action.data);
+  if (!data || data.code !== 0) {
+    message.error(`{__('common.sagaTitle18')} ${data.msg}`);
+    return yield put(changeGoodsFail());
+  }
+  message.success(__('common.sagaTitle19'));
+  return yield put(changeGoodsSuccess(action.data.order_id, data));
+}
+
+// 删除换货
+function* delChangeSaga(action) {
+  const data = yield delChangeSer(action.oid, action.gid);
+  if (!data || data.code !== 0) {
+    message.error(`{__('common.sagaTitle20')}${data.msg}`);
+    return yield put(delChangeFail()); // TODO: 失败
+  }
+  message.success(__('common.sagaTitle21'));
+  return yield put(delChangeSuccess(action.oid, action.gid));
 }
 
 // 批量操作
 function* batchOperateSaga(action) {
   const data = yield batchOperateSer(action.url, action.data);
   if (!data || data.code !== 0) {
-    return message.error(`操作失败: ${data.msg}`);
+    return message.error(`{__('common.sagaTitle22')}${data.msg}`);
   }
-  return message.success('操作成功');
+  return message.success(__('common.sagaTitle23'));
 }
 function* cancelRiskSaga(action) {
   const data = yield getRisk(action.id);
   if (!data || data.code !== 0) {
-    return message.error(`操作失败: ${data.msg}`);
+    return message.error(`{__('common.sagaTitle22')}${data.msg}`);
   }
+  message.success(__('common.sagaTitle23'));
   return yield put(cancelRiskSuccess(data.data, action.id));
 }
 function* cancelTroubleTagSaga(action) {
   const data = yield cancelTroubleTag(action.troubleId, action.orderId);
   if (!data || data.code !== 0) {
-    return message.error(`操作失败: ${data.msg}`);
+    return message.error(`{__('common.sagaTitle22')}${data.msg}`);
   }
+  message.success(__('common.sagaTitle23'));
   return yield put(cancelTroubleTagSuccess(action.orderId));
 }
 function* updateOrderTagSaga(action) {
   const data = yield updateOrderTagSer(action.data);
   if (!data || data.code !== 0) {
-    return message.error(`操作失败: ${data.msg}`);
+    return message.error(`{__('common.sagaTitle22')}${data.msg}`);
   }
+  message.success(__('common.sagaTitle23'));
   return yield put(updateOrderTagSuccess(action.data));
 }
 
@@ -252,6 +277,8 @@ export default function* () {
   yield takeEvery(TYPES.LOGISITICS_REMARK, logisticsRemarkSaga);
   yield takeEvery(TYPES.LOGISITICS_REMARK_SAVE, logisticsRemarkSaveSaga);
   yield takeEvery(TYPES.GOODS_SIZE, goodSizeSaga);
+  yield takeEvery(TYPES.CHANGE_GOODS, changeGoodsSaga);
+  yield takeLatest(TYPES.DEL_CHANGE, delChangeSaga);
   yield takeLatest(TYPES.BATCH_OPERATE, batchOperateSaga);
   yield takeLatest(TYPES.CANCEL_RISK, cancelRiskSaga);
   yield takeLatest(TYPES.CANCEL_TROUBLE_TAG, cancelTroubleTagSaga);

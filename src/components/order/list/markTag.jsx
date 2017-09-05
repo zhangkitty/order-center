@@ -4,37 +4,44 @@ import assign from 'object-assign';
 import { Modal, Radio, Input } from 'antd';
 import { change, updateOrderTag } from './action';
 
+import styles from './style.css';
+
 // TODO: 语言包 样式
 const RG = Radio.Group;
 const TextArea = Input.TextArea;
 const orderTagName = {
-  0: '正常',
-  1: '问题订单',
-  2: '作废订单',
-  3: '风控订单',
-  4: '特殊订单',
-  5: '紧急订单',
+//  0: '正常',
+  1: __('common.orderTrouble1'),
+  2: __('common.orderTrouble2'),
+  3: __('common.orderTrouble3'),
+  4: __('common.orderTrouble4'),
+  5: __('common.orderTrouble5'),
 };
 const MarkTag = ({ markTag, dispatch }) => (
   <Modal
     visible={markTag.markTagVisible}
     onOk={() => dispatch(updateOrderTag(markTag))}
     onCancel={() => dispatch(change('markTag', assign({}, markTag, { markTagVisible: false })))}
-    okText="保存"
-    cancelText="取消"
+    okText={__('common.submitName')}
+    cancelText={__('common.submitName1')}
   >
-    <span>标记为</span>
-    <RG
-      options={Object.values(orderTagName).map((v, i) => ({ label: v, value: i }))}
-      value={markTag.is_trouble}
-      onChange={e => dispatch(change('markTag', assign({}, markTag, { is_trouble: e.target.value })))}
-    />
-    <span>备注</span>
-    <TextArea
-      autosize={{ minRows: 2, maxRows: 6 }}
-      value={markTag.remark}
-      onChange={e => dispatch(change('markTag', assign({}, markTag, { remark: e.target.value })))}
-    />
+    <div className={styles.troubleBg}>
+      <span>{__('common.title')}</span>
+      <div className={styles.troubleContent}>
+        <RG
+          options={Object.values(orderTagName).map((v, i) => ({ label: v, value: i }))}
+          value={markTag.is_trouble}
+          onChange={e => dispatch(change('markTag', assign({}, markTag, { is_trouble: e.target.value })))}
+        />
+      </div>
+      <span>{__('common.title1')}</span>
+      <TextArea
+        className={styles.troubleContent}
+        autosize={{ minRows: 2, maxRows: 6 }}
+        value={markTag.remark}
+        onChange={e => dispatch(change('markTag', assign({}, markTag, { remark: e.target.value })))}
+      />
+    </div>
   </Modal>
 );
 MarkTag.propTypes = {

@@ -153,8 +153,6 @@ export const logisticsRemarkSaveSer = (orderId, remark) => (
   })
 );
 
-
-
 // 产品尺码-查
 export const goodSizeSer = (data) => (
   fetch(list.sizeBySku, {
@@ -167,6 +165,25 @@ export const goodSizeSer = (data) => (
   })
 );
 
+// 换货
+export const changeGoodsSer = (data) => (
+  fetch(list.chageGoods, {
+    method: 'POST',
+    body: JSON.stringify(assign({}, data, {
+      order_id: Symbol('noneed'),
+      load: Symbol('noneed'),
+      visible: Symbol('noneed'),
+    })),
+  })
+);
+
+// delGoods
+export const delChangeSer = (oid, gid) => (
+  fetch(list.delGoods, {
+    method: 'POST',
+    body: JSON.stringify({ order_id: Number(oid), order_goods_id: Number(gid)}),
+  })
+);
 
 
 
