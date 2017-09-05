@@ -22,4 +22,6 @@ module.exports = {
   waiting_amount: '待退金额en',
   need_refund_goods: '需要退款商品en',
   adjustment_refund: '差价退款en',
+  reason_list_failed: '获取退款原因列表失败en',
+  refund_priceinfo_failed: '获取退款信息列表失败en',
 };

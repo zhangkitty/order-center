@@ -29,23 +29,25 @@ export const initReasonListFail = () => ({
   type: TYPES.INIT_REASONLIST_FAIL,
 });
 
-export const commit = data => ({
-  type: TYPES.COMMIT,
-  data,
-});
-
-export const commitSuccess = data => ({
-  type: TYPES.COMMITSUCCESS,
-  data,
-});
-
-export const commitFail = () => ({
-  type: TYPES.COMMITFAIL,
-});
-
-export const change = (key, value) => ({
-  type: TYPES.CHANGE,
+export const subchange = (key, value) => ({
+  type: TYPES.SUBMIT_CHANGE,
   key,
   value,
+});
+
+export const submitForward = data => ({
+  type: TYPES.SUBMIT,
+  data,
+});
+
+export const activation =data=>({
+  type:TYPES.ACTIVATION,
+  data,
 })
+
+export const change = (key, val) => ({
+  type: TYPES.CHANGE,
+  key,
+  val,
+});
 
