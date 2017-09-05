@@ -91,7 +91,7 @@ class TabsHeader extends Component {
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (!paytimeStart || !paytimeEnd) {
-                    return message.warning('缺少时间');
+                    return message.warning(__('common.submitTitle1'));
                   }
                   return dispatch(search(assign({},
                     queryString,
@@ -294,7 +294,7 @@ class TabsHeader extends Component {
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (!paytimeStart || !paytimeEnd) {
-                    return message.warning('缺少时间');
+                    return message.warning(__('common.submitTitle1'));
                   }
                   return dispatch(searchHigh(assign({},
                     queryString2,
@@ -471,7 +471,7 @@ class TabsHeader extends Component {
                     </Select>
                   </div>
 
-                  <div className={styles.rowSpaceList} style={{ maxWidth: '460px' }}>
+                  <div className={styles.rowSpaceList} style={{ maxWidth: '510px' }}>
                     <span className={styles.filterName} style={{ maxWidth: '160px' }}>
                       <span style={{ color: 'red' }}>*</span>{__('order.name.goods_time')}
                     </span>
@@ -512,35 +512,41 @@ class TabsHeader extends Component {
                 </Tooltip>
               </form>
             </TabItem>
+            {/*  批量操作 */}
             <TabItem tab={__('order.name.search3')} key="3">
-              <Button
-                onClick={() => dispatch(change('batchChooseOrder', dataSource.map(v => v.order_id)))}
-              >{__('common.allChoose')}</Button>
-              <Button
-                onClick={() => dispatch(change('batchChooseOrder', []))}
-              >{__('common.cancel')}</Button>
-              <Button
-                onClick={() => dispatch(batchOperate('/Order/partDelivery', {
-                  order_ids: batchChooseOrder.map(v => Number(v)),
-                  inventory_type: Number(partDeliveryBase),
-                }))}
-              >批量部分发 XX</Button>
-              <Select
-                style={{ width: '150px' }}
-                onChange={
-                  v => dispatch(change('partDeliveryBase', v))
-                }
-                placeholder={__('common.choose')}
-              >
-                <Option key="1"> {__('common.guangzhou')}</Option>
-                <Option key="0">{__('common.west')}</Option>
-              </Select>
-              <Button
-                onClick={() => dispatch(batchOperate('/Order/orderDelete', { order_ids: batchChooseOrder.join(',') }))}
-              > {__('common.platform')}</Button>
-              <Button
-                onClick={() => dispatch(batchOperate('/Order/orderBatchCheck', { order_ids: batchChooseOrder.join(',') }))}
-              > {__('common.review')}</Button>
+              <div className={styles.batchBg}>
+                <Button
+                  onClick={() => dispatch(change('batchChooseOrder', dataSource.map(v => v.order_id)))}
+                >{__('common.allChoose')}</Button>
+                <Button
+                  onClick={() => dispatch(change('batchChooseOrder', []))}
+                >{__('common.cancel')}</Button>
+
+                <span>{__('common.batchection')}</span>
+                <Select
+                  style={{ width: '150px', marginRight: '5px' }}
+                  onChange={
+                    v => dispatch(change('partDeliveryBase', v))
+                  }
+                  placeholder={__('common.choose')}
+                >
+                  <Option key="1"> {__('common.guangzhou')}</Option>
+                  <Option key="0">{__('common.west')}</Option>
+                </Select>
+                <Button
+                  onClick={() => dispatch(batchOperate('/Order/partDelivery', {
+                    order_ids: batchChooseOrder.map(v => Number(v)),
+                    inventory_type: Number(partDeliveryBase),
+                  }))}
+                >{__('common.batchection')} </Button>
+
+                <Button
+                  onClick={() => dispatch(batchOperate('/Order/orderDelete', { order_ids: batchChooseOrder.join(',') }))}
+                > {__('common.platform')}</Button>
+                <Button
+                  onClick={() => dispatch(batchOperate('/Order/orderBatchCheck', { order_ids: batchChooseOrder.join(',') }))}
+                > {__('common.review')}</Button>
+              </div>
             </TabItem>
           </Tabs>
         </Panel>

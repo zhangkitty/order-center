@@ -10,11 +10,6 @@ const menus = [
     icon: 'bars',
     children: [
       {
-        link: '/hello',
-        name: __('nav.hello'),
-        crumbName: __('nav.helloCrumb'),
-        nav: true,
-      }, {
         link: '/order',
         name: __('common.order_list'),
         crumbName: __('common.order_list'),

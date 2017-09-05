@@ -48,7 +48,7 @@ function* searchSaga(action) {
     totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
   }));
   if (data.error) {
-    message.error(`{__('common.sagaTitle')}${data.msg}`);
+    message.error(`${__('common.sagaTitle')}${data.msg}`);
     return yield put(searchFail());
   }
   return yield put(searchSuccess(data));
@@ -64,7 +64,7 @@ function* searchHighSaga(action) {
     count: count ? encodeURIComponent(count.trim()) : null,
   }));
   if (data.error) {
-    message.error(`{__('common.sagaTitle1')} ${data.msg}`);
+    message.error(`${__('common.sagaTitle1')} ${data.msg}`);
     return yield put(searchHighFail());
   }
   return yield put(searchHighSuccess(data));
@@ -73,7 +73,7 @@ function* searchHighSaga(action) {
 function* initCountrySaga() {
   const data = yield initCountrySer();
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle2')} ${data.msg}`);
+    message.error(`${__('common.sagaTitle2')} ${data.msg}`);
     return yield put(initCountryFail());
   }
   return yield put(initCountrySuccess(data));
@@ -82,7 +82,7 @@ function* initCountrySaga() {
 function* initSiteSaga() {
   const data = yield initSiteSer();
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle3')}${data.msg}`);
+    message.error(`${__('common.sagaTitle3')}${data.msg}`);
     return yield put(initSiteFail());
   }
   return yield put(initSiteSuccess(data));
@@ -91,7 +91,7 @@ function* initSiteSaga() {
 function* initPaymentSaga() {
   const data = yield initPaymentSer();
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle4')}${data.msg}`);
+    message.error(`${__('common.sagaTitle4')}${data.msg}`);
     return yield put(initPaymentFail());
   }
   return yield put(initPaymentSuccess(data));
@@ -100,7 +100,7 @@ function* initPaymentSaga() {
 function* initTroubleSaga() {
   const data = yield initTroubleSer();
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle5')}${data.msg}`);
+    message.error(`${__('common.sagaTitle5')}${data.msg}`);
     return yield put(initTroubleFail());
   }
   return yield put(initTroubleSuccess(data));
@@ -109,7 +109,7 @@ function* initTroubleSaga() {
 function* initMemberSaga() {
   const data = yield initMemberSer();
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle6')}${data.msg}`);
+    message.error(`${__('common.sagaTitle6')}${data.msg}`);
     return yield put(initMemberFail());
   }
   return yield put(initMemberSuccess(data));
@@ -118,7 +118,7 @@ function* initMemberSaga() {
 function* initOrderSaga() {
   const data = yield initOrderSer();
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle7')}${data.msg}`);
+    message.error(`${__('common.sagaTitle7')}${data.msg}`);
     return yield put(initOrderFail());
   }
   return yield put(initOrderSuccess(data));
@@ -127,7 +127,7 @@ function* initOrderSaga() {
 function* initCancelSaga() {
   const data = yield initCancelSer();
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle8')}${data.msg}`);
+    message.error(`${__('common.sagaTitle8')}${data.msg}`);
     return yield put(initCancelFail());
   }
   return yield put(initCancelSuccess(data));
@@ -136,7 +136,7 @@ function* initCancelSaga() {
 function* initGoodsSaga() {
   const data = yield initGoodsSer();
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle9')} ${data.msg}`);
+    message.error(`${__('common.sagaTitle9')} ${data.msg}`);
     return yield put(initGoodsFail());
   }
   return yield put(initGoodsSuccess(data));
@@ -146,7 +146,7 @@ function* initGoodsSaga() {
 function* operationGoodsSaga(action) {
   const data = yield operationGoodsSer(action.id);
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle10')}${data.msg}`);
+    message.error(`${__('common.sagaTitle10')}${data.msg}`);
     return yield put(operationGoodsFail());
   }
   return yield put(operationGoodsSuccess(data));
@@ -156,7 +156,7 @@ function* operationGoodsSaga(action) {
 function* remarkSaga(action) {
   const data = yield remarkSer(action.id);
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle11')} ${data.msg}`);
+    message.error(`${__('common.sagaTitle11')} ${data.msg}`);
     return yield put(remarkShowFail());
   }
   return yield put(remarkShowSuccess(data));
@@ -166,19 +166,18 @@ function* remarkSaga(action) {
 function* remarkSaveSaga(action) {
   const data = yield remarkSaveSer(action.orderId, action.remark);
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle12')}${data.msg}`);
+    message.error(`${__('common.sagaTitle12')}${data.msg}`);
     return yield put(remarkSaveFail());
   }
   message.success(__('common.sagaTitle13'));
   return yield put(remarkSaveSuccess());
 }
 
-
 // 物流备注查看
 function* logisticsRemarkSaga(action) {
   const data = yield logisticsRemarkSer(action.id);
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle14')}${data.msg}`);
+    message.error(`${__('common.sagaTitle14')}${data.msg}`);
     return yield put(logisticsRemarkFail());
   }
   return yield put(logisticsRemarkSuccess(action.id, data.data));
@@ -188,7 +187,7 @@ function* logisticsRemarkSaga(action) {
 function* logisticsRemarkSaveSaga(action) {
   const data = yield logisticsRemarkSaveSer(action.orderId, action.remark);
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle15')}${data.msg}`);
+    message.error(`${__('common.sagaTitle15')}${data.msg}`);
     return yield put(logisticsRemarkSaveFail());
   }
   message.success(__('common.sagaTitle16'));
@@ -199,7 +198,7 @@ function* logisticsRemarkSaveSaga(action) {
 function* goodSizeSaga(action) {
   const data = yield goodSizeSer(action.data);
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle17')}${data.msg}`);
+    message.error(`${__('common.sagaTitle17')}${data.msg}`);
     return yield put(goodSizeFail());
   }
   return yield put(goodSizeSuccess(data));
@@ -209,7 +208,7 @@ function* goodSizeSaga(action) {
 function* changeGoodsSaga(action) {
   const data = yield changeGoodsSer(action.data);
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle18')} ${data.msg}`);
+    message.error(`${__('common.sagaTitle18')} ${data.msg}`);
     return yield put(changeGoodsFail());
   }
   message.success(__('common.sagaTitle19'));
@@ -220,7 +219,7 @@ function* changeGoodsSaga(action) {
 function* delChangeSaga(action) {
   const data = yield delChangeSer(action.oid, action.gid);
   if (!data || data.code !== 0) {
-    message.error(`{__('common.sagaTitle20')}${data.msg}`);
+    message.error(`${__('common.sagaTitle20')}${data.msg}`);
     return yield put(delChangeFail()); // TODO: 失败
   }
   message.success(__('common.sagaTitle21'));
@@ -231,14 +230,14 @@ function* delChangeSaga(action) {
 function* batchOperateSaga(action) {
   const data = yield batchOperateSer(action.url, action.data);
   if (!data || data.code !== 0) {
-    return message.error(`{__('common.sagaTitle22')}${data.msg}`);
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
   return message.success(__('common.sagaTitle23'));
 }
 function* cancelRiskSaga(action) {
   const data = yield getRisk(action.id);
   if (!data || data.code !== 0) {
-    return message.error(`{__('common.sagaTitle22')}${data.msg}`);
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
   message.success(__('common.sagaTitle23'));
   return yield put(cancelRiskSuccess(data.data, action.id));
@@ -246,7 +245,7 @@ function* cancelRiskSaga(action) {
 function* cancelTroubleTagSaga(action) {
   const data = yield cancelTroubleTag(action.troubleId, action.orderId);
   if (!data || data.code !== 0) {
-    return message.error(`{__('common.sagaTitle22')}${data.msg}`);
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
   message.success(__('common.sagaTitle23'));
   return yield put(cancelTroubleTagSuccess(action.orderId));
@@ -254,7 +253,7 @@ function* cancelTroubleTagSaga(action) {
 function* updateOrderTagSaga(action) {
   const data = yield updateOrderTagSer(action.data);
   if (!data || data.code !== 0) {
-    return message.error(`{__('common.sagaTitle22')}${data.msg}`);
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
   message.success(__('common.sagaTitle23'));
   return yield put(updateOrderTagSuccess(action.data));

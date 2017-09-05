@@ -111,7 +111,7 @@ export const initGoodsSer = () => (
 
 // 商品操作查询
 export const operationGoodsSer = id => (
-  fetch(`${list.operationGoods}?order_goods_id=${id}`, {  // order_goods_id
+  fetch(`${list.operationGoods}?order_goods_id=${id}`, {
     method: 'GET',
   })
 );

@@ -2,7 +2,6 @@
  * Created by fed on 2017/8/28.
  */
 module.exports = {
-  fuck: '嘿嘿恶化123412',
   choose: '请选择',
   search_list: '自定义列表',
   search1: '普通搜索',

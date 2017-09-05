@@ -372,7 +372,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.GOODS_SIZE_SUCCESS:
       return assign({}, state, {
-        fetchgoodSize: action.data.data.goods_size,
+        fetchgoodSize: action.data.data,  //  .goods_size
       });
     case TYPES.CHANGE_GOODS:
       return assign({}, state, {
@@ -388,7 +388,10 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.CHANGE_GOODS_FAIL:
       return assign({}, state, {
-        load: false,
+        exchange: assign({}, state.exchange, {
+          load: false,
+          visible: true,
+        }),
       });
     case TYPES.CHANGE_GOODS_SUCCESS:
       return assign({}, state, {

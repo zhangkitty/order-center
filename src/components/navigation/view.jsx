@@ -1,9 +1,10 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Spin } from 'antd';
 
-import Sider from './sider.jsx';
+import Sider from './sider';
 import styles from './style.css';
 
 class Navigation extends Component {
@@ -29,7 +30,7 @@ class Navigation extends Component {
 
     return (
       <div className={styles.layoutAside}>
-        <aside>
+        <aside style={{ display: 'none' }}>
           <Sider
             current={current} menus={menus}
             routerMatchList={routerMatchList} linkList={linkList}
