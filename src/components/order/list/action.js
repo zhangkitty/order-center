@@ -271,6 +271,7 @@ export const delChangeSuccess = (oid, gid) => ({
 export const delChangeFail = () => ({
   type: TYPES.DEL_CHANGE_FAIL,
 });
+
 export const batchOperate = (url, data) => ({
   type: TYPES.BATCH_OPERATE,
   url,

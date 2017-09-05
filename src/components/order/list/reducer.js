@@ -87,7 +87,7 @@ const defaultState = {
   markTag: {},
 };
 const cgsReducer = (dataSource, orderId, result) => {
-  console.log(dataSource.find(v => v.order_id === orderId), 'xxxxxx');
+//  console.log(dataSource.find(v => v.order_id === orderId), 'xxxxxx');
   const index = dataSource.findIndex(v => v.order_id === orderId);
   return [
     ...dataSource.slice(0, index),
@@ -422,6 +422,10 @@ const reducer = (state = defaultState, action) => {
         )),
         markTag: assign({}, state.markTag, { markTagVisible: false }),
       });
+    case TYPES.DEL_CHANGE:
+      return assign({}, state, {});
+    case TYPES.DEL_CHANGE_FAIL:
+      return assign({}, state, {});
     case TYPES.DEL_CHANGE_SUCCESS:
       return assign({}, state, {
         dataSource: state.dataSource.map(v => (

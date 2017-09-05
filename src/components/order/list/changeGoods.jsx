@@ -13,13 +13,14 @@ const ChnageGoods = (props) => {
   return (
     <Modal
       visible={exchange.visible}
+      footer={null}
       onCancel={() => dispatch(commit3('visible', false))}
     >
       <form
         onSubmit={(e) => {
           e.preventDefault();
           if (goods_sn.trim().length === 0) {
-            return message.warning('缺少SKU');
+            return message.warning(__('common.submitTitle'));
           }
           return dispatch(goodSize(exchange));
         }}
@@ -29,7 +30,7 @@ const ChnageGoods = (props) => {
           value={goods_sn}
           onChange={e => dispatch(commit3('goods_sn', e.target.value))}
         />
-        <Button htmlType="submit">查询尺码</Button>
+        <Button htmlType="submit">{__('common.checkSize')}</Button>
       </form>
       <Spin spinning={exchange.load}>
         <Select
@@ -46,7 +47,7 @@ const ChnageGoods = (props) => {
         </Select>
 
       </Spin>
-      <Button onClick={()=> dispatch(changeGoods(exchange))}>提交</Button>
+      <Button onClick={() => dispatch(changeGoods(exchange))}>{__('common.submit')}</Button>
     </Modal>
   );
 }
