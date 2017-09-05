@@ -135,6 +135,7 @@ form .colSpace2{
 .tableFloat {
     background-color: #fff;
     border-radius: 5px;
+    width: 350px;
 }
 .tableFloat:after{
     content: "020";

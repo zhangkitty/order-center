@@ -88,7 +88,7 @@ const SingleRow = (props) => {
             data.order_type === 3 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
           }
           <span> {data.payment_method}</span>
-          <span>{__('common.table')} {data.usd_price} </span>
+          <span>{__('common.total')} {data.usd_price} </span>
           <span> {data.currency_price}</span>
         </div>
       </div>
@@ -98,7 +98,6 @@ const SingleRow = (props) => {
           rowSelection={{
             type: 'checkbox',
             onChange: t => dispatch(change('batchChooseGoods', t)),
-            //   onChange: t => console.log(t),
           }}
           pagination={false}
           showHeader={false}
@@ -194,7 +193,16 @@ const SingleRow = (props) => {
       <div className={Styles.orderOperateBg}>
 
         <div className={Styles.orderOperate}>
-          <p> {data.order_status_title} { data.order_status === 3 ? <Icon type="message" /> : <Icon type="message" style={{ color: 'rgb(255,35,0)' }} /> } </p>
+          { data.goods_quantity > 1 ?
+            <div style={{ height: '30px' }} />
+            : null
+          }
+          <p> {data.order_status_title}
+            {/*
+             <Icon type="message" style={{ color: 'rgb(255,35,0)' }}
+            */}
+
+          </p>
           <Button>{__('common.order_operation')}</Button>
           {/*  订单标记 */}
           {
@@ -282,7 +290,7 @@ const SingleRow = (props) => {
               <div className={Styles.tableFloat}>
                 <Input.TextArea
                   style={{ margin: '10px auto' }}
-                  rows={3}
+                  rows={5}
                   value={data.transhRemark}
                   onChange={e => dispatch(change('dataSource', [
                     ...dataSource.slice(0, index),
