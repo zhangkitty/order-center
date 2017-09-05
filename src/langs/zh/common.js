@@ -32,6 +32,7 @@ module.exports = {
   order_operation10: '缺少物流备注',
   allChoose: '全选',
   cancel: '取消',
+  batchection: '批量部分发',
   guangzhou: '广州',
   west: '西部',
   platform: '平台订单取消',
@@ -57,10 +58,11 @@ module.exports = {
   checkSize: '查询尺码',
   submit: '提交',
   title: '标记为',
-  title2: '备注',
+  title1: '备注',
   submitName: '保存',    // 提交name
   submitName1: '取消',
   submitTitle: '缺少SKU',    // 提交提示
+  submitTitle1: '缺少时间',
   sagaTitle: '搜索失败: ',
   sagaTitle1: '高级搜索失败: ',
   sagaTitle2: '获取国家失败: ',

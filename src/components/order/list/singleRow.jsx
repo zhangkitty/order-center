@@ -25,6 +25,8 @@ const showRisk = (a, b) => {
   }
   return null;
 };
+
+// 操作查询
 const columns = [{
   title: __('common.operationCheck'),
   dataIndex: 'user_name',
@@ -35,7 +37,7 @@ const columns = [{
   width: '150px',
 }, {
   title: __('common.operationCheck2'),
-  dataIndex: 'remark',
+  dataIndex: 'status',
 }];
 // 标记订单名
 const orderTagName = {

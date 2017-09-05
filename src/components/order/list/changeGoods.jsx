@@ -19,13 +19,14 @@ const ChnageGoods = (props) => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (goods_sn.trim().length === 0) {
+          if (!goods_sn || goods_sn.trim().length === 0) {
             return message.warning(__('common.submitTitle'));
           }
           return dispatch(goodSize(exchange));
         }}
       >
         <Input
+          className={styles.changeMargin}
           style={{ width: '200px' }}
           value={goods_sn}
           onChange={e => dispatch(commit3('goods_sn', e.target.value))}
@@ -47,7 +48,10 @@ const ChnageGoods = (props) => {
         </Select>
 
       </Spin>
-      <Button onClick={() => dispatch(changeGoods(exchange))}>{__('common.submit')}</Button>
+      <Button
+        className={styles.changeButton}
+        onClick={() => dispatch(changeGoods(exchange))}
+      >{__('common.submit')}</Button>
     </Modal>
   );
 }
