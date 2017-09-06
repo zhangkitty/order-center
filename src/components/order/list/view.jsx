@@ -23,7 +23,7 @@ class orderList extends Component {
   }
   render() {
     const {
-      dispatch, dataSource, total, queryString, queryString2, visible,
+      dispatch, dataSource, total, queryString, queryString2, queryString3, visible,
       loadUpdata, searchType, remarkModal, exchange,
     } = this.props;
     return (
@@ -83,14 +83,18 @@ class orderList extends Component {
           current={queryString.pageNumber}
           onChange={
             (pageNumber, pageSize) => {
-              if (searchType) {
+              if (searchType === 0) {
                 dispatch(commit('pageNumber', pageNumber));
                 dispatch(commit('pageSize', pageSize));
                 dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
-              } else {
+              } else if (searchType === 2) {
                 dispatch(commit2('pageNumber', pageNumber));
                 dispatch(commit2('pageSize', pageSize));
                 dispatch(search(assign({}, queryString2, { pageNumber, pageSize })));
+              } else {
+                dispatch(commit2('pageNumber', pageNumber));
+                dispatch(commit2('pageSize', pageSize));
+                dispatch(search(assign({}, queryString3, { pageNumber, pageSize })));
               }
             }
           }
@@ -122,6 +126,7 @@ orderList.propTypes = {
   dataSource: PropTypes.arrayOf(PropTypes.shape()),
   queryString: PropTypes.shape(),
   queryString2: PropTypes.shape(),
+  queryString3: PropTypes.shape(),
   location: PropTypes.shape(),
   remark: PropTypes.string,
   searchType: PropTypes.number,

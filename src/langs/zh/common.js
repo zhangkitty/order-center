@@ -63,6 +63,7 @@ module.exports = {
   submitName1: '取消',
   submitTitle: '缺少SKU',    // 提交提示
   submitTitle1: '缺少时间',
+  submitTitle2: '确定删除换货吗？',
   sagaTitle: '搜索失败: ',
   sagaTitle1: '高级搜索失败: ',
   sagaTitle2: '获取国家失败: ',
