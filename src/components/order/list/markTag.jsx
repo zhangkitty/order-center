@@ -6,17 +6,12 @@ import { change, updateOrderTag } from './action';
 
 import styles from './style.css';
 
-// TODO: 语言包 样式
 const RG = Radio.Group;
 const TextArea = Input.TextArea;
-const orderTagName = {
-//  0: '正常',
-  1: __('common.orderTrouble1'),
-  2: __('common.orderTrouble2'),
-  3: __('common.orderTrouble3'),
-  4: __('common.orderTrouble4'),
-  5: __('common.orderTrouble5'),
-};
+const orderTagName = [
+  __('common.orderTrouble1'), __('common.orderTrouble2'), __('common.orderTrouble3'),
+  __('common.orderTrouble4'), __('common.orderTrouble5'),
+];
 const MarkTag = ({ markTag, dispatch }) => (
   <Modal
     visible={markTag.markTagVisible}
@@ -29,7 +24,7 @@ const MarkTag = ({ markTag, dispatch }) => (
       <span>{__('common.title')}</span>
       <div className={styles.troubleContent}>
         <RG
-          options={Object.values(orderTagName).map((v, i) => ({ label: v, value: i }))}
+          options={orderTagName.map((v, i) => ({ label: v, value: i + 1 }))}
           value={markTag.is_trouble}
           onChange={e => dispatch(change('markTag', assign({}, markTag, { is_trouble: e.target.value })))}
         />

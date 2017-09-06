@@ -43,15 +43,23 @@ const goodsRefund = {
 };
 
 export const searchSubmit = (page) => {
-  const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'remarkUser', 'totalSelect', 'totalInput', 'searchType'];
+  const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'remarkUser', 'totalSelect', 'totalInput'];
   return fetch(`${list.init}?${camel2Under(queryString(keys, page))}`, {
     method: 'GET',
   })
 };
 
 export const seachHighSubmit = (page) => {
-  const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd', 'searchType'];
+  const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd',];
   return fetch(`${list.initHigh}?${camel2Under(queryString(keys, page))}`, {
+    method: 'GET',
+  })
+};
+
+// history order
+export const seachHistorySubmit = (page) => {
+  const keys = ['pageSize', 'pageNumber', 'siteFrom', 'memberId'];
+  return fetch(`${list.init}?${camel2Under(queryString(keys, page))}`, {
     method: 'GET',
   })
 };
@@ -170,7 +178,7 @@ export const changeGoodsSer = (data) => (
   fetch(list.chageGoods, {
     method: 'POST',
     body: JSON.stringify(assign({}, data, {
-      order_id: Symbol('noneed'),
+      site_from: Symbol('noneed'),
       load: Symbol('noneed'),
       visible: Symbol('noneed'),
     })),

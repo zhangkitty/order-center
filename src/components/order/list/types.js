@@ -15,6 +15,11 @@ export const SEARCH_HIGH = `${prefix}search_high`;
 export const SEARCH_HIGH_SUCCESS = `${prefix}search_high_success`;
 export const SEARCH_HIGH_FAIL = `${prefix}search_high_fail`;
 
+// history order
+export const SEARCH_HISTORY = `${prefix}search_history`;
+export const SEARCH_HISTORY_SUCCESS = `${prefix}search_history_success`;
+export const SEARCH_HISTORY_FAIL = `${prefix}search_history_fail`;
+
 export const CHANGE = `${prefix}change`;
 export const COMMIT = `${prefix}commit`;
 export const COMMIT_HIGH = `${prefix}commit2`;

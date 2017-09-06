@@ -70,6 +70,18 @@ export const searchHighFail = () => ({
   type: TYPES.SEARCH_HIGH_FAIL,
 });
 
+export const searchHistory = data => ({
+  type: TYPES.SEARCH_HISTORY,
+  data,
+});
+export const searchHistorySuccess = data => ({
+  data,
+  type: TYPES.SEARCH_HISTORY_SUCCESS,
+});
+export const searchHistoryFail = () => ({
+  type: TYPES.SEARCH_HISTORY_FAIL,
+});
+
 export const initCountry = () => ({
   type: TYPES.INIT_COUNTRY,
 });
@@ -258,10 +270,11 @@ export const changeGoodsFail = () => ({
 });
 
 // 删除换货
-export const delChange = (oid, gid) => ({
+export const delChange = (oid, gid, sort) => ({
   type: TYPES.DEL_CHANGE,
   oid,
   gid,
+  sort,
 });
 export const delChangeSuccess = (oid, gid) => ({
   type: TYPES.DEL_CHANGE_SUCCESS,

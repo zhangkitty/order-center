@@ -4,18 +4,21 @@ import { Table, Checkbox, Button, Input, Icon, Popover, message, Popconfirm, Spi
 import { Link, hashHistory } from 'react-router';
 import assign from 'object-assign';
 import {
-  change, commit, remarkShow, openModal,
+  change, commit, remarkShow, openModal, searchHistory,
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange,
 } from './action';
 
 import Styles from './style.css';
 
-const replaceGoods = (source, d) => {
+const replaceGoods = (source, d, goods) => {
+  const arr = goods.filter(v => v.replace_goods_sort === d);
+  let flag = false;
+  flag = arr.length && (arr.filter(v => Number(v.goods_status) === 74).length === arr.length);
   const obj = {
     0: '',
-    1: __('common.change1'),
-    2: `(${d}{__('common.change2')}`,
+    1: flag ? '' : __('common.change1'),
+    2: `(${d}${__('common.change2')}`,
   };
   return obj[source];
 };
@@ -61,7 +64,11 @@ const SingleRow = (props) => {
     record, fetchOperation, operationVisible,
     logisticsVisible, remark, fetchLogisticsRemark, dataSource,
     batchChooseOrder, batchChooseGoods, cancelRiskDesc,
+    queryString3,
   } = props;
+  const {
+    siteFrom, memberId,
+  } = queryString3;
   const batchGoods = batchChooseGoods.join(',');
   return (
     <div className={Styles.orderList}>
@@ -79,7 +86,20 @@ const SingleRow = (props) => {
             }}
           >{ data.billno }</Checkbox>
           <span>{__('common.Qty')} { data.goods_quantity }</span>
-          <span>{data.email}({data.buy_cnt})</span>
+          <span>
+            {data.email}
+            {/*  history */}
+            (
+            <a
+              role="button" tabIndex={0}
+              onClick={() => dispatch(searchHistory(assign({}, queryString3, {
+                pageNumber: 1,
+                siteFrom: data.site_from,
+                memberId: data.member_id,
+              })))
+              }
+            >{data.buy_cnt}</a>)
+          </span>
           <span>{ data.member_level }</span> <span>{data.pay_time}</span>
           <span> {data.site_from}</span> <span>{data.country_name}</span>
         </div>
@@ -116,9 +136,9 @@ const SingleRow = (props) => {
             render: (d, res) => (
               <div>
                 <a href={res.order_detail_url} target="_blank"> {d}</a>
-                <span style={{ color: '#108ee9' }}>
+                <span style={{ color: '#ff0000', marginLeft: '10px' }}>
                   {
-                    replaceGoods(res.is_replace, res.replace_goods_sort)
+                    replaceGoods(res.is_replace, res.replace_goods_sort, data.order_goods)
                   }
                 </span>
                 <p> {res.goods_attr ? res.goods_attr : <span>--</span>}</p>
@@ -177,13 +197,20 @@ const SingleRow = (props) => {
                     {__('common.change_goods')}
                   </span>
 
-                  {/*  删除换货 // TODO 返回值少order_goods_id字段 */}
-                  { rec.order_goods_id === 2 ? null : null }
-                  <Popconfirm
-                    onConfirm={() => dispatch(delChange(data.order_id, rec.goods_id))}
-                  >
-                    <span>{__('common.del_goods')}</span>
-                  </Popconfirm>
+                  {/*  删除换货--  */}
+                  {/* 若商品为“换来的货”，且商品状态=已付款、已审核、备货中、延期、有货、无货审核、无货、等待出仓、等待发货 时，显示入口 */}
+                  {
+                    Number(rec.is_replace) === 2 ?
+                      <Popconfirm
+                        title={__('common.submitTitle2')}
+                        onConfirm={() => dispatch(delChange(data.order_id,
+                          rec.order_goods_id,
+                          rec.replace_goods_sort))}
+                      >
+                        <span>{__('common.del_goods')}</span>
+                      </Popconfirm>
+                      : null
+                  }
                 </div>
               );
             },
@@ -218,7 +245,7 @@ const SingleRow = (props) => {
                 }
                 onConfirm={() => {
                   if (Number(data.is_trouble) > 0) {
-                    dispatch(cancelTroubleTag(0, data.order_id)); // data.is_trouble
+                    dispatch(cancelTroubleTag(0, data.order_id)); // data.is_trouble,取消传0
                   }
                 }}
               >
@@ -230,7 +257,7 @@ const SingleRow = (props) => {
               </Popconfirm>
               :
               <Button
-                className={Styles.haveRemark}
+               // className={Styles.haveRemark}
                 onClick={() => dispatch(markTag(data.order_id))}
               >{orderTagName[data.is_trouble]}</Button>
           }
@@ -345,6 +372,6 @@ SingleRow.propTypes = {
   fetchLogisticsRemark: PropTypes.string,
   logisticsVisible: PropTypes.bool,
   remark: PropTypes.string,
-
+  queryString3: PropTypes.shape(),   // 历史
 };
 export default SingleRow;

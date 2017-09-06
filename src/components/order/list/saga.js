@@ -5,7 +5,7 @@ import { message } from 'antd';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 import assign from 'object-assign';
 import {
-  searchSubmit, seachHighSubmit,
+  searchSubmit, seachHighSubmit, seachHistorySubmit,
   initCountrySer, initSiteSer, initPaymentSer, initTroubleSer,
   initMemberSer, initOrderSer, initCancelSer, initGoodsSer,
   operationGoodsSer,
@@ -16,7 +16,7 @@ import {
   updateOrderTagSer, delChangeSer,
 } from '../server';
 import {
-  searchSuccess, searchFail, searchHighFail, searchHighSuccess,
+  searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
   initCountrySuccess, initCountryFail, initSiteSuccess, initSiteFail,
   initPaymentFail, initPaymentSuccess, initTroubleFail, initTroubleSuccess,
   initMemberFail, initMemberSuccess, initOrderFail, initOrderSuccess,
@@ -55,7 +55,7 @@ function* searchSaga(action) {
 }
 
 function* searchHighSaga(action) {
-  console.log(action.data, 'search-high');
+ // console.log(action.data, 'search-high');
   const {
     goodsSn, count,
   } = action.data;
@@ -68,6 +68,17 @@ function* searchHighSaga(action) {
     return yield put(searchHighFail());
   }
   return yield put(searchHighSuccess(data));
+}
+
+function* searchHistorySaga(action) {
+  console.log(action.data, 'search-high');
+
+  const data = yield seachHistorySubmit(assign({}, action.data));
+  if (data.error) {
+    message.error(`${__('common.sagaTitle')} ${data.msg}`);
+    return yield put(searchHistoryFail());
+  }
+  return yield put(searchHistorySuccess(data));
 }
 
 function* initCountrySaga() {
@@ -219,11 +230,10 @@ function* changeGoodsSaga(action) {
 function* delChangeSaga(action) {
   const data = yield delChangeSer(action.oid, action.gid);
   if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle20')}${data.msg}`);
-    return yield put(delChangeFail()); // TODO: 失败
+    return message.error(`${__('common.sagaTitle20')}${data.msg}`);
   }
   message.success(__('common.sagaTitle21'));
-  return yield put(delChangeSuccess(action.oid, action.gid));
+  return yield put(delChangeSuccess(action.oid, action.gid, action.sort));
 }
 
 // 批量操作
@@ -239,7 +249,6 @@ function* cancelRiskSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
-  message.success(__('common.sagaTitle23'));
   return yield put(cancelRiskSuccess(data.data, action.id));
 }
 function* cancelTroubleTagSaga(action) {
@@ -262,6 +271,7 @@ function* updateOrderTagSaga(action) {
 export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
   yield takeLatest(TYPES.SEARCH_HIGH, searchHighSaga);
+  yield takeLatest(TYPES.SEARCH_HISTORY, searchHistorySaga);
   yield takeEvery(TYPES.INIT_COUNTRY, initCountrySaga);
   yield takeEvery(TYPES.INIT_SITE, initSiteSaga);
   yield takeEvery(TYPES.INIT_PAYMENT, initPaymentSaga);
