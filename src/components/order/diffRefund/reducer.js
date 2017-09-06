@@ -70,7 +70,6 @@ const reducer = (state = defaultState, action) => {
       });
     }
     case TYPES.INIT_PRICEINFO_SUCCESS: {
-      console.log('action', action.data);
       return assign({}, state, {
         ready: true,
         dataSource: under2Camal(action.data),
