@@ -17,6 +17,7 @@ import styles from './style.css';
 class diffRefund extends Component {
   constructor(props) {
     super(props);
+    console.log(props)
     const { params: { orderId, type } } = props;
     props.dispatch(initPriceInfo({ order_id: orderId }));
     props.dispatch(initReasonList({ type }));
@@ -31,7 +32,6 @@ class diffRefund extends Component {
     const FormItem = Form.Item;
     const testdom = ready ? <SumOfMoney {...this.props} /> : <div>aaa</div>;
     const test1dom = ready ? <Price {...this.props} /> : <div>aa</div>;
-    console.log('view', testdom);
     const { getFieldDecorator } = this.props.form;
     if (Object.keys(total_price).length > 0) {
       const rate1 = total_price.price_usd.rate;

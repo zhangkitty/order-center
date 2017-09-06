@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Tooltip } from 'antd';
+import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Tooltip ,Modal} from 'antd';
 import moment from 'moment';
 import {
   search, searchHigh, commit, commit2,
@@ -90,6 +90,14 @@ class TabsHeader extends Component {
                 className={styles.filterBg}
                 onSubmit={(e) => {
                   e.preventDefault();
+                  let temp = (moment(paytimeEnd)).unix()-(moment(paytimeStart)).unix()
+                  if(moment.unix(temp).dayOfYear()>30){
+                    Modal.info({
+                      title:`${__('order.name.time_interval_large')}`,
+                    })
+                    return
+                  }
+
                   if (!paytimeStart || !paytimeEnd) {
                     return message.warning(__('common.submitTitle1'));
                   }
@@ -315,7 +323,9 @@ class TabsHeader extends Component {
                         showTime
                         format="YYYY-MM-DD HH:mm:SS"
                         value={moment(paytimeStart, 'YYYY-MM-DD HH:mm:SS')}
-                        onChange={(value, str) => dispatch(commit2('paytimeStart', str))}
+                        onChange={(value, str) => {
+                          dispatch(commit2('paytimeStart', str));
+                        }}
                       />
                       &nbsp; - &nbsp;
                       <DatePicker
@@ -325,7 +335,9 @@ class TabsHeader extends Component {
                         showTime
                         format="YYYY-MM-DD HH:mm:SS"
                         value={moment(paytimeEnd, 'YYYY-MM-DD HH:mm:SS')}
-                        onChange={(value, str) => dispatch(commit2('paytimeEnd', str))}
+                        onChange={(value, str) => {
+                          dispatch(commit2('paytimeEnd', str));
+                        }}
                       />
                     </div>
                   </div>
