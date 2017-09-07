@@ -105,8 +105,27 @@ const cgsReducer = (dataSource, orderId, result) => {
     ...dataSource.slice(index + 1),
   ];
 };
-// const delChange = (data, oid, gid, sort) => {
-// }
+const delChange = (data, oid, gid, sort) => data.map((v) => {
+  if (v.order_id === oid) {
+    const flag = v.order_goods
+      .filter(r => r.replace_goods_sort === sort && r.order_goods_id !== gid)
+      .filter(r => Number(r.goods_status) !== 74)
+      .length;
+    return assign({}, v, {
+      order_goods: v.order_goods
+        .map((d) => {
+          if (d.order_goods_id === gid) {
+            return assign({}, d, { goods_status: 74 });
+          }
+          if (!flag && d.order_goods_sort === sort) {
+            return assign({}, d, { is_replace: 0 });
+          }
+          return d;
+        }),
+    });
+  }
+  return v;
+});
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT:
@@ -464,26 +483,7 @@ const reducer = (state = defaultState, action) => {
       return state;
     case TYPES.DEL_CHANGE_SUCCESS:
       return assign({}, state, {
-        dataSource: state.dataSource.map(v => (
-          v.order_id === action.oid ?
-            assign({}, v, {
-              order_goods: v.order_goods
-                .map(d => (
-                  d.order_goods_id === action.gid ? assign({}, d, { goods_status: 74 }) : d
-                ))
-                .map((d) => {
-                  const flag = v.order_goods
-                    .filter(r => r.replace_goods_sort === action.sort)
-                    .filter(r => Number(r.goods_status) !== 74)
-                    .length;
-                  if (d.order_goods_id === action.gid && !flag) {
-                    return assign({}, d, { is_replace: 0 });
-                  }
-                  return d;
-                }),
-            })
-            : v
-        )),
+        dataSource: delChange(state.dataSource, action.oid, action.gid, action.sort),
       });
     default:
       return state;
