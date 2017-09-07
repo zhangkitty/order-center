@@ -3,7 +3,7 @@
  */
 module.exports = {
   choose: 'Please Select',
-  search_list: '自定义列表',
+  search_list: '订单列表',
   search1: 'General Search',
   search2: 'Advanced Search',
   search3: '批量操作',

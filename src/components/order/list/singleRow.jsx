@@ -41,6 +41,12 @@ const changshow = {
   84: true,
   96: true,
 }
+const checkboxChecked = {
+  5: true,
+  7: true,
+  75: true,
+  94: true,
+}
 // 操作查询
 const columns = [{
   title: __('common.operationCheck'),
@@ -53,6 +59,19 @@ const columns = [{
 }, {
   title: __('common.operationCheck2'),
   dataIndex: 'status',
+}];
+// 备注
+const columnsRemark = [{
+  title: __('common.operationCheck'),
+  dataIndex: 'user_name',
+  width: '80px',
+}, {
+  title: __('common.operationCheck1'),
+  dataIndex: 'add_time',
+  width: '150px',
+}, {
+  title: __('common.order_operation4'),
+  dataIndex: 'remark',
 }];
 // 标记订单名
 const orderTagName = {
@@ -129,7 +148,11 @@ const SingleRow = (props) => {
           rowKey="order_goods_id"
           rowSelection={{
             type: 'checkbox',
-            onChange: t => dispatch(change('batchChooseGoods', t)),
+            getCheckboxProps: rec => ({
+              disabled: !!checkboxChecked[rec.goods_status],
+            }),
+            onChange: t =>
+              dispatch(change('batchChooseGoods', t)),
           }}
           pagination={false}
           showHeader={false}
@@ -137,7 +160,6 @@ const SingleRow = (props) => {
           columns={[{
             title: '订单商品编号',
             dataIndex: 'order_goods_sort',
-            render: d => (d || '--'),
           }, {
             title: '商品图片',
             dataIndex: 'order_goods_img',
@@ -179,15 +201,13 @@ const SingleRow = (props) => {
                     trigger="click"
                     arrowPointAtCenter
                     content={
-                      <div className={Styles.tableFloat}>
-                        <Table
-                          rowKey={fetchOperation.id}
-                          dataSource={fetchOperation}
-                          columns={columns} size="small"
-                          pagination={false}
-                          style={{ width: '350px', maxHeight: '300px', overflow: 'auto' }}
-                        />
-                      </div>
+                      <Table
+                        rowKey={fetchOperation.id}
+                        dataSource={fetchOperation}
+                        columns={columns} size="small"
+                        pagination={false}
+                        style={{ width: '400px', maxHeight: '300px', overflow: 'auto' }}
+                      />
                     }
                   >
                     <span
@@ -274,7 +294,6 @@ const SingleRow = (props) => {
               </Popconfirm>
               :
               <Button
-               // className={Styles.haveRemark}
                 onClick={() => dispatch(markTag(data.order_id))}
               >{orderTagName[data.is_trouble]}</Button>
           }
@@ -285,7 +304,14 @@ const SingleRow = (props) => {
             data.order_status > 7
               ?
               null
-              : <Link to={`/order/goodsRefund/${data.order_id}/${batchGoods}`}>{__('common.order_operation2')}</Link>
+              : <Button
+                onClick={() => {
+                  if (!batchGoods || batchGoods.length < 1) {
+                    return message.warning(__('common.sagaTitle24'));
+                  }
+                  return hashHistory.push(`/order/goodsRefund/${data.order_id}/${batchGoods}`);
+                }}
+              >{__('common.order_operation2')}</Button>
           }
 
           {/*  差价退款 */}
@@ -300,9 +326,9 @@ const SingleRow = (props) => {
               <div className={Styles.tableFloat}>
                 <Table
                   dataSource={fetchRemark}
-                  columns={columns} size="small"
+                  columns={columnsRemark} size="small"
                   pagination={false}
-                  style={{ width: window.innerWidth * 0.4, maxHeight: '400px', overflow: 'auto' }}
+                  style={{ width: '600px', maxHeight: '400px', overflow: 'auto' }}
                 />
                 <Button
                   style={{ margin: '10px' }}
@@ -331,7 +357,7 @@ const SingleRow = (props) => {
             trigger="click"
             arrowPointAtCenter
             content={
-              <div className={Styles.tableFloat}>
+              <div className={Styles.tableFloat2}>
                 <Input.TextArea
                   style={{ margin: '10px auto' }}
                   rows={5}

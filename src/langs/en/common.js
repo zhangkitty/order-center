@@ -88,4 +88,5 @@ module.exports = {
   sagaTitle21: '删除换货成功',
   sagaTitle22: '操作失败: ',
   sagaTitle23: '操作成功',
+  sagaTitle24: '必须勾选商品',
 };

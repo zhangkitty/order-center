@@ -135,14 +135,12 @@ form .colSpace2{
 .tableFloat {
     background-color: #fff;
     border-radius: 5px;
-    width: 350px;
+    width: 600px;
 }
-.tableFloat:after{
-    content: "020";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
+.tableFloat2 {
+    background-color: #fff;
+    border-radius: 5px;
+    width: 400px;
 }
 .haveRemark { color:#f00; border-color: #f00;}
 
