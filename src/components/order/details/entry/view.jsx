@@ -28,6 +28,7 @@ const info = [{
 }];
 class DetailsEntry extends Component {
   constructor(props) {
+    super(props);
     const { dispatch, params: { active } } = props;
     dispatch(commit('active', active));
   }

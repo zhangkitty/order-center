@@ -11,15 +11,15 @@ import {
 
 import Styles from './style.css';
 
-const replaceGoods = (source, d, goods) => {
-  const arr = goods.filter(v => v.replace_goods_sort === d);
-  let flag = false;
-  flag = arr.length && (arr.filter(v => Number(v.goods_status) === 74).length === arr.length);
+const replaceGoods = (source, d, status) => {
   const obj = {
     0: '',
-    1: flag ? '' : __('common.change1'),
+    1: __('common.change1'),
     2: `(${d}${__('common.change2')}`,
   };
+  if (Number(status) === 74) {
+    return `(${__('common.del_goods')})`;
+  }
   return obj[source];
 };
 const showRisk = (a, b) => {
@@ -28,7 +28,19 @@ const showRisk = (a, b) => {
   }
   return null;
 };
-
+const changshow = {
+  1: true,
+  11: true,
+  13: true,
+  12: true,
+  23: true,
+  16: true,
+  20: true,
+  28: true,
+  49: true,
+  84: true,
+  96: true,
+}
 // 操作查询
 const columns = [{
   title: __('common.operationCheck'),
@@ -138,10 +150,10 @@ const SingleRow = (props) => {
                 <a href={res.order_detail_url} target="_blank"> {d}</a>
                 <span style={{ color: '#ff0000', marginLeft: '10px' }}>
                   {
-                    replaceGoods(res.is_replace, res.replace_goods_sort, data.order_goods)
+                    replaceGoods(res.is_replace, res.replace_goods_sort, res.goods_status)
                   }
                 </span>
-                <p> {res.goods_attr ? res.goods_attr : <span>--</span>}</p>
+                <p> {res.goods_attr}</p>
               </div>
             ),
           }, {
@@ -187,15 +199,20 @@ const SingleRow = (props) => {
                   </Popover>
 
                   {/* 换货 */}
-                  <span
-                    onClick={() => {
-                      dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
-                    }
-                    }
-                    role="button" tabIndex={0}
-                  >
-                    {__('common.change_goods')}
-                  </span>
+                  {
+                    changshow[rec.goods_status] ?
+                      <span
+                        onClick={() => {
+                          dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
+                        }
+                        }
+                        role="button" tabIndex={0}
+                      >
+                        {__('common.change_goods')}
+                      </span>
+                      : null
+                  }
+
 
                   {/*  删除换货--  */}
                   {/* 若商品为“换来的货”，且商品状态=已付款、已审核、备货中、延期、有货、无货审核、无货、等待出仓、等待发货 时，显示入口 */}
