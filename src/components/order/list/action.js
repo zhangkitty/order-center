@@ -276,10 +276,11 @@ export const delChange = (oid, gid, sort) => ({
   gid,
   sort,
 });
-export const delChangeSuccess = (oid, gid) => ({
+export const delChangeSuccess = (oid, gid, sort) => ({
   type: TYPES.DEL_CHANGE_SUCCESS,
   oid,
   gid,
+  sort,
 });
 export const delChangeFail = () => ({
   type: TYPES.DEL_CHANGE_FAIL,

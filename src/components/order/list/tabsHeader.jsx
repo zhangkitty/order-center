@@ -90,16 +90,11 @@ class TabsHeader extends Component {
                 className={styles.filterBg}
                 onSubmit={(e) => {
                   e.preventDefault();
-                  let temp = (moment(paytimeEnd)).unix()-(moment(paytimeStart)).unix()
-                  if(moment.unix(temp).dayOfYear()>30){
-                    Modal.info({
-                      title:`${__('order.name.time_interval_large')}`,
-                    })
-                    return
-                  }
-
+                  const temp = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix()
                   if (!paytimeStart || !paytimeEnd) {
                     return message.warning(__('common.submitTitle1'));
+                  } else if (moment.unix(temp).dayOfYear() > 30) {
+                    return message.warning(__('order.name.time_interval_large'));
                   }
                   return dispatch(search(assign({},
                     queryString,
@@ -164,7 +159,7 @@ class TabsHeader extends Component {
                       mode="tags"
                       style={{ width: '250px' }}
                       tokenSeparators={[',']}
-                      value={siteFrom}
+                     // value={siteFrom}
                       onChange={val => dispatch(commit('siteFrom', val))}
                     >
                       {
@@ -229,6 +224,7 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.remark_user')}</span>
                     <Input
+                      disabled={troubleType === null || troubleType === 'null'}
                       className={styles.colSpace}
                       value={remarkUser}
                       onChange={e => dispatch(commit('remarkUser', e.target.value))}
@@ -248,6 +244,7 @@ class TabsHeader extends Component {
                       <Option key={2} > = </Option>
                     </Select>
                     <Input
+                      disabled={totalSelect === null || totalSelect === 'null'}
                       className={styles.colSpace}
                       value={totalInput}
                       onChange={e => dispatch(commit('totalInput', e.target.value))}
@@ -301,8 +298,11 @@ class TabsHeader extends Component {
                 className={styles.filterBg}
                 onSubmit={(e) => {
                   e.preventDefault();
+                  const tempHigh = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix()
                   if (!paytimeStart || !paytimeEnd) {
                     return message.warning(__('common.submitTitle1'));
+                  } else if (moment.unix(tempHigh).dayOfYear() > 30) {
+                    return message.warning(__('order.name.time_interval_large'));
                   }
                   return dispatch(searchHigh(assign({},
                     queryString2,
@@ -347,7 +347,7 @@ class TabsHeader extends Component {
                       className={styles.colSpace}
                       mode="tags"
                       style={{ width: '250px' }}
-                      value={siteFrom}
+                    //  value={siteFrom}
                       onChange={val => dispatch(commit2('siteFrom', val))}
                     >
                       {
@@ -453,6 +453,7 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.cancel_type')}</span>
                     <Select
+                      disabled={Number(orderStatus) !== 14}
                       className={styles.colSpace}
                       value={cancelReason}
                       onChange={val => dispatch(commit2('cancelReason', val))}
@@ -489,6 +490,7 @@ class TabsHeader extends Component {
                     </span>
                     <div className={styles.colSpace2}>
                       <DatePicker
+                        disabled={goodsStatus === null || goodsStatus === 'null'}
                         style={{ width: '150px' }}
                         allowClear={false}
                         showTime
@@ -498,6 +500,7 @@ class TabsHeader extends Component {
                       />
                       &nbsp; - &nbsp;
                       <DatePicker
+                        disabled={goodsStatus === null || goodsStatus === 'null'}
                         style={{ width: '150px' }}
                         allowClear={false}
                         showTime
