@@ -30,6 +30,12 @@ const menus = [
         crumbName: __('common.diff_refund'),
         nav: true,
       },
+      {
+        link: '/order/details/modifyDiffRefund',
+        name: __('common.modifyDiffRefund'),
+        crumbName: __('common.modifyDiffRefund'),
+        nav: true,
+      },
     ],
   },
 ];
