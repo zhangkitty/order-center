@@ -1,0 +1,16 @@
+.spanWidth {
+    width: 110px;
+    display: inline-block;
+    color: #BCC6CA;
+}
+.payLog {
+    margin-bottom: 10px;
+    border-bottom: 0.1em solid #ccc;
+    padding: 5px 0;
+}
+.refundButton {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: block;
+}

@@ -44,12 +44,13 @@ export default (url, args = {}, header) => {
     if (res.redirected) { //  302
     //  location.href = res.url; // 跳转登录
     } else if (status === 403) {
-      return showMessage('没有权限操作');
+       showMessage('没有权限操作');
     } else if (status === 500) {
       showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
       throw new Error(status);
     } else if (status !== 200) {
-      return showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
+      showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
+
     }
     // const lagunage = res.headers.get('systemLagunage');
     // 流，下载
@@ -58,6 +59,6 @@ export default (url, args = {}, header) => {
     }
 
 
-    return res.json().catch(e => console.log(e));
+    return res.json();
   });
 };

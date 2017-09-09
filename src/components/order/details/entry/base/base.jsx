@@ -1,5 +1,7 @@
-import React  from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Card } from 'antd';
+import style from '../style.css';
 
 const info = {
   left: [
@@ -16,27 +18,32 @@ const info = {
     { name: '来源国家', key: 'ip_country' },
   ],
 };
-export default ({ order_info: { basic_info } }) => (
-  <Card>
+// TODO: lan
+const Base = ({ dataSource: { base: { order_info: { basic_info } } } }) => (
+  <Card title="基本信息" bodyStyle={{ display: 'flex', width: '100%' }} style={{ width: '100%', margin: '20px 0' }}>
     <div>
       {
         info.left.map(v => (
-          <div key={v.key}>
-            <span>{ v.name }:</span>
+          <div key={v.key} >
+            <span className={style.spanWidth}>{ v.name }: </span>
             <span>{basic_info[v.key]}</span>
           </div>
         ))
       }
     </div>
-    <div>
+    <div style={{ marginLeft: '20px' }}>
       {
         info.right.map(v => (
           <div key={v.key}>
-            <span>{ v.name }:</span>
+            <span className={style.spanWidth}>{ v.name }: </span>
             <span>{basic_info[v.key]}</span>
           </div>
         ))
       }
     </div>
   </Card>
-)
+);
+Base.propTypes = {
+  dataSource: PropTypes.shape(),
+};
+export default Base;
