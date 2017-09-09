@@ -4,19 +4,22 @@ import { Table, Checkbox, Button, Input, Icon, Popover, message, Popconfirm, Spi
 import { Link, hashHistory } from 'react-router';
 import assign from 'object-assign';
 import {
-  change, commit, remarkShow, openModal,
+  change, commit, remarkShow, openModal, searchHistory,
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange,
 } from './action';
 
 import Styles from './style.css';
 
-const replaceGoods = (source, d) => {
+const replaceGoods = (source, d, status) => {
   const obj = {
     0: '',
     1: __('common.change1'),
-    2: `(${d}{__('common.change2')}`,
+    2: `(${d}${__('common.change2')}`,
   };
+  if (Number(status) === 74) {
+    return `(${__('common.del_goods')})`;
+  }
   return obj[source];
 };
 const showRisk = (a, b) => {
@@ -25,7 +28,25 @@ const showRisk = (a, b) => {
   }
   return null;
 };
-
+const changshow = {
+  1: true,
+  11: true,
+  13: true,
+  12: true,
+  23: true,
+  16: true,
+  20: true,
+  28: true,
+  49: true,
+  84: true,
+  96: true,
+}
+const checkboxChecked = {
+  5: true,
+  7: true,
+  75: true,
+  94: true,
+}
 // 操作查询
 const columns = [{
   title: __('common.operationCheck'),
@@ -38,6 +59,19 @@ const columns = [{
 }, {
   title: __('common.operationCheck2'),
   dataIndex: 'status',
+}];
+// 备注
+const columnsRemark = [{
+  title: __('common.operationCheck'),
+  dataIndex: 'user_name',
+  width: '80px',
+}, {
+  title: __('common.operationCheck1'),
+  dataIndex: 'add_time',
+  width: '150px',
+}, {
+  title: __('common.order_operation4'),
+  dataIndex: 'remark',
 }];
 // 标记订单名
 const orderTagName = {
@@ -61,7 +95,11 @@ const SingleRow = (props) => {
     record, fetchOperation, operationVisible,
     logisticsVisible, remark, fetchLogisticsRemark, dataSource,
     batchChooseOrder, batchChooseGoods, cancelRiskDesc,
+    queryString3,
   } = props;
+  const {
+    siteFrom, memberId,
+  } = queryString3;
   const batchGoods = batchChooseGoods.join(',');
   return (
     <div className={Styles.orderList}>
@@ -79,7 +117,20 @@ const SingleRow = (props) => {
             }}
           >{ data.billno }</Checkbox>
           <span>{__('common.Qty')} { data.goods_quantity }</span>
-          <span>{data.email}({data.buy_cnt})</span>
+          <span>
+            {data.email}
+            {/*  history */}
+            (
+            <a
+              role="button" tabIndex={0}
+              onClick={() => dispatch(searchHistory(assign({}, queryString3, {
+                pageNumber: 1,
+                siteFrom: data.site_from,
+                memberId: data.member_id,
+              })))
+              }
+            >{data.buy_cnt}</a>)
+          </span>
           <span>{ data.member_level }</span> <span>{data.pay_time}</span>
           <span> {data.site_from}</span> <span>{data.country_name}</span>
         </div>
@@ -97,7 +148,11 @@ const SingleRow = (props) => {
           rowKey="order_goods_id"
           rowSelection={{
             type: 'checkbox',
-            onChange: t => dispatch(change('batchChooseGoods', t)),
+            getCheckboxProps: rec => ({
+              disabled: !!checkboxChecked[rec.goods_status],
+            }),
+            onChange: t =>
+              dispatch(change('batchChooseGoods', t)),
           }}
           pagination={false}
           showHeader={false}
@@ -105,7 +160,6 @@ const SingleRow = (props) => {
           columns={[{
             title: '订单商品编号',
             dataIndex: 'order_goods_sort',
-            render: d => (d || '--'),
           }, {
             title: '商品图片',
             dataIndex: 'order_goods_img',
@@ -116,12 +170,12 @@ const SingleRow = (props) => {
             render: (d, res) => (
               <div>
                 <a href={res.order_detail_url} target="_blank"> {d}</a>
-                <span style={{ color: '#108ee9' }}>
+                <span style={{ color: '#ff0000', marginLeft: '10px' }}>
                   {
-                    replaceGoods(res.is_replace, res.replace_goods_sort)
+                    replaceGoods(res.is_replace, res.replace_goods_sort, res.goods_status)
                   }
                 </span>
-                <p> {res.goods_attr ? res.goods_attr : <span>--</span>}</p>
+                <p> {res.goods_attr}</p>
               </div>
             ),
           }, {
@@ -147,15 +201,13 @@ const SingleRow = (props) => {
                     trigger="click"
                     arrowPointAtCenter
                     content={
-                      <div className={Styles.tableFloat}>
-                        <Table
-                          rowKey={fetchOperation.id}
-                          dataSource={fetchOperation}
-                          columns={columns} size="small"
-                          pagination={false}
-                          style={{ width: '350px', maxHeight: '300px', overflow: 'auto' }}
-                        />
-                      </div>
+                      <Table
+                        rowKey={fetchOperation.id}
+                        dataSource={fetchOperation}
+                        columns={columns} size="small"
+                        pagination={false}
+                        style={{ width: '400px', maxHeight: '300px', overflow: 'auto' }}
+                      />
                     }
                   >
                     <span
@@ -167,23 +219,35 @@ const SingleRow = (props) => {
                   </Popover>
 
                   {/* 换货 */}
-                  <span
-                    onClick={() => {
-                      dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
-                    }
-                    }
-                    role="button" tabIndex={0}
-                  >
-                    {__('common.change_goods')}
-                  </span>
+                  {
+                    changshow[rec.goods_status] ?
+                      <span
+                        onClick={() => {
+                          dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
+                        }
+                        }
+                        role="button" tabIndex={0}
+                      >
+                        {__('common.change_goods')}
+                      </span>
+                      : null
+                  }
 
-                  {/*  删除换货 // TODO 返回值少order_goods_id字段 */}
-                  { rec.order_goods_id === 2 ? null : null }
-                  <Popconfirm
-                    onConfirm={() => dispatch(delChange(data.order_id, rec.goods_id))}
-                  >
-                    <span>{__('common.del_goods')}</span>
-                  </Popconfirm>
+
+                  {/*  删除换货--  */}
+                  {/* 若商品为“换来的货”，且商品状态=已付款、已审核、备货中、延期、有货、无货审核、无货、等待出仓、等待发货 时，显示入口 */}
+                  {
+                    Number(rec.is_replace) === 2 ?
+                      <Popconfirm
+                        title={__('common.submitTitle2')}
+                        onConfirm={() => dispatch(delChange(data.order_id,
+                          rec.order_goods_id,
+                          rec.replace_goods_sort))}
+                      >
+                        <span>{__('common.del_goods')}</span>
+                      </Popconfirm>
+                      : null
+                  }
                 </div>
               );
             },
@@ -218,7 +282,7 @@ const SingleRow = (props) => {
                 }
                 onConfirm={() => {
                   if (Number(data.is_trouble) > 0) {
-                    dispatch(cancelTroubleTag(0, data.order_id)); // data.is_trouble
+                    dispatch(cancelTroubleTag(0, data.order_id)); // data.is_trouble,取消传0
                   }
                 }}
               >
@@ -230,7 +294,6 @@ const SingleRow = (props) => {
               </Popconfirm>
               :
               <Button
-                className={Styles.haveRemark}
                 onClick={() => dispatch(markTag(data.order_id))}
               >{orderTagName[data.is_trouble]}</Button>
           }
@@ -241,7 +304,14 @@ const SingleRow = (props) => {
             data.order_status > 7
               ?
               null
-              : <Link to={`/order/goodsRefund/${data.order_id}/${batchGoods}`}>{__('common.order_operation2')}</Link>
+              : <Button
+                onClick={() => {
+                  if (!batchGoods || batchGoods.length < 1) {
+                    return message.warning(__('common.sagaTitle24'));
+                  }
+                  return hashHistory.push(`/order/goodsRefund/${data.order_id}/${batchGoods}`);
+                }}
+              >{__('common.order_operation2')}</Button>
           }
 
           {/*  差价退款 */}
@@ -256,9 +326,9 @@ const SingleRow = (props) => {
               <div className={Styles.tableFloat}>
                 <Table
                   dataSource={fetchRemark}
-                  columns={columns} size="small"
+                  columns={columnsRemark} size="small"
                   pagination={false}
-                  style={{ width: window.innerWidth * 0.4, maxHeight: '400px', overflow: 'auto' }}
+                  style={{ width: '600px', maxHeight: '400px', overflow: 'auto' }}
                 />
                 <Button
                   style={{ margin: '10px' }}
@@ -287,7 +357,7 @@ const SingleRow = (props) => {
             trigger="click"
             arrowPointAtCenter
             content={
-              <div className={Styles.tableFloat}>
+              <div className={Styles.tableFloat2}>
                 <Input.TextArea
                   style={{ margin: '10px auto' }}
                   rows={5}
@@ -345,6 +415,6 @@ SingleRow.propTypes = {
   fetchLogisticsRemark: PropTypes.string,
   logisticsVisible: PropTypes.bool,
   remark: PropTypes.string,
-
+  queryString3: PropTypes.shape(),   // 历史
 };
 export default SingleRow;

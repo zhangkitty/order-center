@@ -41,7 +41,6 @@ const defaultState = {
     remarkUser: null,   // 标记人
     totalSelect: null,   // 美金金额比较符
     totalInput: null,   // 美金金额
- //   searchType: 0,   // 搜索类型
   },
   searchType: 0,
   queryString2: {
@@ -61,7 +60,12 @@ const defaultState = {
     goodsStatus: null,  // 商品状态  -选中订单状态，显示 商品状态
     handleTimeStart: null,   // 商品状态更新时间
     handleTimeEnd: null,          // 商品状态更新时间
-  //  searchType: 1,  // 搜索类型
+  },
+  queryString3: {   // 历史订单
+    pageSize: 10,
+    pageNumber: 1,
+    siteFrom: null,   // 站点
+    memberId: null,    // 会员等级
   },
   operationVisible: false,  // 操作查询
   clickVisible: false,
@@ -79,7 +83,6 @@ const defaultState = {
     site_from: '',    // 站点
     order_goods_id: '',  // 订单商品id（被换）
     order_id: '',      // 订单id
-  //  goods_attr_new: '',    // 新商品 size
     goods_size: '', // 新商品 size
     load: false,
     visible: false,
@@ -87,16 +90,42 @@ const defaultState = {
   markTag: {},
 };
 const cgsReducer = (dataSource, orderId, result) => {
-//  console.log(dataSource.find(v => v.order_id === orderId), 'xxxxxx');
   const index = dataSource.findIndex(v => v.order_id === orderId);
   return [
     ...dataSource.slice(0, index),
     assign({}, dataSource[index], {
-      order_goods: [...dataSource[index].order_goods, result],
+      order_goods: [
+        ...dataSource[index].order_goods.map(v => (
+          v.order_goods_sort === result.replace_goods_sort ?
+            assign({}, v, { is_replace: 1 }) : v
+        )),
+        result,
+      ],
     }),
     ...dataSource.slice(index + 1),
   ];
 };
+const delChange = (data, oid, gid, sort) => data.map((v) => {
+  if (v.order_id === oid) {
+    const flag = v.order_goods
+      .filter(r => r.replace_goods_sort === sort && r.order_goods_id !== gid)
+      .filter(r => Number(r.goods_status) !== 74)
+      .length;
+    return assign({}, v, {
+      order_goods: v.order_goods
+        .map((d) => {
+          if (d.order_goods_id === gid) {
+            return assign({}, d, { goods_status: 74 });
+          }
+          if (!flag && d.order_goods_sort === sort) {
+            return assign({}, d, { is_replace: 0 });
+          }
+          return d;
+        }),
+    });
+  }
+  return v;
+});
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT:
@@ -114,6 +143,13 @@ const reducer = (state = defaultState, action) => {
           [action.key]: action.val,
         }),
       });
+    // case TYPES.COMMIT_HISTORY:
+    //   console.log(action, 'hishory');
+    //   return assign({}, state, {
+    //     queryString3: assign({}, state.queryString3, {
+    //       [action.key]: action.val,
+    //     }),
+    //   });
     case TYPES.COMMIT3:
       return assign({}, state, {
         exchange: assign({}, state.exchange, {
@@ -137,7 +173,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         queryString: action.data,
         load: true,
-        searchHigh: 0,
+        searchType: 0,
       });
     case TYPES.SEARCH_FAIL:
       return assign({}, state, {
@@ -154,7 +190,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         queryString2: action.data,
         load: true,
-        searchHigh: 1,
+        searchType: 1,
       });
     case TYPES.SEARCH_HIGH_FAIL:
       return assign({}, state, {
@@ -162,7 +198,22 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.SEARCH_HIGH_SUCCESS:
       return assign({}, state, {
-        // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
+        dataSource: action.data.data,
+        total: action.data.total,
+        load: false,
+      });
+    case TYPES.SEARCH_HISTORY:
+      return assign({}, state, {
+        queryString3: action.data,
+        load: true,
+        searchType: 2,
+      });
+    case TYPES.SEARCH_HISTORY_FAIL:
+      return assign({}, state, {
+        load: false,
+      });
+    case TYPES.SEARCH_HISTORY_SUCCESS:
+      return assign({}, state, {
         dataSource: action.data.data,
         total: action.data.total,
         load: false,
@@ -427,23 +478,16 @@ const reducer = (state = defaultState, action) => {
         markTag: assign({}, state.markTag, { markTagVisible: false }),
       });
     case TYPES.DEL_CHANGE:
-      return assign({}, state, {});
+      return state;
     case TYPES.DEL_CHANGE_FAIL:
-      return assign({}, state, {});
+      return state;
     case TYPES.DEL_CHANGE_SUCCESS:
       return assign({}, state, {
-        dataSource: state.dataSource.map(v => (
-          v.order_id === action.oid ?
-            assign({}, v, {
-              order_goods: v.order_goods.filter(d => d.goods_id !== action.gid), // order_goods_id
-            })
-            : v
-        )),
+        dataSource: delChange(state.dataSource, action.oid, action.gid, action.sort),
       });
     default:
       return state;
   }
 };
-
 export default reducer;
 
