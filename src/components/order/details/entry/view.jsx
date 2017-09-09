@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Tabs, Spin } from 'antd';
 import { commit, getInfo } from './action';
 import BaseInfo from './base/index';
@@ -35,10 +35,8 @@ const info = props => [{
 class DetailsEntry extends Component {
   constructor(props) {
     super(props);
-    const { ready, dispatch, params: { id, active, bill }, orderId } = props;
-    if (!ready || id !== orderId) {
-      dispatch(getInfo(id, bill));
-    }
+    const { dispatch, params: { id, active, bill } } = props;
+    dispatch(getInfo(id, bill));
     dispatch(commit('orderId', id));
     dispatch(commit('billno', bill));
     dispatch(commit('activeKey', active || 'base'));
@@ -72,7 +70,6 @@ DetailsEntry.propTypes = {
   ready: PropTypes.bool,
   dispatch: PropTypes.func,
   params: PropTypes.shape(),
-  orderId: PropTypes.string,
   activeKey: PropTypes.string,
 };
 const mapStateToProps = state => state['order/details/entry'];

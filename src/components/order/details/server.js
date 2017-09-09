@@ -14,6 +14,11 @@ const entry = {
   orderBatchCheck: '/Order/orderBatchCheck',
   uploadLogisticsNumber: '/Order/uploadLogisticsNumber',
 };
+const editAddress = {
+  info: '/Order/getAddressInfo',
+  city: '/Order/getCountryCityAll',
+  save: '/Order/updateAddres',
+}
 
 export function* getInfo(id, bill) {
   const base = fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
@@ -85,3 +90,18 @@ export const uploadtrack = data => (
     body: JSON.stringify(data),
   })
 );
+export const getAddressInfo = id => (
+  fetch(`${editAddress.info}?order_id=${id}`, {
+  method: 'get',
+}))
+export const getcitySer = value => (
+  fetch(`${editAddress.city}?value=${value}`, {
+    method: 'get',
+  })
+)
+export const editAddresSave = data => (
+  fetch(editAddress.save, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+)

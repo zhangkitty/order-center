@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Button, Input, Popover, message } from 'antd';
+import { hashHistory } from 'react-router';
 import style from '../style.css';
 import { commit, updateEmail } from '../action';
 
@@ -65,7 +66,10 @@ const Address = (
   <div style={{ display: 'flex' }}>
     <Card title="Shipping Address" style={cardStyle}>
       <div style={{ width: '50%', float: 'left' }}>
-        <Button style={{ position: 'absolute', right: '10px' }}>{lan.edit}</Button>
+        <Button
+          style={{ position: 'absolute', right: '10px' }}
+          onClick={() => hashHistory.push(`/order/details/editAddress/${orderId}`)}
+        >{lan.edit}</Button>
         {
           info.sadrr.left.map(v => (
             <div key={v.key}>
