@@ -3,13 +3,16 @@ import fetch from '../../../lib/fetch';
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
   payShow: '/order/payShow', // 支付信息
-  refund: '/Refund/getRefundInfo', // 退款信息
+  refund: '/OrderDiffRefund/getRefundBillListByOrderId', // 退款信息
   orderReturn: '/orderReturn/getReturnOrder', // 退货信息
   orderRecord: '/Order/getOrderRecord', // 订单日志
   refundEmail: '/order/refundEmail',
   getReturnGoods: '/OrderReturn/getReturnGoods',
   validateReturn: '/OrderReturn/validateReturn',
   partDelivery: '/Order/partDelivery',
+  priorDelivery: '/OrderDetail/priorDelivery',
+  orderBatchCheck: '/Order/orderBatchCheck',
+  uploadLogisticsNumber: '/Order/uploadLogisticsNumber',
 };
 
 export function* getInfo(id, bill) {
@@ -62,5 +65,23 @@ export const partSendSer = (order_ids, inventory_type) => (
   fetch(entry.partDelivery, {
     method: 'POST',
     body: JSON.stringify({ order_ids, inventory_type }),
+  })
+);
+export const preSendSer = (order_id, type) => (
+  fetch(entry.priorDelivery, {
+    method: 'POST',
+    body: JSON.stringify({ order_id, type }),
+  })
+);
+export const examineSer = order_ids => (
+  fetch(entry.orderBatchCheck, {
+    method: 'POST',
+    body: JSON.stringify({ order_ids }),
+  })
+);
+export const uploadtrack = data => (
+  fetch(entry.uploadLogisticsNumber, {
+    method: 'POST',
+    body: JSON.stringify(data),
   })
 );

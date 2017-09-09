@@ -11,4 +11,7 @@ export const BACK_GOODS_DATES = `${prefix}back_goods_dates`;
 export const BACK_GOODS_DATES_SUCCESS = `${prefix}back_goods_dates_success`;
 export const OPERATE_RETURN = `${prefix}operate_return`;
 export const PART_SEND = `${prefix}part_send`;
+export const PRE_SEND = `${prefix}pre_send`;
+export const EXAMINE = `${prefix}examine`;
+export const EXAMINE_SUCCESS = `${prefix}examine_success`;
 

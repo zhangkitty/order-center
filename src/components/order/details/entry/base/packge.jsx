@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { Card, Table, Button, Modal, Spin, Checkbox, Popover, Radio, message } from 'antd';
 import assign from 'object-assign';
 import style from '../style.css';
-import { backGoodsDates, commit, operateReturn, partSend } from '../action';
+import { backGoodsDates, commit, operateReturn, partSend, preSendAction, examine } from '../action';
 
 // TODO: lan
 const BG = Button.Group;
@@ -35,7 +35,7 @@ const lan = {
   guangzhou: '广州',
   xibu: '西部',
 };
-const cardStyle = { marginBottom: '20px' };
+const cardStyle = { marginBottom: '20px', maxWidth: '1200px' };
 const Packge = (
   {
     dataSource: { base: { order_goods_info, button_list } },
@@ -47,6 +47,7 @@ const Packge = (
     warehouseShow,
     warehouse,
     partSendBtn,
+    preSend,
   },
   ) => {
   const {
@@ -181,11 +182,15 @@ const Packge = (
           }
           {
             !!show_priority_shipped_button &&
-            <Button>{lan.youxianfahuo}</Button>
+            <Button
+              onClick={() => dispatch(preSendAction(Number(orderId), preSend))}
+            >
+              {preSend ? lan.quxiaoyouxianfahuo : lan.youxianfahuo}
+            </Button>
           }
           {
             !!show_review_order_button &&
-            <Button>{lan.shenhedingdan}</Button>
+            <Button onClick={() => dispatch(examine(orderId))}>{lan.shenhedingdan}</Button>
           }
         </BG>
       </div>
@@ -286,6 +291,7 @@ Packge.propTypes = {
   backReturnDate: PropTypes.shape(),
   billno: PropTypes.string,
   warehouse: PropTypes.number,
+  preSend: PropTypes.number,
   chooseGoods: PropTypes.arrayOf(PropTypes.string),
 };
 export default Packge;

@@ -9,6 +9,7 @@ const defaultState = {
   warehouseShow: false,
   warehouse: 0,
   partSendBtn: false,
+  preSend: 0,
   dataSource: {
     base: {}, // 基本
     pay: {}, // 支付信息
@@ -27,8 +28,8 @@ const defaultState = {
     return_no: '', // 退货单号
     channel: '', // 物流渠道
     check_type: '', // 退单类型1:运单号2:凭证
-    shipping_no: '', // 运单号
-    return_img: '', // 物流凭证图片
+    check_value: '',
+    img: '',
   },
   returnEmail: '',
 };
@@ -71,10 +72,6 @@ export default (state = defaultState, action) => {
           return_img: '',
         },
       });
-    case TYPES.UPLOAD_TRACK:
-      return assign({}, state, {
-        uploadTrack: assign({}, state.uploadTrack, { show: false }),
-      });
     case TYPES.BACK_GOODS_DATES:
       return assign({}, state, {
         backReturnDate: assign({}, state.backReturnDate, {
@@ -89,6 +86,17 @@ export default (state = defaultState, action) => {
         },
           action.data,
           ),
+      });
+    case TYPES.EXAMINE_SUCCESS:
+      return assign({}, state, {
+        emailShow: false,
+        dataSource: assign({}, state.dataSource, {
+          base: assign({}, state.dataSource.base, {
+            button_list: assign({}, state.dataSource.base.button_list, {
+              show_review_order_button: 0,
+            }),
+          }),
+        }),
       });
     case TYPES.COMMIT:
       return assign({}, state, {

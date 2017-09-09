@@ -46,7 +46,7 @@ const info = {
     ],
   },
 };
-const cardStyle = { width: '700px', margin: '0 20px 20px 40px' };
+const cardStyle = { width: '600px', margin: '0 20px 20px 20px', maxWidth: '1200px' };
 const emailStyle = {
   width: '200px',
   float: 'left',

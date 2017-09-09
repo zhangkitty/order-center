@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Table, Card, Button, Modal } from 'antd';
+import { Table, Card, Button, Modal, Input, Radio, Upload } from 'antd';
 import { commit, uploadTrackAction, uploadTrackShow } from './action';
 
 const BG = Button.Group;
+const RG = Radio.Group;
 const lan = {
   jilu: '退货记录',
   bianhao: '退货单号',
@@ -18,10 +19,15 @@ const lan = {
   pingzhenghao: '退货单状态',
   caozuo: '操作',
   chankan: '查看',
-  xiazai: '下载退货单',
+  xiazai: '查看退货单',
   sahngchuan: '上传退货物流号',
   rl: '生成RL',
   save: '保存',
+  qudao: '物流渠道',
+  yundanleixing: '运单类型',
+  yundaonhao: '运单号',
+  yundanpingzh: '运单凭证',
+  upload: '上传',
 };
 const obj = {
   return_order_id: 1,
@@ -40,7 +46,12 @@ const data = [
   obj,
   assign({}, obj, { return_order_id: 2 }),
 ];
-
+const sty = {
+  form: { display: 'flex', flexDirection: 'column' },
+  div: { display: 'flex', marginTop: '20px' },
+  span: { display: 'inline-block', width: '80px' },
+  input: { width: '50%' },
+};
 const OrderReturn = (
   {
     dataSource: { orderReturn },
@@ -51,6 +62,7 @@ const OrderReturn = (
 ) => (
   <Card
     title={lan.jilu}
+    style={{ maxWidth: '1200px' }}
   >
     <Table
       size="small"
@@ -98,15 +110,15 @@ const OrderReturn = (
           title: lan.caozuo,
           render: rec => (
             <div>
-              <BG>
-                <Button>{lan.chankan}</Button>
+                <a href={`http://supply.dotfashion.cn/index_new.php/Home/OrderReturn/checkDetail/return_order_id/${rec.return_order_id}`} target="blank">{lan.chankan}</a>
                 {
                   rec.return_label_type === 'RAN' ?
                     <Button>{lan.rl}</Button>
                     : null
                 }
-                <Button onClick={() => dispatch(uploadTrackShow(orderId, rec.return_order_id))}>{lan.sahngchuan}</Button>
-              </BG>
+                <Button onClick={() => dispatch(uploadTrackShow(orderId, rec.return_order_id))}>
+                  {lan.sahngchuan}
+                </Button>
               {
                 rec.return_order_download ?
                   <a href={rec.return_order_download} target="blank">{lan.xiazai}</a>
@@ -123,7 +135,47 @@ const OrderReturn = (
       okText={lan.save}
       visible={uploadTrack.show}
       onOk={() => dispatch(uploadTrackAction(uploadTrack))}
-    />
+    >
+      <form style={sty.form}>
+        <div style={sty.div}>
+          <span style={sty.span}>{lan.qudao}</span>
+          <Input
+            style={sty.input}
+            onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { channel: e.target.value })))}
+          />
+        </div>
+        <div style={sty.div}>
+          <span style={sty.span}>{lan.yundanleixing}</span>
+          <RG
+            onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_type: e.target.value })))}
+          >
+            <Radio value="1">{lan.yundaonhao}</Radio>
+            <Radio value="2">{lan.yundanpingzh}</Radio>
+          </RG>
+        </div>
+        {
+          uploadTrack.check_type === '1' &&
+          <div style={sty.div}>
+            <span style={sty.span}>{lan.yundaonhao}</span>
+            <Input onChange={e => dispatch(commit('uploadTrack',
+              assign({}, uploadTrack, { check_value: e.target.value })))}
+            />
+          </div>
+        }
+        {
+          uploadTrack.check_type === '2' &&
+            <div style={sty.div}>
+              <span style={sty.span}>{lan.yundanpingzh}</span>
+              {uploadTrack.img && <img src={uploadTrack.img} alt="pic" />}
+              <Upload>
+                <Button icon="upload">
+                  {lan.upload}
+                </Button>
+              </Upload>
+            </div>
+        }
+      </form>
+    </Modal>
 
   </Card>
 );

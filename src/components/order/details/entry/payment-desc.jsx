@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, Alert, Button } from 'antd';
+import { Card, Alert, Button, Popover } from 'antd';
 import style from './style.css';
 import { commit } from './action';
 
 
 const lan = {
   zhifuqudao: '支付渠道',
-  zhehouzongjia: '折后总价',
+  zhehouzongjia: '商品折后总价',
   qianbao: '钱包',
   youhuiquanba: '优惠券码',
   youhuidikou: '抵扣显示金额',
@@ -21,6 +21,9 @@ const lan = {
   CODyingfu: 'COD应付金额',
   jiaoyijulu: '交易记录',
   chakanlirun: '查看利润',
+  goodszongjia: '商品总价',
+  youhuijuanzhekoe: '优惠券折扣',
+  jifenzhekoe: '积分折扣',
 };
 const cardSpanStyle = { display: 'inline-block', width: '250px' };
 const Payment = (
@@ -58,6 +61,13 @@ const Payment = (
               <div>
                 <span className={style.spanWidth}>{v.name}: </span>
                 <span>{v.value}</span>
+                {
+                  v.name === lan.zhehouzongjia ?
+                    <Popover content={`${lan.zhehouzongjia} = ${lan.goodszongjia} - ${lan.youhuijuanzhekoe} -${lan.jifenzhekoe} `}>
+                      <Button shape="circle" icon="question-circle-o" style={{ border: 'none' }} />
+                    </Popover>
+                    : null
+                }
               </div>
             ))
           }
@@ -81,7 +91,7 @@ const Payment = (
           </div>
         </div>
       </div>
-      <Card title={lan.jiaoyijulu}>
+      <Card title={lan.jiaoyijulu} style={{ maxWidth: '1200px' }}>
         {
           (
             pay_log ||

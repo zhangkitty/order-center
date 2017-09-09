@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import assign from 'object-assign';
 import { Table, Card, Button } from 'antd';
 import style from './style.css';
 
@@ -19,80 +18,22 @@ const lan = {
   tixiantuikuan: '提现退款',
   xiugaishenqing: '修改申请',
 };
-const RefundRecordObject = {
-  id: 1, // 退款记录ID
-  refund_path_name: '钱包', // 退款路径名称
-};
-const OrderGoodsObject = {
-  id: 1001, // 订单商品ID
-  status: '已审核', // 订单商品状态
-  serial_number: 'A', // 序列号
-  pic: '', // 商品图片链接
-  sku: 'blouse170307301', // 商品sku
-  attr: 'Size:M', // 商品属性
-  is_assessed: 0, // 是否品控(0否1是)
-  sale_price: {
-    amount: 4.00, // 金额
-    amount_with_symbol: '$4.00', // 带币种符号的金额字符串
-    rate: 1.00000, // 当前币种汇率
-    symbol: 'US$', // 当前币种符号
-  }, // 销售价
-  discount_price: {
-    amount: 3.80, // 金额
-    amount_with_symbol: '$4.00', // 带币种符号的金额字符串
-    rate: 1.00000, // 当前币种汇率
-    symbol: 'US$', // 当前币种符号
-  }, // 折扣价
-};
-const RefundBillObject = {
-  id: '453', // 退款单ID
-  type: '差价退款', // 退款单类型
-  status: '已驳回', // 退款单状态
-  date_of_application: '2017-04-01 10:00:00', // 申请日期
-  applicant: '王玉', // 申请人
-  apply_for_refund_amount: {
-    price_usd: {
-      amount: '0.00',
-      amount_with_symbol: 'US$0.00',
-      rate: '1.00000000',
-      symbol: 'US$',
-    },
-    price_with_exchange_rate: {
-      amount: '0.00',
-      amount_with_symbol: '0.00€',
-      rate: '2.00000000',
-      symbol: '€',
-    },
-  }, // 申请金额
-  refund_goods_list: [
-    OrderGoodsObject,
-    OrderGoodsObject,
-  ], // 退款商品
-  refund_record_list: [
-    RefundRecordObject,
-    RefundRecordObject,
-  ], // 退款路径
-  refund_txn_id: '', // 退款交易凭证号
-};
-const data = [
-  RefundBillObject,
-  assign({}, RefundBillObject, { id: 2, status: '已退款' }),
-];
 const Refund = (
   {
     dataSource: { refund: { refund_bill_list } },
   },
   ) => (
     <Card
+      style={{ maxWidth: '1200px' }}
       title={
         <div>
           <span>{lan.jilu}</span>
           {
-          data
+            (refund_bill_list || [])
             .filter(v => (
-              v.refund_record_list.findIndex(d => d.refund_path_name === '钱包') > -1
+              v.refund_record_list.findIndex(d => d.id === 2) > -1
             ))
-            .filter(v => v.status === '已退款')
+            .filter(v => Number(v.status_code) === 3)
             .length
           ?
             <Button className={style.refundButton}>{lan.tixiantuikuan}</Button>
@@ -106,7 +47,7 @@ const Refund = (
         size="small"
         rowKey="id"
         pagination={false}
-        dataSource={data}
+        dataSource={refund_bill_list || []}
         columns={[
           {
             title: lan.bianhao,
@@ -127,7 +68,7 @@ const Refund = (
           {
             title: lan.jine,
             dataIndex: 'apply_for_refund_amount',
-            render: (d, rec) => (
+            render: d => (
               <span>
                 {d.price_usd.amount_with_symbol} --- {d.price_with_exchange_rate.amount_with_symbol}
               </span>
@@ -154,7 +95,7 @@ const Refund = (
           {
             title: lan.caozuo,
             render: rec => (
-            rec.status === '已申请' || rec.status === '已驳回' ?
+            rec.status_code === 4 || rec.status_code === 1 ?
               <Button>{lan.xiugaishenqing}</Button> : '-'
           ),
           },

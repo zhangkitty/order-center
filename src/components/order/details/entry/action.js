@@ -54,3 +54,16 @@ export const partSend = (oid, w) => ({
   w,
   type: TYPES.PART_SEND,
 });
+export const preSendAction = (oid, sendType) => ({
+  oid,
+  sendType,
+  type: TYPES.PRE_SEND,
+});
+export const examine = oid => ({
+  oid,
+  type: TYPES.EXAMINE,
+});
+export const examineSuccess = () => ({
+  type: TYPES.EXAMINE_SUCCESS,
+});
+

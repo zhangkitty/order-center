@@ -20,7 +20,7 @@ const info = {
 };
 // TODO: lan
 const Base = ({ dataSource: { base: { order_info: { basic_info } } } }) => (
-  <Card title="基本信息" bodyStyle={{ display: 'flex', width: '100%' }} style={{ width: '100%', margin: '20px 0' }}>
+  <Card title="基本信息" bodyStyle={{ display: 'flex', maxWidth: '1200px' }} style={{ width: '100%', margin: '20px 0' }}>
     <div>
       {
         info.left.map(v => (
