@@ -66,4 +66,8 @@ export const examine = oid => ({
 export const examineSuccess = () => ({
   type: TYPES.EXAMINE_SUCCESS,
 });
+export const profitShowAction = id => ({
+  type: TYPES.PROFIT_SHOW,
+  id,
+});
 

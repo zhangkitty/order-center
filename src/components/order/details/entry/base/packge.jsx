@@ -95,7 +95,7 @@ const Packge = (
       title: lan.img,
       dataIndex: 'pic',
       render: (d, rec) => (
-        <span>
+        <span style={{ display: 'flex', alignItems: 'center' }}>
           <Checkbox
             onChange={(e) => {
               const value = e.target.checked;
@@ -199,7 +199,7 @@ const Packge = (
           size="small"
           pagination={false}
           dataSource={not_packaged_goods_list}
-          columns={col(orderId, dispatch, billno)}
+          columns={col()}
         />
       </Card>
       {
@@ -224,7 +224,7 @@ const Packge = (
               pagination={false}
               dataSource={v.package_goods_list}
               rowKey={'id'}
-              columns={col(orderId, dispatch, billno, 'show')}
+              columns={col('show')}
             />
           </Card>
         ))
@@ -234,7 +234,7 @@ const Packge = (
           size="small"
           pagination={false}
           dataSource={returned_goods_list}
-          columns={col(orderId, dispatch, billno)}
+          columns={col()}
         />
       </Card>
       <Card title={lan.refund} style={cardStyle}>
@@ -242,7 +242,7 @@ const Packge = (
           size="small"
           pagination={false}
           dataSource={refund_goods_list}
-          columns={col(orderId, dispatch, billno)}
+          columns={col()}
         />
       </Card>
       <Modal

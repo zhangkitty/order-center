@@ -1,10 +1,9 @@
 import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
-import assign from 'object-assign';
 import { hashHistory } from 'react-router';
 import * as TYPES from './types';
 import { commit, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
-import { getInfo, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack } from '../server';
+import { getInfo, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack, profitShowSer } from '../server';
 
 const lan = {
   ofail: '操作失败',
@@ -80,6 +79,16 @@ function* uploadTrackSaga(action) {
   yield put(commit('uploadTrack', { show: false }));
   return message.success(lan.osucess);
 }
+function* profitShowSaga(action) {
+  const data = yield profitShowSer(action.id);
+  if (!data || data.code !== 0) {
+    yield put(commit('profitLoad', false));
+    return message.warning(`${lan.ofail}:${data.msg}`);
+  }
+  yield put(commit('profitShow', true));
+  yield put(commit('profitLoad', false));
+  return yield put(commit('profit', data.data));
+}
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -89,4 +98,5 @@ export default function* () {
   yield takeLatest(TYPES.PRE_SEND, preSendSaga);
   yield takeLatest(TYPES.EXAMINE, examineSaga);
   yield takeLatest(TYPES.UPLOAD_TRACK, uploadTrackSaga);
+  yield takeLatest(TYPES.PROFIT_SHOW, profitShowSaga);
 }

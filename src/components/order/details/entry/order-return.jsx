@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Table, Card, Button, Modal, Input, Radio, Upload } from 'antd';
+import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message } from 'antd';
 import { commit, uploadTrackAction, uploadTrackShow } from './action';
 
-const BG = Button.Group;
 const RG = Radio.Group;
 const lan = {
   jilu: '退货记录',
@@ -87,10 +86,6 @@ const OrderReturn = (
           dataIndex: 'return_apply_time',
         },
         {
-          title: lan.ren,
-          dataIndex: 'return_apply_name',
-        },
-        {
           title: lan.shangpin,
           dataIndex: 'return_goods',
         },
@@ -110,20 +105,25 @@ const OrderReturn = (
           title: lan.caozuo,
           render: rec => (
             <div>
-                <a href={`http://supply.dotfashion.cn/index_new.php/Home/OrderReturn/checkDetail/return_order_id/${rec.return_order_id}`} target="blank">{lan.chankan}</a>
-                {
-                  rec.return_label_type === 'RAN' ?
-                    <Button>{lan.rl}</Button>
-                    : null
-                }
-                <Button onClick={() => dispatch(uploadTrackShow(orderId, rec.return_order_id))}>
-                  {lan.sahngchuan}
-                </Button>
+              <a style={{ margin: '10px' }} href={`http://supply.dotfashion.cn/index_new.php/Home/OrderReturn/checkDetail/return_order_id/${rec.return_order_id}`} target="blank">{lan.chankan}</a>
               {
-                rec.return_order_download ?
-                  <a href={rec.return_order_download} target="blank">{lan.xiazai}</a>
+                rec.return_rl_download ?
+                  <a href={rec.return_rl_download} target="blank" style={{ marginLeft: '10px' }}>{lan.xiazai}</a>
                   : null
               }
+              {
+                  rec.return_label_type === 'RAN' ?
+                    <div>
+                      <Button style={{ margin: '10px' }}>{lan.rl}</Button>
+                      <Popover content={rec.return_ran_info}>
+                        <Button style={{ margin: '10px' }}>{lan.chankan}RAN</Button>
+                      </Popover>
+                    </div>
+                    : null
+                }
+              <Button onClick={() => dispatch(uploadTrackShow(orderId, rec.return_order_id))} style={{ margin: '10px' }}>
+                {lan.sahngchuan}
+              </Button>
             </div>
 
           ),
@@ -167,7 +167,20 @@ const OrderReturn = (
             <div style={sty.div}>
               <span style={sty.span}>{lan.yundanpingzh}</span>
               {uploadTrack.img && <img src={uploadTrack.img} alt="pic" />}
-              <Upload>
+              <Upload
+                action="/index_new.php/Order/OrderReturn/handleImg"
+                name="logistics_certificate"
+                data={{ type: 2, order_id: orderId }}
+                onChange={({ file }) => {
+                  if (file.status === 'done') {
+                    message.success(`${file.name} file uploaded successfully`);
+                    dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_value: file.response.data })));
+                    dispatch(commit('uploadTrack', assign({}, uploadTrack, { img: file.response.data })));
+                  } else if (file.status === 'error') {
+                    message.error(`${file.name} file upload failed.`);
+                  }
+                }}
+              >
                 <Button icon="upload">
                   {lan.upload}
                 </Button>

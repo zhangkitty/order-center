@@ -2,17 +2,18 @@ import fetch from '../../../lib/fetch';
 
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
-  payShow: '/order/payShow', // 支付信息
+  payShow: '/orderDetail/payShow', // 支付信息
   refund: '/OrderDiffRefund/getRefundBillListByOrderId', // 退款信息
   orderReturn: '/orderReturn/getReturnOrder', // 退货信息
   orderRecord: '/Order/getOrderRecord', // 订单日志
-  refundEmail: '/orderDetail/refundEmail',
+  refundEmail: '/orderDetail/refundEmail', // 更新邮箱
   getReturnGoods: '/OrderReturn/getReturnGoods',
-  validateReturn: '/OrderReturn/validateReturn',
+  validateReturn: '/OrderReturn/validateReturn', // 退货跳转前验证
   partDelivery: '/Order/partDelivery',
   priorDelivery: '/OrderDetail/priorDelivery',
   orderBatchCheck: '/Order/orderBatchCheck',
   uploadLogisticsNumber: '/Order/uploadLogisticsNumber',
+  orderProfit: '/OrderDetail/orderProfit',
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
@@ -65,7 +66,7 @@ export const backGoodsDatesSer = data => (
   })
 );
 export const operateReturnSer = (oid, gid) => (
-  fetch(`${entry.payShow}?order_id=${oid}&goods_id=${gid}`, {
+  fetch(`${entry.validateReturn}?order_id=${oid}&goods_id=${gid}`, {
     method: 'get',
   })
 );
@@ -91,6 +92,12 @@ export const uploadtrack = data => (
   fetch(entry.uploadLogisticsNumber, {
     method: 'POST',
     body: JSON.stringify(data),
+  })
+);
+export const profitShowSer = id => (
+  fetch(entry.orderProfit, {
+    method: 'POST',
+    body: JSON.stringify({ order_id: Number(id) }),
   })
 );
 export const getAddressInfo = id => (

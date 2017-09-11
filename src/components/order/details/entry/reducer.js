@@ -7,6 +7,8 @@ const defaultState = {
   activeKey: 'base',
   emailShow: false,
   warehouseShow: false,
+  profitLoad: false,
+  profit: '',
   warehouse: 0,
   partSendBtn: false,
   preSend: 0,
@@ -97,6 +99,10 @@ export default (state = defaultState, action) => {
             }),
           }),
         }),
+      });
+    case TYPES.PROFIT_SHOW:
+      return assign({}, state, {
+        profitLoad: true,
       });
     case TYPES.COMMIT:
       return assign({}, state, {
