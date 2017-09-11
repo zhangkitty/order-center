@@ -31,5 +31,6 @@ module.exports = {
   goods_status: '商品状态',
   cancel_type: '取消类型',
   goods_time: '商品状态更新时间',
-  time_interval_large: '时间间隔不能超过30天',
+  time_interval_large: '时间间隔不能超过1个月',
+  time_interval_large1: '结束时间必须大于开始时间',
 };
