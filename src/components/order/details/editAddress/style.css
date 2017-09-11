@@ -1,0 +1,13 @@
+.spanWidth {
+    width: 200px;
+    display: inline-block;
+}
+.form {
+    padding:50px 20px 50px 50px;
+    display: flex;
+    flex-direction: column;
+}
+.form>div {
+    display: flex;
+    margin-top: 15px;
+}
