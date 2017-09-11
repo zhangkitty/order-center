@@ -6,7 +6,7 @@ const entry = {
   refund: '/OrderDiffRefund/getRefundBillListByOrderId', // 退款信息
   orderReturn: '/orderReturn/getReturnOrder', // 退货信息
   orderRecord: '/Order/getOrderRecord', // 订单日志
-  refundEmail: '/order/refundEmail',
+  refundEmail: '/orderDetail/refundEmail',
   getReturnGoods: '/OrderReturn/getReturnGoods',
   validateReturn: '/OrderReturn/validateReturn',
   partDelivery: '/Order/partDelivery',
@@ -19,7 +19,10 @@ const editAddress = {
   city: '/Order/getCountryCityAll',
   save: '/Order/updateAddres',
 }
-
+const toReturnGoods = {
+  info: '/OrderReturn/getReturnSubmitConfig',
+  save: '/Order/submitReturn',
+}
 export function* getInfo(id, bill) {
   const base = fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
     method: 'GET',
@@ -52,7 +55,7 @@ export function* getInfo(id, bill) {
 export const updateEmailSer = (order_id, email) => (
   fetch(entry.refundEmail, {
     method: 'POST',
-    body: JSON.stringify({ order_id, email }),
+    body: JSON.stringify({ order_id: Number(order_id), email }),
   })
 );
 export const backGoodsDatesSer = data => (
@@ -101,6 +104,18 @@ export const getcitySer = value => (
 )
 export const editAddresSave = data => (
   fetch(editAddress.save, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+)
+export const getToReturnGoodsInfo = (oid, gid) => (
+  fetch(`${toReturnGoods.info}?order_id=${oid}&goods_id=${gid}`, {
+    method: 'get',
+  })
+)
+
+export const toReturnGoodsSave = data => (
+  fetch(toReturnGoods.save, {
     method: 'POST',
     body: JSON.stringify(data),
   })

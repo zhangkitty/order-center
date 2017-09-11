@@ -1,6 +1,7 @@
 import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import assign from 'object-assign';
+import { hashHistory } from 'react-router';
 import * as TYPES from './types';
 import { commit, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
 import { getInfo, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack } from '../server';
@@ -45,8 +46,7 @@ function* operateReturnSaga(action) {
   if (!data || data.code !== 0) {
     return message.warning(`${lan.fail}:${data.msg}`);
   }
-  // TODO: 跳转
-  return message.success(lan.osucess);
+  return hashHistory.push(`order/details/to-return-goods/${action.oid}/${action.gid}`);
 }
 function* partSendSaga(action) {
   const data = yield partSendSer(action.oid, action.w);
