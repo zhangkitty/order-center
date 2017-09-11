@@ -3,7 +3,7 @@
  */
 module.exports = {
   choose: '请选择',
-  search_list: '自定义列表',
+  search_list: '订单列表',
   search1: '普通搜索',
   search2: '高级搜索',
   search3: '批量操作',
@@ -31,5 +31,5 @@ module.exports = {
   goods_status: '商品状态',
   cancel_type: '取消类型',
   goods_time: '商品状态更新时间',
-  time_interval_large:'时间间隔不能超过30天'
+  time_interval_large: '时间间隔不能超过30天',
 };

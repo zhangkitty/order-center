@@ -93,7 +93,7 @@ class TabsHeader extends Component {
                   const temp = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix()
                   if (!paytimeStart || !paytimeEnd) {
                     return message.warning(__('common.submitTitle1'));
-                  } else if (moment.unix(temp).dayOfYear() > 30) {
+                  } else if (moment.unix(temp).dayOfYear() > 31) {
                     return message.warning(__('order.name.time_interval_large'));
                   }
                   return dispatch(search(assign({},
@@ -176,6 +176,7 @@ class TabsHeader extends Component {
                       value={countryName}
                       onChange={val => dispatch(commit('countryName', val))}
                     >
+                      <Option key={null} > {__('order.name.choose')}</Option>
                       {
                         fetchCountry.map(item => (
                           <Option key={item.id} > {item.name}</Option>
@@ -301,7 +302,7 @@ class TabsHeader extends Component {
                   const tempHigh = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix()
                   if (!paytimeStart || !paytimeEnd) {
                     return message.warning(__('common.submitTitle1'));
-                  } else if (moment.unix(tempHigh).dayOfYear() > 30) {
+                  } else if (moment.unix(tempHigh).dayOfYear() > 31) {
                     return message.warning(__('order.name.time_interval_large'));
                   }
                   return dispatch(searchHigh(assign({},
