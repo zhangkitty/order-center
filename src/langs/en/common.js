@@ -8,10 +8,11 @@ module.exports = {
   choose_goods: '取消商品申请',
   search: 'Search',
   choose: 'Please Select',
+  choose1: '请选择尺码',
   search1: 'General Search',
   search2: 'Advanced Search',
   Qty: 'Qty :',
-  total: 'total :',
+  total: 'total:',
   order_number: 'Order No.',
   order_id: 'Order ID',
   diff_refund: 'Price Difference Refund',
@@ -61,6 +62,10 @@ module.exports = {
   title1: 'Remark',
   submitName: 'Save',    // 提交name
   submitName1: 'Cancel',
+  submitName2: '取消标记',
+  submitName3: '保存标记',
+  submitName4: '换入sku',
+  submitName5: '可换尺码',
   submitTitle: '缺少SKU',    // 提交提示
   submitTitle1: '缺少时间',
   submitTitle2: '确定删除换货吗？',

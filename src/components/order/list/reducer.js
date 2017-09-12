@@ -143,13 +143,6 @@ const reducer = (state = defaultState, action) => {
           [action.key]: action.val,
         }),
       });
-    // case TYPES.COMMIT_HISTORY:
-    //   console.log(action, 'hishory');
-    //   return assign({}, state, {
-    //     queryString3: assign({}, state.queryString3, {
-    //       [action.key]: action.val,
-    //     }),
-    //   });
     case TYPES.COMMIT3:
       return assign({}, state, {
         exchange: assign({}, state.exchange, {
@@ -358,10 +351,21 @@ const reducer = (state = defaultState, action) => {
         loadUpdata: true,
       });
     case TYPES.REMARK_SAVE_FAIL:
-    case TYPES.REMARK_SAVE_SUCCESS:
       return assign({}, state, {
         visible: false,
         loadUpdata: false,
+      });
+    case TYPES.REMARK_SAVE_SUCCESS:  // 备注更新成功，备注状态改为 1
+      return assign({}, state, {
+        visible: false,
+        loadUpdata: false,
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.data.orderId ?
+            assign({}, v, {
+             // transhRemark: action.mark,
+              have_remark: 1,
+            }) : v
+        )),
       });
     case TYPES.LOGISITICS_REMARK:
       return assign({}, state, {
@@ -372,7 +376,7 @@ const reducer = (state = defaultState, action) => {
         load: false,
         logisticsVisible: true,
       });
-    case TYPES.LOGISITICS_REMARK_SUCCESS:
+    case TYPES.LOGISITICS_REMARK_SUCCESS:  // 物流备注查看
       return assign({}, state, {
         fetchLogisticsRemark: action.data,
         logisticsVisible: true,
@@ -390,13 +394,17 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         // loadUpdata: false,
       });
-    case TYPES.LOGISITICS_REMARK_SAVE_SUCCESS:
+    case TYPES.LOGISITICS_REMARK_SAVE_SUCCESS:   // 物流备注更新成功，物流备注(have_remark_admin)，备注(have_remark) 状态 改为1
       return assign({}, state, {
         // logisticsVisible: false,
         // loadUpdata: false,
         dataSource: state.dataSource.map(v => (
-          v.order_id === action.orderId ?
-            assign({}, v, { transhRemark: action.mark }) : v
+          v.order_id === action.data.orderId ?
+            assign({}, v, {
+              transhRemark: action.data.mark,
+              have_remark: 1,
+              have_remark_admin: 1,
+            }) : v
         )),
       });
     case TYPES.OPEN_MODAL_CGS:
@@ -427,7 +435,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.GOODS_SIZE_SUCCESS:
       return assign({}, state, {
-        fetchgoodSize: action.data.data,  //  .goods_size
+        fetchgoodSize: action.data.data,
       });
     case TYPES.CHANGE_GOODS:
       return assign({}, state, {
@@ -472,13 +480,16 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         markTag: { order_id: action.oid, markTagVisible: true },
       });
-    case TYPES.UPDATE_ORDER_TAG_SUCCESS:
+    case TYPES.UPDATE_ORDER_TAG_SUCCESS:    // 标记问题件更新成功，备注(have_remark) 状态 改为1
       return assign({}, state, {
         dataSource: state.dataSource.map(v => (
           v.order_id === action.data.order_id ?
-            assign({}, v, { is_trouble: action.data.is_trouble }) : v
+            assign({}, v, {
+              is_trouble: action.data.is_trouble,
+              have_remark: 1,
+            }) : v
         )),
-        markTag: assign({}, state.markTag, { markTagVisible: false }),
+        markTag: assign({}, state.markTag, { markTagVisible: false }),  // have_remark === 1,  have_remark_admin === 1
       });
     case TYPES.DEL_CHANGE:
       return state;
