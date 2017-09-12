@@ -8,6 +8,7 @@ import { Radio, Tag, Spin, Input, Button, message, Popover, Icon, Upload, Checkb
 import { connect } from 'react-redux';
 import {
   commit, change, initFeedback, initFeedbackType, submitData,
+  changeSelectOptions,
 } from './action';
 
 import Styles from './style.css';
@@ -58,19 +59,15 @@ class goodsControl extends Component {
     } = this.props;
     const {
       order_id, billno, goods_id, goods_sn, serial_number, attr,
-      feedback_type, feedback_reason0, feedback_reason1, feedback_reason2, feedback_reason, feedback_thumb, remark,
+      feedback_type, feedback_reason, feedback_thumb, remark,
     } = queryString;
-    const options = [];
+   // const options = [];
     return (
       <div className={Styles.content}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            const feedback_reason = feedback_reason0 || feedback_reason1 || feedback_reason2;
-            if (
-              feedback_reason === null ||
-              feedback_type === null
-            ) {
+            if (!feedback_reason.name || !feedback_type) {
               return message.warning(__('order.goodsRefund.missing_something'));
             }
             return dispatch(submitData(assign({},
@@ -79,10 +76,7 @@ class goodsControl extends Component {
                 billno: queryVal.billno,
                 goods_id: queryVal.id,
                 goods_sn: queryVal.sku,
-                feedback_reason: feedback_reason0 || feedback_reason1 || feedback_reason2,
-                feedback_reason0: Symbol('no'),
-                feedback_reason1: Symbol('no'),
-                feedback_reason2: Symbol('no'),
+                feedback_reason: feedback_reason.children,
             })));
           }}
         >
@@ -114,7 +108,7 @@ class goodsControl extends Component {
             >
               {
                 fetchFeedback.map(item => (
-                  <Radio value={item.id}> {item.name}</Radio>
+                  <Radio value={item.id} key={item.id}> {item.name}</Radio>
                 ))
               }
             </RadioGroup>
@@ -123,30 +117,18 @@ class goodsControl extends Component {
           <div className={Styles.reason}>
             <span className={Styles.descWidth}>{star}品控类型</span>
             {
-              fetchFeedbackType.map((v, key) => {
-                options[key] = [];
-                return <div key={v.name} className={Styles.reasonitem}>
-                  <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>{v.name}</Tag>
-                  {
-                    v.children.map(d => {
-                      options[key].push({ label: d.name, value: d.id })
-                    //  console.log(options[key]);
-                    })
-                  }
-                   <CheckboxGroup
-                     options={options[key]}
-                     value = {queryString[`feedback_reason${key}`]}
-                     onChange={e => {
-                       dispatch(commit(`feedback_reason${key}`, e, key));
-                       [0, 1, 2].map((item) => {
-                         if (item !== key) {
-                           return dispatch(commit(`feedback_reason${item}`, null, item))
-                         }
-                       })
-                     }}
-                   />
+              fetchFeedbackType.map(({ name, children }) => (
+                <div key={name} className={Styles.reasonitem}>
+                  <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>
+                    {name}
+                  </Tag>
+                  <CheckboxGroup
+                    options={children.map(item => ({ label: item.name, value: item.id }))}
+                    value={feedback_reason.name === name ? feedback_reason.children : []}
+                    onChange={value => dispatch(changeSelectOptions(value, name))}
+                  />
                 </div>
-              })
+              ))
             }
           </div>
           <div className={Styles.reason}>

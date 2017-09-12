@@ -16,10 +16,11 @@ const defaultState = {
     goods_id: null,
     goods_sn: null,
     feedback_type: null,   // 反馈类型
-    feedback_reason: null,   // 品控类型（原因id）
-    feedback_reason0: null,
-    feedback_reason1: null,
-    feedback_reason2: null, // 品控类型
+ //   feedback_reason: [8, 13, 1, 2, 10],
+    feedback_reason: {
+      name: '',
+      children: [],
+    },   // 品控类型（原因id）
     feedback_thumb: null,   //  图片
     remark: null,
   },
@@ -33,6 +34,15 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         queryString: assign({}, state.queryString, {
           [`${action.key}`]: action.val,
+        }),
+      });
+    case TYPES.CHANGE_SELECT_OPTIONS:
+      return assign({}, state, {
+        queryString: assign({}, state.queryString, {
+          feedback_reason: assign({}, state.queryString.feedback_reason, {
+            name: action.key,
+            children: action.val,
+          }),
         }),
       });
     case TYPES.CHANGE:
@@ -90,7 +100,14 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.INIT_DATA_SUCCESS:
       return assign({}, state, {
-        queryString: action.data.data,
+        queryString: assign({}, state.queryString, assign({}, action.data.data, {
+          feedback_reason: assign({}, state.queryString.feedback_reason, {
+            name: state.fetchFeedbackType.find(v => (
+              !!v.children.find(d => d.id === Number(action.data.data.feedback_reason[0]))
+              )).name,
+            children: action.data.data.feedback_reason.map(v => Number(v)),
+          }),
+        })),
         load: false,
       });
     default:
