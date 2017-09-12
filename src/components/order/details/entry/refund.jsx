@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Card, Button } from 'antd';
+import { Link } from 'react-router';
+import { Table, Card } from 'antd';
 import style from './style.css';
 
 const lan = {
@@ -18,9 +19,15 @@ const lan = {
   tixiantuikuan: '提现退款',
   xiugaishenqing: '修改申请',
 };
+const to = id => ({
+  1: `/order/details/modify-diff-refund/${id}`,
+  2: `/order/details/modify-goods-refund/${id}`,
+});
+
 const Refund = (
   {
     dataSource: { refund: { refund_bill_list } },
+    orderId,
   },
   ) => (
     <Card
@@ -36,7 +43,7 @@ const Refund = (
             .filter(v => Number(v.status_code) === 3)
             .length
           ?
-            <Button className={style.refundButton}>{lan.tixiantuikuan}</Button>
+            <Link className={style.refundButton} to={`order/details/withdraw/${orderId}`}>{lan.tixiantuikuan}</Link>
             :
             null
         }
@@ -96,7 +103,11 @@ const Refund = (
             title: lan.caozuo,
             render: rec => (
             rec.status_code === 4 || rec.status_code === 1 ?
-              <Button>{lan.xiugaishenqing}</Button> : '-'
+              <Link
+                to={to(orderId)[rec.type_id]}
+              >
+                {lan.xiugaishenqing}
+              </Link> : '-'
           ),
           },
         ]}
@@ -106,5 +117,6 @@ const Refund = (
 );
 Refund.propTypes = {
   dataSource: PropTypes.shape(),
+  orderId: PropTypes.string,
 };
 export default Refund;

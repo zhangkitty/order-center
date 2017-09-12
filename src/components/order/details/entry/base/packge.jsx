@@ -64,20 +64,27 @@ const Packge = (
       title: lan.goodsStatus,
       dataIndex: 'status',
       render: (d, rec) => (
-        <div>
+        <div >
           <span>圆圈</span>
           <span>{d}</span>
           <Link
-            to="/order/details/goods-control/"
+            to={
+              rec.is_assessed ?
+                '/order/details/goods-control/edit/'
+                :
+                '/order/details/goods-control/list/'
+            }
             query={{ data: JSON.stringify(assign({}, rec, {
               order_id: orderId, billno,
             })) }}
+            style={{ marginLeft: '10px' }}
           >
             { rec.is_assessed ? lan.yipinkong : lan.pinkong}
           </Link>
           {
               Number(rec.status_code) === 11 &&
               <Button
+                style={{ marginLeft: '10px' }}
                 onClick={() => dispatch(backGoodsDates({
                   order_goods_id: Number(rec.id),
                   goods_sn: rec.sku,
@@ -95,7 +102,7 @@ const Packge = (
       title: lan.img,
       dataIndex: 'pic',
       render: (d, rec) => (
-        <span>
+        <span style={{ display: 'flex', alignItems: 'center' }}>
           <Checkbox
             onChange={(e) => {
               const value = e.target.checked;
@@ -199,7 +206,7 @@ const Packge = (
           size="small"
           pagination={false}
           dataSource={not_packaged_goods_list}
-          columns={col(orderId, dispatch, billno)}
+          columns={col()}
         />
       </Card>
       {
@@ -224,7 +231,7 @@ const Packge = (
               pagination={false}
               dataSource={v.package_goods_list}
               rowKey={'id'}
-              columns={col(orderId, dispatch, billno, 'show')}
+              columns={col('show')}
             />
           </Card>
         ))
@@ -234,7 +241,7 @@ const Packge = (
           size="small"
           pagination={false}
           dataSource={returned_goods_list}
-          columns={col(orderId, dispatch, billno)}
+          columns={col()}
         />
       </Card>
       <Card title={lan.refund} style={cardStyle}>
@@ -242,7 +249,7 @@ const Packge = (
           size="small"
           pagination={false}
           dataSource={refund_goods_list}
-          columns={col(orderId, dispatch, billno)}
+          columns={col()}
         />
       </Card>
       <Modal

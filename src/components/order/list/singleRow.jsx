@@ -40,13 +40,13 @@ const changshow = {
   49: true,
   84: true,
   96: true,
-}
+};
 const checkboxChecked = {
   5: true,
   7: true,
   75: true,
   94: true,
-}
+};
 // 操作查询
 const columns = [{
   title: __('common.operationCheck'),
@@ -97,9 +97,7 @@ const SingleRow = (props) => {
     batchChooseOrder, batchChooseGoods, cancelRiskDesc,
     queryString3,
   } = props;
-  const {
-    siteFrom, memberId,
-  } = queryString3;
+  const { siteFrom, memberId } = queryString3;
   const batchGoods = batchChooseGoods.join(',');
   return (
     <div className={Styles.orderList}>
@@ -160,16 +158,18 @@ const SingleRow = (props) => {
           columns={[{
             title: '订单商品编号',
             dataIndex: 'order_goods_sort',
+            width: '80px',
           }, {
             title: '商品图片',
             dataIndex: 'order_goods_img',
+            width: '100px',
             render: d => (<img src={d} width="50px" height="50px" alt="goods images" />),
           }, {
             title: '商品属性',
             dataIndex: 'goods_sn',
             render: (d, res) => (
               <div>
-                <a href={res.order_detail_url} target="_blank"> {d}</a>
+                <a href={res.goods_url} target="_blank"> {d}</a>
                 <span style={{ color: '#ff0000', marginLeft: '10px' }}>
                   {
                     replaceGoods(res.is_replace, res.replace_goods_sort, res.goods_status)
@@ -181,76 +181,79 @@ const SingleRow = (props) => {
           }, {
             title: '价格',
             dataIndex: 'price',
-            render: (d, res) => (<div> ${d} <p style={{ color: '#f00' }}>(${res.coupon_price})</p></div>),
+            width: '15%',
+            render: (d, res) => (<div style={{ textAlign: 'center' }}> ${d} <p style={{ color: '#f00' }}>(${res.coupon_price})</p></div>),
           }, {
             title: '退款单状态', // TODO 退款单id没定
             dataIndex: 'refund_bill_status',
+            width: '15%',
             render: (d, res) => (
-              Number(res.goods_status) === 75 && Number(data.order_id) !== 14 ?
-                __('common.customerCancel')
-                : refundBillStatus[d]
+              <div style={{ textAlign: 'center' }}>
+                {
+                  Number(res.goods_status) === 75 && Number(data.order_id) !== 14 ?
+                    __('common.customerCancel')
+                    : refundBillStatus[d]
+                }
+              </div>
             ),
           }, {
             title: '操作',
-            render: (rec) => {
-              return (
-                <div className={Styles.buttonBorderBg} key={rec.order_goods_id}>
-                  {/* 操作查询 */}
-                  <Popover
-                    placement="bottomRight"
-                    trigger="click"
-                    arrowPointAtCenter
-                    content={
-                      <Table
-                        rowKey={fetchOperation.id}
-                        dataSource={fetchOperation}
-                        columns={columns} size="small"
-                        pagination={false}
-                        style={{ width: '400px', maxHeight: '300px', overflow: 'auto' }}
-                      />
-                    }
+            width: '15%',
+            render: rec => (
+              <div className={Styles.buttonBorderBg} key={rec.order_goods_id}>
+                {/* 操作查询 */}
+                <Popover
+                  placement="bottomRight"
+                  trigger="click"
+                  arrowPointAtCenter
+                  content={
+                    <Table
+                      rowKey={fetchOperation.id}
+                      dataSource={fetchOperation}
+                      columns={columns} size="small"
+                      pagination={false}
+                      style={{ width: '400px', maxHeight: '300px', overflow: 'auto' }}
+                    />
+                  }
+                >
+                  <span
+                    onClick={() => dispatch(operationGoods(rec.order_goods_id))}
+                    role="button" tabIndex={0}
                   >
+                    {__('common.operation')}
+                  </span>
+                </Popover>
+
+                {/* 换货 */}
+                {
+                  changshow[rec.goods_status] ?
                     <span
-                      onClick={() => dispatch(operationGoods(rec.order_goods_id))}
+                      onClick={() => {
+                        dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
+                      }
+                      }
                       role="button" tabIndex={0}
                     >
-                      {__('common.operation')}
+                      {__('common.change_goods')}
                     </span>
-                  </Popover>
-
-                  {/* 换货 */}
-                  {
-                    changshow[rec.goods_status] ?
-                      <span
-                        onClick={() => {
-                          dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
-                        }
-                        }
-                        role="button" tabIndex={0}
-                      >
-                        {__('common.change_goods')}
-                      </span>
-                      : null
-                  }
-
-
-                  {/*  删除换货--  */}
-                  {/* 若商品为“换来的货”，且商品状态=已付款、已审核、备货中、延期、有货、无货审核、无货、等待出仓、等待发货 时，显示入口 */}
-                  {
-                    Number(rec.is_replace) === 2 ?
-                      <Popconfirm
-                        title={__('common.submitTitle2')}
-                        onConfirm={() => dispatch(delChange(data.order_id,
-                          rec.order_goods_id,
-                          rec.replace_goods_sort))}
-                      >
-                        <span>{__('common.del_goods')}</span>
-                      </Popconfirm>
-                      : null
-                  }
-                </div>
-              );
-            },
+                    : null
+                }
+                {/*  删除换货--  */}
+                {/* 若商品为“换来的货”，且商品状态=已付款、已审核、备货中、延期、有货、无货审核、无货、等待出仓、等待发货 时，显示入口 */}
+                {
+                  Number(rec.is_replace) === 2 ?
+                    <Popconfirm
+                      title={__('common.submitTitle2')}
+                      onConfirm={() => dispatch(delChange(data.order_id,
+                        rec.order_goods_id,
+                        rec.replace_goods_sort))}
+                    >
+                      <span>{__('common.del_goods')}</span>
+                    </Popconfirm>
+                    : null
+                }
+              </div>
+            ),
           }]}
         />
       </div>
@@ -265,9 +268,8 @@ const SingleRow = (props) => {
             {/*
              <Icon type="message" style={{ color: 'rgb(255,35,0)' }}
             */}
-
           </p>
-          <Button>{__('common.order_operation')}</Button>
+          <Button onClick={() => hashHistory.push(`/order/details/entry/${data.order_id}/${data.billno}`)}>{__('common.order_operation')}</Button>
           {/*  订单标记 */}
           {
             Number(data.is_trouble) > 0 ?

@@ -90,4 +90,6 @@ module.exports = {
   sagaTitle23: '操作成功',
   modifyDiffRefund:'修改退款详情',
   sagaTitle24: '必须勾选商品',
+  sagaTitle25: '提交成功!',
+  sagaTitle26: '提交失败:',
 };

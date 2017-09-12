@@ -31,8 +31,8 @@ const defaultState = {
     shippingNo: null,  // 发货号
     referenceNumber: null,    // 包裹号
     telephone: null,    // 手机号
-    paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:SS'),   // 付款时间
-    paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),          // 付款时间
+    paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:ss'),   // 付款时间
+    paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:ss'),          // 付款时间
     siteFrom: null,   // 站点
     countryName: null,   // 国家
     txnId: null,   // 付款流水号
@@ -46,8 +46,8 @@ const defaultState = {
   queryString2: {
     pageSize: 10,
     pageNumber: 1,
-    paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:SS'),   // 付款时间
-    paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:SS'),          // 付款时间
+    paytimeStart2: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:ss'),   // 付款时间
+    paytimeEnd2: null,          // 付款时间
     siteFrom: null,   // 站点
     countryName: null,   // 国家
     paymentMethod: null,   // 支付方式
@@ -384,13 +384,16 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.LOGISITICS_REMARK_SAVE:
       return assign({}, state, {
-        loadUpdata: true,
+        // loadUpdata: true,
       });
     case TYPES.LOGISITICS_REMARK_SAVE_FAIL:
+      return assign({}, state, {
+        // loadUpdata: false,
+      });
     case TYPES.LOGISITICS_REMARK_SAVE_SUCCESS:
       return assign({}, state, {
-        logisticsVisible: false,
-        loadUpdata: false,
+        // logisticsVisible: false,
+        // loadUpdata: false,
         dataSource: state.dataSource.map(v => (
           v.order_id === action.orderId ?
             assign({}, v, { transhRemark: action.mark }) : v
