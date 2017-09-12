@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import assign from 'object-assign';
 import { Radio, Button, Form, Input, Tag, message } from 'antd';
-import { initPriceInfo, initReasonList, subchange,submitForward } from './action';
+import { initPriceInfo, initReasonList, subchange, submitForward } from './action';
 import SumOfMoney from './sumOfMoney';
 import Price from './price';
 
@@ -17,7 +17,7 @@ import styles from './style.css';
 class diffRefund extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
+    console.log(props);
     const { params: { orderId, type } } = props;
     props.dispatch(initPriceInfo({ order_id: orderId }));
     props.dispatch(initReasonList({ type }));
@@ -53,7 +53,7 @@ class diffRefund extends Component {
               ) {
                 return message.warning(__('order.goodsRefund.missing_something'));
               }
-              const res = assign({}, submitValue, { refundPaths: refund_paths.filter(v => v.check) },{reason:submitValue.reason.reasonId});
+              const res = assign({}, submitValue, { refundPaths: refund_paths.filter(v => v.check) }, { reason: submitValue.reason.reasonId });
               return dispatch(submitForward(res));
             }}
           >

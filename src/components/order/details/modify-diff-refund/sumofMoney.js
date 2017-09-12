@@ -163,6 +163,7 @@ const SumOfMoney = ({ dataSource: { data: { orderPriceInfo } } }) => {
           refundPrice.map(v => priceTypes(v, 'error'))
         }
       </div>
+      <button>{__('order.modify-diff-refund.cancel_refund')}</button>
     </div>
   );
 };
