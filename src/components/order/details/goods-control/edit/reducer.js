@@ -90,7 +90,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.INIT_DATA_SUCCESS:
       return assign({}, state, {
-        fetchData: action.data.data,
+        queryString: action.data.data,
         load: false,
       });
     default:

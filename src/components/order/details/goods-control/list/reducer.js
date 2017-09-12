@@ -5,7 +5,7 @@ import assign from 'object-assign';
 import * as TYPES from './types';
 
 const defaultState = {
-  dataSource: [],
+ // dataSource: [],
   fetchFeedback: [],
   fetchFeedbackType: [],
   queryVal: {},
