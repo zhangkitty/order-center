@@ -1,0 +1,91 @@
+.content {
+    padding:20px;
+    color: #000;
+    font-size: 14px;
+}
+.filterBg {
+    word-wrap: break-word ;
+}
+.rowSpace{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    color: rgba(0,0,0, .8);
+}
+.rowSpaceList {
+    min-width: 260px;
+    max-width: 470px;
+    margin: 5px 0 5px 15px;
+}
+.rowSpace{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    color: rgba(0,0,0, .8);
+}
+.batchBg {  }
+.batchBg > button { margin: 0 15px 0 0;  }
+.batchBg > span { margin: 0 5px 0 0;  }
+
+
+.reasonImg {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin:10px 0;
+}
+.reason {
+    display: flex;
+    flex-direction: row;
+    margin:15px 0;
+}
+.descWidth {
+    width: 150px;
+    color: rgb(148, 148, 148);
+    text-align: right;
+    margin-right: 20px;
+}
+.reasonitem {
+    display: flex;
+    flex-direction: column;
+    width:150px;
+}
+.reasonitem label {
+    width: 85%;
+    margin-left: 5px;
+}
+.mark {
+    display: flex;
+    margin-top: 20px;
+}
+
+.uploader {
+    display: inline-block;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 150px;
+    height: 150px;
+    margin-right: 10px;
+}
+.uploaderTrigger {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 28px;
+    color: #999;
+    width: 150px;
+    height: 150px;
+}
+.uploaderImg {
+    width: 150px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.checkbox{
+    display: flex;
+    flex-direction: column;
+}

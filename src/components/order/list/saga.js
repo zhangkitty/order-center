@@ -72,7 +72,6 @@ function* searchHighSaga(action) {
 
 function* searchHistorySaga(action) {
   console.log(action.data, 'search-high');
-
   const data = yield seachHistorySubmit(assign({}, action.data));
   if (data.error) {
     message.error(`${__('common.sagaTitle')} ${data.msg}`);
