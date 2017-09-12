@@ -57,7 +57,7 @@ class goodsControlEdit extends Component {
 
   render() {
     const {
-      dispatch, fetchFeedback, fetchFeedbackType, queryString, queryVal, fetchData,
+      dispatch, fetchFeedback, fetchFeedbackType, queryString, queryVal,
     } = this.props;
     const {
       order_id, billno, goods_id, goods_sn, serial_number, attr,
@@ -90,7 +90,7 @@ class goodsControlEdit extends Component {
           }}
         >
           <h2> 订单号: {queryVal.billno}</h2>
-          {fetchData.feedback_type}
+          {feedback_type}
           <div className={Styles.reasonImg}>
             <span className={Styles.descWidth}>提交品控商品</span>
             <div style={{ display: 'flex' }}>
@@ -113,12 +113,12 @@ class goodsControlEdit extends Component {
               &nbsp;&nbsp;{star}反馈渠道
             </span>
             <RadioGroup
-              value={fetchData.feedback_type}
+              value={Number(feedback_type)}
               onChange={e => dispatch(commit('feedback_type', Number(e.target.value)))}
             >
               {
                 fetchFeedback.map(item => (
-                  <Radio value={item.id}> {item.name}</Radio>
+                  <Radio value={Number(item.id)}>{item.name}</Radio>
                 ))
               }
             </RadioGroup>
@@ -242,7 +242,6 @@ goodsControlEdit.propTypes = {
   queryString: PropTypes.shape(),
   location: PropTypes.shape(),
   queryVal: PropTypes.shape(),
-  fetchData: PropTypes.shape(),
 };
 
 const mapStateToProps = state => state['order/details/goods-control/edit'];
