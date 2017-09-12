@@ -67,7 +67,7 @@ const OrderReturn = (
       size="small"
       rowKey="return_order_id"
       pagination={false}
-      dataSource={data}
+      dataSource={orderReturn}
       columns={[
         {
           title: lan.bianhao,
@@ -105,7 +105,7 @@ const OrderReturn = (
           title: lan.caozuo,
           render: rec => (
             <div>
-              <a style={{ margin: '10px' }} href={`http://supply.dotfashion.cn/index_new.php/Home/OrderReturn/checkDetail/return_order_id/${rec.return_order_id}`} target="blank">{lan.chankan}</a>
+              <a style={{ margin: '10px' }} href={rec.return_order_details} target="blank">{lan.chankan}</a>
               {
                 rec.return_rl_download ?
                   <a href={rec.return_rl_download} target="blank" style={{ marginLeft: '10px' }}>{lan.xiazai}</a>

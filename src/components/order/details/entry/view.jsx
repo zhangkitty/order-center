@@ -45,7 +45,7 @@ class DetailsEntry extends Component {
     const { ready, activeKey, dispatch } = this.props;
     if (ready) {
       return (
-        <div style={{ padding: '15px' }}>
+        <div style={{ padding: '15px', maxWidth: '1200px' }}>
           <Tabs activeKey={activeKey} defaultActiveKey="base" onChange={v => dispatch(commit('activeKey', v))} >
             {
               info(this.props).map(v => (

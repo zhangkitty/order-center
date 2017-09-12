@@ -8,6 +8,7 @@ import { commit, updateEmail } from '../action';
 const lan = {
   email: '退货邮箱',
   upEmail: '更新退货邮箱',
+  update: '更新',
   edit: '编辑',
   save: '保存',
   emailValid: '邮箱地址错误',
@@ -21,7 +22,7 @@ const info = {
       { name: 'City', key: 'city' },
       { name: 'Country', key: 'country' },
       { name: 'Telephone', key: 'telephone' },
-      { name: '退货邮箱', key: 'email' },
+      { name: lan.email, key: 'email' },
     ],
     right: [
       { name: 'Company Name', key: 'company_name' },
@@ -47,7 +48,7 @@ const info = {
     ],
   },
 };
-const cardStyle = { width: '600px', margin: '0 20px 20px 20px', maxWidth: '1200px' };
+const cardStyle = { width: '600px', margin: '0 20px 20px 0px', maxWidth: '1200px' };
 const emailStyle = {
   width: '200px',
   float: 'left',
@@ -101,7 +102,7 @@ const Address = (
                     visible={emailShow}
                     onVisibleChange={d => dispatch(commit('emailShow', d))}
                   >
-                    <Button>{lan.email}</Button>
+                    <Button>{lan.update}</Button>
                   </Popover>
                   : null
               }

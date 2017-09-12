@@ -18,7 +18,7 @@ const entry = {
 const editAddress = {
   info: '/Order/getAddressInfo',
   city: '/Order/getCountryCityAll',
-  save: '/Order/updateAddres',
+  save: '/Order/updateAddress',
 }
 const toReturnGoods = {
   info: '/OrderReturn/getReturnSubmitConfig',

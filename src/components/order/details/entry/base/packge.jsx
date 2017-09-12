@@ -64,20 +64,27 @@ const Packge = (
       title: lan.goodsStatus,
       dataIndex: 'status',
       render: (d, rec) => (
-        <div>
+        <div >
           <span>圆圈</span>
           <span>{d}</span>
           <Link
-            to="/order/details/goods-control/"
+            to={
+              rec.is_assessed ?
+                '/order/details/goods-control/edit/'
+                :
+                '/order/details/goods-control/list/'
+            }
             query={{ data: JSON.stringify(assign({}, rec, {
               order_id: orderId, billno,
             })) }}
+            style={{ marginLeft: '10px' }}
           >
             { rec.is_assessed ? lan.yipinkong : lan.pinkong}
           </Link>
           {
               Number(rec.status_code) === 11 &&
               <Button
+                style={{ marginLeft: '10px' }}
                 onClick={() => dispatch(backGoodsDates({
                   order_goods_id: Number(rec.id),
                   goods_sn: rec.sku,
