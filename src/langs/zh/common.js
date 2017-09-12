@@ -52,7 +52,7 @@ module.exports = {
   refundBillStatus3: '退款已取消',
   refundBillStatus4: '退款中',
   change1: '(被换)',
-  change2: '换来的货)',
+  change2: '换来的货',
   operationCheck: '操作人',
   operationCheck1: '时间',
   operationCheck2: '操作',
@@ -63,7 +63,7 @@ module.exports = {
   submitName: '保存',    // 提交name
   submitName1: '取消',
   submitName2: '取消标记',
-  submitName3: '保存标记',
+  submitName3: '保留标记',
   submitName4: '换入sku',
   submitName5: '可换尺码',
   submitTitle: '缺少SKU',    // 提交提示

@@ -16,7 +16,7 @@ module.exports = {
   control_title: '(只可上传jpg、jpeg、png，单张图片不可超过3M)',
   submitName: '保存',    // 提交name
   submitName1: '取消',
-  submitName2: '取消标记',
+  submitName2: 'xxxx',
   submitName3: '提交',
   submitName4: '重置',
   submitTitle: '上传图片尺寸上限3M',    // 提交提示
