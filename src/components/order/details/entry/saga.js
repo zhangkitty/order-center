@@ -91,6 +91,7 @@ function* profitShowSaga(action) {
 }
 function* genRlSaga(action) {
   const data = yield genRlSer(action.id);
+  yield put(commit('rlLoading', false));
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
   }

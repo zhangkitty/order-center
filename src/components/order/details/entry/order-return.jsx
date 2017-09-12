@@ -27,6 +27,7 @@ const lan = {
   yundaonhao: '运单号',
   yundanpingzh: '运单凭证',
   upload: '上传',
+  need: '缺少必填项',
 };
 const sty = {
   form: { display: 'flex', flexDirection: 'column' },
@@ -34,6 +35,7 @@ const sty = {
   span: { display: 'inline-block', width: '80px' },
   input: { width: '50%' },
 };
+const reqImg = require.context('../../images');
 const OrderReturn = (
   {
     dataSource: { orderReturn },
@@ -41,6 +43,7 @@ const OrderReturn = (
     dispatch,
     orderId,
     billno,
+    rlLoading,
   },
 ) => (
   <Card
@@ -98,7 +101,14 @@ const OrderReturn = (
               {
                   rec.return_label_type === 'RAN' ?
                     <div>
-                      <Button style={{ margin: '10px' }} onClick={() => dispatch(genRl(rec.return_order_id, orderId, billno))}>{lan.rl}</Button>
+                      <Button
+                        style={{ margin: '10px' }}
+                        loading={rlLoading}
+                        onClick={() => {
+                          dispatch(commit('rlLoading', true));
+                          dispatch(genRl(rec.return_order_id, orderId, billno));
+                        }}
+                      >{lan.rl}</Button>
                       <Popover content={rec.return_ran_info}>
                         <Button style={{ margin: '10px' }}>{lan.chankan}RAN</Button>
                       </Popover>
@@ -118,19 +128,27 @@ const OrderReturn = (
       onCancel={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { show: false })))}
       okText={lan.save}
       visible={uploadTrack.show}
-      onOk={() => dispatch(uploadTrackAction(uploadTrack))}
+      onOk={() => {
+        const { channel, check_type, check_value } = uploadTrack;
+        if (!channel || !check_type || !check_value) {
+          return message.warning(lan.need);
+        }
+        return dispatch(uploadTrackAction(uploadTrack));
+      }}
     >
       <form style={sty.form}>
         <div style={sty.div}>
           <span style={sty.span}>{lan.qudao}</span>
           <Input
             style={sty.input}
+            value={uploadTrack.channel}
             onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { channel: e.target.value })))}
           />
         </div>
         <div style={sty.div}>
           <span style={sty.span}>{lan.yundanleixing}</span>
           <RG
+            value={uploadTrack.check_type}
             onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_type: e.target.value })))}
           >
             <Radio value="1">{lan.yundaonhao}</Radio>
@@ -141,7 +159,9 @@ const OrderReturn = (
           uploadTrack.check_type === '1' &&
           <div style={sty.div}>
             <span style={sty.span}>{lan.yundaonhao}</span>
-            <Input onChange={e => dispatch(commit('uploadTrack',
+            <Input
+              value={uploadTrack.check_value}
+              onChange={e => dispatch(commit('uploadTrack',
               assign({}, uploadTrack, { check_value: e.target.value })))}
             />
           </div>
@@ -150,25 +170,51 @@ const OrderReturn = (
           uploadTrack.check_type === '2' &&
             <div style={sty.div}>
               <span style={sty.span}>{lan.yundanpingzh}</span>
-              {uploadTrack.img && <img src={uploadTrack.img} alt="pic" />}
-              <Upload
-                action="/index_new.php/Order/OrderReturn/handleImg"
-                name="logistics_certificate"
-                data={{ type: 2, order_id: orderId }}
-                onChange={({ file }) => {
-                  if (file.status === 'done') {
-                    message.success(`${file.name} file uploaded successfully`);
-                    dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_value: file.response.data })));
-                    dispatch(commit('uploadTrack', assign({}, uploadTrack, { img: file.response.data })));
-                  } else if (file.status === 'error') {
-                    message.error(`${file.name} file upload failed.`);
-                  }
-                }}
-              >
-                <Button icon="upload">
-                  {lan.upload}
-                </Button>
-              </Upload>
+              {
+                uploadTrack.img &&
+                <div style={{ margin: '0 5px' }}>
+                  <img
+                    key={uploadTrack.img} src={uploadTrack.img} alt="pic"
+                    width={150}
+                    onError={(e) => {
+                      e.persist();
+                      e.target.src = reqImg('./uploading.gif');
+                      setTimeout(() => {
+                        e.target.src = uploadTrack.img;
+                      }, 500);
+                    }}
+                  />
+                  <Button
+                    size="small"
+                    style={{ display: 'block', width: '150px' }}
+                    onClick={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_value: '', img: '' })))}
+                  >删除</Button>
+                </div>
+              }
+              {
+                !uploadTrack.img &&
+                <Upload
+                  action="/index_new.php/Order/OrderReturn/handleImg"
+                  name="logistics_certificate"
+                  data={{ type: 2, order_id: orderId }}
+                  showUploadList={false}
+                  onChange={({ file }) => {
+                    if (file.status === 'done') {
+                      message.success(`${file.name} file uploaded successfully`);
+                      dispatch(commit('uploadTrack',
+                        assign({}, uploadTrack, {
+                          check_value: file.response.data[0], img: file.response.data[0],
+                        })));
+                    } else if (file.status === 'error') {
+                      message.error(`${file.name} file upload failed.`);
+                    }
+                  }}
+                >
+                  <Button icon="upload">
+                    {lan.upload}
+                  </Button>
+                </Upload>
+              }
             </div>
         }
       </form>
@@ -182,5 +228,7 @@ OrderReturn.propTypes = {
   uploadTrack: PropTypes.shape(),
   dispatch: PropTypes.func,
   orderId: PropTypes.string,
+  billno: PropTypes.string,
+  rlLoading: PropTypes.bool,
 };
 export default OrderReturn;

@@ -12,6 +12,7 @@ const defaultState = {
   profit: '',
   warehouse: 0,
   partSendBtn: false,
+  rlLoading: false,
   preSend: 0,
   dataSource: {
     base: {}, // 基本
