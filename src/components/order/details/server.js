@@ -20,6 +20,14 @@ const editAddress = {
   save: '/Order/updateAddres',
 }
 
+const goodsControl = {
+  initFeedback: '/AfterSaleAccident/getQcFeedbackFrom',   // 获取所有反馈渠道配置
+  initFeedbackType: '/AfterSaleAccident/getQcFeedbackType',   // 获取所有反馈原因配置
+  submitData: '/AfterSaleAccident/createAfterSaleAccident',   // 提交(生成品控)
+  initData: '/AfterSaleAccident/getAfterSaleAccidentInfo',   // 查看品控详情
+};
+
+
 export function* getInfo(id, bill) {
   const base = fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
     method: 'GET',
@@ -93,15 +101,45 @@ export const uploadtrack = data => (
 export const getAddressInfo = id => (
   fetch(`${editAddress.info}?order_id=${id}`, {
   method: 'get',
-}))
+}));
 export const getcitySer = value => (
   fetch(`${editAddress.city}?value=${value}`, {
     method: 'get',
   })
-)
+);
 export const editAddresSave = data => (
   fetch(editAddress.save, {
     method: 'POST',
     body: JSON.stringify(data),
   })
-)
+);
+
+
+// 反馈渠道配置
+export const initFeedbackSer = () => (
+  fetch(goodsControl.initFeedback, {
+    method: 'GET',
+  })
+);
+
+// 反馈渠道配置
+export const initFeedbackTypeSer = () => (
+  fetch(goodsControl.initFeedbackType, {
+    method: 'GET',
+  })
+);
+
+// 品控-提交
+export const submitDataSer = data => (
+  fetch(goodsControl.submitData, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+);
+
+// 查看品控详情
+export const initDataSer = (order_id, id) => (
+  fetch(`${goodsControl.initData}?order_id=${order_id}&goods_id=${id}`, {
+    method: 'get',
+  })
+);

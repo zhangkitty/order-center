@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Tooltip ,Modal} from 'antd';
+import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Tooltip } from 'antd';
 import moment from 'moment';
 import {
   search, searchHigh, commit, commit2,
@@ -44,15 +44,16 @@ class TabsHeader extends Component {
     props.dispatch(initCancel());  // 取消类型 - 参数-订单状态=“已取消”
     props.dispatch(initGoods());  // 商品状态 - 选中订单状态，显示 商品状态
   }
-  // time control
-  // disabledDate(current) {
-  //   const { paytimeStart } = this.props.queryString;
-  //   return (
-  //     (current && current.valueOf() < moment(paytimeStart).valueOf())
-  //     ||
-  //     (current.valueOf() > moment(paytimeStart).endOf('month').valueOf())
-  //   );
-  // }
+
+//  time control
+  disabledDate(current) {
+    const { paytimeStart } = this.props.queryString;
+    return (current && current.valueOf() < moment(paytimeStart).valueOf());
+  }
+  disabledDateHigh(current) {
+    const { paytimeStart } = this.props.queryString2;
+    return (current && current.valueOf() < moment(paytimeStart).valueOf());
+  }
 
   render() {
     const {
@@ -93,7 +94,9 @@ class TabsHeader extends Component {
                   const temp = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix()
                   if (!paytimeStart || !paytimeEnd) {
                     return message.warning(__('common.submitTitle1'));
-                  } else if (moment.unix(temp).dayOfYear() > 31) {
+                  } else if (moment(paytimeStart).valueOf() > moment(paytimeEnd).valueOf()) {
+                    return message.warning(__('order.name.time_interval_large1'));
+                  } else if (moment.unix(temp).dayOfYear() > 32) {
                     return message.warning(__('order.name.time_interval_large'));
                   }
                   return dispatch(search(assign({},
@@ -260,18 +263,18 @@ class TabsHeader extends Component {
                         style={{ width: '150px' }}
                         allowClear={false}
                         showTime
-                        format="YYYY-MM-DD HH:mm:SS"
-                        value={moment(paytimeStart, 'YYYY-MM-DD HH:mm:SS')}
+                        format="YYYY-MM-DD HH:mm:ss"
+                        value={moment(paytimeStart)}
                         onChange={(value, str) => dispatch(commit('paytimeStart', str))}
                       />
                       &nbsp; - &nbsp;
                       <DatePicker
                         style={{ width: '150px' }}
                         allowClear={false}
-                      //  disabledDate={cur => this.disabledDate(cur)}
+                        disabledDate={cur => this.disabledDate(cur)}
                         showTime
-                        format="YYYY-MM-DD HH:mm:SS"
-                        value={moment(paytimeEnd, 'YYYY-MM-DD HH:mm:SS')}
+                        format="YYYY-MM-DD HH:mm:ss"
+                        value={moment(paytimeEnd)}
                         onChange={(value, str) => dispatch(commit('paytimeEnd', str))}
                       />
                     </div>
@@ -299,10 +302,12 @@ class TabsHeader extends Component {
                 className={styles.filterBg}
                 onSubmit={(e) => {
                   e.preventDefault();
-                  const tempHigh = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix()
+                  const tempHigh = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix();
                   if (!paytimeStart || !paytimeEnd) {
                     return message.warning(__('common.submitTitle1'));
-                  } else if (moment.unix(tempHigh).dayOfYear() > 31) {
+                  } else if (moment(paytimeStart).valueOf() > moment(paytimeEnd).valueOf()) {
+                    return message.warning(__('order.name.time_interval_large1'));
+                  } else if (moment.unix(tempHigh).dayOfYear() > 32) {
                     return message.warning(__('order.name.time_interval_large'));
                   }
                   return dispatch(searchHigh(assign({},
@@ -315,29 +320,32 @@ class TabsHeader extends Component {
                 <div className={styles.rowSpace}>
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>
-                      <span style={{ color: 'red' }}>*</span>{__('order.name.paytime')}
+                      {/*
+                       <span style={{ color: 'red' }}>*</span>
+                      */}
+                      {__('order.name.paytime')}
                     </span>
                     <div className={styles.colSpace2}>
                       <DatePicker
                         style={{ width: '150px' }}
-                        allowClear={false}
+                       // allowClear={false}
                         showTime
-                        format="YYYY-MM-DD HH:mm:SS"
-                        value={moment(paytimeStart, 'YYYY-MM-DD HH:mm:SS')}
+                        format="YYYY-MM-DD HH:mm:ss"
+                        value={paytimeStart2}
                         onChange={(value, str) => {
-                          dispatch(commit2('paytimeStart', str));
+                          dispatch(commit2('paytimeStart2', str));
                         }}
                       />
                       &nbsp; - &nbsp;
                       <DatePicker
                         style={{ width: '150px' }}
-                        allowClear={false}
-                     //   disabledDate={cur => this.disabledDate(cur)}
+                        // allowClear={false}
+                        disabledDate={cur => this.disabledDateHigh(cur)}
                         showTime
-                        format="YYYY-MM-DD HH:mm:SS"
-                        value={moment(paytimeEnd, 'YYYY-MM-DD HH:mm:SS')}
+                        format="YYYY-MM-DD HH:mm:ss"
+                        value={paytimeEnd2}
                         onChange={(value, str) => {
-                          dispatch(commit2('paytimeEnd', str));
+                          dispatch(commit2('paytimeEnd2', str));
                         }}
                       />
                     </div>
@@ -451,22 +459,27 @@ class TabsHeader extends Component {
                     </Select>
                   </div>
                   {/* 取消类型 */}
-                  <div className={styles.rowSpaceList}>
-                    <span className={styles.filterName}>{__('order.name.cancel_type')}</span>
-                    <Select
-                      disabled={Number(orderStatus) !== 14}
-                      className={styles.colSpace}
-                      value={cancelReason}
-                      onChange={val => dispatch(commit2('cancelReason', val))}
-                    >
-                      <Option key={null} > {__('order.name.choose')}</Option>
-                      {
-                        fetchCancelReason.map(item => (
-                          <Option key={item.id} > {item.name}</Option>
-                        ))
-                      }
-                    </Select>
-                  </div>
+                  {
+                    Number(orderStatus) !== 14 ?
+                      <div className={styles.rowSpaceList}>
+                      </div>
+                      :
+                      <div className={styles.rowSpaceList}>
+                        <span className={styles.filterName}>{__('order.name.cancel_type')}</span>
+                        <Select
+                          className={styles.colSpace}
+                          value={cancelReason}
+                          onChange={val => dispatch(commit2('cancelReason', val))}
+                        >
+                          <Option key={null} > {__('order.name.choose')}</Option>
+                          {
+                            fetchCancelReason.map(item => (
+                              <Option key={item.id} > {item.name}</Option>
+                            ))
+                          }
+                        </Select>
+                      </div>
+                  }
 
                   {/* 商品状态 */}
                   <div className={styles.rowSpaceList}>
@@ -493,9 +506,9 @@ class TabsHeader extends Component {
                       <DatePicker
                         disabled={goodsStatus === null || goodsStatus === 'null'}
                         style={{ width: '150px' }}
-                        allowClear={false}
+                        // allowClear={false}
                         showTime
-                        format="YYYY-MM-DD HH:mm:SS"
+                        format="YYYY-MM-DD HH:mm:ss"
                         value={handleTimeStart}
                         onChange={(value, str) => dispatch(commit2('handleTimeStart', str))}
                       />
@@ -503,9 +516,9 @@ class TabsHeader extends Component {
                       <DatePicker
                         disabled={goodsStatus === null || goodsStatus === 'null'}
                         style={{ width: '150px' }}
-                        allowClear={false}
+                        // allowClear={false}
                         showTime
-                        format="YYYY-MM-DD HH:mm:SS"
+                        format="YYYY-MM-DD HH:mm:ss"
                         value={handleTimeEnd}
                         onChange={(value, str) => dispatch(commit2('handleTimeEnd', str))}
                       />
@@ -576,8 +589,8 @@ TabsHeader.propTypes = {
   queryString: PropTypes.shape(),
   queryString2: PropTypes.shape(),   // 高级搜索
   fetchCountry: PropTypes.arrayOf(PropTypes.shape()),  // 国家
-  dataSource: PropTypes.arrayOf(PropTypes.shape()),  // 国家
-  batchChooseOrder: PropTypes.arrayOf(PropTypes.number),  // 国家
+  dataSource: PropTypes.arrayOf(PropTypes.shape()),  //
+  batchChooseOrder: PropTypes.arrayOf(PropTypes.number),  //
   fetchSite: PropTypes.arrayOf(PropTypes.shape()),   // 站点
   fetchPayment: PropTypes.arrayOf(PropTypes.shape()),     // 支付方式
   fetchTrouble: PropTypes.arrayOf(PropTypes.shape()),      // 问题件类型
