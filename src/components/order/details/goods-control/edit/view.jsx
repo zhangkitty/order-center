@@ -19,24 +19,27 @@ const CheckboxGroup = Checkbox.Group;
 const star = (<span style={{ color: 'red' }}>*</span>);
 
 const content = (
-  <p>渠道说明：<br />
-    TKS反馈：客户通过提交Tickets向客服反馈的问题 <br />
-    支付平台：客户在PayPal WP平台反馈的问题 <br />
-    公关平台：客户在国外第三方评价平台(如：trustpilot)反馈的问题 <br />
-    产品评论：客户直接在网站上产品页的产品评论 <br />
-    仓库质检：仓库质检人员在退货入仓时检查反馈的问题 <br />
-    平台反馈：亚马逊、速卖通等平台上订单，用户反馈的问题 <br />
-    退货中心：客户主动申请退货后，自动生成的品控问题 <br />
-    红人营销：作为红人营销推广的商品，收到的反馈问题</p>
+  <p>
+    {__('order.goods-control.channel_title')} <br />
+    {__('order.goods-control.channel_title1')}<br />
+    {__('order.goods-control.channel_title2')}<br />
+    { __('order.goods-control.channel_title3')}<br />
+    {__('order.goods-control.channel_title4')}<br />
+    {__('order.goods-control.channel_title5')}<br />
+    {__('order.goods-control.channel_title6')}<br />
+    {__('order.goods-control.channel_title7')}<br />
+    {__('order.goods-control.channel_title8')}<br />
+  </p>
 );
+
 
 const checkImage = (file) => {
   if (file.size && file.size >= 3 * 1024 * 1024) {
-    message.error('上传图片尺寸上限3M', 5);
+    message.error(__('order.goods-control.submitTitle'), 5);
     return false;
   }
   if (file.type && (file.type !== 'image/jpeg' && file.type !== 'image/png')) {
-    message.error('请上传正确的图片格式123', 5);
+    message.error(__('order.goods-control.submitTitle1'), 5);
     return false;
   }
   return true;
@@ -47,7 +50,6 @@ class goodsControlEdit extends Component {
     super(props);
     const { dispatch } = props;
     const query = JSON.parse(props.location.query.data);
-   // console.log(query, 'query-edit');
     dispatch(change('queryVal', query));
     dispatch(initFeedback());
     dispatch(initFeedbackType());
@@ -69,6 +71,8 @@ class goodsControlEdit extends Component {
             e.preventDefault();
             if (!feedback_reason || !feedback_type) {
               return message.warning(__('order.goodsRefund.missing_something'));
+            } else if (feedback_reason.length < 1) {
+              return message.warning(__('order.goodsRefund.missing_something'));
             }
             return dispatch(submitData(assign({},
               queryString, {
@@ -77,12 +81,12 @@ class goodsControlEdit extends Component {
                 goods_id: queryVal.id,
                 goods_sn: queryVal.sku,
                 feedback_reason: feedback_reason.children,
-            })));
+              })));
           }}
         >
-          <h2> 订单号: {queryVal.billno}</h2>
+          <h2>{__('order.goods-control.order_number')}: {queryVal.billno}</h2>
           <div className={Styles.reasonImg}>
-            <span className={Styles.descWidth}>提交品控商品</span>
+            <span className={Styles.descWidth}>{__('order.goods-control.control_goods')}</span>
             <div style={{ display: 'flex' }}>
               <div className={Styles.reasonImg} style={{ margin: '0 15px' }}>
                 <span style={{ margin: '0 10px' }}>{queryVal.serial_number}</span>
@@ -100,7 +104,7 @@ class goodsControlEdit extends Component {
               <Popover placement="bottomLeft" content={content}>
                 <Icon type="question-circle" />
               </Popover>
-              &nbsp;&nbsp;{star}反馈渠道
+              &nbsp;&nbsp;{star}{__('order.goods-control.control_channel')}
             </span>
             <RadioGroup
               value={Number(feedback_type)}
@@ -115,7 +119,7 @@ class goodsControlEdit extends Component {
           </div>
 
           <div className={Styles.reason}>
-            <span className={Styles.descWidth}>{star}品控类型</span>
+            <span className={Styles.descWidth}>{star}{__('order.goods-control.control_type')}</span>
             {
               fetchFeedbackType.map(({ name, children }) => (
                 <div key={name} className={Styles.reasonitem}>
@@ -133,26 +137,26 @@ class goodsControlEdit extends Component {
           </div>
           <div className={Styles.reason}>
             <span className={Styles.descWidth}>
-              图片(上限两张)
+             {__('order.goods-control.control_img')}
             </span>
             <div>
               <Upload
                 className={Styles.uploader}
                 name="files[]"
-                action="/index_new.php/Order/AfterSaleAccident/saveQcImg?&language=zh"
+                action="/index_new.php/Order/OrderReturn/handleImg"
                 showUploadList={false}
-                data={{ goods_id: 123 }}
+                data={{ goods_id: queryVal.id, type: 1 }}
                 beforeUpload={file => checkImage(file)}
                 onChange={(info) => {
                   if (info.file.status === 'done') {
-                    if (info.file.response.code !== '0') {
+                    if (info.file.response.code !== 0) {
                       message.error(info.file.response.msg, 10);
                     } else {
-                      message.success(`${info.file.name} 上传成功。`, 10);
-                      dispatch(commit('imgUrl', info.file.response.info.data[0].path));
+                      message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
+                      dispatch(commit('feedback_thumb', info.file.response.data[0]));
                     }
                   } else if (info.file.status === 'error') {
-                    message.error(`${info.file.name} 上传失败。`, 10);
+                    message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
                   }
                 }}
               >
@@ -166,20 +170,20 @@ class goodsControlEdit extends Component {
               <Upload
                 className={Styles.uploader}
                 name="files[]"
-                action="/index_new.php/Order/AfterSaleAccident/saveQcImg?&language=zh"
+                action="/index_new.php/Order/OrderReturn/handleImg"
                 showUploadList={false}
-                data={{ goods_id: 123 }}
+                data={{ goods_id: queryVal.id, type: 1 }}
                 beforeUpload={file => checkImage(file)}
                 onChange={(info) => {
                   if (info.file.status === 'done') {
-                    if (info.file.response.code !== '0') {
+                    if (info.file.response.code !== 0) {
                       message.error(info.file.response.msg, 10);
                     } else {
-                      message.success(`${info.file.name} 上传成功。`, 10);
-                      dispatch(commit('imgUrl', info.file.response.info.data[0].path));
+                      message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
+                      dispatch(commit('feedback_thumb', info.file.response.data[0]));
                     }
                   } else if (info.file.status === 'error') {
-                    message.error(`${info.file.name} 上传失败。`, 10);
+                    message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
                   }
                 }}
               >
@@ -190,23 +194,30 @@ class goodsControlEdit extends Component {
                     <Icon type="plus" className={Styles.uploaderTrigger} />
                 }
               </Upload>
+              <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>
+                {__('order.goods-control.control_title')}
+              </Tag>
             </div>
 
           </div>
           <div className={Styles.mark}>
-            <span className={Styles.descWidth}>{__('order.goodsRefund.mark')}：</span>
+            <span className={Styles.descWidth}>{__('order.goodsRefund.mark')}</span>
             <TextArea
-              placeholder="备注信息" autosize={{ minRows: 2, maxRows: 6 }} style={{ width: '65%' }}
+              // placeholder="备注信息"
+              autosize={{ minRows: 2, maxRows: 6 }}
+              style={{ width: '65%' }}
               value={remark}
               onChange={e => dispatch(commit('remark', e.target.value))}
             />
           </div>
-          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }}>取消</Button>
+          {/*
+           <Button style={{ margin: '15px 80px 80px 0', left: '20%' }}>取消</Button>
+          */}
           <Button
             style={{ margin: '15px 80px 80px 0', left: '20%' }}
             type="primary" htmlType="submit"
           //  loading={submitLoad}
-          >提交</Button>
+          >{__('order.goods-control.submitName3')}</Button>
         </form>
       </div>
     );

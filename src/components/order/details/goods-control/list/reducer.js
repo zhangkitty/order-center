@@ -31,7 +31,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.COMMIT:
       return assign({}, state, {
         queryString: assign({}, state.queryString, {
-          [`${action.key}`]: action.val,
+          [action.key]: action.val,
         }),
       });
     case TYPES.CHANGE_SELECT_OPTIONS:
