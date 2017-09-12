@@ -2,22 +2,27 @@ import fetch from '../../../lib/fetch';
 
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
-  payShow: '/order/payShow', // 支付信息
+  payShow: '/orderDetail/payShow', // 支付信息
   refund: '/OrderDiffRefund/getRefundBillListByOrderId', // 退款信息
   orderReturn: '/orderReturn/getReturnOrder', // 退货信息
   orderRecord: '/Order/getOrderRecord', // 订单日志
-  refundEmail: '/order/refundEmail',
+  refundEmail: '/orderDetail/refundEmail', // 更新邮箱
   getReturnGoods: '/OrderReturn/getReturnGoods',
-  validateReturn: '/OrderReturn/validateReturn',
+  validateReturn: '/OrderReturn/validateReturn', // 退货跳转前验证
   partDelivery: '/Order/partDelivery',
   priorDelivery: '/OrderDetail/priorDelivery',
   orderBatchCheck: '/Order/orderBatchCheck',
   uploadLogisticsNumber: '/Order/uploadLogisticsNumber',
+  orderProfit: '/OrderDetail/orderProfit',
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
   city: '/Order/getCountryCityAll',
-  save: '/Order/updateAddres',
+  save: '/Order/updateAddress',
+}
+const toReturnGoods = {
+  info: '/OrderReturn/getReturnSubmitConfig',
+  save: '/Order/submitReturn',
 }
 
 const goodsControl = {
@@ -26,7 +31,6 @@ const goodsControl = {
   submitData: '/AfterSaleAccident/createAfterSaleAccident',   // 提交(生成品控)
   initData: '/AfterSaleAccident/getAfterSaleAccidentInfo',   // 查看品控详情
 };
-
 
 export function* getInfo(id, bill) {
   const base = fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
@@ -60,7 +64,7 @@ export function* getInfo(id, bill) {
 export const updateEmailSer = (order_id, email) => (
   fetch(entry.refundEmail, {
     method: 'POST',
-    body: JSON.stringify({ order_id, email }),
+    body: JSON.stringify({ order_id: Number(order_id), email }),
   })
 );
 export const backGoodsDatesSer = data => (
@@ -70,7 +74,7 @@ export const backGoodsDatesSer = data => (
   })
 );
 export const operateReturnSer = (oid, gid) => (
-  fetch(`${entry.payShow}?order_id=${oid}&goods_id=${gid}`, {
+  fetch(`${entry.validateReturn}?order_id=${oid}&goods_id=${gid}`, {
     method: 'get',
   })
 );
@@ -98,22 +102,39 @@ export const uploadtrack = data => (
     body: JSON.stringify(data),
   })
 );
+export const profitShowSer = id => (
+  fetch(entry.orderProfit, {
+    method: 'POST',
+    body: JSON.stringify({ order_id: Number(id) }),
+  })
+);
 export const getAddressInfo = id => (
   fetch(`${editAddress.info}?order_id=${id}`, {
   method: 'get',
-}));
+}))
 export const getcitySer = value => (
   fetch(`${editAddress.city}?value=${value}`, {
     method: 'get',
   })
-);
+)
 export const editAddresSave = data => (
   fetch(editAddress.save, {
     method: 'POST',
     body: JSON.stringify(data),
   })
-);
+)
+export const getToReturnGoodsInfo = (oid, gid) => (
+  fetch(`${toReturnGoods.info}?order_id=${oid}&goods_id=${gid}`, {
+    method: 'get',
+  })
+)
 
+export const toReturnGoodsSave = data => (
+  fetch(toReturnGoods.save, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+)
 
 // 反馈渠道配置
 export const initFeedbackSer = () => (
