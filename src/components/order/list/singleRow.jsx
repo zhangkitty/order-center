@@ -15,7 +15,7 @@ const replaceGoods = (source, d, status) => {
   const obj = {
     0: '',
     1: __('common.change1'),
-    2: `(${d}${__('common.change2')}`,
+    2: `(${d}${__('common.change2')})`,
   };
   if (Number(status) === 74) {
     return `(${__('common.del_goods')})`;
@@ -28,6 +28,7 @@ const showRisk = (a, b) => {
   }
   return null;
 };
+// 显示换货条件
 const changshow = {
   1: true,
   11: true,
@@ -41,6 +42,7 @@ const changshow = {
   84: true,
   96: true,
 };
+// 不能选择商品的条件
 const checkboxChecked = {
   5: true,
   7: true,
