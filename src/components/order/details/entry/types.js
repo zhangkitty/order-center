@@ -15,4 +15,4 @@ export const PRE_SEND = `${prefix}pre_send`;
 export const EXAMINE = `${prefix}examine`;
 export const EXAMINE_SUCCESS = `${prefix}examine_success`;
 export const PROFIT_SHOW = `${prefix}profit_show`;
-
+export const GEN_RL = `${prefix}gen_rl`;

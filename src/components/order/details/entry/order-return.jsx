@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message } from 'antd';
-import { commit, uploadTrackAction, uploadTrackShow } from './action';
+import { commit, uploadTrackAction, uploadTrackShow, genRl } from './action';
 
 const RG = Radio.Group;
 const lan = {
@@ -28,23 +28,6 @@ const lan = {
   yundanpingzh: '运单凭证',
   upload: '上传',
 };
-const obj = {
-  return_order_id: 1,
-  return_order_type: '客户申请退单',
-  return_label_type: 'RAN',
-  return_apply_time: '2017-1-17 12:19:47 ',
-  return_apply_name: '王玉 ',
-  return_goods: 'A,C ',
-  return_tracking_no: '12121312312 ',
-  return_refund_status: '已经退款 ',
-  return_order_status: '已申请 ',
-  return_order_details: 'http://supplydevelop.dotfashion.cn/index_new.php/Home/OrderReturn/checkDetail/return_order_id/1089',
-  return_order_download: 'https://img.shein.com/images/returnlabel/28e209b61a52482a0ae1cb9f5959c792.jpg',
-};
-const data = [
-  obj,
-  assign({}, obj, { return_order_id: 2 }),
-];
 const sty = {
   form: { display: 'flex', flexDirection: 'column' },
   div: { display: 'flex', marginTop: '20px' },
@@ -57,6 +40,7 @@ const OrderReturn = (
     uploadTrack,
     dispatch,
     orderId,
+    billno,
   },
 ) => (
   <Card
@@ -114,7 +98,7 @@ const OrderReturn = (
               {
                   rec.return_label_type === 'RAN' ?
                     <div>
-                      <Button style={{ margin: '10px' }}>{lan.rl}</Button>
+                      <Button style={{ margin: '10px' }} onClick={() => dispatch(genRl(rec.return_order_id, orderId, billno))}>{lan.rl}</Button>
                       <Popover content={rec.return_ran_info}>
                         <Button style={{ margin: '10px' }}>{lan.chankan}RAN</Button>
                       </Popover>

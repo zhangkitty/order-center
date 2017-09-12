@@ -12,8 +12,9 @@ const entry = {
   partDelivery: '/Order/partDelivery',
   priorDelivery: '/OrderDetail/priorDelivery',
   orderBatchCheck: '/Order/orderBatchCheck',
-  uploadLogisticsNumber: '/Order/uploadLogisticsNumber',
+  uploadLogisticsNumber: '/orderReturn/uploadLogisticsNumber',
   orderProfit: '/OrderDetail/orderProfit',
+  rebuildRl: '/orderReturn/rebuildRl',
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
@@ -162,5 +163,11 @@ export const submitDataSer = data => (
 export const initDataSer = (order_id, id) => (
   fetch(`${goodsControl.initData}?order_id=${order_id}&goods_id=${id}`, {
     method: 'get',
+  })
+);
+export const genRlSer = id => (
+  fetch(entry.rebuildRl, {
+    method: 'POST',
+    body: JSON.stringify({return_order_id: Number(id)}),
   })
 );

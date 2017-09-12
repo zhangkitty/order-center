@@ -4,6 +4,7 @@ import * as TYPES from './types';
 const defaultState = {
   ready: false,
   orderId: '',
+  billno: '',
   activeKey: 'base',
   emailShow: false,
   warehouseShow: false,

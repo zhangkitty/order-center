@@ -36,6 +36,7 @@ const Refund = (
         <div>
           <span>{lan.jilu}</span>
           {
+            // 已退并且有钱包
             (refund_bill_list || [])
             .filter(v => (
               v.refund_record_list.findIndex(d => d.id === 2) > -1
