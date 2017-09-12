@@ -40,13 +40,13 @@ const changshow = {
   49: true,
   84: true,
   96: true,
-}
+};
 const checkboxChecked = {
   5: true,
   7: true,
   75: true,
   94: true,
-}
+};
 // 操作查询
 const columns = [{
   title: __('common.operationCheck'),
@@ -199,7 +199,7 @@ const SingleRow = (props) => {
           }, {
             title: '操作',
             width: '15%',
-            render: (rec) => (
+            render: rec => (
               <div className={Styles.buttonBorderBg} key={rec.order_goods_id}>
                 {/* 操作查询 */}
                 <Popover
@@ -269,7 +269,7 @@ const SingleRow = (props) => {
              <Icon type="message" style={{ color: 'rgb(255,35,0)' }}
             */}
           </p>
-          <Button>{__('common.order_operation')}</Button>
+          <Button onClick={() => hashHistory.push(`/order/details/entry/${data.order_id}/${data.billno}`)}>{__('common.order_operation')}</Button>
           {/*  订单标记 */}
           {
             Number(data.is_trouble) > 0 ?
