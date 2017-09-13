@@ -38,6 +38,9 @@
     align-items: center;
     margin:10px 0;
 }
+.goods_attr {
+    margin-left:10px;
+}
 .reason {
     display: flex;
     flex-direction: row;
@@ -71,6 +74,7 @@
     width: 150px;
     height: 150px;
     margin-right: 10px;
+    vertical-align: middle;
 }
 .uploaderTrigger {
     display: table-cell;

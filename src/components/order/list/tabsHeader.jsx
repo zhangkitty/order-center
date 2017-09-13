@@ -223,11 +223,13 @@ class TabsHeader extends Component {
                       allowClear
                       className={styles.colSpace}
                       value={troubleType}
-                      onChange={val => dispatch(commit('troubleType', val))}
+                      onChange={(val) => {
+                        if (val === undefined) {
+                          dispatch(commit('remarkUser', null));
+                        }
+                        dispatch(commit('troubleType', val));
+                      }}
                     >
-                      {/*
-                       <Option key={null} > {__('order.name.choose')}</Option>
-                      */}
                       {
                         fetchTrouble.map(item => (
                           <Option key={item.id} > {item.name}</Option>
@@ -238,7 +240,7 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.remark_user')}</span>
                     <Input
-                      disabled={troubleType === null || troubleType === 'null'}
+                      disabled={troubleType === null || troubleType === 'null' || !troubleType}
                       className={styles.colSpace}
                       value={remarkUser}
                       onChange={e => dispatch(commit('remarkUser', e.target.value))}
@@ -252,13 +254,18 @@ class TabsHeader extends Component {
                       className={styles.colSpace}
                       style={{ width: '70px', marginRight: '10px' }}
                       value={totalSelect}
-                      onChange={val => dispatch(commit('totalSelect', val))}
+                      onChange={(val) => {
+                        if (val === undefined) {
+                          dispatch(commit('totalInput', null));
+                        }
+                        dispatch(commit('totalSelect', val));
+                      }}
                     >
                       <Option key={1} > > </Option>
                       <Option key={2} > = </Option>
                     </Select>
                     <Input
-                      disabled={totalSelect === null || totalSelect === 'null'}
+                      disabled={totalSelect === null || totalSelect === 'null' || !totalSelect}
                       className={styles.colSpace}
                       value={totalInput}
                       onChange={e => dispatch(commit('totalInput', e.target.value))}
@@ -475,7 +482,7 @@ class TabsHeader extends Component {
                   {/* 取消类型 */}
                   {
                     Number(orderStatus) !== 14 ?
-                      <div className={styles.rowSpaceList}/>
+                      <div className={styles.rowSpaceList} />
                       :
                       <div className={styles.rowSpaceList}>
                         <span className={styles.filterName}>{__('order.name.cancel_type')}</span>
@@ -504,7 +511,13 @@ class TabsHeader extends Component {
                       allowClear
                       className={styles.colSpace}
                       value={goodsStatus}
-                      onChange={val => dispatch(commit2('goodsStatus', val))}
+                      onChange={(val) => {
+                        if (val === undefined) {
+                          dispatch(commit2('handleTimeStart', null));
+                          dispatch(commit2('handleTimeEnd', null));
+                        }
+                        dispatch(commit2('goodsStatus', val));
+                      }}
                     >
                       {
                         fetchGoodsStatus.map(item => (
@@ -520,7 +533,7 @@ class TabsHeader extends Component {
                     </span>
                     <div className={styles.colSpace2}>
                       <DatePicker
-                        disabled={goodsStatus === null || goodsStatus === 'null'}
+                        disabled={goodsStatus === null || goodsStatus === 'null' || !goodsStatus}
                         style={{ width: '150px' }}
                         showTime
                         format="YYYY-MM-DD HH:mm:ss"
@@ -529,7 +542,7 @@ class TabsHeader extends Component {
                       />
                       &nbsp; - &nbsp;
                       <DatePicker
-                        disabled={goodsStatus === null || goodsStatus === 'null'}
+                        disabled={goodsStatus === null || goodsStatus === 'null' || !goodsStatus}
                         style={{ width: '150px' }}
                         showTime
                         format="YYYY-MM-DD HH:mm:ss"

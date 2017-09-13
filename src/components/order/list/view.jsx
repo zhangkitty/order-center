@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Button, Input, Modal, message, Icon } from 'antd';
+import { Button, Input, Modal, message, Icon, Spin } from 'antd';
 import { connect } from 'react-redux';
 import Pagination from '../../publicComponent/pagination';
 import { search, change, commit, commit2, init, remarkSave } from './action';
@@ -24,7 +24,7 @@ class orderList extends Component {
   render() {
     const {
       dispatch, dataSource, total, queryString, queryString2, queryString3, visible,
-      loadUpdata, searchType, remarkModal,
+      loadUpdata, searchType, remarkModal, searchLoad,
     } = this.props;
     return (
       <div className={styles.content}>
@@ -32,16 +32,17 @@ class orderList extends Component {
         <TabsHeader {...this.props} />
 
         {/*  列表  */}
-        <div className={styles.table_bg}>
-
-          {
-            dataSource
-              .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} {...this.props} />)
-          }
-        </div>
-        {
-          total === 0 ? <div style={{ textAlign: 'center', color: 'rgba(0,0,0, .8)' }}><Icon type="frown-o" /> {__('common.contentTitle')}</div> : null
-        }
+        <Spin spinning={searchLoad}>
+          <div className={styles.table_bg}>
+            {
+              dataSource
+                .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} {...this.props} />)
+            }
+            {
+              total === 0 ? <div style={{ textAlign: 'center', color: 'rgba(0,0,0, .8)' }}><Icon type="frown-o" /> {__('common.contentTitle')}</div> : null
+            }
+          </div>
+        </Spin>
         {/* 备注提交 */}
         <Modal
           visible={visible}

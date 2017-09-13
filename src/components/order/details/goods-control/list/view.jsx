@@ -7,7 +7,7 @@ import assign from 'object-assign';
 import { Radio, Tag, Spin, Input, Button, message, Popover, Icon, Upload, Checkbox } from 'antd';
 import { connect } from 'react-redux';
 import {
-  commit, change, initFeedback, initFeedbackType, submitData,
+  init, commit, change, initFeedback, initFeedbackType, submitData,
   changeSelectOptions,
 } from './action';
 
@@ -48,6 +48,7 @@ class goodsControl extends Component {
   constructor(props) {
     super(props);
     const { dispatch, queryVal } = props;
+    dispatch(init()); // 清空数据
     const query = JSON.parse(props.location.query.data);
     dispatch(change('queryVal', query));
     dispatch(initFeedback());
@@ -56,7 +57,7 @@ class goodsControl extends Component {
 
   render() {
     const {
-      dispatch, fetchFeedback, fetchFeedbackType, queryString, queryVal,
+      dispatch, fetchFeedback, fetchFeedbackType, queryString, queryVal, loadInit, submitLoad,
     } = this.props;
     const {
       order_id, billno, goods_id, goods_sn, serial_number, attr,
@@ -64,6 +65,7 @@ class goodsControl extends Component {
     } = queryString;
    // const options = [];
     return (
+      <Spin spinning={loadInit}>
       <div className={Styles.content}>
         <form
           onSubmit={(e) => {
@@ -90,8 +92,7 @@ class goodsControl extends Component {
               <div className={Styles.reasonImg} style={{ margin: '0 15px' }}>
                 <span style={{ margin: '0 10px' }}>{queryVal.serial_number}</span>
                 <img src={queryVal.pic} width="80px" height="80px" alt="goods images" />
-
-                <div>
+                <div className={Styles.goods_attr}>
                   {queryVal.sku} <br />
                   {queryVal.attr}
                 </div>
@@ -139,60 +140,37 @@ class goodsControl extends Component {
               {__('order.goods-control.control_img')}
             </span>
             <div>
-              <Upload
-                className={Styles.uploader}
-                name="files[]"
-                action="/index_new.php/Order/OrderReturn/handleImg"
-                showUploadList={false}
-                data={{ goods_id: queryVal.id, type: 1 }}
-                beforeUpload={file => checkImage(file)}
-                onChange={(info) => {
-                  if (info.file.status === 'done') {
-                    if (info.file.response.code !== 0) {
-                      message.error(info.file.response.msg, 10);
-                    } else {
-                      message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
-                      dispatch(commit('feedback_thumb', info.file.response.data[0]));
-                    }
-                  } else if (info.file.status === 'error') {
-                    message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
-                  }
-                }}
-              >
-                {
-                  feedback_thumb ?
-                    <img src={feedback_thumb} alt="model" className={Styles.uploaderImg} />
-                    :
+              {
+                feedback_thumb.map(v => (
+                  <img src={v} alt="model" className={Styles.uploaderImg} />
+                ))
+              }
+              {
+                feedback_thumb.length < 2 ?
+                  <Upload
+                    className={Styles.uploader}
+                    name="files[]"
+                    action="/index_new.php/Order/OrderReturn/handleImg"
+                    showUploadList={false}
+                    data={{ goods_id: queryVal.id, type: 1 }}
+                    beforeUpload={file => checkImage(file)}
+                    onChange={(info) => {
+                      if (info.file.status === 'done') {
+                        if (info.file.response.code !== 0) {
+                          message.error(info.file.response.msg, 10);
+                        } else {
+                          message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
+                          dispatch(commit('feedback_thumb', [...feedback_thumb, info.file.response.data[0]]));
+                        }
+                      } else if (info.file.status === 'error') {
+                        message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
+                      }
+                    }}
+                  >
                     <Icon type="plus" className={Styles.uploaderTrigger} />
-                }
-              </Upload>
-              <Upload
-                className={Styles.uploader}
-                name="files[]"
-                action="/index_new.php/Order/AfterSaleAccident/saveQcImg"
-                showUploadList={false}
-                data={{ goods_id: 123 }}
-                beforeUpload={file => checkImage(file)}
-                onChange={(info) => {
-                  if (info.file.status === 'done') {
-                    if (info.file.response.code !== 0) {
-                      message.error(info.file.response.msg, 10);
-                    } else {
-                      message.success(`${info.file.name}  ${__('order.goods-control.submitTitle2')}`, 10);
-                      dispatch(commit('feedback_thumb', info.file.response.data[0]));
-                    }
-                  } else if (info.file.status === 'error') {
-                    message.error(`${info.file.name}  ${__('order.goods-control.submitTitle3')}`, 10);
-                  }
-                }}
-              >
-                {
-                  feedback_thumb ?
-                    <img src={feedback_thumb} alt="model" className={Styles.uploaderImg} />
-                    :
-                    <Icon type="plus" className={Styles.uploaderTrigger} />
-                }
-              </Upload>
+                  </Upload>
+                  : null
+              }
               <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>
                 {__('order.goods-control.control_title')}
               </Tag>
@@ -216,10 +194,11 @@ class goodsControl extends Component {
           <Button
             style={{ margin: '15px 80px 80px 0', left: '20%' }}
             type="primary" htmlType="submit"
-          //  loading={submitLoad}
+            loading={submitLoad}
           >{__('order.goods-control.submitName3')}</Button>
         </form>
       </div>
+      </Spin>
     );
   }
 }
@@ -231,6 +210,8 @@ goodsControl.propTypes = {
   queryString: PropTypes.shape(),
   location: PropTypes.shape(),
   queryVal: PropTypes.shape(),
+  loadInit: PropTypes.bool,
+  submitLoad: PropTypes.bool,
 };
 
 const mapStateToProps = state => state['order/details/goods-control/list'];
