@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import { put, takeLatest } from 'redux-saga/effects';
-import { getDataSer} from '../../server';
+import { getDataSer } from '../../server';
 import {
    getDataSuccess,
 } from './action';

@@ -13,8 +13,9 @@ const entry = {
   partDelivery: '/Order/partDelivery',
   priorDelivery: '/OrderDetail/priorDelivery',
   orderBatchCheck: '/Order/orderBatchCheck',
-  uploadLogisticsNumber: '/Order/uploadLogisticsNumber',
+  uploadLogisticsNumber: '/orderReturn/uploadLogisticsNumber',
   orderProfit: '/OrderDetail/orderProfit',
+  rebuildRl: '/orderReturn/rebuildRl',
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
@@ -172,6 +173,17 @@ export const initDataSer = (order_id, id) => (
     method: 'get',
   })
 );
+export const genRlSer = id => (
+  fetch(entry.rebuildRl, {
+    method: 'POST',
+    body: JSON.stringify({return_order_id: Number(id)}),
+  })
+);
+export const initPriceInfo = (data)=>{
+  return fetch(`${modifyDiffRefund.initPriceInfo}?order_id=${data.order_id}`,{
+    method: 'GET'
+  })
+}
 export const getRefundRecordInfo = (data)=>{
   return fetch(`${modifyDiffRefund.getRefundRecordInfo}?record_id=${data.record_id}`,{
     method: 'GET'

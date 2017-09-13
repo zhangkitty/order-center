@@ -4,6 +4,7 @@ import * as TYPES from './types';
 const defaultState = {
   ready: false,
   orderId: '',
+  billno: '',
   activeKey: 'base',
   emailShow: false,
   warehouseShow: false,
@@ -11,6 +12,7 @@ const defaultState = {
   profit: '',
   warehouse: 0,
   partSendBtn: false,
+  rlLoading: false,
   preSend: 0,
   dataSource: {
     base: {}, // 基本

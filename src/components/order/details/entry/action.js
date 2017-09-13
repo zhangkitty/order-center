@@ -70,4 +70,13 @@ export const profitShowAction = id => ({
   type: TYPES.PROFIT_SHOW,
   id,
 });
+export const genRl = (id, oid, bid) => ({
+  type: TYPES.GEN_RL,
+  id,
+  oid,
+  bid,
+});
+export const cancelRefund = () => ({
+  type: TYPES.CANCEL_REFUND,
+});
 

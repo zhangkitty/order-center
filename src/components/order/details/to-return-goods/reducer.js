@@ -14,6 +14,7 @@ const defaultState = {
   shippingType: [],
   warehouse: [],
   submitValue: {
+    order_id: null,
     return_info: [],
     refund_path: null,
     return_shipping_type: '',
@@ -31,9 +32,9 @@ export default (state = defaultState, action) => {
           key: i,
         })),
         paths: action.data.refund_path,
-        shippingType: action.data.return_shipping_type,
-        warehouse: action.data.return_warehouse,
-        reasons: action.data.return_reason.filter(v => (
+        shippingType: action.data.return_shipping_type || [],
+        warehouse: action.data.return_warehouse || [],
+        reasons: (action.data.return_reason || []).filter(v => (
           v.id > 5 || v.id === 1
         )),
         submitValue: assign({}, state.submitValue, {
