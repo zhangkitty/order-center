@@ -37,4 +37,5 @@ module.exports = {
   examine_order: '审核订单',
   Guangzhou: '广州',
   west: '西部',
+  goods_rejected_record: '退货记录',
 };

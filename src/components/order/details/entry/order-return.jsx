@@ -7,7 +7,7 @@ import { commit, uploadTrackAction, uploadTrackShow, genRl } from './action';
 const RG = Radio.Group;
 // TODO: lan
 const lan = {
-  jilu: '退货记录',
+  jilu: __('order.entry.goods_rejected_record'),
   bianhao: '退货单号',
   leixing: '退货单类型',
   yundan: '运单类型',

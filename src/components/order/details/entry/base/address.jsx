@@ -62,6 +62,7 @@ const Address = (
     dispatch,
     returnEmail,
     orderId,
+    billno,
   },
 ) => (
   <div style={{ display: 'flex' }}>
@@ -69,7 +70,7 @@ const Address = (
       <div style={{ width: '50%', float: 'left' }}>
         <Button
           style={{ position: 'absolute', right: '10px' }}
-          onClick={() => hashHistory.push(`/order/details/edit-address/${orderId}`)}
+          onClick={() => hashHistory.push(`/order/details/edit-address/${orderId}/${billno}`)}
         >{lan.edit}</Button>
         {
           info.sadrr.left.map(v => (
@@ -152,5 +153,6 @@ Address.propTypes = {
   dispatch: PropTypes.func,
   returnEmail: PropTypes.string,
   orderId: PropTypes.string,
+  billno: PropTypes.string,
 };
 export default Address;

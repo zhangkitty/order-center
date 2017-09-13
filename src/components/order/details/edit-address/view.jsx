@@ -18,17 +18,18 @@ const lan = {
 class EditAddress extends Component {
   constructor(props) {
     super(props);
-    const { ready, dispatch, params: { id }, orderId } = props;
+    const { ready, dispatch, params: { id, bid }, orderId } = props;
     if (!ready || id !== orderId) {
       dispatch(getInfo(id));
     }
     dispatch(commit('orderId', id));
+    dispatch(commit('billno', bid));
   }
 
   render() {
     const {
       ready, dispatch, submitValue, country_list, load,
-      cities, citySource, districtSource, orderId,
+      cities, citySource, districtSource, orderId, billno,
     } = this.props;
     const {
       gender,
@@ -61,7 +62,7 @@ class EditAddress extends Component {
             if ((country_value === 'SA' || country_value === 'TW' || country_value === 'HK') && !district) {
               return message.warning(lan.needDistrict);
             }
-            return dispatch(save(submitValue));
+            return dispatch(save(submitValue, billno));
           }}
         >
           <div>
@@ -224,7 +225,6 @@ class EditAddress extends Component {
           <div>
             <span className={style.spanWidth}>Address Line 2:</span>
             <TA
-              required
               value={address_line_2}
               style={{ width: '40%' }}
               onChange={e => dispatch(infoCommit('address_line_2', e.target.value))}
@@ -280,6 +280,7 @@ EditAddress.propTypes = {
   params: PropTypes.shape(),
   submitValue: PropTypes.shape(),
   orderId: PropTypes.string,
+  billno: PropTypes.string,
   country_list: PropTypes.arrayOf(PropTypes.shape()),
   cities: PropTypes.arrayOf(PropTypes.shape()),
   citySource: PropTypes.arrayOf(PropTypes.shape()),
