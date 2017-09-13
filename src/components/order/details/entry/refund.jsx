@@ -32,6 +32,7 @@ const Refund = (
   {
     dataSource: { refund: { refund_bill_list } },
     orderId,
+    dispatch,
   },
   ) => (
     <Card
@@ -123,7 +124,7 @@ const Refund = (
                   rec.status_code === 4 || rec.status_code === 1 ?
                     <Popconfirm
                       title={lan.cancelRefund}
-                      onConfirm={() => dispatch(cancelRefund())}
+                      onConfirm={() => dispatch(cancelRefund(rec.id))}
                     >
                       <Button style={{ marginLeft: '5px' }}>{lan.quxiaotuikuai}</Button>
                     </Popconfirm>
@@ -140,5 +141,6 @@ const Refund = (
 Refund.propTypes = {
   dataSource: PropTypes.shape(),
   orderId: PropTypes.string,
+  dispatch: PropTypes.func,
 };
 export default Refund;

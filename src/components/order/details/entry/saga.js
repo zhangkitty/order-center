@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import * as TYPES from './types';
 import { commit, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
-import { getInfo, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer } from '../server';
+import { getInfo, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer } from '../server';
 
 const lan = {
   ofail: '操作失败',
@@ -97,6 +97,13 @@ function* genRlSaga(action) {
   }
   return hashHistory.push(`/order/details/entry/${action.oid}/${action.bid}/goods_rejected`);
 }
+function* cancelRefundSaga(action) {
+  const data = yield cancelRefundSer(action.id);
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.ofail}:${data.msg}`);
+  }
+  return message.success(lan.osucess);
+}
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -108,4 +115,5 @@ export default function* () {
   yield takeLatest(TYPES.UPLOAD_TRACK, uploadTrackSaga);
   yield takeLatest(TYPES.PROFIT_SHOW, profitShowSaga);
   yield takeLatest(TYPES.GEN_RL, genRlSaga);
+  yield takeLatest(TYPES.CANCEL_REFUND, cancelRefundSaga);
 }
