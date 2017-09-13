@@ -66,6 +66,18 @@ const menus = [
         crumbName: __('nav.order_details_to_return_goods'),
         nav: false,
       },
+      {
+        link: '/order/details/goods-control/list',
+        name: __('nav.goods_control'),
+        crumbName: __('nav.goods_control'),
+        nav: false,
+      },
+      {
+        link: '/order/details/goods-control/edit',
+        name: __('nav.goods_control_edit'),
+        crumbName: __('nav.goods_control_edit'),
+        nav: false,
+      },
     ],
   },
 ];

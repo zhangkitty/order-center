@@ -7,7 +7,7 @@ import assign from 'object-assign';
 import { Radio, Tag, Spin, Input, Button, message, Popover, Icon, Upload, Checkbox } from 'antd';
 import { connect } from 'react-redux';
 import {
-  commit, change, initFeedback, initFeedbackType, submitData, initData,
+  init, commit, change, initFeedback, initFeedbackType, submitData, initData,
   changeSelectOptions,
 } from './action';
 
@@ -49,6 +49,7 @@ class goodsControlEdit extends Component {
   constructor(props) {
     super(props);
     const { dispatch } = props;
+    dispatch(init()); // 清空数据
     const query = JSON.parse(props.location.query.data);
     dispatch(change('queryVal', query));
     dispatch(initFeedback());
@@ -58,13 +59,14 @@ class goodsControlEdit extends Component {
 
   render() {
     const {
-      dispatch, fetchFeedback, fetchFeedbackType, queryString, queryVal,
+      dispatch, fetchFeedback, fetchFeedbackType, queryString, queryVal, load, loadInit, submitLoad,
     } = this.props;
     const {
       order_id, billno, goods_id, goods_sn, serial_number, attr,
       feedback_type, feedback_reason, feedback_thumb, remark,
     } = queryString;
     return (
+      <Spin spinning={loadInit}>
       <div className={Styles.content}>
         <form
           onSubmit={(e) => {
@@ -91,8 +93,7 @@ class goodsControlEdit extends Component {
               <div className={Styles.reasonImg} style={{ margin: '0 15px' }}>
                 <span style={{ margin: '0 10px' }}>{queryVal.serial_number}</span>
                 <img src={queryVal.pic} width="80px" height="80px" alt="goods images" />
-
-                <div>
+                <div className={Styles.goods_attr}>
                   {queryVal.sku} <br />
                   {queryVal.attr}
                 </div>
@@ -193,10 +194,11 @@ class goodsControlEdit extends Component {
           <Button
             style={{ margin: '15px 80px 80px 0', left: '20%' }}
             type="primary" htmlType="submit"
-          //  loading={submitLoad}
+            loading={submitLoad}
           >{__('order.goods-control.submitName3')}</Button>
         </form>
       </div>
+      </Spin>
     );
   }
 }
@@ -208,6 +210,9 @@ goodsControlEdit.propTypes = {
   queryString: PropTypes.shape(),
   location: PropTypes.shape(),
   queryVal: PropTypes.shape(),
+  load: PropTypes.bool,
+  loadInit: PropTypes.bool,
+  submitLoad: PropTypes.bool,
 };
 
 const mapStateToProps = state => state['order/details/goods-control/edit'];

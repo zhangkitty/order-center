@@ -38,6 +38,9 @@
     align-items: center;
     margin:10px 0;
 }
+.goods_attr {
+    margin-left:10px;
+}
 .reason {
     display: flex;
     flex-direction: row;
