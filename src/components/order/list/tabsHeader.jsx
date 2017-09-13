@@ -54,6 +54,10 @@ class TabsHeader extends Component {
     const { paytimeStart } = this.props.queryString2;
     return (current && current.valueOf() < moment(paytimeStart).valueOf());
   }
+  disabledDateHigh2(current) {
+    const { handleTimeStart } = this.props.queryString2;
+    return (current && current.valueOf() < moment(handleTimeStart).valueOf());
+  }
 
   render() {
     const {
@@ -66,11 +70,11 @@ class TabsHeader extends Component {
       countryName, siteFrom, txnId, paymentMethod, troubleType, remarkUser, totalSelect, totalInput,
     } = queryString;
     const {
-      paytimeStart: paytimeStart2,
-      paytimeEnd: paytimeEnd2,
-      countryName: countryName2,
-      siteFrom: siteFrom2,
-      paymentMethod: paymentMethod2,
+      paytimeStart2,
+      paytimeEnd2,
+      countryName2,
+      siteFrom2,
+      paymentMethod2,
       troubleType: troubleType2, goodsSn, count, memberLevel, orderStatus,
       cancelReason, goodsStatus, handleTimeStart, handleTimeEnd,
     } = queryString2;
@@ -175,11 +179,14 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.country')}</span>
                     <Select
+                      allowClear
                       className={styles.colSpace}
-                      value={countryName}
-                      onChange={val => dispatch(commit('countryName', val))}
+                      value={`${countryName}`}
+                      onChange={val => dispatch(commit('countryName', val === 'null' ? null : val))}
                     >
-                      <Option key={null} > {__('order.name.choose')}</Option>
+                      {/*
+                       <Option key={null}>{__('order.name.choose')}</Option>
+                      */}
                       {
                         fetchCountry.map(item => (
                           <Option key={item.id} > {item.name}</Option>
@@ -198,11 +205,11 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.payment_method')}</span>
                     <Select
+                      allowClear
                       className={styles.colSpace}
                       value={paymentMethod}
                       onChange={val => dispatch(commit('paymentMethod', val))}
                     >
-                      <Option key={null} > {__('order.name.choose')}</Option>
                       {
                         fetchPayment.map(item => (
                           <Option key={item.id} > {item.name}</Option>
@@ -213,11 +220,14 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.trouble')}</span>
                     <Select
+                      allowClear
                       className={styles.colSpace}
                       value={troubleType}
                       onChange={val => dispatch(commit('troubleType', val))}
                     >
-                      <Option key={null} > {__('order.name.choose')}</Option>
+                      {/*
+                       <Option key={null} > {__('order.name.choose')}</Option>
+                      */}
                       {
                         fetchTrouble.map(item => (
                           <Option key={item.id} > {item.name}</Option>
@@ -238,12 +248,12 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.total_select')}</span>
                     <Select
+                      allowClear
                       className={styles.colSpace}
                       style={{ width: '70px', marginRight: '10px' }}
                       value={totalSelect}
                       onChange={val => dispatch(commit('totalSelect', val))}
                     >
-                      <Option key={null} > {__('order.name.choose')}</Option>
                       <Option key={1} > > </Option>
                       <Option key={2} > = </Option>
                     </Select>
@@ -303,35 +313,39 @@ class TabsHeader extends Component {
                 onSubmit={(e) => {
                   e.preventDefault();
                   const tempHigh = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix();
-                  if (!paytimeStart || !paytimeEnd) {
+                  if ((!paytimeStart2 || !paytimeEnd2) && (!handleTimeStart || !handleTimeEnd)) {
                     return message.warning(__('common.submitTitle1'));
-                  } else if (moment(paytimeStart).valueOf() > moment(paytimeEnd).valueOf()) {
+                  } else if (moment(paytimeStart2).valueOf() > moment(paytimeEnd2).valueOf()) {
                     return message.warning(__('order.name.time_interval_large1'));
                   } else if (moment.unix(tempHigh).dayOfYear() > 32) {
                     return message.warning(__('order.name.time_interval_large'));
+                  } else if (moment(handleTimeStart).valueOf() > moment(handleTimeEnd).valueOf()) {
+                    return message.warning(__('order.name.time_interval_large1'));
                   }
                   return dispatch(searchHigh(assign({},
                     queryString2,
                     {
                       pageNumber: 1,
+                      paytimeStart: paytimeStart2,
+                      paytimeEnd: paytimeEnd2,
+                      countryName: countryName2,
+                      siteFrom: siteFrom2,
+                      paymentMethod: paymentMethod2,
+                      troubleType: troubleType2,
                     })));
                 }}
               >
                 <div className={styles.rowSpace}>
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>
-                      {/*
-                       <span style={{ color: 'red' }}>*</span>
-                      */}
                       {__('order.name.paytime')}
                     </span>
                     <div className={styles.colSpace2}>
                       <DatePicker
                         style={{ width: '150px' }}
-                       // allowClear={false}
                         showTime
                         format="YYYY-MM-DD HH:mm:ss"
-                        value={paytimeStart2}
+                        value={paytimeStart2 ? moment(paytimeStart2) : null}
                         onChange={(value, str) => {
                           dispatch(commit2('paytimeStart2', str));
                         }}
@@ -339,11 +353,10 @@ class TabsHeader extends Component {
                       &nbsp; - &nbsp;
                       <DatePicker
                         style={{ width: '150px' }}
-                        // allowClear={false}
                         disabledDate={cur => this.disabledDateHigh(cur)}
                         showTime
                         format="YYYY-MM-DD HH:mm:ss"
-                        value={paytimeEnd2}
+                        value={paytimeEnd2 ? moment(paytimeEnd2) : null}
                         onChange={(value, str) => {
                           dispatch(commit2('paytimeEnd2', str));
                         }}
@@ -356,8 +369,8 @@ class TabsHeader extends Component {
                       className={styles.colSpace}
                       mode="tags"
                       style={{ width: '250px' }}
-                    //  value={siteFrom}
-                      onChange={val => dispatch(commit2('siteFrom', val))}
+                    //  value={siteFrom2}
+                      onChange={val => dispatch(commit2('siteFrom2', val))}
                     >
                       {
                         fetchSite.map(item => (
@@ -369,9 +382,10 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.country')}</span>
                     <Select
+                      allowClear
                       className={styles.colSpace}
-                      value={countryName}
-                      onChange={val => dispatch(commit2('countryName', val))}
+                      value={countryName2}
+                      onChange={val => dispatch(commit2('countryName2', val))}
                     >
                       {
                         fetchCountry.map(item => (
@@ -383,11 +397,11 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.payment_method')}</span>
                     <Select
+                      allowClear
                       className={styles.colSpace}
-                      value={paymentMethod}
-                      onChange={val => dispatch(commit2('paymentMethod', val))}
+                      value={paymentMethod2}
+                      onChange={val => dispatch(commit2('paymentMethod2', val))}
                     >
-                      <Option key={null} > {__('order.name.choose')}</Option>
                       {
                         fetchPayment.map(item => (
                           <Option key={item.id} > {item.name}</Option>
@@ -398,11 +412,11 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.trouble')}</span>
                     <Select
+                      allowClear
                       className={styles.colSpace}
                       value={troubleType}
                       onChange={val => dispatch(commit2('troubleType', val))}
                     >
-                      <Option key={null} > {__('order.name.choose')}</Option>
                       {
                         fetchTrouble.map(item => (
                           <Option key={item.id} > {item.name}</Option>
@@ -430,11 +444,11 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.member_level')}</span>
                     <Select
+                      allowClear
                       className={styles.colSpace}
                       value={memberLevel}
                       onChange={val => dispatch(commit2('memberLevel', val))}
                     >
-                      <Option key={null} > {__('order.name.choose')}</Option>
                       {
                         fetchMemberLevel.map(item => (
                           <Option key={item.id} > {item.name}</Option>
@@ -446,11 +460,11 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.order_status')}</span>
                     <Select
+                      allowClear
                       className={styles.colSpace}
                       value={orderStatus}
                       onChange={val => dispatch(commit2('orderStatus', val))}
                     >
-                      <Option key={null} > {__('order.name.choose')}</Option>
                       {
                         fetchOrderStatus.map(item => (
                           <Option key={item.id} > {item.name}</Option>
@@ -461,17 +475,19 @@ class TabsHeader extends Component {
                   {/* 取消类型 */}
                   {
                     Number(orderStatus) !== 14 ?
-                      <div className={styles.rowSpaceList}>
-                      </div>
+                      <div className={styles.rowSpaceList}/>
                       :
                       <div className={styles.rowSpaceList}>
                         <span className={styles.filterName}>{__('order.name.cancel_type')}</span>
                         <Select
+                          allowClear
                           className={styles.colSpace}
                           value={cancelReason}
                           onChange={val => dispatch(commit2('cancelReason', val))}
                         >
-                          <Option key={null} > {__('order.name.choose')}</Option>
+                          {/*
+                           <Option key={null} > {__('order.name.choose')}</Option>
+                          */}
                           {
                             fetchCancelReason.map(item => (
                               <Option key={item.id} > {item.name}</Option>
@@ -485,14 +501,14 @@ class TabsHeader extends Component {
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.goods_status')}</span>
                     <Select
+                      allowClear
                       className={styles.colSpace}
                       value={goodsStatus}
                       onChange={val => dispatch(commit2('goodsStatus', val))}
                     >
-                      <Option key={null} > {__('order.name.choose')}</Option>
                       {
                         fetchGoodsStatus.map(item => (
-                          <Option key={item.id} > {item.name}</Option>
+                          <Option key={item.id}> {item.name}</Option>
                         ))
                       }
                     </Select>
@@ -506,20 +522,19 @@ class TabsHeader extends Component {
                       <DatePicker
                         disabled={goodsStatus === null || goodsStatus === 'null'}
                         style={{ width: '150px' }}
-                        // allowClear={false}
                         showTime
                         format="YYYY-MM-DD HH:mm:ss"
-                        value={handleTimeStart}
+                        value={handleTimeStart ? moment(handleTimeStart) : null}
                         onChange={(value, str) => dispatch(commit2('handleTimeStart', str))}
                       />
                       &nbsp; - &nbsp;
                       <DatePicker
                         disabled={goodsStatus === null || goodsStatus === 'null'}
                         style={{ width: '150px' }}
-                        // allowClear={false}
                         showTime
                         format="YYYY-MM-DD HH:mm:ss"
-                        value={handleTimeEnd}
+                        disabledDate={cur => this.disabledDateHigh2(cur)}
+                        value={handleTimeEnd ? moment(handleTimeEnd) : null}
                         onChange={(value, str) => dispatch(commit2('handleTimeEnd', str))}
                       />
                     </div>

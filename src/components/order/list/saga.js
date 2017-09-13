@@ -47,7 +47,7 @@ function* searchSaga(action) {
     remarkUser: remarkUser ? encodeURIComponent(remarkUser.trim()) : null,
     totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
   }));
-  if (data.error) {
+  if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle')}${data.msg}`);
     return yield put(searchFail());
   }
@@ -63,7 +63,7 @@ function* searchHighSaga(action) {
     goodsSn: goodsSn ? encodeURIComponent(goodsSn.trim()) : null,
     count: count ? encodeURIComponent(count.trim()) : null,
   }));
-  if (data.error) {
+  if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle1')} ${data.msg}`);
     return yield put(searchHighFail());
   }
@@ -71,7 +71,7 @@ function* searchHighSaga(action) {
 }
 
 function* searchHistorySaga(action) {
-  console.log(action.data, 'search-high');
+ // console.log(action.data, 'search-high');
   const data = yield seachHistorySubmit(assign({}, action.data));
   if (data.error) {
     message.error(`${__('common.sagaTitle')} ${data.msg}`);

@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Button, Input, Modal, message } from 'antd';
+import { Button, Input, Modal, message, Icon } from 'antd';
 import { connect } from 'react-redux';
 import Pagination from '../../publicComponent/pagination';
 import { search, change, commit, commit2, init, remarkSave } from './action';
@@ -38,7 +38,14 @@ class orderList extends Component {
             dataSource
               .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} {...this.props} />)
           }
+          {
+          //  console.log(dataSource, 'dataSource')
+            console.log(total, 'total')
+          }
         </div>
+        {
+          total === 0 ? <div style={{ textAlign: 'center' }}><Icon type="frown-o" /> 暂无数据</div> : null
+        }
         {/* 备注提交 */}
         <Modal
           visible={visible}
