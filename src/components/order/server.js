@@ -193,9 +193,6 @@ export const delChangeSer = (oid, gid) => (
   })
 );
 
-
-
-
 export const initReasonList = (data) =>{
     return fetch(`${diffRefund.initReasonList}?type=${data.type}`,{
         method: 'GET'

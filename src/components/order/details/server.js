@@ -33,7 +33,7 @@ const goodsControl = {
   initData: '/AfterSaleAccident/getAfterSaleAccidentInfo',   // 查看品控详情
 };
 const modifyDiffRefund = {
-  initPriceInfo: '/OrderDiffRefund/getRefundRecordInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
+  getRefundRecordInfo: '/OrderDiffRefund/getRefundRecordInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
 }
 const withdraw = {
   withdraw : '/OrderDiffRefund/cashRefund',
@@ -172,8 +172,8 @@ export const initDataSer = (order_id, id) => (
     method: 'get',
   })
 );
-export const initPriceInfo = (data)=>{
-  return fetch(`${modifyDiffRefund.initPriceInfo}?order_id=${data.order_id}`,{
+export const getRefundRecordInfo = (data)=>{
+  return fetch(`${modifyDiffRefund.getRefundRecordInfo}?record_id=${data.record_id}`,{
     method: 'GET'
   })
 }
