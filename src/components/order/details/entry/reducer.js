@@ -52,6 +52,8 @@ export default (state = defaultState, action) => {
         dataSource: assign({}, state.dataSource, {
           [action.key]: action.data || {},
         }),
+        profit: '',
+        profitShow: false,
       });
     case TYPES.UPDATE_EAMIL_SUCCESS:
       return assign({}, state, {
