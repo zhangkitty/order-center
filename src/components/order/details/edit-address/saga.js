@@ -1,5 +1,6 @@
 import { takeEvery, put } from 'redux-saga/effects';
 import { message } from 'antd';
+import { hashHistory } from 'react-router';
 import * as TYPES from './types';
 import { getInfoSuccess, commit } from './action';
 import { getAddressInfo, getcitySer, editAddresSave } from '../server';
@@ -32,7 +33,8 @@ function* saveSaga(action) {
     return message.error(`${lan.fail}:${data.msg}`);
   }
   yield put(commit('load', false));
-  return message.success(lan.osucess);
+  message.success(lan.osucess);
+  return hashHistory.push(`order/details/entry/${action.data.order_id}/${action.billno}`);
 }
 
 export default function* () {
