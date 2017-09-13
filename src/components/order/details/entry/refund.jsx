@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Table, Card } from 'antd';
+import { Table, Card, Popconfirm, Button } from 'antd';
+import { cancelRefund } from './action';
 import style from './style.css';
 
 const lan = {
@@ -15,13 +16,16 @@ const lan = {
   lujin: '退款路径',
   zhaungtai: '退款单状态',
   pingzhenghao: '退款交易凭证号',
+  bohuiyuanyin: '驳回原因',
   caozuo: '操作',
   tixiantuikuan: '提现退款',
   xiugaishenqing: '修改申请',
+  quxiaotuikuai: '取消退款',
+  cancelRefund: '确认取消此退款单',
 };
 const to = id => ({
-  1: `/order/details/modify-diff-refund/${id}`,
-  2: `/order/details/modify-goods-refund/${id}`,
+  1: `/order/details/modify-goods-refund/${id}`,
+  2: `/order/details/modify-diff-refund/${id}`,
 });
 
 const Refund = (
@@ -95,6 +99,9 @@ const Refund = (
           {
             title: lan.zhaungtai,
             dataIndex: 'status',
+          },{
+            title: lan.bohuiyuanyin,
+            dataIndex: 'reject_reason',
           },
           {
             title: lan.pingzhenghao,
@@ -103,12 +110,26 @@ const Refund = (
           {
             title: lan.caozuo,
             render: rec => (
-            rec.status_code === 4 || rec.status_code === 1 ?
-              <Link
-                to={to(orderId)[rec.type_id]}
-              >
-                {lan.xiugaishenqing}
-              </Link> : '-'
+              <div>
+                {
+                  rec.type_id < 3 && rec.status_code === 4 || rec.status_code === 1 ?
+                    <Link
+                      to={to(rec.id)[rec.type_id]}
+                    >
+                      {lan.xiugaishenqing}
+                    </Link> : null
+                }
+                {
+                  rec.status_code === 4 || rec.status_code === 1 ?
+                    <Popconfirm
+                      title={lan.cancelRefund}
+                      onConfirm={() => dispatch(cancelRefund())}
+                    >
+                      <Button style={{ marginLeft: '5px' }}>{lan.quxiaotuikuai}</Button>
+                    </Popconfirm>
+                    : null
+                }
+              </div>
           ),
           },
         ]}
