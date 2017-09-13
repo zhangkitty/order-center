@@ -138,7 +138,7 @@ const reducer = (state = defaultState, action) => {
         }),
       });
     case TYPES.COMMIT_HIGH:
-      console.log(action, 'COMMIT_HIGH');
+     // console.log(action, 'COMMIT_HIGH');
       return assign({}, state, {
         queryString2: assign({}, state.queryString2, {
           [action.key]: action.val,

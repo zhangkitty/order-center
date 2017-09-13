@@ -71,6 +71,7 @@
     width: 150px;
     height: 150px;
     margin-right: 10px;
+    vertical-align: middle;
 }
 .uploaderTrigger {
     display: table-cell;
