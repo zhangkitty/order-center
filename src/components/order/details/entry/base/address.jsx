@@ -5,14 +5,13 @@ import { hashHistory } from 'react-router';
 import style from '../style.css';
 import { commit, updateEmail } from '../action';
 
-// TODO: lan
 const lan = {
-  email: '退货邮箱',
-  upEmail: '更新退货邮箱',
-  update: '更新',
-  edit: '编辑',
-  save: '保存',
-  emailValid: '邮箱地址错误',
+  email: __('order.entry.back_email'),
+  upEmail: __('order.entry.update_back_email'),
+  update: __('order.entry.update'),
+  edit: __('order.entry.edit'),
+  save: __('order.entry.save'),
+  emailValid: __('order.entry.email_fail'),
 };
 const info = {
   sadrr: {
