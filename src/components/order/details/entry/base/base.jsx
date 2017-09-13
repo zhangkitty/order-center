@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import { Card } from 'antd';
 import style from '../style.css';
 
-// TODO: lan
 const lan = {
-  下单日期: '下单日期',
-  支付方式: '支付方式',
-  来源站点: '来源站点',
-  运输方式: '运输方式',
-  花费时间: '花费时间',
-  付款日期: '付款日期',
-  来源国家: '来源国家',
-  基本信息: '基本信息',
+  下单日期: __('order.entry.buy_date'),
+  支付方式: __('order.entry.pay_method'),
+  来源站点: __('order.entry.source_site'),
+  运输方式: __('order.entry.track_method'),
+  花费时间: __('order.entry.waist_time'),
+  付款日期: __('order.entry.pay_date'),
+  来源国家: __('order.entry.source_country'),
+  基本信息: __('order.entry.base_desc'),
 };
 const info = {
   left: [
