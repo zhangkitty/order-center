@@ -67,6 +67,7 @@ const defaultState = {
     siteFrom: null,   // 站点
     memberId: null,    // 会员等级
   },
+  searchLoad: false,
   operationVisible: false,  // 操作查询
   clickVisible: false,
   visible: false,   // add
@@ -165,51 +166,51 @@ const reducer = (state = defaultState, action) => {
     case TYPES.SEARCH:
       return assign({}, state, {
         queryString: action.data,
-        load: true,
+        searchLoad: true,
         searchType: 0,
       });
     case TYPES.SEARCH_FAIL:
       return assign({}, state, {
-        load: false,
+        searchLoad: false,
       });
     case TYPES.SEARCH_SUCCESS:
       return assign({}, state, {
         // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
         dataSource: action.data.data,
         total: action.data.total,
-        load: false,
+        searchLoad: false,
       });
     case TYPES.SEARCH_HIGH:
       return assign({}, state, {
         queryString2: action.data,
-        load: true,
+        searchLoad: true,
         searchType: 1,
       });
     case TYPES.SEARCH_HIGH_FAIL:
       return assign({}, state, {
-        load: false,
+        searchLoad: false,
       });
     case TYPES.SEARCH_HIGH_SUCCESS:
       return assign({}, state, {
         dataSource: action.data.data,
         total: action.data.total,
-        load: false,
+        searchLoad: false,
       });
     case TYPES.SEARCH_HISTORY:
       return assign({}, state, {
         queryString3: action.data,
-        load: true,
+        searchLoad: true,
         searchType: 2,
       });
     case TYPES.SEARCH_HISTORY_FAIL:
       return assign({}, state, {
-        load: false,
+        searchLoad: false,
       });
     case TYPES.SEARCH_HISTORY_SUCCESS:
       return assign({}, state, {
         dataSource: action.data.data,
         total: action.data.total,
-        load: false,
+        searchLoad: false,
       });
     case TYPES.INIT_COUNTRY:
       return assign({}, state, {

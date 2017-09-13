@@ -21,7 +21,7 @@ const defaultState = {
       name: '',
       children: [],
     },   // 品控类型（原因id）
-    feedback_thumb: null,   //  图片
+    feedback_thumb: [],   //  图片
     remark: null,
   },
 };

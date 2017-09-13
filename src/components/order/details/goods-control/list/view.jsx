@@ -139,60 +139,37 @@ class goodsControl extends Component {
               {__('order.goods-control.control_img')}
             </span>
             <div>
-              <Upload
-                className={Styles.uploader}
-                name="files[]"
-                action="/index_new.php/Order/OrderReturn/handleImg"
-                showUploadList={false}
-                data={{ goods_id: queryVal.id, type: 1 }}
-                beforeUpload={file => checkImage(file)}
-                onChange={(info) => {
-                  if (info.file.status === 'done') {
-                    if (info.file.response.code !== 0) {
-                      message.error(info.file.response.msg, 10);
-                    } else {
-                      message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
-                      dispatch(commit('feedback_thumb', info.file.response.data[0]));
-                    }
-                  } else if (info.file.status === 'error') {
-                    message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
-                  }
-                }}
-              >
-                {
-                  feedback_thumb ?
-                    <img src={feedback_thumb} alt="model" className={Styles.uploaderImg} />
-                    :
+              {
+                feedback_thumb.map(v => (
+                  <img src={v} alt="model" className={Styles.uploaderImg} />
+                ))
+              }
+              {
+                feedback_thumb.length < 2 ?
+                  <Upload
+                    className={Styles.uploader}
+                    name="files[]"
+                    action="/index_new.php/Order/OrderReturn/handleImg"
+                    showUploadList={false}
+                    data={{ goods_id: queryVal.id, type: 1 }}
+                    beforeUpload={file => checkImage(file)}
+                    onChange={(info) => {
+                      if (info.file.status === 'done') {
+                        if (info.file.response.code !== 0) {
+                          message.error(info.file.response.msg, 10);
+                        } else {
+                          message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
+                          dispatch(commit('feedback_thumb', [...feedback_thumb, info.file.response.data[0]]));
+                        }
+                      } else if (info.file.status === 'error') {
+                        message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
+                      }
+                    }}
+                  >
                     <Icon type="plus" className={Styles.uploaderTrigger} />
-                }
-              </Upload>
-              <Upload
-                className={Styles.uploader}
-                name="files[]"
-                action="/index_new.php/Order/AfterSaleAccident/saveQcImg"
-                showUploadList={false}
-                data={{ goods_id: 123 }}
-                beforeUpload={file => checkImage(file)}
-                onChange={(info) => {
-                  if (info.file.status === 'done') {
-                    if (info.file.response.code !== 0) {
-                      message.error(info.file.response.msg, 10);
-                    } else {
-                      message.success(`${info.file.name}  ${__('order.goods-control.submitTitle2')}`, 10);
-                      dispatch(commit('feedback_thumb', info.file.response.data[0]));
-                    }
-                  } else if (info.file.status === 'error') {
-                    message.error(`${info.file.name}  ${__('order.goods-control.submitTitle3')}`, 10);
-                  }
-                }}
-              >
-                {
-                  feedback_thumb ?
-                    <img src={feedback_thumb} alt="model" className={Styles.uploaderImg} />
-                    :
-                    <Icon type="plus" className={Styles.uploaderTrigger} />
-                }
-              </Upload>
+                  </Upload>
+                  : null
+              }
               <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>
                 {__('order.goods-control.control_title')}
               </Tag>
