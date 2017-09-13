@@ -7,6 +7,7 @@ export const INIT = `${prefix}init`;
 
 export const CHANGE = `${prefix}change`;
 export const COMMIT = `${prefix}commit`;
+export const CHANGE_SELECT_OPTIONS = `${prefix}select_options`;
 
 export const INIT_FEEDBACK = `${prefix}init_feedback`;
 export const INIT_FEEDBACK_SUCCESS = `${prefix}init_feedback_success`;

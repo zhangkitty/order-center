@@ -15,10 +15,10 @@ const defaultState = {
     goods_id: null,
     goods_sn: null,
     feedback_type: null,   // 反馈类型
-    feedback_reason: null,   // 品控类型（原因id）
-    feedback_reason0: null,
-    feedback_reason1: null,
-    feedback_reason2: null, // 品控类型
+    feedback_reason: {
+      name: '',
+      children: [],
+    },   // 品控类型（原因id）
     feedback_thumb: null,   //  图片
     remark: null,
   },
@@ -31,7 +31,16 @@ const reducer = (state = defaultState, action) => {
     case TYPES.COMMIT:
       return assign({}, state, {
         queryString: assign({}, state.queryString, {
-          [`${action.key}`]: action.val,
+          [action.key]: action.val,
+        }),
+      });
+    case TYPES.CHANGE_SELECT_OPTIONS:
+      return assign({}, state, {
+        queryString: assign({}, state.queryString, {
+          feedback_reason: assign({}, state.queryString.feedback_reason, {
+            name: action.key,
+            children: action.val,
+          }),
         }),
       });
     case TYPES.CHANGE:
