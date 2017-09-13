@@ -27,6 +27,11 @@ const maxTypes = data => (
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
+    case TYPES.GET_DATA:
+      return assign({}, state, {
+        loading: true,
+      });
+
     case TYPES.GET_DATA_SUCCESS:
       return assign({}, state, {
         dataSource: under2Camal(action.res.data),
