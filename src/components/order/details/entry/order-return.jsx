@@ -5,6 +5,7 @@ import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message } fr
 import { commit, uploadTrackAction, uploadTrackShow, genRl } from './action';
 
 const RG = Radio.Group;
+// TODO: lan
 const lan = {
   jilu: '退货记录',
   bianhao: '退货单号',
