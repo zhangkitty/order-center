@@ -43,34 +43,24 @@ const withdraw = {
   submitForword: '/OrderDiffRefund/submitRefund'
 }
 
-export function* getInfo(id, bill) {
-  const base = fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
+export const getInfoSer = (id, bill) => {
+  const base = () => fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
     method: 'GET',
   });
-  const pay = fetch(`${entry.payShow}?order_id=${id}`, {
+  const pay = () => fetch(`${entry.payShow}?order_id=${id}`, {
     method: 'GET',
   });
-  const refund = fetch(`${entry.refund}?order_id=${id}`, {
+  const refund = () => fetch(`${entry.refund}?order_id=${id}`, {
     method: 'GET',
   });
-  const orderReturn = fetch(entry.orderReturn, {
+  const orderReturn = () => fetch(entry.orderReturn, {
     method: 'post',
     body: JSON.stringify({ order_id: Number(id), billno: bill }),
   });
-  const logs = fetch(`${entry.orderRecord}?order_id=${id}`, {
+  const logs = () => fetch(`${entry.orderRecord}?order_id=${id}`, {
     method: 'GET',
   });
-  let result = { base, pay, refund, orderReturn, logs };
-  const arr = Object.keys(result);
-  for (let i = 0; i < arr.length; i += 1) {
-    try {
-      result[arr[i]] = yield result[arr[i]];
-      result[arr[i]] = result[arr[i]] || {};
-    } catch (e) {
-      result[arr[i]] = {};
-    }
-  }
-  return result;
+  return { base, pay, refund, orderReturn, logs };
 }
 export const updateEmailSer = (order_id, email) => (
   fetch(entry.refundEmail, {
