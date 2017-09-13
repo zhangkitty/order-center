@@ -3,7 +3,9 @@ import * as TYPES from './types';
 
 const defaultState = {
   ready: false,
+  tabsLoad: false,
   orderId: '',
+  billno: '',
   activeKey: 'base',
   emailShow: false,
   warehouseShow: false,
@@ -11,6 +13,7 @@ const defaultState = {
   profit: '',
   warehouse: 0,
   partSendBtn: false,
+  rlLoading: false,
   preSend: 0,
   dataSource: {
     base: {}, // 基本
@@ -38,15 +41,16 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
+    case TYPES.GET_INFO:
+      return assign({}, state, {
+        tabsLoad: true,
+      });
     case TYPES.GET_INFO_SUCCESS:
       return assign({}, state, {
         ready: true,
+        tabsLoad: false,
         dataSource: assign({}, state.dataSource, {
-          base: action.data.base || {},
-          pay: action.data.pay || {},
-          refund: action.data.refund || {},
-          orderReturn: action.data.orderReturn || {},
-          logs: action.data.logs || {},
+          [action.key]: action.data || {},
         }),
       });
     case TYPES.UPDATE_EAMIL_SUCCESS:

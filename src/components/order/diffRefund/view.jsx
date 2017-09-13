@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import assign from 'object-assign';
 import { Radio, Button, Form, Input, Tag, message } from 'antd';
-import { initPriceInfo, initReasonList, subchange, submitForward } from './action';
+import { initPriceInfo, initReasonList, subchange, submitForward ,change} from './action';
 import SumOfMoney from './sumOfMoney';
 import Price from './price';
 
@@ -17,7 +17,6 @@ import styles from './style.css';
 class diffRefund extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     const { params: { orderId, type } } = props;
     props.dispatch(initPriceInfo({ order_id: orderId }));
     props.dispatch(initReasonList({ type }));
@@ -28,6 +27,7 @@ class diffRefund extends Component {
   render() {
     const { ReasonList, total_price, refund_path_list, ready, submitValue, dispatch,
     } = this.props;
+    console.log(submitValue,'submitValue')
     const RadioGroup = Radio.Group;
     const FormItem = Form.Item;
     const testdom = ready ? <SumOfMoney {...this.props} /> : <div>aaa</div>;
@@ -62,7 +62,7 @@ class diffRefund extends Component {
               <div>{__('order.diffRefund.refundreason')}<span style={{ color: 'red' }}>*</span>:</div>
               <RadioGroup
                 className={styles.reasonDom}
-                onChange={e => dispatch(subchange('reason', { reasonId: e.target.value }))}
+                onChange={e => dispatch(subchange('reason', e.target.value ))}
               >
                 <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>{__('order.diffRefund.adjustment_refund')}</Tag>
                 {
@@ -75,7 +75,7 @@ class diffRefund extends Component {
               <div>{__('order.diffRefund.remark')}:</div>
               {getFieldDecorator('remark', {
               })(
-                <Input className={styles.textarea} type="textarea" />,
+                <Input className={styles.textarea} type="textarea" onChange={(e)=>dispatch(subchange('remark',e.target.value))}/>,
               )}
             </div>
             <div className={styles.button}>
@@ -87,7 +87,7 @@ class diffRefund extends Component {
       );
     }
     return (
-      <div>s</div>
+      <div> </div>
     );
   }
 }

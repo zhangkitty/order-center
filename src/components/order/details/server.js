@@ -13,8 +13,11 @@ const entry = {
   partDelivery: '/Order/partDelivery',
   priorDelivery: '/OrderDetail/priorDelivery',
   orderBatchCheck: '/Order/orderBatchCheck',
-  uploadLogisticsNumber: '/Order/uploadLogisticsNumber',
+  uploadLogisticsNumber: '/orderReturn/uploadLogisticsNumber',
   orderProfit: '/OrderDetail/orderProfit',
+  rebuildRl: '/orderReturn/rebuildRl',
+  cancelTheRefundBill: '/OrderDiffRefund/cancelTheRefundBill',
+
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
@@ -33,41 +36,31 @@ const goodsControl = {
   initData: '/AfterSaleAccident/getAfterSaleAccidentInfo',   // 查看品控详情
 };
 const modifyDiffRefund = {
-  initPriceInfo: '/OrderDiffRefund/getRefundRecordInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
+  getRefundRecordInfo: '/OrderDiffRefund/getRefundRecordInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
 }
 const withdraw = {
   withdraw : '/OrderDiffRefund/cashRefund',
   submitForword: '/OrderDiffRefund/submitRefund'
 }
 
-export function* getInfo(id, bill) {
-  const base = fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
+export const getInfoSer = (id, bill) => {
+  const base = () => fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
     method: 'GET',
   });
-  const pay = fetch(`${entry.payShow}?order_id=${id}`, {
+  const pay = () => fetch(`${entry.payShow}?order_id=${id}`, {
     method: 'GET',
   });
-  const refund = fetch(`${entry.refund}?order_id=${id}`, {
+  const refund = () => fetch(`${entry.refund}?order_id=${id}`, {
     method: 'GET',
   });
-  const orderReturn = fetch(entry.orderReturn, {
+  const orderReturn = () => fetch(entry.orderReturn, {
     method: 'post',
     body: JSON.stringify({ order_id: Number(id), billno: bill }),
   });
-  const logs = fetch(`${entry.orderRecord}?order_id=${id}`, {
+  const logs = () => fetch(`${entry.orderRecord}?order_id=${id}`, {
     method: 'GET',
   });
-  let result = { base, pay, refund, orderReturn, logs };
-  const arr = Object.keys(result);
-  for (let i = 0; i < arr.length; i += 1) {
-    try {
-      result[arr[i]] = yield result[arr[i]];
-      result[arr[i]] = result[arr[i]] || {};
-    } catch (e) {
-      result[arr[i]] = {};
-    }
-  }
-  return result;
+  return { base, pay, refund, orderReturn, logs };
 }
 export const updateEmailSer = (order_id, email) => (
   fetch(entry.refundEmail, {
@@ -172,8 +165,19 @@ export const initDataSer = (order_id, id) => (
     method: 'get',
   })
 );
+export const genRlSer = id => (
+  fetch(entry.rebuildRl, {
+    method: 'POST',
+    body: JSON.stringify({return_order_id: Number(id)}),
+  })
+);
 export const initPriceInfo = (data)=>{
   return fetch(`${modifyDiffRefund.initPriceInfo}?order_id=${data.order_id}`,{
+    method: 'GET'
+  })
+}
+export const getRefundRecordInfo = (data)=>{
+  return fetch(`${modifyDiffRefund.getRefundRecordInfo}?record_id=${data.record_id}`,{
     method: 'GET'
   })
 }
@@ -190,5 +194,9 @@ export const submitForword = (req) => {
     })),
   })
 }
-
-
+export const cancelRefundSer = id => (
+  fetch(entry.cancelTheRefundBill, {
+    method: 'POST',
+    body: JSON.stringify({refund_bill_id: Number(id)}),
+  })
+)

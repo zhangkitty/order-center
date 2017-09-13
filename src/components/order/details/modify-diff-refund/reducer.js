@@ -7,9 +7,13 @@ const defaultState = {
   dataSource: {},
   ready: false,
   submitValue: {
-    orderId: null,
+    order_id: null,
+    refund_type: '',
+    remark: '',
+    refund_paths: [],
   },
 };
+
 
 const maxTypes = data => (
   {
@@ -23,16 +27,13 @@ const maxTypes = data => (
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
-    case TYPES.INIT_PRICEINFO_SUCCESS:
-      console.log(action, 'action');
+    case TYPES.GET_DATA_SUCCESS:
       return assign({}, state, {
-        loading: false,
-        dataSource: action.data.data,
-        ready:true
+        dataSource: under2Camal(action.res.data),
+        ready: true,
       });
     default:
       return state;
-
   }
 };
 export default reducer;

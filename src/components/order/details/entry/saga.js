@@ -2,8 +2,8 @@ import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import * as TYPES from './types';
-import { commit, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
-import { getInfo, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack, profitShowSer } from '../server';
+import { commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
+import { getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer } from '../server';
 
 const lan = {
   ofail: '操作失败',
@@ -14,15 +14,13 @@ const lan = {
 /* eslint prefer-const: 0 */
 /* eslint consistent-return: 0 */
 function* getInfoSaga(action) {
-  const data = yield getInfo(action.id, action.bill);
-  let dataSource = {};
-  Object.keys(data).forEach((v) => {
-    if (!data[v] || data[v].code !== 0) {
-      return message.error(`${lan.fail}:${data[v].msg}`);
-    }
-    dataSource[v] = data[v].data;
-  });
-  yield put(getInfoSuccess(dataSource));
+  const promise = getInfoSer(action.id, action.bill)[action.key];
+  const data = yield promise();
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.fail}:${data.msg}`);
+  }
+
+  return yield put(getInfoSuccess(data.data, action.key));
 }
 
 function* updateEmailSaga(action) {
@@ -89,6 +87,21 @@ function* profitShowSaga(action) {
   yield put(commit('profitLoad', false));
   return yield put(commit('profit', data.data));
 }
+function* genRlSaga(action) {
+  const data = yield genRlSer(action.id);
+  yield put(commit('rlLoading', false));
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.ofail}:${data.msg}`);
+  }
+  return yield put(getInfo(action.oid, action.bid, 'orderReturn'));
+}
+function* cancelRefundSaga(action) {
+  const data = yield cancelRefundSer(action.id);
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.ofail}:${data.msg}`);
+  }
+  return message.success(lan.osucess);
+}
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -99,4 +112,6 @@ export default function* () {
   yield takeLatest(TYPES.EXAMINE, examineSaga);
   yield takeLatest(TYPES.UPLOAD_TRACK, uploadTrackSaga);
   yield takeLatest(TYPES.PROFIT_SHOW, profitShowSaga);
+  yield takeLatest(TYPES.GEN_RL, genRlSaga);
+  yield takeLatest(TYPES.CANCEL_REFUND, cancelRefundSaga);
 }

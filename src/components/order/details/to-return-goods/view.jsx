@@ -5,6 +5,7 @@ import assign from 'object-assign';
 import { Spin, Table, Checkbox, Upload, Button, Radio, Select, Modal, message } from 'antd';
 import { commit, getInfo, batchChoose, infoCommit, save } from './action';
 
+const reqImg = require.context('../../images');
 // TODO: lan
 const lan = {
   batch: '批量选择退货原因',
@@ -31,6 +32,7 @@ class ToReturnGoods extends Component {
     super(props);
     const { dispatch, params: { oid, gid } } = props;
     dispatch(commit('orderId', oid));
+    dispatch(infoCommit('order_id', Number(oid)));
     dispatch(commit('goodsId', gid));
     dispatch(getInfo(oid, gid));
   }
@@ -101,15 +103,15 @@ class ToReturnGoods extends Component {
                     ))))}
                   >
                     {
-                        d.map(v => (
+                      (d || []).map(v => (
                           v.id < 6 && v.id !== 1 ?
-                            <div>
-                              <Checkbox value={v.id} key={v.id}>{Star}{v.name}</Checkbox>
+                            <div key={v.id}>
+                              <Checkbox value={v.id} >{Star}{v.name}</Checkbox>
                             </div>
 
                             :
-                            <div>
-                              <Checkbox value={v.id} key={v.id}>{v.name}</Checkbox>
+                            <div key={v.id}>
+                              <Checkbox value={v.id}>{v.name}</Checkbox>
                             </div>
 
                         ))
@@ -126,11 +128,61 @@ class ToReturnGoods extends Component {
               {
                 title: lan.pic,
                 width: 400,
-                render: () => (
-                  <div>
-                    <Upload>
-                      <Button icon="upload" >{lan.upload}</Button>
-                    </Upload>
+                render: rec => (
+                  <div style={{ display: 'flex' }}>
+                    {
+                      return_info.find(v => v.goods_id === rec.goods_id).img_thumb.map(v => (
+                        <div key={v} style={{ margin: '0 5px' }}>
+                          <img
+                            key={v} src={v} alt="pic"
+                            width={50}
+                            onError={(e) => {
+                              e.persist();
+                              e.target.src = reqImg('./uploading.gif');
+                              setTimeout(() => {
+                                e.target.src = v;
+                              }, 500);
+                            }}
+                          />
+                          <Button
+                            size="small"
+                            style={{ display: 'block', width: '60px' }}
+                            onClick={() => dispatch(infoCommit('return_info', return_info.map(j => (
+                              j.goods_id === rec.goods_id ?
+                                assign({}, j,
+                                  { img_thumb: j.img_thumb.filter(d => d !== v) })
+                                : j
+                            ))))}
+                          >删除</Button>
+                        </div>
+                      ))
+                    }
+                    {
+                      return_info.find(v => v.goods_id === rec.goods_id).img_thumb.length < 3 ?
+                        <Upload
+                          action="/index_new.php/Order/OrderReturn/handleImg"
+                          name={`img_${rec.goods_id}`}
+                          showUploadList={false}
+                          data={{ type: 3, goods_id: rec.goods_id }}
+                          onChange={({ file }) => {
+                            if (file.status === 'done') {
+                              dispatch(infoCommit('return_info', return_info.map(v => (
+                                v.goods_id === rec.goods_id ?
+                                  assign({}, v,
+                                    { img_thumb: [...v.img_thumb, file.response.data[0]] })
+                                  : v
+                              ))));
+                            } else if (file.status === 'error') {
+                              message.error(`${file.name} file upload failed.`);
+                            }
+                          }}
+                        >
+                          <Button icon="upload">
+                            {lan.upload}
+                          </Button>
+                        </Upload>
+                        : null
+                    }
                   </div>
               ),
               },
@@ -182,8 +234,8 @@ class ToReturnGoods extends Component {
             >
               {
                 reasons.map(v => (
-                  <div>
-                    <Checkbox value={v.id} key={v.id}>{v.name}</Checkbox>
+                  <div key={v.id}>
+                    <Checkbox value={v.id}>{v.name}</Checkbox>
                   </div>
                 ))
               }
