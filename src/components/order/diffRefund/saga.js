@@ -26,10 +26,6 @@ function* initReasonListSaga(action) {
 
 function* initPriceInfoSaga(action) {
   const data = yield initPriceInfo(action.data)
-  if (!data || data.code !== 0) {
-    message.error(`${__('order.diffRefund.refund_priceinfo_failed')}: ${data.error}`);
-    return yield put(initPriceInfoFail());
-  }
   return yield put(initPriceInfoSuccess(data));
 }
 

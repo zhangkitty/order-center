@@ -6,13 +6,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import assign from 'object-assign';
 import { Radio, Button, Form, Input, Tag, message } from 'antd';
-import { initPriceInfo, initReasonList, subchange, submitForward ,change} from './action';
+import { initPriceInfo, initReasonList, subchange, submitForward, change, reset } from './action';
 import SumOfMoney from './sumOfMoney';
-import Price from './price';
+import Price from './price.jsx';
 
 
 import styles from './style.css';
 
+const lan = {
+  remarks: '备注',
+};
 
 class diffRefund extends Component {
   constructor(props) {
@@ -20,96 +23,68 @@ class diffRefund extends Component {
     const { params: { orderId, type } } = props;
     props.dispatch(initPriceInfo({ order_id: orderId }));
     props.dispatch(initReasonList({ type }));
-    props.dispatch(subchange('order_id', Number(orderId)));
+    props.dispatch(change('order_id', Number(orderId)));
   }
 
-
   render() {
-    const { ReasonList, total_price, refund_path_list, ready, submitValue, dispatch,
+    const {
+      ready, dispatch, ReasonList, reason, remark, order_id,refundPaths
     } = this.props;
-    console.log(submitValue,'submitValue')
-    const RadioGroup = Radio.Group;
-    const FormItem = Form.Item;
-    const testdom = ready ? <SumOfMoney {...this.props} /> : <div>aaa</div>;
-    const test1dom = ready ? <Price {...this.props} /> : <div>aa</div>;
-    const { getFieldDecorator } = this.props.form;
-    if (Object.keys(total_price).length > 0) {
-      const rate1 = total_price.price_usd.rate;
-      const rate2 = total_price.price_with_exchange_rate.rate;
-      const map = new Map();
-      refund_path_list.forEach(element => map.set(element.refund_path_id, element.is_show));
-      return (
-        <div className={styles.content}>
-          {testdom}
-
-
-          <Form
+    console.log(this.props, 'this.props');
+    return (
+      ready ?
+        <div>
+          <SumOfMoney orderPriceInfo={this.props.orderPriceInfo} dispatch={dispatch} />
+          <Price refundPaths={this.props.refundPaths} dispatch={dispatch} />
+          <Radio.Group
+            style={{ display: 'flex', flexDirection: 'column', marginLeft: 50 }}
+            onChange={e => dispatch(change('reason', e.target.value))}
+          >
+            <Tag color="#919191" style={{ width: 80, textAlign: 'center', marginBottom: '10px' }}>{__('order.diffRefund.adjustment_refund')}</Tag>
+            {
+              ReasonList.map((value, key) => <Radio value={key} key={key}>{value.name}</Radio>,
+              )
+            }
+          </Radio.Group>,
+          <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'row' }}>
+            <span style={{ width: '80px' }}>{lan.remarks}</span>
+            <Input
+              value={remark}
+              style={{ width: '300px', height: '200px' }} type="textarea" onChange={(e) => {
+                dispatch(change('remark', e.target.value));
+              }}
+            />
+          </div>
+          <form
             onSubmit={(e) => {
               e.preventDefault();
-              const { shipping, rlFee, refundPaths, reason } = submitValue;
-              if (
-                reason.reasonId === null ||
-                refundPaths.filter(v => v.check).length < 1
-              ) {
-                return message.warning(__('order.goodsRefund.missing_something'));
-              }
-              const res = assign({}, submitValue, { refundPaths: refund_paths.filter(v => v.check) }, { reason: submitValue.reason.reasonId });
-              return dispatch(submitForward(res));
+              const a = refundPaths.filter(v=>v.checked)
+              console.log(a,a)
+              const temp = {
+                order_id,
+                refund_type: 2,
+                reason,
+                remark: 'remark',
+                refund_paths: [],
+
+              };
             }}
           >
-            {test1dom}
-            <div className={styles.refundreason}>
-              <div>{__('order.diffRefund.refundreason')}<span style={{ color: 'red' }}>*</span>:</div>
-              <RadioGroup
-                className={styles.reasonDom}
-                onChange={e => dispatch(subchange('reason', e.target.value ))}
-              >
-                <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>{__('order.diffRefund.adjustment_refund')}</Tag>
-                {
-                    ReasonList.map((value, key) => <Radio value={key} key={key}>{value.name}</Radio>,
-                    )
-                  }
-              </RadioGroup>,
-            </div>
-            <div className={styles.remark}>
-              <div>{__('order.diffRefund.remark')}:</div>
-              {getFieldDecorator('remark', {
-              })(
-                <Input className={styles.textarea} type="textarea" onChange={(e)=>dispatch(subchange('remark',e.target.value))}/>,
-              )}
-            </div>
-            <div className={styles.button}>
-              <Button type="default" onClick={() => this.props.form.resetFields()}>{__('order.diffRefund.cancel')}</Button>
-              <Button type="primary" htmlType={'submit'}>{__('order.diffRefund.commit')}</Button>
-            </div>
-          </Form>
+            <Button
+              onClick={() => {
+                dispatch(reset());
+              }}
+              type="default" style={{ marginLeft: '100px', marginTop: '20px' }}
+            >{__('order.diffRefund.cancel')}</Button>
+            <Button type="primary" style={{ marginLeft: '100px', marginTop: '20px' }} htmlType={'submit'}>{__('order.diffRefund.commit')}</Button>
+          </form>
+
         </div>
-      );
-    }
-    return (
-      <div> </div>
+        :
+        null
     );
   }
 }
-diffRefund.propTypes = {
-  dispatch: PropTypes.func,
-  ReasonList: PropTypes.arrayOf(PropTypes.shape()),
-  total_price: PropTypes.shape(),
-  gift_card_payment_price: PropTypes.shape(),
-  wallet_payment_price: PropTypes.shape(),
-  card_payment_price: PropTypes.shape(),
-  shipping_price: PropTypes.shape(),
-  shipping_insure_price: PropTypes.shape(),
-  point_payment_price: PropTypes.shape(),
-  coupon_payment_price: PropTypes.shape(),
-  order_can_be_refunded_price: PropTypes.shape(),
-  gift_card_can_be_refunded_price: PropTypes.shape(),
-  wallet_or_card_can_be_refunded_price: PropTypes.shape(),
-  refund_path_list: PropTypes.arrayOf(PropTypes.shape()),
-  params: PropTypes.shape(),
-  form: PropTypes.shape(),
-};
 
 const mapStateToProps = state => state['order/diffRefund'];
-const diffRefund1 = Form.create(mapStateToProps)(diffRefund);
-export default connect(mapStateToProps)(diffRefund1);
+export default connect(mapStateToProps)(diffRefund);

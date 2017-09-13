@@ -3,7 +3,7 @@
  */
 import assign from 'object-assign';
 import fetch from '../../lib/fetch';
-import { camel2Under } from '../../lib/camal';
+import { camel2Under, under2Camal } from '../../lib/camal';
 import queryString from '../../lib/query-string';
 
 const list = {
@@ -202,7 +202,8 @@ export const initReasonList = (data) =>{
 export const initPriceInfo = (data)=>{
     return fetch(`${diffRefund.initPriceInfo}?order_id=${data.order_id}`,{
         method: 'GET'
-    })
+    }).then(under2Camal)
+      .then(d => d.data);
 }
 
 export const submitOrder = data=>{
