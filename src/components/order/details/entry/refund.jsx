@@ -5,6 +5,7 @@ import { Table, Card, Popconfirm, Button } from 'antd';
 import { cancelRefund } from './action';
 import style from './style.css';
 
+// TODO: lan
 const lan = {
   jilu: '退款记录',
   bianhao: '退款单编号',
