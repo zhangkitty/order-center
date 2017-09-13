@@ -40,10 +40,10 @@ export const submitForward = data => ({
   data,
 });
 
-export const activation =data=>({
-  type:TYPES.ACTIVATION,
+export const activation = data => ({
+  type: TYPES.ACTIVATION,
   data,
-})
+});
 
 export const change = (key, val) => ({
   type: TYPES.CHANGE,

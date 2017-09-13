@@ -27,19 +27,20 @@ const defaultState = {
   input_list: [],
   ready: false,
   submitValue: {
-    orderId: null,
-    refundPaths: [],
-    reason:null
+    order_id: '',
+    refund_type: 2,
+    remark: '',
+    refund_paths: [],
   },
-  active:true
+  active: true,
 };
 const maxTypes = data => (
   {
     1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: parseInt(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,10)+
-    (0.5*parseInt(data.orderPriceInfo.totalPrice.priceUsd.amount,10)),
+    2: parseInt(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount, 10) +
+    (1.5 * parseInt(data.orderPriceInfo.totalPrice.priceUsd.amount, 10)),
     3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-    4: (0.5*parseInt(data.orderPriceInfo.totalPrice.priceUsd.amount,10))
+    4: (1.5 * parseInt(data.orderPriceInfo.totalPrice.priceUsd.amount, 10)),
   }
 );
 const reducer = (state = defaultState, action) => {
@@ -98,11 +99,13 @@ const reducer = (state = defaultState, action) => {
             currency: v.priceWithExchangeRate.symbol,
             check: false,
             max: maxTypes(under2Camal(action.data.data))[v.refundPathId],
+            refund_account_type_list: v.refundAccountTypeList,
           })),
         }),
       });
     }
     case TYPES.CHANGE:
+      console.log(action,'action')
       return assign({}, state, {
         [action.key]: action.val,
       });
@@ -113,9 +116,9 @@ const reducer = (state = defaultState, action) => {
         }),
       });
     case TYPES.ACTIVATION:
-      return assign({},state,{
-        active:false
-      })
+      return assign({}, state, {
+        active: false,
+      });
 
     default:
       return state;
