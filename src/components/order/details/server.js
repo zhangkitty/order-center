@@ -16,6 +16,8 @@ const entry = {
   uploadLogisticsNumber: '/orderReturn/uploadLogisticsNumber',
   orderProfit: '/OrderDetail/orderProfit',
   rebuildRl: '/orderReturn/rebuildRl',
+  cancelTheRefundBill: '/OrderDiffRefund/cancelTheRefundBill',
+
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
@@ -202,5 +204,9 @@ export const submitForword = (req) => {
     })),
   })
 }
-
-
+export const cancelRefundSer = id => (
+  fetch(entry.cancelTheRefundBill, {
+    method: 'POST',
+    body: JSON.stringify({refund_bill_id: Number(id)}),
+  })
+)

@@ -76,7 +76,8 @@ export const genRl = (id, oid, bid) => ({
   oid,
   bid,
 });
-export const cancelRefund = () => ({
+export const cancelRefund = id => ({
   type: TYPES.CANCEL_REFUND,
+  id,
 });
 
