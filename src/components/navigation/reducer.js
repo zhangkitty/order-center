@@ -48,6 +48,24 @@ const menus = [
         crumbName: __('withdraw.refund_request'),
         nav: true,
       },
+      {
+        link: '/order/details/entry',
+        name: __('nav.order_details'),
+        crumbName: __('nav.order_details'),
+        nav: true,
+      },
+      {
+        link: '/order/details/edit-address',
+        name: __('nav.order_details_edit_address'),
+        crumbName: __('nav.order_details_edit_address'),
+        nav: false,
+      },
+      {
+        link: '/order/details/to-return-goods',
+        name: __('nav.order_details_to_return_goods'),
+        crumbName: __('nav.order_details_to_return_goods'),
+        nav: false,
+      },
     ],
   },
 ];

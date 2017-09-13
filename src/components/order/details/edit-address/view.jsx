@@ -285,5 +285,5 @@ EditAddress.propTypes = {
   citySource: PropTypes.arrayOf(PropTypes.shape()),
   districtSource: PropTypes.arrayOf(PropTypes.shape()),
 };
-const mapStateToProps = state => state['order/details/editAddress'];
+const mapStateToProps = state => state['order/details/edit-address'];
 export default connect(mapStateToProps)(EditAddress);

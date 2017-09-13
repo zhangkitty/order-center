@@ -4,7 +4,7 @@ import { Card, Alert, Button, Popover } from 'antd';
 import style from './style.css';
 import { profitShowAction } from './action';
 
-
+// TODO: lan
 const lan = {
   zhifuqudao: '支付渠道',
   zhehouzongjia: '商品折后总价',

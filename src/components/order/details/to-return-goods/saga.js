@@ -3,7 +3,7 @@ import { message } from 'antd';
 import * as TYPES from './types';
 import { getInfoSuccess, commit } from './action';
 import { getToReturnGoodsInfo, toReturnGoodsSave } from '../server';
-
+// TODO: lan
 const lan = {
   ofail: '操作失败',
   osucess: '操作成功',

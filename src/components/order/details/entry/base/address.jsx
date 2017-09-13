@@ -5,6 +5,7 @@ import { hashHistory } from 'react-router';
 import style from '../style.css';
 import { commit, updateEmail } from '../action';
 
+// TODO: lan
 const lan = {
   email: '退货邮箱',
   upEmail: '更新退货邮箱',
@@ -54,7 +55,7 @@ const emailStyle = {
   float: 'left',
   marginRight: '5px',
 };
-// TODO: lan
+
 const Address = (
   {
     dataSource: { base: { order_info: { shipping_address, billing_address } } },
@@ -69,7 +70,7 @@ const Address = (
       <div style={{ width: '50%', float: 'left' }}>
         <Button
           style={{ position: 'absolute', right: '10px' }}
-          onClick={() => hashHistory.push(`/order/details/editAddress/${orderId}`)}
+          onClick={() => hashHistory.push(`/order/details/edit-address/${orderId}`)}
         >{lan.edit}</Button>
         {
           info.sadrr.left.map(v => (

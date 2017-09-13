@@ -3,24 +3,35 @@ import PropTypes from 'prop-types';
 import { Card } from 'antd';
 import style from '../style.css';
 
+// TODO: lan
+const lan = {
+  下单日期: '下单日期',
+  支付方式: '支付方式',
+  来源站点: '来源站点',
+  运输方式: '运输方式',
+  花费时间: '花费时间',
+  付款日期: '付款日期',
+  来源国家: '来源国家',
+  基本信息: '基本信息',
+};
 const info = {
   left: [
-    { name: '下单日期', key: 'add_time' },
-    { name: '支付方式', key: 'payment_method' },
-    { name: '来源站点', key: 'site_from' },
-    { name: '运输方式', key: 'shipping_method' },
-    { name: '花费时间', key: 'spend_time' },
+    { name: lan.下单日期, key: 'add_time' },
+    { name: lan.支付方式, key: 'payment_method' },
+    { name: lan.来源站点, key: 'site_from' },
+    { name: lan.运输方式, key: 'shipping_method' },
+    { name: lan.花费时间, key: 'spend_time' },
 
   ],
   right: [
-    { name: '付款日期', key: 'pay_time' },
+    { name: lan.付款日期, key: 'pay_time' },
     { name: 'IP', key: 'ip' },
-    { name: '来源国家', key: 'ip_country' },
+    { name: lan.来源国家, key: 'ip_country' },
   ],
 };
-// TODO: lan
+
 const Base = ({ dataSource: { base: { order_info: { basic_info } } } }) => (
-  <Card title="基本信息" bodyStyle={{ display: 'flex', maxWidth: '1200px' }} style={{ width: '100%', margin: '20px 0' }}>
+  <Card title={lan.基本信息} bodyStyle={{ display: 'flex', maxWidth: '1200px' }} style={{ width: '100%', margin: '20px 0' }}>
     <div>
       {
         info.left.map(v => (
