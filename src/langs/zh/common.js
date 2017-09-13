@@ -97,4 +97,5 @@ module.exports = {
   sagaTitle24: '必须勾选商品',
   sagaTitle25: '提交成功!',
   sagaTitle26: '提交失败:',
+  contentTitle: '暂无数据',
 };
