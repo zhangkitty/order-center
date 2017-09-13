@@ -30,6 +30,24 @@ const menus = [
         crumbName: __('common.diff_refund'),
         nav: true,
       },
+      {
+        link: '/order/details/modify-diff-refund',
+        name: __('common.modifyDiffRefund'),
+        crumbName: __('common.modifyDiffRefund'),
+        nav: true,
+      },
+      {
+        link: '/order/details/modify-goods-refund',
+        name: __('common.modifyDiffRefund'),
+        crumbName: __('common.modifyDiffRefund'),
+        nav: true,
+      },
+      {
+        link: 'order/details/withdraw',
+        name: __('withdraw.refund_request'),
+        crumbName: __('withdraw.refund_request'),
+        nav: true,
+      },
     ],
   },
 ];

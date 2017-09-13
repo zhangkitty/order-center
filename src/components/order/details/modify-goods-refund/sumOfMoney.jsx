@@ -16,15 +16,15 @@ const infoStyle2 = {
 };
 const priceTypes = (data, type = 'warning') => (
   <Alert
-    key={data.key || data.name}
+    key={data.name}
     message={
-      `${data.name} : $${data.us}${data.currency ? ` ---- ${data.currency}` : ''}`
+      <span>{data.name}:${data.us} --- {data.currency}</span>
     }
     type={type} style={type === 'warning' ? infoStyle : infoStyle2}
   />
 );
 
-const SumOfMoney = ({ dataSource: { data: { orderPriceInfo } } }) => {
+const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
   const {
     totalPrice: {
       priceUsd: { amount: totalPrice },
@@ -59,7 +59,10 @@ const SumOfMoney = ({ dataSource: { data: { orderPriceInfo } } }) => {
       priceUsd: { amount: coupon },
       priceWithExchangeRate: { amountWithSymbol: coupon2, symbol: couponSymbol },
     },
-
+    orderCanBeRefundedPrice: {
+      priceUsd: { amount: canBeRefunded },
+      priceWithExchangeRate: { amountWithSymbol: canBeRefunded2, symbol: canBeRefundedSymbol },
+    },
     giftCardCanBeRefundedPrice: {
       priceUsd: { amount: giftRefund },
       priceWithExchangeRate: { amountWithSymbol: giftRefund2, symbol: giftRefundSymbol },
@@ -68,11 +71,10 @@ const SumOfMoney = ({ dataSource: { data: { orderPriceInfo } } }) => {
       priceUsd: { amount: walletRefund },
       priceWithExchangeRate: { amountWithSymbol: walletRefund2, symbol: walletRefundSymbol },
     },
-    orderCanBeRefundedPrice: {
-      priceUsd: { amount: canBeRefunded },
-      priceWithExchangeRate: { amountWithSymbol: canBeRefunded2, symbol: canBeRefundedSymbol },
+    waitRefundPrice: {
+      priceUsd: { amount: waitRefund },
+      priceWithExchangeRate: { amountWithSymbol: waitRefund2, symbol: waitRefundSymbol },
     },
-
   } = orderPriceInfo;
   const orderPrice = [
     {
@@ -123,31 +125,32 @@ const SumOfMoney = ({ dataSource: { data: { orderPriceInfo } } }) => {
       currency: coupon2,
       type: couponSymbol,
     },
-
   ];
   const refundPrice = [
     {
       name: __('order.goodsRefund.can_be_refunded'),
       us: canBeRefunded,
-      key: 1,
       currency: canBeRefunded2,
       type: canBeRefundedSymbol,
     },
     {
       name: __('order.goodsRefund.gift_refunded'),
       us: giftRefund,
-      key: 2,
       currency: giftRefund2,
       type: giftRefundSymbol,
     },
     {
       name: __('order.goodsRefund.wallet_refunded'),
       us: walletRefund,
-      key: 3,
       currency: walletRefund2,
       type: walletRefundSymbol,
     },
-
+    {
+      name: __('order.goodsRefund.wait_refund'),
+      us: waitRefund,
+      currency: waitRefund2,
+      type: waitRefundSymbol,
+    },
   ];
   return (
     <div style={{ display: 'flex' }}>

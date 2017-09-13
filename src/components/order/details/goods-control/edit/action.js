@@ -13,11 +13,16 @@ export const change = (key, val) => ({
   val,
 });
 
-export const commit = (key, val, actype) => ({
+export const commit = (key, val) => ({
   type: TYPES.COMMIT,
   key,
   val,
-  actype,
+});
+
+export const changeSelectOptions = (val, key) => ({
+  type: TYPES.CHANGE_SELECT_OPTIONS,
+  key,
+  val,
 });
 
 export const initFeedback = () => ({

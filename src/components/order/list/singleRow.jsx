@@ -15,7 +15,7 @@ const replaceGoods = (source, d, status) => {
   const obj = {
     0: '',
     1: __('common.change1'),
-    2: `(${d}${__('common.change2')}`,
+    2: `(${d}${__('common.change2')})`,
   };
   if (Number(status) === 74) {
     return `(${__('common.del_goods')})`;
@@ -28,6 +28,7 @@ const showRisk = (a, b) => {
   }
   return null;
 };
+// 显示换货条件
 const changshow = {
   1: true,
   11: true,
@@ -41,6 +42,7 @@ const changshow = {
   84: true,
   96: true,
 };
+// 不能选择商品的条件
 const checkboxChecked = {
   5: true,
   7: true,
@@ -137,7 +139,7 @@ const SingleRow = (props) => {
             data.order_type === 3 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
           }
           <span> {data.payment_method}</span>
-          <span>{__('common.total')} {data.usd_price} </span>
+          <span>{__('common.total')}{data.usd_price} </span>
           <span> {data.currency_price}</span>
         </div>
       </div>
@@ -269,7 +271,9 @@ const SingleRow = (props) => {
              <Icon type="message" style={{ color: 'rgb(255,35,0)' }}
             */}
           </p>
+          {/*  查看 */}
           <Button onClick={() => hashHistory.push(`/order/details/entry/${data.order_id}/${data.billno}`)}>{__('common.order_operation')}</Button>
+
           {/*  订单标记 */}
           {
             Number(data.is_trouble) > 0 ?
@@ -287,6 +291,8 @@ const SingleRow = (props) => {
                     dispatch(cancelTroubleTag(0, data.order_id)); // data.is_trouble,取消传0
                   }
                 }}
+                okText={__('common.submitName2')}
+                cancelText={__('common.submitName3')}
               >
                 <Button
                   className={Styles.haveRemark}

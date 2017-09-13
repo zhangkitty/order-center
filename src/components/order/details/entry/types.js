@@ -1,4 +1,5 @@
 const prefix = 'order_details_entry_';
+
 export const COMMIT = `${prefix}commit`;
 export const GET_INFO = `${prefix}get_info`;
 export const GET_INFO_SUCCESS = `${prefix}get_info_success`;

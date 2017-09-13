@@ -180,7 +180,7 @@ function* remarkSaveSaga(action) {
     return yield put(remarkSaveFail());
   }
   message.success(__('common.sagaTitle13'));
-  return yield put(remarkSaveSuccess());
+  return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
 
 // 物流备注查看

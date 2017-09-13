@@ -32,6 +32,13 @@ const goodsControl = {
   submitData: '/AfterSaleAccident/createAfterSaleAccident',   // 提交(生成品控)
   initData: '/AfterSaleAccident/getAfterSaleAccidentInfo',   // 查看品控详情
 };
+const modifyDiffRefund = {
+  initPriceInfo: '/OrderDiffRefund/getRefundRecordInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
+}
+const withdraw = {
+  withdraw : '/OrderDiffRefund/cashRefund',
+  submitForword: '/OrderDiffRefund/submitRefund'
+}
 
 export function* getInfo(id, bill) {
   const base = fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
@@ -171,3 +178,21 @@ export const genRlSer = id => (
     body: JSON.stringify({return_order_id: Number(id)}),
   })
 );
+export const initPriceInfo = (data)=>{
+  return fetch(`${modifyDiffRefund.initPriceInfo}?order_id=${data.order_id}`,{
+    method: 'GET'
+  })
+}
+export const initWithDraw = (orderId) =>{
+  return fetch(`${withdraw.withdraw}?order_id=${orderId}`,{
+    method: 'GET'
+  })
+}
+export const submitForword = (req) => {
+  return fetch(withdraw.submitForword,{
+    method: 'POST',
+    body: JSON.stringify(camel2Under({
+      req
+    })),
+  })
+}
