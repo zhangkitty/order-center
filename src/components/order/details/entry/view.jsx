@@ -25,7 +25,7 @@ const info = props => [{
   children: <Refund {...props} />,
 }, {
   name: '退货信息',
-  key: 'goods_rejected',
+  key: 'orderReturn',
   children: <OrderReturn {...props} />,
 }, {
   name: '订单日志',
@@ -36,17 +36,23 @@ class DetailsEntry extends Component {
   constructor(props) {
     super(props);
     const { dispatch, params: { id, active, bill } } = props;
-    dispatch(getInfo(id, bill));
+    dispatch(getInfo(id, bill, 'base'));
     dispatch(commit('orderId', id));
     dispatch(commit('billno', bill));
     dispatch(commit('activeKey', active || 'base'));
   }
   render() {
-    const { ready, activeKey, dispatch } = this.props;
+    const { ready, activeKey, dispatch, orderId, billno, tabsLoad } = this.props;
     if (ready) {
       return (
         <div style={{ padding: '15px', maxWidth: '1200px' }}>
-          <Tabs activeKey={activeKey} defaultActiveKey="base" onChange={v => dispatch(commit('activeKey', v))} >
+          <Tabs
+            activeKey={activeKey} defaultActiveKey="base"
+            onChange={(v) => {
+              dispatch(getInfo(orderId, billno, v));
+              dispatch(commit('activeKey', v));
+            }}
+          >
             {
               info(this.props).map(v => (
                 <TP
@@ -54,7 +60,7 @@ class DetailsEntry extends Component {
                   key={v.key}
                 >
                   {
-                    v.children
+                    tabsLoad ? <Spin /> : v.children
                   }
                 </TP>
               ))
@@ -68,9 +74,12 @@ class DetailsEntry extends Component {
 }
 DetailsEntry.propTypes = {
   ready: PropTypes.bool,
+  tabsLoad: PropTypes.bool,
   dispatch: PropTypes.func,
   params: PropTypes.shape(),
   activeKey: PropTypes.string,
+  orderId: PropTypes.string,
+  billno: PropTypes.string,
 };
 const mapStateToProps = state => state['order/details/entry'];
 export default connect(mapStateToProps)(DetailsEntry);

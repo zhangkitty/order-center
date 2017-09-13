@@ -2,8 +2,8 @@ import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import * as TYPES from './types';
-import { commit, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
-import { getInfo, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer } from '../server';
+import { commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
+import { getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer } from '../server';
 
 const lan = {
   ofail: '操作失败',
@@ -14,15 +14,13 @@ const lan = {
 /* eslint prefer-const: 0 */
 /* eslint consistent-return: 0 */
 function* getInfoSaga(action) {
-  const data = yield getInfo(action.id, action.bill);
-  let dataSource = {};
-  Object.keys(data).forEach((v) => {
-    if (!data[v] || data[v].code !== 0) {
-      return message.error(`${lan.fail}:${data[v].msg}`);
-    }
-    dataSource[v] = data[v].data;
-  });
-  yield put(getInfoSuccess(dataSource));
+  const promise = getInfoSer(action.id, action.bill)[action.key];
+  const data = yield promise();
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.fail}:${data.msg}`);
+  }
+
+  return yield put(getInfoSuccess(data.data, action.key));
 }
 
 function* updateEmailSaga(action) {
@@ -95,7 +93,7 @@ function* genRlSaga(action) {
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
   }
-  return hashHistory.push(`/order/details/entry/${action.oid}/${action.bid}/goods_rejected`);
+  return yield put(getInfo(action.oid, action.bid, 'orderReturn'));
 }
 function* cancelRefundSaga(action) {
   const data = yield cancelRefundSer(action.id);
