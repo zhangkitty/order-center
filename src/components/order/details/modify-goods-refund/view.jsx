@@ -29,7 +29,6 @@ class GoodsRefund extends Component {
         <div>
           <SumOfMoney {...this.props} />
         </div>
-
         :
         <Spin spinning />
     );

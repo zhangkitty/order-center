@@ -1,4 +1,5 @@
 import fetch from '../../../lib/fetch';
+import { camel2Under } from '../../../lib/camal';
 
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
@@ -33,7 +34,7 @@ const goodsControl = {
   initData: '/AfterSaleAccident/getAfterSaleAccidentInfo',   // 查看品控详情
 };
 const modifyDiffRefund = {
-  initPriceInfo: '/OrderDiffRefund/getRefundRecordInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
+  getRefundRecordInfo: '/OrderDiffRefund/getRefundRecordInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
 }
 const withdraw = {
   withdraw : '/OrderDiffRefund/cashRefund',
@@ -183,6 +184,11 @@ export const initPriceInfo = (data)=>{
     method: 'GET'
   })
 }
+export const getRefundRecordInfo = (data)=>{
+  return fetch(`${modifyDiffRefund.getRefundRecordInfo}?record_id=${data.record_id}`,{
+    method: 'GET'
+  })
+}
 export const initWithDraw = (orderId) =>{
   return fetch(`${withdraw.withdraw}?order_id=${orderId}`,{
     method: 'GET'
@@ -196,3 +202,5 @@ export const submitForword = (req) => {
     })),
   })
 }
+
+
