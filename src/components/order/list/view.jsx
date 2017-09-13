@@ -24,7 +24,7 @@ class orderList extends Component {
   render() {
     const {
       dispatch, dataSource, total, queryString, queryString2, queryString3, visible,
-      loadUpdata, searchType, remarkModal, exchange,
+      loadUpdata, searchType, remarkModal,
     } = this.props;
     return (
       <div className={styles.content}>
@@ -38,13 +38,9 @@ class orderList extends Component {
             dataSource
               .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} {...this.props} />)
           }
-          {
-          //  console.log(dataSource, 'dataSource')
-            console.log(total, 'total')
-          }
         </div>
         {
-          total === 0 ? <div style={{ textAlign: 'center' }}><Icon type="frown-o" /> 暂无数据</div> : null
+          total === 0 ? <div style={{ textAlign: 'center', color: 'rgba(0,0,0, .8)' }}><Icon type="frown-o" /> {__('common.contentTitle')}</div> : null
         }
         {/* 备注提交 */}
         <Modal
@@ -58,7 +54,7 @@ class orderList extends Component {
                 style={{ margin: '10px auto' }}
                 rows={3}
                 value={remarkModal.remark}
-                onChange={e => dispatch(change('remarkModal', assign({}, remarkModal, { remark: e.target.value})))}
+                onChange={e => dispatch(change('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
               />
             </div>
             <Button
@@ -138,7 +134,6 @@ orderList.propTypes = {
   remark: PropTypes.string,
   searchType: PropTypes.number,
   remarkModal: PropTypes.shape(),
-  exchange: PropTypes.shape(),
 };
 
 const mapStateToProps = state => state['order/list'];

@@ -181,8 +181,8 @@ class TabsHeader extends Component {
                     <Select
                       allowClear
                       className={styles.colSpace}
-                      value={`${countryName}`}
-                      onChange={val => dispatch(commit('countryName', val === 'null' ? null : val))}
+                      value={countryName}
+                      onChange={val => dispatch(commit('countryName', val))}
                     >
                       {/*
                        <Option key={null}>{__('order.name.choose')}</Option>
