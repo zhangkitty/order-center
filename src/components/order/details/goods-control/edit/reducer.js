@@ -21,9 +21,12 @@ const defaultState = {
       name: '',
       children: [],
     },   // 品控类型（原因id）
-    feedback_thumb: null,   //  图片
+    feedback_thumb: [],   //  图片
     remark: null,
   },
+  load: false,
+  loadInit: false,
+  submitLoad: false,
 };
 
 const reducer = (state = defaultState, action) => {
@@ -78,25 +81,24 @@ const reducer = (state = defaultState, action) => {
     case TYPES.SUBMIT:
       return assign({}, state, {
         // queryString: action.data,
-        load: true,
-        searchType: 0,
+        submitLoad: true,
       });
     case TYPES.SUBMIT_FAIL:
       return assign({}, state, {
-        load: false,
+        submitLoad: false,
       });
     case TYPES.SUBMIT_SUCCESS:
       return assign({}, state, {
       //  dataSource: action.data.data,
-        load: false,
+        submitLoad: false,
       });
     case TYPES.INIT_DATA:
       return assign({}, state, {
-        load: true,
+        loadInit: true,
       });
     case TYPES.INIT_DATA_FAIL:
       return assign({}, state, {
-        load: false,
+        loadInit: false,
       });
     case TYPES.INIT_DATA_SUCCESS:
       return assign({}, state, {
@@ -108,7 +110,7 @@ const reducer = (state = defaultState, action) => {
             children: action.data.data.feedback_reason.map(v => Number(v)),
           }),
         })),
-        load: false,
+        loadInit: false,
       });
     default:
       return state;

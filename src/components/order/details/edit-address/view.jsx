@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Input, Select, Spin, Button } from 'antd';
+import { Input, Select, Spin, Button, message } from 'antd';
 import { commit, getInfo, infoCommit, getCity, save } from './action';
 import style from './style.css';
 
@@ -11,21 +11,25 @@ const Star = (<span style={{ color: 'red' }}>*</span>);
 const lan = {
   save: '保存',
   reset: '重制',
+  needState: '缺少州省',
+  needCity: '缺少城市',
+  needDistrict: '缺少区',
 };
 class EditAddress extends Component {
   constructor(props) {
     super(props);
-    const { ready, dispatch, params: { id }, orderId } = props;
+    const { ready, dispatch, params: { id, bid }, orderId } = props;
     if (!ready || id !== orderId) {
       dispatch(getInfo(id));
     }
     dispatch(commit('orderId', id));
+    dispatch(commit('billno', bid));
   }
 
   render() {
     const {
       ready, dispatch, submitValue, country_list, load,
-      cities, citySource, districtSource, orderId,
+      cities, citySource, districtSource, orderId, billno,
     } = this.props;
     const {
       gender,
@@ -49,7 +53,16 @@ class EditAddress extends Component {
           className={style.form}
           onSubmit={(e) => {
             e.preventDefault();
-            dispatch(save(submitValue));
+            if (country_value !== 'TW' && country_value !== 'HK' && !state) {
+              return message.warning(lan.needState);
+            }
+            if (!city) {
+              return message.warning(lan.needCity);
+            }
+            if ((country_value === 'SA' || country_value === 'TW' || country_value === 'HK') && !district) {
+              return message.warning(lan.needDistrict);
+            }
+            return dispatch(save(submitValue, billno));
           }}
         >
           <div>
@@ -114,7 +127,7 @@ class EditAddress extends Component {
             </Select>
           </div>
           <div>
-            <span className={style.spanWidth}>{Star}State/Province:</span>
+            <span className={style.spanWidth}>{country_value !== 'TW' && country_value !== 'HK' ? Star : null}State/Province:</span>
             <Select
               value={state}
               style={{ width: '40%' }}
@@ -163,34 +176,43 @@ class EditAddress extends Component {
               }
             </Select>
           </div>
-          <div>
-            <span className={style.spanWidth}>{Star}District:</span>
-            <Select
-              value={district}
-              style={{ width: '40%' }}
-              mode="combobox"
-              showSearch
-              filterOption={(ip, { props }) => (
-                props.children.toLowerCase().indexOf(ip.toLowerCase()) >= 0
-              )}
-              onChange={v => dispatch(infoCommit('district', v))}
-            >
-              {
-                districtSource.map(v => (
-                  <Op key={v.city_name}>{v.city_name}</Op>
-                ))
-              }
-            </Select>
-          </div>
-          <div>
-            <span className={style.spanWidth}>{Star}Street:</span>
-            <Input
-              required
-              value={street}
-              style={{ width: '40%' }}
-              onChange={e => dispatch(infoCommit('street', e.target.value))}
-            />
-          </div>
+          {
+            (country_value === 'SA' || country_value === 'TW' || country_value === 'HK')
+            &&
+            <div>
+              <span className={style.spanWidth}>{Star}District:</span>
+              <Select
+                value={district}
+                style={{ width: '40%' }}
+                mode="combobox"
+                showSearch
+                filterOption={(ip, { props }) => (
+                  props.children.toLowerCase().indexOf(ip.toLowerCase()) >= 0
+                )}
+                onChange={v => dispatch(infoCommit('district', v))}
+              >
+                {
+                  districtSource.map(v => (
+                    <Op key={v.city_name}>{v.city_name}</Op>
+                  ))
+                }
+              </Select>
+            </div>
+          }
+          {
+            (country_value === 'SA' || country_value === 'KW' || country_value === 'BH' ||
+            country_value === 'OM' || country_value === 'KA' || country_value === 'AE' || country_value === 'IN')
+            &&
+            <div>
+              <span className={style.spanWidth}>{country_value !== 'IN' ? Star : null}Street:</span>
+              <Input
+                required={country_value !== 'IN'}
+                value={street}
+                style={{ width: '40%' }}
+                onChange={e => dispatch(infoCommit('street', e.target.value))}
+              />
+            </div>
+          }
           <div>
             <span className={style.spanWidth}>{Star}Address Line 1:</span>
             <TA
@@ -203,7 +225,6 @@ class EditAddress extends Component {
           <div>
             <span className={style.spanWidth}>Address Line 2:</span>
             <TA
-              required
               value={address_line_2}
               style={{ width: '40%' }}
               onChange={e => dispatch(infoCommit('address_line_2', e.target.value))}
@@ -259,10 +280,11 @@ EditAddress.propTypes = {
   params: PropTypes.shape(),
   submitValue: PropTypes.shape(),
   orderId: PropTypes.string,
+  billno: PropTypes.string,
   country_list: PropTypes.arrayOf(PropTypes.shape()),
   cities: PropTypes.arrayOf(PropTypes.shape()),
   citySource: PropTypes.arrayOf(PropTypes.shape()),
   districtSource: PropTypes.arrayOf(PropTypes.shape()),
 };
-const mapStateToProps = state => state['order/details/editAddress'];
+const mapStateToProps = state => state['order/details/edit-address'];
 export default connect(mapStateToProps)(EditAddress);

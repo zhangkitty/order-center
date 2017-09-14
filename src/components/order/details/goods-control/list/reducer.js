@@ -19,9 +19,11 @@ const defaultState = {
       name: '',
       children: [],
     },   // 品控类型（原因id）
-    feedback_thumb: null,   //  图片
+    feedback_thumb: [],   //  图片
     remark: null,
   },
+  loadInit: false,
+  submitLoad: false,
 };
 
 const reducer = (state = defaultState, action) => {
@@ -49,44 +51,43 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.INIT_FEEDBACK:
       return assign({}, state, {
-        load: true,
+        loadInit: true,
       });
     case TYPES.INIT_FEEDBACK_FAIL:
       return assign({}, state, {
-        load: false,
+        loadInit: false,
       });
     case TYPES.INIT_FEEDBACK_SUCCESS:
       return assign({}, state, {
         fetchFeedback: action.data.data,
-        load: false,
+        loadInit: false,
       });
     case TYPES.INIT_FEEDBACK_TYPE:
       return assign({}, state, {
-        load: true,
+        loadInit: true,
       });
     case TYPES.INIT_FEEDBACK_TYPE_FAIL:
       return assign({}, state, {
-        load: false,
+        loadInit: false,
       });
     case TYPES.INIT_FEEDBACK_TYPE_SUCCESS:
       return assign({}, state, {
         fetchFeedbackType: action.data.data,
-        load: false,
+        loadInit: false,
       });
     case TYPES.SUBMIT:
       return assign({}, state, {
         // queryString: action.data,
-        load: true,
-        searchType: 0,
+        submitLoad: true,
       });
     case TYPES.SUBMIT_FAIL:
       return assign({}, state, {
-        load: false,
+        submitLoad: false,
       });
     case TYPES.SUBMIT_SUCCESS:
       return assign({}, state, {
       //  dataSource: action.data.data,
-        load: false,
+        submitLoad: false,
       });
     default:
       return state;

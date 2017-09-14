@@ -5,14 +5,16 @@ export const commit = (key, value) => ({
   key,
   value,
 });
-export const getInfo = (id, bill) => ({
+export const getInfo = (id, bill, key) => ({
   type: TYPES.GET_INFO,
   id,
   bill,
+  key,
 });
-export const getInfoSuccess = data => ({
+export const getInfoSuccess = (data, key) => ({
   type: TYPES.GET_INFO_SUCCESS,
   data,
+  key,
 });
 export const uploadTrackAction = data => ({
   type: TYPES.UPLOAD_TRACK,
@@ -22,10 +24,11 @@ export const uploadTrackSuccess = () => ({
   type: TYPES.UPLOAD_TRACK_SUCCESS,
 });
 
-export const uploadTrackShow = (order_id, return_no) => ({
+export const uploadTrackShow = (order_id, return_no, key) => ({
   type: TYPES.UPLOAD_TRACK_SHOW,
   order_id,
   return_no,
+  key,
 });
 export const updateEmail = (id, email) => ({
   id,
@@ -68,6 +71,16 @@ export const examineSuccess = () => ({
 });
 export const profitShowAction = id => ({
   type: TYPES.PROFIT_SHOW,
+  id,
+});
+export const genRl = (id, oid, bid) => ({
+  type: TYPES.GEN_RL,
+  id,
+  oid,
+  bid,
+});
+export const cancelRefund = id => ({
+  type: TYPES.CANCEL_REFUND,
   id,
 });
 

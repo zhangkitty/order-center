@@ -52,7 +52,7 @@ function* submitDataSaga(action) {
     return yield put(submitDataFail());
   }
   message.success(__('common.sagaTitle25'));
-//  hashHistory.push(`/order/details/entry/${action.data.order_id}/${action.data.billno}`);
+  hashHistory.push(`/order/details/entry/${action.data.order_id}/${action.data.billno}`);
   return yield put(submitDataSuccess(data));
 }
 

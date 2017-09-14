@@ -191,9 +191,9 @@ const SingleRow = (props) => {
             width: '15%',
             render: (d, res) => (
               <div style={{ textAlign: 'center' }}>
-                {
-                  Number(res.goods_status) === 75 && Number(data.order_id) !== 14 ?
-                    __('common.customerCancel')
+                { // 商品状态=75（COD客服取消) && 订单状态 !=14 (已取消), 显示 "客服取消"
+                  Number(res.goods_status) === 75 && Number(data.order_status) !== 14 ?
+                    __('common.customerCancel')   // 客服取消
                     : refundBillStatus[d]
                 }
               </div>

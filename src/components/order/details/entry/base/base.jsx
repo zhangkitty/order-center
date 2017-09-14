@@ -3,24 +3,34 @@ import PropTypes from 'prop-types';
 import { Card } from 'antd';
 import style from '../style.css';
 
+const lan = {
+  下单日期: __('order.entry.buy_date'),
+  支付方式: __('order.entry.pay_method'),
+  来源站点: __('order.entry.source_site'),
+  运输方式: __('order.entry.track_method'),
+  花费时间: __('order.entry.waist_time'),
+  付款日期: __('order.entry.pay_date'),
+  来源国家: __('order.entry.source_country'),
+  基本信息: __('order.entry.base_desc'),
+};
 const info = {
   left: [
-    { name: '下单日期', key: 'add_time' },
-    { name: '支付方式', key: 'payment_method' },
-    { name: '来源站点', key: 'site_from' },
-    { name: '运输方式', key: 'shipping_method' },
-    { name: '花费时间', key: 'spend_time' },
+    { name: lan.下单日期, key: 'add_time' },
+    { name: lan.支付方式, key: 'payment_method' },
+    { name: lan.来源站点, key: 'site_from' },
+    { name: lan.运输方式, key: 'shipping_method' },
+    { name: lan.花费时间, key: 'spend_time' },
 
   ],
   right: [
-    { name: '付款日期', key: 'pay_time' },
+    { name: lan.付款日期, key: 'pay_time' },
     { name: 'IP', key: 'ip' },
-    { name: '来源国家', key: 'ip_country' },
+    { name: lan.来源国家, key: 'ip_country' },
   ],
 };
-// TODO: lan
+
 const Base = ({ dataSource: { base: { order_info: { basic_info } } } }) => (
-  <Card title="基本信息" bodyStyle={{ display: 'flex', maxWidth: '1200px' }} style={{ width: '100%', margin: '20px 0' }}>
+  <Card title={lan.基本信息} bodyStyle={{ display: 'flex', maxWidth: '1200px' }} style={{ width: '100%', margin: '20px 0' }}>
     <div>
       {
         info.left.map(v => (

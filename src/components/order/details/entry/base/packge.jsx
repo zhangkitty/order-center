@@ -6,36 +6,100 @@ import assign from 'object-assign';
 import style from '../style.css';
 import { backGoodsDates, commit, operateReturn, partSend, preSendAction, examine } from '../action';
 
-// TODO: lan
 const BG = Button.Group;
 const RG = Radio.Group;
 const lan = {
-  noPackge: '未形成包裹商品',
-  packge: '包裹',
-  refundGoods: '退货商品',
-  refund: '退款商品',
-  yipinkong: '已品控',
-  pinkong: '品控',
-  shenhe: ' 已审核',
-  huihuo: ' 回货日期',
-  goodsStatus: '商品状态',
-  img: '图片',
-  code: '型号',
-  sale: '销售价',
-  discount: '折后价',
-  qudao: '发货渠道',
-  huohao: '发货号',
-  tuibuo: '退货',
-  youxianfahuo: '优先发货',
-  quxiaoyouxianfahuo: '取消优先发货',
-  bufenfa: '部分发',
-  shenhedingdan: '审核订单',
-  save: '确定',
-  cancel: '取消',
-  guangzhou: '广州',
-  xibu: '西部',
+  noPackge: __('order.entry.goods_no_packge'),
+  packge: __('order.entry.packge'),
+  refundGoods: __('order.entry.return_goods'),
+  refund: __('order.entry.refund_goods'),
+  yipinkong: __('order.entry.quality_control_done'),
+  pinkong: __('order.entry.quality_control'),
+  shenhe: __('order.entry.examine_done'),
+  huihuo: __('order.entry.back_goods_date'),
+  goodsStatus: __('order.entry.goods_status'),
+  img: __('order.entry.image'),
+  code: __('order.entry.code'),
+  sale: __('order.entry.sale_price'),
+  discount: __('order.entry.discount_price'),
+  qudao: __('order.entry.send_goods_channel'),
+  huohao: __('order.entry.send_goods_number'),
+  tuibuo: __('order.entry.goods_rejected'),
+  youxianfahuo: __('order.entry.goods_send_first'),
+  quxiaoyouxianfahuo: __('order.entry.goods_send_first_cancel'),
+  bufenfa: __('order.entry.part_send'),
+  shenhedingdan: __('order.entry.examine_order'),
+  save: __('order.entry.confirm'),
+  cancel: __('order.entry.cancel'),
+  guangzhou: __('order.entry.Guangzhou'),
+  xibu: __('order.entry.west'),
 };
 const cardStyle = { marginBottom: '20px', maxWidth: '1200px' };
+// '1' => '已付款',
+//  '5' => '需要退款',
+//  '7' => '已经退款'
+// '11' => '已审核',
+//  '12' => '无货',
+//  '13' => '备货中',
+//  '16' => '发货',
+//  '20' =>'换货',
+//  '23' => '等待出仓',
+//  '28' => '无货审核',
+//  '49' => '等待发货',
+//  '52' => '发货中',
+//  '54' => 'COD已签收',
+//  '57' => '海外发货',（无对应翻译）
+// '74' => '删除换货',
+//  '75' => 'COD客服取消',
+//  '76' => 'COD派件异常',
+//  '77' => 'COD已拒收',
+//  '82' => 'COD用户取消',
+//  '84' => '有货',
+//  '90' => 'COD派件中',
+//  '91' => 'COD已报损',
+//  '94' => 'COD客户自提',
+//  '95' => '已申请退货'
+// '96' => '退货'
+const colors = {
+  1: { bg: '#5AE0ED', border: 'none' },
+  5: { bg: 'rgba(255,45,138,0.2)', border: 'rgba(255,45,138,1)' },
+  7: { bg: 'rgba(255,45,138,1)', border: 'none' },
+  11: { bg: 'rgba(10,143,229,1)', border: 'none' },
+  12: { bg: 'none', border: 'rgba(204,204,204,1)' },
+  13: { bg: 'none', border: 'rgba(224,16,208,1)' },
+  16: { bg: 'rgba(140,0,255,1)', border: 'none' },
+  20: { bg: 'rgba(159,78,114,1)', border: 'none' },
+  23: { bg: 'rgba(22,0,131,0.5)', border: 'none' },
+  28: { bg: 'none', border: '#E010D0' },
+  49: { bg: 'rgba(140,0,255,0.3)', border: 'none' },
+  52: { bg: 'rgba(140,0,255,0.2)', border: 'rgba(140,0,255,1)' },
+  54: { bg: 'black', border: 'none' }, // no ui
+  57: { bg: 'rgba(248,231,28,1)', border: 'rgba(140,0,255,1)' },
+  74: { bg: 'black', border: 'none' }, // no ui
+  75: { bg: 'rgba(248,231,28,1)', border: 'none' },
+  76: { bg: 'black', border: 'none' }, // no ui
+  77: { bg: 'black', border: 'none' }, // no ui
+  82: { bg: 'black', border: 'none' }, // no ui
+  84: { bg: 'rgba(173,139,139,1)', border: 'none' },
+  90: { bg: 'rgba(177,0,22,0.2)', border: 'rgba(177,0,22,1)' },
+  91: { bg: 'black', border: 'none' }, // no ui
+  94: { bg: 'black', border: 'none' }, // no ui
+  95: { bg: 'black', border: 'none' }, // no ui
+  96: { bg: 'black', border: 'none' }, // no ui
+};
+const colorCirle = (circle = {}) => (
+  <span
+    style={{
+      width: '10px',
+      height: '10px',
+      borderRadius: '50%',
+      display: 'inline-block',
+      marginRight: '5px',
+      backgroundColor: circle.bg,
+      border: `2px solid ${circle.border}`,
+    }}
+  />
+);
 const Packge = (
   {
     dataSource: { base: { order_goods_info, button_list } },
@@ -65,7 +129,9 @@ const Packge = (
       dataIndex: 'status',
       render: (d, rec) => (
         <div >
-          <span>圆圈</span>
+          {
+            colorCirle(colors[rec.status_code])
+          }
           <span>{d}</span>
           <Link
             to={
@@ -214,7 +280,9 @@ const Packge = (
           <Card title={`${lan.packge}:${v.package_number}`} key={v.package_number} style={cardStyle}>
             <div style={{ float: 'left', width: '20%' }}>
               <div>
-                <span className={style.spanWidth}>圆圈</span>
+                {
+                  colorCirle(colors[v.package_goods_list[0].status_code])
+                }
                 <span>{v.package_status}</span>
               </div>
               <div>

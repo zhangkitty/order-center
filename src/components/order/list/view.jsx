@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Button, Input, Modal, message } from 'antd';
+import { Button, Input, Modal, message, Icon, Spin } from 'antd';
 import { connect } from 'react-redux';
 import Pagination from '../../publicComponent/pagination';
 import { search, change, commit, commit2, init, remarkSave } from './action';
@@ -24,7 +24,7 @@ class orderList extends Component {
   render() {
     const {
       dispatch, dataSource, total, queryString, queryString2, queryString3, visible,
-      loadUpdata, searchType, remarkModal, exchange,
+      loadUpdata, searchType, remarkModal, searchLoad,
     } = this.props;
     return (
       <div className={styles.content}>
@@ -32,13 +32,17 @@ class orderList extends Component {
         <TabsHeader {...this.props} />
 
         {/*  列表  */}
-        <div className={styles.table_bg}>
-
-          {
-            dataSource
-              .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} {...this.props} />)
-          }
-        </div>
+        <Spin spinning={searchLoad}>
+          <div className={styles.table_bg}>
+            {
+              dataSource
+                .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} {...this.props} />)
+            }
+            {
+              total === 0 ? <div style={{ textAlign: 'center', color: 'rgba(0,0,0, .8)' }}><Icon type="frown-o" /> {__('common.contentTitle')}</div> : null
+            }
+          </div>
+        </Spin>
         {/* 备注提交 */}
         <Modal
           visible={visible}
@@ -51,7 +55,7 @@ class orderList extends Component {
                 style={{ margin: '10px auto' }}
                 rows={3}
                 value={remarkModal.remark}
-                onChange={e => dispatch(change('remarkModal', assign({}, remarkModal, { remark: e.target.value})))}
+                onChange={e => dispatch(change('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
               />
             </div>
             <Button
@@ -131,7 +135,6 @@ orderList.propTypes = {
   remark: PropTypes.string,
   searchType: PropTypes.number,
   remarkModal: PropTypes.shape(),
-  exchange: PropTypes.shape(),
 };
 
 const mapStateToProps = state => state['order/list'];
