@@ -91,6 +91,7 @@ const refundBillStatus = {
   2: __('common.refundBillStatus2'),
   3: __('common.refundBillStatus3'),
   4: __('common.refundBillStatus4'),
+  5: __('common.refundBillStatus5'),
 };
 const SingleRow = (props) => {
   const { data, index, dispatch, fetchRemark,
@@ -186,7 +187,7 @@ const SingleRow = (props) => {
             width: '15%',
             render: (d, res) => (<div style={{ textAlign: 'center' }}> ${d} <p style={{ color: '#f00' }}>(${res.coupon_price})</p></div>),
           }, {
-            title: '退款单状态', // TODO 退款单id没定
+            title: '退款单状态', // TODO  加 COD订单，取消原因
             dataIndex: 'refund_bill_status',
             width: '15%',
             render: (d, res) => (
