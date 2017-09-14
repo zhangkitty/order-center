@@ -70,6 +70,9 @@ module.exports = {
   submitTitle: '缺少SKU',    // 提交提示
   submitTitle1: '缺少时间',
   submitTitle2: 'Are you sure to delete this exchanged item？',
+  submitTitle3: '缺少必填项',
+  submitTitle4: '缺少标记',
+  submitTitle5: '缺少备注',
   sagaTitle: '搜索失败: ',
   sagaTitle1: '高级搜索失败: ',
   sagaTitle2: '获取国家失败: ',
@@ -94,6 +97,7 @@ module.exports = {
   sagaTitle21: '删除换货成功',
   sagaTitle22: '操作失败: ',
   sagaTitle23: '操作成功',
+  modifyDiffRefund: '修改退款详情',
   sagaTitle24: '必须勾选商品',
   sagaTitle25: '提交成功!',
   sagaTitle26: '提交失败:',

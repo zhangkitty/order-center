@@ -1,12 +1,72 @@
-.spanWidth {
-    width: 110px;
+.contentBg {
+    padding: 15px;
+    box-sizing: border-box;
+    color: rgba(0,0,0,1);
+    font-size:14px;
+}
+.baseBg {
+    margin: 5px 0 20px 0px;
+    display: flex;
+    flex-direction: column;
+}
+.baseRight{
+    margin-right: 30px;
+}
+.contentPadding {
+    padding: 0 10px;
+}
+.cardBg {
+    display: flex;
+    justify-content: space-between;
+}
+.cardStyle {
+    width: 49.5%;
+    margin: 0 0 20px 0px;
+    box-sizing: border-box;
+}
+.cardBottom {
+    margin-bottom: 20px;
+}
+
+.emailStyle {
+    width: 200px;
+    float: left;
+    marginRight: 5px;
+}
+
+.packeFlex{
+    display: flex;
+    align-items: center;
+}
+.paymentFlex {
+    display: flex;
+    padding: 20px 35px;
+}
+.paymentInfo { margin-right:80px;}
+.spanWidthL {
+    min-width: 110px;
+    max-width: 200px;
     display: inline-block;
-    color: #BCC6CA;
+    color: #797b7b;
+    text-align:right;
+    margin-right:10px;
+}
+.spanWidthR {
+    min-width: 110px;
+    max-width: 200px;
+    display: inline-block;
+    color: #797b7b;
 }
 .payLog {
     margin-bottom: 10px;
     border-bottom: 0.1em solid #ccc;
     padding: 5px 0;
+    display: flex;
+}
+.paymentInline {
+    flex: 1;
+    /*display: inline-block;*/
+    /*width: 250px;*/
 }
 .refundButton {
     position: absolute;
@@ -18,4 +78,20 @@
     margin-top: 8px;
     font-size: 12px;
     color: #666;
+}
+
+.returnForm {
+    display: flex;
+    flex-direction: column;
+}
+.returnDiv{
+    display: flex;
+    margin-top: 20px;
+}
+.returnSpan {
+    display: inline-block;
+    width: 80px;
+}
+.returnWidth {
+    width: 60px;
 }

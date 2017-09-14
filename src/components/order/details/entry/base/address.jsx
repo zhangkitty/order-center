@@ -16,43 +16,37 @@ const lan = {
 const info = {
   sadrr: {
     left: [
-      { name: 'Name', key: 'name' },
-      { name: 'Address Line 1', key: 'address_1' },
-      { name: 'Address Line 2', key: 'address_2' },
-      { name: 'City', key: 'city' },
-      { name: 'Country', key: 'country' },
-      { name: 'Telephone', key: 'telephone' },
+      { name: __('order.entry.address_name'), key: 'name' },
+      { name: __('order.entry.address1'), key: 'address_1' },
+      { name: __('order.entry.address2'), key: 'address_2' },
+      { name: __('order.entry.address_city'), key: 'city' },
+      { name: __('order.entry.address_country'), key: 'country' },
+      { name: __('order.entry.address_telephone'), key: 'telephone' },
       { name: lan.email, key: 'email' },
     ],
     right: [
-      { name: 'Company Name', key: 'company_name' },
-      { name: 'State/Province', key: 'state' },
-      { name: 'Post/Zip Code', key: 'post' },
-      { name: 'Fax', key: 'fax' },
+      { name: __('order.entry.address_company'), key: 'company_name' },
+      { name: __('order.entry.address_state'), key: 'state' },
+      { name: __('order.entry.address_post'), key: 'post' },
+      { name: __('order.entry.address_fax'), key: 'fax' },
     ],
   },
   badrr: {
     left: [
-      { name: 'Name', key: 'name' },
-      { name: 'Address Line 1', key: 'address_1' },
-      { name: 'Address Line 2', key: 'address_2' },
-      { name: 'City', key: 'city' },
-      { name: 'Country', key: 'country' },
-      { name: 'Telephone', key: 'telephone' },
+      { name: __('order.entry.address_name'), key: 'name' },
+      { name: __('order.entry.address1'), key: 'address_1' },
+      { name: __('order.entry.address2'), key: 'address_2' },
+      { name: __('order.entry.address_city'), key: 'city' },
+      { name: __('order.entry.address_country'), key: 'country' },
+      { name: __('order.entry.address_telephone'), key: 'telephone' },
     ],
     right: [
-      { name: 'Company Name', key: 'company_name' },
-      { name: 'State/Province', key: 'state' },
-      { name: 'Post/Zip Code', key: 'post' },
-      { name: 'Fax', key: 'fax' },
+      { name: __('order.entry.address_company'), key: 'company_name' },
+      { name: __('order.entry.address_state'), key: 'state' },
+      { name: __('order.entry.address_post'), key: 'post' },
+      { name: __('order.entry.address_fax'), key: 'fax' },
     ],
   },
-};
-const cardStyle = { width: '600px', margin: '0 20px 20px 0px', maxWidth: '1200px' };
-const emailStyle = {
-  width: '200px',
-  float: 'left',
-  marginRight: '5px',
 };
 
 const Address = (
@@ -65,8 +59,11 @@ const Address = (
     billno,
   },
 ) => (
-  <div style={{ display: 'flex' }}>
-    <Card title="Shipping Address" style={cardStyle}>
+  <div className={style.cardBg}>
+    <Card
+      title={__('order.entry.shipping_address')}
+      className={style.cardStyle}
+    >
       <div style={{ width: '50%', float: 'left' }}>
         <Button
           style={{ position: 'absolute', right: '10px' }}
@@ -92,7 +89,7 @@ const Address = (
                         }}
                       >
                         <Input
-                          style={emailStyle}
+                          className={style.emailStyle}
                           onChange={e => dispatch(commit('returnEmail', e.target.value))}
                         />
                         <Button htmlType="submit" type="primary">{lan.save}</Button>
@@ -122,7 +119,10 @@ const Address = (
         }
       </div>
     </Card>
-    <Card title="Billing Address" style={cardStyle}>
+    <Card
+      title={__('order.entry.billing_address')}
+      className={style.cardStyle}
+    >
       <div style={{ width: '50%', float: 'left' }}>
         {
           info.badrr.left.map(v => (

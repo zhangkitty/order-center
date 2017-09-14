@@ -19,6 +19,7 @@ const lan = {
   huihuo: __('order.entry.back_goods_date'),
   goodsStatus: __('order.entry.goods_status'),
   img: __('order.entry.image'),
+  sku: __('order.entry.sku'),
   code: __('order.entry.code'),
   sale: __('order.entry.sale_price'),
   discount: __('order.entry.discount_price'),
@@ -34,7 +35,7 @@ const lan = {
   guangzhou: __('order.entry.Guangzhou'),
   xibu: __('order.entry.west'),
 };
-const cardStyle = { marginBottom: '20px', maxWidth: '1200px' };
+
 // '1' => '已付款',
 //  '5' => '需要退款',
 //  '7' => '已经退款'
@@ -136,9 +137,9 @@ const Packge = (
           <Link
             to={
               rec.is_assessed ?
-                '/order/details/goods-control/edit/'
+                '/order/details/goods-control/edit/'  // 已品控
                 :
-                '/order/details/goods-control/list/'
+                '/order/details/goods-control/list/' // 品控
             }
             query={{ data: JSON.stringify(assign({}, rec, {
               order_id: orderId, billno,
@@ -168,7 +169,7 @@ const Packge = (
       title: lan.img,
       dataIndex: 'pic',
       render: (d, rec) => (
-        <span style={{ display: 'flex', alignItems: 'center' }}>
+        <span className={style.packeFlex}>
           <Checkbox
             onChange={(e) => {
               const value = e.target.checked;
@@ -216,58 +217,64 @@ const Packge = (
   ].filter(res => res));
   return (
     <div>
-      <div style={{ margin: '20px 20px' }}>
-        <BG>
-          {
-            !!show_refund_button &&
-            <Button onClick={() => dispatch(operateReturn(orderId, chooseGoods.join(',')))}>
-              {lan.tuibuo}
-            </Button>
-          }
-          {
-            !!show_part_shipped_button &&
-            <Popover
-              content={
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (warehouse < 1) {
-                      return message.waring(lan.needWarehouse);
-                    }
-                    return dispatch(partSend([Number(orderId)], warehouse));
-                  }}
-                >
-                  <RG onChange={e => dispatch(commit('warehouse', Number(e.target.value)))}>
-                    <Radio value={1}>{lan.guangzhou}</Radio>
-                    <Radio value={10}>{lan.xibu}</Radio>
-                  </RG>
-                  <Button htmlType="submit" type="primary">{lan.save}</Button>
-                  <Button onClick={() => dispatch(commit('warehouseShow', false))}>{lan.cancel}</Button>
-                </form>
+      {
+        !show_refund_button && !show_part_shipped_button && !show_priority_shipped_button && !show_review_order_button ?
+          null
+          :
+          <div style={{ margin: '20px 20px' }}>
+            <BG>
+              {
+                !!show_refund_button &&
+                <Button onClick={() => dispatch(operateReturn(orderId, chooseGoods.join(',')))}>
+                  {lan.tuibuo}
+                </Button>
               }
-              title={lan.upEmail}
-              trigger="click"
-              visible={warehouseShow}
-              onVisibleChange={d => dispatch(commit('warehouseShow', d))}
-            >
-              <Button disabled={partSendBtn}>{lan.bufenfa}</Button>
-            </Popover>
-          }
-          {
-            !!show_priority_shipped_button &&
-            <Button
-              onClick={() => dispatch(preSendAction(Number(orderId), preSend))}
-            >
-              {preSend ? lan.quxiaoyouxianfahuo : lan.youxianfahuo}
-            </Button>
-          }
-          {
-            !!show_review_order_button &&
-            <Button onClick={() => dispatch(examine(orderId))}>{lan.shenhedingdan}</Button>
-          }
-        </BG>
-      </div>
-      <Card title={lan.noPackge} style={cardStyle}>
+              {
+                !!show_part_shipped_button &&
+                <Popover
+                  content={
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (warehouse < 1) {
+                          return message.waring(lan.needWarehouse);
+                        }
+                        return dispatch(partSend([Number(orderId)], warehouse));
+                      }}
+                    >
+                      <RG onChange={e => dispatch(commit('warehouse', Number(e.target.value)))}>
+                        <Radio value={1}>{lan.guangzhou}</Radio>
+                        <Radio value={10}>{lan.xibu}</Radio>
+                      </RG>
+                      <Button htmlType="submit" type="primary">{lan.save}</Button>
+                      <Button onClick={() => dispatch(commit('warehouseShow', false))}>{lan.cancel}</Button>
+                    </form>
+                  }
+                  title={lan.upEmail}
+                  trigger="click"
+                  visible={warehouseShow}
+                  onVisibleChange={d => dispatch(commit('warehouseShow', d))}
+                >
+                  <Button disabled={partSendBtn}>{lan.bufenfa}</Button>
+                </Popover>
+              }
+              {
+                !!show_priority_shipped_button &&
+                <Button
+                  onClick={() => dispatch(preSendAction(Number(orderId), preSend))}
+                >
+                  {preSend ? lan.quxiaoyouxianfahuo : lan.youxianfahuo}
+                </Button>
+              }
+              {
+                !!show_review_order_button &&
+                <Button onClick={() => dispatch(examine(orderId))}>{lan.shenhedingdan}</Button>
+              }
+            </BG>
+          </div>
+
+      }
+      <Card title={lan.noPackge} className={style.cardBottom}>
         <Table
           size="small"
           pagination={false}
@@ -277,7 +284,7 @@ const Packge = (
       </Card>
       {
         package_list.map(v => (
-          <Card title={`${lan.packge}:${v.package_number}`} key={v.package_number} style={cardStyle}>
+          <Card title={`${lan.packge}:${v.package_number}`} key={v.package_number} className={style.cardBottom}>
             <div style={{ float: 'left', width: '20%' }}>
               <div>
                 {
@@ -304,7 +311,7 @@ const Packge = (
           </Card>
         ))
       }
-      <Card title={lan.refundGoods} style={cardStyle}>
+      <Card title={lan.refundGoods} className={style.cardBottom}>
         <Table
           size="small"
           pagination={false}
@@ -312,7 +319,7 @@ const Packge = (
           columns={col()}
         />
       </Card>
-      <Card title={lan.refund} style={cardStyle}>
+      <Card title={lan.refund} className={style.cardBottom}>
         <Table
           size="small"
           pagination={false}

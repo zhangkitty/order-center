@@ -271,8 +271,11 @@ const SingleRow = (props) => {
             */}
           </p>
           {/*  查看 */}
-          <Button onClick={() => hashHistory.push(`/order/details/entry/${data.order_id}/${data.billno}`)}>{__('common.order_operation')}</Button>
-
+          <Link
+            to={`/order/details/entry/${data.order_id}/${data.billno}`}
+            target="_blank"
+          >{__('common.order_operation')}
+          </Link>
           {/*  订单标记 */}
           {
             Number(data.is_trouble) > 0 ?

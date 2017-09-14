@@ -9,11 +9,11 @@ const TA = Input.TextArea;
 const Op = Select.Option;
 const Star = (<span style={{ color: 'red' }}>*</span>);
 const lan = {
-  save: '保存',
-  reset: '重制',
-  needState: '缺少州省',
-  needCity: '缺少城市',
-  needDistrict: '缺少区',
+  save: __('order.entry.save'),
+  reset: __('order.entry.cancel1'),
+  needState: __('order.entry.submit_title'),
+  needCity: __('order.entry.submit_title1'),
+  needDistrict: __('order.entry.submit_title2'),
 };
 class EditAddress extends Component {
   constructor(props) {
@@ -66,7 +66,7 @@ class EditAddress extends Component {
           }}
         >
           <div>
-            <span className={style.spanWidth}>{Star}Gender:</span>
+            <span className={style.spanWidth}>{Star}{__('order.entry.address_gender')}:</span>
             <Input
               value={gender}
               style={{ width: '40%' }}
@@ -75,7 +75,7 @@ class EditAddress extends Component {
             />
           </div>
           <div>
-            <span className={style.spanWidth}>{Star}First Name:</span>
+            <span className={style.spanWidth}>{Star}{__('order.entry.address_first')}:</span>
             <Input
               value={first_name}
               required
@@ -84,7 +84,7 @@ class EditAddress extends Component {
             />
           </div>
           <div>
-            <span className={style.spanWidth}>{country_value !== 'IN' ? Star : null}Last Name:</span>
+            <span className={style.spanWidth}>{country_value !== 'IN' ? Star : null}{__('order.entry.address_last')}:</span>
             <Input
               value={last_name}
               required={country_value !== 'IN'}
@@ -96,7 +96,7 @@ class EditAddress extends Component {
             country_value === 'RU' &&
             <div>
               {/* TODO: Father Name ??? */}
-              <span className={style.spanWidth}>{Star}Father Name:</span>
+              <span className={style.spanWidth}>{Star}{__('order.entry.address_father')}:</span>
               <Input
                 required
                 style={{ width: '40%' }}
@@ -104,7 +104,7 @@ class EditAddress extends Component {
             </div>
           }
           <div>
-            <span className={style.spanWidth}>{Star}Country:</span>
+            <span className={style.spanWidth}>{Star}{__('order.entry.address_country')}:</span>
             <Select
               value={country_id}
               style={{ width: '40%' }}
@@ -127,7 +127,7 @@ class EditAddress extends Component {
             </Select>
           </div>
           <div>
-            <span className={style.spanWidth}>{country_value !== 'TW' && country_value !== 'HK' ? Star : null}State/Province:</span>
+            <span className={style.spanWidth}>{country_value !== 'TW' && country_value !== 'HK' ? Star : null}{__('order.entry.address_state')}:</span>
             <Select
               value={state}
               style={{ width: '40%' }}
@@ -152,7 +152,7 @@ class EditAddress extends Component {
             </Select>
           </div>
           <div>
-            <span className={style.spanWidth}>{Star}City:</span>
+            <span className={style.spanWidth}>{Star}{__('order.entry.address_city')}:</span>
             <Select
               value={city}
               style={{ width: '40%' }}
@@ -180,7 +180,7 @@ class EditAddress extends Component {
             (country_value === 'SA' || country_value === 'TW' || country_value === 'HK')
             &&
             <div>
-              <span className={style.spanWidth}>{Star}District:</span>
+              <span className={style.spanWidth}>{Star}{__('order.entry.address_district')}:</span>
               <Select
                 value={district}
                 style={{ width: '40%' }}
@@ -204,7 +204,7 @@ class EditAddress extends Component {
             country_value === 'OM' || country_value === 'KA' || country_value === 'AE' || country_value === 'IN')
             &&
             <div>
-              <span className={style.spanWidth}>{country_value !== 'IN' ? Star : null}Street:</span>
+              <span className={style.spanWidth}>{country_value !== 'IN' ? Star : null}{__('order.entry.address_street')}:</span>
               <Input
                 required={country_value !== 'IN'}
                 value={street}
@@ -214,7 +214,7 @@ class EditAddress extends Component {
             </div>
           }
           <div>
-            <span className={style.spanWidth}>{Star}Address Line 1:</span>
+            <span className={style.spanWidth}>{Star}{__('order.entry.address1')}:</span>
             <TA
               required
               value={address_line_1}
@@ -223,7 +223,7 @@ class EditAddress extends Component {
             />
           </div>
           <div>
-            <span className={style.spanWidth}>Address Line 2:</span>
+            <span className={style.spanWidth}>{__('order.entry.address2')}:</span>
             <TA
               value={address_line_2}
               style={{ width: '40%' }}
@@ -231,7 +231,7 @@ class EditAddress extends Component {
             />
           </div>
           <div>
-            <span className={style.spanWidth}>{Star}Post/Zip Code:</span>
+            <span className={style.spanWidth}>{Star}{__('order.entry.address_post')}:</span>
             <Input
               required
               value={post}
@@ -240,7 +240,7 @@ class EditAddress extends Component {
             />
           </div>
           <div>
-            <span className={style.spanWidth}>Telephone:</span>
+            <span className={style.spanWidth}>{__('order.entry.address_telephone')}:</span>
             <Input
               required
               value={telephone}
@@ -251,7 +251,7 @@ class EditAddress extends Component {
           {
             country_value === 'SA' &&
             <div>
-              <span className={style.spanWidth}>National ID:</span>
+              <span className={style.spanWidth}>{__('order.entry.address_national')}:</span>
               {/* TODO: need National ID */}
               <Input
                 required
