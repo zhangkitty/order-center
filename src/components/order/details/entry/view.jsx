@@ -9,26 +9,28 @@ import Refund from './refund';
 import OrderReturn from './order-return';
 import Logs from './logs';
 
+import styles from './style.css';
+
 const TP = Tabs.TabPane;
 // TODO: lan
 const info = props => [{
-  name: '基本信息',
+  name: __('order.entry.basic'),
   key: 'base',
   children: <BaseInfo {...props} />,
 }, {
-  name: '支付信息',
+  name: __('order.entry.pay'),
   key: 'pay',
   children: <Payment {...props} />,
 }, {
-  name: '退款信息',
+  name: __('order.entry.refunds'),
   key: 'refund',
   children: <Refund {...props} />,
 }, {
-  name: '退货信息',
+  name: __('order.entry.return'),
   key: 'orderReturn',
   children: <OrderReturn {...props} />,
 }, {
-  name: '订单日志',
+  name: __('order.entry.order_log'),
   key: 'logs',
   children: <Logs {...props} />,
 }];
@@ -45,7 +47,10 @@ class DetailsEntry extends Component {
     const { ready, activeKey, dispatch, orderId, billno, tabsLoad } = this.props;
     if (ready) {
       return (
-        <div style={{ padding: '15px', maxWidth: '1200px' }}>
+        <div
+          className={styles.contentBg}
+          style={{ maxWidth: window.innerWidth }}
+        >
           <Tabs
             activeKey={activeKey} defaultActiveKey="base"
             onChange={(v) => {

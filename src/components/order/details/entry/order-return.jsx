@@ -4,38 +4,35 @@ import assign from 'object-assign';
 import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message } from 'antd';
 import { commit, uploadTrackAction, uploadTrackShow, genRl } from './action';
 
+import styles from './style.css';
+
 const RG = Radio.Group;
-// TODO: lan
+
 const lan = {
   jilu: __('order.entry.goods_rejected_record'),
-  bianhao: '退货单号',
-  leixing: '退货单类型',
-  yundan: '运单类型',
-  shijian: '申请时间',
-  ren: '申请人',
-  shangpin: '退货商品',
-  lujin: '退货物流号',
-  zhaungtai: '退款状态',
-  pingzhenghao: '退货单状态',
-  caozuo: '操作',
-  chankan: '查看',
-  xiazai: '查看退货单',
-  sahngchuan: '上传退货物流号',
-  rl: '生成RL',
-  save: '保存',
-  qudao: '物流渠道',
-  yundanleixing: '运单类型',
-  yundaonhao: '运单号',
-  yundanpingzh: '运单凭证',
-  upload: '上传',
-  need: '缺少必填项',
+  bianhao: __('order.entry.order_return_1'),
+  leixing: __('order.entry.order_return_2'),
+  yundan: __('order.entry.order_return_3'),  // 重复
+  shijian: __('order.entry.refund_4'),
+  ren: __('order.entry.refund_5'),
+  shangpin: __('order.entry.return_goods'),
+  lujin: __('order.entry.order_return_4'),
+  zhaungtai: __('order.entry.order_return_5'),
+  pingzhenghao: __('order.entry.order_return_6'),
+  caozuo: __('order.entry.refund_12'),
+  chankan: __('order.entry.order_return_7'),
+  xiazai: __('order.entry.order_return_8'),
+  sahngchuan: __('order.entry.order_return_9'),
+  rl: __('order.entry.order_return_10'),
+  save: __('order.entry.save'),
+  qudao: __('order.entry.order_return_11'),
+  yundanleixing: __('order.entry.order_return_3'), // 重复
+  yundaonhao: __('order.entry.order_return_12'),
+  yundanpingzh: __('order.entry.order_return_13'),
+  upload: __('order.entry.order_return_14'),
+  need: __('order.entry.order_return_15'),
 };
-const sty = {
-  form: { display: 'flex', flexDirection: 'column' },
-  div: { display: 'flex', marginTop: '20px' },
-  span: { display: 'inline-block', width: '80px' },
-  input: { width: '50%' },
-};
+
 const reqImg = require.context('../../images');
 const OrderReturn = (
   {
@@ -137,17 +134,17 @@ const OrderReturn = (
         return dispatch(uploadTrackAction(uploadTrack));
       }}
     >
-      <form style={sty.form}>
-        <div style={sty.div}>
-          <span style={sty.span}>{lan.qudao}</span>
+      <form className={styles.returnForm}>
+        <div className={styles.returnDiv}>
+          <span className={styles.returnSpan}>{lan.qudao}</span>
           <Input
-            style={sty.input}
+            className={styles.returnWidth}
             value={uploadTrack.channel}
             onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { channel: e.target.value })))}
           />
         </div>
-        <div style={sty.div}>
-          <span style={sty.span}>{lan.yundanleixing}</span>
+        <div className={styles.returnDiv}>
+          <span className={styles.returnSpan}>{lan.yundanleixing}</span>
           <RG
             value={uploadTrack.check_type}
             onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_type: e.target.value })))}
@@ -158,8 +155,8 @@ const OrderReturn = (
         </div>
         {
           uploadTrack.check_type === '1' &&
-          <div style={sty.div}>
-            <span style={sty.span}>{lan.yundaonhao}</span>
+          <div className={styles.returnDiv}>
+            <span className={styles.returnSpan}>{lan.yundaonhao}</span>
             <Input
               value={uploadTrack.check_value}
               onChange={e => dispatch(commit('uploadTrack',
@@ -169,8 +166,8 @@ const OrderReturn = (
         }
         {
           uploadTrack.check_type === '2' &&
-            <div style={sty.div}>
-              <span style={sty.span}>{lan.yundanpingzh}</span>
+            <div className={styles.returnDiv}>
+              <span className={styles.returnSpan}>{lan.yundanpingzh}</span>
               {
                 uploadTrack.img &&
                 <div style={{ margin: '0 5px' }}>
@@ -189,7 +186,9 @@ const OrderReturn = (
                     size="small"
                     style={{ display: 'block', width: '150px' }}
                     onClick={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_value: '', img: '' })))}
-                  >删除</Button>
+                  >
+                    {__('order.entry.order_return_16')}
+                  </Button>
                 </div>
               }
               {
@@ -201,13 +200,13 @@ const OrderReturn = (
                   showUploadList={false}
                   onChange={({ file }) => {
                     if (file.status === 'done') {
-                      message.success(`${file.name} file uploaded successfully`);
+                      message.success(`${file.name} ${__('order.entry.submit_info4')}.`);
                       dispatch(commit('uploadTrack',
                         assign({}, uploadTrack, {
                           check_value: file.response.data[0], img: file.response.data[0],
                         })));
                     } else if (file.status === 'error') {
-                      message.error(`${file.name} file upload failed.`);
+                      message.error(`${file.name} ${__('order.entry.submit_info4')}.`);
                     }
                   }}
                 >

@@ -1,10 +1,10 @@
 module.exports = {
-  basic: '基本信息',
+  basic: '基本信息en',
   pay: '支付信息',
   refunds: '退款信息',
-  return: '退货信息',
+  return: '退货信息en',
   order_log: '订单日志',
-  shipping_address: 'Shipping Address',   // address
+  shipping_address: 'Shipping Address',
   billing_address: 'Billing Address',
   address_name: 'Name',
   address1: 'Address Line 1',
@@ -40,7 +40,7 @@ module.exports = {
   pay_date: '付款日期',
   source_country: '来源国家',
   base_desc: '基本信息',
-  goods_no_packge: '未形成包裹商品',
+  goods_no_packge: '未形成包裹商品 en',
   packge: '包裹',
   return_goods: '退货商品',
   refund_goods: '退款商品',
@@ -64,7 +64,7 @@ module.exports = {
   Guangzhou: '广州',
   west: '西部',
   goods_rejected_record: '退货记录',
-  payment_1: '支付渠道',   // 支付
+  payment_1: '支付渠道',
   payment_2: '商品折后总价',
   payment_3: '钱包',
   payment_4: '优惠券码',
@@ -82,9 +82,9 @@ module.exports = {
   payment_16: '商品总价',
   payment_17: '优惠券折扣',
   payment_18: '积分折扣',
-  payment_19: 'xxxx',
-  payment_20: 'xxxx',
-  payment_21: 'xxxx',  // 支付
+  payment_19: 'xxx',
+  payment_20: 'xxx',
+  payment_21: 'xxxx',
   refund_1: '退款记录',   // 退款
   refund_2: '退款单编号',
   refund_3: '退款单类型',
@@ -100,7 +100,7 @@ module.exports = {
   refund_13: '提现退款',
   refund_14: '修改申请',
   refund_15: '取消退款',
-  refund_16: '确认取消此退款单', // 退款
+  refund_16: '确认取消此退款单',
   order_return_1: '退货单号',   // 退货
   order_return_2: '退货单类型',
   order_return_3: '运单类型',
@@ -128,8 +128,8 @@ module.exports = {
   submit_info1: '操作成功',
   submit_info2: '获取数据失败',
   submit_info3: '加入部分发队列成功',
-  submit_info4: '上传成功',
-  submit_info5: '上传失败',
+  submit_info4: '',
+  submit_info5: '',
   submit_info6: '',
   submit_info7: '',
 };

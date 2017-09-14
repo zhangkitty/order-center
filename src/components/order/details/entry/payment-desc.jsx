@@ -4,28 +4,26 @@ import { Card, Alert, Button, Popover } from 'antd';
 import style from './style.css';
 import { profitShowAction } from './action';
 
-// TODO: lan
 const lan = {
-  zhifuqudao: '支付渠道',
-  zhehouzongjia: '商品折后总价',
-  qianbao: '钱包',
-  youhuiquanba: '优惠券码',
-  youhuidikou: '抵扣显示金额',
-  CODfuwu: 'COD服务费',
-  fukuanpingzh: '付款凭证号',
-  baoxian: '保险费',
-  yunfei: '运费',
-  jifen: '积分',
-  lipinka: '礼品卡抵扣',
-  zongjia: '支付总价',
-  CODyingfu: 'COD应付金额',
-  jiaoyijulu: '交易记录',
-  chakanlirun: '查看利润',
-  goodszongjia: '商品总价',
-  youhuijuanzhekoe: '优惠券折扣',
-  jifenzhekoe: '积分折扣',
+  zhifuqudao: __('order.entry.payment_1'),
+  zhehouzongjia: __('order.entry.payment_2'),
+  qianbao: __('order.entry.payment_3'),
+  youhuiquanba: __('order.entry.payment_4'),
+  youhuidikou: __('order.entry.payment_5'),
+  CODfuwu: __('order.entry.payment_6'),
+  fukuanpingzh: __('order.entry.payment_7'),
+  baoxian: __('order.entry.payment_8'),
+  yunfei: __('order.entry.payment_9'),
+  jifen: __('order.entry.payment_10'),
+  lipinka: __('order.entry.payment_11'),
+  zongjia: __('order.entry.payment_12'),
+  CODyingfu: __('order.entry.payment_13'),
+  jiaoyijulu: __('order.entry.payment_14'),
+  chakanlirun: __('order.entry.payment_15'),
+  goodszongjia: __('order.entry.payment_16'),
+  youhuijuanzhekoe: __('order.entry.payment_17'),
+  jifenzhekoe: __('order.entry.payment_18'),
 };
-const cardSpanStyle = { display: 'inline-block', width: '250px' };
 const Payment = (
   {
     dataSource: { pay: {
@@ -57,59 +55,64 @@ const Payment = (
     { name: lan.lipinka, value: gift_discount },
   ];
   return (
-    <div>
-      <div style={{ display: 'flex', padding: '20px 35px' }}>
+    <div className={style.contentPadding}>
+      <div className={style.paymentFlex}>
         <div>
           {
             left.map(v => (
-              <div key={v.name}>
-                <span className={style.spanWidth}>{v.name}: </span>
-                <span>{v.value}</span>
-                {
-                  v.name === lan.zhehouzongjia ?
-                    <Popover content={`${lan.zhehouzongjia} = ${lan.goodszongjia} - ${lan.youhuijuanzhekoe} -${lan.jifenzhekoe} `}>
-                      <Button shape="circle" icon="question-circle-o" style={{ border: 'none' }} />
-                    </Popover>
-                    : null
-                }
+              <div key={v.name} className={style.paymentInfo}>
+                <span className={style.spanWidthL}>{v.name}: </span>
+                <span className={style.spanWidthR}>
+                  {v.value}
+                  {
+                    v.name === lan.zhehouzongjia ?
+                      <Popover content={`${lan.zhehouzongjia} = ${lan.goodszongjia} - ${lan.youhuijuanzhekoe} -${lan.jifenzhekoe} `}>
+                        <Button shape="circle" icon="question-circle-o" style={{ border: 'none' }} />
+                      </Popover>
+                      : null
+                  }
+                </span>
               </div>
             ))
           }
         </div>
-        <div style={{ marginLeft: '80px' }}>
+        <div className={style.paymentInfo}>
           {
             right.map(v => (
               <div key={v.name}>
-                <span className={style.spanWidth}>{v.name}: </span>
-                <span>{v.value}</span>
+                <span className={style.spanWidthL}>{v.name}: </span>
+                <span className={style.spanWidthR}>{v.value}</span>
               </div>
             ))
           }
           <div style={{ marginTop: '30px' }}>
-            <h3 style={{ display: 'inline-block', width: '110px' }}>{lan.zongjia}: </h3>
-            <h3 style={{ display: 'inline-block' }}>{pay_total_price}</h3>
+            <h3 className={style.spanWidthL}>{lan.zongjia}:</h3>
+            <h3 className={style.spanWidthR}>{pay_total_price}</h3>
           </div>
           {
             cod ?
               <div>
-                <h3 style={{ display: 'inline-block', width: '110px' }}>{lan.CODyingfu}: </h3>
-                <h3 style={{ display: 'inline-block' }}>{options.cod_pay_money }</h3>
+                <h3 className={style.spanWidthL}>{lan.CODyingfu}: </h3>
+                <h3 className={style.spanWidthR}>{options.cod_pay_money }</h3>
               </div>
               : null
           }
         </div>
       </div>
-      <Card title={lan.jiaoyijulu} style={{ maxWidth: '1200px' }}>
+      <Card
+        title={lan.jiaoyijulu}
+      //  style={{ maxWidth: '1200px' }}
+      >
         {
 
           log.map(({ pay_time, pay_way: pw, tran_no, merchant }) => (
             <div key={tran_no} className={style.payLog}>
-              <span style={cardSpanStyle}>{pay_time}</span>
-              <span style={cardSpanStyle}>{pw}</span>
+              <span className={style.paymentInline}>{pay_time}</span>
+              <span className={style.paymentInline}>{pw}</span>
               {
-                !!merchant && <span style={cardSpanStyle}>{merchant}</span>
+                !!merchant && <span className={style.paymentInline}>{merchant}</span>
               }
-              <span style={cardSpanStyle}>{tran_no}</span>
+              <span className={style.paymentInline}>{tran_no}</span>
             </div>
           ))
         }
