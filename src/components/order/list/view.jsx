@@ -68,7 +68,6 @@ class orderList extends Component {
                 }
                 return dispatch(remarkSave(remarkModal.order_id, remarkModal.remark));
               }}
-                 // dataSource.order_id
               style={{ marginRight: '20px' }}
             >
               {__('common.order_operation7')}
@@ -80,7 +79,7 @@ class orderList extends Component {
         </Modal>
         {/* 换货 */}
         <ChnageGoods {...this.props} />
-        {/* 标签 */}
+        {/* 订单标记 */}
         <MarkTag {...this.props} />
         <Pagination
           total={total}

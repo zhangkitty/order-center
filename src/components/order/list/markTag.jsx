@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Modal, Radio, Input } from 'antd';
+import { Modal, Radio, Input, message } from 'antd';
 import { change, updateOrderTag } from './action';
 
 import styles from './style.css';
 
+const star = (<span style={{ color: 'red' }}>*</span>);
 const RG = Radio.Group;
 const TextArea = Input.TextArea;
 const orderTagName = [
@@ -15,13 +16,22 @@ const orderTagName = [
 const MarkTag = ({ markTag, dispatch }) => (
   <Modal
     visible={markTag.markTagVisible}
-    onOk={() => dispatch(updateOrderTag(markTag))}
+    onOk={() => {
+      if (!markTag.is_trouble) {
+        return message.warning(__('common.submitTitle4'));
+      } else if (!markTag.remark) {
+        return message.warning(__('common.submitTitle5'));
+      } else if (markTag.remark.trim().length < 1) {
+        return message.warning(__('common.submitTitle5'));
+      }
+      return dispatch(updateOrderTag(markTag));
+    }}
     onCancel={() => dispatch(change('markTag', assign({}, markTag, { markTagVisible: false })))}
     okText={__('common.submitName')}
     cancelText={__('common.submitName1')}
   >
     <div className={styles.troubleBg}>
-      <span>{__('common.title')}</span>
+      <span>{star}{__('common.title')}</span>
       <div className={styles.troubleContent}>
         <RG
           options={orderTagName.map((v, i) => ({ label: v, value: i + 1 }))}
@@ -29,7 +39,7 @@ const MarkTag = ({ markTag, dispatch }) => (
           onChange={e => dispatch(change('markTag', assign({}, markTag, { is_trouble: e.target.value })))}
         />
       </div>
-      <span>{__('common.title1')}</span>
+      <span>{star}{__('common.title1')}</span>
       <TextArea
         className={styles.troubleContent}
         autosize={{ minRows: 2, maxRows: 6 }}

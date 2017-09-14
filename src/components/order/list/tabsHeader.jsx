@@ -51,8 +51,8 @@ class TabsHeader extends Component {
     return (current && current.valueOf() < moment(paytimeStart).valueOf());
   }
   disabledDateHigh(current) {
-    const { paytimeStart } = this.props.queryString2;
-    return (current && current.valueOf() < moment(paytimeStart).valueOf());
+    const { paytimeStart2 } = this.props.queryString2;
+    return (current && current.valueOf() < moment(paytimeStart2).valueOf());
   }
   disabledDateHigh2(current) {
     const { handleTimeStart } = this.props.queryString2;
@@ -95,7 +95,7 @@ class TabsHeader extends Component {
                 className={styles.filterBg}
                 onSubmit={(e) => {
                   e.preventDefault();
-                  const temp = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix()
+                  const temp = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix();
                   if (!paytimeStart || !paytimeEnd) {
                     return message.warning(__('common.submitTitle1'));
                   } else if (moment(paytimeStart).valueOf() > moment(paytimeEnd).valueOf()) {

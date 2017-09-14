@@ -70,6 +70,9 @@ module.exports = {
   submitTitle: '缺少SKU',    // 提交提示
   submitTitle1: '缺少时间',
   submitTitle2: '确定删除换货吗？',
+  submitTitle3: '缺少必填项',
+  submitTitle4: '缺少标记',
+  submitTitle5: '缺少备注',
   sagaTitle: '搜索失败: ',
   sagaTitle1: '高级搜索失败: ',
   sagaTitle2: '获取国家失败: ',
