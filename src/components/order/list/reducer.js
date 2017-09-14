@@ -116,10 +116,10 @@ const delChange = (data, oid, gid, sort) => data.map((v) => {
       order_goods: v.order_goods
         .map((d) => {
           if (d.order_goods_id === gid) {
-            return assign({}, d, { goods_status: 74 });
+            return assign({}, d, { goods_status: 74, is_replace: 3 });  // 删除换货，商品的状态
           }
           if (!flag && d.order_goods_sort === sort) {
-            return assign({}, d, { is_replace: 0 });
+            return assign({}, d, { is_replace: 0 }); // 被换全部删除后，改原商品状态
           }
           return d;
         }),

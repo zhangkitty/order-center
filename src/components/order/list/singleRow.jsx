@@ -11,15 +11,13 @@ import {
 
 import Styles from './style.css';
 
-const replaceGoods = (source, d, status) => {
+const replaceGoods = (source, d) => {
   const obj = {
     0: '',
     1: __('common.change1'),
     2: `(${d}${__('common.change2')})`,
+    3: `(${__('common.del_goods')})`,
   };
-  if (Number(status) === 74) {
-    return `(${__('common.del_goods')})`;
-  }
   return obj[source];
 };
 const showRisk = (a, b) => {
@@ -28,7 +26,7 @@ const showRisk = (a, b) => {
   }
   return null;
 };
-// 显示换货条件
+// 显示换货入口（商品状态）
 const changshow = {
   1: true,
   11: true,
@@ -175,7 +173,7 @@ const SingleRow = (props) => {
                 <a href={res.goods_url} target="_blank"> {d}</a>
                 <span style={{ color: '#ff0000', marginLeft: '10px' }}>
                   {
-                    replaceGoods(res.is_replace, res.replace_goods_sort, res.goods_status)
+                    replaceGoods(res.is_replace, res.replace_goods_sort) // res.goods_status
                   }
                 </span>
                 <p> {res.goods_attr}</p>
