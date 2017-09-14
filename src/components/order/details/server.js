@@ -177,6 +177,7 @@ export const initPriceInfo = (data)=>{
   })
 }
 export const getRefundRecordInfo = (data)=>{
+  console.log(data,'data')
   return fetch(`${modifyDiffRefund.getRefundRecordInfo}?record_id=${data.record_id}`,{
     method: 'GET'
   })

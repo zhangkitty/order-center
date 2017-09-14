@@ -5,34 +5,22 @@ import assign from 'object-assign';
 import * as TYPES from './types';
 import { under2Camal } from '../../../lib/camal';
 
+const chanelTypeTable = {
+  礼品卡: 0,
+  用户支付: 1,
+  钱包: 1,
+  溢出线下打款: 2,
+};
 
 const defaultState = {
   loading: false,
-  dataSource: {},
-  PriceInfo: {},
-  ReasonList: [],
-  orderId: null,
-  total_price: {},
-  gift_card_payment_price: {},
-  wallet_payment_price: {},
-  card_payment_price: {},
-  shipping_price: {},
-  shipping_insure_price: {},
-  point_payment_price: {},
-  coupon_payment_price: {},
-  order_can_be_refunded_price: {},
-  gift_card_can_be_refunded_price: {},
-  wallet_or_card_can_be_refunded_price: {},
-  refund_path_list: [],
-  input_list: [],
   ready: false,
-  submitValue: {
-    order_id: '',
-    refund_type: 2,
-    remark: '',
-    refund_paths: [],
-  },
-  active: true,
+  order_id: '',
+  refund_type: 2,
+  remark: '',
+  refundPaths: [],
+  orderPriceInfo: null,
+  reason: '',
 };
 const maxTypes = data => (
   {
@@ -43,6 +31,24 @@ const maxTypes = data => (
     4: (1.5 * parseInt(data.orderPriceInfo.totalPrice.priceUsd.amount, 10)),
   }
 );
+
+function changeChannelProp(refundPaths, { channel, key, val }) {
+  const type = refundPaths.find(item => item.refundPathId === channel).channelType;
+  return refundPaths.map((chan) => {
+    if (chan.refundPathId === channel) {
+      return assign({}, chan, {
+        [key]: val,
+      });
+    }
+    if (chan.channelType === type) {
+      return assign({}, chan, {
+        checked: false,
+      });
+    }
+    return chan;
+  });
+}
+
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT_REASONLIST:
@@ -70,42 +76,20 @@ const reducer = (state = defaultState, action) => {
         loading: false,
       });
     }
-    case TYPES.INIT_PRICEINFO_SUCCESS: {
+    case TYPES.INIT_PRICEINFO_SUCCESS:
       return assign({}, state, {
         ready: true,
-        dataSource: under2Camal(action.data),
+        refundPaths: action.data.orderRefundPathList.map(item => assign({}, item, {
+          channelType: chanelTypeTable[item.refundPathName],
+        })),
+        orderPriceInfo: action.data.orderPriceInfo,
         loading: false,
-        PriceInfo: action.data,
-        total_price: action.data.data.order_price_info.total_price,
-        gift_card_payment_price: action.data.data.order_price_info.gift_card_payment_price,
-        wallet_payment_price: action.data.data.order_price_info.wallet_payment_price,
-        card_payment_price: action.data.data.order_price_info.card_payment_price,
-        shipping_price: action.data.data.order_price_info.shipping_price,
-        shipping_insure_price: action.data.data.order_price_info.shipping_insure_price,
-        point_payment_price: action.data.data.order_price_info.point_payment_price,
-        coupon_payment_price: action.data.data.order_price_info.coupon_payment_price,
-        order_can_be_refunded_price: action.data.data.order_price_info.order_can_be_refunded_price,
-        gift_card_can_be_refunded_price: action.data.data.order_price_info.gift_card_can_be_refunded_price,
-        wallet_or_card_can_be_refunded_price: action.data.data.order_price_info.wallet_or_card_can_be_refunded_price,
-        refund_path_list: action.data.data.order_refund_path_list,
-        submitValue: assign({}, state.submitValue, {
-          refundPaths: under2Camal(action.data.data).orderRefundPathList.map(v => ({
-            refundTypeId: v.refundPathId,
-            isShow: v.isShow,
-            refundAmount: v.priceUsd.amount,
-            refundAmount2: v.priceWithExchangeRate.amount,
-            rate: v.priceUsd.rate,
-            rate2: v.priceWithExchangeRate.rate,
-            currency: v.priceWithExchangeRate.symbol,
-            check: false,
-            max: maxTypes(under2Camal(action.data.data))[v.refundPathId],
-            refund_account_type_list: v.refundAccountTypeList,
-          })),
-        }),
       });
-    }
+    case TYPES.CHANGE_CHANNEL_VALUE:
+      return assign({}, state, {
+        refundPaths: changeChannelProp(state.refundPaths, action),
+      });
     case TYPES.CHANGE:
-      console.log(action,'action')
       return assign({}, state, {
         [action.key]: action.val,
       });
@@ -118,6 +102,11 @@ const reducer = (state = defaultState, action) => {
     case TYPES.ACTIVATION:
       return assign({}, state, {
         active: false,
+      });
+
+    case TYPES.RESET:
+      return assign({}, state, {
+        remark: '',
       });
 
     default:

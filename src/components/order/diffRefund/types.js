@@ -20,3 +20,6 @@ export const SUBMIT = `${prefix}submit`;
 export const SUBMIT_CHANGE = `${prefix}submit_change`;
 export const ACTIVATION = `${prefix}activation`;
 export const CHANGE = `${prefix}change`;
+export const RESET = `${prefix}reset`;
+export const PATHCHANGE = `${prefix}pathchange`;
+export const CHANGE_CHANNEL_VALUE = `${prefix}CHANGE_CHANNEL_VALUE`;

@@ -51,3 +51,19 @@ export const change = (key, val) => ({
   val,
 });
 
+export const reset = () => ({
+  type: TYPES.RESET,
+});
+
+export const pathchange = (k, obj) => ({
+  type: TYPES.PATHCHANGE,
+  k,
+  obj,
+});
+
+export const changeChannelValue = (channel, key, val) => ({
+  type: TYPES.CHANGE_CHANNEL_VALUE,
+  channel,
+  key,
+  val,
+});

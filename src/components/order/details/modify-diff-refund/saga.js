@@ -13,7 +13,6 @@ import {
 } from './action';
 
 function* getdataSaga(action) {
-  console.log(action, 'actiontiontitjklkjskja;ljf;lk');
   const data = yield getRefundRecordInfo(action.req);
   console.log(data, 'data');
   if (!data || data.code !== 0) {

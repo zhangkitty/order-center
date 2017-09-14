@@ -14,10 +14,9 @@ import { getdata, initPriceInfo } from './action';
 class modifyDiffRefund extends Component {
   componentWillMount() {
     const {
-     dispatch, params: { id }, ready,
+     dispatch, params: { record_id }, ready,
     } = this.props;
-    dispatch(getdata({ record_id: id }));
-    dispatch(initPriceInfo({ order_id: 5185606 }));
+    dispatch(getdata({ record_id: record_id }));
   }
   render() {
     const { ready, dispatch } = this.props;
@@ -40,7 +39,6 @@ modifyDiffRefund.PropTypes = {
   dispatch: PropTypes.func,
   params: PropTypes.shape(),
   ready: PropTypes.number,
-
 };
 
 
