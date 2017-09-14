@@ -7,10 +7,10 @@ import { getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSe
 
 // TODO: lan
 const lan = {
-  ofail: '操作失败',
-  osucess: '操作成功',
-  fail: '获取数据失败',
-  part: '加入部分发队列成功',
+  ofail: __('order.entry.submit_info'),
+  osucess: __('order.entry.submit_info1'),
+  fail: __('order.entry.submit_info6'),
+  part: __('order.entry.submit_info7'),
 };
 /* eslint prefer-const: 0 */
 /* eslint consistent-return: 0 */

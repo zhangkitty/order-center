@@ -130,6 +130,6 @@ module.exports = {
   submit_info3: '加入部分发队列成功',
   submit_info4: '上传成功',
   submit_info5: '上传失败',
-  submit_info6: '',
-  submit_info7: '',
+  submit_info6: '获取数据失败',
+  submit_info7: '加入部分发队列成功',
 };

@@ -12,7 +12,7 @@ import Logs from './logs';
 import styles from './style.css';
 
 const TP = Tabs.TabPane;
-// TODO: lan
+
 const info = props => [{
   name: __('order.entry.basic'),
   key: 'base',
