@@ -513,18 +513,18 @@ const reducer = (state = defaultState, action) => {
           }
         }),
       });
-    case TYPES.BATCH_DELETE_SUCCESS:    // 批量平台取消
+    case TYPES.BATCH_DELETE_SUCCESS:    // 批量平台取消,删除订单
       return assign({}, state, {
-        dataSource: state.dataSource.map(v => {
-          if (action.data.order_ids.indexOf(v.order_id) > -1) {
-           // return assign({}, v.splice());
-            return assign({}, v, {
-              order_status_title: '已取消',
-              order_status: '14',
-            });
-          } else {
-            return v;
-          }
+        dataSource: state.dataSource.filter(v => {
+          return action.data.order_ids.indexOf(v.order_id) < 0;
+          // if (action.data.order_ids.indexOf(v.order_id) > -1) {
+          //   return assign({}, v, {
+          //     order_status_title: '已取消',
+          //     order_status: '14',
+          //   });
+          // } else {
+          //   return v;
+          // }
         }),
       });
     case TYPES.BATCH_PART_SUCCESS:    // 批量部分发

@@ -5,7 +5,6 @@ import * as TYPES from './types';
 import { commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
 import { getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer } from '../server';
 
-// TODO: lan
 const lan = {
   ofail: __('order.entry.submit_info'),
   osucess: __('order.entry.submit_info1'),

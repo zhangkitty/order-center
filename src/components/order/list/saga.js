@@ -275,7 +275,7 @@ function* batchCheckSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
-  message.success(__('common.sagaTitle23'));
+  message.success(__('common.sagaTitle27'));
   return yield put(batchCheckSuccess(action.data));
 }
 
@@ -285,7 +285,7 @@ function* batchDeleteSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
-  message.success(__('common.sagaTitle23'));
+  message.success(__('common.sagaTitle29'));
   return yield put(batchDeleteSuccess(action.data));
 }
 
@@ -295,7 +295,7 @@ function* batchPartSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
-  message.success(__('common.sagaTitle23'));
+  message.success(__('common.sagaTitle28'));
   return yield put(batchPartSuccess(action.data));
 }
 

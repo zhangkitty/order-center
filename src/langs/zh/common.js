@@ -96,10 +96,13 @@ module.exports = {
   sagaTitle20: '删除换货失败: ',
   sagaTitle21: '删除换货成功',
   sagaTitle22: '操作失败: ',
-  sagaTitle23: '操作成功',
+  sagaTitle23: '操作成功!',
   modifyDiffRefund: '修改退款详情',
   sagaTitle24: '必须勾选商品',
   sagaTitle25: '提交成功!',
   sagaTitle26: '提交失败:',
+  sagaTitle27: '加入批量审核队列成功!',
+  sagaTitle28: '加入部分发队列成功!',
+  sagaTitle29: '操作成功', // 平台取消成功提示
   contentTitle: '暂无数据',
 };

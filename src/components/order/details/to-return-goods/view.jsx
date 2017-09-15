@@ -6,21 +6,21 @@ import { Spin, Table, Checkbox, Upload, Button, Radio, Select, Modal, message } 
 import { commit, getInfo, batchChoose, infoCommit, save } from './action';
 
 const reqImg = require.context('../../images');
-// TODO: lan
+
 const lan = {
-  batch: '批量选择退货原因',
-  goods: '退货商品',
-  reason: '退货原因',
-  num: '退货数量',
-  pic: '照片',
-  upload: '上传图片',
-  path: '退款路径',
-  type: '退货运单类型',
-  warehouse: '退货商品入仓',
-  save: '提交',
-  needReason: '缺少原因',
-  needPic: '缺少照片',
-  need: '缺少必填项',
+  batch: __('order.entry.return_goods1'),
+  goods: __('order.entry.return_goods2'),
+  reason: __('order.entry.return_goods3'),
+  num: __('order.entry.return_goods4'),
+  pic: __('order.entry.return_goods5'),
+  upload: __('order.entry.return_goods6'),
+  path: __('order.entry.return_goods7'),
+  type: __('order.entry.return_goods8'),
+  warehouse: __('order.entry.return_goods9'),
+  save: __('order.entry.return_goods10'),
+  needReason: __('order.entry.submit_title3'),
+  needPic: __('order.entry.submit_title4'),
+  need: __('order.entry.submit_title5'),
 };
 const CG = Checkbox.Group;
 const RG = Radio.Group;
@@ -153,7 +153,7 @@ class ToReturnGoods extends Component {
                                   { img_thumb: j.img_thumb.filter(d => d !== v) })
                                 : j
                             ))))}
-                          >删除</Button>
+                          >{__('order.entry.order_return_16')}</Button>
                         </div>
                       ))
                     }
