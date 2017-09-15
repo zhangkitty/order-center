@@ -64,13 +64,6 @@ const Payment = (
                 <span className={style.spanWidthL}>{v.name}: </span>
                 <span className={style.spanWidthR}>
                   {v.value}
-                  {
-                    v.name === lan.zhehouzongjia ?
-                      <Popover content={`${lan.zhehouzongjia} = ${lan.goodszongjia} - ${lan.youhuijuanzhekoe} -${lan.jifenzhekoe} `}>
-                        <Button shape="circle" icon="question-circle-o" style={{ border: 'none' }} />
-                      </Popover>
-                      : null
-                  }
                 </span>
               </div>
             ))
