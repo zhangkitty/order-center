@@ -10,7 +10,7 @@ import {
   search, searchHigh, commit, commit2,
   initCountry, initSite, initPayment, initTrouble,
   initMember, initOrder, initCancel, initGoods, change,
-  batchOperate,
+  batchOperate, batchCheck, batchDelete, batchPart,
 } from './action';
 
 import styles from './style.css';
@@ -571,13 +571,14 @@ class TabsHeader extends Component {
             {/*  批量操作 */}
             <TabItem tab={__('order.name.search3')} key="3">
               <div className={styles.batchBg}>
+                {/* 全选，取消 */}
                 <Button
                   onClick={() => dispatch(change('batchChooseOrder', dataSource.map(v => v.order_id)))}
                 >{__('common.allChoose')}</Button>
                 <Button
                   onClick={() => dispatch(change('batchChooseOrder', []))}
                 >{__('common.cancel')}</Button>
-
+                {/* 批量部分发 */}
                 <span>{__('common.batchection')}</span>
                 <Select
                   style={{ width: '150px', marginRight: '5px' }}
@@ -590,17 +591,38 @@ class TabsHeader extends Component {
                   <Option key="0">{__('common.west')}</Option>
                 </Select>
                 <Button
-                  onClick={() => dispatch(batchOperate('/Order/partDelivery', {
-                    order_ids: batchChooseOrder.map(v => Number(v)),
-                    inventory_type: Number(partDeliveryBase),
-                  }))}
+                  onClick={() => {
+                    if (!batchChooseOrder || !partDeliveryBase) {
+                      return message.warning(__('common.submitTitle3'));
+                    } else if (batchChooseOrder.length < 1) {
+                      return message.warning(__('common.submitTitle3'));
+                    }
+                    return dispatch(batchPart('/Order/partDelivery', {
+                      // order_ids: batchChooseOrder.map(v => Number(v)),
+                      order_ids: batchChooseOrder.join(','),
+                      inventory_type: Number(partDeliveryBase),
+                    }));
+                  }}
                 >{__('common.batchection')} </Button>
 
+                {/* 平台取消订单 */}
                 <Button
-                  onClick={() => dispatch(batchOperate('/Order/orderDelete', { order_ids: batchChooseOrder.join(',') }))}
+                  onClick={() => {
+
+                    if (batchChooseOrder.length < 1) {
+                      return message.warning(__('common.submitTitle3'));
+                    }
+                    return dispatch(batchDelete('/Order/orderDelete', { order_ids: batchChooseOrder.join(',') }));
+                  }}
                 > {__('common.platform')}</Button>
+                {/* 批量审核 */}
                 <Button
-                  onClick={() => dispatch(batchOperate('/Order/orderBatchCheck', { order_ids: batchChooseOrder.join(',') }))}
+                  onClick={() => {
+                    if (batchChooseOrder.length < 1) {
+                      return message.warning(__('common.submitTitle3'));
+                    }
+                    return dispatch(batchCheck('/Order/orderBatchCheck', { order_ids: batchChooseOrder.join(',') }));
+                  }}
                 > {__('common.review')}</Button>
               </div>
             </TabItem>
@@ -618,7 +640,7 @@ TabsHeader.propTypes = {
   queryString2: PropTypes.shape(),   // 高级搜索
   fetchCountry: PropTypes.arrayOf(PropTypes.shape()),  // 国家
   dataSource: PropTypes.arrayOf(PropTypes.shape()),  //
-  batchChooseOrder: PropTypes.arrayOf(PropTypes.number),  //
+  batchChooseOrder: PropTypes.arrayOf(PropTypes.string),  //
   fetchSite: PropTypes.arrayOf(PropTypes.shape()),   // 站点
   fetchPayment: PropTypes.arrayOf(PropTypes.shape()),     // 支付方式
   fetchTrouble: PropTypes.arrayOf(PropTypes.shape()),      // 问题件类型

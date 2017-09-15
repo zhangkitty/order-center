@@ -14,6 +14,7 @@ import {
   goodSizeSer, changeGoodsSer,
   batchOperateSer, getRisk, cancelTroubleTag,
   updateOrderTagSer, delChangeSer,
+  batchCheckSer, batchDeleteSer, batchPartSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
@@ -27,6 +28,7 @@ import {
   goodSizeFail, goodSizeSuccess, changeGoodsFail, changeGoodsSuccess,
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
   delChangeFail, delChangeSuccess,
+  batchCheckSuccess, batchDeleteSuccess, batchPartSuccess,
 } from './action';
 
 import * as TYPES from './types';
@@ -267,6 +269,37 @@ function* updateOrderTagSaga(action) {
   return yield put(updateOrderTagSuccess(action.data));
 }
 
+// 批量审核
+function* batchCheckSaga(action) {
+  const data = yield batchCheckSer(action.url, action.data);
+  if (!data || data.code !== 0) {
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
+  }
+  message.success(__('common.sagaTitle23'));
+  return yield put(batchCheckSuccess(action.data));
+}
+
+// 批量平台取消
+function* batchDeleteSaga(action) {
+  const data = yield batchDeleteSer(action.url, action.data);
+  if (!data || data.code !== 0) {
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
+  }
+  message.success(__('common.sagaTitle23'));
+  return yield put(batchDeleteSuccess(action.data));
+}
+
+// 批量部分发
+function* batchPartSaga(action) {
+  const data = yield batchPartSer(action.url, action.data);
+  if (!data || data.code !== 0) {
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
+  }
+  message.success(__('common.sagaTitle23'));
+  return yield put(batchPartSuccess(action.data));
+}
+
+
 export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
   yield takeLatest(TYPES.SEARCH_HIGH, searchHighSaga);
@@ -291,4 +324,7 @@ export default function* () {
   yield takeLatest(TYPES.CANCEL_RISK, cancelRiskSaga);
   yield takeLatest(TYPES.CANCEL_TROUBLE_TAG, cancelTroubleTagSaga);
   yield takeLatest(TYPES.UPDATE_ORDER_TAG, updateOrderTagSaga);
+  yield takeLatest(TYPES.BATCH_CHECK, batchCheckSaga);
+  yield takeLatest(TYPES.BATCH_DELETE, batchDeleteSaga);
+  yield takeLatest(TYPES.BATCH_PART, batchPartSaga);
 }

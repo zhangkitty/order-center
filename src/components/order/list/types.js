@@ -106,6 +106,20 @@ export const DEL_CHANGE_FAIL = `${prefix}del_change_fail`;
 
 // 批量操作
 export const BATCH_OPERATE = `${prefix}batch_operate`;
+export const BATCH_OPERATE_SUCCESS = `${prefix}batch_operate_success`;
+
+// 批量审核
+export const BATCH_CHECK = `${prefix}batch_check`;
+export const BATCH_CHECK_SUCCESS = `${prefix}batch_check_success`;
+
+// 批量平台取消
+export const BATCH_DELETE = `${prefix}batch_delete`;
+export const BATCH_DELETE_SUCCESS = `${prefix}batch_delete_success`;
+
+// 批量部分发
+export const BATCH_PART = `${prefix}batch_part`;
+export const BATCH_PART_SUCCESS = `${prefix}batch_part_success`;
+
 // 取消风控
 export const CANCEL_RISK = `${prefix}cancel_risk`;
 export const CANCEL_RISK_SUCCESS = `${prefix}cancel_risk_success`;

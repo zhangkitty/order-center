@@ -321,3 +321,36 @@ export const updateOrderTagSuccess = data => ({
   type: TYPES.UPDATE_ORDER_TAG_SUCCESS,
   data,
 });
+
+// 批量审核
+export const batchCheck = (url, data) => ({
+  type: TYPES.BATCH_CHECK,
+  url,
+  data,
+});
+export const batchCheckSuccess = data => ({
+  type: TYPES.BATCH_CHECK_SUCCESS,
+  data,
+});
+
+// 批量平台取消
+export const batchDelete = (url, data) => ({
+  type: TYPES.BATCH_DELETE,
+  url,
+  data,
+});
+export const batchDeleteSuccess = data => ({
+  type: TYPES.BATCH_DELETE_SUCCESS,
+  data,
+});
+
+// 批量部分发
+export const batchPart = (url, data) => ({
+  type: TYPES.BATCH_PART,
+  url,
+  data,
+});
+export const batchPartSuccess = data => ({
+  type: TYPES.BATCH_PART_SUCCESS,
+  data,
+});

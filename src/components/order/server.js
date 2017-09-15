@@ -233,6 +233,7 @@ export const goodsRefundSubmit = d => (
   })
 );
 
+// 批量操作
 export const batchOperateSer = (url, data) => (
   fetch(url, {
   method: 'POST',
@@ -254,5 +255,29 @@ export const updateOrderTagSer = (data) => (
   fetch(list.cancelTroubleTag, {
     method: 'POST',
     body: JSON.stringify(assign({}, data, { type: 1, markTagVisible: Symbol('no') }))
+  })
+);
+
+// 批量审核
+export const batchCheckSer = (url, data) => (
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+);
+
+// 批量平台取消
+export const batchDeleteSer = (url, data) => (
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+);
+
+// 批量部分发
+export const batchPartSer = (url, data) => (
+  fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
   })
 );

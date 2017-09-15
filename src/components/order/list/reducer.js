@@ -31,8 +31,8 @@ const defaultState = {
     shippingNo: null,  // 发货号
     referenceNumber: null,    // 包裹号
     telephone: null,    // 手机号
-    paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:ss'),   // 付款时间
-    paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD HH:mm:ss'),          // 付款时间
+    paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD'),   // 付款时间
+    paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD'),          // 付款时间
     siteFrom: null,   // 站点
     countryName: null,   // 国家
     txnId: null,   // 付款流水号
@@ -46,8 +46,8 @@ const defaultState = {
   queryString2: {
     pageSize: 10,
     pageNumber: 1,
-    paytimeStart2: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD HH:mm:ss'),   // 付款时间
-    paytimeEnd2: null,          // 付款时间
+    paytimeStart2: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD'),   // 付款时间
+    paytimeEnd2: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD'),          // 付款时间
     siteFrom: null,   // 站点
     countryName: null,   // 国家
     paymentMethod: null,   // 支付方式
@@ -98,7 +98,7 @@ const cgsReducer = (dataSource, orderId, result) => {
       order_goods: [
         ...dataSource[index].order_goods.map(v => (
           v.order_goods_sort === result.replace_goods_sort ?
-            assign({}, v, { is_replace: 1 }) : v
+            assign({}, v, {is_replace: 1}) : v
         )),
         result,
       ],
@@ -138,7 +138,7 @@ const reducer = (state = defaultState, action) => {
         }),
       });
     case TYPES.COMMIT_HIGH:
-     // console.log(action, 'COMMIT_HIGH');
+      // console.log(action, 'COMMIT_HIGH');
       return assign({}, state, {
         queryString2: assign({}, state.queryString2, {
           [action.key]: action.val,
@@ -156,7 +156,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.OPEN_MODAL:  // add remark
       return assign({}, state, {
-       // clickVisible: false,
+        // clickVisible: false,
         visible: true,
         remarkModal: {
           order_id: action.orderId,
@@ -363,7 +363,7 @@ const reducer = (state = defaultState, action) => {
         dataSource: state.dataSource.map(v => (
           v.order_id === action.data.orderId ?
             assign({}, v, {
-             // transhRemark: action.mark,
+              // transhRemark: action.mark,
               have_remark: 1,
             }) : v
         )),
@@ -384,7 +384,7 @@ const reducer = (state = defaultState, action) => {
         load: false,
         dataSource: state.dataSource.map(v => (
           v.order_id === action.id ?
-            assign({}, v, { transhRemark: action.data }) : v
+            assign({}, v, {transhRemark: action.data}) : v
         )),
       });
     case TYPES.LOGISITICS_REMARK_SAVE:
@@ -468,18 +468,18 @@ const reducer = (state = defaultState, action) => {
     case TYPES.CANCEL_RISK_SUCCESS:
       return assign({}, state, {
         dataSource: state.dataSource.map(v => (
-          v.order_id === action.id ? assign({}, v, { cancelRiskDesc: action.data }) : v
+          v.order_id === action.id ? assign({}, v, {cancelRiskDesc: action.data}) : v
         )),
       });
     case TYPES.CANCEL_TROUBLE_TAG_SUCCESS:
       return assign({}, state, {
         dataSource: state.dataSource.map(v => (
-          v.order_id === action.oid ? assign({}, v, { is_trouble: 0 }) : v
+          v.order_id === action.oid ? assign({}, v, {is_trouble: 0}) : v
         )),
       });
     case TYPES.MARK_TAG:
       return assign({}, state, {
-        markTag: { order_id: action.oid, markTagVisible: true },
+        markTag: {order_id: action.oid, markTagVisible: true},
       });
     case TYPES.UPDATE_ORDER_TAG_SUCCESS:    // 标记问题件更新成功，备注(have_remark) 状态 改为1
       return assign({}, state, {
@@ -490,7 +490,7 @@ const reducer = (state = defaultState, action) => {
               have_remark: 1,
             }) : v
         )),
-        markTag: assign({}, state.markTag, { markTagVisible: false }),  // have_remark === 1,  have_remark_admin === 1
+        markTag: assign({}, state.markTag, {markTagVisible: false}),  // have_remark === 1,  have_remark_admin === 1
       });
     case TYPES.DEL_CHANGE:
       return state;
@@ -499,6 +499,46 @@ const reducer = (state = defaultState, action) => {
     case TYPES.DEL_CHANGE_SUCCESS:
       return assign({}, state, {
         dataSource: delChange(state.dataSource, action.oid, action.gid, action.sort),
+      });
+    case TYPES.BATCH_CHECK_SUCCESS:    // 批量审核
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => {
+          if (action.data.order_ids.indexOf(v.order_id) > -1) {
+            return assign({}, v, {
+              order_status_title: '已审核',
+              order_status: '2',
+            });
+          } else {
+            return v;
+          }
+        }),
+      });
+    case TYPES.BATCH_DELETE_SUCCESS:    // 批量平台取消
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => {
+          if (action.data.order_ids.indexOf(v.order_id) > -1) {
+           // return assign({}, v.splice());
+            return assign({}, v, {
+              order_status_title: '已取消',
+              order_status: '14',
+            });
+          } else {
+            return v;
+          }
+        }),
+      });
+    case TYPES.BATCH_PART_SUCCESS:    // 批量部分发
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => {
+          if (action.data.order_ids.indexOf(v.order_id) > -1) {
+            return assign({}, v, {
+              order_status_title: '部分发货',
+              order_status: '4',
+            });
+          } else {
+            return v;
+          }
+        }),
       });
     default:
       return state;
