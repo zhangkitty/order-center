@@ -14,17 +14,6 @@ const defaultState = {
   },
 };
 
-
-const maxTypes = data => (
-  {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: parseInt(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount, 10) +
-    (0.5 * parseInt(data.orderPriceInfo.totalPrice.priceUsd.amount, 10)),
-    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-    4: (0.5 * parseInt(data.orderPriceInfo.totalPrice.priceUsd.amount, 10)),
-  }
-);
-
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.GET_DATA:
@@ -33,10 +22,22 @@ const reducer = (state = defaultState, action) => {
       });
 
     case TYPES.GET_DATA_SUCCESS:
+      console.log(action)
       return assign({}, state, {
         dataSource: under2Camal(action.res.data),
         ready: true,
       });
+
+    // case TYPES.INIT_PRICEINFO:
+    //   return assign({}, state, {
+    //     loading: true,
+    //   });
+    //
+    // case TYPES.INIT_PRICEINFO_SUCCESS:
+    //   return assign({}, state, {
+    //     dataSource: action.data.data,
+    //     ready: true,
+    //   });
     default:
       return state;
   }

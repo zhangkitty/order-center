@@ -6,7 +6,6 @@ const lan = {
 }
 
 const Price = ({dataSource,submitValue,dispatch})=>{
-  console.log(dataSource,'xxxxxx')
   return(
     <div>
       <div>{lan.need_a_refund_amount}</div>

@@ -24,7 +24,7 @@ const priceTypes = (data, type = 'warning') => (
   />
 );
 
-const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
+const SumOfMoney = ({ orderPriceInfo }) => {
   const {
     totalPrice: {
       priceUsd: { amount: totalPrice },
@@ -163,7 +163,6 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
           refundPrice.map(v => priceTypes(v, 'error'))
         }
       </div>
-      <button>{__('order.modify-diff-refund.cancel_refund')}</button>
     </div>
   );
 };
