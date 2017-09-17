@@ -46,6 +46,7 @@ class EditAddress extends Component {
       telephone,
       country_value,
       national_id,
+      father_name,
     } = submitValue;
     if (ready) {
       return (
@@ -95,10 +96,11 @@ class EditAddress extends Component {
           {
             country_value === 'RU' &&
             <div>
-              {/* TODO: Father Name ??? */}
               <span className={style.spanWidth}>{Star}{__('order.entry.address_father')}:</span>
               <Input
+                value={father_name}
                 required
+                onChange={e => dispatch(infoCommit('father_name', e.target.value))}
                 style={{ width: '30%' }}
               />
             </div>
@@ -255,7 +257,6 @@ class EditAddress extends Component {
             country_value === 'SA' &&
             <div>
               <span className={style.spanWidth}>{__('order.entry.address_national')}:</span>
-              {/* TODO: need National ID */}
               <Input
                 required
                 style={{ width: '30%' }}
