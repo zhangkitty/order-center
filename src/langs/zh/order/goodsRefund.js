@@ -25,4 +25,6 @@ module.exports = {
   get_goodsinfo_fail: '获取商品信息失败',
   get_backmoney_fail: '获取退款原因信息',
   submit_fail: '提交失败',
+  please_select_a_refund_account: '请选择退款账户',
+  Please_enter_a_user_refund_account: '请输入用户退款账户',
 };

@@ -3,6 +3,7 @@ import * as TYPES from './types';
 
 const defaultState = {
   ready: false,
+  provinceLoad: false,
   orderId: '',
   country_list: [],
   cities: [],
@@ -53,6 +54,10 @@ export default (state = defaultState, action) => {
     case TYPES.SAVE:
       return assign({}, state, {
         load: true,
+      });
+    case TYPES.GET_CITY:
+      return assign({}, state, {
+        provinceLoad: true,
       });
     case TYPES.INFO_COMMIT:
       return assign({}, state, {

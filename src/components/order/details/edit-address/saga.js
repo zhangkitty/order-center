@@ -21,8 +21,10 @@ function* getInfoSaga(action) {
 function* getCitySaga(action) {
   const data = yield getcitySer(action.v);
   if (!data || data.code !== 0) {
+    yield put(commit('provinceLoad', false));
     return yield put(commit('cities', []));
   }
+  yield put(commit('provinceLoad', false));
   return yield put(commit('cities', data.data.provinces || []));
 }
 function* saveSaga(action) {

@@ -27,3 +27,13 @@
     display: flex;
     margin-top: 20px;
 }
+.flex_cloumn {
+    display: flex; flex-direction: column;
+}
+.flex_cloumn_top {
+    display: flex; flex-direction: column;margin-top: 5px;
+}
+.flex_center {
+    display: flex;
+    align-items: center;
+}
