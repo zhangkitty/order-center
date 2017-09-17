@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Radio, Input, Checkbox } from 'antd';
+import { Radio, Input, Checkbox, Select } from 'antd';
 import { subchange } from './action';
 import style from './style.css';
 
 const Rg = Radio.Group;
-
+const Option = Select.Option;
 const space = {
   display: 'flex',
   marginTop: '15px',
@@ -62,7 +62,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
             submitValue.refundPaths.map((v, i) => (
               v.isShow ?
                 <Rg
-                  style={i === 0 ? { display: 'flex', alignItems: 'center' } : { display: 'flex', marginTop: '5px', alignItems: 'center' }}
+                  className={i === 0 ? style.flex_cloumn : style.flex_cloumn_top}
                   key={v.refundTypeId}
                   value={submitValue.radiochoose}
                   onChange={(e) => {
@@ -78,46 +78,88 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                     return dispatch(subchange('refundPaths', result));
                   }}
                 >
-                  {
-                    v.refundTypeId > 1 ?
-                      <Radio value={v.refundTypeId} />
-                      :
-                      <Checkbox
+
+                  <div className={style.flex_center}>
+                    <div style={{ width: 150 }}>
+                      {
+                          v.refundTypeId > 1 ?
+                            <Radio value={v.refundTypeId} />
+                            :
+                            <Checkbox
+                              onChange={e => dispatch(subchange('refundPaths', [
+                                ...submitValue.refundPaths.slice(0, i),
+                                assign({}, submitValue.refundPaths[i], { check: e.target.checked }),
+                                ...submitValue.refundPaths.slice(i + 1),
+                              ]))}
+                            />
+                        }
+
+                      <span style={inline}>{types[v.refundTypeId]}</span>
+
+
+                      <span style={spanWidth}>$</span>
+                    </div>
+                    <div>
+                      <Input
+                        style={{ width: '150px' }}
+                        value={v.refundAmount}
                         onChange={e => dispatch(subchange('refundPaths', [
                           ...submitValue.refundPaths.slice(0, i),
-                          assign({}, submitValue.refundPaths[i], { check: e.target.checked }),
+                          assign({}, submitValue.refundPaths[i], {
+                            refundAmount: e.target.value,
+                            refundAmount2: Number(Number(e.target.value) * v.rate).toFixed(2),
+                          }),
                           ...submitValue.refundPaths.slice(i + 1),
                         ]))}
                       />
+                      <span style={spanWidth}>{v.currency}</span>
+                      <Input
+                        style={{ width: '150px' }}
+                        value={v.refundAmount2}
+                        onChange={e => dispatch(subchange('refundPaths', [
+                          ...submitValue.refundPaths.slice(0, i),
+                          assign({}, submitValue.refundPaths[i], {
+                            refundAmount: Number(Number(e.target.value) * v.rate2).toFixed(2),
+                            refundAmount2: e.target.value,
+                          }),
+                          ...submitValue.refundPaths.slice(i + 1),
+                        ]))}
+                      />
+                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${v.max}</span>
+                    </div>
+                  </div>
+                  {
+                    !!v.refundAccountTypeList.length &&
+                    <div style={{ margin: '10px 150px' }}>
+                      <Select
+                        placeholder={__('order.goodsRefund.please_select_a_refund_account')}
+                        style={{ width: 150 }}
+                        value={`${v.refund_method || ''}`}
+                        onChange={va => dispatch(subchange('refundPaths', [
+                          ...submitValue.refundPaths.slice(0, i),
+                          assign({}, submitValue.refundPaths[i], { refund_method: va }),
+                          ...submitValue.refundPaths.slice(i + 1),
+                        ]))
+                        }
+                      >
+                        {
+                          v.refundAccountTypeList.map(d => (
+                            <Option key={d.name}>{d.name}</Option>
+                          ))
+                        }
+                      </Select>
+                      <Input
+                        placeholder={__('order.goodsRefund.Please_enter_a_user_refund_account')}
+                        style={{ width: 150, marginLeft: '5px' }}
+                        value={v.account}
+                        onChange={e => dispatch(subchange('refundPaths', [
+                          ...submitValue.refundPaths.slice(0, i),
+                          assign({}, submitValue.refundPaths[i], { account: e.target.value }),
+                          ...submitValue.refundPaths.slice(i + 1),
+                        ]))}
+                      />
+                    </div>
                   }
-                  <span style={inline}>{types[v.refundTypeId]}</span>
-                  <span style={spanWidth}>$</span>
-                  <Input
-                    style={{ width: '150px' }}
-                    value={v.refundAmount}
-                    onChange={e => dispatch(subchange('refundPaths', [
-                      ...submitValue.refundPaths.slice(0, i),
-                      assign({}, submitValue.refundPaths[i], {
-                        refundAmount: e.target.value,
-                        refundAmount2: Number(Number(e.target.value) * v.rate).toFixed(2),
-                      }),
-                      ...submitValue.refundPaths.slice(i + 1),
-                    ]))}
-                  />
-                  <span style={spanWidth}>{v.currency}</span>
-                  <Input
-                    style={{ width: '150px' }}
-                    value={v.refundAmount2}
-                    onChange={e => dispatch(subchange('refundPaths', [
-                      ...submitValue.refundPaths.slice(0, i),
-                      assign({}, submitValue.refundPaths[i], {
-                        refundAmount: Number(Number(e.target.value) * v.rate2).toFixed(2),
-                        refundAmount2: e.target.value,
-                      }),
-                      ...submitValue.refundPaths.slice(i + 1),
-                    ]))}
-                  />
-                  <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${v.max}</span>
                 </Rg>
                 : null
             ))

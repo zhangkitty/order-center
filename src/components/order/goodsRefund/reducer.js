@@ -53,6 +53,9 @@ const reducer = (state = defaultState, action) => {
             currency: v.priceWithExchangeRate.symbol,
             check: false,
             max: maxTypes(under2Camal(action.res))[v.refundPathId],
+            refundAccountTypeList: v.refund_account_type_list || [],
+            refund_method: '',
+            account: '',
           })),
         }),
       });
@@ -67,6 +70,22 @@ const reducer = (state = defaultState, action) => {
     case TYPES.CHANGE:
       return assign({}, state, {
         [action.key]: action.val,
+      });
+    case TYPES.RESET:
+      return assign({}, state, {
+        submitValue: {
+          shipping: null,
+          rlFee: null,
+          reason: { reasonId: null, goodsIds: [] },
+          remark: '',
+          refundPaths: state.submitValue.refundPaths.map(v => assign({}, v, {
+            refundAmount: '',
+            refundAmount2: '',
+            refund_method: '',
+            account: '',
+            check: false,
+          })),
+        },
       });
     case TYPES.SUBMIT_CHANGE:
       return assign({}, state, {
