@@ -77,6 +77,7 @@ const Address = (
               {
                 v.key === 'email' ?
                   <Popover
+                    placement="topLeft"
                     content={
                       <form
                         onSubmit={(e) => {
@@ -100,7 +101,7 @@ const Address = (
                     visible={emailShow}
                     onVisibleChange={d => dispatch(commit('emailShow', d))}
                   >
-                    <Button>{lan.update}</Button>
+                    <Button className={style.emailUpdate}>{lan.update}</Button>
                   </Popover>
                   : null
               }

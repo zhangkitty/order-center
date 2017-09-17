@@ -69,7 +69,7 @@ class EditAddress extends Component {
             <span className={style.spanWidth}>{Star}{__('order.entry.address_gender')}:</span>
             <Input
               value={gender}
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               required
               onChange={e => dispatch(infoCommit('gender', e.target.value))}
             />
@@ -79,7 +79,7 @@ class EditAddress extends Component {
             <Input
               value={first_name}
               required
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               onChange={e => dispatch(infoCommit('first_name', e.target.value))}
             />
           </div>
@@ -88,7 +88,7 @@ class EditAddress extends Component {
             <Input
               value={last_name}
               required={country_value !== 'IN'}
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               onChange={e => dispatch(infoCommit('last_name', e.target.value))}
             />
           </div>
@@ -99,7 +99,7 @@ class EditAddress extends Component {
               <span className={style.spanWidth}>{Star}{__('order.entry.address_father')}:</span>
               <Input
                 required
-                style={{ width: '40%' }}
+                style={{ width: '30%' }}
               />
             </div>
           }
@@ -107,7 +107,7 @@ class EditAddress extends Component {
             <span className={style.spanWidth}>{Star}{__('order.entry.address_country')}:</span>
             <Select
               value={country_id}
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               showSearch
               filterOption={(ip, { props }) => (
                 props.children.toLowerCase().indexOf(ip.toLowerCase()) >= 0
@@ -130,7 +130,7 @@ class EditAddress extends Component {
             <span className={style.spanWidth}>{country_value !== 'TW' && country_value !== 'HK' ? Star : null}{__('order.entry.address_state')}:</span>
             <Select
               value={state}
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               mode="combobox"
               showSearch
               filterOption={(ip, { props }) => (
@@ -155,7 +155,7 @@ class EditAddress extends Component {
             <span className={style.spanWidth}>{Star}{__('order.entry.address_city')}:</span>
             <Select
               value={city}
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               mode="combobox"
               showSearch
               filterOption={(ip, { props }) => (
@@ -183,7 +183,7 @@ class EditAddress extends Component {
               <span className={style.spanWidth}>{Star}{__('order.entry.address_district')}:</span>
               <Select
                 value={district}
-                style={{ width: '40%' }}
+                style={{ width: '30%' }}
                 mode="combobox"
                 showSearch
                 filterOption={(ip, { props }) => (
@@ -208,7 +208,7 @@ class EditAddress extends Component {
               <Input
                 required={country_value !== 'IN'}
                 value={street}
-                style={{ width: '40%' }}
+                style={{ width: '30%' }}
                 onChange={e => dispatch(infoCommit('street', e.target.value))}
               />
             </div>
@@ -218,7 +218,7 @@ class EditAddress extends Component {
             <TA
               required
               value={address_line_1}
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               onChange={e => dispatch(infoCommit('address_line_1', e.target.value))}
             />
           </div>
@@ -226,7 +226,7 @@ class EditAddress extends Component {
             <span className={style.spanWidth}>{__('order.entry.address2')}:</span>
             <TA
               value={address_line_2}
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               onChange={e => dispatch(infoCommit('address_line_2', e.target.value))}
             />
           </div>
@@ -235,7 +235,7 @@ class EditAddress extends Component {
             <Input
               required
               value={post}
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               onChange={e => dispatch(infoCommit('post', e.target.value))}
             />
           </div>
@@ -244,7 +244,7 @@ class EditAddress extends Component {
             <Input
               required
               value={telephone}
-              style={{ width: '40%' }}
+              style={{ width: '30%' }}
               onChange={e => dispatch(infoCommit('telephone', e.target.value))}
             />
           </div>
@@ -255,13 +255,14 @@ class EditAddress extends Component {
               {/* TODO: need National ID */}
               <Input
                 required
-                style={{ width: '40%' }}
+                style={{ width: '30%' }}
                 value={national_id}
                 onChange={e => dispatch(infoCommit('national_id', e.target.value))}
               />
             </div>
           }
           <div>
+            <span className={style.spanWidth} />
             <Button onClick={() => dispatch(commit('submitValue', { order_id: orderId }))}>{lan.reset}</Button>
             <Button htmlType="submit" type="primary" loading={load} style={{ marginLeft: '35px' }}>
               {lan.save}

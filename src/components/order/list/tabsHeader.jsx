@@ -75,7 +75,7 @@ class TabsHeader extends Component {
       countryName2,
       siteFrom2,
       paymentMethod2,
-      troubleType: troubleType2, goodsSn, count, memberLevel, orderStatus,
+      troubleType: troubleType2, goodsSn, yoho_count, memberLevel, orderStatus,
       cancelReason, goodsStatus, handleTimeStart, handleTimeEnd,
     } = queryString2;
     return (
@@ -443,8 +443,9 @@ class TabsHeader extends Component {
                     <span className={styles.filterName}>{__('order.name.count')}</span>
                     <Input
                       className={styles.colSpace}
-                      value={count}
-                      onChange={e => dispatch(commit2('count', e.target.value))}
+                      value={yoho_count}
+                      type="number"
+                      onChange={e => dispatch(commit2('yoho_count', e.target.value))}
                     />
                   </div>
                   {/* 会员等级 */}
