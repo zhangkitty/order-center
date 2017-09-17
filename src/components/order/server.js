@@ -203,12 +203,9 @@ export const initPriceInfo = (data)=>{
     return fetch(`${diffRefund.initPriceInfo}?order_id=${data.order_id}`,{
         method: 'GET'
     }).then(under2Camal)
-      .then(d => d.data);
 }
 
 export const submitOrder = data =>{
-  console.log(data)
-  console.log('==========')
   console.log(JSON.stringify(data))
     return fetch(`${diffRefund.submitOrder}`,{
         method: 'POST',
