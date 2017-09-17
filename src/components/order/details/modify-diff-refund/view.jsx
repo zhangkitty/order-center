@@ -5,9 +5,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spin, Input } from 'antd';
-import SumOfMoney from './sumofMoney';
-import Price from './price';
-import State from './state';
+import SumOfMoney from './sumofMoney.jsx';
+import Price from './price.jsx';
+import State from './state.jsx';
 import { getdata, initPriceInfo } from './action';
 
 
