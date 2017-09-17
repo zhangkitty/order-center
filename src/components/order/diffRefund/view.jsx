@@ -15,9 +15,10 @@ import styles from './style.css';
 
 const lan = {
   remarks: '备注',
+  missing_required: '缺少必填项',
 };
 
-class diffRefund extends Component {
+class DiffRefund extends Component {
   constructor(props) {
     super(props);
     const { params: { orderId, type } } = props;
@@ -28,13 +29,12 @@ class diffRefund extends Component {
 
   render() {
     const {
-      ready, dispatch, ReasonList, reason, remark, order_id,refundPaths
+      ready, dispatch, ReasonList, reason, remark, order_id, refundPaths, orderPriceInfo,
     } = this.props;
-    console.log(this.props, 'this.props');
     return (
       ready ?
         <div>
-          <SumOfMoney orderPriceInfo={this.props.orderPriceInfo} dispatch={dispatch} />
+          <SumOfMoney orderPriceInfo={orderPriceInfo} dispatch={dispatch} />
           <Price refundPaths={this.props.refundPaths} dispatch={dispatch} />
           <Radio.Group
             style={{ display: 'flex', flexDirection: 'column', marginLeft: 50 }}
@@ -42,10 +42,10 @@ class diffRefund extends Component {
           >
             <Tag color="#919191" style={{ width: 80, textAlign: 'center', marginBottom: '10px' }}>{__('order.diffRefund.adjustment_refund')}</Tag>
             {
-              ReasonList.map((value, key) => <Radio value={key} key={key}>{value.name}</Radio>,
+              ReasonList.map(value => <Radio value={value.id} key={value.name}>{value.name}</Radio>,
               )
             }
-          </Radio.Group>,
+          </Radio.Group>
           <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'row' }}>
             <span style={{ width: '80px' }}>{lan.remarks}</span>
             <Input
@@ -58,16 +58,18 @@ class diffRefund extends Component {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              const a = refundPaths.filter(v=>v.checked)
-              console.log(a,a)
+              const refund_paths = refundPaths.filter(v => v.checked);
+              if (!refund_paths.length || !reason) {
+                return message.warning(lan.missing_required);
+              }
               const temp = {
-                order_id,
+                order_id: Number(order_id),
                 refund_type: 2,
-                reason,
-                remark: 'remark',
-                refund_paths: [],
-
+                reason: Number(reason),
+                remark,
+                refund_paths,
               };
+              return dispatch(submitForward(temp));
             }}
           >
             <Button
@@ -85,6 +87,17 @@ class diffRefund extends Component {
     );
   }
 }
+DiffRefund.propTypes = {
+  ready: PropTypes.bool,
+  dispatch: PropTypes.func,
+  ReasonList: PropTypes.arrayOf(PropTypes.shape()),
+  reason: PropTypes.number,
+  remark: PropTypes.string,
+  order_id: PropTypes.number,
+  refundPaths: PropTypes.arrayOf(PropTypes.shape()),
+  orderPriceInfo: PropTypes.shape(),
+  params: PropTypes.shape(),
+};
 
 const mapStateToProps = state => state['order/diffRefund'];
-export default connect(mapStateToProps)(diffRefund);
+export default connect(mapStateToProps)(DiffRefund);
