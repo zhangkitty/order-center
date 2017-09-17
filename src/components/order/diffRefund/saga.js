@@ -12,6 +12,10 @@ initPriceInfoSuccess,
   change,
 } from './action';
 
+const lan = {
+  commit_success: '提交成功',
+  get_initPriceInfo_failed: '获取价格信息失败',
+};
 
 function* initReasonListSaga(action) {
   const data = yield initReasonList(action.data);
@@ -24,7 +28,10 @@ function* initReasonListSaga(action) {
 
 function* initPriceInfoSaga(action) {
   const data = yield initPriceInfo(action.data);
-  // TODO: validte
+  if (!data || data.code !== 0) {
+    message.error(lan.get_initPriceInfo_failed);
+    return yield put(initReasonListFail());
+  }
   return yield put(initPriceInfoSuccess(data));
 }
 
@@ -34,7 +41,7 @@ function* submitSaga(action) {
     message.error(`${__('order.diffRefund.submit_fail')}: ${data.msg}`);
     return yield put(change('submitLoad', false));
   }
-  message.success(''); // TODO: validate
+  message.success(lan.commit_success);
   return yield put(change('submitLoad', false));
 }
 

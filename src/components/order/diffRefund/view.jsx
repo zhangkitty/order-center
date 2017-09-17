@@ -15,6 +15,7 @@ import styles from './style.css';
 
 const lan = {
   remarks: '备注',
+  missing_required: '缺少必填项',
 };
 
 class DiffRefund extends Component {
@@ -59,7 +60,7 @@ class DiffRefund extends Component {
               e.preventDefault();
               const refund_paths = refundPaths.filter(v => v.checked);
               if (!refund_paths.length || !reason) {
-                return message.warning(''); // TODO: validate
+                return message.warning(lan.missing_required);
               }
               const temp = {
                 order_id: Number(order_id),
