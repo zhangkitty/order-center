@@ -49,7 +49,7 @@ class DetailsEntry extends Component {
       return (
         <div
           className={styles.contentBg}
-          style={{ maxWidth: window.innerWidth }}
+          style={{ maxWidth: window.innerWidth, minWidth: '1200px' }} // TODO 有导航时就有问题
         >
           <Tabs
             activeKey={activeKey} defaultActiveKey="base"

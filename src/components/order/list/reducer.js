@@ -53,7 +53,7 @@ const defaultState = {
     paymentMethod: null,   // 支付方式
     troubleType: null,   // 问题件类型
     goodsSn: null,    // sku
-    count: null,   // 有货件数
+    yoho_count: null,   // 有货件数
     memberLevel: null,    // 会员等级
     orderStatus: null,  // 订单状态 - 订单状态=“已取消”，显示 取消类型
     cancelReason: null,  // 取消类型

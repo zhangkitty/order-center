@@ -31,7 +31,16 @@
 .emailStyle {
     width: 200px;
     float: left;
-    marginRight: 5px;
+    margin-right: 5px;
+}
+.emailUpdate {
+    border: none;
+    color: #108ee9;
+    padding: 0 5px;
+    text-decoration: underline;
+}
+.emailUpdate:hover {
+    text-decoration: none;
 }
 
 .packeFlex{
