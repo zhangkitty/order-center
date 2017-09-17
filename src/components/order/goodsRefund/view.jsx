@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { connect } from 'react-redux';
 import { Spin, Input, Button, message } from 'antd';
-import { subchange, getData, getReason, submitForward } from './action';
+import { subchange, getData, getReason, submitForward, reset } from './action';
 import SumOfMoney from './sumOfMoney';
 import RefundGoods from './refundGoods';
 import Price from './price';
@@ -61,7 +61,7 @@ class GoodsRefund extends Component {
               onChange={e => dispatch(subchange('remark', e.target.value))}
             />
           </div>
-          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }}>取消</Button>
+          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>取消</Button>
           <Button
             style={{ margin: '15px 80px 80px 0', left: '20%' }}
             type="primary" htmlType="submit"

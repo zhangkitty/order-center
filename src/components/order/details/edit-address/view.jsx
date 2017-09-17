@@ -28,7 +28,7 @@ class EditAddress extends Component {
 
   render() {
     const {
-      ready, dispatch, submitValue, country_list, load,
+      ready, dispatch, submitValue, country_list, load, provinceLoad,
       cities, citySource, districtSource, orderId, billno,
     } = this.props;
     const {
@@ -150,6 +150,9 @@ class EditAddress extends Component {
                 ))
               }
             </Select>
+            {
+              provinceLoad && <Spin style={{ marginLeft: '5px' }} />
+            }
           </div>
           <div>
             <span className={style.spanWidth}>{Star}{__('order.entry.address_city')}:</span>
@@ -277,6 +280,7 @@ class EditAddress extends Component {
 EditAddress.propTypes = {
   ready: PropTypes.bool,
   load: PropTypes.bool,
+  provinceLoad: PropTypes.bool,
   dispatch: PropTypes.func,
   params: PropTypes.shape(),
   submitValue: PropTypes.shape(),

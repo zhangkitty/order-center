@@ -11,4 +11,5 @@ export const GET_DATA_SUCCESS = `${prefix}get_data_success`;
 export const GET_REASON = `${prefix}get_reason`;
 export const GET_REASON_SUCCESS = `${prefix}get_reason_success`;
 export const SUBMIT = `${prefix}submit`;
+export const RESET = `${prefix}reset`;
 

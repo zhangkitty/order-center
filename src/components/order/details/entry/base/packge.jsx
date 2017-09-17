@@ -61,6 +61,17 @@ const lan = {
 //  '94' => 'COD客户自提',
 //  '95' => '已申请退货'
 // '96' => '退货'
+const pingkongShow = {
+  5: '需要退款',
+  7: '已经退款',
+  16: '发货',
+  52: '发货中',
+  57: '海外发货',
+  54: 'COD已签收',
+  95: '已申请退货',
+  96: '退货',
+};
+
 const colors = {
   1: { bg: '#5AE0ED', border: 'none' },
   5: { bg: 'rgba(255,45,138,0.2)', border: 'rgba(255,45,138,1)' },
@@ -134,20 +145,24 @@ const Packge = (
             colorCirle(colors[rec.status_code])
           }
           <span>{d}</span>
-          <Link
-            to={
-              rec.is_assessed ?
-                '/order/details/goods-control/edit/'  // 已品控
-                :
-                '/order/details/goods-control/list/' // 品控
-            }
-            query={{ data: JSON.stringify(assign({}, rec, {
-              order_id: orderId, billno,
-            })) }}
-            style={{ marginLeft: '10px' }}
-          >
-            { rec.is_assessed ? lan.yipinkong : lan.pinkong}
-          </Link>
+          {
+            pingkongShow[rec.status_code] ?
+              <Link
+                to={
+                  rec.is_assessed ?
+                    '/order/details/goods-control/edit/'  // 已品控
+                    :
+                    '/order/details/goods-control/list/' // 品控
+                }
+                query={{ data: JSON.stringify(assign({}, rec, {
+                  order_id: orderId, billno,
+                })) }}
+                style={{ marginLeft: '10px' }}
+              >
+                { rec.is_assessed ? lan.yipinkong : lan.pinkong}
+              </Link>
+              : null
+          }
           {
               Number(rec.status_code) === 11 &&
               <Button
@@ -218,7 +233,10 @@ const Packge = (
   return (
     <div>
       {
-        !show_refund_button && !show_part_shipped_button && !show_priority_shipped_button && !show_review_order_button ?
+        !show_refund_button &&
+        !show_part_shipped_button &&
+        !show_priority_shipped_button &&
+        !show_review_order_button ?
           null
           :
           <div style={{ margin: '20px 20px' }}>
