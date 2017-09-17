@@ -43,12 +43,6 @@ const menus = [
         nav: true,
       },
       {
-        link: 'order/details/withdraw',
-        name: __('withdraw.refund_request'),
-        crumbName: __('withdraw.refund_request'),
-        nav: true,
-      },
-      {
         link: '/order/details/entry',
         name: __('nav.order_details'),
         crumbName: __('nav.order_details'),
