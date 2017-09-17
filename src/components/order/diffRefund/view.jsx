@@ -4,19 +4,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import assign from 'object-assign';
-import { Radio, Button, Form, Input, Tag, message } from 'antd';
+// import assign from 'object-assign';
+import { Radio, Button, Form, Input, Tag, message, Spin } from 'antd';
 import { initPriceInfo, initReasonList, subchange, submitForward, change, reset } from './action';
 import SumOfMoney from './sumOfMoney';
-import Price from './price.jsx';
-
+import Price from './price';
 
 import styles from './style.css';
 
-const lan = {
-  remarks: '备注',
-  missing_required: '缺少必填项',
-};
+const Star = (<span style={{ color: 'red' }}>*</span>);
 
 class DiffRefund extends Component {
   constructor(props) {
@@ -33,34 +29,13 @@ class DiffRefund extends Component {
     } = this.props;
     return (
       ready ?
-        <div>
-          <SumOfMoney orderPriceInfo={orderPriceInfo} dispatch={dispatch} />
-          <Price refundPaths={this.props.refundPaths} dispatch={dispatch} />
-          <Radio.Group
-            style={{ display: 'flex', flexDirection: 'column', marginLeft: 50 }}
-            onChange={e => dispatch(change('reason', e.target.value))}
-          >
-            <Tag color="#919191" style={{ width: 80, textAlign: 'center', marginBottom: '10px' }}>{__('order.diffRefund.adjustment_refund')}</Tag>
-            {
-              ReasonList.map(value => <Radio value={value.id} key={value.name}>{value.name}</Radio>,
-              )
-            }
-          </Radio.Group>
-          <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'row' }}>
-            <span style={{ width: '80px' }}>{lan.remarks}</span>
-            <Input
-              value={remark}
-              style={{ width: '300px', height: '200px' }} type="textarea" onChange={(e) => {
-                dispatch(change('remark', e.target.value));
-              }}
-            />
-          </div>
+        <div className={styles.contentBg}>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               const refund_paths = refundPaths.filter(v => v.checked);
               if (!refund_paths.length || !reason) {
-                return message.warning(lan.missing_required);
+                return message.warning(__('common.submitTitle3'));
               }
               const temp = {
                 order_id: Number(order_id),
@@ -72,18 +47,49 @@ class DiffRefund extends Component {
               return dispatch(submitForward(temp));
             }}
           >
-            <Button
-              onClick={() => {
-                dispatch(reset());
-              }}
-              type="default" style={{ marginLeft: '100px', marginTop: '20px' }}
-            >{__('order.diffRefund.cancel')}</Button>
-            <Button type="primary" style={{ marginLeft: '100px', marginTop: '20px' }} htmlType={'submit'}>{__('order.diffRefund.commit')}</Button>
+            <SumOfMoney orderPriceInfo={orderPriceInfo} dispatch={dispatch} />
+            <Price refundPaths={this.props.refundPaths} dispatch={dispatch} />
+            <div className={styles.row}>
+              <span className={styles.rowSpan}>{__('common.content_name')}{Star}:</span>
+              <Radio.Group
+                className={styles.group}
+                onChange={e => dispatch(change('reason', e.target.value))}
+              >
+                <Tag color="#919191" className={styles.rowTag}>{__('order.diffRefund.adjustment_refund')}</Tag>
+                {
+                  ReasonList.map(value =>
+                    <Radio value={value.id} key={value.name}>{value.name}</Radio>,
+                  )
+                }
+              </Radio.Group>
+            </div>
+            <div className={styles.row}>
+              <span className={styles.rowSpan}>{__('common.order_operation4')}</span>
+              <Input
+                placeholder={__('common.content_name1')}
+                autosize={{ minRows: 2, maxRows: 6 }}
+                style={{ width: '65%' }}
+                value={remark}
+                type="textarea"
+                onChange={(e) => {
+                  dispatch(change('remark', e.target.value));
+                }}
+              />
+            </div>
+            <div className={styles.row}>
+              <span className={styles.rowSpan} />
+              <Button
+                onClick={() => {
+                  dispatch(reset());
+                }}
+                type="default"
+              >{__('order.diffRefund.cancel')}</Button>
+              <Button type="primary" style={{ marginLeft: '50px' }} htmlType={'submit'}>{__('order.diffRefund.commit')}</Button>
+            </div>
           </form>
-
         </div>
         :
-        null
+        <Spin spinning />
     );
   }
 }

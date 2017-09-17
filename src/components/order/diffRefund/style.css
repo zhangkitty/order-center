@@ -1,3 +1,53 @@
+.contentBg {
+    padding: 15px;
+}
+.row {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+}
+.rowSpan {
+    width: 150px;
+    /*margin-left: 20px;
+    margin-right: 10px;*/
+}
+.rowTag {
+    width: 80px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.group {
+    display: flex;
+    flex-direction: column;
+}
+.alertBg {
+    border:1px dashed rgba(0,0,0, .7);
+    padding:10px;
+    display: flex;
+    margin-bottom:15px;
+}
+.spaceBg {
+    display: flex;
+    margin-top: 15px;
+}
+.space {
+    /*display: flex;*/
+}
+.spaceCon {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.spanMargin {
+    margin: 0 15px;
+}
+.moneyName {
+    width: 170px;
+}
+
+
+
+
 .input {
     width:100px
 }
@@ -74,7 +124,6 @@
 
 .textarea{
     width: 500px;
-    margin-left: 100px;
 }
 
 .button{
@@ -146,6 +195,7 @@
 .descWidth {
     width: 150px;
     color: rgb(148, 148, 148);
+    line-height: 28px;
 }
 
 

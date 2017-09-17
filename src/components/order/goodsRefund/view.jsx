@@ -56,7 +56,9 @@ class GoodsRefund extends Component {
           <div className={style.mark}>
             <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
             <TextArea
-              placeholder="备注信息" autosize={{ minRows: 2, maxRows: 6 }} style={{ width: '65%' }}
+              placeholder={__('common.content_name1')}
+              autosize={{ minRows: 2, maxRows: 6 }}
+              style={{ width: '65%' }}
               value={submitValue.remark}
               onChange={e => dispatch(subchange('remark', e.target.value))}
             />
