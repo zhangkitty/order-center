@@ -104,5 +104,8 @@ module.exports = {
   sagaTitle27: '加入批量审核队列成功!',
   sagaTitle28: '加入部分发队列成功!',
   sagaTitle29: '操作成功！', // 平台取消成功提示
+  sagaTitle30: '获取价格信息失败',
   contentTitle: '暂无数据',
+  content_name: '退款原因',  // 内容名称
+  content_name1: '备注信息',
 };
