@@ -14,7 +14,7 @@ const lan = {
   refund_path: '退款路径',
 };
 
-const State = ({ dataSource, submitValue, dispatch, active }) => {
+const State = ({ refundBillInfo }) => {
   const {
     refundBillId,
     refundReason,
@@ -22,7 +22,7 @@ const State = ({ dataSource, submitValue, dispatch, active }) => {
     status,
     rejectReason,
     refundRecordInfo: { refundPathName },
-  } = dataSource.refundBillInfo;
+  } = refundBillInfo;
   return (
     <div>
       <div style={{ marginTop: '10px' }}>

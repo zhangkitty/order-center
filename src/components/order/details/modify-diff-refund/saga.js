@@ -14,7 +14,6 @@ import {
 
 function* getdataSaga(action) {
   const data = yield getRefundRecordInfo(action.req);
-  console.log(data, 'data');
   if (!data || data.code !== 0) {
     message.error(`${__('order.' +
       'diffRefund.refund_priceinfo_failed')}: ${data.error}`);

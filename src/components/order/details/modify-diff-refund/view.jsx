@@ -5,28 +5,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Spin, Input } from 'antd';
-import SumOfMoney from './sumofMoney';
-import Price from './price';
-import State from './state';
+import SumOfMoney from './sumofMoney.jsx';
+import Price from './price.jsx';
+import State from './state.jsx';
 import { getdata, initPriceInfo } from './action';
 
 
 class modifyDiffRefund extends Component {
   componentWillMount() {
     const {
-     dispatch, params: { record_id }, ready,
+     dispatch, params: { order_id, record_id }, ready,
     } = this.props;
-    dispatch(getdata({ record_id: record_id }));
+    dispatch(getdata({ refund_bill_id: 1 }));
+    //dispatch(initPriceInfo({ order_id }));
   }
   render() {
-    const { ready, dispatch } = this.props;
-    console.log(this.props, 'this.props');
+    const { ready, dispatch, dataSource } = this.props;
     return (
       ready ?
         <div>
-          <SumOfMoney {...this.props} />
-          <State {...this.props} />
-          <Price {...this.props} />
+          <SumOfMoney orderPriceInfo={dataSource.orderPriceInfo} />
+          {/*<State refundBillInfo={dataSource.refundBillInfo} />*/}
+          {/* <Price {...this.props} /> */}
         </div>
         :
         <Spin spinning />
