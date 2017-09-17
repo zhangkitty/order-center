@@ -8,10 +8,8 @@ import { initReasonList, initPriceInfo, submitOrder } from '../server';
 import {
 initReasonListSuccess,
 initReasonListFail,
-initPriceInfoFail,
 initPriceInfoSuccess,
-commitSuccess,
-commitFail,
+  change,
 } from './action';
 
 
@@ -25,7 +23,8 @@ function* initReasonListSaga(action) {
 }
 
 function* initPriceInfoSaga(action) {
-  const data = yield initPriceInfo(action.data)
+  const data = yield initPriceInfo(action.data);
+  // TODO: validte
   return yield put(initPriceInfoSuccess(data));
 }
 
@@ -35,6 +34,7 @@ function* submitSaga(action) {
     message.error(`${__('order.diffRefund.submit_fail')}: ${data.msg}`);
     return yield put(change('submitLoad', false));
   }
+  message.success(''); // TODO: validate
   return yield put(change('submitLoad', false));
 }
 

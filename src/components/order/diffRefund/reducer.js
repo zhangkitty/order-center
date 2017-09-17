@@ -15,26 +15,18 @@ const chanelTypeTable = {
 const defaultState = {
   loading: false,
   ready: false,
-  order_id: '',
+  order_id: null,
   refund_type: 2,
   remark: '',
   refundPaths: [],
+  ReasonList: [],
   orderPriceInfo: null,
-  reason: '',
+  reason: null,
 };
-const maxTypes = data => (
-  {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: parseInt(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount, 10) +
-    (1.5 * parseInt(data.orderPriceInfo.totalPrice.priceUsd.amount, 10)),
-    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-    4: (1.5 * parseInt(data.orderPriceInfo.totalPrice.priceUsd.amount, 10)),
-  }
-);
 
 function changeChannelProp(refundPaths, { channel, key, val }) {
   const type = refundPaths.find(item => item.refundPathId === channel).channelType;
-  return refundPaths.map((chan) => {
+  const res = refundPaths.map((chan) => {
     if (chan.refundPathId === channel) {
       return assign({}, chan, {
         [key]: val,
@@ -47,6 +39,7 @@ function changeChannelProp(refundPaths, { channel, key, val }) {
     }
     return chan;
   });
+  return res;
 }
 
 const reducer = (state = defaultState, action) => {
@@ -106,7 +99,14 @@ const reducer = (state = defaultState, action) => {
 
     case TYPES.RESET:
       return assign({}, state, {
+        reason: null,
         remark: '',
+        refundPaths: state.refundPaths.map(v => assign({}, v, {
+          checked: false,
+          refundValue: '',
+          refund_method: null,
+          account: '',
+        })),
       });
 
     default:

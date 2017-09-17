@@ -33,7 +33,7 @@ const list = {
 const diffRefund = {
   initReasonList: '/OrderRefund/getRefundReason', //获取差价退款原因列表
   initPriceInfo: '/OrderDiffRefund/getOrderDiffRefundPriceInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
-  submitOrder: '/OrderDiffRefund/submitOrderDiffRefund'   //订单差价退款（提交）(接口负责人:周利宝)
+  submitOrder: '/OrderDiffRefund/submitRefund'   //订单差价退款（提交）(接口负责人:周利宝)
 }
 
 const goodsRefund = {
@@ -206,13 +206,13 @@ export const initPriceInfo = (data)=>{
       .then(d => d.data);
 }
 
-export const submitOrder = data=>{
+export const submitOrder = data =>{
   console.log(data)
   console.log('==========')
   console.log(JSON.stringify(data))
     return fetch(`${diffRefund.submitOrder}`,{
         method: 'POST',
-        body:JSON.stringify(data),
+        body:JSON.stringify(camel2Under(data)),
     })
 }
 export const getDataSer = (orderId, goodsId) => (
