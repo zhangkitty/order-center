@@ -61,12 +61,12 @@ class GoodsRefund extends Component {
               onChange={e => dispatch(subchange('remark', e.target.value))}
             />
           </div>
-          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>取消</Button>
+          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>{__('order.common.cancel')}</Button>
           <Button
             style={{ margin: '15px 80px 80px 0', left: '20%' }}
             type="primary" htmlType="submit"
             loading={submitLoad}
-          >提交</Button>
+          >{__('order.common.submit')}</Button>
         </form>
         :
         <Spin spinning />
