@@ -107,6 +107,8 @@ class TabsHeader extends Component {
                     queryString,
                     {
                       pageNumber: 1,
+                      paytimeStart: moment(paytimeStart).format('YYYY-MM-DD HH:mm:ss'),
+                      paytimeEnd: moment(paytimeEnd).format('YYYY-MM-DD HH:mm:ss'),
                     })));
                 }}
               >
@@ -333,12 +335,14 @@ class TabsHeader extends Component {
                     queryString2,
                     {
                       pageNumber: 1,
-                      paytimeStart: paytimeStart2,
-                      paytimeEnd: paytimeEnd2,
+                      paytimeStart: moment(paytimeStart2).format('YYYY-MM-DD HH:mm:ss'),
+                      paytimeEnd: moment(paytimeEnd2).format('YYYY-MM-DD HH:mm:ss'),
                       countryName: countryName2,
                       siteFrom: siteFrom2,
                       paymentMethod: paymentMethod2,
                       troubleType: troubleType2,
+                      handleTimeStart: handleTimeStart ? moment(handleTimeStart).format('YYYY-MM-DD HH:mm:ss') : null,
+                      handleTimeEnd: handleTimeEnd ? moment(handleTimeEnd).format('YYYY-MM-DD HH:mm:ss') : null,
                     })));
                 }}
               >
@@ -536,8 +540,8 @@ class TabsHeader extends Component {
                       <DatePicker
                         disabled={goodsStatus === null || goodsStatus === 'null' || !goodsStatus}
                         style={{ width: '150px' }}
-                        showTime
                         format="YYYY-MM-DD HH:mm:ss"
+                        showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                         value={handleTimeStart ? moment(handleTimeStart) : null}
                         onChange={(value, str) => dispatch(commit2('handleTimeStart', str))}
                       />
@@ -545,9 +549,9 @@ class TabsHeader extends Component {
                       <DatePicker
                         disabled={goodsStatus === null || goodsStatus === 'null' || !goodsStatus}
                         style={{ width: '150px' }}
-                        showTime
                         format="YYYY-MM-DD HH:mm:ss"
                         disabledDate={cur => this.disabledDateHigh2(cur)}
+                        showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                         value={handleTimeEnd ? moment(handleTimeEnd) : null}
                         onChange={(value, str) => dispatch(commit2('handleTimeEnd', str))}
                       />
