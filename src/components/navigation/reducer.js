@@ -72,6 +72,12 @@ const menus = [
         crumbName: __('nav.goods_control_edit'),
         nav: false,
       },
+      {
+        link: '/refund',
+        name: __('nav.refund'),
+        crumbName: __('nav.refund'),
+        nav: true,
+      },
     ],
   },
 ];
