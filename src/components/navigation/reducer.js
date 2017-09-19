@@ -78,6 +78,12 @@ const menus = [
         crumbName: __('nav.refund'),
         nav: true,
       },
+      {
+        link: '/refund/details',
+        name: __('nav.refund_details'),
+        crumbName: __('nav.refund_details'),
+        nav: true,
+      },
     ],
   },
 ];

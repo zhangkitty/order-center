@@ -8,4 +8,5 @@ module.exports = {
   goods_control: '提交品控',
   goods_control_edit: '编辑品控',
   refund: '退款列表',
+  refund_details: '退款详情',
 };

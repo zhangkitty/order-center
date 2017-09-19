@@ -1,0 +1,40 @@
+.contentPadding {
+    padding: 15px;
+}
+.alertBg {
+    border:1px dashed rgba(0,0,0, .7);
+    padding:10px;
+    display: flex;
+    margin-bottom:15px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.baseBorder {
+    display: flex;
+}
+.spanWidthL {
+    min-width: 110px;
+    max-width: 200px;
+    display: inline-block;
+    color: #797b7b;
+    text-align:right;
+    margin-right:10px;
+}
+.spanWidthR {
+    min-width: 110px;
+    max-width: 200px;
+    display: inline-block;
+    color: #797b7b;
+}
+.baseSpace {
+    margin-right: 20px;
+}
+.goodsImg {
+    display: flex;
+}
+.goodsImgDesc {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
