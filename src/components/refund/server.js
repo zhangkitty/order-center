@@ -10,6 +10,9 @@ const list = {
   initCountry: '/OrderDiffRefund/refundBillSearch',   // 获取所有搜索数据
   init: '/OrderDiffRefund/submitRefundBillSearch',    // 搜索提交
 };
+const details = {
+  getRefundBillDetail: '/OrderRefund/getRefundBillDetail', // get info
+}
 
 // 获取所有搜索数据
 export const initCountrySer = () => (
@@ -25,3 +28,9 @@ export const searchSubmit = (page) => {
     method: 'GET',
   })
 };
+
+export const getRefundDetailsInfo = id => (
+  fetch(`${details.getRefundBillDetail}?refund_bill_id=${id}`, {
+    method: 'GET',
+  })
+)

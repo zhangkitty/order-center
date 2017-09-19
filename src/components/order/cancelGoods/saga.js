@@ -20,7 +20,7 @@ function* getDataSaga(action) {
   return yield put(getDataSuccess(data.data));
 }
 function* getReasonSaga() {
-  const data = yield getReasonSer(2);
+  const data = yield getReasonSer(5);
   if (data.code !== 0) {
     message.error(`${__('order.goodsRefund.get_backmoney_fail')}: ${data.msg}`);
     return yield put(change('load', false));
