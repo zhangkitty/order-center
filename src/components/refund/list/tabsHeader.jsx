@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Collapse, Tabs, Select, Input, DatePicker, Button, message } from 'antd';
+import { Collapse, Select, Input, DatePicker, Button, message } from 'antd';
 import moment from 'moment';
 import {
   search, commit, initCountry,
@@ -188,7 +188,7 @@ class TabsHeader extends Component {
               </div>
               <div className={styles.rowSpaceList}>
                 <span className={styles.filterName}>
-                  <span style={{ color: 'red' }}>*</span>{__('refund.list.apply_time')}
+                  {__('refund.list.apply_time')}
                 </span>
                 <div className={styles.colSpace2}>
                   <DatePicker
@@ -223,9 +223,9 @@ class TabsHeader extends Component {
                   onChange={val => dispatch(commit('country_id', val))}
                 >
                   {
-                    fetchCountry.map(item => (
-                      <Option key={item.id} > {item.country}</Option>
-                    ))
+                   fetchCountry.map(item => (
+                     <Option key={item.id} > {item.country}</Option>
+                   ))
                   }
                 </Select>
               </div>
@@ -307,7 +307,6 @@ TabsHeader.propTypes = {
   dispatch: PropTypes.func,
   searchLoad: PropTypes.bool,
   queryString: PropTypes.shape(),
-  dataSource: PropTypes.arrayOf(PropTypes.shape()),  //
   fetchType: PropTypes.arrayOf(PropTypes.shape()),
   fetchStatus: PropTypes.arrayOf(PropTypes.shape()),
   fetchPath: PropTypes.arrayOf(PropTypes.shape()),

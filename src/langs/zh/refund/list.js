@@ -18,6 +18,8 @@ module.exports = {
   bill_status: '退款单状态',
   refund_time: '退款日期',
   search: '搜索',
+  operate: '操作',
+  operate1: '查看详情',
   choose: '请选择 xxxxx',
   choose1: '请选择尺码',
   Qty: 'Qty :',
