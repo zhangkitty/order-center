@@ -112,7 +112,7 @@ class EditAddress extends Component {
               style={{ width: '30%' }}
               showSearch
               filterOption={(ip, { props }) => (
-                props.children.toLowerCase().indexOf(ip.toLowerCase()) >= 0
+                props.children.toLowerCase().startsWith(ip.toLowerCase())
               )}
               onChange={(e) => {
                 const cv = country_list.find(v => v.id === e).value;
@@ -136,7 +136,7 @@ class EditAddress extends Component {
               mode="combobox"
               showSearch
               filterOption={(ip, { props }) => (
-                props.children.toLowerCase().indexOf(ip.toLowerCase()) >= 0
+                props.children.toLowerCase().startsWith(ip.toLowerCase())
               )}
               onChange={(v) => {
                 dispatch(infoCommit('state', v));
@@ -164,7 +164,7 @@ class EditAddress extends Component {
               mode="combobox"
               showSearch
               filterOption={(ip, { props }) => (
-                props.children.toLowerCase().indexOf(ip.toLowerCase()) >= 0
+                props.children.toLowerCase().startsWith(ip.toLowerCase())
               )}
               onChange={(v) => {
                 dispatch(infoCommit('city', v));
@@ -192,7 +192,7 @@ class EditAddress extends Component {
                 mode="combobox"
                 showSearch
                 filterOption={(ip, { props }) => (
-                  props.children.toLowerCase().indexOf(ip.toLowerCase()) >= 0
+                  props.children.toLowerCase().startsWith(ip.toLowerCase())
                 )}
                 onChange={v => dispatch(infoCommit('district', v))}
               >
