@@ -5,7 +5,6 @@ import assign from 'object-assign';
 import moment from 'moment';
 import * as TYPES from './types';
 
-
 const defaultState = {
   batchChooseOrder: [],
   batchChooseGoods: [],
@@ -21,22 +20,24 @@ const defaultState = {
   queryString: {
     pageSize: 10,
     pageNumber: 1,
-    billno: null,    // 订单号
-    orderId: null,   // 订单ID
-    email: null,    //
-    shippingNo: null,  // 发货号
-    referenceNumber: null,    // 包裹号
-    telephone: null,    // 手机号
-    paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD'),   // 付款时间
-    paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD'),          // 付款时间
-    siteFrom: null,   // 站点
-    countryName: null,   // 国家
-    txnId: null,   // 付款流水号
-    paymentMethod: null,   // 支付方式
-    troubleType: null,   // 问题件类型-选中后显示标记人
-    remarkUser: null,   // 标记人
-    totalSelect: null,   // 美金金额比较符
-    totalInput: null,   // 美金金额
+    refund_bill_id: null,
+    billno: null,
+    email: null,
+    add_user: null,
+    handle_user: null,
+    refund_bill_type: null,
+    refund_bill_status: null,
+    refund_path_id: null,
+    refund_path_status: null,
+    site_from: null,
+    apply_start_time: null,
+    apply_end_time: null,
+    country_id: null,
+    member_level: null,
+    refund_start_time: null,
+    refund_end_time: null,
+    //   paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD'),   // 付款时间
+    //   paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD'),          // 付款时间
   },
   searchLoad: false,
   load: false,
@@ -69,9 +70,22 @@ const reducer = (state = defaultState, action) => {
         searchLoad: false,
       });
     case TYPES.SEARCH_SUCCESS:
+      const wantedList = [];
+      action.data.data.refund_bill_list.map(k => {
+        k.refund_record_list.map((m, index) => {
+          const temp = m;
+          temp.refund_bill_id = k.refund_bill_id;
+          if (index === 0) {
+            temp.rowSpan = k.refund_record_list.length;
+          } else {
+            temp.rowSpan = 0;
+          }
+          wantedList.push(temp);
+        });
+      });
       return assign({}, state, {
-        // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
-        dataSource: action.data.data.refund_bill_list,
+        // dataSource: action.data.data.refund_bill_list.map((v, i) => assign({}, v, { key: i })),
+        dataSource: wantedList,
         total: action.data.data.total_refund_bill_number,
         searchLoad: false,
       });
