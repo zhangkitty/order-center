@@ -43,6 +43,8 @@ const defaultState = {
   load: false,
   loadUpdata: false,
   total: 0,
+  waitTotal: null,
+  rejectTotal: null,
 };
 
 const reducer = (state = defaultState, action) => {
@@ -86,7 +88,9 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         // dataSource: action.data.data.refund_bill_list.map((v, i) => assign({}, v, { key: i })),
         dataSource: wantedList,
-        total: action.data.data.total_refund_bill_number,
+        total: action.data.data.total_refund_bill_number,  // 总退款单数
+        waitTotal: action.data.data.wait_refund_bill_number, // 等待退款单数
+        rejectTotal: action.data.data.reject_refund_bill_number, // 驳回退款单数
         searchLoad: false,
       });
     case TYPES.INIT_COUNTRY:

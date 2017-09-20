@@ -53,123 +53,17 @@ form .colSpace2{
 .filterButton {
     margin: 0 10px 0 36px;
 }
-.table_bg {
-    margin-top:15px;
-}
-.orderList {
-    margin-bottom:10px;
-    display: flex;
-    flex-wrap: wrap;
-    border: 1px solid #e9e9e9;
-}
-.orderTitle {
-    width:100%;
-    border-bottom:1px solid #e9e9e9;
-    padding:10px 20px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.orderTable { width:71%;}
-.orderOperateBg {
-    border-left:1px solid #e9e9e9;
-    width: 28%;
-}
-.orderOperate {
-    width: 330px;
-    margin:0 auto;
-    text-align: center;
-}
-.orderOperate > button, .orderOperate > a  {
-    width: 150px;
-    margin: 6px;
-}
-.orderOperate > a  {
-    display: inline-block;
-    color: rgba(0,0,0,.65);
-    font-size: 12px;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    line-height: 26px;
-}
-.orderOperate > a:hover {
-    color: #108ee9;
-    border-color: #108ee9;
-}
-.orderTitleL {
-    display: flex;
-    justify-content: flex-start;
-}
-.orderTitleR {
-    display: flex;
-    justify-content: flex-end;
-    margin-left: auto;
-    padding-right:20px;
-    align-items: center;
-}
-.orderTitleL > span, .orderTitleR > span {
-    margin-left: 20px;
-}
-.orderTitleR > span {
-    /*margin-right: 20px;*/
+
+.tabsHeader {
+    margin-bottom:15px;
 }
 .ButtonBg {
-    background: #f00;
-    border: none;
-    color: #fff;
-    margin-right:30px;
+    margin-top:25px;
 }
-.buttonBorderBg {
-    display: flex;
-    flex-direction: column;
-    color:#49a9ee;
-}
-.buttonBorder, .buttonBorderBg > span {
-    margin: 5px;
-    cursor: pointer;
-    outline: 0;
-    text-align: center;
-}
-
-.tableFloat {
-    background-color: #fff;
-    border-radius: 5px;
-    width: 600px;
-}
-.tableFloat2 {
-    background-color: #fff;
-    border-radius: 5px;
-    width: 400px;
-}
-.haveRemark { color:#f00; border-color: #f00;}
-
-
-/* trouble order */
-.troubleBg {
-    padding:20px 20px 0;
-}
-.troubleBg > span {
-    vertical-align: top;
-    width: 100px;
-    display: inline-block;
-}
-.troubleContent {
-    width: 300px;
-    display: inline-block;
-    margin-bottom: 15px;
+.ButtonBg > button {
+    margin-right:15px;
 }
 
 
-/*  */
-.changeMargin {
-    width: 200px;
-    margin: 0 15px 15px 0;
-}
-.changeButton {
-    margin: 15px 0 0 100px;
-}
-.changeSpan {
-    width: 100px;
-    display: inline-block;
-}
+
+

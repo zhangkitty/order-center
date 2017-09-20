@@ -325,7 +325,7 @@ const SingleRow = (props) => {
           }
 
           {/*  差价退款 */}
-          <Link to={`/order/diffRefund/${data.order_id}/3`}>{__('common.order_operation3')}</Link>
+          <Link to={`/order/diffRefund/${data.order_id}/2`}>{__('common.order_operation3')}</Link>
 
           {/*  备注 */}
           <Popover
