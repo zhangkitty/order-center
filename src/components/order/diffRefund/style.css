@@ -165,10 +165,12 @@
     display: flex;
     flex-direction: column;
     align-items: start;
+    margin-right: 50px;
 }
 .descWidth {
     width: 150px;
     color: rgb(148, 148, 148);
+    line-height: 28px;
 }
 .refundsgoods {
     display: flex;
@@ -186,16 +188,6 @@
 .mark {
     display: flex;
     margin-top: 20px;
-}
-.sumofmoney_left {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-}
-.descWidth {
-    width: 150px;
-    color: rgb(148, 148, 148);
-    line-height: 28px;
 }
 
 
