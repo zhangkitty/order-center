@@ -14,6 +14,7 @@ const infoStyle2 = {
   color: 'red',
   padding: '0 10px',
 };
+
 const priceTypes = (data, type = 'warning') => (
   <Alert
     key={data.key || data.name}
@@ -150,7 +151,7 @@ const SumOfMoney = ({ orderPriceInfo }) => {
 
   ];
   return (
-    <div style={{ display: 'flex' }}>
+    <div className={style.alertBg}>
       <span className={style.descWidth}>{__('order.diffRefund.order_amount')}:</span>
       <div className={style.sumofmoney_left} >
         {

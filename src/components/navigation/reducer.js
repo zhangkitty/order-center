@@ -43,12 +43,6 @@ const menus = [
         nav: true,
       },
       {
-        link: 'order/details/withdraw',
-        name: __('withdraw.refund_request'),
-        crumbName: __('withdraw.refund_request'),
-        nav: true,
-      },
-      {
         link: '/order/details/entry',
         name: __('nav.order_details'),
         crumbName: __('nav.order_details'),
@@ -77,6 +71,18 @@ const menus = [
         name: __('nav.goods_control_edit'),
         crumbName: __('nav.goods_control_edit'),
         nav: false,
+      },
+      {
+        link: '/refund',
+        name: __('nav.refund'),
+        crumbName: __('nav.refund'),
+        nav: true,
+      },
+      {
+        link: '/refund/details',
+        name: __('nav.refund_details'),
+        crumbName: __('nav.refund_details'),
+        nav: true,
       },
     ],
   },

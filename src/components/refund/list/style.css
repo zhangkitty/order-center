@@ -1,0 +1,69 @@
+.content {
+    padding:20px;
+    color: #000;
+    font-size: 14px;
+}
+.filterBg {
+    word-wrap: break-word ;
+}
+.rowSpace{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    color: rgba(0,0,0, .8);
+}
+.rowSpaceList {
+    min-width: 260px;
+    max-width: 470px;
+    margin: 5px 0 5px 15px;
+}
+.rowSpace{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    color: rgba(0,0,0, .8);
+}
+.batchBg {  }
+.batchBg > button { margin: 0 15px 0 0;  }
+.batchBg > span { margin: 0 5px 0 0;  }
+
+form .colSpace, .colSpace{
+    width:150px;
+    display: inline-block;
+}
+form .colSpace2{
+    width:330px;
+    display: inline-block;
+}
+.filterSpace {
+    margin-bottom: 20px;
+}
+.filterName {
+    min-width:130px;
+    max-width:195px;
+    display: inline-block;
+    text-align:right;
+    padding-right:10px;
+    vertical-align: middle;
+}
+.filterButton {
+    margin: 0 10px 0 36px;
+}
+
+.tabsHeader {
+    margin-bottom:15px;
+}
+.ButtonBg {
+    margin-top:25px;
+}
+.ButtonBg > button {
+    margin-right:15px;
+}
+
+
+
+

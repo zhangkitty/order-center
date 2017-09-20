@@ -13,8 +13,8 @@ initPriceInfoSuccess,
 } from './action';
 
 const lan = {
-  commit_success: '提交成功',
-  get_initPriceInfo_failed: '获取价格信息失败',
+  commit_success: __('common.sagaTitle25'),
+  get_initPriceInfo_failed: __('common.sagaTitle30'),
 };
 
 function* initReasonListSaga(action) {
@@ -32,7 +32,7 @@ function* initPriceInfoSaga(action) {
     message.error(lan.get_initPriceInfo_failed);
     return yield put(initReasonListFail());
   }
-  return yield put(initPriceInfoSuccess(data));
+  return yield put(initPriceInfoSuccess(data.data));
 }
 
 function* submitSaga(action) {

@@ -245,6 +245,7 @@ function* batchOperateSaga(action) {
   }
   return message.success(__('common.sagaTitle23'));
 }
+// 风控订单取消,
 function* cancelRiskSaga(action) {
   const data = yield getRisk(action.id);
   if (!data || data.code !== 0) {
@@ -252,6 +253,7 @@ function* cancelRiskSaga(action) {
   }
   return yield put(cancelRiskSuccess(data.data, action.id));
 }
+
 function* cancelTroubleTagSaga(action) {
   const data = yield cancelTroubleTag(action.troubleId, action.orderId);
   if (!data || data.code !== 0) {

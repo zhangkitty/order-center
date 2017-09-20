@@ -25,7 +25,7 @@ const list = {
   sizeBySku: '/order/listAvailabeGoodsSizeBySku',  // sku查尺码
   chageGoods: '/order/exchageOrderGoods',  // 换货
   delGoods: '/order/delExchagedOrderGoods',  // 删除换货
-  getRisk: '/order/riskReason',  // 删除换货
+  getRisk: '/order/riskReason',  // 风控订单 备注
   cancelTroubleTag: '/order/tag',  // 订单标记 更新，取消
 
 };
@@ -50,7 +50,7 @@ export const searchSubmit = (page) => {
 };
 
 export const seachHighSubmit = (page) => {
-  const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd',];
+  const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'yoho_count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd',];
   return fetch(`${list.initHigh}?${camel2Under(queryString(keys, page))}`, {
     method: 'GET',
   })

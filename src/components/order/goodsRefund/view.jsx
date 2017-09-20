@@ -56,17 +56,19 @@ class GoodsRefund extends Component {
           <div className={style.mark}>
             <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
             <TextArea
-              placeholder="备注信息" autosize={{ minRows: 2, maxRows: 6 }} style={{ width: '65%' }}
+              placeholder={__('common.content_name1')}
+              autosize={{ minRows: 2, maxRows: 6 }}
+              style={{ width: '65%' }}
               value={submitValue.remark}
               onChange={e => dispatch(subchange('remark', e.target.value))}
             />
           </div>
-          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>{__('order.common.cancel')}</Button>
+          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>{__('common.cancel')}</Button>
           <Button
             style={{ margin: '15px 80px 80px 0', left: '20%' }}
             type="primary" htmlType="submit"
             loading={submitLoad}
-          >{__('order.common.submit')}</Button>
+          >{__('common.submit')}</Button>
         </form>
         :
         <Spin spinning />

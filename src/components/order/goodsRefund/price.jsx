@@ -14,6 +14,7 @@ const space = {
 const inline = {
   width: '70px',
   display: 'inline-block',
+  padding: 0,
 };
 const spanWidth = {
   margin: '0 15px',
@@ -35,7 +36,7 @@ const star = (<span style={{ color: 'red' }}>*</span>);
 const Price = ({ dataSource, submitValue, dispatch }) => {
   const RLPrice = dataSource.rlFee || [];
   return (
-    <div style={{ marginBottom: '15px' }}>
+    <div style={{ marginBottom: '20px' }}>
       <div style={{ display: 'flex' }}>
         <span className={style.descWidth}>{__('order.goodsRefund.freight_price')}{star}</span>
         <Rg
@@ -57,7 +58,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
       </div>
       <div style={space}>
         <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}</span>
-        <div>
+          <div>
           {
             submitValue.refundPaths.map((v, i) => (
               v.isShow ?
@@ -132,9 +133,10 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                     !!v.refundAccountTypeList.length &&
                     <div style={{ margin: '10px 150px' }}>
                       <Select
+                        allowClear
                         placeholder={__('order.goodsRefund.please_select_a_refund_account')}
                         style={{ width: 150 }}
-                        value={`${v.refund_method || ''}`}
+                       // value={`${v.refund_method || ''}`}
                         onChange={va => dispatch(subchange('refundPaths', [
                           ...submitValue.refundPaths.slice(0, i),
                           assign({}, submitValue.refundPaths[i], { refund_method: va }),
