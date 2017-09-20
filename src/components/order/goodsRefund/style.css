@@ -1,5 +1,11 @@
 .content {
+    padding:15px;
+}
+.alertBg {
+    border:1px dashed rgba(0,0,0, .7);
     padding:10px;
+    display: flex;
+    margin-bottom:15px;
 }
 .sumofmoney_left {
     display: flex;

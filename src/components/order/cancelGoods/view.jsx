@@ -55,19 +55,19 @@ class CancelGoods extends Component {
           <RefundGoods {...this.props} />
           <Resason {...this.props} />
           <div className={style.mark}>
-            <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
+            <span className={style.descWidth}>{__('order.goodsRefund.mark')}:</span>
             <TextArea
               placeholder="备注信息" autosize={{ minRows: 2, maxRows: 6 }} style={{ width: '65%' }}
               value={submitValue.remark}
               onChange={e => dispatch(subchange('remark', e.target.value))}
             />
           </div>
-          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }}>取消</Button>
+          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }}>{__('order.common.cancel')}</Button>
           <Button
             style={{ margin: '15px 80px 80px 0', left: '20%' }}
             type="primary" htmlType="submit"
             loading={submitLoad}
-          >提交</Button>
+          >{__('order.common.submit')}</Button>
         </form>
         :
         <Spin spinning />
