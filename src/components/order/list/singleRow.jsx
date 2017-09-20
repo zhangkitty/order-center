@@ -319,13 +319,14 @@ const SingleRow = (props) => {
                   if (!batchGoods || batchGoods.length < 1) {
                     return message.warning(__('common.sagaTitle24'));
                   }
-                  return hashHistory.push(`/order/goodsRefund/${data.order_id}/${batchGoods}`);
+                  // return hashHistory.push(`/order/goodsRefund/${data.order_id}/${batchGoods}`);
+                  return window.open(`${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${batchGoods}`);
                 }}
               >{__('common.order_operation2')}</Button>
           }
 
           {/*  差价退款 */}
-          <Link to={`/order/diffRefund/${data.order_id}/2`}>{__('common.order_operation3')}</Link>
+          <Link to={`/order/diffRefund/${data.order_id}/2`} target="_blank">{__('common.order_operation3')}</Link>
 
           {/*  备注 */}
           <Popover
