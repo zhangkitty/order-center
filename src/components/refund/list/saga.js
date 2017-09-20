@@ -15,23 +15,18 @@ import {
 import * as TYPES from './types';
 
 function* searchSaga(action) {
- // console.log(action.data, 'search');
   const {
-    billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, remarkUser, totalInput,
+    refund_bill_id, billno, email, add_user, handle_user,
   } = action.data;
   const data = yield searchSubmit(assign({}, action.data, {
+    refund_bill_id: refund_bill_id ? encodeURIComponent(refund_bill_id.trim()) : null,
     billno: billno ? encodeURIComponent(billno.trim()) : null,
-    orderId: orderId ? encodeURIComponent(orderId.trim()) : null,
     email: email ? encodeURIComponent(email.trim()) : null,
-    shippingNo: shippingNo ? encodeURIComponent(shippingNo.trim()) : null,
-    referenceNumber: referenceNumber ? encodeURIComponent(referenceNumber.trim()) : null,
-    telephone: telephone ? encodeURIComponent(telephone.trim()) : null,
-    txnId: txnId ? encodeURIComponent(txnId.trim()) : null,
-    remarkUser: remarkUser ? encodeURIComponent(remarkUser.trim()) : null,
-    totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
+    add_user: add_user ? encodeURIComponent(add_user.trim()) : null,
+    handle_user: handle_user ? encodeURIComponent(handle_user.trim()) : null,
   }));
   if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle')}${data.msg}`);
+    message.error(`${__('refund.list.submitTitle2')}${data.msg}`);
     return yield put(searchFail());
   }
   return yield put(searchSuccess(data));
@@ -41,7 +36,7 @@ function* searchSaga(action) {
 function* initCountrySaga() {
   const data = yield initCountrySer();
   if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle2')} ${data.msg}`);
+    message.error(`${__('refund.list.submitTitle1')} ${data.msg}`);
     return yield put(initCountryFail());
   }
   return yield put(initCountrySuccess(data));

@@ -37,7 +37,7 @@ class refundList extends Component {
             pagination={false}
             dataSource={dataSource}
             columns={[{
-              title: '退款编号',
+              title: __('refund.list.refund_number'),
               dataIndex: 'refund_bill_id',
               width: '80px',
               render: (text, record) => {
@@ -49,17 +49,17 @@ class refundList extends Component {
                 return obj;
               },
             }, {
-              title: '订单号',
+              title: __('refund.list.order_number'),
               dataIndex: 'billno',
               width: '100px',
             }, {
-              title: '站点',
+              title: __('refund.list.site'),
               dataIndex: 'site_from',
-              width: '100px',
+              width: '80px',
             }, {
-              title: '国家',
+              title: __('refund.list.country'),
               dataIndex: 'country',
-              width: '100px',
+              width: '80px',
             }, {
               title: __('refund.list.refund_type'), // 退款类型
               dataIndex: 'refund_type_name',
@@ -73,7 +73,7 @@ class refundList extends Component {
               dataIndex: 'refund_path_name', // 退款路径
               width: '100px',
             }, {
-              title: '退金额($)',
+              title: __('refund.list.content'), // 退金额
               dataIndex: 'refund_record_amount',
               width: '100px',
               render: text => (
@@ -87,7 +87,7 @@ class refundList extends Component {
                 </div>
               ),
             }, {
-              title: '退款记录状态',
+              title: __('refund.list.path_status'), // 退款记录状态
               dataIndex: 'refund_record_status_msg',
               width: '100px', // TODO 加判断 refund_record_status_code
             }, {
@@ -97,6 +97,7 @@ class refundList extends Component {
             }, {
               title: __('refund.list.applicant'),
               dataIndex: 'add_user',
+              width: '80px',
             }, {
               title: __('refund.list.apply_time'),
               dataIndex: 'refund_bill_add_time',
@@ -104,14 +105,14 @@ class refundList extends Component {
             }, {
               title: __('refund.list.operator'),
               dataIndex: 'handle_user',
-              width: '100px',
+              width: '80px',
             }, {
               title: __('refund.list.refund_time'),
               dataIndex: 'refund_time',
               width: '100px',
             }, {
               title: __('refund.list.operate'),
-              width: '100px',
+              width: '80px',
               render: (text, record) => (
                 <div>
                   <Link
