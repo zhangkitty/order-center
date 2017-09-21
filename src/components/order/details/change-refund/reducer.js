@@ -9,6 +9,7 @@ import { under2Camal } from '../../../../lib/camal';
 const defaultState = {
   ready: false,
   dataSource: {},
+  refundInfo: {},
   reasons: [],
   fetchType: [],
   fetchWarehouse: [],
@@ -41,9 +42,11 @@ const reducer = (state = defaultState, action) => {
     case TYPES.GET_DATA_SUCCESS:
       console.log(under2Camal(action.res), 'reducer');
       console.log(under2Camal(action.res).refundBillInfo.refundRecordList, 'reducer.修改价格');
+      console.log(under2Camal(action.res).refundBillInfo, '退款编号');
       return assign({}, state, {
         ready: true,
         dataSource: under2Camal(action.res),
+        refundInfo: under2Camal(action.res).refundBillInfo,
         submitValue: assign({}, state.submitValue, {
           refundPaths: under2Camal(action.res).refundBillInfo.refundRecordList.map(v => ({
             recordId: v.recordId,   // 退款单类型ID

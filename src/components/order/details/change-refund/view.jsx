@@ -9,7 +9,7 @@ import { Spin, Input, Button, message } from 'antd';
 import { subchange, getData, submitForward, reset } from './action';
 import SumOfMoney from './sumOfMoney';
 import Price from './price';
-import Resason from './resason';
+import Info from './info';
 import style from './style.css';
 
 const TextArea = Input.TextArea;
@@ -36,8 +36,7 @@ class changeRefund extends Component {
             if (
               shipping === null ||
               rlFee === null ||
-              reason.reasonId === null ||
-              refundPaths.filter(v => v.check).length < 1
+              reason.reasonId === null
             ) {
               return message.warning(__('order.goodsRefund.missing_something'));
             }
@@ -45,31 +44,29 @@ class changeRefund extends Component {
             return dispatch(submitForward(res));
           }}
         >
-          {/*
-           <SumOfMoney {...this.props} />
-          */}
-          <Price {...this.props} />
-          {/*
-          <Resason {...this.props} />
 
-          */}
-
-          <div className={style.mark}>
-            <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
-            <TextArea
-              placeholder={__('common.content_name1')}
-              autosize={{ minRows: 2, maxRows: 6 }}
-              style={{ width: '65%' }}
-              value={submitValue.remark}
-              onChange={e => dispatch(subchange('remark', e.target.value))}
-            />
+          <SumOfMoney {...this.props} />
+          <div className={style.mainContent}>
+            <Info {...this.props} />
+            {/* 退款金额 */}
+            <Price {...this.props} />
+            <div className={style.mark}>
+              <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
+              <TextArea
+                placeholder={__('common.content_name1')}
+                autosize={{ minRows: 2, maxRows: 6 }}
+                style={{ width: '65%' }}
+                value={submitValue.remark}
+                onChange={e => dispatch(subchange('remark', e.target.value))}
+              />
+            </div>
+            <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>{__('common.cancel')}</Button>
+            <Button
+              style={{ margin: '15px 80px 80px 0', left: '20%' }}
+              type="primary" htmlType="submit"
+              loading={submitLoad}
+            >{__('common.submit')}</Button>
           </div>
-          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>{__('common.cancel')}</Button>
-          <Button
-            style={{ margin: '15px 80px 80px 0', left: '20%' }}
-            type="primary" htmlType="submit"
-            loading={submitLoad}
-          >{__('common.submit')}</Button>
         </form>
         :
         <Spin spinning />

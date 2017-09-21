@@ -26,55 +26,55 @@ const priceTypes = (data, type = 'warning') => (
 
 const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
   const {
-    totalPrice: {
+    totalPrice: { // 订单最终支付总额
       priceUsd: { amount: totalPrice },
       priceWithExchangeRate: { amountWithSymbol: totalPrice2, symbol: totalPriceSymbol },
     },
-    giftCardPaymentPrice: {
+    giftCardPaymentPrice: {  // 礼品卡支付金额
       priceUsd: { amount: gift },
       priceWithExchangeRate: { amountWithSymbol: gift2, symbol: giftSymbol },
     },
-    walletPaymentPrice: {
+    walletPaymentPrice: {  // 钱包支付金额
       priceUsd: { amount: wallet },
       priceWithExchangeRate: { amountWithSymbol: wallet2, symbol: walletSymbol },
     },
-    cardPaymentPrice: {
+    cardPaymentPrice: { // 卡支付金额
       paymentMethod,
       priceUsd: { amount: payType },
       priceWithExchangeRate: { amountWithSymbol: payType2, symbol: payTypeSymbol },
     },
-    shippingPrice: {
+    shippingPrice: { // 运费金额
       priceUsd: { amount: shipping },
       priceWithExchangeRate: { amountWithSymbol: shipping2, symbol: shippingSymbol },
     },
-    shippingInsurePrice: {
+    shippingInsurePrice: { // 运费险金额
       priceUsd: { amount: insure },
       priceWithExchangeRate: { amountWithSymbol: insure2, symbol: insureSymbol },
     },
-    pointPaymentPrice: {
+    pointPaymentPrice: { // 积分支付金额
       priceUsd: { amount: point },
       priceWithExchangeRate: { amountWithSymbol: point2, symbol: pointSymbol },
     },
-    couponPaymentPrice: {
+    couponPaymentPrice: {  // 优惠券支付金额
       priceUsd: { amount: coupon },
       priceWithExchangeRate: { amountWithSymbol: coupon2, symbol: couponSymbol },
     },
-    orderCanBeRefundedPrice: {
+    orderCanBeRefundedPrice: { // 订单剩余可退金额
       priceUsd: { amount: canBeRefunded },
       priceWithExchangeRate: { amountWithSymbol: canBeRefunded2, symbol: canBeRefundedSymbol },
     },
-    giftCardCanBeRefundedPrice: {
+    giftCardCanBeRefundedPrice: { // 礼品卡可退金额
       priceUsd: { amount: giftRefund },
       priceWithExchangeRate: { amountWithSymbol: giftRefund2, symbol: giftRefundSymbol },
     },
-    walletOrCardCanBeRefundedPrice: {
+    walletOrCardCanBeRefundedPrice: { // 钱包或用户可退金额
       priceUsd: { amount: walletRefund },
       priceWithExchangeRate: { amountWithSymbol: walletRefund2, symbol: walletRefundSymbol },
     },
-    waitRefundPrice: {
-      priceUsd: { amount: waitRefund },
-      priceWithExchangeRate: { amountWithSymbol: waitRefund2, symbol: waitRefundSymbol },
-    },
+    // waitRefundPrice: {
+    //   priceUsd: { amount: waitRefund },
+    //   priceWithExchangeRate: { amountWithSymbol: waitRefund2, symbol: waitRefundSymbol },
+    // },
   } = orderPriceInfo;
   const orderPrice = [
     {
@@ -145,12 +145,12 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       currency: walletRefund2,
       type: walletRefundSymbol,
     },
-    {
-      name: __('order.goodsRefund.wait_refund'),
-      us: waitRefund,
-      currency: waitRefund2,
-      type: waitRefundSymbol,
-    },
+    // {
+    //   name: __('order.goodsRefund.wait_refund'),
+    //   us: waitRefund,
+    //   currency: waitRefund2,
+    //   type: waitRefundSymbol,
+    // },
   ];
   return (
     <div className={style.alertBg}>
