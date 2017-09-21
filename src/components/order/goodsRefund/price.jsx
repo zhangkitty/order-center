@@ -58,7 +58,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
       </div>
       <div style={space}>
         <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}</span>
-          <div>
+        <div>
           {
             submitValue.refundPaths.map((v, i) => (
               v.isShow ?

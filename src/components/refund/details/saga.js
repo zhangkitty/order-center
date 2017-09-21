@@ -1,8 +1,9 @@
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
+import assign from 'object-assign';
 import * as TYPES from './types';
-import { getInfoSuccess } from './action';
-import { getRefundDetailsInfo } from '../server';
+import { commit, getInfoSuccess, remarkInfoSuccess, refundFail, refundSucess, doRefundFail, reverseRefundSaveFail } from './action';
+import { getRefundDetailsInfo, remarkInfoSer, addRemarkInfoSer, rejectInfoSer, refundSer, doRefundSer, doRefundAgainSer, doRefundPassSer } from '../server';
 
 const lan = {
   ofail: __('order.entry.submit_info'),
@@ -17,7 +18,73 @@ function* getInfoSaga(action) {
   }
   return yield put(getInfoSuccess(data.data));
 }
+function* remarkInfoSaga(action) {
+  const data = yield remarkInfoSer(action.id);
+  if (!data || data.code !== 0) {
+    yield put(commit('remarkInfo', assign({}, action.remarkInfo, { load: false })));
+    return message.error(`${lan.fail}:${data.msg}`);
+  }
+  return yield put(remarkInfoSuccess(data.data));
+}
 
+function* addRemarkSaga(action) {
+  const data = yield addRemarkInfoSer(action.id, action.info.remark);
+  yield put(commit('addRemarkInfo', assign({}, action.info, { load: false })));
+  if (!data || data.code !== 0) {
+    return message.error(`${lan.fail}:${data.msg}`);
+  }
+  yield put(commit('addRemarkInfo', assign({}, action.info, { reamrkShow: false })));
+  return message.success(lan.osucess);
+}
+
+function* rejectInfoSaga(action) {
+  const data = yield rejectInfoSer(action.id, action.info.reason);
+  yield put(commit('rejectInfo', assign({}, action.info, { load: false })));
+  if (!data || data.code !== 0) {
+    return message.error(`${lan.fail}:${data.msg}`);
+  }
+  yield put(commit('rejectInfo', assign({}, action.info, { reamrkShow: false })));
+  return message.success(lan.osucess);
+}
+function* refundSaga(action) {
+  const data = yield refundSer(action.record_id);
+  if (!data || data.code !== 0) {
+    yield put(refundFail());
+    return message.error(`${lan.fail}:${data.msg}`);
+  }
+
+  return yield put(refundSucess(assign({}, action, data.data, { type: 4 }))); // TODO: ceshi
+}
+function* doRefundSaga(action) {
+  const data = yield doRefundSer(action.data);
+  if (!data || data.code !== 0) {
+    yield put(doRefundFail());
+    return message.error(`${lan.fail}:${data.msg}`);
+  }
+  return message.success(lan.osucess);
+}
+function* doRefundAgainSaga(action) {
+  const data = yield doRefundAgainSer(action.data);
+  if (!data || data.code !== 0) {
+    yield put(reverseRefundSaveFail());
+    return message.error(`${lan.fail}:${data.msg}`);
+  }
+  return message.success(lan.osucess);
+}
+function* doRefundPassSaga(action) {
+  const data = yield doRefundPassSer(action.data);
+  if (!data || data.code !== 0) {
+    return message.error(`${lan.fail}:${data.msg}`);
+  }
+  return message.success(lan.osucess);
+}
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
+  yield takeLatest(TYPES.REMARK_INFO, remarkInfoSaga);
+  yield takeLatest(TYPES.ADD_REMARK_INFO, addRemarkSaga);
+  yield takeLatest(TYPES.REJECT_INFO, rejectInfoSaga);
+  yield takeLatest(TYPES.REFUND, refundSaga);
+  yield takeLatest(TYPES.DO_REFUND, doRefundSaga);
+  yield takeLatest(TYPES.REVERSE_REFUND_SAVE, doRefundAgainSaga);
+  yield takeLatest(TYPES.DO_REFUND_PASS, doRefundPassSaga);
 }

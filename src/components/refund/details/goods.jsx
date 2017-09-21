@@ -9,7 +9,7 @@ const lan = {
   编号: '编号',
   退款商品: '退款商品',
   销售价: '销售价',
-  折扣价: '折扣价',
+  购买价: '购买价',
 };
 
 const Goods = ({ dataSource: { refund_goods } }) => (
@@ -20,6 +20,7 @@ const Goods = ({ dataSource: { refund_goods } }) => (
       pagination={false}
       dataSource={refund_goods}
       rowKey={'goods_sort'}
+      bordered
       columns={[
         {
           title: lan.编号,
@@ -50,13 +51,12 @@ const Goods = ({ dataSource: { refund_goods } }) => (
           render: d => (
             !!d &&
             <span>
-              {d.price_usd.amount_with_symbol},
-              {d.price_with_exchange_rate.amount_with_symbol}
+              {d.price_usd.amount_with_symbol} {d.price_with_exchange_rate.amount_with_symbol}
             </span>
           ),
         },
         {
-          title: lan.折扣价,
+          title: lan.购买价,
           dataIndex: 'purchase_price',
           width: 100,
           render: d => (

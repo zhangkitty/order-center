@@ -92,7 +92,7 @@ export default (state = defaultState, action) => {
         backReturnDate: assign({}, state.backReturnDate, {
           ready: false,
         },
-          action.data,
+          action.data.return_status ? action.data : { return_status_name: action.data },
           ),
       });
     case TYPES.EXAMINE_SUCCESS:
