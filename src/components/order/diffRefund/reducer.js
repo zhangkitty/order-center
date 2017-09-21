@@ -3,7 +3,6 @@
  */
 import assign from 'object-assign';
 import * as TYPES from './types';
-import { under2Camal } from '../../../lib/camal';
 
 const chanelTypeTable = {
   礼品卡: 0,
@@ -22,8 +21,17 @@ const defaultState = {
   ReasonList: [],
   orderPriceInfo: null,
   reason: null,
+  maxTips: {},
 };
 
+const getMax = d => ({
+  1: d.giftCardCanBeRefundedPrice.priceUsd.amount,
+  2: (Number(d.totalPrice.priceUsd.amount) * 1.5) +
+  Number(d.walletOrCardCanBeRefundedPrice.priceUsd.amount),
+  3: d.cardCanBeRefundedPrice.priceUsd.amount,
+  4: (Number(d.totalPrice.priceUsd.amount) * 1.5),
+  disabled: 0,
+});
 function changeChannelProp(refundPaths, { channel, key, val }) {
   const type = refundPaths.find(item => item.refundPathId === channel).channelType;
   const res = refundPaths.map((chan) => {
@@ -75,6 +83,7 @@ const reducer = (state = defaultState, action) => {
         refundPaths: action.data.orderRefundPathList.map(item => assign({}, item, {
           channelType: chanelTypeTable[item.refundPathName],
         })),
+        maxTips: getMax(action.data.orderPriceInfo),
         orderPriceInfo: action.data.orderPriceInfo,
         loading: false,
       });

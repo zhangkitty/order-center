@@ -8,7 +8,7 @@ const entry = {
   orderReturn: '/orderReturn/getReturnOrder', // 退货信息
   orderRecord: '/Order/getOrderRecord', // 订单日志
   refundEmail: '/orderDetail/refundEmail', // 更新邮箱
-  getReturnGoods: '/OrderReturn/getReturnGoods',
+  getReturnGoods: '/OrderReturn/getReturnGoods', // 回货日期
   validateReturn: '/OrderReturn/validateReturn', // 退货跳转前验证
   partDelivery: '/Order/partDelivery',
   priorDelivery: '/OrderDetail/priorDelivery',

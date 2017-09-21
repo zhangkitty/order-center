@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Radio, Input, Checkbox, Select } from 'antd';
-import { subchange, activation, pathchange, changeChannelValue } from './action';
+import { changeChannelValue, change } from './action';
 import style from './style.css';
 
 const Option = Select.Option;
@@ -13,10 +13,15 @@ const inline = {
   display: 'inline-block',
   padding: '0',
 };
+const tipStyle = {
+  background: '#ffe9a7',
+  margin: '0 10px',
+  padding: '0 10px',
+  borderRadius: '4px',
+};
 const star = (<span style={{ color: 'red' }}>*</span>);
 
-
-const RefundChannelGroup = ({ channels, type, dispatch }) => {
+const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
   let Chan;
   if (channels.length === 1) {
     Chan = Checkbox;
@@ -24,7 +29,6 @@ const RefundChannelGroup = ({ channels, type, dispatch }) => {
     Chan = Radio;
   }
   const activeOne = channels[channels.length - 1].checked;
-
   return (<div className={style.space}>
     {
       channels.map(({
@@ -34,7 +38,6 @@ const RefundChannelGroup = ({ channels, type, dispatch }) => {
                       refundValue,
                       priceWithExchangeRate,
                       refundAccountTypeList,
-                      refund_method,
                       account,
       }) => (
         <div key={refundPathId}>
@@ -42,6 +45,7 @@ const RefundChannelGroup = ({ channels, type, dispatch }) => {
             <div className={style.moneyName}>
               <Chan
                 checked={checked}
+                disabled={refundPathId === 4 && maxTips.disabled < Number(maxTips[3])}
                 onChange={(e) => {
                   dispatch(changeChannelValue(refundPathId, 'checked', e.target.checked));
                 }}
@@ -53,9 +57,14 @@ const RefundChannelGroup = ({ channels, type, dispatch }) => {
               <Input
                 style={{ width: '150px' }}
                 type="number"
+                required
                 disabled={!checked}
                 value={refundValue}
-                onChange={e => dispatch(changeChannelValue(refundPathId, 'refundValue', e.target.value))}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  dispatch(change('maxTips', assign({}, maxTips, { disabled: Number(value) })));
+                  dispatch(changeChannelValue(refundPathId, 'refundValue', value));
+                }}
               />
               <span className={style.spanMargin}>{priceWithExchangeRate.symbol}</span>
               <Input
@@ -65,6 +74,9 @@ const RefundChannelGroup = ({ channels, type, dispatch }) => {
                 value={refundValue && refundValue * priceWithExchangeRate.rate}
                 onChange={e => dispatch(changeChannelValue(refundPathId, 'refundValue', e.target.value / priceWithExchangeRate.rate))}
               />
+              {
+                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${maxTips[refundPathId] || ''}</span>
+              }
             </div>
           </div>
           {
@@ -86,6 +98,7 @@ const RefundChannelGroup = ({ channels, type, dispatch }) => {
               </Select>
               <Input
                 placeholder={__('order.goodsRefund.Please_enter_a_user_refund_account')}
+                required
                 style={{ width: 150, marginLeft: '10px' }}
                 disabled={!activeOne}
                 value={account}
@@ -101,10 +114,10 @@ const RefundChannelGroup = ({ channels, type, dispatch }) => {
 };
 RefundChannelGroup.propTypes = {
   channels: PropTypes.arrayOf(PropTypes.shape()),
-  type: PropTypes.number,
   dispatch: PropTypes.func,
+  maxTips: PropTypes.shape(),
 };
-const Price = ({ refundPaths, dispatch }) => {
+const Price = ({ refundPaths, dispatch, maxTips }) => {
   const result = [];
   refundPaths.forEach((item) => {
     result[item.channelType] = result[item.channelType] || [];
@@ -113,9 +126,11 @@ const Price = ({ refundPaths, dispatch }) => {
   return (<div className={style.spaceBg}>
     <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}</span>
     <div>
-    {
-      result.map((item, idx) => (
-        <RefundChannelGroup channels={item} type={idx} key={idx} dispatch={dispatch} />
+      {
+      result.map((item, idx) => ({ arr: item, key: idx })).map(item => (
+        <RefundChannelGroup
+          channels={item.arr} type={item.key} key={item.key} dispatch={dispatch} maxTips={maxTips}
+        />
       ))
     }
     </div>
@@ -125,6 +140,7 @@ const Price = ({ refundPaths, dispatch }) => {
 Price.propTypes = {
   refundPaths: PropTypes.arrayOf(PropTypes.shape()),
   dispatch: PropTypes.func,
+  maxTips: PropTypes.shape(),
 };
 
 export default Price;
