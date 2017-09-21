@@ -39,13 +39,15 @@ const reducer = (state = defaultState, action) => {
     case TYPES.INIT:
       return defaultState;
     case TYPES.GET_DATA_SUCCESS:
-      console.log(under2Camal(action.res).refundBillInfo.refundRecordList, 'reducer');
+      console.log(under2Camal(action.res), 'reducer');
+      console.log(under2Camal(action.res).refundBillInfo.refundRecordList, 'reducer.修改价格');
       return assign({}, state, {
         ready: true,
         dataSource: under2Camal(action.res),
         submitValue: assign({}, state.submitValue, {
           refundPaths: under2Camal(action.res).refundBillInfo.refundRecordList.map(v => ({
             recordId: v.recordId,   // 退款单类型ID
+            refundPathName: v.refundPathName,   // 退款单类型ID
           //  isShow: v.isShow,
             refundAmount: v.refundAmount.priceUsd.amount,   // 美元金额
             refundAmount2: v.refundAmount.priceWithExchangeRate.amount,  // 非美元金额
@@ -54,9 +56,9 @@ const reducer = (state = defaultState, action) => {
             currency: v.refundAmount.priceWithExchangeRate.symbol, // 非美元币种
           //  check: false,
             max: maxTypes(under2Camal(action.res))[v.refundPathId],  // 最大值  TODO
-            refundAccountTypeList: v.refund_account_type_list || [],  // 退款账户 TODO
-            refund_method: '',   // 退款方式
-            account: '',    // 退款金额
+          //  refundAccountTypeList: v.refund_account_type_list || [],  // 退款账户 TODO
+          //  refund_method: '',   // 退款方式
+          //  account: '',    // 退款金额
           })),
         }),
       });

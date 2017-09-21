@@ -47,8 +47,8 @@ class changeRefund extends Component {
         >
           {/*
            <SumOfMoney {...this.props} />
-           */}
-           <Price {...this.props} />
+          */}
+          <Price {...this.props} />
           {/*
           <Resason {...this.props} />
 
