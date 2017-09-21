@@ -26,11 +26,6 @@ const tipStyle = {
   padding: '0 10px',
   borderRadius: '4px',
 };
-const types = {
-  1: __('order.goodsRefund.giftcard'),
-  2: __('order.goodsRefund.wallet'),
-  3: __('order.goodsRefund.users'),
-};
 
 const star = (<span style={{ color: 'red' }}>*</span>);
 
@@ -44,22 +39,8 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
           <div>
             <div className={style.flex_center}>
               <div style={{ width: 150 }}>
-                {
-                  v.recordId > 1 ?
-                    <Radio value={v.recordId} />
-                    :
-                    <Checkbox
-                      onChange={e => dispatch(subchange('refundPaths', [
-                        ...submitValue.refundPaths.slice(0, i),
-                        assign({}, submitValue.refundPaths[i], { check: e.target.checked }),
-                        ...submitValue.refundPaths.slice(i + 1),
-                      ]))}
-                    />
-                }
-
-                <span style={inline}>{types[v.recordId]}</span>
-
-
+                <span style={inline}>{v.refundPathName}</span>
+                {/* types[v.recordId] */}
                 <span style={spanWidth}>$</span>
               </div>
               <div>
@@ -91,39 +72,6 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                 <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${v.max}</span>
               </div>
             </div>
-            {
-              !!v.refundAccountTypeList.length &&
-              <div style={{ margin: '10px 150px' }}>
-                <Select
-                  allowClear
-                  placeholder={__('order.goodsRefund.please_select_a_refund_account')}
-                  style={{ width: 150 }}
-                  // value={`${v.refund_method || ''}`}
-                  onChange={va => dispatch(subchange('refundPaths', [
-                    ...submitValue.refundPaths.slice(0, i),
-                    assign({}, submitValue.refundPaths[i], { refund_method: va }),
-                    ...submitValue.refundPaths.slice(i + 1),
-                  ]))
-                  }
-                >
-                  {
-                    v.refundAccountTypeList.map(d => (
-                      <Option key={d.name}>{d.name}</Option>
-                    ))
-                  }
-                </Select>
-                <Input
-                  placeholder={__('order.goodsRefund.Please_enter_a_user_refund_account')}
-                  style={{ width: 150, marginLeft: '5px' }}
-                  value={v.account}
-                  onChange={e => dispatch(subchange('refundPaths', [
-                    ...submitValue.refundPaths.slice(0, i),
-                    assign({}, submitValue.refundPaths[i], { account: e.target.value }),
-                    ...submitValue.refundPaths.slice(i + 1),
-                  ]))}
-                />
-              </div>
-            }
           </div>
           ))
         }
