@@ -82,7 +82,7 @@ class refundList extends Component {
             }, {
               title: __('refund.list.email'),
               dataIndex: 'email',
-             // width: '100px',
+              width: '150px',
             }, {
               title: __('refund.list.refund_path'),
               dataIndex: 'refund_path_name', // 退款路径
@@ -114,18 +114,18 @@ class refundList extends Component {
               dataIndex: 'add_user',
               width: '80px',
             }, {
-              title: __('refund.list.apply_time'),
+              title: __('refund.list.apply_time'), // 退款申请日期
               dataIndex: 'refund_bill_add_time',
               sorter: true,
-              width: '100px',
+              width: '130px',
             }, {
               title: __('refund.list.operator'),
               dataIndex: 'handle_user',
               width: '80px',
             }, {
-              title: __('refund.list.refund_time'),
+              title: __('refund.list.refund_time'), // 退款日期
               dataIndex: 'refund_time',
-              width: '100px',
+              width: '130px',
             }, {
               title: __('refund.list.operate'),
               width: '80px',
