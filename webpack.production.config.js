@@ -18,7 +18,7 @@ module.exports = Object.keys(languages).map((lang) => ({
     filename: '[name].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
     path: path.join(__dirname, 'dist', lang),
-    publicPath: 'dist/' + lang + '/'
+    publicPath: 'dist/' + lang + '/',
   },
   resolve: {
     extensions: ['.js', '.jsx', '.scss', '.css', '.json'],
@@ -81,6 +81,9 @@ module.exports = Object.keys(languages).map((lang) => ({
       },
     }),
     new webpack.optimize.CommonsChunkPlugin(['common', 'manifest']),
-    new i18n(languages[lang])
+    new i18n(languages[lang]),
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+    }),
   ],
 }));
