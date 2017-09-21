@@ -67,7 +67,7 @@ class TabsHeader extends Component {
     } = this.props;
     const {
       billno, orderId, shippingNo, referenceNumber, telephone, email, paytimeStart, paytimeEnd,
-      countryName, siteFrom, txnId, paymentMethod, troubleType, remarkUser, totalSelect, totalInput,
+      countryName, siteFrom, txnId, paymentMethod, troubleType, trouble_user, totalSelect, totalInput,
     } = queryString;
     const {
       paytimeStart2,
@@ -75,7 +75,8 @@ class TabsHeader extends Component {
       countryName2,
       siteFrom2,
       paymentMethod2,
-      troubleType: troubleType2, goodsSn, yoho_count, memberLevel, orderStatus,
+      troubleType2,
+      goodsSn, yoho_count, memberLevel, orderStatus,
       cancelReason, goodsStatus, handleTimeStart, handleTimeEnd,
     } = queryString2;
     return (
@@ -227,7 +228,7 @@ class TabsHeader extends Component {
                       value={troubleType}
                       onChange={(val) => {
                         if (val === undefined) {
-                          dispatch(commit('remarkUser', null));
+                          dispatch(commit('trouble_user', null));
                         }
                         dispatch(commit('troubleType', val));
                       }}
@@ -239,13 +240,14 @@ class TabsHeader extends Component {
                       }
                     </Select>
                   </div>
+                  {/* 标记人 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.remark_user')}</span>
                     <Input
                       disabled={troubleType === null || troubleType === 'null' || !troubleType}
                       className={styles.colSpace}
-                      value={remarkUser}
-                      onChange={e => dispatch(commit('remarkUser', e.target.value))}
+                      value={trouble_user}
+                      onChange={e => dispatch(commit('trouble_user', e.target.value))}
                     />
                   </div>
 
@@ -425,8 +427,8 @@ class TabsHeader extends Component {
                     <Select
                       allowClear
                       className={styles.colSpace}
-                      value={troubleType}
-                      onChange={val => dispatch(commit2('troubleType', val))}
+                      value={troubleType2}
+                      onChange={val => dispatch(commit2('troubleType2', val))}
                     >
                       {
                         fetchTrouble.map(item => (
@@ -613,7 +615,6 @@ class TabsHeader extends Component {
                 {/* 平台取消订单 */}
                 <Button
                   onClick={() => {
-
                     if (batchChooseOrder.length < 1) {
                       return message.warning(__('common.submitTitle3'));
                     }

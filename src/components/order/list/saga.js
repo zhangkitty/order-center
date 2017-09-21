@@ -36,7 +36,7 @@ import * as TYPES from './types';
 function* searchSaga(action) {
  // console.log(action.data, 'search');
   const {
-    billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, remarkUser, totalInput,
+    billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, trouble_user, totalInput,
   } = action.data;
   const data = yield searchSubmit(assign({}, action.data, {
     billno: billno ? encodeURIComponent(billno.trim()) : null,
@@ -46,7 +46,7 @@ function* searchSaga(action) {
     referenceNumber: referenceNumber ? encodeURIComponent(referenceNumber.trim()) : null,
     telephone: telephone ? encodeURIComponent(telephone.trim()) : null,
     txnId: txnId ? encodeURIComponent(txnId.trim()) : null,
-    remarkUser: remarkUser ? encodeURIComponent(remarkUser.trim()) : null,
+    trouble_user: trouble_user ? encodeURIComponent(trouble_user.trim()) : null,
     totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
   }));
   if (!data || data.code !== 0) {
@@ -57,7 +57,6 @@ function* searchSaga(action) {
 }
 
 function* searchHighSaga(action) {
- // console.log(action.data, 'search-high');
   const {
     goodsSn, count,
   } = action.data;
