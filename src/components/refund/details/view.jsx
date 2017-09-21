@@ -7,6 +7,7 @@ import Base from './base';
 import Goods from './goods';
 import Info from './info';
 import Logs from './log';
+import Modals from './modals';
 import styles from './style.css';
 
 class Details extends Component {
@@ -24,6 +25,7 @@ class Details extends Component {
           <Goods {...this.props} />
           <Info {...this.props} />
           <Logs {...this.props} />
+          <Modals {...this.props} />
         </div>
       );
     }

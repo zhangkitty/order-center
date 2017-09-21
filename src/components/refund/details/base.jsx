@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
+import assign from 'object-assign';
 import styles from './style.css';
+import { remarkInfoShow, commit, doRefundPass } from './action';
 
 // TODO: lan
 const language = {
@@ -24,9 +26,26 @@ const language = {
   查看备注信息: '查看备注信息',
   新增备注: '新增备注',
   驳回: '驳回',
+  通过: '通过',
+  退款路径: '退款路径', //  TODO：文档缺少
+  用户钱包总额: '用户钱包总额', // TODO：文档缺少
+  提现金额: '提现金额', // TODO：文档缺少
+  退款提交人: '退款提交人', // TODO：文档缺少
+  退款操作人: '退款操作人', // TODO：文档缺少
+  退款返还金额: '退款返还金额',
+  退款金额: '退款金额',
+  确认: '确认',
+  取消: '取消',
 };
 
-const Base = ({ dataSource: { refund_detail } }) => {
+const Base = ({
+                dataSource: { refund_detail },
+                dispatch,
+                refundBillId,
+                remarkInfo,
+                addRemarkInfo,
+                rejectInfo,
+}) => {
   const info = {
     left: [
       { name: language.退款编号, key: 'refund_bill_id' },
@@ -37,7 +56,7 @@ const Base = ({ dataSource: { refund_detail } }) => {
       { name: language.剩余可退金额, key: 'REST' },
       { name: language.运费和运费险, key: 'shipping' },
       { name: language.RL扣除费用, key: 'rl_fee' },
-      { name: language.待退款金额, key: 'WAIT' }, // TODO: 接口文档中缺少 ？
+      { name: language.待退款金额, key: 'WAIT' },
 
     ],
     right: [
@@ -51,6 +70,8 @@ const Base = ({ dataSource: { refund_detail } }) => {
   const {
     card_payment_price, wallet_payment_price, gift_card_payment_price,
     gift_card_can_be_refunded_price, card_can_be_refunded_price,
+    wallet_or_card_can_be_refunded_price, refund_amount, refund_status_code,
+    refund_type_code,
   } = refund_detail;
   return (
     <div className={styles.alertBg}>
@@ -87,12 +108,21 @@ const Base = ({ dataSource: { refund_detail } }) => {
                     {gift_card_can_be_refunded_price.price_with_exchange_rate.amount_with_symbol}
                     ({language.礼品卡})
                   +
-                    {/* TODO: 缺少钱包可退金额 */}
+                    {wallet_or_card_can_be_refunded_price.price_usd.amount_with_symbol},
+                    {wallet_or_card_can_be_refunded_price
+                      .price_with_exchange_rate.amount_with_symbol}
                     (Wallet),
                 </span>
                 }
                 {
-                  (key !== 'REST' || key !== 'TOTAL') &&
+                  key === 'WAIT' &&
+                    <span style={{ color: 'red' }}>
+                      {refund_amount.price_usd.amount_with_symbol} {refund_amount
+                      .price_with_exchange_rate.amount_with_symbol}
+                      </span>
+                }
+                {
+                  (key !== 'REST' || key !== 'TOTAL' || key !== 'WAIT') &&
                   <span>{refund_detail[key]}</span>
                 }
               </div>
@@ -108,18 +138,53 @@ const Base = ({ dataSource: { refund_detail } }) => {
               </div>
             ))
           }
-          <Button icon="eye" style={{ marginTop: '30px' }}>{language.查看备注信息}</Button>
+          <Button
+            icon="eye" style={{ marginTop: '30px' }}
+            loading={remarkInfo.load}
+            onClick={() => dispatch(remarkInfoShow(refundBillId, remarkInfo))}
+          >{language.查看备注信息}</Button>
         </div>
         <div>
-          <Button icon="plus">{language.新增备注}</Button>
+          <Button icon="plus" onClick={() => dispatch(commit('addRemarkInfo', assign({}, addRemarkInfo, { reamrkShow: true, remark: '' })))}>{language.新增备注}</Button>
         </div>
       </div>
-      <Button style={{ marginLeft: '300px' }} type="primary">{language.驳回}</Button>
+      <div>
+        {
+          Number(refund_status_code) === 1 &&
+          <Button
+            style={{ marginLeft: '300px' }} type="primary"
+            onClick={() => dispatch(commit('rejectInfo', assign({}, rejectInfo, { reamrkShow: true, reason: '' })))}
+          >{language.驳回}</Button>
+        }
+        {
+          Number(refund_status_code) === 1 && Number(refund_type_code) === 4 &&
+            <Popconfirm
+              title={
+                <div>
+                  <span>{language.退款返还金额}</span>
+                  <p>{language.退款金额}</p>
+                  {/* TODO: 退款金额  */}
+                  <span>$$$$$退款金额</span>
+                </div>
+              }
+              onConfirm={() => dispatch(doRefundPass())}
+              okText={language.确认}
+              cancelText={language.取消}
+            >
+              <Button style={{ marginLeft: '20px' }} type="primary">{language.通过}</Button>
+            </Popconfirm>
+        }
+      </div>
     </div>
 
   );
 };
 Base.propTypes = {
   dataSource: PropTypes.shape(),
+  addRemarkInfo: PropTypes.shape(),
+  rejectInfo: PropTypes.shape(),
+  dispatch: PropTypes.func,
+  refundBillId: PropTypes.string,
+  remarkInfo: PropTypes.shape(),
 };
 export default Base;

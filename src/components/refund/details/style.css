@@ -38,3 +38,19 @@
     flex-direction: column;
     justify-content: center;
 }
+.addRemarkForm {
+    display: flex;
+    flex-direction: column;
+}
+.addRemarkArea {
+    display: flex;
+}
+.addRemarkSpan {
+    display: inline-block;
+    width: 100px;
+}
+.addRemarkBts {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}

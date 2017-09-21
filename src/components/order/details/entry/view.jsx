@@ -38,7 +38,7 @@ class DetailsEntry extends Component {
   constructor(props) {
     super(props);
     const { dispatch, params: { id, active, bill } } = props;
-    dispatch(getInfo(id, bill, 'base'));
+    dispatch(getInfo(id, bill, active || 'base'));
     dispatch(commit('orderId', id));
     dispatch(commit('billno', bill));
     dispatch(commit('activeKey', active || 'base'));

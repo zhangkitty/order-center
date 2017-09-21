@@ -18,6 +18,7 @@ const Logs = ({ dataSource: { refund_log } }) => (
       pagination={false}
       dataSource={refund_log}
       rowKey={'create_time'}
+      bordered
       columns={[
         {
           title: lan.时间,

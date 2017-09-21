@@ -92,7 +92,7 @@ const Refund = (
             {
               title: lan.shangpin,
               dataIndex: 'refund_goods_list',
-              render: d => (<span>{d.map(v => v.serial_number).join('、')}</span>),
+              render: d => (<span>{d.join('、')}</span>),
             },
             {
               title: lan.lujin,
