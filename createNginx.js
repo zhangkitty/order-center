@@ -46,12 +46,12 @@ http {
     # tcp_nopush     on;
     keepalive_timeout  65;
   # gzip压缩功能设置
-  #  gzip off;
+    gzip on;
   #  gzip_min_length 1k;
   #  gzip_buffers    4 16k;
   #  gzip_http_version 1.0;
   #  gzip_comp_level 6;
-  #  gzip_types text/plain text/css text/javascript application/json application/javascript application/x-javascript application/xml;
+    gzip_types text/plain text/css text/javascript application/json application/javascript application/x-javascript application/xml;
   #  gzip_vary on;
   
   # http_proxy 设置

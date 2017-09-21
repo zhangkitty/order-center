@@ -43,6 +43,15 @@ const withdraw = {
   submitForword: '/OrderDiffRefund/submitRefund'
 }
 
+// 修改退款
+const changeRefund = {
+  getData : '/OrderDiffRefund/getRefundBillDetailInfo',
+  submit: '/OrderDiffRefund/submitRefund'    // TODO 暂无提交
+}
+
+
+
+
 export const getInfoSer = (id, bill) => {
   const base = () => fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
     method: 'GET',
@@ -200,3 +209,19 @@ export const cancelRefundSer = id => (
     body: JSON.stringify({refund_bill_id: Number(id)}),
   })
 )
+
+
+//  修改退款
+export const getDataSer = (orderId) => (
+  fetch(`${changeRefund.getData}?refund_bill_id=${orderId}`,{
+    method: 'GET',
+  })
+);
+
+export const goodsRefundSubmit = d => (
+  fetch(changeRefund.submit, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under(d)),
+  })
+);
+

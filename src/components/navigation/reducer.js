@@ -73,6 +73,12 @@ const menus = [
         nav: false,
       },
       {
+        link: '/order/details/change-refund',  // 修改退款
+        name: __('nav.change_refund'),
+        crumbName: __('nav.change_refund'),
+        nav: false,
+      },
+      {
         link: '/refund',
         name: __('nav.refund'),
         crumbName: __('nav.refund'),

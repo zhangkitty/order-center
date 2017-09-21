@@ -8,7 +8,6 @@ import { hashHistory } from 'react-router';
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import '!!style-loader!css-loader!antd/dist/antd.min.css';
 
 import rootReducer, { rootSaga } from './components';
 

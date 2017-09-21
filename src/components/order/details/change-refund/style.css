@@ -1,0 +1,47 @@
+.content {
+    padding:15px;
+}
+.alertBg {
+    border:1px dashed rgba(0,0,0, .7);
+    padding:10px;
+    display: flex;
+    margin-bottom:15px;
+}
+.sumofmoney_left {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-right: 50px;
+}
+.descWidth {
+    width: 150px;
+    color: rgb(148, 148, 148);
+    line-height: 28px;
+}
+.refundsgoods {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.reason {
+    display: flex;
+    flex-direction: row;
+}
+.reasonitem {
+    display: flex;
+    flex-direction: column;
+}
+.mark {
+    display: flex;
+    margin-top: 20px;
+}
+.flex_cloumn {
+    display: flex; flex-direction: column;
+}
+.flex_cloumn_top {
+    display: flex; flex-direction: column;margin-top: 5px;
+}
+.flex_center {
+    display: flex;
+    align-items: center;
+}
