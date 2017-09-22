@@ -61,13 +61,13 @@ const menus = [
         nav: false,
       },
       {
-        link: '/order/details/goods-control/list',
+        link: '/order/details/goods-control/list', // 品控
         name: __('nav.goods_control'),
         crumbName: __('nav.goods_control'),
         nav: false,
       },
       {
-        link: '/order/details/goods-control/edit',
+        link: '/order/details/goods-control/edit', // 品控编辑
         name: __('nav.goods_control_edit'),
         crumbName: __('nav.goods_control_edit'),
         nav: false,
@@ -79,13 +79,19 @@ const menus = [
         nav: false,
       },
       {
-        link: '/refund',
+        link: '/order/details/cash-refund',  // 提现退款
+        name: __('nav.cash_refund'),
+        crumbName: __('nav.cash_refund'),
+        nav: false,
+      },
+      {
+        link: '/refund', // 退款列表
         name: __('nav.refund'),
         crumbName: __('nav.refund'),
         nav: true,
       },
       {
-        link: '/refund/details',
+        link: '/refund/details',  // 退款详情
         name: __('nav.refund_details'),
         crumbName: __('nav.refund_details'),
         nav: true,

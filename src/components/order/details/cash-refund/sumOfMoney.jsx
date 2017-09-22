@@ -26,55 +26,14 @@ const priceTypes = (data, type = 'warning') => (
 
 const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
   const {
-    totalPrice: { // 订单最终支付总额-- 实付
+    totalPrice: { // 钱包可提现余额
       priceUsd: { amount: totalPrice },
       priceWithExchangeRate: { amountWithSymbol: totalPrice2, symbol: totalPriceSymbol },
     },
-    giftCardPaymentPrice: {  // 礼品卡支付金额
+    giftCardPaymentPrice: {  // 不可提现金额
       priceUsd: { amount: gift },
       priceWithExchangeRate: { amountWithSymbol: gift2, symbol: giftSymbol },
     },
-    walletPaymentPrice: {  // 钱包支付金额
-      priceUsd: { amount: wallet },
-      priceWithExchangeRate: { amountWithSymbol: wallet2, symbol: walletSymbol },
-    },
-    cardPaymentPrice: { // 卡支付金额
-      paymentMethod,
-      priceUsd: { amount: payType },
-      priceWithExchangeRate: { amountWithSymbol: payType2, symbol: payTypeSymbol },
-    },
-    shippingPrice: { // 运费金额
-      priceUsd: { amount: shipping },
-      priceWithExchangeRate: { amountWithSymbol: shipping2, symbol: shippingSymbol },
-    },
-    shippingInsurePrice: { // 运费险金额
-      priceUsd: { amount: insure },
-      priceWithExchangeRate: { amountWithSymbol: insure2, symbol: insureSymbol },
-    },
-    pointPaymentPrice: { // 积分支付金额
-      priceUsd: { amount: point },
-      priceWithExchangeRate: { amountWithSymbol: point2, symbol: pointSymbol },
-    },
-    couponPaymentPrice: {  // 优惠券支付金额
-      priceUsd: { amount: coupon },
-      priceWithExchangeRate: { amountWithSymbol: coupon2, symbol: couponSymbol },
-    },
-    orderCanBeRefundedPrice: { // 订单剩余可退金额
-      priceUsd: { amount: canBeRefunded },
-      priceWithExchangeRate: { amountWithSymbol: canBeRefunded2, symbol: canBeRefundedSymbol },
-    },
-    giftCardCanBeRefundedPrice: { // 礼品卡可退金额
-      priceUsd: { amount: giftRefund },
-      priceWithExchangeRate: { amountWithSymbol: giftRefund2, symbol: giftRefundSymbol },
-    },
-    walletOrCardCanBeRefundedPrice: { // 钱包或用户可退金额
-      priceUsd: { amount: walletRefund },
-      priceWithExchangeRate: { amountWithSymbol: walletRefund2, symbol: walletRefundSymbol },
-    },
-    // waitRefundPrice: {   // 待退金额(修改商品退款--有， 差价--没有)
-    //   priceUsd: { amount: waitRefund },
-    //   priceWithExchangeRate: { amountWithSymbol: waitRefund2, symbol: waitRefundSymbol },
-    // },
   } = orderPriceInfo;
   const waitRefundPrice = orderPriceInfo.waitRefundPrice ?
   { // 待退金额(修改商品退款--有， 差价--没有)

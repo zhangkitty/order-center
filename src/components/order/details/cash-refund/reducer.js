@@ -19,26 +19,17 @@ const defaultState = {
   total: 0,
   submitLoad: false,
   submitValue: {
-    refundBillId: null,
-    recordList: [],
+    orderId: null,
+    memberId: null,
+    refundType: null,
+    refundPaths: [],
+    site_from: null,
+    notWithdrawAmount: '',
+    canWithdrawAmount: '',
     remark: '',
     max: '',
   },
 };
-const maxTypes = data => ({
-  1: {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-  },
-  2: {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: Number(Number(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount) + Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5).toFixed(2), // 钱包
-    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-    4: data.orderPriceInfo.totalPrice.priceUsd.amount * 1.5,  // 溢出
-  },
-}
-);
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -51,16 +42,15 @@ const reducer = (state = defaultState, action) => {
         refundInfo: under2Camal(action.res).refundBillInfo, // 退款单信息
         submitValue: assign({}, state.submitValue, {
           refundBillId: under2Camal(action.res).refundBillInfo.refundBillId,   // 退款单类型ID
-          recordList: under2Camal(action.res).refundBillInfo.refundRecordList.map(v => ({
+          refundList: under2Camal(action.res).refundBillInfo.refundRecordList.map(v => ({
             recordId: v.recordId,   // 退款记录ID
             refundPathName: v.refundPathName,   // 退款单类型ID
-              //  isShow: v.isShow,
             refundAmount: v.refundAmount.priceUsd.amount,   // 美元金额
             refundAmount2: v.refundAmount.priceWithExchangeRate.amount,  // 非美元金额
             rate: v.refundAmount.priceUsd.rate,   // 汇率
             rate2: v.refundAmount.priceWithExchangeRate.rate, // 汇率（转$）
             currency: v.refundAmount.priceWithExchangeRate.symbol, // 非美元币种
-            max: maxTypes(under2Camal(action.res))[under2Camal(action.res).refundBillInfo.refundTypeId][v.refundPathId], // 最大值  TODO
+            max: under2Camal(action.res)[under2Camal(action.res).refundBillInfo.refundTypeId][v.refundPathId], // 最大值  TODO
               //  refundAccountTypeList: v.refund_account_type_list || [],  // 退款账户 TODO
               //  refund_method: '',   // 退款方式
               //  account: '',    // 退款金额
@@ -84,7 +74,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         submitValue: {
           remark: '',
-          recordList: state.submitValue.recordList.map(v => assign({}, v, {
+          refundList: state.submitValue.refundList.map(v => assign({}, v, {
             refundAmount: '',
             refundAmount2: '',
             refund_method: '',
