@@ -14,7 +14,7 @@ import style from './style.css';
 
 const TextArea = Input.TextArea;
 
-class changeRefund extends Component {
+class cashRefund extends Component {
   componentWillMount() {
     const {
       dispatch, params: { orderId },
@@ -32,7 +32,7 @@ class changeRefund extends Component {
           className={style.content}
           onSubmit={(e) => {
             e.preventDefault();
-            const { refundBillId, recordList, remark } = submitValue;
+            const { refundBillId, refundList, remark } = submitValue;
             if (
               refundBillId === null
             ) {
@@ -40,7 +40,7 @@ class changeRefund extends Component {
             }
             console.log(submitValue, 'submitValue');
             const res = assign({}, submitValue,
-              { recordList });
+              { refundList });
             console.log(res, 'res');
             return dispatch(submitForward(res));
           }}
@@ -76,7 +76,7 @@ class changeRefund extends Component {
     );
   }
 }
-changeRefund.propTypes = {
+cashRefund.propTypes = {
   dispatch: PropTypes.func,
   ready: PropTypes.bool,
   submitLoad: PropTypes.bool,
@@ -84,5 +84,5 @@ changeRefund.propTypes = {
   submitValue: PropTypes.shape(),
 };
 
-const mapStateToProps = state => state['order/details/change-refund'];
-export default connect(mapStateToProps)(changeRefund);
+const mapStateToProps = state => state['order/details/cash-refund'];
+export default connect(mapStateToProps)(cashRefund);

@@ -50,27 +50,6 @@
     align-items: center;
     margin-bottom:6px;
 }
-.flex_left {
-    display: flex;
-    align-items: center;
-    width: 150px;
-}
-.flex_name {
-    width: 110px;
-    display: inline-block;
-    padding: 0,
-}
-.titleBg {
-    background: #ffe9a7;
-    margin: 0 10px;
-    padding: 0 10px;
-    border-radius: 4px;
-}
-.spaceBg {
-    display: flex;
-    margin-top: 15px;
-    margin-bottom: 20px;
-}
 
 .mainContent {
     border:1px solid rgba(204, 204, 204, 1);

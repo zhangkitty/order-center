@@ -8,7 +8,7 @@ module.exports = {
   goods_control: '提交品控',
   goods_control_edit: '编辑品控',
   change_refund: '修改退款',
-  xxxx: '提现退款申请',
+  cash_refund: '提现退款申请',
   refund: '退款列表',
   refund_details: '退款详情',
 };

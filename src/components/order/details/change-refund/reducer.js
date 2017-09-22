@@ -9,6 +9,7 @@ import { under2Camal } from '../../../../lib/camal';
 const defaultState = {
   ready: false,
   dataSource: {},
+  refundInfo: {},
   reasons: [],
   fetchType: [],
   fetchWarehouse: [],
@@ -18,48 +19,53 @@ const defaultState = {
   total: 0,
   submitLoad: false,
   submitValue: {
-    orderId: null,
-    goodsIds: [],
-    shipping: null,
-    rlFee: null,
-    refundPaths: [],
-    reason: { reasonId: null, goodsIds: [] },
+    refundBillId: null,
+    recordList: [],
     remark: '',
+    max: '',
   },
 };
-const maxTypes = data => (
-  {
+const maxTypes = data => ({
+  1: {
     1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
     2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
     3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-  }
+  },
+  2: {
+    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
+    2: Number(Number(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount) + Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5).toFixed(2), // 钱包
+    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
+    4: data.orderPriceInfo.totalPrice.priceUsd.amount * 1.5,  // 溢出
+  },
+}
 );
+
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT:
       return defaultState;
     case TYPES.GET_DATA_SUCCESS:
-      console.log(under2Camal(action.res), 'reducer');
-      console.log(under2Camal(action.res).refundBillInfo.refundRecordList, 'reducer.修改价格');
       return assign({}, state, {
         ready: true,
         dataSource: under2Camal(action.res),
+        refundInfo: under2Camal(action.res).refundBillInfo, // 退款单信息
         submitValue: assign({}, state.submitValue, {
-          refundPaths: under2Camal(action.res).refundBillInfo.refundRecordList.map(v => ({
-            recordId: v.recordId,   // 退款单类型ID
+          refundBillId: under2Camal(action.res).refundBillInfo.refundBillId,   // 退款单类型ID
+          recordList: under2Camal(action.res).refundBillInfo.refundRecordList.map(v => ({
+            recordId: v.recordId,   // 退款记录ID
             refundPathName: v.refundPathName,   // 退款单类型ID
-          //  isShow: v.isShow,
+              //  isShow: v.isShow,
             refundAmount: v.refundAmount.priceUsd.amount,   // 美元金额
             refundAmount2: v.refundAmount.priceWithExchangeRate.amount,  // 非美元金额
             rate: v.refundAmount.priceUsd.rate,   // 汇率
             rate2: v.refundAmount.priceWithExchangeRate.rate, // 汇率（转$）
             currency: v.refundAmount.priceWithExchangeRate.symbol, // 非美元币种
-          //  check: false,
-            max: maxTypes(under2Camal(action.res))[v.refundPathId],  // 最大值  TODO
-          //  refundAccountTypeList: v.refund_account_type_list || [],  // 退款账户 TODO
-          //  refund_method: '',   // 退款方式
-          //  account: '',    // 退款金额
-          })),
+            max: maxTypes(under2Camal(action.res))[under2Camal(action.res).refundBillInfo.refundTypeId][v.refundPathId], // 最大值  TODO
+              //  refundAccountTypeList: v.refund_account_type_list || [],  // 退款账户 TODO
+              //  refund_method: '',   // 退款方式
+              //  account: '',    // 退款金额
+          }),
+          ),
         }),
       });
     case TYPES.GET_REASON_SUCCESS:
@@ -77,16 +83,12 @@ const reducer = (state = defaultState, action) => {
     case TYPES.RESET:
       return assign({}, state, {
         submitValue: {
-          shipping: null,
-          rlFee: null,
-          reason: { reasonId: null, goodsIds: [] },
           remark: '',
-          refundPaths: state.submitValue.refundPaths.map(v => assign({}, v, {
+          recordList: state.submitValue.recordList.map(v => assign({}, v, {
             refundAmount: '',
             refundAmount2: '',
             refund_method: '',
             account: '',
-            check: false,
           })),
         },
       });
