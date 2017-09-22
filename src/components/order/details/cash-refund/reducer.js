@@ -24,8 +24,8 @@ const defaultState = {
     refundType: null,
     refundPaths: [],
     site_from: null,
-    notWithdrawAmount: '',
-    canWithdrawAmount: '',
+    notWithdrawAmount: '',   // 提现金额
+    canWithdrawAmount: '',   // 不可提现金额
     remark: '',
     max: '',
   },
@@ -36,26 +36,11 @@ const reducer = (state = defaultState, action) => {
     case TYPES.INIT:
       return defaultState;
     case TYPES.GET_DATA_SUCCESS:
+      // console.log(under2Camal(action.res).walletExtractable.priceUsd.amount, '123');
       return assign({}, state, {
-        ready: true,
         dataSource: under2Camal(action.res),
-        refundInfo: under2Camal(action.res).refundBillInfo, // 退款单信息
         submitValue: assign({}, state.submitValue, {
-          refundBillId: under2Camal(action.res).refundBillInfo.refundBillId,   // 退款单类型ID
-          refundList: under2Camal(action.res).refundBillInfo.refundRecordList.map(v => ({
-            recordId: v.recordId,   // 退款记录ID
-            refundPathName: v.refundPathName,   // 退款单类型ID
-            refundAmount: v.refundAmount.priceUsd.amount,   // 美元金额
-            refundAmount2: v.refundAmount.priceWithExchangeRate.amount,  // 非美元金额
-            rate: v.refundAmount.priceUsd.rate,   // 汇率
-            rate2: v.refundAmount.priceWithExchangeRate.rate, // 汇率（转$）
-            currency: v.refundAmount.priceWithExchangeRate.symbol, // 非美元币种
-            max: under2Camal(action.res)[under2Camal(action.res).refundBillInfo.refundTypeId][v.refundPathId], // 最大值  TODO
-              //  refundAccountTypeList: v.refund_account_type_list || [],  // 退款账户 TODO
-              //  refund_method: '',   // 退款方式
-              //  account: '',    // 退款金额
-          }),
-          ),
+          refundPaths: under2Camal(action.res).walletExtractable.priceUsd.amount,
         }),
       });
     case TYPES.GET_REASON_SUCCESS:
