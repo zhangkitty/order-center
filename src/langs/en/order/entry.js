@@ -142,4 +142,12 @@ module.exports = {
   submit_info5: '上传失败',
   submit_info6: '获取数据失败',
   submit_info7: '加入部分发队列成功',
+  cash_content: '钱包可提现余额',  // 提现退款
+  cash_content1: '不可提现金额',
+  cash_content2: '退钱包总金额',
+  cash_content3: '订单剩余可提现金额',
+  cash_content4: '类型',
+  cash_content5: '提现金额',
+  cash_content6: '账户',
+  cash_content7: '请输入正确的退款账户信息',
 };

@@ -1,17 +1,14 @@
 .content {
     padding:15px;
-}
-.alertBg {
-    border:1px dashed rgba(0,0,0, .7);
-    padding:10px;
-    display: flex;
-    margin-bottom:15px;
+    margin:15px;
+    border:1px solid rgba(204, 204, 204, 1);
 }
 .sumofmoney_left {
     display: flex;
     flex-direction: column;
     align-items: start;
     margin-right: 50px;
+    margin-bottom: 15px;
 }
 .descWidth {
     width: 150px;
@@ -35,7 +32,8 @@
 }
 .mark {
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
+    line-height: 28px;
 }
 .flex_cloumn {
     display: flex; flex-direction: column;
@@ -48,11 +46,10 @@
 .flex_center {
     display: flex;
     align-items: center;
-    margin-bottom:6px;
+    /*margin-bottom:6px;*/
 }
 
 .mainContent {
-    border:1px solid rgba(204, 204, 204, 1);
     margin-bottom:15px;
 }
 .info_left {
@@ -68,5 +65,26 @@
     color: rgb(148, 148, 148);
 }
 .mainContentB {
-    padding: 10px 10px 10px 60px;
+    padding: 0px 10px 10px 0px;
+}
+.listBg {
+    font-size: 13px;
+    margin: 5px 15px 5px 0;
+}
+.space {
+    display: flex;
+    margin-top: 10px;
+}
+.flex_span {
+    margin: 0 15px 0 0;
+}
+.flex_input {
+    width: 150px;
+    margin-right: 15px;
+}
+.tipStyle {
+    background: #ffe9a7;
+    margin: 0;
+    padding: 0 10px;
+    border-radius: 4px;
 }
