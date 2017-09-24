@@ -18,16 +18,15 @@ const defaultState = {
   loadUpdata: false,
   total: 0,
   submitLoad: false,
+  refundTypeList: [],
+  refundAccountTypeList: [],
   submitValue: {
-    orderId: null,
-    memberId: null,
-    refundType: null,
+    orderId: '',
+    refundType: 3,
     refundPaths: [],
-    site_from: null,
-    notWithdrawAmount: '',   // 提现金额
-    canWithdrawAmount: '',   // 不可提现金额
+    canWithdrawAmount: '',   // 可提现金额
+    notWithdrawAmount: '',   // 不可提现金额
     remark: '',
-    max: '',
   },
 };
 
@@ -36,11 +35,28 @@ const reducer = (state = defaultState, action) => {
     case TYPES.INIT:
       return defaultState;
     case TYPES.GET_DATA_SUCCESS:
-      // console.log(under2Camal(action.res).walletExtractable.priceUsd.amount, '123');
+      const max1 = Number(
+        Number(under2Camal(action.res).walletExtractable.priceUsd.amount)
+        +
+        Number(under2Camal(action.res).walletNotExtractable.priceUsd.amount)
+      ).toFixed(2); // 钱包总金额
+      const max2 = Number(
+        under2Camal(action.res).refundedWalletAmount.priceUsd.amount
+      ).toFixed(2); // TODO 字段错误，没有（订单剩余可提现金额
+      const rate = Number(under2Camal(action.res).walletExtractable.priceUsd.rate);   // 汇率
       return assign({}, state, {
+        ready: true,
         dataSource: under2Camal(action.res),
+        refundTypeList: under2Camal(action.res).refundTypeList, // 退款路径列表
+        refundAccountTypeList: under2Camal(action.res).refundAccountTypeList, // 退款方式列表
+        canWithdrawAmount: under2Camal(action.res).walletExtractable.priceUsd.amount, // 钱包可提现金额
+        notWithdrawAmount: under2Camal(action.res).walletNotExtractable.priceUsd.amount, // 钱包不提现
         submitValue: assign({}, state.submitValue, {
-          refundPaths: under2Camal(action.res).walletExtractable.priceUsd.amount,
+          refundAmount: max1 < max2 ? max1 : max2, // 美元金额
+          refundAmount2: max1 < max2 ? Number(max1 * rate).toFixed(2) : Number(max2).toFixed(2), // 非美元金额
+          rate,   // 汇率
+          rate2: under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
+          currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
         }),
       });
     case TYPES.GET_REASON_SUCCESS:

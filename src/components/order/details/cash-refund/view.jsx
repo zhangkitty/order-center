@@ -5,34 +5,42 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { connect } from 'react-redux';
-import { Spin, Input, Button, message } from 'antd';
+import { Spin, Input, Button, message, Radio, Select } from 'antd';
 import { subchange, getData, submitForward, reset } from './action';
+
 import SumOfMoney from './sumOfMoney';
 import Price from './price';
-import Info from './info';
 import style from './style.css';
 
+const RadioGroup = Radio.Group;
+const Option = Select.Option;
 const TextArea = Input.TextArea;
 
 class cashRefund extends Component {
   componentWillMount() {
     const {
-      dispatch, params: { orderId },
-      ready, submitValue: { orderId: pid },
+      dispatch, ready, params: { orderId },
     } = this.props;
-    if (!ready || Number(orderId) !== pid) {
+    if (!ready || Number(orderId) !== orderId) {
+      dispatch(subchange('orderId', orderId));
       dispatch(getData(orderId));
     }
   }
   render() {
-    const { ready, submitLoad, submitValue, dispatch } = this.props;
+    const {
+      ready, submitLoad, submitValue, dispatch, orderId,
+      refundTypeList, refundAccountTypeList, canWithdrawAmount, notWithdrawAmount,
+    } = this.props;
+    const {
+      refundBillId, refundPaths, remark, refundType,
+      refundPathId, refundMethod, account, refundAmount,
+    } = submitValue;
     return (
       ready ?
         <form
           className={style.content}
           onSubmit={(e) => {
             e.preventDefault();
-            const { refundBillId, refundList, remark } = submitValue;
             if (
               refundBillId === null
             ) {
@@ -40,25 +48,70 @@ class cashRefund extends Component {
             }
             console.log(submitValue, 'submitValue');
             const res = assign({}, submitValue,
-              { refundList });
-            console.log(res, 'res');
+              {
+                orderId,  // TODO  没提交上去
+                refundType,
+                refundPaths: [{
+                  refundPathId: 3,  // 写死
+                  refundAmount,
+                  refundMethod,
+                  account,
+                }],
+                canWithdrawAmount,   // 可提现金额
+                notWithdrawAmount,   // 不提现金额
+                remark,
+              });
             return dispatch(submitForward(res));
           }}
         >
 
           <SumOfMoney {...this.props} />
+
           <div className={style.mainContent}>
-            <Info {...this.props} />
+            <div className={style.mark}>
+              <span className={style.descWidth}>{__('order.entry.cash_content4')}: </span>
+              <RadioGroup
+                value={refundType}
+                onChange={e => dispatch(subchange('refundType', e.target.value))}
+              >
+                {
+                  refundTypeList.map(item => (
+                    <Radio value={item.typeId}>{item.typeName}</Radio>
+                  ))
+                }
+              </RadioGroup>
+            </div>
+
             {/* 退款金额 */}
             <div className={style.mainContentB}>
               <Price {...this.props} />
               <div className={style.mark}>
+                <span className={style.descWidth}>{__('order.entry.cash_content6')}：</span>
+                <Select
+                  style={{ width: '150px', marginRight: '10px' }}
+                  value={refundMethod}
+                  onChange={val => dispatch(subchange('refundMethod', val))}
+                >
+                  {
+                    refundAccountTypeList.map(item => (
+                      <Option key={item.id} > {item.name}</Option>
+                    ))
+                  }
+                </Select>
+                <Input
+                  placeholder={__('order.entry.cash_content7')}
+                  style={{ width: '200px' }}
+                  value={account}
+                  onChange={e => dispatch(subchange('account', e.target.value))}
+                />
+              </div>
+              <div className={style.mark}>
                 <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
                 <TextArea
                   placeholder={__('common.content_name1')}
-                  autosize={{ minRows: 2, maxRows: 6 }}
+                  autosize={{ minRows: 3, maxRows: 5 }}
                   style={{ width: '65%' }}
-                  value={submitValue.remark}
+                  value={remark}
                   onChange={e => dispatch(subchange('remark', e.target.value))}
                 />
               </div>
@@ -81,7 +134,12 @@ cashRefund.propTypes = {
   ready: PropTypes.bool,
   submitLoad: PropTypes.bool,
   params: PropTypes.shape(),
+  orderId: PropTypes.string,
   submitValue: PropTypes.shape(),
+  refundTypeList: PropTypes.arrayOf(PropTypes.shape()),
+  refundAccountTypeList: PropTypes.arrayOf(PropTypes.shape()),
+  canWithdrawAmount: PropTypes.string,
+  notWithdrawAmount: PropTypes.string,
 };
 
 const mapStateToProps = state => state['order/details/cash-refund'];
