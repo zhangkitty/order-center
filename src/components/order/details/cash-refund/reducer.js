@@ -23,7 +23,12 @@ const defaultState = {
   submitValue: {
     orderId: '',
     refundType: 3,
-    refundPaths: [],
+    refundPaths: [{
+      account: null,
+      refundAmount: '',
+      refundMethod: '',
+      refundPathId: 3,
+    }],
     canWithdrawAmount: '',   // 可提现金额
     notWithdrawAmount: '',   // 不可提现金额
     remark: '',

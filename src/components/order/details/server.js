@@ -250,16 +250,18 @@ export const cashDataSer = (orderId) => (
 export const cashRefundSubmit = d => {
   return fetch(cashRefund.submit, {
     method: 'POST',
-   // body: JSON.stringify(camel2Under(d)),
-    body: JSON.stringify(assign({}, camel2Under(d), {
-      currency: Symbol('noneed'),
-      rate: Symbol('noneed'),
-      rate2: Symbol('noneed'),
-      refund_amount: Symbol('noneed'),
-      refund_amount2: Symbol('noneed'),
-      refund_method: Symbol('noneed'),
-      account: Symbol('noneed'),
-    })),
+    body: JSON.stringify(camel2Under(d)),
+   //  body: JSON.stringify(assign({}, camel2Under(d),
+   //    {
+   //    currency: Symbol('noneed'),
+   //    rate: Symbol('noneed'),
+   //    rate2: Symbol('noneed'),
+   //    refund_amount: Symbol('noneed'),
+   //    refund_amount2: Symbol('noneed'),
+   //    refund_method: Symbol('noneed'),
+   //    account: Symbol('noneed'),
+   //  }
+   //  )),
   })
 };
 
