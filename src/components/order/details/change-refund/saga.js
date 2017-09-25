@@ -14,7 +14,7 @@ import * as TYPES from './types';
 function* getDataSaga(action) {
   const { orderId } = action;
   const data = yield getDataSer(orderId);
-  if (data.code !== 0) {
+  if (!data || data.code !== 0) {
     message.error(`${__('order.goodsRefund.get_goodsinfo_fail')}: ${data.msg}`);
     return yield put(change('load', false));
   }
@@ -23,10 +23,11 @@ function* getDataSaga(action) {
 
 function* submitSaga(action) {
   const data = yield goodsRefundSubmit(action.data);
-  if (data.code !== 0) {
+  if (!data || data.code !== 0) {
     message.error(`${__('order.goodsRefund.submit_fail')}: ${data.msg}`);
     return yield put(change('submitLoad', false));
   }
+  message.success(__('common.sagaTitle25'));
   return yield put(change('submitLoad', false));
 }
 

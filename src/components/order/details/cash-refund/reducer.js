@@ -23,7 +23,12 @@ const defaultState = {
   submitValue: {
     orderId: '',
     refundType: 3,
-    refundPaths: [],
+    refundPaths: [{
+      account: null,
+      refundAmount: '',
+      refundMethod: '',
+      refundPathId: 3,
+    }],
     canWithdrawAmount: '',   // 可提现金额
     notWithdrawAmount: '',   // 不可提现金额
     remark: '',
@@ -39,10 +44,10 @@ const reducer = (state = defaultState, action) => {
         Number(under2Camal(action.res).walletExtractable.priceUsd.amount)
         +
         Number(under2Camal(action.res).walletNotExtractable.priceUsd.amount)
-      ).toFixed(2); // 钱包总金额
+      ).toFixed(2); // 钱包总金额（提现+不可提现）
       const max2 = Number(
-        under2Camal(action.res).refundedWalletAmount.priceUsd.amount
-      ).toFixed(2); // TODO 字段错误，没有（订单剩余可提现金额
+        under2Camal(action.res).remainingWithdrawAmount.priceUsd.amount
+      ).toFixed(2); // 订单剩余可提现金额
       const rate = Number(under2Camal(action.res).walletExtractable.priceUsd.rate);   // 汇率
       return assign({}, state, {
         ready: true,
@@ -73,15 +78,11 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.RESET:
       return assign({}, state, {
-        submitValue: {
+        submitValue: assign({}, state.submitValue, {
           remark: '',
-          refundList: state.submitValue.refundList.map(v => assign({}, v, {
-            refundAmount: '',
-            refundAmount2: '',
-            refund_method: '',
-            account: '',
-          })),
-        },
+          refundMethod: '',
+          account: '',
+        }),
       });
     case TYPES.SUBMIT_CHANGE:
       return assign({}, state, {

@@ -19,20 +19,18 @@ const TextArea = Input.TextArea;
 class cashRefund extends Component {
   componentWillMount() {
     const {
-      dispatch, ready, params: { orderId },
+      dispatch, params: { orderId },
     } = this.props;
-    if (!ready || Number(orderId) !== orderId) {
-      dispatch(subchange('orderId', orderId));
-      dispatch(getData(orderId));
-    }
+    dispatch(subchange('orderId', orderId));
+    dispatch(getData(orderId));
   }
   render() {
     const {
-      ready, submitLoad, submitValue, dispatch, orderId,
+      ready, submitLoad, submitValue, dispatch,
       refundTypeList, refundAccountTypeList, canWithdrawAmount, notWithdrawAmount,
     } = this.props;
     const {
-      refundBillId, refundPaths, remark, refundType,
+      refundBillId, refundPaths, remark, refundType, orderId,
       refundPathId, refundMethod, account, refundAmount,
     } = submitValue;
     return (
@@ -41,27 +39,29 @@ class cashRefund extends Component {
           className={style.content}
           onSubmit={(e) => {
             e.preventDefault();
+            // console.log(refundAmount, 'refundAmount');
+            // console.log(refundMethod, 'refundMethod');
             if (
-              refundBillId === null
+              orderId === null || !refundAmount
             ) {
               return message.warning(__('order.goodsRefund.missing_something'));
             }
-            console.log(submitValue, 'submitValue');
-            const res = assign({}, submitValue,
-              {
-                orderId,  // TODO  没提交上去
-                refundType,
-                refundPaths: [{
-                  refundPathId: 3,  // 写死
-                  refundAmount,
-                  refundMethod,
-                  account,
-                }],
-                canWithdrawAmount,   // 可提现金额
-                notWithdrawAmount,   // 不提现金额
-                remark,
-              });
-            return dispatch(submitForward(res));
+
+            const temp = {
+              orderId,
+              refundType,
+              refundPaths: [{
+                refundPathId: 3,  // 写死
+                refundAmount,
+                refundMethod,
+                account,
+              }],
+              canWithdrawAmount,   // 可提现金额
+              notWithdrawAmount,   // 不提现金额
+              remark,
+            };
+            console.log(temp, 'temp');
+            return dispatch(submitForward(temp));
           }}
         >
 
@@ -115,7 +115,10 @@ class cashRefund extends Component {
                   onChange={e => dispatch(subchange('remark', e.target.value))}
                 />
               </div>
-              <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>{__('common.cancel')}</Button>
+              <Button
+                style={{ margin: '15px 80px 80px 0', left: '20%' }}
+                onClick={() => dispatch(reset())}
+              >{__('common.cancel')}</Button>
               <Button
                 style={{ margin: '15px 80px 80px 0', left: '20%' }}
                 type="primary" htmlType="submit"
