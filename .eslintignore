@@ -11,3 +11,5 @@ server.js
 createNginx.js
 
 externals.js
+
+dist
