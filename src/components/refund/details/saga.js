@@ -53,7 +53,7 @@ function* refundSaga(action) {
     return message.error(`${lan.fail}:${data.msg}`);
   }
 
-  return yield put(refundSucess(assign({}, action, data.data, { type: 4 }))); // TODO: ceshi
+  return yield put(refundSucess(assign({}, action, data.data)));
 }
 function* doRefundSaga(action) {
   const data = yield doRefundSer(action.data);
@@ -61,6 +61,7 @@ function* doRefundSaga(action) {
     yield put(doRefundFail());
     return message.error(`${lan.fail}:${data.msg}`);
   }
+  yield put(commit('refundInfo', { load: false, saveLoad: false, data: {} }));
   return message.success(lan.osucess);
 }
 function* doRefundAgainSaga(action) {
@@ -69,6 +70,7 @@ function* doRefundAgainSaga(action) {
     yield put(reverseRefundSaveFail());
     return message.error(`${lan.fail}:${data.msg}`);
   }
+  yield put(commit('reverseRefund', { saveLoad: false, show: false, data: {} }));
   return message.success(lan.osucess);
 }
 function* doRefundPassSaga(action) {

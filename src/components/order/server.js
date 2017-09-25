@@ -37,6 +37,7 @@ const diffRefund = {
 }
 
 const goodsRefund = {
+  // TODO：缺少根据 rl费用 均退 实时改变 可退金额接口
   getData: '/OrderRefund/getRefundInfo',
   getReason: '/OrderRefund/getRefundReason',
   submit: '/OrderRefund/submit',
