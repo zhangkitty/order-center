@@ -22,7 +22,11 @@ const SumOfMoney = ({ dataSource }) => {
       priceUsd: { amount: refunded },
       priceWithExchangeRate: { amountWithSymbol: refunded2, symbol: refundedSymbol },
     },
-  } = dataSource;  // TODO 订单剩余可提现金额 (接口没好)
+    remainingWithdrawAmount: { // 订单剩余可提现金额
+      priceUsd: { amount: remaining },
+      priceWithExchangeRate: { amountWithSymbol: remaining2, symbol: remainingSymbol },
+    },
+  } = dataSource;
 
   const orderPrice = [
     {
@@ -42,6 +46,12 @@ const SumOfMoney = ({ dataSource }) => {
       us: refunded,
       currency: refunded2,
       type: refundedSymbol,
+    },
+    {
+      name: __('order.entry.cash_content3'),
+      us: remaining,
+      currency: remaining2,
+      type: remainingSymbol,
     },
   ];
   return (

@@ -39,10 +39,10 @@ class cashRefund extends Component {
           className={style.content}
           onSubmit={(e) => {
             e.preventDefault();
-            console.log(refundAmount, 'refundAmount');
-            console.log(refundMethod, 'refundMethod');
+            // console.log(refundAmount, 'refundAmount');
+            // console.log(refundMethod, 'refundMethod');
             if (
-              orderId === null || !refundAmount || !refundMethod
+              orderId === null || !refundAmount
             ) {
               return message.warning(__('order.goodsRefund.missing_something'));
             }
@@ -115,7 +115,10 @@ class cashRefund extends Component {
                   onChange={e => dispatch(subchange('remark', e.target.value))}
                 />
               </div>
-              <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>{__('common.cancel')}</Button>
+              <Button
+                style={{ margin: '15px 80px 80px 0', left: '20%' }}
+                onClick={() => dispatch(reset())}
+              >{__('common.cancel')}</Button>
               <Button
                 style={{ margin: '15px 80px 80px 0', left: '20%' }}
                 type="primary" htmlType="submit"

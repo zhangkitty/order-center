@@ -44,10 +44,10 @@ const reducer = (state = defaultState, action) => {
         Number(under2Camal(action.res).walletExtractable.priceUsd.amount)
         +
         Number(under2Camal(action.res).walletNotExtractable.priceUsd.amount)
-      ).toFixed(2); // 钱包总金额
+      ).toFixed(2); // 钱包总金额（提现+不可提现）
       const max2 = Number(
-        under2Camal(action.res).refundedWalletAmount.priceUsd.amount
-      ).toFixed(2); // TODO 字段错误，没有（订单剩余可提现金额
+        under2Camal(action.res).remainingWithdrawAmount.priceUsd.amount
+      ).toFixed(2); // 订单剩余可提现金额
       const rate = Number(under2Camal(action.res).walletExtractable.priceUsd.rate);   // 汇率
       return assign({}, state, {
         ready: true,
@@ -77,15 +77,15 @@ const reducer = (state = defaultState, action) => {
         [action.key]: action.val,
       });
     case TYPES.RESET:
+      console.log(state, 'state');
+      console.log(state.submitValue, 'submitValue');
       return assign({}, state, {
         submitValue: {
-          remark: '',
-          refundList: state.submitValue.refundList.map(v => assign({}, v, {
-            refundAmount: '',
-            refundAmount2: '',
-            refund_method: '',
-            account: '',
-          })),
+          remark: 'werty',
+          refundAmount: state.submitValue.refundAmount,
+          refundAmount2: state.submitValue.refundAmount2,
+          refundethod: '',
+          account: '',
         },
       });
     case TYPES.SUBMIT_CHANGE:
