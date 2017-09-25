@@ -227,7 +227,7 @@ const SingleRow = (props) => {
 
                 {/* 换货 */}
                 {
-                  changshow[rec.goods_status] ?
+                  changshow[rec.goods_status] && Number(rec.is_replace) !== 2 ?
                     <span
                       onClick={() => {
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));

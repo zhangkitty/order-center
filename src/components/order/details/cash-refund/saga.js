@@ -27,6 +27,7 @@ function* submitSaga(action) {
     message.error(`${__('order.goodsRefund.submit_fail')}: ${data.msg}`);
     return yield put(change('submitLoad', false));
   }
+  message.success(__('common.sagaTitle25'));
   return yield put(change('submitLoad', false));
 }
 

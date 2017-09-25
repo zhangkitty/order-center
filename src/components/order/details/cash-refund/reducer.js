@@ -77,16 +77,12 @@ const reducer = (state = defaultState, action) => {
         [action.key]: action.val,
       });
     case TYPES.RESET:
-      console.log(state, 'state');
-      console.log(state.submitValue, 'submitValue');
       return assign({}, state, {
-        submitValue: {
-          remark: 'werty',
-          refundAmount: state.submitValue.refundAmount,
-          refundAmount2: state.submitValue.refundAmount2,
-          refundethod: '',
+        submitValue: assign({}, state.submitValue, {
+          remark: '',
+          refundMethod: '',
           account: '',
-        },
+        }),
       });
     case TYPES.SUBMIT_CHANGE:
       return assign({}, state, {
