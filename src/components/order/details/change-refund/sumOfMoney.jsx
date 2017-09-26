@@ -1,27 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert } from 'antd';
 import style from './style.css';
 
-const infoStyle = {
-  fontSize: '13px',
-  margin: '5px 15px',
-  padding: '0 10px',
-};
-const infoStyle2 = {
-  fontSize: '13px',
-  margin: '5px 15px',
-  color: 'red',
-  padding: '0 10px',
-};
-const priceTypes = (data, type = 'warning') => (
-  <Alert
-    key={data.name}
-    message={
-      <span>{data.name}:${data.us} --- {data.currency}</span>
-    }
-    type={type} style={type === 'warning' ? infoStyle : infoStyle2}
-  />
+const priceTypes = data => (
+  <p key={data.key || data.name}>{`${data.name} : $${data.us}`} <span>{`${data.currency ? ` , ${data.currency}` : ''}`}</span></p>
 );
 
 const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
@@ -168,22 +150,14 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
         }
       </div>
       <span className={style.descWidth}>{__('order.diffRefund.refund_amount')}:</span>
-      <div className={style.sumofmoney_left}>
+      <div className={style.sumofmoney_left} style={{ color: 'red' }}>
         {
           refundPrice.map(v => priceTypes(v, 'error'))
         }
         {/* 商品退款显示，差价退款 不显示 */}
         {
           !!waitRefundPrice.name &&
-          <Alert
-            key={waitRefundPrice.name}
-            message={
-              <span>
-                {waitRefundPrice.name}:${waitRefundPrice.us} --- {waitRefundPrice.currency}
-              </span>
-            }
-            type={'error'} style={infoStyle2}
-          />
+          <p key={waitRefundPrice.key || waitRefundPrice.name}>{`${waitRefundPrice.name} : $${waitRefundPrice.us}`} <span>{`${waitRefundPrice.currency ? ` , ${waitRefundPrice.currency}` : ''}`}</span></p>
         }
       </div>
     </div>
