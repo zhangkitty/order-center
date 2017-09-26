@@ -4,11 +4,13 @@ import * as TYPES from './types';
 const defaultState = {
   ready: false,
   provinceLoad: false,
+  show: false,
   orderId: '',
   country_list: [],
   cities: [],
   citySource: [],
   districtSource: [],
+  addressShow: [],
   load: false,
   submitValue: {
     order_id: '',
@@ -27,15 +29,30 @@ const defaultState = {
     country_value: '',
   },
 };
-
+const addresName = {
+  gender: __('order.entry.address_gender'),
+  first_name: __('order.entry.address_first'),
+  last_name: __('order.entry.address_last'),
+  father_name: __('order.entry.address_father'),
+  country_id: __('order.entry.address_country'),
+  state: __('order.entry.address_state'),
+  city: __('order.entry.address_city'),
+  district: __('order.entry.address_district'),
+  street: __('order.entry.address_street'),
+  address_line_1: __('order.entry.address1'),
+  address_line_2: __('order.entry.address2'),
+  post: __('order.entry.address_post'),
+  telephone: __('order.entry.address_telephone'),
+  national_id: __('order.entry.address_national'),
+};
 export default (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.GET_INFO_SUCCESS:
       return assign({}, state, {
-        ready: true,
         country_list: action.data.country_list,
         submitValue: assign({}, state.submitValue, {
           order_id: state.orderId,
+          site_from: action.data.site_from,
           gender: action.data.gender,
           first_name: action.data.first_name,
           last_name: action.data.last_name,
@@ -50,6 +67,20 @@ export default (state = defaultState, action) => {
           post: action.data.post,
           telephone: action.data.telephone,
         }),
+      });
+    case TYPES.GET_INFO_SHOW:
+      return assign({}, state, {
+        show: true,
+      });
+    case TYPES.GET_INFO_SHOW_SUCCESS:
+      return assign({}, state, {
+        ready: true,
+        addressShow: action.data.map(v => assign({
+          name: addresName[Object.keys(v)[0]] || Object.keys(v)[0],
+          validate: Object.values(v)[0] === 1,
+          key: Object.keys(v)[0],
+        })),
+        show: false,
       });
     case TYPES.SAVE:
       return assign({}, state, {
