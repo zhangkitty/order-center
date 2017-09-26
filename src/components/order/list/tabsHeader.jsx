@@ -8,9 +8,8 @@ import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Tooltip } f
 import moment from 'moment';
 import {
   search, searchHigh, commit, commit2,
-  initCountry, initSite, initPayment, initTrouble,
-  initMember, initOrder, initCancel, initGoods, change,
-  batchOperate, batchCheck, batchDelete, batchPart,
+  initData,
+  change, batchOperate, batchCheck, batchDelete, batchPart,
 } from './action';
 
 import styles from './style.css';
@@ -35,14 +34,7 @@ class TabsHeader extends Component {
   constructor(props) {
     super(props);
     // dispatch(init());
-    props.dispatch(initCountry());
-    props.dispatch(initSite());
-    props.dispatch(initPayment());
-    props.dispatch(initTrouble());
-    props.dispatch(initMember());  // 会员等级- 高
-    props.dispatch(initOrder());  // 订单状态
-    props.dispatch(initCancel());  // 取消类型 - 参数-订单状态=“已取消”
-    props.dispatch(initGoods());  // 商品状态 - 选中订单状态，显示 商品状态
+    props.dispatch(initData());  // 初始化数据（封装接口）
   }
 
 //  time control
