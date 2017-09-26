@@ -2,7 +2,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import * as TYPES from './types';
-import { getInfoSuccess, getInfoShow, getInfoShowSuccess, commit } from './action';
+import { getInfoSuccess, getInfoShow, getInfoShowSuccess, commit, getCity } from './action';
 import { getAddressInfo, getcitySer, editAddresSave, addressShow } from '../server';
 
 const lan = {
@@ -17,6 +17,7 @@ function* getInfoSaga(action) {
     return message.error(`${lan.fail}:${data.msg}`);
   }
   yield put(getInfoShow(data.data.site_from, data.data.country_id));
+  yield put(getCity(data.data.country_list.find(v => v.id === data.data.country_id).value));
   return yield put(getInfoSuccess(data.data));
 }
 function* getInfoShowSaga(action) {
