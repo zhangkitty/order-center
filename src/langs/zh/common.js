@@ -39,6 +39,7 @@ module.exports = {
   platform: '平台订单取消',
   review: '批量审核',
   customerCancel: '客服取消',
+  customerCancel1: '客户取消',
   orderTrouble: '订单标记',
   orderTrouble1: '问题订单',
   orderTrouble2: '作废订单',

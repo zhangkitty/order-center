@@ -33,9 +33,9 @@ const maxTypes = data => ({
   },
   2: {
     1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: Number(Number(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount) + Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5).toFixed(2), // 钱包
+    2: Number(Number(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount) + Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5).toFixed(2), // 钱包(实付金额*150%+钱包可退金额)
     3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-    4: data.orderPriceInfo.totalPrice.priceUsd.amount * 1.5,  // 溢出
+    4: data.orderPriceInfo.totalPrice.priceUsd.amount * 1.5,  // 溢出（实付金额*150%）
   },
 }
 );
@@ -60,10 +60,7 @@ const reducer = (state = defaultState, action) => {
             rate: v.refundAmount.priceUsd.rate,   // 汇率
             rate2: v.refundAmount.priceWithExchangeRate.rate, // 汇率（转$）
             currency: v.refundAmount.priceWithExchangeRate.symbol, // 非美元币种
-            max: maxTypes(under2Camal(action.res))[under2Camal(action.res).refundBillInfo.refundTypeId][v.refundPathId], // 最大值  TODO
-              //  refundAccountTypeList: v.refund_account_type_list || [],  // 退款账户 TODO
-              //  refund_method: '',   // 退款方式
-              //  account: '',    // 退款金额
+            max: maxTypes(under2Camal(action.res))[under2Camal(action.res).refundBillInfo.refundTypeId][v.refundPathId], // 最大值
           }),
           ),
         }),

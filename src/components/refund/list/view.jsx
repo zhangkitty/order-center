@@ -104,7 +104,7 @@ class refundList extends Component {
             }, {
               title: __('refund.list.path_status'), // 退款记录状态
               dataIndex: 'refund_record_status_msg',
-              width: '60px', // TODO 加判断 refund_record_status_code
+              width: '60px',
             }, {
               title: __('refund.list.bill_status'),
               dataIndex: 'refund_bill_status_msg',
