@@ -47,8 +47,14 @@ class EditAddress extends Component {
           onSubmit={(e) => {
             e.preventDefault();
             const temp = addressShow.filter(v => v.validate);
+            const isDistrict = addressShow.find(v => v.key === 'district');
             let flag = true;
             temp.every(({ key }) => {
+              if (isDistrict && !district) {
+                message.warning(lan.need);
+                flag = false;
+                return false;
+              }
               if (!submitValue[key]) {
                 message.warning(lan.need);
                 flag = false;
@@ -163,9 +169,9 @@ class EditAddress extends Component {
                   </div>
                 }
                 {
-                  key === 'district' &&
+                  key === 'district' && !!districtSource.length &&
                   <div className={style.space}>
-                    <span className={style.spanWidth}>{validate && Star}{__('order.entry.address_district')}:</span>
+                    <span className={style.spanWidth}>{Star}{__('order.entry.address_district')}:</span>
                     <Select
                       value={district}
                       style={{ width: '30%' }}

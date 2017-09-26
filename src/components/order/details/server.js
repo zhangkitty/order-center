@@ -21,7 +21,6 @@ const entry = {
 
 };
 const editAddress = {
-  // TODO: 缺少获取地址字段接口
   info: '/Order/getAddressInfo',
   getAddressRequiredValues: '/Order/getAddressRequiredValues',
   city: '/Order/getCountryCityAll',
