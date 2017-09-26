@@ -23,6 +23,7 @@ const entry = {
 const editAddress = {
   // TODO: 缺少获取地址字段接口
   info: '/Order/getAddressInfo',
+  getAddressRequiredValues: '/Order/getAddressRequiredValues',
   city: '/Order/getCountryCityAll',
   save: '/Order/updateAddress',
 }
@@ -265,4 +266,8 @@ export const cashRefundSubmit = d => {
    //  )),
   })
 };
-
+export const addressShow = (site, countryId) => (
+  fetch(`${editAddress.getAddressRequiredValues}?site_from=${site}&country_id=${countryId}`, {
+    method: 'GET',
+  })
+)

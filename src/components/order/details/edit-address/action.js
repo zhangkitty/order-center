@@ -14,6 +14,15 @@ export const getInfo = id => ({
   type: TYPES.GET_INFO,
   id,
 });
+export const getInfoShow = (site, id) => ({
+  type: TYPES.GET_INFO_SHOW,
+  site,
+  id,
+});
+export const getInfoShowSuccess = data => ({
+  type: TYPES.GET_INFO_SHOW_SUCCESS,
+  data,
+});
 export const getInfoSuccess = data => ({
   type: TYPES.GET_INFO_SUCCESS,
   data,

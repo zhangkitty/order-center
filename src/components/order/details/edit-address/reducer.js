@@ -32,7 +32,6 @@ export default (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.GET_INFO_SUCCESS:
       return assign({}, state, {
-        ready: true,
         country_list: action.data.country_list,
         submitValue: assign({}, state.submitValue, {
           order_id: state.orderId,
@@ -50,6 +49,10 @@ export default (state = defaultState, action) => {
           post: action.data.post,
           telephone: action.data.telephone,
         }),
+      });
+    case TYPES.GET_INFO_SHOW_SUCCESS:
+      return assign({}, state, {
+        ready: true,
       });
     case TYPES.SAVE:
       return assign({}, state, {

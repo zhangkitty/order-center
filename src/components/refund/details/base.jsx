@@ -27,11 +27,11 @@ const language = {
   新增备注: '新增备注',
   驳回: '驳回',
   通过: '通过',
-  退款路径: '退款路径', //  TODO：文档缺少
-  用户钱包总额: '用户钱包总额', // TODO：文档缺少
-  提现金额: '提现金额', // TODO：文档缺少
-  退款提交人: '退款提交人', // TODO：文档缺少
-  退款操作人: '退款操作人', // TODO：文档缺少
+  退款路径: '退款路径', //  TODO
+  用户钱包总额: '用户钱包总额',
+  提现金额: '提现金额', // TODO：
+  退款提交人: '退款提交人', // TODO：
+  退款操作人: '退款操作人', // TODO
   退款返还金额: '退款返还金额',
   退款金额: '退款金额',
   确认: '确认',
@@ -52,6 +52,7 @@ const Base = ({
       { name: language.订单号, key: 'billno' },
       { name: language.订单总金额, key: 'TOTAL' },
       { name: language.支付方式, key: 'payment_method' },
+      { name: language.用户钱包总额, key: 'WALLET_TOTAL' },
       { name: language.支付交易号, key: 'txn_id' },
       { name: language.剩余可退金额, key: 'REST' },
       { name: language.运费和运费险, key: 'shipping' },
@@ -71,7 +72,7 @@ const Base = ({
     card_payment_price, wallet_payment_price, gift_card_payment_price,
     gift_card_can_be_refunded_price, card_can_be_refunded_price,
     wallet_or_card_can_be_refunded_price, refund_amount, refund_status_code,
-    refund_type_code,
+    refund_type_code, wallet_balance,
   } = refund_detail;
   return (
     <div className={styles.alertBg}>
@@ -81,6 +82,13 @@ const Base = ({
             info.left.map(({ name, key }) => (
               <div key={key} >
                 <span className={styles.spanWidthL}>{ name }: </span>
+                {
+                  key === 'WALLET_TOTAL' &&
+                  <span style={{ color: 'red' }}>
+                      {wallet_balance.price_usd.amount_with_symbol} {wallet_balance
+                    .price_with_exchange_rate.amount_with_symbol}
+                  </span>
+                }
                 {
                   key === 'TOTAL' &&
                   <span>
@@ -163,8 +171,10 @@ const Base = ({
                 <div>
                   <span>{language.退款返还金额}</span>
                   <p>{language.退款金额}</p>
-                  {/* TODO: 退款金额  */}
-                  <span>$$$$$退款金额</span>
+                  <span>
+                    {refund_amount.price_usd.amount_with_symbol} {refund_amount
+                    .price_with_exchange_rate.amount_with_symbol}
+                  </span>
                 </div>
               }
               onConfirm={() => dispatch(doRefundPass())}

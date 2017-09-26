@@ -36,7 +36,7 @@
     "glob": "^7.1.2",
     "i18n-webpack-plugin": "^1.0.0",
     "postcss-loader": "^2.0.6",
-    "react-redux-component-loader": "^3.2.2",
+    "react-redux-component-loader": "^3.5.0",
     "style-loader": "^0.18.2",
     "webpack": "^3.5.5"
   },
