@@ -60,8 +60,8 @@ export default (state = defaultState, action) => {
           country_value: action.data.country_list.find(v => v.id === action.data.country_id).value,
           state: action.data.state,
           city: action.data.city,
-          district: action.data.district, // TODO: need
-          street: action.data.street, // TODO: need
+          district: action.data.district,
+          street: action.data.street,
           address_line_1: action.data.address_line_1,
           address_line_2: action.data.address_line_2,
           post: action.data.post,
