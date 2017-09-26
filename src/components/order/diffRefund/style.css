@@ -25,6 +25,7 @@
     padding:10px;
     display: flex;
     margin-bottom:15px;
+    line-height:22px;
 }
 .spaceBg {
     display: flex;
@@ -170,7 +171,6 @@
 .descWidth {
     width: 150px;
     color: rgb(148, 148, 148);
-    line-height: 28px;
 }
 .refundsgoods {
     display: flex;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import style from './style.css';
 
 const priceTypes = data => (
-  <span key={data.key || data.name}>{`${data.name} : $${data.us}${data.currency ? ` , ${data.currency}` : ''}`}</span>
+  <p key={data.key || data.name}>{`${data.name} : $${data.us}`} <span>{`${data.currency ? ` , ${data.currency}` : ''}`}</span></p>
 );
 
 const SumOfMoney = ({ orderPriceInfo }) => {
@@ -151,9 +151,9 @@ const SumOfMoney = ({ orderPriceInfo }) => {
         }
       </div>
       <span className={style.descWidth}>{__('order.diffRefund.refund_amount')}:</span>
-      <div className={style.sumofmoney_left}>
+      <div className={style.sumofmoney_left} style={{ color: 'red' }}>
         {
-          refundPrice.map(v => priceTypes(v, 'error'))
+          refundPrice.map(v => priceTypes(v))
         }
       </div>
     </div>
