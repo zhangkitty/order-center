@@ -303,7 +303,7 @@ class TabsHeader extends Component {
                 >
                   {__('common.search')}
                 </Button>
-                <Tooltip placement="topLeft" title={__('order.name.tip_title')}>
+                <Tooltip placement="topLeft" title={<pre>{__('order.name.tip_title')}</pre>}>
                   <a>{__('order.name.tip')}</a>
                 </Tooltip>
               </form>
@@ -562,7 +562,7 @@ class TabsHeader extends Component {
                 >
                   {__('common.search')}
                 </Button>
-                <Tooltip placement="topLeft" title={__('order.name.tip_title')}>
+                <Tooltip placement="topLeft" title={<pre>{__('order.name.tip_title')}</pre>}>
                   <a>{__('order.name.tip')}</a>
                 </Tooltip>
               </form>
