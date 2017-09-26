@@ -17,6 +17,7 @@ const list = {
   initOrder: '/Order/getOrderStatusType',    // 订单状态 -
   initCance: '/Order/getCancelType',    // 取消类型列表 --
   initGoods: '/Order/getOrderGoodsStatusType',    // 商品状态列表--
+  initData: '/Order/getSearchConfig',    // 初始化数据
   operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
   orderRemark: '/order/remark',  // 备注查询
   orderSaveRemark: '/order/saveRemark',  // 添加备注
@@ -117,6 +118,14 @@ export const initGoodsSer = () => (
     method: 'GET',
   })
 );
+
+// 初始化数据
+export const initDataSer = () => (
+  fetch(list.initData, {
+    method: 'GET',
+  })
+);
+
 
 // 商品操作查询
 export const operationGoodsSer = id => (
