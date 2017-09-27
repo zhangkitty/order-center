@@ -142,9 +142,12 @@ class goodsControlEdit extends Component {
             </span>
             <div>
               {
-                feedback_thumb.map(v => (
-                  <img src={v} alt="model" className={Styles.uploaderImg} />
-                ))
+                feedback_thumb.length < 1 ?
+                  null
+                  :
+                  feedback_thumb.map(v => (
+                    <img src={v} alt="model" className={Styles.uploaderImg} />
+                  ))
               }
               {
                 feedback_thumb.length < 2 ?
