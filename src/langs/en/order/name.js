@@ -3,7 +3,7 @@
  */
 module.exports = {
   choose: 'Please Select',
-  search_list: '订单列表',
+  search_list: 'order list',
   search1: 'General Search',
   search2: 'Advanced Search',
   search3: '批量操作',
@@ -27,8 +27,8 @@ module.exports = {
   sku: 'sku',
   count: 'Quantity of Item in Stock >',
   member_level: '会员等级',
-  order_status: '订单状态',
-  goods_status: '商品状态',
+  order_status: 'Order Status',
+  goods_status: 'Item Status',
   cancel_type: '取消类型',
   goods_time: 'Update Time of Item Status',
   time_interval_large: '时间间隔不能超过1个月',
