@@ -33,7 +33,7 @@ const Goods = ({ dataSource: { refund_goods } }) => (
           render: (img, rec) => (
             <div className={styles.goodsImg}>
               <div>
-                <img src={'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2628255248,1582396004&fm=27&gp=0.jpg'} alt="pic" width={100} />
+                <img src={img} alt="pic" width={100} />
               </div>
               <div className={styles.goodsImgDesc}>
                 <p>{rec.goods_name}</p>
