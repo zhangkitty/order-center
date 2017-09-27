@@ -20,8 +20,8 @@ const defaultState = {
   submitValue: {
     orderId: null,
     goodsIds: [],
-    shipping: null,
-    rlFee: null,
+    shipping: 0,
+    rlFee: 0,
     refundPaths: [],
     reason: { reasonId: null, goodsIds: [] },
     remark: '',

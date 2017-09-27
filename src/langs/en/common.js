@@ -39,6 +39,7 @@ module.exports = {
   platform: '平台订单取消',
   review: '批量审核',
   customerCancel: '客服取消',
+  customerCancel1: '客户取消',
   orderTrouble: 'Mark the Order',
   orderTrouble1: 'Problematic Order',
   orderTrouble2: 'Testing Order',
@@ -105,6 +106,7 @@ module.exports = {
   sagaTitle28: '加入部分发队列成功!',
   sagaTitle29: '操作成功！', // 平台取消成功提示
   sagaTitle30: '获取价格信息失败',
+  sagaTitle31: '获取数据失败',
   contentTitle: '暂无数据',
   content_name: '退款原因',  // 内容名称
   content_name1: '备注信息',

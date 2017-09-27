@@ -23,6 +23,13 @@ module.exports = Object.keys(languages).map((lang) => ({
   resolve: {
     extensions: ['.js', '.jsx', '.scss', '.css', '.json'],
   },
+  externals: {
+    antd: 'window.antd',
+    react: 'window.React',
+    'react-dom': 'window.ReactDOM',
+    moment: 'window.moment',
+    'babel-polyfill': 'window.undefined'
+  },
   module: {
     rules: [
       {
@@ -41,7 +48,7 @@ module.exports = Object.keys(languages).map((lang) => ({
       },
       {
         test: /\.css$/,
-        loaders: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[path]__[local]-[hash:base64:5]'],
+        loaders: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[path]__[local]-[hash:base64:5]', 'postcss-loader'],
       },
       {
         test: /\.(ttf|eot|svg|woff)/,

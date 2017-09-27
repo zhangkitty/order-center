@@ -17,6 +17,7 @@ const list = {
   initOrder: '/Order/getOrderStatusType',    // 订单状态 -
   initCance: '/Order/getCancelType',    // 取消类型列表 --
   initGoods: '/Order/getOrderGoodsStatusType',    // 商品状态列表--
+  initData: '/Order/getSearchConfig',    // 初始化数据
   operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
   orderRemark: '/order/remark',  // 备注查询
   orderSaveRemark: '/order/saveRemark',  // 添加备注
@@ -33,17 +34,19 @@ const list = {
 const diffRefund = {
   initReasonList: '/OrderRefund/getRefundReason', //获取差价退款原因列表
   initPriceInfo: '/OrderDiffRefund/getOrderDiffRefundPriceInfo', //获取订单差价退款金额信息(查询)(接口负责人:周利宝)
-  submitOrder: '/OrderDiffRefund/submitRefund'   //订单差价退款（提交）(接口负责人:周利宝)
+//  submitOrder: '/OrderDiffRefund/submitRefund'   //订单差价退款（提交）(接口负责人:周利宝)
+  submitOrder: '/OrderRefund/applyDiffRefund'   //订单差价退款（提交）(接口负责人:刘梓友)
 }
 
 const goodsRefund = {
+  // TODO：缺少根据 rl费用 均退 实时改变 可退金额接口
   getData: '/OrderRefund/getRefundInfo',
   getReason: '/OrderRefund/getRefundReason',
   submit: '/OrderRefund/submit',
 };
 
 export const searchSubmit = (page) => {
-  const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'remarkUser', 'totalSelect', 'totalInput'];
+  const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'trouble_user', 'totalSelect', 'totalInput'];
   return fetch(`${list.init}?${camel2Under(queryString(keys, page))}`, {
     method: 'GET',
   })
@@ -116,6 +119,14 @@ export const initGoodsSer = () => (
     method: 'GET',
   })
 );
+
+// 初始化数据
+export const initDataSer = () => (
+  fetch(list.initData, {
+    method: 'GET',
+  })
+);
+
 
 // 商品操作查询
 export const operationGoodsSer = id => (
@@ -205,13 +216,12 @@ export const initPriceInfo = (data)=>{
     }).then(under2Camal)
 }
 
-export const submitOrder = data =>{
-  console.log(JSON.stringify(data))
-    return fetch(`${diffRefund.submitOrder}`,{
+export const submitOrder = data =>(
+  fetch(`${diffRefund.submitOrder}`,{
         method: 'POST',
         body:JSON.stringify(camel2Under(data)),
     })
-}
+)
 export const getDataSer = (orderId, goodsId) => (
   fetch(`${goodsRefund.getData}?order_id=${orderId}&goods_id=${goodsId}`,{
     method: 'GET',

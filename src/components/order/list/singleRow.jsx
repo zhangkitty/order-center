@@ -134,8 +134,8 @@ const SingleRow = (props) => {
           <span> {data.site_from}</span> <span>{data.country_name}</span>
         </div>
         <div className={Styles.orderTitleR}>
-          {
-            data.order_type === 3 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
+          { // 红人订单
+            Number(data.order_type) === 3 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
           }
           <span> {data.payment_method}</span>
           <span>{__('common.total')}{data.usd_price} </span>
@@ -185,15 +185,31 @@ const SingleRow = (props) => {
             width: '15%',
             render: (d, res) => (<div style={{ textAlign: 'center' }}> ${d} <p style={{ color: '#f00' }}>(${res.coupon_price})</p></div>),
           }, {
-            title: '退款单状态', // TODO  加 COD订单，取消原因
+            title: '退款单状态',
             dataIndex: 'refund_bill_status',
             width: '15%',
             render: (d, res) => (
               <div style={{ textAlign: 'center' }}>
-                { // 商品状态=75（COD客服取消) && 订单状态 !=14 (已取消), 显示 "客服取消"
-                  Number(res.goods_status) === 75 && Number(data.order_status) !== 14 ?
-                    __('common.customerCancel')   // 客服取消
-                    : refundBillStatus[d]
+                { // 非COD订单，显示商品对应的退款单状态名称
+                  data.payment_method !== 'cod' ?
+                    refundBillStatus[d]
+                    : null
+                }
+                { // COD订单，商品状态＝“COD客服取消”，显示“客服取消”，且显示取消原因；
+                  Number(res.goods_status) === 75 ?
+                    <p>
+                      {__('common.customerCancel')}<br />
+                      <span>({res.cancel_reason})</span>
+                    </p>
+                    : null
+                }
+                { // COD订单，商品状态＝“COD客户取消”，则此处显示“客户取消”，且显示取消原因；
+                  Number(res.goods_status) === 82 ?
+                    <p>
+                      {__('common.customerCancel1')}<br />
+                      <span>({res.cancel_reason})</span>
+                    </p>
+                    : null
                 }
               </div>
             ),
@@ -227,7 +243,7 @@ const SingleRow = (props) => {
 
                 {/* 换货 */}
                 {
-                  changshow[rec.goods_status] ?
+                  changshow[rec.goods_status] && Number(rec.is_replace) !== 2 ?
                     <span
                       onClick={() => {
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
@@ -319,13 +335,14 @@ const SingleRow = (props) => {
                   if (!batchGoods || batchGoods.length < 1) {
                     return message.warning(__('common.sagaTitle24'));
                   }
-                  return hashHistory.push(`/order/goodsRefund/${data.order_id}/${batchGoods}`);
+                  // return hashHistory.push(`/order/goodsRefund/${data.order_id}/${batchGoods}`);
+                  return window.open(`${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${batchGoods}`);
                 }}
               >{__('common.order_operation2')}</Button>
           }
 
           {/*  差价退款 */}
-          <Link to={`/order/diffRefund/${data.order_id}/2`}>{__('common.order_operation3')}</Link>
+          <Link to={`/order/diffRefund/${data.order_id}/2`} target="_blank">{__('common.order_operation3')}</Link>
 
           {/*  备注 */}
           <Popover

@@ -23,10 +23,6 @@ const lan = {
   quxiaotuikuai: __('order.entry.refund_15'),
   cancelRefund: __('order.entry.refund_16'),
 };
-const to = id => ({
-  1: `/order/details/modify-goods-refund/${id}`,
-  2: `/order/details/modify-diff-refund/${id}`,
-});
 
 const Refund = (
   {
@@ -49,7 +45,7 @@ const Refund = (
                 .filter(v => Number(v.status_code) === 3)
                 .length
                 ?
-                  <Link className={style.refundButton} to={`order/details/withdraw/${orderId}`}>{lan.tixiantuikuan}</Link>
+                  <Link className={style.refundButton} to={`order/details/cash-refund/${orderId}`}>{lan.tixiantuikuan}</Link>
                   :
                   null
             }
@@ -92,7 +88,7 @@ const Refund = (
             {
               title: lan.shangpin,
               dataIndex: 'refund_goods_list',
-              render: d => (<span>{d.map(v => v.serial_number).join('、')}</span>),
+              render: d => (<span>{d.join('、')}</span>),
             },
             {
               title: lan.lujin,
@@ -118,7 +114,7 @@ const Refund = (
                   {
                     rec.type_id < 3 && rec.status_code === 4 || rec.status_code === 1 ?
                       <Link
-                        to={to(rec.id)[rec.type_id]}
+                        to={`order/details/change-refund/${rec.id}`}
                       >
                         {lan.xiugaishenqing}
                       </Link> : null

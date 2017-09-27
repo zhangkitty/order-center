@@ -194,7 +194,7 @@ const Packge = (
               return dispatch(commit('chooseGoods', chooseGoods.filter(v => v !== rec.id)));
             }}
           />
-          <span>{rec.serial_number}</span>
+          <span style={{ width: '50px', display: 'inline-block' }}>{rec.serial_number}</span>
           <img alt="pic" src={d} width="50px" height="50px" style={{ margin: '0 10px' }} />
           {
             show &&

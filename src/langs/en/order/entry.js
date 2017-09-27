@@ -1,8 +1,8 @@
 module.exports = {
-  basic: '基本信息en',
+  basic: '基本信息',
   pay: '支付信息',
   refunds: '退款信息',
-  return: '退货信息en',
+  return: '退货信息',
   order_log: '订单日志',
   shipping_address: 'Shipping Address',
   billing_address: 'Billing Address',
@@ -40,7 +40,7 @@ module.exports = {
   pay_date: '付款日期',
   source_country: '来源国家',
   base_desc: '基本信息',
-  goods_no_packge: '未形成包裹商品 en',
+  goods_no_packge: '未形成包裹商品 ',
   packge: '包裹',
   return_goods: '退货商品',
   refund_goods: '退款商品',
@@ -142,4 +142,12 @@ module.exports = {
   submit_info5: '上传失败',
   submit_info6: '获取数据失败',
   submit_info7: '加入部分发队列成功',
+  cash_content: '钱包可提现余额',  // 提现退款
+  cash_content1: '不可提现金额',
+  cash_content2: '退钱包总金额',
+  cash_content3: '订单剩余可提现金额',
+  cash_content4: '类型',
+  cash_content5: '提现金额',
+  cash_content6: '账户',
+  cash_content7: '请输入正确的退款账户信息',
 };

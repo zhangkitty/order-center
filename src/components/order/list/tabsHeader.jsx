@@ -8,9 +8,8 @@ import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Tooltip } f
 import moment from 'moment';
 import {
   search, searchHigh, commit, commit2,
-  initCountry, initSite, initPayment, initTrouble,
-  initMember, initOrder, initCancel, initGoods, change,
-  batchOperate, batchCheck, batchDelete, batchPart,
+  initData,
+  change, batchOperate, batchCheck, batchDelete, batchPart,
 } from './action';
 
 import styles from './style.css';
@@ -35,14 +34,7 @@ class TabsHeader extends Component {
   constructor(props) {
     super(props);
     // dispatch(init());
-    props.dispatch(initCountry());
-    props.dispatch(initSite());
-    props.dispatch(initPayment());
-    props.dispatch(initTrouble());
-    props.dispatch(initMember());  // 会员等级- 高
-    props.dispatch(initOrder());  // 订单状态
-    props.dispatch(initCancel());  // 取消类型 - 参数-订单状态=“已取消”
-    props.dispatch(initGoods());  // 商品状态 - 选中订单状态，显示 商品状态
+    props.dispatch(initData());  // 初始化数据（封装接口）
   }
 
 //  time control
@@ -67,7 +59,7 @@ class TabsHeader extends Component {
     } = this.props;
     const {
       billno, orderId, shippingNo, referenceNumber, telephone, email, paytimeStart, paytimeEnd,
-      countryName, siteFrom, txnId, paymentMethod, troubleType, remarkUser, totalSelect, totalInput,
+      countryName, siteFrom, txnId, paymentMethod, troubleType, trouble_user, totalSelect, totalInput,
     } = queryString;
     const {
       paytimeStart2,
@@ -75,7 +67,8 @@ class TabsHeader extends Component {
       countryName2,
       siteFrom2,
       paymentMethod2,
-      troubleType: troubleType2, goodsSn, yoho_count, memberLevel, orderStatus,
+      troubleType2,
+      goodsSn, yoho_count, memberLevel, orderStatus,
       cancelReason, goodsStatus, handleTimeStart, handleTimeEnd,
     } = queryString2;
     return (
@@ -227,7 +220,7 @@ class TabsHeader extends Component {
                       value={troubleType}
                       onChange={(val) => {
                         if (val === undefined) {
-                          dispatch(commit('remarkUser', null));
+                          dispatch(commit('trouble_user', null));
                         }
                         dispatch(commit('troubleType', val));
                       }}
@@ -239,13 +232,14 @@ class TabsHeader extends Component {
                       }
                     </Select>
                   </div>
+                  {/* 标记人 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.remark_user')}</span>
                     <Input
                       disabled={troubleType === null || troubleType === 'null' || !troubleType}
                       className={styles.colSpace}
-                      value={remarkUser}
-                      onChange={e => dispatch(commit('remarkUser', e.target.value))}
+                      value={trouble_user}
+                      onChange={e => dispatch(commit('trouble_user', e.target.value))}
                     />
                   </div>
 
@@ -309,7 +303,7 @@ class TabsHeader extends Component {
                 >
                   {__('common.search')}
                 </Button>
-                <Tooltip placement="topLeft" title={__('order.name.tip_title')}>
+                <Tooltip placement="topLeft" title={<pre>{__('order.name.tip_title')}</pre>}>
                   <a>{__('order.name.tip')}</a>
                 </Tooltip>
               </form>
@@ -425,8 +419,8 @@ class TabsHeader extends Component {
                     <Select
                       allowClear
                       className={styles.colSpace}
-                      value={troubleType}
-                      onChange={val => dispatch(commit2('troubleType', val))}
+                      value={troubleType2}
+                      onChange={val => dispatch(commit2('troubleType2', val))}
                     >
                       {
                         fetchTrouble.map(item => (
@@ -568,7 +562,7 @@ class TabsHeader extends Component {
                 >
                   {__('common.search')}
                 </Button>
-                <Tooltip placement="topLeft" title={__('order.name.tip_title')}>
+                <Tooltip placement="topLeft" title={<pre>{__('order.name.tip_title')}</pre>}>
                   <a>{__('order.name.tip')}</a>
                 </Tooltip>
               </form>
@@ -613,7 +607,6 @@ class TabsHeader extends Component {
                 {/* 平台取消订单 */}
                 <Button
                   onClick={() => {
-
                     if (batchChooseOrder.length < 1) {
                       return message.warning(__('common.submitTitle3'));
                     }

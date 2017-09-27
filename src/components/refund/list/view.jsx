@@ -4,9 +4,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Table } from 'antd';
+import { Table, message } from 'antd';
 import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import Pagination from '../../publicComponent/pagination';
 import { search, commit, init } from './action';
 import TabsHeader from './tabsHeader';
@@ -36,10 +37,24 @@ class refundList extends Component {
             loading={searchLoad}
             pagination={false}
             dataSource={dataSource}
+            onChange={() => {
+              if (
+                moment(queryString.apply_start_time).valueOf() > moment(queryString.apply_end_time).valueOf()
+                ||
+                moment(queryString.refund_start_time).valueOf() > moment(queryString.refund_end_time).valueOf()
+              ) {
+                return message.warning(__('refund.list.submitTitle'));
+              }
+              return dispatch(search(assign({},
+                queryString,
+                {
+                  sorting_rule: queryString.sorting_rule === 0 ? 1 : 0,
+                })));
+            }}
             columns={[{
               title: __('refund.list.refund_number'),
               dataIndex: 'refund_bill_id',
-              width: '80px',
+              width: '60px',
               render: (text, record) => {
                 const obj = {
                   children: text,
@@ -55,7 +70,7 @@ class refundList extends Component {
             }, {
               title: __('refund.list.site'),
               dataIndex: 'site_from',
-              width: '80px',
+              width: '60px',
             }, {
               title: __('refund.list.country'),
               dataIndex: 'country',
@@ -63,15 +78,15 @@ class refundList extends Component {
             }, {
               title: __('refund.list.refund_type'), // 退款类型
               dataIndex: 'refund_type_name',
-              width: '100px',
+              width: '80px',
             }, {
               title: __('refund.list.email'),
               dataIndex: 'email',
-              width: '100px',
+              width: '150px',
             }, {
               title: __('refund.list.refund_path'),
               dataIndex: 'refund_path_name', // 退款路径
-              width: '100px',
+              width: '60px',
             }, {
               title: __('refund.list.content'), // 退金额
               dataIndex: 'refund_record_amount',
@@ -89,27 +104,28 @@ class refundList extends Component {
             }, {
               title: __('refund.list.path_status'), // 退款记录状态
               dataIndex: 'refund_record_status_msg',
-              width: '100px', // TODO 加判断 refund_record_status_code
+              width: '60px',
             }, {
               title: __('refund.list.bill_status'),
               dataIndex: 'refund_bill_status_msg',
-              width: '100px',
+              width: '60px',
             }, {
               title: __('refund.list.applicant'),
               dataIndex: 'add_user',
               width: '80px',
             }, {
-              title: __('refund.list.apply_time'),
+              title: __('refund.list.apply_time'), // 退款申请日期
               dataIndex: 'refund_bill_add_time',
-              width: '100px',
+              sorter: true,
+              width: '130px',
             }, {
               title: __('refund.list.operator'),
               dataIndex: 'handle_user',
               width: '80px',
             }, {
-              title: __('refund.list.refund_time'),
+              title: __('refund.list.refund_time'), // 退款日期
               dataIndex: 'refund_time',
-              width: '100px',
+              width: '130px',
             }, {
               title: __('refund.list.operate'),
               width: '80px',

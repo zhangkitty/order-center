@@ -38,7 +38,7 @@ const defaultState = {
     txnId: null,   // 付款流水号
     paymentMethod: null,   // 支付方式
     troubleType: null,   // 问题件类型-选中后显示标记人
-    remarkUser: null,   // 标记人
+    trouble_user: null,   // 标记人
     totalSelect: null,   // 美金金额比较符
     totalInput: null,   // 美金金额
   },
@@ -48,10 +48,10 @@ const defaultState = {
     pageNumber: 1,
     paytimeStart2: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD'),   // 付款时间
     paytimeEnd2: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD'),          // 付款时间
-    siteFrom: null,   // 站点
-    countryName: null,   // 国家
-    paymentMethod: null,   // 支付方式
-    troubleType: null,   // 问题件类型
+    siteFrom2: null,   // 站点
+    countryName2: null,   // 国家
+    paymentMethod2: null,   // 支付方式
+    troubleType2: null,   // 问题件类型
     goodsSn: null,    // sku
     yoho_count: null,   // 有货件数
     memberLevel: null,    // 会员等级
@@ -98,7 +98,7 @@ const cgsReducer = (dataSource, orderId, result) => {
       order_goods: [
         ...dataSource[index].order_goods.map(v => (
           v.order_goods_sort === result.replace_goods_sort ?
-            assign({}, v, {is_replace: 1}) : v
+            assign({}, v, { is_replace: 1 }) : v
         )),
         result,
       ],
@@ -138,7 +138,6 @@ const reducer = (state = defaultState, action) => {
         }),
       });
     case TYPES.COMMIT_HIGH:
-      // console.log(action, 'COMMIT_HIGH');
       return assign({}, state, {
         queryString2: assign({}, state.queryString2, {
           [action.key]: action.val,
@@ -212,108 +211,24 @@ const reducer = (state = defaultState, action) => {
         total: action.data.total,
         searchLoad: false,
       });
-    case TYPES.INIT_COUNTRY:
+    case TYPES.INIT_DATA:   // 初始化数据
       return assign({}, state, {
         load: true,
       });
-    case TYPES.INIT_COUNTRY_FAIL:
+    case TYPES.INIT_DATA_FAIL:
       return assign({}, state, {
         load: false,
       });
-    case TYPES.INIT_COUNTRY_SUCCESS:
+    case TYPES.INIT_DATA_SUCCESS:
       return assign({}, state, {
-        fetchCountry: action.data.data,
-        load: false,
-      });
-    case TYPES.INIT_SITE:
-      return assign({}, state, {
-        load: true,
-      });
-    case TYPES.INIT_SITE_FAIL:
-      return assign({}, state, {
-        load: false,
-      });
-    case TYPES.INIT_SITE_SUCCESS:
-      return assign({}, state, {
-        fetchSite: action.data.data,
-        load: false,
-      });
-    case TYPES.INIT_PAYMENT:
-      return assign({}, state, {
-        load: true,
-      });
-    case TYPES.INIT_PAYMENT_FAIL:
-      return assign({}, state, {
-        load: false,
-      });
-    case TYPES.INIT_PAYMENT_SUCCESS:
-      return assign({}, state, {
-        fetchPayment: action.data.data,
-        load: false,
-      });
-    case TYPES.INIT_TROUBLE:
-      return assign({}, state, {
-        load: true,
-      });
-    case TYPES.INIT_TROUBLE_FAIL:
-      return assign({}, state, {
-        load: false,
-      });
-    case TYPES.INIT_TROUBLE_SUCCESS:
-      return assign({}, state, {
-        fetchTrouble: action.data.data,
-        load: false,
-      });
-    case TYPES.INIT_MEMBER:
-      return assign({}, state, {
-        load: true,
-      });
-    case TYPES.INIT_MEMBER_FAIL:
-      return assign({}, state, {
-        load: false,
-      });
-    case TYPES.INIT_MEMBER_SUCCESS:
-      return assign({}, state, {
-        fetchMemberLevel: action.data.data,
-        load: false,
-      });
-    case TYPES.INIT_ORDER:
-      return assign({}, state, {
-        load: true,
-      });
-    case TYPES.INIT_ORDER_FAIL:
-      return assign({}, state, {
-        load: false,
-      });
-    case TYPES.INIT_ORDER_SUCCESS:
-      return assign({}, state, {
-        fetchOrderStatus: action.data.data,
-        load: false,
-      });
-    case TYPES.INIT_CANCEL:
-      return assign({}, state, {
-        load: true,
-      });
-    case TYPES.INIT_CANCEL_FAIL:
-      return assign({}, state, {
-        load: false,
-      });
-    case TYPES.INIT_CANCEL_SUCCESS:
-      return assign({}, state, {
-        fetchCancelReason: action.data.data,
-        load: false,
-      });
-    case TYPES.INIT_GOODS:
-      return assign({}, state, {
-        load: true,
-      });
-    case TYPES.INIT_GOODS_FAIL:
-      return assign({}, state, {
-        load: false,
-      });
-    case TYPES.INIT_GOODS_SUCCESS:
-      return assign({}, state, {
-        fetchGoodsStatus: action.data.data,
+        fetchCountry: action.data.data.country, // 国家
+        fetchSite: action.data.data.site,   // 站点
+        fetchPayment: action.data.data.payment_method,  // 支付方式
+        fetchTrouble: action.data.data.trouble_type,  // 问题件类型
+        fetchMemberLevel: action.data.data.member_level,  // 会员等级
+        fetchOrderStatus: action.data.data.order_status, // 订单状态
+        fetchCancelReason: action.data.data.cancel_type, // 取消类型
+        fetchGoodsStatus: action.data.data.order_goods_status,   // 商品状态
         load: false,
       });
     case TYPES.OPERATION_GOODS:
@@ -384,7 +299,7 @@ const reducer = (state = defaultState, action) => {
         load: false,
         dataSource: state.dataSource.map(v => (
           v.order_id === action.id ?
-            assign({}, v, {transhRemark: action.data}) : v
+            assign({}, v, { transhRemark: action.data }) : v
         )),
       });
     case TYPES.LOGISITICS_REMARK_SAVE:
@@ -395,7 +310,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         // loadUpdata: false,
       });
-    case TYPES.LOGISITICS_REMARK_SAVE_SUCCESS:   // 物流备注更新成功，物流备注(have_remark_admin)，备注(have_remark) 状态 改为1
+    case TYPES.LOGISITICS_REMARK_SAVE_SUCCESS:   // 物流备注更新成功
       return assign({}, state, {
         // logisticsVisible: false,
         // loadUpdata: false,
@@ -468,18 +383,21 @@ const reducer = (state = defaultState, action) => {
     case TYPES.CANCEL_RISK_SUCCESS:
       return assign({}, state, {
         dataSource: state.dataSource.map(v => (
-          v.order_id === action.id ? assign({}, v, {cancelRiskDesc: action.data}) : v
+          v.order_id === action.id ? assign({}, v, { cancelRiskDesc: action.data }) : v
         )),
       });
     case TYPES.CANCEL_TROUBLE_TAG_SUCCESS:
       return assign({}, state, {
         dataSource: state.dataSource.map(v => (
-          v.order_id === action.oid ? assign({}, v, {is_trouble: 0}) : v
+          v.order_id === action.oid ? assign({}, v, { is_trouble: 0 }) : v
         )),
       });
     case TYPES.MARK_TAG:
       return assign({}, state, {
-        markTag: {order_id: action.oid, markTagVisible: true},
+        markTag: {
+          order_id: action.oid,
+          markTagVisible: true,
+        },
       });
     case TYPES.UPDATE_ORDER_TAG_SUCCESS:    // 标记问题件更新成功，备注(have_remark) 状态 改为1
       return assign({}, state, {
@@ -490,7 +408,7 @@ const reducer = (state = defaultState, action) => {
               have_remark: 1,
             }) : v
         )),
-        markTag: assign({}, state.markTag, {markTagVisible: false}),  // have_remark === 1,  have_remark_admin === 1
+        markTag: assign({}, state.markTag, { markTagVisible: false }),
       });
     case TYPES.DEL_CHANGE:
       return state;
@@ -516,15 +434,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.BATCH_DELETE_SUCCESS:    // 批量平台取消,删除订单
       return assign({}, state, {
         dataSource: state.dataSource.filter(v => {
-          return action.data.order_ids.indexOf(v.order_id) < 0;
-          // if (action.data.order_ids.indexOf(v.order_id) > -1) {
-          //   return assign({}, v, {
-          //     order_status_title: '已取消',
-          //     order_status: '14',
-          //   });
-          // } else {
-          //   return v;
-          // }
+          return action.data.order_ids.indexOf(v.order_id) < 0; // 删除订单
         }),
       });
     case TYPES.BATCH_PART_SUCCESS:    // 批量部分发

@@ -5,9 +5,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // import assign from 'object-assign';
-import { Radio, Button, Form, Input, Tag, message, Spin } from 'antd';
-import { initPriceInfo, initReasonList, subchange, submitForward, change, reset } from './action';
-import SumOfMoney from './sumOfMoney';
+import { Radio, Button, Input, Tag, message, Spin } from 'antd';
+import { initPriceInfo, initReasonList, submitForward, change, reset } from './action';
+import SumOfMoney from './sumof-money';
 import Price from './price';
 
 import styles from './style.css';
@@ -25,7 +25,7 @@ class DiffRefund extends Component {
 
   render() {
     const {
-      ready, dispatch, ReasonList, reason, remark, order_id, refundPaths, orderPriceInfo,
+      ready, dispatch, ReasonList, reason, remark, order_id, refundPaths, orderPriceInfo, maxTips,
     } = this.props;
     return (
       ready ?
@@ -48,7 +48,7 @@ class DiffRefund extends Component {
             }}
           >
             <SumOfMoney orderPriceInfo={orderPriceInfo} dispatch={dispatch} />
-            <Price refundPaths={this.props.refundPaths} dispatch={dispatch} />
+            <Price refundPaths={this.props.refundPaths} dispatch={dispatch} maxTips={maxTips} />
             <div className={styles.row}>
               <span className={styles.rowSpan}>{__('common.content_name')}{Star}:</span>
               <Radio.Group
@@ -103,6 +103,7 @@ DiffRefund.propTypes = {
   refundPaths: PropTypes.arrayOf(PropTypes.shape()),
   orderPriceInfo: PropTypes.shape(),
   params: PropTypes.shape(),
+  maxTips: PropTypes.shape(),
 };
 
 const mapStateToProps = state => state['order/diffRefund'];

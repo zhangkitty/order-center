@@ -25,6 +25,7 @@
     padding:10px;
     display: flex;
     margin-bottom:15px;
+    line-height:22px;
 }
 .spaceBg {
     display: flex;
@@ -165,6 +166,7 @@
     display: flex;
     flex-direction: column;
     align-items: start;
+    margin-right: 50px;
 }
 .descWidth {
     width: 150px;
@@ -186,16 +188,6 @@
 .mark {
     display: flex;
     margin-top: 20px;
-}
-.sumofmoney_left {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-}
-.descWidth {
-    width: 150px;
-    color: rgb(148, 148, 148);
-    line-height: 28px;
 }
 
 

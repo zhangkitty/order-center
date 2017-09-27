@@ -6,8 +6,7 @@ import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 import assign from 'object-assign';
 import {
   searchSubmit, seachHighSubmit, seachHistorySubmit,
-  initCountrySer, initSiteSer, initPaymentSer, initTroubleSer,
-  initMemberSer, initOrderSer, initCancelSer, initGoodsSer,
+  initDataSer,
   operationGoodsSer,
   remarkSer, remarkSaveSer,
   logisticsRemarkSer, logisticsRemarkSaveSer,
@@ -18,10 +17,7 @@ import {
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
-  initCountrySuccess, initCountryFail, initSiteSuccess, initSiteFail,
-  initPaymentFail, initPaymentSuccess, initTroubleFail, initTroubleSuccess,
-  initMemberFail, initMemberSuccess, initOrderFail, initOrderSuccess,
-  initCancelFail, initCancelSuccess, initGoodsFail, initGoodsSuccess,
+  initDataFail, initDataSuccess,
   operationGoodsFail, operationGoodsSuccess,
   remarkShowFail, remarkShowSuccess, remarkSaveFail, remarkSaveSuccess,
   logisticsRemarkFail, logisticsRemarkSuccess, logisticsRemarkSaveFail, logisticsRemarkSaveSuccess,
@@ -36,7 +32,7 @@ import * as TYPES from './types';
 function* searchSaga(action) {
  // console.log(action.data, 'search');
   const {
-    billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, remarkUser, totalInput,
+    billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, trouble_user, totalInput,
   } = action.data;
   const data = yield searchSubmit(assign({}, action.data, {
     billno: billno ? encodeURIComponent(billno.trim()) : null,
@@ -46,7 +42,7 @@ function* searchSaga(action) {
     referenceNumber: referenceNumber ? encodeURIComponent(referenceNumber.trim()) : null,
     telephone: telephone ? encodeURIComponent(telephone.trim()) : null,
     txnId: txnId ? encodeURIComponent(txnId.trim()) : null,
-    remarkUser: remarkUser ? encodeURIComponent(remarkUser.trim()) : null,
+    trouble_user: trouble_user ? encodeURIComponent(trouble_user.trim()) : null,
     totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
   }));
   if (!data || data.code !== 0) {
@@ -57,7 +53,6 @@ function* searchSaga(action) {
 }
 
 function* searchHighSaga(action) {
- // console.log(action.data, 'search-high');
   const {
     goodsSn, count,
   } = action.data;
@@ -73,7 +68,6 @@ function* searchHighSaga(action) {
 }
 
 function* searchHistorySaga(action) {
- // console.log(action.data, 'search-high');
   const data = yield seachHistorySubmit(assign({}, action.data));
   if (data.error) {
     message.error(`${__('common.sagaTitle')} ${data.msg}`);
@@ -82,76 +76,15 @@ function* searchHistorySaga(action) {
   return yield put(searchHistorySuccess(data));
 }
 
-function* initCountrySaga() {
-  const data = yield initCountrySer();
-  if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle2')} ${data.msg}`);
-    return yield put(initCountryFail());
-  }
-  return yield put(initCountrySuccess(data));
-}
 
-function* initSiteSaga() {
-  const data = yield initSiteSer();
+// 初始化数据
+function* initDataSaga() {
+  const data = yield initDataSer();
   if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle3')}${data.msg}`);
-    return yield put(initSiteFail());
+    message.error(`${__('common.sagaTitle31')} ${data.msg}`);
+    return yield put(initDataFail());
   }
-  return yield put(initSiteSuccess(data));
-}
-
-function* initPaymentSaga() {
-  const data = yield initPaymentSer();
-  if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle4')}${data.msg}`);
-    return yield put(initPaymentFail());
-  }
-  return yield put(initPaymentSuccess(data));
-}
-
-function* initTroubleSaga() {
-  const data = yield initTroubleSer();
-  if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle5')}${data.msg}`);
-    return yield put(initTroubleFail());
-  }
-  return yield put(initTroubleSuccess(data));
-}
-
-function* initMemberSaga() {
-  const data = yield initMemberSer();
-  if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle6')}${data.msg}`);
-    return yield put(initMemberFail());
-  }
-  return yield put(initMemberSuccess(data));
-}
-
-function* initOrderSaga() {
-  const data = yield initOrderSer();
-  if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle7')}${data.msg}`);
-    return yield put(initOrderFail());
-  }
-  return yield put(initOrderSuccess(data));
-}
-
-function* initCancelSaga() {
-  const data = yield initCancelSer();
-  if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle8')}${data.msg}`);
-    return yield put(initCancelFail());
-  }
-  return yield put(initCancelSuccess(data));
-}
-
-function* initGoodsSaga() {
-  const data = yield initGoodsSer();
-  if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle9')} ${data.msg}`);
-    return yield put(initGoodsFail());
-  }
-  return yield put(initGoodsSuccess(data));
+  return yield put(initDataSuccess(data));
 }
 
 // 商品操作查询
@@ -306,14 +239,7 @@ export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
   yield takeLatest(TYPES.SEARCH_HIGH, searchHighSaga);
   yield takeLatest(TYPES.SEARCH_HISTORY, searchHistorySaga);
-  yield takeEvery(TYPES.INIT_COUNTRY, initCountrySaga);
-  yield takeEvery(TYPES.INIT_SITE, initSiteSaga);
-  yield takeEvery(TYPES.INIT_PAYMENT, initPaymentSaga);
-  yield takeEvery(TYPES.INIT_TROUBLE, initTroubleSaga);
-  yield takeEvery(TYPES.INIT_MEMBER, initMemberSaga);
-  yield takeEvery(TYPES.INIT_ORDER, initOrderSaga);
-  yield takeEvery(TYPES.INIT_CANCEL, initCancelSaga);
-  yield takeEvery(TYPES.INIT_GOODS, initGoodsSaga);
+  yield takeEvery(TYPES.INIT_DATA, initDataSaga);  // 初始化数据
   yield takeEvery(TYPES.OPERATION_GOODS, operationGoodsSaga);
   yield takeEvery(TYPES.REMARK, remarkSaga);
   yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);

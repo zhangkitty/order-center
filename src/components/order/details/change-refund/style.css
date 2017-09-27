@@ -1,0 +1,93 @@
+.content {
+    padding:15px;
+}
+.alertBg {
+    border:1px dashed rgba(0,0,0, .7);
+    padding:10px;
+    display: flex;
+    margin-bottom:15px;
+    line-height:22px;
+}
+.sumofmoney_left {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-right: 50px;
+}
+.descWidth {
+    width: 150px;
+    color: rgb(148, 148, 148);
+}
+.refundsgoods {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.reason {
+    display: flex;
+    flex-direction: row;
+    border-bottom:1px solid rgba(204, 204, 204, 1);
+    padding:10px;
+}
+.reasonitem {
+    display: flex;
+    flex-direction: column;
+}
+.mark {
+    display: flex;
+    margin-top: 20px;
+}
+.flex_cloumn {
+    display: flex; flex-direction: column;
+}
+.flex_cloumn_top {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+.flex_center {
+    display: flex;
+    align-items: center;
+    margin-bottom:6px;
+}
+.flex_left {
+    display: flex;
+    align-items: center;
+    width: 150px;
+}
+.flex_name {
+    width: 110px;
+    display: inline-block;
+    padding: 0,
+}
+.titleBg {
+    background: #ffe9a7;
+    margin: 0 10px;
+    padding: 0 10px;
+    border-radius: 4px;
+}
+.spaceBg {
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.mainContent {
+    border:1px solid rgba(204, 204, 204, 1);
+    margin-bottom:15px;
+}
+.info_left {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin:5px 0 5px 50px;
+    line-height: 25px;
+    width:350px;
+}
+.infoList {}
+.infoListName {
+    color: rgb(148, 148, 148);
+}
+.mainContentB {
+    padding: 10px 10px 10px 60px;
+}

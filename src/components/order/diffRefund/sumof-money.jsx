@@ -1,28 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert } from 'antd';
 import style from './style.css';
 
-const infoStyle = {
-  fontSize: '13px',
-  margin: '5px 15px',
-  padding: '0 10px',
-};
-const infoStyle2 = {
-  fontSize: '13px',
-  margin: '5px 15px',
-  color: 'red',
-  padding: '0 10px',
-};
-
-const priceTypes = (data, type = 'warning') => (
-  <Alert
-    key={data.key || data.name}
-    message={
-      `${data.name} : $${data.us}${data.currency ? ` ---- ${data.currency}` : ''}`
-    }
-    type={type} style={type === 'warning' ? infoStyle : infoStyle2}
-  />
+const priceTypes = data => (
+  <p key={data.key || data.name}>{`${data.name} : $${data.us}`} <span>{`${data.currency ? ` , ${data.currency}` : ''}`}</span></p>
 );
 
 const SumOfMoney = ({ orderPriceInfo }) => {
@@ -64,6 +45,10 @@ const SumOfMoney = ({ orderPriceInfo }) => {
     giftCardCanBeRefundedPrice: {
       priceUsd: { amount: giftRefund },
       priceWithExchangeRate: { amountWithSymbol: giftRefund2, symbol: giftRefundSymbol },
+    },
+    cardCanBeRefundedPrice: {
+      priceUsd: { amount: userRefund },
+      priceWithExchangeRate: { amountWithSymbol: userRefund2, symbol: userRefundSymbol },
     },
     walletOrCardCanBeRefundedPrice: {
       priceUsd: { amount: walletRefund },
@@ -142,9 +127,16 @@ const SumOfMoney = ({ orderPriceInfo }) => {
       type: giftRefundSymbol,
     },
     {
+      name: __('order.goodsRefund.user_refunded'),
+      us: userRefund,
+      key: 3,
+      currency: userRefund2,
+      type: userRefundSymbol,
+    },
+    {
       name: __('order.goodsRefund.wallet_refunded'),
       us: walletRefund,
-      key: 3,
+      key: 4,
       currency: walletRefund2,
       type: walletRefundSymbol,
     },
@@ -159,9 +151,9 @@ const SumOfMoney = ({ orderPriceInfo }) => {
         }
       </div>
       <span className={style.descWidth}>{__('order.diffRefund.refund_amount')}:</span>
-      <div className={style.sumofmoney_left}>
+      <div className={style.sumofmoney_left} style={{ color: 'red' }}>
         {
-          refundPrice.map(v => priceTypes(v, 'error'))
+          refundPrice.map(v => priceTypes(v))
         }
       </div>
     </div>
@@ -169,7 +161,7 @@ const SumOfMoney = ({ orderPriceInfo }) => {
 };
 
 SumOfMoney.propTypes = {
-  dataSource: PropTypes.shape(),
+  orderPriceInfo: PropTypes.shape(),
 };
 
 export default SumOfMoney;

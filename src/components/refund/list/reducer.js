@@ -36,8 +36,7 @@ const defaultState = {
     member_level: null,
     refund_start_time: null,
     refund_end_time: null,
-    //   paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD'),   // 付款时间
-    //   paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD'),          // 付款时间
+    sorting_rule: 0,
   },
   searchLoad: false,
   load: false,
