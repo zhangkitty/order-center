@@ -16,7 +16,7 @@ module.exports = {
   coupon: '优惠券抵扣金额',
   can_be_refunded: '订单剩余可退金额',
   gift_refunded: '礼品卡可退金额',
-  wallet_refunded: '钱包或用户可退金额',
+  wallet_refunded: '钱包可退金额',
   user_refunded: '用户可退金额',
   wait_refund: '待退款金额',
   no_over_price: '金额不可超过',

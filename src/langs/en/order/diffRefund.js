@@ -26,3 +26,4 @@ module.exports = {
   refund_priceinfo_failed: '获取退款信息列表失败',
   submit_fail: '提交失败',
 };
+
