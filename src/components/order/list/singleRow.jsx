@@ -199,7 +199,11 @@ const SingleRow = (props) => {
                   Number(res.goods_status) === 75 ?
                     <p>
                       {__('common.customerCancel')}<br />
-                      <span>({res.cancel_reason})</span>
+                      {
+                        res.cancel_reason === '' ?
+                          null
+                          : <span>({res.cancel_reason})</span>
+                      }
                     </p>
                     : null
                 }
@@ -207,7 +211,11 @@ const SingleRow = (props) => {
                   Number(res.goods_status) === 82 ?
                     <p>
                       {__('common.customerCancel1')}<br />
-                      <span>({res.cancel_reason})</span>
+                      {
+                        res.cancel_reason === '' ?
+                          null
+                          : <span>({res.cancel_reason})</span>
+                      }
                     </p>
                     : null
                 }

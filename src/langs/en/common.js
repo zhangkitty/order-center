@@ -110,4 +110,5 @@ module.exports = {
   contentTitle: '暂无数据',
   content_name: '退款原因',  // 内容名称
   content_name1: '备注信息',
+  content_name2: 'Records in Total',
 };
