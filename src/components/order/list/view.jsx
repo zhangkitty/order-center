@@ -7,14 +7,16 @@ import assign from 'object-assign';
 import { Button, Input, Modal, message, Icon, Spin } from 'antd';
 import { connect } from 'react-redux';
 import Pagination from '../../publicComponent/pagination';
-import { search, change, commit, commit2, init, remarkSave } from './action';
+import {
+  search, searchHigh, searchHistory,
+  change, commit, commit2, commitHistory, init, remarkSave,
+} from './action';
 import TabsHeader from './tabsHeader';
 import SingleRow from './singleRow';
 import ChnageGoods from './changeGoods';
 import MarkTag from './markTag';
 
 import styles from './style.css';
-
 
 class orderList extends Component {
   constructor(props) {
@@ -26,6 +28,16 @@ class orderList extends Component {
       dispatch, dataSource, total, queryString, queryString2, queryString3, visible,
       loadUpdata, searchType, remarkModal, searchLoad,
     } = this.props;
+
+    const pageCurrent = () => {
+      if (searchType === 0) {
+        return queryString.pageNumber;
+      } else if (searchType === 1) {
+        return queryString2.pageNumber;
+      } else {
+        return queryString3.pageNumber;
+      }
+    }
     return (
       <div className={styles.content}>
         {/*  搜索  */}
@@ -83,34 +95,38 @@ class orderList extends Component {
         <MarkTag {...this.props} />
         <Pagination
           total={total}
-          current={queryString.pageNumber}
+          current={pageCurrent()}
           onChange={
             (pageNumber, pageSize) => {
               if (searchType === 0) {
                 dispatch(commit('pageNumber', pageNumber));
                 dispatch(commit('pageSize', pageSize));
                 dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
-              } else if (searchType === 2) {
+              } else if (searchType === 1) {
                 dispatch(commit2('pageNumber', pageNumber));
                 dispatch(commit2('pageSize', pageSize));
-                dispatch(search(assign({}, queryString2, { pageNumber, pageSize })));
+                dispatch(searchHigh(assign({}, queryString2, { pageNumber, pageSize })));
               } else {
-                dispatch(commit2('pageNumber', pageNumber));
-                dispatch(commit2('pageSize', pageSize));
-                dispatch(search(assign({}, queryString3, { pageNumber, pageSize })));
+                dispatch(commitHistory('pageNumber', pageNumber));
+                dispatch(commitHistory('pageSize', pageSize));
+                dispatch(searchHistory(assign({}, queryString3, { pageNumber, pageSize })));
               }
             }
           }
           onShowSizeChange={
             (pageNumber, pageSize) => {
-              if (searchType) {
+              if (searchType === 0) {
                 dispatch(commit('pageNumber', pageNumber));
                 dispatch(commit('pageSize', pageSize));
                 dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
-              } else {
+              } else if (searchType === 1) {
                 dispatch(commit2('pageNumber', pageNumber));
                 dispatch(commit2('pageSize', pageSize));
-                dispatch(search(assign({}, queryString2, { pageNumber, pageSize })));
+                dispatch(searchHigh(assign({}, queryString2, { pageNumber, pageSize })));
+              } else {
+                dispatch(commitHistory('pageNumber', pageNumber));
+                dispatch(commitHistory('pageSize', pageSize));
+                dispatch(searchHistory(assign({}, queryString3, { pageNumber, pageSize })));
               }
             }
           }

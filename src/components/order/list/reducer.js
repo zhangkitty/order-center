@@ -143,6 +143,12 @@ const reducer = (state = defaultState, action) => {
           [action.key]: action.val,
         }),
       });
+    case TYPES.COMMIT_HISTORY:
+      return assign({}, state, {
+        queryString3: assign({}, state.queryString3, {
+          [action.key]: action.val,
+        }),
+      });
     case TYPES.COMMIT3:
       return assign({}, state, {
         exchange: assign({}, state.exchange, {
