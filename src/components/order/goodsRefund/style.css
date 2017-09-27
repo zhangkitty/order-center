@@ -18,6 +18,9 @@
     width: 150px;
     color: rgb(148, 148, 148);
 }
+.flex {
+    display: flex;
+}
 .refundsgoods {
     display: flex;
     align-items: center;
@@ -44,4 +47,8 @@
 .flex_center {
     display: flex;
     align-items: center;
+}
+.space {
+    display: flex;
+    margin-top: 15px;
 }
