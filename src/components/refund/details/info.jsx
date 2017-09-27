@@ -4,21 +4,20 @@ import { Table, Button } from 'antd';
 import { Link } from 'react-router';
 import { refund, showReverseRefund } from './action';
 
-// TODO: lan
 const lan = {
-  退款信息: '退款信息',
-  订单号: '订单号',
-  待退金额: '待退金额',
-  退款路径: '退款路径',
-  账户: '账户',
-  账户信息: '账户信息',
-  退款交易凭证号: '退款交易凭证号',
-  退款状态: '退款状态',
-  操作人: '操作人',
-  操作时间: '操作时间',
-  操作: '操作',
-  退款: '退款',
-  重新退款: '重新退款',
+  退款信息: __('refund.details.info_refund_info'),
+  订单号: __('refund.details.base_order_number'),
+  待退金额: __('refund.details.base_wait_refund'),
+  退款路径: __('refund.details.base_refund_path'),
+  账户: __('refund.details.info_account'),
+  账户信息: __('refund.details.info_account_info'),
+  退款交易凭证号: __('refund.details.info_refund_protocal'),
+  退款状态: __('refund.details.info_refund_status'),
+  操作人: __('common.operationCheck'),
+  操作时间: __('refund.details.info_operate_time'),
+  操作: __('common.operationCheck2'),
+  退款: __('refund.details.info_renfund'),
+  重新退款: __('refund.details.info_renfund_agian'),
 };
 
 const Info = ({ dataSource: { refund_path }, dispatch, refundBillId, refundInfo }) => (

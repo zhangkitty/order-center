@@ -5,26 +5,25 @@ import { Modal, Input, Button, message } from 'antd';
 import { commit, addRemark, rejectInfoAction, doRefund, refundTxnId, reverseRefundAction, reverseRefundSave } from './action';
 import styles from './style.css';
 
-// TODO: lan
 const lan = {
-  备注信息: '备注信息',
-  新增备注: '新增备注',
-  备注: '备注',
-  确认: '确认',
-  取消: '取消',
-  50: '不可超过50个字符',
-  200: '不可超过200个字符',
-  退款驳回: '退款驳回',
-  驳回理由: '驳回理由',
-  '请填写驳回理由，必填': '请填写驳回理由，必填',
-  确认退款: '确认退款',
-  退款金额: '退款金额',
-  退款路径: '退款路径',
-  交易凭证号: '交易凭证号',
-  退款交易号: '退款交易号',
-  线下退款请填写此信息: '线下退款请填写此信息',
-  请填写退款交易凭证号: '请填写退款交易凭证号',
-  重新退款: '重新退款',
+  备注信息: __('common.content_name1'),
+  新增备注: __('common.order_operation6'),
+  备注: __('common.order_operation4'),
+  确认: __('refund.details.submit'),
+  取消: __('common.cancel'),
+  50: __('refund.details.no_fifty'),
+  200: __('refund.details.no_twohundernd'),
+  退款驳回: __('common.refundBillStatus4'),
+  驳回理由: __('refund.details.modals_rejec_reason'),
+  '请填写驳回理由，必填': __('refund.details.modals_rejec_reason_tip'),
+  确认退款: __('refund.details.modals_submit_refund'),
+  退款金额: __('refund.details.base_refund_price'),
+  退款路径: __('refund.details.base_refund_path'),
+  交易凭证号: __('refund.details.modals_refund_protocal'),
+  退款交易号: __('refund.details.modals_refund_protocal_number'),
+  线下退款请填写此信息: __('refund.details.modals_tip_offline'),
+  请填写退款交易凭证号: __('refund.details.modals_tip_need'),
+  重新退款: __('refund.details.info_renfund_agian'),
 };
 const TA = Input.TextArea;
 const Modals = ({

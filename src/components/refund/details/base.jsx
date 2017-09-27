@@ -5,37 +5,36 @@ import assign from 'object-assign';
 import styles from './style.css';
 import { remarkInfoShow, commit, doRefundPass } from './action';
 
-// TODO: lan
 const language = {
-  退款编号: '退款编号',
-  订单号: '订单号',
-  订单总金额: '订单总金额',
-  礼品卡: '礼品卡',
-  支付方式: '支付方式',
-  支付交易号: '支付交易号',
-  剩余可退金额: '剩余可退金额',
-  用户: '用户',
-  运费和运费险: '运费和运费险',
-  RL扣除费用: 'RL扣除费用',
-  待退款金额: '待退款金额',
-  退款类型: '退款类型',
-  退款原因: '退款原因',
-  申请时间: '申请时间',
-  申请人: '申请人',
-  退款单状态: '退款单状态',
-  查看备注信息: '查看备注信息',
-  新增备注: '新增备注',
-  驳回: '驳回',
-  通过: '通过',
-  退款路径: '退款路径', //  TODO
-  用户钱包总额: '用户钱包总额',
-  提现金额: '提现金额', // TODO：
-  退款提交人: '退款提交人', // TODO：
-  退款操作人: '退款操作人', // TODO
-  退款返还金额: '退款返还金额',
-  退款金额: '退款金额',
-  确认: '确认',
-  取消: '取消',
+  退款编号: __('refund.details.base_refund_code'),
+  订单号: __('refund.details.base_order_number'),
+  订单总金额: __('refund.details.base_order_total'),
+  礼品卡: __('refund.details.base_gift_card'),
+  支付方式: __('refund.details.base_pay_method'),
+  支付交易号: __('refund.details.base_pay_number'),
+  剩余可退金额: __('refund.details.base_refund_need'),
+  用户: __('refund.details.base_user'),
+  运费和运费险: __('refund.details.base_insuer'),
+  RL扣除费用: __('refund.details.base_rl_fee'),
+  待退款金额: __('refund.details.base_wait_refund'),
+  退款类型: __('refund.details.base_refund_type'),
+  退款原因: __('refund.details.base_refund_reson'),
+  申请时间: __('refund.details.base_register_time'),
+  申请人: __('refund.details.base_register_user'),
+  退款单状态: __('refund.details.base_refund_status'),
+  查看备注信息: __('refund.details.base_refund_remark'),
+  新增备注: __('refund.details.base_add_remark'),
+  驳回: __('refund.details.base_reject'),
+  通过: __('refund.details.base_pass'),
+  退款路径: __('refund.details.base_refund_path'), //  TODO
+  用户钱包总额: __('refund.details.base_wallet_total'),
+  提现金额: __('refund.details.base_need_price'), // TODO：
+  退款提交人: __('refund.details.base_need_user'), // TODO：
+  退款操作人: __('refund.details.base_need_operate'), // TODO
+  退款返还金额: __('refund.details.base_refund_need_operate'),
+  退款金额: __('refund.details.base_refund_price'),
+  确认: __('refund.details.submit'),
+  取消: __('common.cancel'),
 };
 
 const Base = ({
