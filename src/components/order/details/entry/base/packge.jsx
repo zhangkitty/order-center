@@ -199,7 +199,12 @@ const Packge = (
           {
             show &&
             <Link
-              to="/order/details/goods-control/"
+              to={
+                rec.is_assessed ?
+                  '/order/details/goods-control/edit/'  // 已品控
+                  :
+                  '/order/details/goods-control/list/' // 品控
+              }
               query={{ data: JSON.stringify(assign({}, rec, {
                 order_id: orderId, billno,
               })) }}
