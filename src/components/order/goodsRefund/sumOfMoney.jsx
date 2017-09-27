@@ -54,6 +54,10 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       priceUsd: { amount: walletRefund },
       priceWithExchangeRate: { amountWithSymbol: walletRefund2, symbol: walletRefundSymbol },
     },
+    cardCanBeRefundedPrice: {
+      priceUsd: { amount: userRefund },
+      priceWithExchangeRate: { amountWithSymbol: userRefund2, symbol: userRefundSymbol },
+    },
     waitRefundPrice: {
       priceUsd: { amount: waitRefund },
       priceWithExchangeRate: { amountWithSymbol: waitRefund2, symbol: waitRefundSymbol },
@@ -127,6 +131,12 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       us: walletRefund,
       currency: walletRefund2,
       type: walletRefundSymbol,
+    },
+    {
+      name: __('order.goodsRefund.user_refunded'),
+      us: userRefund,
+      currency: userRefund2,
+      type: userRefundSymbol,
     },
     {
       name: __('order.goodsRefund.wait_refund'),

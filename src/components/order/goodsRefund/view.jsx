@@ -45,7 +45,12 @@ class GoodsRefund extends Component {
             ) {
               return message.warning(__('order.goodsRefund.missing_something'));
             }
-            const res = assign({}, submitValue, { refundPaths: refundPaths.filter(v => v.check) });
+            const res = assign({},
+              submitValue,
+              { refundPaths: refundPaths.filter(v => v.check).map(v => (assign({}, v, {
+                refundAmount: Number(v.refundAmount).toFixed(2),
+                refundAmount2: Number(v.refundAmount2).toFixed(2),
+              }))) });
             return dispatch(submitForward(res));
           }}
         >
@@ -67,7 +72,7 @@ class GoodsRefund extends Component {
           <Button
             style={{ margin: '15px 80px 80px 0', left: '20%' }}
             type="primary" htmlType="submit"
-            loading={submitLoad}
+            disabled={submitLoad}
           >{__('common.submit')}</Button>
         </form>
         :
