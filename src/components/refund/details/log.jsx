@@ -6,7 +6,7 @@ const lan = {
   退款操作日志: __('refund.details.logs_renfund_logs'),
   时间: __('common.operationCheck1'),
   操作人: __('common.operationCheck'),
-  操作日志: __('common.logs_logs'),
+  操作日志: __('refund.details.logs_logs'),
 };
 
 const Logs = ({ dataSource: { refund_log } }) => (

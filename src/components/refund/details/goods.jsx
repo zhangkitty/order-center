@@ -5,7 +5,7 @@ import styles from './style.css';
 
 const lan = {
   需要退款的商品信息: __('refund.details.goods_need_refund'),
-  编号: __('refund.details.'),
+  编号: __('refund.details.goods_code'),
   退款商品: __('refund.details.goods_refund'),
   销售价: __('refund.details.goods_sale'),
   购买价: __('refund.details.goods_buy'),
