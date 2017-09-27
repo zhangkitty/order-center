@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'antd';
 
-// TODO: lan
 const lan = {
-  退款操作日志: '退款操作日志',
-  时间: '时间',
-  操作人: '操作人',
-  操作日志: '操作日志',
+  退款操作日志: __('refund.details.logs_renfund_logs'),
+  时间: __('common.operationCheck1'),
+  操作人: __('common.operationCheck'),
+  操作日志: __('common.logs_logs'),
 };
 
 const Logs = ({ dataSource: { refund_log } }) => (
