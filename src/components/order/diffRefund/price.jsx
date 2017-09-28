@@ -35,7 +35,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                       refundPathId,
                       checked,
                       refundPathName: name,
-                      refundValue,
+                      refundAmount,
                       priceWithExchangeRate,
                       refundAccountTypeList,
                       account,
@@ -59,11 +59,11 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 type="number"
                 required
                 disabled={!checked}
-                value={refundValue}
+                value={refundAmount}
                 onChange={(e) => {
                   const value = e.target.value;
                   dispatch(change('maxTips', assign({}, maxTips, { disabled: Number(value) })));
-                  dispatch(changeChannelValue(refundPathId, 'refundValue', value));
+                  dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(value).toFixed(2)));
                 }}
               />
               <span className={style.spanMargin}>{priceWithExchangeRate.symbol}</span>
@@ -71,8 +71,8 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 style={{ width: '150px' }}
                 type="number"
                 disabled={!checked}
-                value={refundValue && refundValue * priceWithExchangeRate.rate}
-                onChange={e => dispatch(changeChannelValue(refundPathId, 'refundValue', e.target.value / priceWithExchangeRate.rate))}
+                value={refundAmount && refundAmount * priceWithExchangeRate.rate}
+                onChange={e => dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(e.target.value / priceWithExchangeRate.rate).toFixed(2)))}
               />
               {
                 <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${maxTips[refundPathId] || ''}</span>
@@ -88,7 +88,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 style={{ width: 150 }}
                 disabled={!activeOne}
               //  value={`${refund_method || ''}`}
-                onChange={e => dispatch(changeChannelValue(refundPathId, 'refund_method', Number(e)))}
+                onChange={e => dispatch(changeChannelValue(refundPathId, 'refund_method', e))}
               >
                 {
                   refundAccountTypeList.map(v => (

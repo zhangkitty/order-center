@@ -28,4 +28,5 @@ module.exports = {
   submit_fail: 'Submit Failed',
   please_select_a_refund_account: '请选择退款账户',
   Please_enter_a_user_refund_account: '请输入用户退款账户',
+  Please_choose_pay_method: '请先选择退款路径',
 };

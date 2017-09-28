@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Radio, Input, Checkbox, Select, InputNumber } from 'antd';
+import { Radio, Input, Checkbox, Select, InputNumber, message } from 'antd';
 import { subchange, checkPath, usPriceChange, otherPriceChange, allback, copyPaymentMethod } from './action';
 import style from './style.css';
 
@@ -39,9 +39,12 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
           value={submitValue.shipping}
           onChange={(e) => {
             const value = Number(e.target.value);
-            dispatch(subchange('shipping', Number(value)));
             const check = submitValue.refundPaths.find(v => v.refundTypeId > 1 && v.check);
-            dispatch(allback(value, Number(submitValue.rlFee), check.refundTypeId));
+            if (!check) {
+              return message.warning(__('order.goodsRefund.Please_choose_pay_method'));
+            }
+            dispatch(subchange('shipping', Number(value)));
+            return dispatch(allback(value, Number(submitValue.rlFee), check.refundTypeId));
           }}
         >
           <Radio value={0}>{__('order.goodsRefund.no_no_back')}</Radio>
@@ -54,9 +57,12 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
           value={submitValue.rlFee}
           onChange={(e) => {
             const value = Number(e.target.value);
-            dispatch(subchange('rlFee', value));
             const check = submitValue.refundPaths.find(v => v.refundTypeId > 1 && v.check);
-            dispatch(allback(Number(submitValue.shipping), value, check.refundTypeId));
+            if (!check) {
+              return message.warning(__('order.goodsRefund.Please_choose_pay_method'));
+            }
+            dispatch(subchange('rlFee', value));
+            return dispatch(allback(Number(submitValue.shipping), value, check.refundTypeId));
           }}
         >
           {RLPrice.map(v => (<Radio value={Number(v)} key={v}>${v}</Radio>))}

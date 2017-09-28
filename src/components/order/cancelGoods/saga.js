@@ -3,7 +3,7 @@
  */
 import { message } from 'antd';
 import { put, takeLatest } from 'redux-saga/effects';
-import { getDataSer, getReasonSer, goodsRefundSubmit } from '../server';
+import { getDataSer, getReasonSer, cancelRefundSubmit } from '../server';
 import {
   change, getDataSuccess, getReasonSuccess,
 } from './action';
@@ -28,7 +28,7 @@ function* getReasonSaga() {
   return yield put(getReasonSuccess(data.data));
 }
 function* submitSaga(action) {
-  const data = yield goodsRefundSubmit(action.data);
+  const data = yield cancelRefundSubmit(action.data);
   if (data.code !== 0) {
     message.error(`${__('order.goodsRefund.submit_fail')}: ${data.msg}`);
     return yield put(change('submitLoad', false));
