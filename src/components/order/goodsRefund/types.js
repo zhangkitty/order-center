@@ -12,4 +12,9 @@ export const GET_REASON = `${prefix}get_reason`;
 export const GET_REASON_SUCCESS = `${prefix}get_reason_success`;
 export const SUBMIT = `${prefix}submit`;
 export const RESET = `${prefix}reset`;
+export const CHECK_PATH = `${prefix}check_value`;
+export const US_PRICE_CHANGE = `${prefix}us_price_change`;
+export const OTHER_PRICE_CHANGE = `${prefix}other_price_change`;
+export const ALL_BACK = `${prefix}all_back`;
+export const COPY_PAYMENT_METHOD = `${prefix}copy_payment_method`;
 

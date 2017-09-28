@@ -24,6 +24,7 @@ export const CHANGE = `${prefix}change`;
 export const COMMIT = `${prefix}commit`;
 export const COMMIT_HIGH = `${prefix}commit2`;
 export const COMMIT3 = `${prefix}commit3`;
+export const COMMIT_HISTORY = `${prefix}commit_history`;
 
 
 // 初始化数据

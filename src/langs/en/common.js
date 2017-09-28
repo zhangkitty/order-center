@@ -19,10 +19,10 @@ module.exports = {
   order_type: 'Guru Order',
   operation: 'Operation Records',
   change_goods: 'Exchange Item',
-  del_goods: '删除换货',
+  del_goods: 'Exchanged Item Was Deleted',
   order_operation: 'View Details',
   order_operation1: 'Mark the Order',
-  order_operation2: '退款/取消',
+  order_operation2: 'Cancel/Refund',
   order_operation3: 'Price Difference Refund',
   order_operation4: 'Remark',
   order_operation5: 'Logistics Remark',
@@ -59,7 +59,7 @@ module.exports = {
   operationCheck1: '时间',
   operationCheck2: 'Operation',
   checkSize: 'Look Up Size',
-  submit: '提交',
+  submit: 'Submit',
   title: 'Remark',
   title1: 'Remark',
   submitName: 'Save',    // 提交name
@@ -67,7 +67,7 @@ module.exports = {
   submitName2: 'No',
   submitName3: 'Yes',
   submitName4: 'SKU to Be Exchanged',
-  submitName5: '可换尺码',
+  submitName5: 'Size Available',
   submitTitle: '缺少SKU',    // 提交提示
   submitTitle1: '缺少时间',
   submitTitle2: 'Are you sure to delete this exchanged item？',
@@ -110,4 +110,5 @@ module.exports = {
   contentTitle: '暂无数据',
   content_name: '退款原因',  // 内容名称
   content_name1: '备注信息',
+  content_name2: 'Records in Total',
 };

@@ -18,7 +18,7 @@ const Page = ({ total, onChange, onShowSizeChange, current }) => (
     current={current || 1}
     showSizeChanger showQuickJumper
     onChange={onChange}
-    showTotal={records => `共 ${records} 条记录`}
+    showTotal={records => `${records} ${__('common.content_name2')}`}
     defaultPageSize={10}
     onShowSizeChange={(cur, size) => {
       return onShowSizeChange(cur, size);

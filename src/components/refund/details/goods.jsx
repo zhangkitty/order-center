@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { Table } from 'antd';
 import styles from './style.css';
 
-// TODO: lan
 const lan = {
-  需要退款的商品信息: '需要退款的商品信息',
-  编号: '编号',
-  退款商品: '退款商品',
-  销售价: '销售价',
-  购买价: '购买价',
+  需要退款的商品信息: __('refund.details.goods_need_refund'),
+  编号: __('refund.details.goods_code'),
+  退款商品: __('refund.details.goods_refund'),
+  销售价: __('refund.details.goods_sale'),
+  购买价: __('refund.details.goods_buy'),
 };
 
 const Goods = ({ dataSource: { refund_goods } }) => (
@@ -34,7 +33,7 @@ const Goods = ({ dataSource: { refund_goods } }) => (
           render: (img, rec) => (
             <div className={styles.goodsImg}>
               <div>
-                <img src={'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2628255248,1582396004&fm=27&gp=0.jpg'} alt="pic" width={100} />
+                <img src={img} alt="pic" width={100} />
               </div>
               <div className={styles.goodsImgDesc}>
                 <p>{rec.goods_name}</p>

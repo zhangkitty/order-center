@@ -23,6 +23,12 @@ export const commit2 = (key, val) => ({
   key,
   val,
 });
+export const commitHistory = (key, val) => ({
+  type: TYPES.COMMIT_HISTORY,
+  key,
+  val,
+});
+
 export const commit3 = (key, val) => ({
   type: TYPES.COMMIT3,
   key,

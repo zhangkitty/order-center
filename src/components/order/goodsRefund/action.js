@@ -41,4 +41,30 @@ export const submitForward = data => ({
 export const reset = () => ({
   type: TYPES.RESET,
 });
+export const checkPath = value => ({
+  value,
+  type: TYPES.CHECK_PATH,
+});
+export const usPriceChange = (value, i, rate) => ({
+  value,
+  i,
+  rate,
+  type: TYPES.US_PRICE_CHANGE,
+});
+export const otherPriceChange = (value, i, rate2) => ({
+  value,
+  i,
+  rate2,
+  type: TYPES.OTHER_PRICE_CHANGE,
+});
+
+export const allback = (back, rl, typeId) => ({
+  type: TYPES.ALL_BACK,
+  back,
+  rl,
+  typeId,
+});
+export const copyPaymentMethod = () => ({
+  type: TYPES.COPY_PAYMENT_METHOD,
+});
 

@@ -197,20 +197,21 @@ const Packge = (
           <span style={{ width: '50px', display: 'inline-block' }}>{rec.serial_number}</span>
           <img alt="pic" src={d} width="50px" height="50px" style={{ margin: '0 10px' }} />
           {
-            show &&
-            <Link
-              to={
+            show && pingkongShow[rec.status_code] ?
+              <Link
+                to={
                 rec.is_assessed ?
                   '/order/details/goods-control/edit/'  // 已品控
                   :
                   '/order/details/goods-control/list/' // 品控
               }
-              query={{ data: JSON.stringify(assign({}, rec, {
-                order_id: orderId, billno,
-              })) }}
-            >
-              { rec.is_assessed ? lan.yipinkong : lan.pinkong}
-            </Link>
+                query={{ data: JSON.stringify(assign({}, rec, {
+                  order_id: orderId, billno,
+                })) }}
+              >
+                { rec.is_assessed ? lan.yipinkong : lan.pinkong}
+              </Link>
+              : null
           }
         </span>
       ),
