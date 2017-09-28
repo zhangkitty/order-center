@@ -42,6 +42,8 @@ const goodsRefund = {
   getData: '/OrderRefund/getRefundInfo',
   getReason: '/OrderRefund/getRefundReason',
   submit: '/OrderRefund/submit',
+  newSubmit: '/OrderRefund/applyOrderGoodsRefund',
+  cancelSubmit: '/OrderRefund/applyCancelCodRefund',
 };
 
 export const searchSubmit = (page) => {
@@ -233,7 +235,13 @@ export const getReasonSer = (type) => (
 );
 
 export const goodsRefundSubmit = d => (
-  fetch(goodsRefund.submit, {
+  fetch(goodsRefund.newSubmit, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under(d)),
+  })
+);
+export const cancelRefundSubmit = d => (
+  fetch(goodsRefund.cancelSubmit, {
     method: 'POST',
     body: JSON.stringify(camel2Under(d)),
   })

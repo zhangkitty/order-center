@@ -3,7 +3,6 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import assign from 'object-assign';
 import { connect } from 'react-redux';
 import { Spin, Input, Button, message } from 'antd';
 import { getData, getReason, submitForward, subchange } from './action';
@@ -42,12 +41,13 @@ class CancelGoods extends Component {
             ) {
               return message.warning(__('order.goodsRefund.missing_something'));
             }
-            const res = assign({}, submitValue, {
-              reason: {
-                reasonId: Number(submitValue.reason.reasonId),
-                goodsIds: submitValue.reason.goodsIds.map(v => Number(v)),
-              },
-            });
+            const res = {
+              order_id: Number(submitValue.orderId),
+              order_goods_ids: submitValue.goodsIds.join(','),
+              reason: Number(reason.reasonId),
+              reason_order_goods_ids: reason.goodsIds.join(','),
+              remark: submitValue.remark,
+            };
             return dispatch(submitForward(res));
           }}
         >

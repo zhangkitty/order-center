@@ -51,7 +51,16 @@ class GoodsRefund extends Component {
                 refundAmount: Number(v.refundAmount).toFixed(2),
                 refundAmount2: Number(v.refundAmount2).toFixed(2),
               }))) });
-            return dispatch(submitForward(res));
+            const newRes = {
+              order_id: Number(res.orderId),
+              order_goods_ids: res.goodsIds.join(','),
+              reason: Number(res.reason.reasonId),
+              remark: res.remark,
+              refund_paths: res.refundPaths
+              .map(v => assign({}, v,
+                { refund_path_id: v.refundTypeId, refundAmount: Number(v.refundAmount) })),
+            };
+            return dispatch(submitForward(newRes));
           }}
         >
           <SumOfMoney {...this.props} />

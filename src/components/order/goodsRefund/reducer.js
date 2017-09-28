@@ -79,7 +79,10 @@ const copyPayment = (data) => {
  * @param data: dataSource
  * @returns {{1: 礼品卡, 2: 钱包, 3: 用户}}
  */
-const originPrice = (priceRefund, data) => {
+const originPrice = (priceRefund = 0, data) => {
+  const type = data.orderRefundPathList
+  .filter(v => v.refundPathId !== 1 && v.refundPathId !== 4)
+  .sort((a, b) => a.refundPathId - b.refundPathId)[0].refundPathId;
   const max = Number(maxTypes(data)[1]);
   const isShow = max > 0;
   const price = {
@@ -88,14 +91,14 @@ const originPrice = (priceRefund, data) => {
     3: 0,
   };
   if (!isShow) {
-    price[2] = priceRefund;
+    price[type] = priceRefund;
   }
   if (isShow) {
     if (max > priceRefund) {
       price[1] = priceRefund;
     } else {
       price[1] = max;
-      price[2] = priceRefund - max;
+      price[type] = priceRefund - max;
     }
   }
   return price;
@@ -107,10 +110,11 @@ const originPrice = (priceRefund, data) => {
  */
 const svInit = (source) => {
   const maxObj = maxTypes(source);
-  const priceObj = originPrice(Number(source.orderPriceInfo.avgPriceTotal), source);
+  const priceObj = originPrice(Number(source.orderPriceInfo.avgPriceTotal || 0), source);
   const obj = source.orderRefundPathList.map(v => ({
     refundTypeId: v.refundPathId,
-    isShow: (v.refundPathId === 1 && Number(maxObj[v.refundPathId]) > 0) || v.refundPathId > 1,
+    isShow: (v.refundPathId === 1 && Number(maxObj[v.refundPathId]) > 0) ||
+    (v.refundPathId > 1 && v.refundPathId !== 4),
     refundAmount: priceObj[v.refundPathId],
     refundAmount2: priceObj[v.refundPathId] * v.priceUsd.rate,
     rate: v.priceUsd.rate,
@@ -140,7 +144,7 @@ const allBack = (source, arr, back, rl, type, refundPaths) => {
   const gift = arr.find(v => v.refundTypeId === 1) || {}; // 礼品卡
   const show = max > 0;
   const price = {
-    1: Number(arr.find(v => v.refundTypeId === 1).refundAmount),
+    1: gift.refundAmount || 0,
     2: Number(arr.find(v => v.refundTypeId === 2).refundAmount),
     3: type === 3 ?
       Number(arr.find(v => v.refundTypeId === 2).refundAmount) :
@@ -221,8 +225,8 @@ const reducer = (state = defaultState, action) => {
           refundPaths: [
             ...state.submitValue.refundPaths.slice(0, action.i),
             assign({}, state.submitValue.refundPaths[action.i], {
-              refundAmount: action.value,
-              refundAmount2: Number(Number(action.value) * action.rate).toFixed(2),
+              refundAmount: action.value || 0.00,
+              refundAmount2: Number(Number(action.value || 0.00) * action.rate).toFixed(2),
             }),
             ...state.submitValue.refundPaths.slice(action.i + 1),
           ],
