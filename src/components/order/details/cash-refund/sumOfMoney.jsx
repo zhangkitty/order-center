@@ -4,7 +4,8 @@ import style from './style.css';
 
 const priceTypes = data => (
   <div className={style.listBg}>
-    {data.name}: ${data.us} --- {data.currency}
+    {data.name}: ${data.us} , <span dangerouslySetInnerHTML={{ __html: data.currency }} />
+    {/* data.currency */}
   </div>
 );
 

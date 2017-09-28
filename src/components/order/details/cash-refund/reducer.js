@@ -28,6 +28,7 @@ const defaultState = {
       refundAmount: '',
       refundMethod: '',
       refundPathId: 3,
+      refundMethod1: '',
     }],
     canWithdrawAmount: '',   // 可提现金额
     notWithdrawAmount: '',   // 不可提现金额

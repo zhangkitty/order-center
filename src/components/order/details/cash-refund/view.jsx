@@ -31,7 +31,7 @@ class cashRefund extends Component {
     } = this.props;
     const {
       refundBillId, refundPaths, remark, refundType, orderId,
-      refundPathId, refundMethod, account, refundAmount,
+      refundPathId, refundMethod, account, refundAmount, refundMethod1,
     } = submitValue;
     return (
       ready ?
@@ -51,7 +51,7 @@ class cashRefund extends Component {
               refundPaths: [{
                 refundPathId: 3,  // 写死
                 refundAmount: Number(refundAmount).toFixed(2),
-                refundMethod,
+                refundMethod: refundMethod === '其他' || refundMethod === 'others' ?  refundMethod1 : refundMethod,
                 account,
               }],
               canWithdrawAmount,   // 可提现金额
@@ -91,10 +91,20 @@ class cashRefund extends Component {
                 >
                   {
                     refundAccountTypeList.map(item => (
-                      <Option key={item.id} > {item.name}</Option>
+                      <Option key={item.name} > {item.name}</Option>
                     ))
                   }
                 </Select>
+                {
+                  refundMethod === '其他' || refundMethod === 'others' ?
+                    <Input
+                      placeholder={__('order.entry.cash_content8')}
+                      style={{ width: '200px', marginRight: '15px' }}
+                      value={refundMethod1}
+                      onChange={e => dispatch(subchange('refundMethod1', e.target.value))}
+                    />
+                    : null
+                }
                 <Input
                   placeholder={__('order.entry.cash_content7')}
                   style={{ width: '200px' }}

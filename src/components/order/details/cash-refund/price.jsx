@@ -24,7 +24,10 @@ const Price = ({ submitValue, dispatch }) => {
               dispatch(subchange('refundAmount2', Number(Number(e.target.value) * submitValue.rate).toFixed(2)));
             }}
           />
-          <span className={style.flex_span}>{submitValue.currency}</span>
+          <span
+            className={style.flex_span}
+            dangerouslySetInnerHTML={{ __html: submitValue.currency }}
+          />
           <Input
             type="number"
             className={style.flex_input}

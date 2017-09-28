@@ -150,4 +150,5 @@ module.exports = {
   cash_content5: 'Withdraw Amount',
   cash_content6: '账户',
   cash_content7: '请输入正确的退款账户信息',
+  cash_content8: '请输入正确的退款账户',
 };
