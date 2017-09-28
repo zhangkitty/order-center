@@ -33,7 +33,12 @@ class DiffRefund extends Component {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              const refund_paths = refundPaths.filter(v => v.checked);
+              const refund_paths = refundPaths.filter(v => v.checked).map((x) => {
+                if (x.refund_method1) {
+                  x.refund_method = x.refund_method1;
+                }
+                return x;
+              });
               if (!refund_paths.length || !reason) {
                 return message.warning(__('common.submitTitle3'));
               }
@@ -44,6 +49,7 @@ class DiffRefund extends Component {
                 remark,
                 refund_paths,
               };
+              console.log(temp);
               return dispatch(submitForward(temp));
             }}
           >
