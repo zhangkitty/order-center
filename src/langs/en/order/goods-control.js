@@ -14,7 +14,7 @@ module.exports = {
   control_type: 'Assessment Type',
   control_img: 'Images(2 Images limited)',
   control_title: '(只可上传jpg、jpeg、png，单张图片不可超过3M)',
-  submitName: '保存',    // 提交name
+  submitName: 'Save',    // 提交name
   submitName1: 'Cancel',
   submitName2: 'xxxx',
   submitName3: 'Submit',

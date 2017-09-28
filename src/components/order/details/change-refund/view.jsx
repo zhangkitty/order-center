@@ -38,8 +38,11 @@ class changeRefund extends Component {
             ) {
               return message.warning(__('order.goodsRefund.missing_something'));
             }
-            const res = assign({}, submitValue,
-              { recordList });
+            const res = assign({},
+              submitValue,
+              { recordList: recordList.map(v => (assign({}, v, {
+                refundAmount: Number(v.refundAmount).toFixed(2),
+              }))) });
             return dispatch(submitForward(res));
           }}
         >

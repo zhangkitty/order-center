@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Input } from 'antd';
+import { Input, InputNumber } from 'antd';
 import { subchange } from './action';
 import style from './style.css';
 
@@ -26,6 +26,7 @@ const Price = ({ submitValue, dispatch }) => {
               <div>
                 <Input
                   style={{ width: '150px' }}
+                  type="number"
                   value={v.refundAmount}
                   onChange={e => dispatch(subchange('recordList', [
                     ...submitValue.recordList.slice(0, i),
@@ -39,6 +40,7 @@ const Price = ({ submitValue, dispatch }) => {
                 <span style={spanWidth}>{v.currency}</span>
                 <Input
                   style={{ width: '150px' }}
+                  type="number"
                   value={v.refundAmount2}
                   onChange={e => dispatch(subchange('recordList', [
                     ...submitValue.recordList.slice(0, i),

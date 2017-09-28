@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Input } from 'antd';
+import { Input, InputNumber } from 'antd';
 import { subchange } from './action';
 import style from './style.css';
 
@@ -16,6 +16,7 @@ const Price = ({ submitValue, dispatch }) => {
         <span className={style.flex_span}>$</span>
         <div>
           <Input
+            type="number"
             className={style.flex_input}
             value={submitValue.refundAmount}
             onChange={(e) => {
@@ -25,6 +26,7 @@ const Price = ({ submitValue, dispatch }) => {
           />
           <span className={style.flex_span}>{submitValue.currency}</span>
           <Input
+            type="number"
             className={style.flex_input}
             value={submitValue.refundAmount2}
             onChange={(e) => {
@@ -35,7 +37,7 @@ const Price = ({ submitValue, dispatch }) => {
           <span className={style.tipStyle}>
             {__('order.goodsRefund.no_over_price')}
             $
-            {submitValue.refundAmount}
+            { Number(submitValue.refundAmount).toFixed(2) }
           </span>
         </div>
       </div>

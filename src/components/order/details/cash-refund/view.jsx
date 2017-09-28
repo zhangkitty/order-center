@@ -39,8 +39,6 @@ class cashRefund extends Component {
           className={style.content}
           onSubmit={(e) => {
             e.preventDefault();
-            // console.log(refundAmount, 'refundAmount');
-            // console.log(refundMethod, 'refundMethod');
             if (
               orderId === null || !refundAmount
             ) {
@@ -52,7 +50,7 @@ class cashRefund extends Component {
               refundType,
               refundPaths: [{
                 refundPathId: 3,  // 写死
-                refundAmount,
+                refundAmount: Number(refundAmount).toFixed(2),
                 refundMethod,
                 account,
               }],
@@ -60,7 +58,6 @@ class cashRefund extends Component {
               notWithdrawAmount,   // 不提现金额
               remark,
             };
-            console.log(temp, 'temp');
             return dispatch(submitForward(temp));
           }}
         >
