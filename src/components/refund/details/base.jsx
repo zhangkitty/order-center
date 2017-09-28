@@ -84,7 +84,7 @@ const Base = ({
                 {
                   key === 'WALLET_TOTAL' &&
                   <span style={{ color: 'red' }}>
-                      {wallet_balance.price_usd.amount_with_symbol} {wallet_balance
+                      {wallet_balance.price_usd.amount_with_symbol}, {wallet_balance
                     .price_with_exchange_rate.amount_with_symbol}
                   </span>
                 }
@@ -171,7 +171,7 @@ const Base = ({
                   <span>{language.退款返还金额}</span>
                   <p>{language.退款金额}</p>
                   <span>
-                    {refund_amount.price_usd.amount_with_symbol} {refund_amount
+                    {refund_amount.price_usd.amount_with_symbol}, {refund_amount
                     .price_with_exchange_rate.amount_with_symbol}
                   </span>
                 </div>
