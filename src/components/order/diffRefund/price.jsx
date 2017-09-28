@@ -39,17 +39,23 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                       priceWithExchangeRate,
                       refundAccountTypeList,
                       account,
+                      refund_method,
+                      refund_method1,
       }) => (
         <div key={refundPathId}>
           <div className={style.spaceCon}>
             <div className={style.moneyName}>
-              <Chan
-                checked={checked}
-                disabled={refundPathId === 4 && maxTips.disabled < Number(maxTips[3])}
-                onChange={(e) => {
-                  dispatch(changeChannelValue(refundPathId, 'checked', e.target.checked));
-                }}
-              />
+              { refundPathId !== 4 ?
+                <Chan
+                  checked={checked}
+                  disabled={refundPathId === 4}
+                  onChange={(e) => {
+                    dispatch(changeChannelValue(refundPathId, 'checked', e.target.checked));
+                  }}
+                /> :
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+              }
               <span style={inline}>{name}</span>
               $
             </div>
@@ -64,6 +70,12 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                   const value = e.target.value;
                   dispatch(change('maxTips', assign({}, maxTips, { disabled: Number(value) })));
                   dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(value).toFixed(2)));
+                  if (refundPathId === 3 && Number(value) === Number(maxTips[3])) {
+                    dispatch(changeChannelValue(4, 'checked', true));
+                  }
+                  if (refundPathId === 3 && Number(value) !== Number(maxTips[3])) {
+                    dispatch(changeChannelValue(4, 'checked', false));
+                  }
                 }}
               />
               <span className={style.spanMargin}>{priceWithExchangeRate.symbol}</span>
@@ -86,9 +98,11 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 allowClear
                 placeholder={__('order.goodsRefund.please_select_a_refund_account')}
                 style={{ width: 150 }}
-                disabled={!activeOne}
+                disabled={!checked}
               //  value={`${refund_method || ''}`}
-                onChange={e => dispatch(changeChannelValue(refundPathId, 'refund_method', e))}
+                onChange={(e) => {
+                  dispatch(changeChannelValue(refundPathId, 'refund_method', e));
+                }}
               >
                 {
                   refundAccountTypeList.map(v => (
@@ -96,11 +110,26 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                   ))
                 }
               </Select>
+              {
+                refund_method === '其他' || refund_method === 'others' ?
+                  <Input
+                    placeholder={__('order.entry.cash_content8')}
+                    style={{ width: 150, marginLeft: '10px' }}
+                    disabled={!checked}
+                    required
+                    value={refund_method1}
+                    onChange={(e) => {
+                      dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                    }}
+                  />
+                :
+                null
+              }
               <Input
-                placeholder={__('order.goodsRefund.Please_enter_a_user_refund_account')}
+                placeholder={__('order.entry.cash_content7')}
                 required
                 style={{ width: 150, marginLeft: '10px' }}
-                disabled={!activeOne}
+                disabled={!checked}
                 value={account}
                 onChange={e => dispatch(changeChannelValue(refundPathId, 'account', e.target.value))}
               />
