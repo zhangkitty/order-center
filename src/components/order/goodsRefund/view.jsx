@@ -57,8 +57,12 @@ class GoodsRefund extends Component {
               reason: Number(res.reason.reasonId),
               remark: res.remark,
               refund_paths: res.refundPaths
-              .map(v => assign({}, v,
-                { refund_path_id: v.refundTypeId, refundAmount: Number(v.refundAmount) })),
+              .map(v => ({
+                refund_path_id: v.refundTypeId,
+                refund_amount: Number(v.refundAmount),
+                refund_method: v.refund_method_id === 4 ? v.refund_method2 : v.refund_method,
+                account: v.account,
+              })),
             };
             return dispatch(submitForward(newRes));
           }}

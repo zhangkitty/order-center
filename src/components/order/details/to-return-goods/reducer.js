@@ -62,9 +62,9 @@ export default (state = defaultState, action) => {
       return assign({}, state, {
         batchShow: false,
         submitValue: assign({}, state.submitValue, {
-          return_info: assign({}, state.submitValue.return_info, {
+          return_info: state.submitValue.return_info.map(v => assign({}, v, {
             reason_ids: action.data,
-          }),
+          })),
         }),
       });
     case TYPES.COMMIT:

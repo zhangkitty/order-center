@@ -237,7 +237,7 @@ export const getReasonSer = (type) => (
 export const goodsRefundSubmit = d => (
   fetch(goodsRefund.newSubmit, {
     method: 'POST',
-    body: JSON.stringify(camel2Under(d)),
+    body: JSON.stringify(d),
   })
 );
 export const cancelRefundSubmit = d => (

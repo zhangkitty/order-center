@@ -68,7 +68,7 @@ module.exports = {
   payment_2: '商品折后总价',
   payment_3: '钱包',
   payment_4: '优惠券码',
-  payment_5: '抵扣显示金额',
+  payment_5: '优惠券抵扣金额',
   payment_6: 'COD服务费',
   payment_7: '付款凭证号',
   payment_8: '保险费',

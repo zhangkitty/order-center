@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Radio, Input, Checkbox, Select, InputNumber, message } from 'antd';
+import { Radio, Input, Checkbox, Select, message } from 'antd';
 import { subchange, checkPath, usPriceChange, otherPriceChange, allback, copyPaymentMethod } from './action';
 import style from './style.css';
 
@@ -100,17 +100,20 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                       <span style={spanWidth}>$</span>
                     </div>
                     <div>
-                      <InputNumber
+                      <Input
                         style={{ width: '150px' }}
                         value={v.refundAmount}
                         type={'number'}
-                        onChange={value => dispatch(usPriceChange(value, i, v.rate))}
+                        step={0.1}
+                        onChange={e => dispatch(usPriceChange(e.target.value, i, v.rate))}
                       />
                       <span style={spanWidth}>{v.currency}</span>
-                      <InputNumber
+                      <Input
                         style={{ width: '150px' }}
                         value={v.refundAmount2}
-                        onChange={value => dispatch(otherPriceChange(value, i, v.rate2))}
+                        type={'number'}
+                        step={0.1}
+                        onChange={e => dispatch(otherPriceChange(e.target.value, i, v.rate2))}
                       />
                       <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${v.max}</span>
                     </div>
@@ -123,21 +126,40 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                         placeholder={__('order.goodsRefund.please_select_a_refund_account')}
                         style={{ width: 150 }}
                        // value={`${v.refund_method || ''}`}
-                        onChange={va => dispatch(subchange('refundPaths', [
-                          ...submitValue.refundPaths.slice(0, i),
-                          assign({}, submitValue.refundPaths[i], { refund_method: va }),
-                          ...submitValue.refundPaths.slice(i + 1),
-                        ]))
+                        onChange={(va) => {
+                          dispatch(subchange('refundPaths', [
+                            ...submitValue.refundPaths.slice(0, i),
+                            assign({}, submitValue.refundPaths[i], {
+                              refund_method: va,
+                              refund_method_id: v.refundAccountTypeList.find(d => d.name === va).id,
+                            }),
+                            ...submitValue.refundPaths.slice(i + 1),
+                          ]));
+                        }
                         }
                       >
                         {
                           v.refundAccountTypeList.map(d => (
-                            <Option key={d.name}>{d.name}</Option>
+                            <Option key={d.id} value={d.name}>{d.name}</Option>
                           ))
                         }
                       </Select>
+                      {
+                        Number(v.refund_method_id) === 4 &&
+                        <Input
+                          placeholder={__('order.entry.cash_content8')}
+                          style={{ width: 150, marginLeft: '5px' }}
+                          value={v.refund_method2}
+                          onChange={e => dispatch(subchange('refundPaths', [
+                            ...submitValue.refundPaths.slice(0, i),
+                            assign({}, submitValue.refundPaths[i],
+                              { refund_method2: e.target.value }),
+                            ...submitValue.refundPaths.slice(i + 1),
+                          ]))}
+                        />
+                      }
                       <Input
-                        placeholder={__('order.goodsRefund.Please_enter_a_user_refund_account')}
+                        placeholder={__('order.entry.cash_content7')}
                         style={{ width: 150, marginLeft: '5px' }}
                         value={v.account}
                         onChange={e => dispatch(subchange('refundPaths', [

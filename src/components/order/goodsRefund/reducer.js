@@ -227,8 +227,8 @@ const reducer = (state = defaultState, action) => {
           refundPaths: [
             ...state.submitValue.refundPaths.slice(0, action.i),
             assign({}, state.submitValue.refundPaths[action.i], {
-              refundAmount: action.value || 0.00,
-              refundAmount2: Number(Number(action.value || 0.00) * action.rate).toFixed(2),
+              refundAmount: action.value,
+              refundAmount2: Number(Number(action.value) * action.rate).toFixed(2),
             }),
             ...state.submitValue.refundPaths.slice(action.i + 1),
           ],
