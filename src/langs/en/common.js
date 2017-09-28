@@ -54,7 +54,7 @@ module.exports = {
   refundBillStatus4: 'Refund Rejected',
   refundBillStatus5: '退款已取消',
   change1: '(Been Exchanged)',
-  change2: ' Exchanged By',
+  change2: ' Exchanged',
   operationCheck: '操作人',
   operationCheck1: '时间',
   operationCheck2: 'Operation',
