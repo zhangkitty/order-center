@@ -74,8 +74,15 @@ const pingkongShow = {
 
 const colors = {
   1: { bg: '#5AE0ED', border: 'none' },
+  2: { bg: '#0A8FE5', border: 'none' },
+  3: { bg: '#ffffff', border: '#0A8FE5' },
+  4: { bg: '#ffffff', border: '#8C00FF' },
   5: { bg: 'rgba(255,45,138,0.2)', border: 'rgba(255,45,138,1)' },
+  6: { bg: '#FFD5DF19', border: 'none' },
   7: { bg: 'rgba(255,45,138,1)', border: 'none' },
+  8: { bg: '#FA4405', border: 'none' },
+  9: { bg: '#FF9D00', border: 'none' },
+  10: { bg: '#00712A', border: 'none' },
   11: { bg: 'rgba(10,143,229,1)', border: 'none' },
   12: { bg: 'none', border: 'rgba(204,204,204,1)' },
   13: { bg: 'none', border: 'rgba(224,16,208,1)' },
@@ -107,8 +114,8 @@ const colorCirle = (circle = {}) => (
       borderRadius: '50%',
       display: 'inline-block',
       marginRight: '5px',
-      backgroundColor: circle.bg,
-      border: `2px solid ${circle.border}`,
+      backgroundColor: circle.bg || '#ccc',
+      border: `2px solid ${circle.border}` || 'none',
     }}
   />
 );
