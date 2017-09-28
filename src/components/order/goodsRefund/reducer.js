@@ -110,7 +110,9 @@ const originPrice = (priceRefund = 0, data) => {
  */
 const svInit = (source) => {
   const maxObj = maxTypes(source);
-  const priceObj = originPrice(Number(source.orderPriceInfo.avgPriceTotal || 0), source);
+  const priceObj = originPrice(
+    Number(source.orderPriceInfo.waitRefundPrice.priceUsd.amount || 0),
+    source);
   const obj = source.orderRefundPathList.map(v => ({
     refundTypeId: v.refundPathId,
     isShow: (v.refundPathId === 1 && Number(maxObj[v.refundPathId]) > 0) ||
