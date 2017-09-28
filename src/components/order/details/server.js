@@ -28,7 +28,7 @@ const editAddress = {
 }
 const toReturnGoods = {
   info: '/OrderReturn/getReturnSubmitConfig',
-  save: '/Order/submitReturn',
+  save: '/OrderReturn/submitReturn',
 }
 
 const goodsControl = {
