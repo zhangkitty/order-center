@@ -49,7 +49,6 @@ class DiffRefund extends Component {
                 remark,
                 refund_paths,
               };
-              console.log(temp);
               return dispatch(submitForward(temp));
             }}
           >
@@ -99,6 +98,7 @@ class DiffRefund extends Component {
     );
   }
 }
+
 DiffRefund.propTypes = {
   ready: PropTypes.bool,
   dispatch: PropTypes.func,
