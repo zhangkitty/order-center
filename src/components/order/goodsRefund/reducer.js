@@ -120,7 +120,7 @@ const svInit = (source) => {
     refundAmount: priceObj[v.refundPathId],
     refundAmount2: priceObj[v.refundPathId] * v.priceUsd.rate,
     rate: v.priceWithExchangeRate.rate,
-    rate2: v.priceUsd.rate,
+    rate2: 1 / v.priceWithExchangeRate.rate,
     currency: v.priceWithExchangeRate.symbol,
     check: priceObj[v.refundPathId] > 0,
     max: maxObj[v.refundPathId],
