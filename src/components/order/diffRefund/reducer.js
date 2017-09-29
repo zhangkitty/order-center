@@ -22,6 +22,7 @@ const defaultState = {
   orderPriceInfo: null,
   reason: null,
   maxTips: {},
+  submitLoad: false,
 };
 
 const getMax = d => ({
@@ -103,6 +104,11 @@ const reducer = (state = defaultState, action) => {
         submitValue: assign({}, state.submitValue, {
           [action.key]: action.value,
         }),
+      });
+
+    case TYPES.SUBMIT:
+      return assign({}, state, {
+        submitLoad: true,
       });
     case TYPES.ACTIVATION:
       return assign({}, state, {
