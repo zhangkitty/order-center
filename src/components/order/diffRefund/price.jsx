@@ -36,6 +36,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                       checked,
                       refundPathName: name,
                       refundAmount,
+                      refundAmount1,
                       priceWithExchangeRate,
                       refundAccountTypeList,
                       account,
@@ -65,11 +66,12 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 type="number"
                 required
                 disabled={!checked}
-                value={refundAmount}
+                value={Number(refundAmount).toFixed(2)}
                 onChange={(e) => {
                   const value = e.target.value;
                   dispatch(change('maxTips', assign({}, maxTips, { disabled: Number(value) })));
-                  dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(value).toFixed(2)));
+                  dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(value)));
+                  dispatch(changeChannelValue(refundPathId, 'refundAmount1', Number(value) * priceWithExchangeRate.rate));
                   if (refundPathId === 3 && Number(value) === Number(maxTips[3])) {
                     dispatch(changeChannelValue(4, 'checked', true));
                   }
@@ -83,13 +85,14 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 style={{ width: '150px' }}
                 type="number"
                 disabled={!checked}
-                value={Number(refundAmount * priceWithExchangeRate.rate).toFixed(2)}
+                value={Number(refundAmount1).toFixed(2)}
                 onChange={(e) => {
+                  dispatch(changeChannelValue(refundPathId, 'refundAmount1', Number(e.target.value).toFixed(2)));
                   dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(e.target.value / priceWithExchangeRate.rate).toFixed(2)));
-                  if (refundPathId === 3 && Number(e.target.value / priceWithExchangeRate.rate) === Number(maxTips[3])) {
+                  if (refundPathId === 3 && Number(refundAmount1 / priceWithExchangeRate.rate).toFixed(2) === Number(maxTips[3]).toFixed(2)) {
                     dispatch(changeChannelValue(4, 'checked', true));
                   }
-                  if (refundPathId === 3 && Number(e.target.value / priceWithExchangeRate.rate) !== Number(maxTips[3])) {
+                  if (refundPathId === 3 && Number(refundAmount1 / priceWithExchangeRate.rate).toFixed(2) !== Number(maxTips[3]).toFixed(2)) {
                     dispatch(changeChannelValue(4, 'checked', false));
                   }
                 }}

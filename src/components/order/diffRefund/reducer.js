@@ -84,6 +84,7 @@ const reducer = (state = defaultState, action) => {
           channelType: chanelTypeTable[item.refundPathName],
           refund_method: '',
           refund_method1: '',
+          refundAmount1: null,
         })),
         maxTips: getMax(action.data.orderPriceInfo),
         orderPriceInfo: action.data.orderPriceInfo,
