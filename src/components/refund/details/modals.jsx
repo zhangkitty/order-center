@@ -149,7 +149,7 @@ const Modals = ({
           <Button onClick={() => dispatch(commit('refundInfo', assign({}, refundInfo, { data: {} })))}>
             {lan.取消}
           </Button>
-          <Button type={'primary'} htmlType={'submit'} loading={refundInfo.load} >
+          <Button type={'primary'} htmlType={'submit'} loading={refundInfo.saveLoad} >
             {lan.确认}
           </Button>
         </div>
@@ -193,7 +193,7 @@ const Modals = ({
           <Button onClick={() => dispatch(commit('refundInfo', assign({}, refundInfo, { data: {} })))}>
             {lan.取消}
           </Button>
-          <Button type={'primary'} htmlType={'submit'} loading={refundInfo.load} >
+          <Button type={'primary'} htmlType={'submit'} loading={refundInfo.saveLoad} >
             {lan.确认}
           </Button>
         </div>
@@ -226,7 +226,7 @@ const Modals = ({
           <Button onClick={() => dispatch(commit('refundInfo', assign({}, refundInfo, { data: {} })))}>
             {lan.取消}
           </Button>
-          <Button type={'primary'} htmlType={'submit'} loading={addRemarkInfo.load} >
+          <Button type={'primary'} htmlType={'submit'} loading={addRemarkInfo.saveLoad} >
             {lan.确认}
           </Button>
         </div>

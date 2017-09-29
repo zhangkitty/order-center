@@ -111,4 +111,6 @@ module.exports = {
   content_name: '退款原因',  // 内容名称
   content_name1: '备注信息',
   content_name2: 'Records in Total',
+  file_need_choose: '未选择任何文件',
+  file_less_three: '最多3张',
 };

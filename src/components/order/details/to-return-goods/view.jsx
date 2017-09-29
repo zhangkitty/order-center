@@ -21,6 +21,8 @@ const lan = {
   needReason: __('order.entry.submit_title3'),
   needPic: __('order.entry.submit_title4'),
   need: __('order.entry.submit_title5'),
+  fileNeed: __('common.file_need_choose'),
+  fileNumber: __('common.file_less_three'),
 };
 const CG = Checkbox.Group;
 const RG = Radio.Group;
@@ -180,6 +182,12 @@ class ToReturnGoods extends Component {
                           <Button icon="upload">
                             {lan.upload}
                           </Button>
+                          <span style={{ marginLeft: '5px', color: 'red' }}>
+                            {
+                              !return_info
+                              .find(v => v.goods_id === rec.goods_id).img_thumb.length &&
+                            `${lan.fileNeed},`}{lan.fileNumber}
+                          </span>
                         </Upload>
                         : null
                     }
