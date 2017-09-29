@@ -192,6 +192,8 @@ const SingleRow = (props) => {
           >{ data.billno }</Checkbox>
           {/*  全选 */}
           <Button
+            className={Styles.orderSelect}
+            size="small"
             onClick={() =>
               dispatch(change('batchChooseGoods', data.order_goods.filter(v => !checkboxChecked[v.goods_status]).map(v => v.order_goods_id)))
             }
