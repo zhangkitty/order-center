@@ -190,6 +190,13 @@ const SingleRow = (props) => {
               }
             }}
           >{ data.billno }</Checkbox>
+          {/*  全选 */}
+          <Button
+            onClick={() =>
+              dispatch(change('batchChooseGoods', data.order_goods.filter(v => !checkboxChecked[v.goods_status]).map(v => v.order_goods_id)))
+            }
+          >{__('common.allChoose')}</Button>
+
           <span>{__('common.Qty')} { data.goods_quantity }</span>
           <span>
             {data.email}
@@ -222,6 +229,7 @@ const SingleRow = (props) => {
           rowKey="order_goods_id"
           rowSelection={{
             type: 'checkbox',
+            selectedRowKeys: batchChooseGoods,
             getCheckboxProps: rec => ({
               disabled: !!checkboxChecked[rec.goods_status],
             }),
