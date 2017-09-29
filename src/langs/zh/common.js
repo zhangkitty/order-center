@@ -11,7 +11,7 @@ module.exports = {
   choose1: '请选择尺码',
   search1: '普通搜索',
   search2: '高级搜索',
-  Qty: 'Qty :',
+  Qty: 'Quantity: ',
   total: 'total:',
   order_number: 'order number',
   order_id: 'order Id',

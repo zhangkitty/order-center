@@ -101,6 +101,7 @@ form .colSpace2{
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
 }
 .orderTitleR {
     display: flex;
@@ -114,6 +115,11 @@ form .colSpace2{
 }
 .orderTitleR > span {
     /*margin-right: 20px;*/
+}
+.orderSelect {
+    position: absolute;
+    top: 40px;
+    z-index: 100;
 }
 .ButtonBg {
     background: #f00;

@@ -11,7 +11,7 @@ module.exports = {
   choose1: 'Select Size',
   search1: 'General Search',
   search2: 'Advanced Search',
-  Qty: 'Quantity :',
+  Qty: 'Quantity: ',
   total: 'total:',
   order_number: 'Order No.',
   order_id: 'Order ID',
