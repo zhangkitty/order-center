@@ -23,6 +23,7 @@ const defaultState = {
   reason: null,
   maxTips: {},
   submitLoad: false,
+  submitdisabled:false,
 };
 
 const getMax = d => ({

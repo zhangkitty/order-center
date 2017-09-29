@@ -42,6 +42,7 @@ function* submitSaga(action) {
     return yield put(change('submitLoad', false));
   }
   message.success(lan.commit_success);
+  yield put(change('submitdisabled', true));
   return yield put(change('submitLoad', false));
 }
 
