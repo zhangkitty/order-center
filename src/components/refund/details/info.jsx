@@ -27,7 +27,7 @@ const Info = ({ dataSource: { refund_path }, dispatch, refundBillId, refundInfo 
       size="small"
       pagination={false}
       dataSource={refund_path}
-      rowKey={'billno'}
+      rowKey={'record_id'}
       bordered
       columns={[
         {
