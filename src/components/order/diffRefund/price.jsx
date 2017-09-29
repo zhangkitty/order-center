@@ -83,8 +83,16 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 style={{ width: '150px' }}
                 type="number"
                 disabled={!checked}
-                value={refundAmount && refundAmount * priceWithExchangeRate.rate}
-                onChange={e => dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(e.target.value / priceWithExchangeRate.rate).toFixed(2)))}
+                value={Number(refundAmount * priceWithExchangeRate.rate).toFixed(2)}
+                onChange={(e) => {
+                  dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(e.target.value / priceWithExchangeRate.rate).toFixed(2)));
+                  if (refundPathId === 3 && Number(e.target.value / priceWithExchangeRate.rate) === Number(maxTips[3])) {
+                    dispatch(changeChannelValue(4, 'checked', true));
+                  }
+                  if (refundPathId === 3 && Number(e.target.value / priceWithExchangeRate.rate) !== Number(maxTips[3])) {
+                    dispatch(changeChannelValue(4, 'checked', false));
+                  }
+                }}
               />
               {
                 <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${maxTips[refundPathId] || ''}</span>
