@@ -29,6 +29,13 @@ const RG = Radio.Group;
 const Op = Select.Option;
 const Star = (<span style={{ color: 'red' }}>*</span>);
 const spanWidth = { width: '120px', display: 'inline-block' };
+const RANChoose = {
+  1: '广州仓', 4: '迪拜仓', 5: '印度仓',
+};
+const defaultRL = {
+  2: '美东仓', 3: '比利时仓',
+};
+
 class ToReturnGoods extends Component {
   constructor(props) {
     super(props);
@@ -207,21 +214,19 @@ class ToReturnGoods extends Component {
             </RG>
           </div>
           <div style={{ margin: '20px 0' }}>
-            <span style={spanWidth}>{lan.type}{Star}:</span>
-            <RG value={submitValue.return_shipping_type} onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}>
-              {
-                shippingType.map(v => (
-                  <Radio value={v.id} key={v.id}>{v.name}</Radio>
-                ))
-              }
-            </RG>
-          </div>
-          <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{lan.warehouse}{Star}:</span>
             <Select
               style={{ width: '45%' }}
               value={`${submitValue.return_warehouse}`}
-              onChange={value => dispatch(infoCommit('return_warehouse', Number(value)))}
+              onChange={(value) => {
+                if (defaultRL[value]) {
+                  dispatch(infoCommit('return_shipping_type', 1));
+                }
+                if (RANChoose[value]) {
+                  dispatch(infoCommit('return_shipping_type', 2));
+                }
+                dispatch(infoCommit('return_warehouse', Number(value)));
+              }}
             >
               {
                 warehouse.map(v => (
@@ -229,6 +234,19 @@ class ToReturnGoods extends Component {
                 ))
               }
             </Select>
+          </div>
+          <div style={{ margin: '20px 0' }}>
+            <span style={spanWidth}>{lan.type}{Star}:</span>
+            <RG value={submitValue.return_shipping_type} onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}>
+              {
+                shippingType.map(v => (
+                  <Radio
+                    value={v.id} key={v.id}
+                    disabled={v.id === 2 && RANChoose[submitValue.return_warehouse]}
+                  >{v.name}</Radio>
+                ))
+              }
+            </RG>
           </div>
           <Button type="primary" loading={load} htmlType="submit">{lan.save}</Button>
           <Modal

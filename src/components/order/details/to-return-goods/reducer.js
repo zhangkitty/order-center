@@ -46,6 +46,7 @@ export default (state = defaultState, action) => {
               reason_ids: [],
             }
             )),
+          refund_path: action.data.refund_path.find(v => Number(v.id) === 1) ? action.data.refund_path.find(v => Number(v.id) === 1).id : '',
         }),
       });
     case TYPES.SAVE:
