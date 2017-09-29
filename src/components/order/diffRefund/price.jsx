@@ -89,10 +89,10 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 onChange={(e) => {
                   dispatch(changeChannelValue(refundPathId, 'refundAmount1', Number(e.target.value).toFixed(2)));
                   dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(e.target.value / priceWithExchangeRate.rate).toFixed(2)));
-                  if (refundPathId === 3 && Number(refundAmount1 / priceWithExchangeRate.rate).toFixed(2) === Number(maxTips[3]).toFixed(2)) {
+                  if (refundPathId === 3 && (Number(e.target.value) / priceWithExchangeRate.rate).toFixed(2) === Number(maxTips[3]).toFixed(2)) {
                     dispatch(changeChannelValue(4, 'checked', true));
                   }
-                  if (refundPathId === 3 && Number(refundAmount1 / priceWithExchangeRate.rate).toFixed(2) !== Number(maxTips[3]).toFixed(2)) {
+                  if (refundPathId === 3 && (Number(e.target.value) / priceWithExchangeRate.rate).toFixed(2) !== Number(maxTips[3]).toFixed(2)) {
                     dispatch(changeChannelValue(4, 'checked', false));
                   }
                 }}
