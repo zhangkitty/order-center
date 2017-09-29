@@ -32,7 +32,7 @@ const Price = ({ submitValue, dispatch }) => {
                     ...submitValue.recordList.slice(0, i),
                     assign({}, submitValue.recordList[i], {
                       refundAmount: e.target.value,
-                      refundAmount2: Number(Number(e.target.value) * v.rate).toFixed(2),
+                      refundAmount2: Number(Number(e.target.value) * v.rate2).toFixed(2),
                     }),
                     ...submitValue.recordList.slice(i + 1),
                   ]))}
@@ -45,7 +45,7 @@ const Price = ({ submitValue, dispatch }) => {
                   onChange={e => dispatch(subchange('recordList', [
                     ...submitValue.recordList.slice(0, i),
                     assign({}, submitValue.recordList[i], {
-                      refundAmount: Number(Number(e.target.value) * v.rate2).toFixed(2),
+                      refundAmount: Number(Number(e.target.value) / v.rate2).toFixed(2),
                       refundAmount2: e.target.value,
                     }),
                     ...submitValue.recordList.slice(i + 1),

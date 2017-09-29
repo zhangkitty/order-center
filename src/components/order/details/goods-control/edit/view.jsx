@@ -121,20 +121,22 @@ class goodsControlEdit extends Component {
 
           <div className={Styles.reason}>
             <span className={Styles.descWidth}>{star}{__('order.goods-control.control_type')}</span>
-            {
-              fetchFeedbackType.map(({ name, children }) => (
-                <div key={name} className={Styles.reasonitem}>
-                  <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>
-                    {name}
-                  </Tag>
-                  <CheckboxGroup
-                    options={children.map(item => ({ label: item.name, value: item.id }))}
-                    value={feedback_reason.name === name ? feedback_reason.children : []}
-                    onChange={value => dispatch(changeSelectOptions(value, name))}
-                  />
-                </div>
-              ))
-            }
+            <div className={Styles.reasonitemBg}>
+              {
+                fetchFeedbackType.map(({ name, children }) => (
+                  <div key={name} className={Styles.reasonitem}>
+                    <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>
+                      {name}
+                    </Tag>
+                    <CheckboxGroup
+                      options={children.map(item => ({ label: item.name, value: item.id }))}
+                      value={feedback_reason.name === name ? feedback_reason.children : []}
+                      onChange={value => dispatch(changeSelectOptions(value, name))}
+                    />
+                  </div>
+                ))
+              }
+            </div>
           </div>
           <div className={Styles.reason}>
             <span className={Styles.descWidth}>

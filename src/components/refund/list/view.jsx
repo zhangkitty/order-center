@@ -58,9 +58,10 @@ class refundList extends Component {
               render: (text, record) => {
                 const obj = {
                   children: text,
-                  props: {},
+                  props: {
+                    rowSpan: record.rowSpan,
+                  },
                 };
-                obj.props.rowSpan = record.rowSpan;
                 return obj;
               },
             }, {
@@ -129,15 +130,15 @@ class refundList extends Component {
             }, {
               title: __('refund.list.operate'),
               width: '80px',
-              render: (text, record) => (
-                <div>
-                  <Link
-                    to={`/refund/details/${record.refund_bill_id}`}
-                    target="_blank"
-                  >{ __('refund.list.operate1') }
-                  </Link>
-                </div>
-              ),
+              render: (text, record) => {
+                const obj = {
+                  children: <Link to={`/refund/details/${record.refund_bill_id}`} target="_blank">{ __('refund.list.operate1') }</Link>,
+                  props: {
+                    rowSpan: record.rowSpan,
+                  },
+                };
+                return obj;
+              },
             }]}
           />
         </div>

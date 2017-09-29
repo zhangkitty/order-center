@@ -47,19 +47,21 @@
     margin:15px 0;
 }
 .descWidth {
-    width: 150px;
+    flex: 0 0 150px;
     color: rgb(148, 148, 148);
     text-align: right;
     margin-right: 20px;
 }
+.reasonitemBg {
+    display: flex;
+}
 .reasonitem {
     display: flex;
     flex-direction: column;
-    width:150px;
 }
 .reasonitem label {
-    width: 85%;
     margin-left: 5px;
+    display: block;
 }
 .mark {
     display: flex;

@@ -63,6 +63,7 @@ const reducer = (state = defaultState, action) => {
           rate,   // 汇率
           rate2: under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
+          max: max1 < max2 ? max1 : max2, // 美元金额
         }),
       });
     case TYPES.GET_REASON_SUCCESS:
