@@ -2,7 +2,7 @@ import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import assign from 'object-assign';
 import * as TYPES from './types';
-import { commit, getInfoSuccess, remarkInfoSuccess, refundFail, refundSucess, doRefundFail, reverseRefundSaveFail } from './action';
+import { commit, getInfo, getInfoSuccess, remarkInfoSuccess, refundFail, refundSucess, doRefundFail, reverseRefundSaveFail } from './action';
 import { getRefundDetailsInfo, remarkInfoSer, addRemarkInfoSer, rejectInfoSer, refundSer, doRefundSer, doRefundAgainSer, doRefundPassSer } from '../server';
 
 const lan = {
@@ -44,7 +44,8 @@ function* rejectInfoSaga(action) {
     return message.error(`${lan.fail}:${data.msg}`);
   }
   yield put(commit('rejectInfo', assign({}, action.info, { reamrkShow: false })));
-  return message.success(lan.osucess);
+  message.success(lan.osucess);
+  return yield put(getInfo(action.id));
 }
 function* refundSaga(action) {
   const data = yield refundSer(action.record_id);
