@@ -25,7 +25,7 @@ class DiffRefund extends Component {
 
   render() {
     const {
-      ready, dispatch, ReasonList, reason, remark, order_id, refundPaths, orderPriceInfo, maxTips,
+      ready, dispatch, ReasonList, reason, remark, order_id, refundPaths, orderPriceInfo, maxTips, submitLoad,
     } = this.props;
     return (
       ready ?
@@ -89,7 +89,7 @@ class DiffRefund extends Component {
                 }}
                 type="default"
               >{__('order.diffRefund.cancel')}</Button>
-              <Button type="primary" style={{ marginLeft: '50px' }} htmlType={'submit'}>{__('order.diffRefund.commit')}</Button>
+              <Button type="primary" loading={submitLoad} style={{ marginLeft: '50px' }} htmlType={'submit'}>{__('order.diffRefund.commit')}</Button>
             </div>
           </form>
         </div>
@@ -110,6 +110,7 @@ DiffRefund.propTypes = {
   orderPriceInfo: PropTypes.shape(),
   params: PropTypes.shape(),
   maxTips: PropTypes.shape(),
+  submitLoad: PropTypes.bool,
 };
 
 const mapStateToProps = state => state['order/diffRefund'];
