@@ -39,7 +39,7 @@ const MarkTag = ({ markTag, dispatch }) => (
           onChange={e => dispatch(change('markTag', assign({}, markTag, { is_trouble: e.target.value })))}
         />
       </div>
-      <span>{star}{__('common.title1')}</span>
+      <span>{star}{__('common.order_operation5')}</span>
       <TextArea
         className={styles.troubleContent}
         autosize={{ minRows: 2, maxRows: 6 }}

@@ -412,6 +412,7 @@ const reducer = (state = defaultState, action) => {
             assign({}, v, {
               is_trouble: action.data.is_trouble,
               have_remark: 1,
+              have_remark_admin: 1,
             }) : v
         )),
         markTag: assign({}, state.markTag, { markTagVisible: false }),
@@ -426,34 +427,31 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.BATCH_CHECK_SUCCESS:    // 批量审核
       return assign({}, state, {
-        dataSource: state.dataSource.map(v => {
+        dataSource: state.dataSource.map((v) => {
           if (action.data.order_ids.indexOf(v.order_id) > -1) {
             return assign({}, v, {
-              order_status_title: '已审核',
+              order_status_title: __('order.entry.examine_done'),
               order_status: '2',
             });
-          } else {
-            return v;
           }
+          return v;
         }),
       });
     case TYPES.BATCH_DELETE_SUCCESS:    // 批量平台取消,删除订单
       return assign({}, state, {
-        dataSource: state.dataSource.filter(v => {
-          return action.data.order_ids.indexOf(v.order_id) < 0; // 删除订单
-        }),
+        dataSource: state.dataSource.filter(v => action.data.order_ids.indexOf(v.order_id) < 0, // 删除订单
+        ),
       });
     case TYPES.BATCH_PART_SUCCESS:    // 批量部分发
       return assign({}, state, {
-        dataSource: state.dataSource.map(v => {
+        dataSource: state.dataSource.map((v) => {
           if (action.data.order_ids.indexOf(v.order_id) > -1) {
             return assign({}, v, {
               order_status_title: '部分发货',
               order_status: '4',
             });
-          } else {
-            return v;
           }
+          return v;
         }),
       });
     default:

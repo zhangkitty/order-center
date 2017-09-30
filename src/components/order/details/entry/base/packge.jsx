@@ -277,7 +277,7 @@ const Packge = (
                         if (warehouse < 1) {
                           return message.waring(lan.needWarehouse);
                         }
-                        return dispatch(partSend([Number(orderId)], warehouse));
+                        return dispatch(partSend(orderId, warehouse));
                       }}
                     >
                       <RG onChange={e => dispatch(commit('warehouse', Number(e.target.value)))}>

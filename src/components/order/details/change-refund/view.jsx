@@ -67,7 +67,7 @@ class changeRefund extends Component {
               <Button
                 style={{ margin: '15px 80px 80px 0', left: '20%' }}
                 type="primary" htmlType="submit"
-                loading={submitLoad}
+                disabled={submitLoad}
               >{__('common.submit')}</Button>
             </div>
           </div>
