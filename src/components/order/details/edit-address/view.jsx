@@ -16,6 +16,10 @@ const lan = {
   needDistrict: __('order.entry.submit_title2'),
   need: __('order.entry.order_return_15'),
 };
+const addressLine = {
+  address_line_1: __('order.entry.address1'),
+  address_line_2: __('order.entry.address2'),
+};
 class EditAddress extends Component {
   constructor(props) {
     super(props);
@@ -193,7 +197,7 @@ class EditAddress extends Component {
                 {
                   (key === 'address_line_1' || key === 'address_line_2') &&
                   <div className={style.space}>
-                    <span className={style.spanWidth}>{validate && Star}{__('order.entry.address1')}:</span>
+                    <span className={style.spanWidth}>{validate && Star}{addressLine[key]}:</span>
                     <TA
                       required={validate}
                       value={submitValue[key]}

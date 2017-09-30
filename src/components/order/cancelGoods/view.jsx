@@ -17,14 +17,11 @@ class CancelGoods extends Component {
   componentWillMount() {
     const {
       dispatch, params: { orderId, goodsId },
-      ready, submitValue: { orderId: pid, goodsId: pgid },
     } = this.props;
-    if (!ready || Number(orderId) !== pid || goodsId !== pgid.join(',')) {
-      dispatch(subchange('orderId', Number(orderId)));
-      dispatch(subchange('goodsId', goodsId.split(',').map(v => Number(v))));
-      dispatch(getData(orderId, goodsId));
-      dispatch(getReason());
-    }
+    dispatch(subchange('orderId', Number(orderId)));
+    dispatch(subchange('goodsIds', goodsId.split(',').map(v => Number(v))));
+    dispatch(getData(orderId, goodsId));
+    dispatch(getReason());
   }
   render() {
     const { ready, submitLoad, submitValue, dispatch } = this.props;
@@ -48,6 +45,7 @@ class CancelGoods extends Component {
               reason_order_goods_ids: reason.goodsIds.join(','),
               remark: submitValue.remark,
             };
+            console.log(res);
             return dispatch(submitForward(res));
           }}
         >
