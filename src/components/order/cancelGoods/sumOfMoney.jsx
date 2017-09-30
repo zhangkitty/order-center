@@ -53,10 +53,14 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       priceUsd: { amount: walletRefund },
       priceWithExchangeRate: { amountWithSymbol: walletRefund2, symbol: walletRefundSymbol },
     },
-    waitRefundPrice: {
-      priceUsd: { amount: waitRefund },
-      priceWithExchangeRate: { amountWithSymbol: waitRefund2, symbol: waitRefundSymbol },
+    cardCanBeRefundedPrice: {
+      priceUsd: { amount: userRefund },
+      priceWithExchangeRate: { amountWithSymbol: userRefund2, symbol: userRefundSymbol },
     },
+    // waitRefundPrice: {
+    //  priceUsd: { amount: waitRefund },
+    //  priceWithExchangeRate: { amountWithSymbol: waitRefund2, symbol: waitRefundSymbol },
+    // },
   } = orderPriceInfo;
   const orderPrice = [
     {
@@ -128,11 +132,17 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       type: walletRefundSymbol,
     },
     {
-      name: __('order.goodsRefund.wait_refund'),
-      us: waitRefund,
-      currency: waitRefund2,
-      type: waitRefundSymbol,
+      name: __('order.goodsRefund.user_refunded'),
+      us: userRefund,
+      currency: userRefund2,
+      type: userRefundSymbol,
     },
+    //{
+    //  name: __('order.goodsRefund.wait_refund'),
+    //  us: waitRefund,
+    //  currency: waitRefund2,
+    //  type: waitRefundSymbol,
+    //},
   ];
   return (
     <div className={style.alertBg}>

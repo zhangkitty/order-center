@@ -30,7 +30,7 @@ const Op = Select.Option;
 const Star = (<span style={{ color: 'red' }}>*</span>);
 const spanWidth = { width: '120px', display: 'inline-block' };
 const RANChoose = {
-  1: '广州仓', 4: '迪拜仓', 5: '印度仓',
+  1: '广州仓', 4: '迪拜仓', 6: '印度仓',
 };
 const defaultRL = {
   2: '美东仓', 3: '比利时仓',
@@ -242,7 +242,7 @@ class ToReturnGoods extends Component {
                 shippingType.map(v => (
                   <Radio
                     value={v.id} key={v.id}
-                    disabled={v.id === 2 && RANChoose[submitValue.return_warehouse]}
+                    disabled={v.id === 1 && RANChoose[submitValue.return_warehouse]}
                   >{v.name}</Radio>
                 ))
               }

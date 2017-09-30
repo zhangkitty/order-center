@@ -22,6 +22,21 @@ const defaultState = {
   },
 };
 
+const RANChoose = {
+  1: '广州仓', 4: '迪拜仓', 6: '印度仓',
+};
+const defaultRL = {
+  2: '美东仓', 3: '比利时仓',
+};
+const getShippingType = (value) => {
+  if (RANChoose[value]) {
+    return 2;
+  }
+  if (defaultRL[value]) {
+    return 1;
+  }
+  return 1;
+};
 export default (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.GET_INFO_SUCCESS:
@@ -47,6 +62,7 @@ export default (state = defaultState, action) => {
             }
             )),
           refund_path: action.data.refund_path.find(v => Number(v.id) === 1) ? action.data.refund_path.find(v => Number(v.id) === 1).id : '',
+          return_shipping_type: getShippingType(action.data.default_warehouse),
         }),
       });
     case TYPES.SAVE:

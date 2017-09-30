@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Checkbox, Button, Input, Icon, Popover, message, Popconfirm, Spin } from 'antd';
-import { Link, hashHistory } from 'react-router';
+import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin } from 'antd';
+import { Link } from 'react-router';
 import assign from 'object-assign';
 import {
-  change, commit, remarkShow, openModal, searchHistory,
+  change, remarkShow, openModal, searchHistory,
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange,
 } from './action';
@@ -194,9 +194,17 @@ const SingleRow = (props) => {
           <Button
             className={Styles.orderSelect}
             size="small"
-            onClick={() =>
-              dispatch(change('batchChooseGoods', data.order_goods.filter(v => !checkboxChecked[v.goods_status]).map(v => v.order_goods_id)))
-            }
+            onClick={() => {
+              let arr = data.order_goods
+                              .filter(v => !checkboxChecked[v.goods_status])
+                              .map(v => v.order_goods_id);
+              if (arr.length) {
+                if (batchChooseGoods.length === arr.length) {
+                  arr = [];
+                }
+              }
+              dispatch(change('batchChooseGoods', arr));
+            }}
           >{__('common.allChoose')}</Button>
 
           <span>{__('common.Qty')} { data.goods_quantity }</span>
@@ -235,8 +243,7 @@ const SingleRow = (props) => {
             getCheckboxProps: rec => ({
               disabled: !!checkboxChecked[rec.goods_status],
             }),
-            onChange: t =>
-              dispatch(change('batchChooseGoods', t)),
+            onChange: t => dispatch(change('batchChooseGoods', t)),
           }}
           pagination={false}
           showHeader={false}

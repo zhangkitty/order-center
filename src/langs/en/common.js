@@ -19,7 +19,7 @@ module.exports = {
   order_type: 'Guru Order',
   operation: 'Operation Records',
   change_goods: 'Exchange Item',
-  del_goods: 'Delete Exchanged Item',
+  del_goods: 'Exchanged Item Was Deleted',
   order_operation: 'View Details',
   order_operation1: 'Mark the Order',
   order_operation2: 'Cancel/Refund',

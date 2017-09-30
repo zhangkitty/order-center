@@ -256,7 +256,14 @@ const Packge = (
             <BG>
               {
                 !!show_refund_button &&
-                <Button onClick={() => dispatch(operateReturn(orderId, chooseGoods.join(',')))}>
+                <Button
+                  onClick={() => {
+                    if (chooseGoods.length) {
+                      return dispatch(operateReturn(orderId, chooseGoods.join(',')));
+                    }
+                    return message.warning(__('common.sagaTitle24'));
+                  }}
+                >
                   {lan.tuibuo}
                 </Button>
               }
