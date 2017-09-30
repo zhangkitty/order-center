@@ -107,7 +107,11 @@ const OrderReturn = (
                           dispatch(genRl(rec.return_order_id, orderId, billno));
                         }}
                       >{lan.rl}</Button>
-                      <Popover content={rec.return_ran_info}>
+                      <Popover
+                        content={
+                          <div dangerouslySetInnerHTML={{ __html: rec.return_ran_info }} />
+                        }
+                      >
                         <Button style={{ margin: '10px' }}>{lan.chankan}RAN</Button>
                       </Popover>
                     </div>
