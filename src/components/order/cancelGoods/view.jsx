@@ -45,7 +45,6 @@ class CancelGoods extends Component {
               reason_order_goods_ids: reason.goodsIds.join(','),
               remark: submitValue.remark,
             };
-            console.log(res);
             return dispatch(submitForward(res));
           }}
         >

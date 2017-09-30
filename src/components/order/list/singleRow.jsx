@@ -434,11 +434,14 @@ const SingleRow = (props) => {
               null
               : <Button
                 onClick={() => {
-                  if (!batchGoods || batchGoods.length < 1) {
+                  const result = data.order_goods.map(v => v.order_goods_id);
+                  const arr = batchGoods.split(',');
+                  const res = arr.filter(v => !!result.filter(d => d === v).length);
+                  if (res.length < 1) {
                     return message.warning(__('common.sagaTitle24'));
                   }
                   // return hashHistory.push(`/order/goodsRefund/${data.order_id}/${batchGoods}`);
-                  return window.open(`${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${batchGoods}`);
+                  return window.open(`${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${res.join(',')}`);
                 }}
               >{__('common.order_operation2')}</Button>
           }
