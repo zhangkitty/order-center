@@ -248,7 +248,7 @@ class ToReturnGoods extends Component {
               }
             </RG>
           </div>
-          <Button type="primary" loading={load} htmlType="submit">{lan.save}</Button>
+          <Button type="primary" disabled={load} htmlType="submit">{lan.save}</Button>
           <Modal
             visible={batchShow}
             onOk={() => dispatch(batchChoose(chooses))}

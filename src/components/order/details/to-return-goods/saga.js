@@ -24,7 +24,6 @@ function* saveSaga(action) {
     yield put(commit('load', false));
     return message.error(`${lan.ofail}:${data.msg}`);
   }
-  yield put(commit('load', false));
   return message.success(lan.osucess);
 }
 
