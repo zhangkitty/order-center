@@ -38,12 +38,11 @@ const ChnageGoods = (props) => {
           <span className={styles.changeSpan}>{__('common.submitName5')}</span>
           <Select
             disabled={fetchgoodSize.length < 1}
-            defaultValue=""
+            allowClear
             className={styles.colSpace}
-            // value={goods_size}
+            value={goods_size}
             onChange={val => dispatch(commit3('goods_size', val))}
           >
-            <Option key="" value=""> {__('common.choose1')}</Option>
             {
               fetchgoodSize.map(item => (
                 <Option key={item} > {item}</Option>
