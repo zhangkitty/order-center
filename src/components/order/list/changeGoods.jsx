@@ -38,7 +38,7 @@ const ChnageGoods = (props) => {
           <span className={styles.changeSpan}>{__('common.submitName5')}</span>
           <Select
             disabled={fetchgoodSize.length < 1}
-            allowClear
+           // allowClear
             className={styles.colSpace}
             value={goods_size}
             onChange={val => dispatch(commit3('goods_size', val))}
@@ -54,7 +54,12 @@ const ChnageGoods = (props) => {
         <Button
           className={styles.changeButton}
           type="primary"
-          onClick={() => dispatch(changeGoods(exchange))}
+          onClick={() => {
+            if (fetchgoodSize.length > 0 && goods_size === '') {
+              return message.warning(__('common.choose1'));
+            }
+            return dispatch(changeGoods(exchange));
+          }}
         >{__('common.submit')}</Button>
       </div>
     </Modal>
