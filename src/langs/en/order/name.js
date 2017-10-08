@@ -23,7 +23,7 @@ module.exports = {
   total_select: 'Total Amount (US$ )',
   search: 'Search',
   tip: 'Tip',
-  tip_title: 'Search instructions：\n 1. Orders in a year can be searched；\n 2. Payment date can be searched in a month；',
+  tip_title: 'Search instructions：<br/> 1. Orders in a year can be searched；<br/> 2. Payment date can be searched in a month；',
   sku: 'sku',
   count: 'Quantity of Item in Stock >',
   member_level: 'Member Level',
