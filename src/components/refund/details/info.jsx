@@ -93,6 +93,7 @@ const Info = ({ dataSource: { refund_path }, dispatch, refundBillId, refundInfo 
                 (Number(rec.refund_status_code) === 1 || Number(rec.refund_status_code) === 4) &&
                 <Button
                   type="primary"
+                  style={{ marginLeft: '5px' }}
                   onClick={() => (
                     dispatch(refund(
                       rec.order_id,
@@ -112,7 +113,7 @@ const Info = ({ dataSource: { refund_path }, dispatch, refundBillId, refundInfo 
                 (Number(rec.refund_status_code) === 2 || Number(rec.refund_status_code) === 4) &&
                 <Button
                   type="primary"
-                  style={{ marginLeft: '15px' }}
+                  style={{ marginLeft: '5px' }}
                   onClick={() => (
                     dispatch(showReverseRefund(rec.record_id))
                   )}
