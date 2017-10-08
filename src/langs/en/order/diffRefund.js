@@ -5,7 +5,7 @@ module.exports = {
   wallet: 'Wallet',
   client: 'Account',
   overflow: 'Overpayment Refund',
-  placeholder: '请输入用户退款账户',
+  placeholder: 'Please input the refund account of customer',
   refundreason: 'Refund Reasons',
   remark: 'Note',
   commit: 'Submit',
@@ -22,8 +22,8 @@ module.exports = {
   waiting_amount: 'Amount Need to Be Refunded',
   need_refund_goods: 'Items Need a Refund',
   adjustment_refund: 'Price Difference Refund',
-  reason_list_failed: '获取退款原因列表失败',
-  refund_priceinfo_failed: '获取退款信息列表失败',
+  reason_list_failed: 'Failed to acquire lists of refund reasons',
+  refund_priceinfo_failed: 'Failed to acquire lists of refund info',
   submit_fail: 'Submit Failed',
 };
 

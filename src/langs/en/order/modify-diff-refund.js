@@ -1,3 +1,3 @@
 module.exports = {
-  cancel_refund: '取消退款',
+  cancel_refund: 'Refund Canceled',
 };
