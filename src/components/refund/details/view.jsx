@@ -18,11 +18,12 @@ class Details extends Component {
   }
   render() {
     const { ready } = this.props;
+    const { refund_type_code } = this.props.dataSource.refund_detail;
     if (ready) {
       return (
         <div className={styles.contentPadding}>
           <Base {...this.props} />
-          <Goods {...this.props} />
+          {Number(refund_type_code) === 2 && <Goods {...this.props} />}
           <Info {...this.props} />
           <Logs {...this.props} />
           <Modals {...this.props} />
@@ -37,6 +38,7 @@ class Details extends Component {
 Details.propTypes = {
   ready: PropTypes.bool,
   params: PropTypes.shape(),
+  dataSource: PropTypes.shape(),
   dispatch: PropTypes.func,
 };
 const mapStateToProps = state => state['refund/details'];
