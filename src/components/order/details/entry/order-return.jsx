@@ -92,32 +92,31 @@ const OrderReturn = (
             <div>
               <a style={{ margin: '10px' }} href={rec.return_order_details} target="blank">{lan.chankan}</a>
               {
-                rec.return_rl_download ?
-                  <a href={rec.return_rl_download} target="blank" style={{ marginLeft: '10px' }}>{lan.xiazai}</a>
-                  : null
+                !rec.return_rl_download &&
+                <a href={rec.return_rl_download} target="blank" style={{ marginLeft: '10px' }}>{lan.xiazai}</a>
               }
               {
-                  rec.return_label_type === 'RAN' ?
-                    <div>
-                      <Button
-                        style={{ margin: '10px' }}
-                        loading={rlLoading}
-                        onClick={() => {
-                          dispatch(commit('rlLoading', true));
-                          dispatch(genRl(rec.return_order_id, orderId, billno));
-                        }}
-                      >{lan.rl}</Button>
-                      <Popover
-                        content={
-                          <div dangerouslySetInnerHTML={{ __html: rec.return_ran_info }} />
-                        }
-                      >
-                        <Button style={{ margin: '10px' }}>{lan.chankan}RAN</Button>
-                      </Popover>
-                    </div>
-                    : null
-                }
-              <Button onClick={() => dispatch(uploadTrackShow(orderId, rec.return_order_id))} style={{ margin: '10px' }}>
+                rec.return_label_type === 'RAN' &&
+                <Popover
+                  content={
+                    <div dangerouslySetInnerHTML={{ __html: rec.return_ran_info }} />
+                  }
+                >
+                  <a style={{ margin: '5px' }}>{lan.chankan}RAN</a>
+                </Popover>
+              }
+              {
+                rec.return_label_type === 'RAN' &&
+                <Button
+                  style={{ margin: '5px' }}
+                  loading={rlLoading}
+                  onClick={() => {
+                    dispatch(commit('rlLoading', true));
+                    dispatch(genRl(rec.return_order_id, orderId, billno));
+                  }}
+                >{lan.rl}</Button>
+              }
+              <Button onClick={() => dispatch(uploadTrackShow(orderId, rec.return_order_id))} style={{ margin: '5px' }}>
                 {lan.sahngchuan}
               </Button>
             </div>
@@ -142,7 +141,7 @@ const OrderReturn = (
         <div className={styles.returnDiv}>
           <span className={styles.returnSpan}>{lan.qudao}</span>
           <Input
-            className={styles.returnWidth}
+            style={{ width: '70%' }}
             value={uploadTrack.channel}
             onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { channel: e.target.value })))}
           />
