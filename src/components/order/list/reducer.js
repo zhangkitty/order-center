@@ -182,6 +182,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
         dataSource: action.data.data || [],
+        batchChooseGoods: [], // 置空
         total: action.data.total,
         searchLoad: false,
       });
@@ -198,6 +199,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.SEARCH_HIGH_SUCCESS:
       return assign({}, state, {
         dataSource: action.data.data || [],
+        batchChooseGoods: [],
         total: action.data.total,
         searchLoad: false,
       });
@@ -214,6 +216,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.SEARCH_HISTORY_SUCCESS:
       return assign({}, state, {
         dataSource: action.data.data || [],
+        batchChooseGoods: [],
         total: action.data.total,
         searchLoad: false,
       });
@@ -339,6 +342,7 @@ const reducer = (state = defaultState, action) => {
           load: false,
           visible: true,
         },
+        fetchgoodSize: [],
       });
     case TYPES.GOODS_SIZE:
       return assign({}, state, {
