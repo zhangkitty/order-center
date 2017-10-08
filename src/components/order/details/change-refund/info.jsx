@@ -6,23 +6,23 @@ const Reason = ({ dataSource, refundInfo }) => (
   <div className={style.reason}>
     <div className={style.info_left} >
       <span className={style.infoList}>
-        <span className={style.infoListName}>退款编号:</span> { refundInfo.refundBillId }
+        <span className={style.infoListName}>{__('common.change_refund1')}</span> { refundInfo.refundBillId }
       </span>
       <span className={style.infoList}>
-        <span className={style.infoListName}>退款状态:</span> { refundInfo.status }
+        <span className={style.infoListName}>{__('common.change_refund2')}</span> { refundInfo.status }
       </span>
       <span className={style.infoList}>
-        <span className={style.infoListName}>退款原因:</span> { refundInfo.refundReason }
+        <span className={style.infoListName}>{__('common.change_refund3')}</span> { refundInfo.refundReason }
       </span>
     </div>
     <div className={style.info_left} >
       <span className={style.infoList}>
-        <span className={style.infoListName}>退款类型:</span> { refundInfo.refundTypeName }
+        <span className={style.infoListName}>{__('common.change_refund4')}</span> { refundInfo.refundTypeName }
       </span>
       {
         refundInfo.statusCode == 4 ?
           <span className={style.infoList}>
-            <span className={style.infoListName}>驳回原因:</span> { refundInfo.rejecteason }
+            <span className={style.infoListName}>{__('common.change_refund5')}</span> { refundInfo.rejctReason }
           </span>
         : null
       }

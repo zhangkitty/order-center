@@ -55,8 +55,8 @@ const ChnageGoods = (props) => {
           className={styles.changeButton}
           type="primary"
           onClick={() => {
-            if (fetchgoodSize.length > 0 && goods_size === '') {
-              return message.warning(__('common.choose1'));
+            if (fetchgoodSize.length > 0 && !goods_size) {
+              return message.warning(__('common.choose1')); // size 有值，必填
             }
             return dispatch(changeGoods(exchange));
           }}

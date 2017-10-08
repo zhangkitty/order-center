@@ -113,4 +113,9 @@ module.exports = {
   content_name2: '条记录',
   file_need_choose: '未选择任何文件',
   file_less_three: '最多3张',
+  change_refund1: '退款编号: ',
+  change_refund2: '退款状态: ',
+  change_refund3: '退款原因: ',
+  change_refund4: '退款类型: ',
+  change_refund5: '驳回原因: ',
 };
