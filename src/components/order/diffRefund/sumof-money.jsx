@@ -58,8 +58,16 @@ const SumOfMoney = ({ orderPriceInfo }) => {
       priceUsd: { amount: canBeRefunded },
       priceWithExchangeRate: { amountWithSymbol: canBeRefunded2, symbol: canBeRefundedSymbol },
     },
-
+    isCod,
   } = orderPriceInfo;
+  let codFee;
+  let codFee2;
+  let codFeeSymbol;
+  if (isCod) {
+    codFee = orderPriceInfo.codFee.priceUsd.amount;
+    codFee2 = orderPriceInfo.codFee.priceWithExchangeRate.amountWithSymbol;
+    codFeeSymbol = orderPriceInfo.codFee.priceWithExchangeRate.symbol;
+  }
   const orderPrice = [
     {
       name: __('order.goodsRefund.total_price'),
@@ -97,6 +105,13 @@ const SumOfMoney = ({ orderPriceInfo }) => {
       currency: insure2,
       type: insureSymbol,
     },
+    isCod &&
+      {
+        name: __('order.goodsRefund.codFee'),
+        us: codFee,
+        currency: codFee2,
+        type: codFeeSymbol,
+      },
     {
       name: __('order.goodsRefund.point'),
       us: point,
@@ -110,7 +125,7 @@ const SumOfMoney = ({ orderPriceInfo }) => {
       type: couponSymbol,
     },
 
-  ];
+  ].filter(res => res);
   const refundPrice = [
     {
       name: __('order.goodsRefund.can_be_refunded'),

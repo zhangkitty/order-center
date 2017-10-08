@@ -12,6 +12,7 @@ module.exports = {
   users: '用户',
   freight: '运费',
   insure: '运费险',
+  codFee: 'COD服务费',
   point: '积分',
   coupon: '优惠券抵扣金额',
   can_be_refunded: '订单剩余可退金额',
