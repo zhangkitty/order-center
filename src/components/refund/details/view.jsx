@@ -18,7 +18,7 @@ class Details extends Component {
   }
   render() {
     const { ready } = this.props;
-    const { refund_type_code } = this.props.dataSource.refund_detail;
+    const { refund_type_code } = this.props.dataSource.refund_detail || {};
     if (ready) {
       return (
         <div className={styles.contentPadding}>
