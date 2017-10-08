@@ -4,11 +4,11 @@
 module.exports = {
   order_details: 'Order Details',
   order_details_edit_address: '编辑地址',
-  order_details_to_return_goods: '提交退货',
+  order_details_to_return_goods: 'Submit return',
   goods_control: 'ITEM  ASSESSMENT REQUEST',
-  goods_control_edit: '编辑品控',
-  change_refund: '修改退款',
-  cash_refund: '提现退款申请',
-  refund: '退款列表',
-  refund_details: '退款详情',
+  goods_control_edit: 'Edite quality assessment',
+  change_refund: 'Modify refund details',
+  cash_refund: 'Withdraw refund',
+  refund: 'Refund lists',
+  refund_details: 'Refund details',
 };

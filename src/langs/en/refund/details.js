@@ -32,7 +32,7 @@ module.exports = {
   goods_refund: '退款商品',
   goods_sale: '销售价',
   goods_buy: '购买价',
-  info_refund_info: '退款信息',
+  info_refund_info: 'Refund info',
   info_account: '账户',
   info_account_info: '账户信息',
   info_refund_protocal: '退款交易凭证号',
