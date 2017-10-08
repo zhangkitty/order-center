@@ -181,7 +181,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.SEARCH_SUCCESS:
       return assign({}, state, {
         // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
-        dataSource: action.data.data,
+        dataSource: action.data.data || [],
         total: action.data.total,
         searchLoad: false,
       });
@@ -197,7 +197,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.SEARCH_HIGH_SUCCESS:
       return assign({}, state, {
-        dataSource: action.data.data,
+        dataSource: action.data.data || [],
         total: action.data.total,
         searchLoad: false,
       });
@@ -213,7 +213,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.SEARCH_HISTORY_SUCCESS:
       return assign({}, state, {
-        dataSource: action.data.data,
+        dataSource: action.data.data || [],
         total: action.data.total,
         searchLoad: false,
       });
@@ -227,14 +227,14 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.INIT_DATA_SUCCESS:
       return assign({}, state, {
-        fetchCountry: action.data.data.country, // 国家
-        fetchSite: action.data.data.site,   // 站点
-        fetchPayment: action.data.data.payment_method,  // 支付方式
-        fetchTrouble: action.data.data.trouble_type,  // 问题件类型
-        fetchMemberLevel: action.data.data.member_level,  // 会员等级
-        fetchOrderStatus: action.data.data.order_status, // 订单状态
-        fetchCancelReason: action.data.data.cancel_type, // 取消类型
-        fetchGoodsStatus: action.data.data.order_goods_status,   // 商品状态
+        fetchCountry: action.data.data.country || [], // 国家
+        fetchSite: action.data.data.site || [],   // 站点
+        fetchPayment: action.data.data.payment_method || [],  // 支付方式
+        fetchTrouble: action.data.data.trouble_type || [],  // 问题件类型
+        fetchMemberLevel: action.data.data.member_level || [],  // 会员等级
+        fetchOrderStatus: action.data.data.order_status || [], // 订单状态
+        fetchCancelReason: action.data.data.cancel_type || [], // 取消类型
+        fetchGoodsStatus: action.data.data.order_goods_status || [],   // 商品状态
         load: false,
       });
     case TYPES.OPERATION_GOODS:
@@ -249,7 +249,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.OPERATION_GOODS_SUCCESS:
       return assign({}, state, {
-        fetchOperation: action.data.data,
+        fetchOperation: action.data.data || [],
         load: false,
         operationVisible: true,
       });
@@ -264,7 +264,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.REMARK_SUCCESS:
       return assign({}, state, {
-        fetchRemark: action.data.data,
+        fetchRemark: action.data.data || [],
         clickVisible: true,
         load: false,
       });
