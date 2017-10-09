@@ -20,6 +20,7 @@ module.exports = {
   operation: 'Operation Records',
   change_goods: 'Exchange Item',
   del_goods: 'Exchanged Item Was Deleted',
+  del_goods1: 'Delete Exchanged Item',
   order_operation: 'View Details',
   order_operation1: 'Mark the Order',
   order_operation2: 'Cancel/Refund',
