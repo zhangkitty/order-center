@@ -54,7 +54,7 @@ class goodsControlEdit extends Component {
     dispatch(change('queryVal', query));
     dispatch(initFeedback());
     dispatch(initFeedbackType());
-    setTimeout(dispatch(initData(query.order_id, query.id)), 30000);
+    setTimeout(dispatch(initData(query.order_id, query.id)), 3000);
    // dispatch(initData(query.order_id, query.id));
   }
 

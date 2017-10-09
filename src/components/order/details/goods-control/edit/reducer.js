@@ -106,7 +106,7 @@ const reducer = (state = defaultState, action) => {
           feedback_reason: assign({}, state.queryString.feedback_reason, {
             name: state.fetchFeedbackType.find(v => (
               !!v.children.find(d => d.id === Number(action.data.data.feedback_reason[0]))
-              )).name,
+              )) || {}.name,
             children: action.data.data.feedback_reason.map(v => Number(v)),
           }),
         })),

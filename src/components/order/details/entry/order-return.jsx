@@ -92,8 +92,8 @@ const OrderReturn = (
             <div>
               <a style={{ margin: '10px' }} href={rec.return_order_details} target="blank">{lan.chankan}</a>
               {
-                !rec.return_rl_download &&
-                <a href={rec.return_rl_download} target="blank" style={{ marginLeft: '10px' }}>{lan.xiazai}</a>
+                !!rec.return_rl_download &&
+                <a href={rec.return_rl_download} target="blank" style={{ marginRight: '10px' }}>{lan.xiazai}</a>
               }
               {
                 rec.return_label_type === 'RAN' &&
