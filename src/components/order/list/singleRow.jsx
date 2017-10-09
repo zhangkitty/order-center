@@ -365,7 +365,7 @@ const SingleRow = (props) => {
                         rec.order_goods_id,
                         rec.replace_goods_sort))}
                     >
-                      <span>{__('common.del_goods')}</span>
+                      <span>{__('common.del_goods1')}</span>
                     </Popconfirm>
                     : null
                 }

@@ -12,7 +12,7 @@ module.exports = {
   users: 'Account',
   freight: 'Shipping Fee',
   insure: 'Shipping Insurance',
-  codFee: 'COD服务费',
+  codFee: 'COD Service Charge',
   point: 'Ponits',
   coupon: 'Coupon Deducted Amount',
   can_be_refunded: 'Order Refundable  Amount',
@@ -27,7 +27,7 @@ module.exports = {
   get_goodsinfo_fail: 'Failed to acquire item details',
   get_backmoney_fail: 'Failed to acquire refund reasons',
   submit_fail: 'Submit Failed',
-  please_select_a_refund_account: '请选择退款账户',
+  please_select_a_refund_account: 'Please select refund account',
   Please_enter_a_user_refund_account: 'Please input the refund account of customer',
-  Please_choose_pay_method: '请先选择退款路径',
+  Please_choose_pay_method: 'Please select refund method',
 };
