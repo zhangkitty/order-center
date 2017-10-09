@@ -53,8 +53,8 @@
 }
 .paymentInfo { margin-right:80px;}
 .spanWidthL {
-    min-width: 110px;
-    max-width: 200px;
+    min-width: 180px;
+    max-width: 250px;
     display: inline-block;
     color: #797b7b;
     text-align:right;
