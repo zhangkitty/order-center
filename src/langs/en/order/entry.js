@@ -148,7 +148,7 @@ module.exports = {
   cash_content3: 'The remaining amount can be withdrawn',
   cash_content4: 'Type',
   cash_content5: 'Withdraw Amount',
-  cash_content6: '账户',
+  cash_content6: 'Account',
   cash_content7: 'Please input correct refund account info',
   cash_content8: 'Please input the correct refund account',
 };

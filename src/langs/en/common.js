@@ -114,4 +114,9 @@ module.exports = {
   content_name2: 'Records in Total',
   file_need_choose: 'No files are selected',
   file_less_three: 'Maximum of 3 photos',
+  change_refund1: 'Refund No.: ',
+  change_refund2: 'Refund Status: ',
+  change_refund3: 'Refund Reasons: ',
+  change_refund4: 'Refund Type: ',
+  change_refund5: 'Reject Reasons: ',
 };
