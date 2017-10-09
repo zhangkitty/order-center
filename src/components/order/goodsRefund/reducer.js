@@ -118,7 +118,7 @@ const svInit = (source) => {
     isShow: (v.refundPathId === 1 && Number(maxObj[v.refundPathId]) > 0) ||
     (v.refundPathId > 1 && v.refundPathId !== 4),
     refundAmount: priceObj[v.refundPathId],
-    refundAmount2: priceObj[v.refundPathId] * v.priceUsd.rate,
+    refundAmount2: Number(Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2)),
     rate: v.priceWithExchangeRate.rate,
     rate2: 1 / v.priceWithExchangeRate.rate,
     currency: v.priceWithExchangeRate.symbol,
