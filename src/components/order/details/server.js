@@ -180,10 +180,10 @@ export const initDataSer = (order_id, id) => (
     method: 'get',
   })
 );
-export const genRlSer = id => (
+export const genRlSer = (id,oid) => (
   fetch(entry.rebuildRl, {
     method: 'POST',
-    body: JSON.stringify({return_order_id: Number(id)}),
+    body: JSON.stringify({return_order_id: Number(id),order_id:Number(oid)}),
   })
 );
 export const initPriceInfo = (data) => {
