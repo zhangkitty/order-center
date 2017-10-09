@@ -54,7 +54,8 @@ class goodsControlEdit extends Component {
     dispatch(change('queryVal', query));
     dispatch(initFeedback());
     dispatch(initFeedbackType());
-    dispatch(initData(query.order_id, query.id));
+    setTimeout(dispatch(initData(query.order_id, query.id)), 30000);
+   // dispatch(initData(query.order_id, query.id));
   }
 
   render() {
@@ -148,7 +149,15 @@ class goodsControlEdit extends Component {
                   null
                   :
                   feedback_thumb.map(v => (
-                    <img src={v} alt="model" className={Styles.uploaderImg} />
+                    <div className={Styles.uploaderImgBg}>
+                      <Button
+                        className={Styles.delete}
+                        onClick={() =>
+                          dispatch(commit('feedback_thumb', feedback_thumb.filter(x => x !== v)))
+                        }
+                      >X</Button>
+                      <img src={v} alt="model" className={Styles.uploaderImg} />
+                    </div>
                   ))
               }
               {

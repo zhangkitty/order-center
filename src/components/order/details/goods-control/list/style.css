@@ -88,10 +88,28 @@
 }
 .uploaderImg {
     width: 150px;
-    margin-right: 10px;
+    margin-right: 20px;
     vertical-align: middle;
 }
 .checkbox{
     display: flex;
     flex-direction: column;
+}
+.uploaderImgBg {
+    display: inline-block;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+    vertical-align: middle;
+    position: relative;
+}
+.delete {
+    position: absolute;
+    right: -13px;
+    top: -13px;
+    cursor: pointer;
+    padding: 0 10px;
+    border-radius: 20px;
 }

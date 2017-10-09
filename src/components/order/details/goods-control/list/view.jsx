@@ -144,7 +144,16 @@ class goodsControl extends Component {
             <div>
               {
                 feedback_thumb.map(v => (
-                  <img src={v} alt="model" className={Styles.uploaderImg} />
+                  <div className={Styles.uploaderImgBg}>
+                    <Button
+                      className={Styles.delete}
+                      onClick={() =>
+                        dispatch(commit('feedback_thumb', feedback_thumb.filter(x => x !== v)))
+                      }
+                    >X</Button>
+                    <img src={v} alt="model" className={Styles.uploaderImg} />
+                  </div>
+                  // <img src={v} alt="model" className={Styles.uploaderImg} />
                 ))
               }
               {
