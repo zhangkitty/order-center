@@ -5,10 +5,10 @@ import assign from 'object-assign';
 import * as TYPES from './types';
 
 const chanelTypeTable = {
-  礼品卡: 0,
-  用户支付: 1,
-  钱包: 1,
-  溢出线下打款: 2,
+  1: 0,
+  2: 1,
+  3: 1,
+  4: 2,
 };
 
 const defaultState = {
@@ -23,7 +23,7 @@ const defaultState = {
   reason: null,
   maxTips: {},
   submitLoad: false,
-  submitdisabled:false,
+  submitdisabled: false,
 };
 
 const getMax = d => ({
@@ -83,10 +83,11 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         ready: true,
         refundPaths: action.data.orderRefundPathList.map(item => assign({}, item, {
-          channelType: chanelTypeTable[item.refundPathName],
+          channelType: chanelTypeTable[item.refundPathId],
           refund_method: '',
           refund_method1: '',
-          refundAmount1: null,
+          refundAmount1: 0,
+          refundAmount: 0,
         })),
         maxTips: getMax(action.data.orderPriceInfo),
         orderPriceInfo: action.data.orderPriceInfo,

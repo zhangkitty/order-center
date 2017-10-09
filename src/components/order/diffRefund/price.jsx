@@ -163,6 +163,7 @@ const Price = ({ refundPaths, dispatch, maxTips }) => {
     result[item.channelType] = result[item.channelType] || [];
     result[item.channelType].push(item);
   });
+
   return (<div className={style.spaceBg}>
     <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}</span>
     <div>
