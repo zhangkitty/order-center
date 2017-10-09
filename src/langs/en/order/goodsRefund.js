@@ -12,6 +12,7 @@ module.exports = {
   users: 'Account',
   freight: 'Shipping Fee',
   insure: 'Shipping Insurance',
+  codFee: 'COD服务费',
   point: 'Ponits',
   coupon: 'Coupon Deducted Amount',
   can_be_refunded: 'Order Refundable  Amount',

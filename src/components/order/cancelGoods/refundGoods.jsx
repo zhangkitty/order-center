@@ -4,7 +4,7 @@ import style from './style.css';
 
 const RefundGoods = ({ dataSource: { orderGoods } }) => (
   <div className={style.refundsgoods}>
-    <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_goods')}</span>
+    <span className={style.descWidth}>{__('order.goodsRefund.cancel_goods')}</span>
     <div style={{ display: 'flex' }}>
       {
         orderGoods.map(({ goodsSort, goodsThumb }) => (

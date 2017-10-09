@@ -45,6 +45,20 @@ const Base = ({
                 addRemarkInfo,
                 rejectInfo,
 }) => {
+  const {
+    card_payment_price, wallet_payment_price, gift_card_payment_price,
+    gift_card_can_be_refunded_price, card_can_be_refunded_price,
+    wallet_or_card_can_be_refunded_price, refund_amount, refund_status_code,
+    refund_type_code, wallet_balance, isCod,
+  } = refund_detail;
+
+  let codFee;
+  let codFee2;
+  if (isCod) {
+    codFee = refund_detail.cod_fee.price_usd.amount_with_symbol;
+    codFee2 = refund_detail.cod_fee.price_with_exchange_rate.amount_with_symbol;
+  }
+
   const info = {
     left: [
       { name: language.退款编号, key: 'refund_bill_id' },
@@ -57,8 +71,8 @@ const Base = ({
       { name: language.运费和运费险, key: 'shipping' },
       { name: language.RL扣除费用, key: 'rl_fee' },
       { name: language.待退款金额, key: 'WAIT' },
-
-    ],
+      isCod && { name: __('order.goodsRefund.codFee'), key: 'CODFEE' },
+    ].filter(res => res),
     right: [
       { name: language.退款类型, key: 'refund_type' },
       { name: language.退款原因, key: 'refund_reason' },
@@ -67,12 +81,7 @@ const Base = ({
       { name: language.退款单状态, key: 'refund_status' },
     ],
   };
-  const {
-    card_payment_price, wallet_payment_price, gift_card_payment_price,
-    gift_card_can_be_refunded_price, card_can_be_refunded_price,
-    wallet_or_card_can_be_refunded_price, refund_amount, refund_status_code,
-    refund_type_code, wallet_balance,
-  } = refund_detail;
+
   return (
     <div className={styles.alertBg}>
       <div className={styles.baseBorder} >
@@ -86,6 +95,13 @@ const Base = ({
                   <span style={{ color: 'red' }}>
                       {wallet_balance.price_usd.amount_with_symbol}, {wallet_balance
                     .price_with_exchange_rate.amount_with_symbol}
+                  </span>
+                }
+                {
+                  key === 'CODFEE' &&
+                  <span>
+                    {codFee},
+                    {codFee2}
                   </span>
                 }
                 {
