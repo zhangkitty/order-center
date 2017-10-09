@@ -22,7 +22,7 @@ const Reason = ({ dataSource, refundInfo }) => (
       {
         refundInfo.statusCode == 4 ?
           <span className={style.infoList}>
-            <span className={style.infoListName}>{__('common.change_refund5')}</span> { refundInfo.rejctReason }
+            <span className={style.infoListName}>{__('common.change_refund5')}</span> { refundInfo.rejectReason }
           </span>
         : null
       }
