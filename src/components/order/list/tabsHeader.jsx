@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Tooltip } from 'antd';
+import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Popover } from 'antd';
 import moment from 'moment';
 import {
   search, searchHigh, commit, commit2,
@@ -303,9 +303,9 @@ class TabsHeader extends Component {
                 >
                   {__('common.search')}
                 </Button>
-                <Tooltip placement="topLeft" title={<pre>{__('order.name.tip_title')}</pre>}>
+                <Popover placement="topLeft" content={<p>{__('order.name.tip_title1')}<br />{__('order.name.tip_title2')}<br />{__('order.name.tip_title3')}</p>}>
                   <a>{__('order.name.tip')}</a>
-                </Tooltip>
+                </Popover>
               </form>
             </TabItem>
 
@@ -562,9 +562,9 @@ class TabsHeader extends Component {
                 >
                   {__('common.search')}
                 </Button>
-                <Tooltip placement="topLeft" title={<pre>{__('order.name.tip_title')}</pre>}>
+                <Popover placement="topLeft" content={<p>{__('order.name.tip_title1')}<br />{__('order.name.tip_title2')}<br />{__('order.name.tip_title3')}</p>}>
                   <a>{__('order.name.tip')}</a>
-                </Tooltip>
+                </Popover>
               </form>
             </TabItem>
             {/*  批量操作 */}
