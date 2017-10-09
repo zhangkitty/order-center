@@ -35,7 +35,7 @@ module.exports = {
   allChoose: 'Select All',
   cancel: 'Cancel',
   batchection: 'Partial Shipped in Batch',
-  guangzhou: 'warehouse in GuangZhou',
+  guangzhou: 'Guangzhou warehouse',
   west: 'Western warehouse',
   platform: 'Platform Order cancelled',
   review: 'Bulk confirmation',

@@ -36,6 +36,7 @@ const Modals = ({
     dispatch,
 }) => (
   <div>
+    {/* 备注信息 */}
     <Modal
       title={lan.备注信息}
       visible={remarkInfo.reamrkShow}
@@ -53,6 +54,7 @@ const Modals = ({
           : '无信息'
       }
     </Modal>
+    {/* 新增备注 */}
     <Modal
       title={lan.新增备注}
       visible={addRemarkInfo.reamrkShow}
@@ -88,6 +90,7 @@ const Modals = ({
         </div>
       </form>
     </Modal>
+    {/* 退款驳回 */}
     <Modal
       title={lan.退款驳回}
       visible={rejectInfo.reamrkShow}
@@ -124,6 +127,7 @@ const Modals = ({
         </div>
       </form>
     </Modal>
+    {/* 退款 */}
     <Modal
       title={lan.确认退款}
       visible={refundInfo.data.type <= 2}
@@ -155,6 +159,7 @@ const Modals = ({
         </div>
       </form>
     </Modal>
+    {/* 确认退款 */}
     <Modal
       title={lan.确认退款}
       visible={refundInfo.data.type === 3}
@@ -199,6 +204,7 @@ const Modals = ({
         </div>
       </form>
     </Modal>
+    {/* 确认退款 */}
     <Modal
       title={lan.确认退款}
       visible={refundInfo.data.type === 4}
@@ -232,6 +238,7 @@ const Modals = ({
         </div>
       </form>
     </Modal>
+    {/* 重新退款 */}
     <Modal
       title={lan.重新退款}
       visible={reverseRefund.show}

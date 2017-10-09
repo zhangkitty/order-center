@@ -61,7 +61,7 @@ module.exports = {
   goods_send_first_cancel: 'Cancel the priority in delivery',
   part_send: 'Partial Shipped',
   examine_order: 'order confirmation',
-  Guangzhou: 'warehouse in GuangZhou',
+  Guangzhou: 'Guangzhou warehouse',
   west: 'Western warehouse',
   goods_rejected_record: 'Return Record',
   payment_1: 'Payment Method',   // 支付

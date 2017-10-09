@@ -44,186 +44,187 @@ const OrderReturn = (
     rlLoading,
   },
 ) => (
-  <Card
-    title={lan.jilu}
-    style={{ maxWidth: '1200px' }}
-  >
-    <Table
-      size="small"
-      rowKey="return_order_id"
-      pagination={false}
-      dataSource={orderReturn}
-      columns={[
-        {
-          title: lan.bianhao,
-          dataIndex: 'return_order_id',
-        },
-        {
-          title: lan.leixing,
-          dataIndex: 'return_order_type',
-        },
-        {
-          title: lan.yundan,
-          dataIndex: 'return_label_type',
-        },
-        {
-          title: lan.shijian,
-          dataIndex: 'return_apply_time',
-        },
-        {
-          title: lan.shangpin,
-          dataIndex: 'return_goods',
-        },
-        {
-          title: lan.lujin,
-          dataIndex: 'return_tracking_no',
-        },
-        {
-          title: lan.zhaungtai,
-          dataIndex: 'return_refund_status',
-        },
-        {
-          title: lan.pingzhenghao,
-          dataIndex: 'return_order_status',
-        },
-        {
-          title: lan.caozuo,
-          render: rec => (
-            <div>
-              <a style={{ margin: '10px' }} href={rec.return_order_details} target="blank">{lan.chankan}</a>
-              {
-                !!rec.return_rl_download &&
-                <a href={rec.return_rl_download} target="blank" style={{ marginRight: '10px' }}>{lan.xiazai}</a>
-              }
-              {
-                rec.return_label_type === 'RAN' &&
-                <Popover
-                  content={
-                    <div dangerouslySetInnerHTML={{ __html: rec.return_ran_info }} />
-                  }
-                >
-                  <a style={{ margin: '5px' }}>{lan.chankan}RAN</a>
-                </Popover>
-              }
-              {
-                rec.return_label_type === 'RAN' &&
-                <Button
-                  style={{ margin: '5px' }}
-                  loading={rlLoading}
-                  onClick={() => {
-                    dispatch(commit('rlLoading', true));
-                    dispatch(genRl(rec.return_order_id, orderId, billno));
-                  }}
-                >{lan.rl}</Button>
-              }
-              <Button onClick={() => dispatch(uploadTrackShow(orderId, rec.return_order_id))} style={{ margin: '5px' }}>
-                {lan.sahngchuan}
-              </Button>
-            </div>
-
-          ),
-        },
-      ]}
-    />
-    <Modal
-      onCancel={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { show: false })))}
-      okText={lan.save}
-      visible={uploadTrack.show}
-      onOk={() => {
-        const { channel, check_type, check_value } = uploadTrack;
-        if (!channel || !check_type || !check_value) {
-          return message.warning(lan.need);
-        }
-        return dispatch(uploadTrackAction(uploadTrack));
-      }}
+  <div className={styles.contentPadding}>
+    <Card
+      title={lan.jilu}
+     // style={{ maxWidth: '1200px' }}
     >
-      <form className={styles.returnForm}>
-        <div className={styles.returnDiv}>
-          <span className={styles.returnSpan}>{lan.qudao}</span>
-          <Input
-            style={{ width: '70%' }}
-            value={uploadTrack.channel}
-            onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { channel: e.target.value })))}
-          />
-        </div>
-        <div className={styles.returnDiv}>
-          <span className={styles.returnSpan}>{lan.yundanleixing}</span>
-          <RG
-            value={uploadTrack.check_type}
-            onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_type: e.target.value })))}
-          >
-            <Radio value="1">{lan.yundaonhao}</Radio>
-            <Radio value="2">{lan.yundanpingzh}</Radio>
-          </RG>
-        </div>
-        {
-          uploadTrack.check_type === '1' &&
+      <Table
+        size="small"
+        rowKey="return_order_id"
+        pagination={false}
+        loading={rlLoading}
+        dataSource={orderReturn}
+        columns={[
+          {
+            title: lan.bianhao,
+            dataIndex: 'return_order_id',
+          },
+          {
+            title: lan.leixing,
+            dataIndex: 'return_order_type',
+          },
+          {
+            title: lan.yundan,
+            dataIndex: 'return_label_type',
+          },
+          {
+            title: lan.shijian,
+            dataIndex: 'return_apply_time',
+          },
+          {
+            title: lan.shangpin,
+            dataIndex: 'return_goods',
+          },
+          {
+            title: lan.lujin,
+            dataIndex: 'return_tracking_no',
+          },
+          {
+            title: lan.zhaungtai,
+            dataIndex: 'return_refund_status',
+          },
+          {
+            title: lan.pingzhenghao,
+            dataIndex: 'return_order_status',
+          },
+          {
+            title: lan.caozuo,
+            render: rec => (
+              <div>
+                <a style={{ marginRight: '10px' }} href={rec.return_order_details} target="blank">{lan.chankan}</a>
+                {
+                  !!rec.return_rl_download &&
+                  <a href={rec.return_rl_download} target="blank" style={{ marginRight: '10px' }}>{lan.xiazai}</a>
+                }
+                {
+                  rec.return_label_type === 'RAN' &&
+                  <Popover
+                    content={
+                      <div dangerouslySetInnerHTML={{ __html: rec.return_ran_info }} />
+                    }
+                  >
+                    <a style={{ margin: '5px' }}>{lan.chankan}RAN</a>
+                  </Popover>
+                }
+                {
+                  rec.return_label_type === 'RAN' &&
+                  <Button
+                    style={{ margin: '5px' }}
+                    onClick={() => {
+                      dispatch(commit('rlLoading', true));
+                      dispatch(genRl(rec.return_order_id, orderId, billno));
+                    }}
+                  >{lan.rl}</Button>
+                }
+                <Button onClick={() => dispatch(uploadTrackShow(orderId, rec.return_order_id))} style={{ margin: '5px' }}>
+                  {lan.sahngchuan}
+                </Button>
+              </div>
+
+            ),
+          },
+        ]}
+      />
+      <Modal
+        onCancel={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { show: false })))}
+        okText={lan.save}
+        visible={uploadTrack.show}
+        onOk={() => {
+          const { channel, check_type, check_value } = uploadTrack;
+          if (!channel || !check_type || !check_value) {
+            return message.warning(lan.need);
+          }
+          return dispatch(uploadTrackAction(uploadTrack));
+        }}
+      >
+        <form className={styles.returnForm}>
           <div className={styles.returnDiv}>
-            <span className={styles.returnSpan}>{lan.yundaonhao}</span>
+            <span className={styles.returnSpan}>{lan.qudao}</span>
             <Input
-              value={uploadTrack.check_value}
-              onChange={e => dispatch(commit('uploadTrack',
-              assign({}, uploadTrack, { check_value: e.target.value })))}
+              style={{ width: '70%' }}
+              value={uploadTrack.channel}
+              onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { channel: e.target.value })))}
             />
           </div>
-        }
-        {
-          uploadTrack.check_type === '2' &&
+          <div className={styles.returnDiv}>
+            <span className={styles.returnSpan}>{lan.yundanleixing}</span>
+            <RG
+              value={uploadTrack.check_type}
+              onChange={e => dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_type: e.target.value })))}
+            >
+              <Radio value="1">{lan.yundaonhao}</Radio>
+              <Radio value="2">{lan.yundanpingzh}</Radio>
+            </RG>
+          </div>
+          {
+            uploadTrack.check_type === '1' &&
             <div className={styles.returnDiv}>
-              <span className={styles.returnSpan}>{lan.yundanpingzh}</span>
-              {
-                uploadTrack.img &&
-                <div style={{ margin: '0 5px' }}>
-                  <img
-                    key={uploadTrack.img} src={uploadTrack.img} alt="pic"
-                    width={150}
-                    onError={(e) => {
-                      e.persist();
-                      e.target.src = reqImg('./uploading.gif');
-                      setTimeout(() => {
-                        e.target.src = uploadTrack.img;
-                      }, 500);
-                    }}
-                  />
-                  <Button
-                    size="small"
-                    style={{ display: 'block', width: '150px' }}
-                    onClick={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_value: '', img: '' })))}
-                  >
-                    {__('order.entry.order_return_16')}
-                  </Button>
-                </div>
-              }
-              {
-                !uploadTrack.img &&
-                <Upload
-                  action="/index_new.php/Order/OrderReturn/handleImg"
-                  name="logistics_certificate"
-                  data={{ type: 2, order_id: orderId }}
-                  showUploadList={false}
-                  onChange={({ file }) => {
-                    if (file.status === 'done') {
-                      message.success(`${file.name} ${__('order.entry.submit_info4')}.`);
-                      dispatch(commit('uploadTrack',
-                        assign({}, uploadTrack, {
-                          check_value: file.response.data[0], img: file.response.data[0],
-                        })));
-                    } else if (file.status === 'error') {
-                      message.error(`${file.name} ${__('order.entry.submit_info4')}.`);
-                    }
-                  }}
-                >
-                  <Button icon="upload">
-                    {lan.upload}
-                  </Button>
-                </Upload>
-              }
+              <span className={styles.returnSpan}>{lan.yundaonhao}</span>
+              <Input
+                value={uploadTrack.check_value}
+                onChange={e => dispatch(commit('uploadTrack',
+                assign({}, uploadTrack, { check_value: e.target.value })))}
+              />
             </div>
-        }
-      </form>
-    </Modal>
-
-  </Card>
+          }
+          {
+            uploadTrack.check_type === '2' &&
+              <div className={styles.returnDiv}>
+                <span className={styles.returnSpan}>{lan.yundanpingzh}</span>
+                {
+                  uploadTrack.img &&
+                  <div style={{ margin: '0 5px' }}>
+                    <img
+                      key={uploadTrack.img} src={uploadTrack.img} alt="pic"
+                      width={150}
+                      onError={(e) => {
+                        e.persist();
+                        e.target.src = reqImg('./uploading.gif');
+                        setTimeout(() => {
+                          e.target.src = uploadTrack.img;
+                        }, 500);
+                      }}
+                    />
+                    <Button
+                      size="small"
+                      style={{ display: 'block', width: '150px' }}
+                      onClick={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { check_value: '', img: '' })))}
+                    >
+                      {__('order.entry.order_return_16')}
+                    </Button>
+                  </div>
+                }
+                {
+                  !uploadTrack.img &&
+                  <Upload
+                    action="/index_new.php/Order/OrderReturn/handleImg"
+                    name="logistics_certificate"
+                    data={{ type: 2, order_id: orderId }}
+                    showUploadList={false}
+                    onChange={({ file }) => {
+                      if (file.status === 'done') {
+                        message.success(`${file.name} ${__('order.entry.submit_info4')}.`);
+                        dispatch(commit('uploadTrack',
+                          assign({}, uploadTrack, {
+                            check_value: file.response.data[0], img: file.response.data[0],
+                          })));
+                      } else if (file.status === 'error') {
+                        message.error(`${file.name} ${__('order.entry.submit_info4')}.`);
+                      }
+                    }}
+                  >
+                    <Button icon="upload">
+                      {lan.upload}
+                    </Button>
+                  </Upload>
+                }
+              </div>
+          }
+        </form>
+      </Modal>
+    </Card>
+  </div>
 );
 
 OrderReturn.propTypes = {

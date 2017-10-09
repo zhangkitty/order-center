@@ -31,7 +31,7 @@ module.exports = {
   goods_code: '编号',
   goods_refund: '退款商品',
   goods_sale: '销售价',
-  goods_buy: '购买价',
+  goods_buy: '折后价',
   info_refund_info: '退款信息',
   info_account: '账户',
   info_account_info: '账户信息',

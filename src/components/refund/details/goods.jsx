@@ -8,7 +8,7 @@ const lan = {
   编号: __('refund.details.goods_code'),
   退款商品: __('refund.details.goods_refund'),
   销售价: __('refund.details.goods_sale'),
-  购买价: __('refund.details.goods_buy'),
+  折后价: __('refund.details.goods_buy'),
 };
 
 const Goods = ({ dataSource: { refund_goods } }) => (
@@ -55,7 +55,7 @@ const Goods = ({ dataSource: { refund_goods } }) => (
           ),
         },
         {
-          title: lan.购买价,
+          title: lan.折后价,
           dataIndex: 'purchase_price',
           width: 100,
           render: d => (

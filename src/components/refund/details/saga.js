@@ -1,4 +1,5 @@
 import { takeEvery, put, takeLatest } from 'redux-saga/effects';
+import { Link, hashHistory } from 'react-router';
 import { message } from 'antd';
 import assign from 'object-assign';
 import * as TYPES from './types';
@@ -31,7 +32,7 @@ function* addRemarkSaga(action) {
   const data = yield addRemarkInfoSer(action.id, action.info.remark);
   yield put(commit('addRemarkInfo', assign({}, action.info, { load: false })));
   if (!data || data.code !== 0) {
-    return message.error(`${lan.fail}:${data.msg}`);
+    return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('addRemarkInfo', assign({}, action.info, { reamrkShow: false })));
   return message.success(lan.osucess);
@@ -41,7 +42,7 @@ function* rejectInfoSaga(action) {
   const data = yield rejectInfoSer(action.id, action.info.reason);
   yield put(commit('rejectInfo', assign({}, action.info, { load: false })));
   if (!data || data.code !== 0) {
-    return message.error(`${lan.fail}:${data.msg}`);
+    return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('rejectInfo', assign({}, action.info, { reamrkShow: false })));
   message.success(lan.osucess);
@@ -56,20 +57,22 @@ function* refundSaga(action) {
 
   return yield put(refundSucess(assign({}, action, data.data)));
 }
+
 function* doRefundSaga(action) {
   const data = yield doRefundSer(action.data);
   if (!data || data.code !== 0) {
     yield put(doRefundFail());
-    return message.error(`${lan.fail}:${data.msg}`);
+    return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('refundInfo', { load: false, saveLoad: false, data: {} }));
+ // hashHistory.push(`/refund/details/${action.data.refund_bill_id}`);
   return message.success(lan.osucess);
 }
 function* doRefundAgainSaga(action) {
   const data = yield doRefundAgainSer(action.data);
   if (!data || data.code !== 0) {
     yield put(reverseRefundSaveFail());
-    return message.error(`${lan.fail}:${data.msg}`);
+    return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('reverseRefund', { saveLoad: false, show: false, data: {} }));
   return message.success(lan.osucess);
@@ -77,7 +80,7 @@ function* doRefundAgainSaga(action) {
 function* doRefundPassSaga(action) {
   const data = yield doRefundPassSer(action.data);
   if (!data || data.code !== 0) {
-    return message.error(`${lan.fail}:${data.msg}`);
+    return message.error(`${lan.ofail}:${data.msg}`);
   }
   return message.success(lan.osucess);
 }

@@ -7,7 +7,7 @@ const Logs = (
     dataSource: { logs },
   },
   ) => (
-    <div style={{ padding: '15px' }}>
+  <div className={style.contentPadding}>
       {
         logs.map(({ id, user_name, content, last_update_time }) => (
           <div key={id} className={style.payLog}>
