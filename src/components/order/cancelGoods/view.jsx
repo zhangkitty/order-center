@@ -34,7 +34,7 @@ class CancelGoods extends Component {
             const { reason } = submitValue;
             if (
               reason.reasonId === null ||
-              (reason.reasonId === 20 && reason.goodsIds.length < 1)
+              (Number(reason.reasonId) === 20 && reason.goodsIds.length < 1)
             ) {
               return message.warning(__('order.goodsRefund.missing_something'));
             }
