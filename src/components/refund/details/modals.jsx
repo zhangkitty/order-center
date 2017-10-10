@@ -249,7 +249,7 @@ const Modals = ({
         className={styles.addRemarkForm}
         onSubmit={(e) => {
           e.preventDefault();
-          return dispatch(reverseRefundSave(reverseRefund.data));
+          return dispatch(reverseRefundSave(reverseRefund.data, refundBillId));
         }}
       >
         <div className={styles.addRemarkArea}>

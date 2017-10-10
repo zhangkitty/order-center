@@ -75,8 +75,6 @@ http {
        #  access_log  logs/host.access.log  main;
         #对 / 所有做负载均衡+反向代理
         location / {
-            root  $STATIC_PATH;
-            index  index.jsp index.html index.htm;
             proxy_pass        http://backend;
             proxy_redirect off;
             # 后端的Web服务器可以通过X-Forwarded-For获取用户真实IP
@@ -87,12 +85,13 @@ http {
             
         }
         #静态文件，nginx自己处理，不去backend请求tomcat
-        location  = / {
+        location  ~html$ {
             root $STATIC_PATH;
-
         }
-        location ~ .*\.(html|gif|jpg|jpeg|bmp|png|ico|txt|js|css)$
-        {
+        location = / {
+            index index.html index.htm;
+        }
+        location /dist {
             root $STATIC_PATH;
         }
        # location /nginx_status {

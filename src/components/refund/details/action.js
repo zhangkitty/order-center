@@ -81,9 +81,10 @@ export const showReverseRefund = id => ({
   type: TYPES.SHOW_REVERSE_REFUND,
   id,
 });
-export const reverseRefundSave = data => ({
+export const reverseRefundSave = (data, refundBillId) => ({
   type: TYPES.REVERSE_REFUND_SAVE,
   data,
+  refundBillId,
 });
 export const reverseRefundSaveFail = () => ({
   type: TYPES.REVERSE_REFUND_SAVE_FAIL,

@@ -1,5 +1,4 @@
 import { takeEvery, put, takeLatest } from 'redux-saga/effects';
-import { Link, hashHistory } from 'react-router';
 import { message } from 'antd';
 import assign from 'object-assign';
 import * as TYPES from './types';
@@ -65,7 +64,7 @@ function* doRefundSaga(action) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('refundInfo', { load: false, saveLoad: false, data: {} }));
- // hashHistory.push(`/refund/details/${action.data.refund_bill_id}`);
+  yield put(getInfo(action.data.refund_bill_id));
   return message.success(lan.osucess);
 }
 function* doRefundAgainSaga(action) {
@@ -75,6 +74,7 @@ function* doRefundAgainSaga(action) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('reverseRefund', { saveLoad: false, show: false, data: {} }));
+  yield put(getInfo(action.refundBillId));
   return message.success(lan.osucess);
 }
 function* doRefundPassSaga(action) {

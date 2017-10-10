@@ -91,7 +91,7 @@ const Base = ({
               <div key={key} >
                 <span className={styles.spanWidthL}>{ name }: </span>
                 {
-                  key === 'WALLET_TOTAL' &&
+                  key === 'WALLET_TOTAL' && !!wallet_balance &&
                   <span style={{ color: 'red' }}>
                       {wallet_balance.price_usd.amount_with_symbol}, {wallet_balance
                     .price_with_exchange_rate.amount_with_symbol}
@@ -105,7 +105,7 @@ const Base = ({
                   </span>
                 }
                 {
-                  key === 'TOTAL' &&
+                  key === 'TOTAL' && !!card_payment_price &&
                   <span>
                     {card_payment_price.payment_method}:
                     {card_payment_price.price_usd.amount_with_symbol},
@@ -121,7 +121,7 @@ const Base = ({
                   </span>
                 }
                 {
-                  key === 'REST' &&
+                  key === 'REST' && !!card_can_be_refunded_price &&
                   <span>
                     {card_can_be_refunded_price.price_usd.amount_with_symbol},
                     {card_can_be_refunded_price.price_with_exchange_rate.amount_with_symbol}
@@ -138,7 +138,7 @@ const Base = ({
                 </span>
                 }
                 {
-                  key === 'WAIT' &&
+                  key === 'WAIT' && !!refund_amount &&
                     <span style={{ color: 'red' }}>
                       {refund_amount.price_usd.amount_with_symbol} {refund_amount
                       .price_with_exchange_rate.amount_with_symbol}
