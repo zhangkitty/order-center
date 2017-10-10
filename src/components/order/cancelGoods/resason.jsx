@@ -22,7 +22,7 @@ const Reason = ({ reasons, dataSource: { orderGoods }, dispatch, submitValue }) 
               submitValue.reason,
               {
                 reasonId: e.target.value,
-                goodsIds: submitValue.reason.reasonId !== 20 ? [] : submitValue.reason.goodsIds,
+                goodsIds: Number(submitValue.reason.reasonId) !== 20 ? [] : submitValue.reason.goodsIds,
               })))
         }
       >

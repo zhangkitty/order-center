@@ -81,7 +81,7 @@ const copyPayment = (data) => {
  */
 const originPrice = (priceRefund = 0, data) => {
   const type = data.orderRefundPathList
-  .filter(v => v.refundPathId !== 1 && v.refundPathId !== 4)
+  .filter(v => Number(v.refundPathId) !== 1 && Number(v.refundPathId) !== 4)
   .sort((a, b) => a.refundPathId - b.refundPathId)[0].refundPathId;
   const max = Number(maxTypes(data)[1]);
   const isShow = max > 0;
@@ -117,7 +117,7 @@ const svInit = (source) => {
   const obj = source.orderRefundPathList.map(v => ({
     refundTypeId: v.refundPathId,
     isShow: (Number(v.refundPathId) === 1 && Number(maxObj[v.refundPathId]) > 0) ||
-    (v.refundPathId > 1 && v.refundPathId !== 4),
+    (Number(v.refundPathId) > 1 && Number(v.refundPathId) !== 4),
     refundAmount: priceObj[v.refundPathId] < 0 ? 0 : priceObj[v.refundPathId],
     refundAmount2: Number(
       Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
