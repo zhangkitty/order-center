@@ -112,7 +112,8 @@ const Refund = (
               render: rec => (
                 <div>
                   {
-                    rec.type_id < 3 && rec.status_code === 4 || rec.status_code === 1 ?
+                    Number(rec.type_id) < 3 &&
+                    (Number(rec.status_code) === 4 || Number(rec.status_code) === 1) ?
                       <Link
                         to={`order/details/change-refund/${rec.id}`}
                       >
