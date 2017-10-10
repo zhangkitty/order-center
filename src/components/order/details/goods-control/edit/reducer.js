@@ -24,6 +24,10 @@ const defaultState = {
     feedback_thumb: [],   //  图片
     remark: null,
   },
+  loaded: {
+    1: false,
+    2: false,
+  },
   load: false,
   loadInit: false,
   submitLoad: false,
@@ -64,6 +68,9 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         fetchFeedback: action.data.data,
         load: false,
+        loaded: assign({}, state.loaded, {
+          1: true,
+        }),
       });
     case TYPES.INIT_FEEDBACK_TYPE:
       return assign({}, state, {
@@ -77,6 +84,9 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         fetchFeedbackType: action.data.data,
         load: false,
+        loaded: assign({}, state.loaded, {
+          2: true,
+        }),
       });
     case TYPES.SUBMIT:
       return assign({}, state, {
@@ -95,6 +105,10 @@ const reducer = (state = defaultState, action) => {
     case TYPES.INIT_DATA:
       return assign({}, state, {
         loadInit: true,
+        loaded: {
+          1: false,
+          2: false,
+        },
       });
     case TYPES.INIT_DATA_FAIL:
       return assign({}, state, {
@@ -106,7 +120,7 @@ const reducer = (state = defaultState, action) => {
           feedback_reason: assign({}, state.queryString.feedback_reason, {
             name: state.fetchFeedbackType.find(v => (
               !!v.children.find(d => d.id === Number(action.data.data.feedback_reason[0]))
-              )) || {}.name,
+              )).name,
             children: action.data.data.feedback_reason.map(v => Number(v)),
           }),
         })),

@@ -48,16 +48,23 @@ const checkImage = (file) => {
 class goodsControlEdit extends Component {
   constructor(props) {
     super(props);
-    const { dispatch } = props;
+    const { dispatch, loaded } = props;
     dispatch(init()); // 清空数据
     const query = JSON.parse(props.location.query.data);
     dispatch(change('queryVal', query));
-    dispatch(initFeedback());
-    dispatch(initFeedbackType());
-    setTimeout(dispatch(initData(query.order_id, query.id)), 3000);
+    dispatch(initFeedback(loaded, query));
+    dispatch(initFeedbackType(loaded, query));
+    // setTimeout(dispatch(initData(query.order_id, query.id)), 3000);
    // dispatch(initData(query.order_id, query.id));
   }
-
+  componentDidUpdate() {
+    const { loaded, dispatch, location } = this.props;
+    const query = JSON.parse(location.query.data);
+    if (loaded[1] && loaded[2]) {
+      return dispatch(initData(query.order_id, query.id));
+    }
+    return null;
+  }
   render() {
     const {
       dispatch, fetchFeedback, fetchFeedbackType, queryString, queryVal, load, loadInit, submitLoad,
@@ -224,6 +231,7 @@ goodsControlEdit.propTypes = {
   queryString: PropTypes.shape(),
   location: PropTypes.shape(),
   queryVal: PropTypes.shape(),
+  loaded: PropTypes.shape(),
   load: PropTypes.bool,
   loadInit: PropTypes.bool,
   submitLoad: PropTypes.bool,
