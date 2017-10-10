@@ -86,7 +86,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                               checked={v.check}
                               value={v.check}
                               onChange={() => {
-                                if (v.refundTypeId === 3) {
+                                if (Number(v.refundTypeId) === 3) {
                                   dispatch(copyPaymentMethod());
                                 } else {
                                   dispatch(checkPath(v.refundTypeId));
