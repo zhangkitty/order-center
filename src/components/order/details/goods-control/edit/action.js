@@ -25,8 +25,10 @@ export const changeSelectOptions = (val, key) => ({
   val,
 });
 
-export const initFeedback = () => ({
+export const initFeedback = (loaded, query) => ({
   type: TYPES.INIT_FEEDBACK,
+  loaded,
+  query,
 });
 export const initFeedbackSuccess = data => ({
   type: TYPES.INIT_FEEDBACK_SUCCESS,
@@ -36,8 +38,10 @@ export const initFeedbackFail = () => ({
   type: TYPES.INIT_FEEDBACK_FAIL,
 });
 
-export const initFeedbackType = () => ({
+export const initFeedbackType = (loaded, query) => ({
   type: TYPES.INIT_FEEDBACK_TYPE,
+  loaded,
+  query,
 });
 export const initFeedbackTypeSuccess = data => ({
   type: TYPES.INIT_FEEDBACK_TYPE_SUCCESS,

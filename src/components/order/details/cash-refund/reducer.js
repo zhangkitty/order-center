@@ -18,6 +18,7 @@ const defaultState = {
   loadUpdata: false,
   total: 0,
   submitLoad: false,
+  submitDisabled: false,
   refundTypeList: [],
   refundAccountTypeList: [],
   submitValue: {
@@ -41,14 +42,14 @@ const reducer = (state = defaultState, action) => {
     case TYPES.INIT:
       return defaultState;
     case TYPES.GET_DATA_SUCCESS:
-      const max1 = Number(
+      const max1 = Number(Number(
         Number(under2Camal(action.res).walletExtractable.priceUsd.amount)
         +
-        Number(under2Camal(action.res).walletNotExtractable.priceUsd.amount)
-      ).toFixed(2); // 钱包总金额（提现+不可提现）
-      const max2 = Number(
-        under2Camal(action.res).remainingWithdrawAmount.priceUsd.amount
-      ).toFixed(2); // 订单剩余可提现金额
+        Number(under2Camal(action.res).walletNotExtractable.priceUsd.amount),
+      ).toFixed(2)); // 钱包总金额（提现+不可提现）
+      const max2 = Number(Number(
+        under2Camal(action.res).remainingWithdrawAmount.priceUsd.amount,
+      ).toFixed(2)); // 订单剩余可提现金额
       const rate = Number(under2Camal(action.res).walletExtractable.priceUsd.rate);   // 汇率
       return assign({}, state, {
         ready: true,

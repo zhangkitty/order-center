@@ -28,6 +28,7 @@ function* submitSaga(action) {
     return yield put(change('submitLoad', false));
   }
   message.success(__('common.sagaTitle25'));
+  yield put(change('submitDisabled', true));  // 提交成功，按钮置灰
   return yield put(change('submitLoad', false));
 }
 

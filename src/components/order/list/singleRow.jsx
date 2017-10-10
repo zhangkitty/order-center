@@ -104,6 +104,7 @@ const showRisk = (a, b) => {
 // 显示换货入口（商品状态）
 const changshow = {
   1: true,
+  7: true,   // 已经退款
   11: true,
   13: true,
   12: true,

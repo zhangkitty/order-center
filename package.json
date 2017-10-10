@@ -44,6 +44,7 @@
     "antd": "^2.12.8",
     "babel-polyfill": "^6.26.0",
     "chalk": "^2.1.0",
+    "fetch-polyfill": "^0.8.2",
     "moment": "^2.18.1",
     "object-assign": "^4.1.1",
     "prop-types": "^15.5.10",

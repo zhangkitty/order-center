@@ -33,12 +33,26 @@ const maxTypes = data => ({
   },
   2: {
     1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: Number(Number(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount) + Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5).toFixed(2), // 钱包(实付金额*150%+钱包可退金额)
+    2: Number(Number(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount)
+      +
+      (Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5))
+      .toFixed(2), // 钱包(实付金额*150%+钱包可退金额)
     3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
     4: data.orderPriceInfo.totalPrice.priceUsd.amount * 1.5,  // 溢出（实付金额*150%）
   },
 }
 );
+const maxv = (res, refundPathId) => {
+  const ss = under2Camal(res); // 驼峰
+  const temp = maxTypes(ss); // 最大值
+  let temp2;
+  if (Number(ss.refundBillInfo.refundTypeId) !== 2) {
+    temp2 = temp[1];
+  } else {
+    temp2 = temp[2];
+  }
+  return temp2[refundPathId];
+};
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -60,7 +74,8 @@ const reducer = (state = defaultState, action) => {
             rate: v.refundAmount.priceUsd.rate,   // 汇率
             rate2: v.refundAmount.priceWithExchangeRate.rate, // 汇率（转$）
             currency: v.refundAmount.priceWithExchangeRate.symbol, // 非美元币种
-            max: maxTypes(under2Camal(action.res))[under2Camal(action.res).refundBillInfo.refundTypeId][v.refundPathId], // 最大值
+            max: maxv(action.res, v.refundPathId), // 最大值
+            // max: maxTypes(under2Camal(action.res))[under2Camal(action.res).refundBillInfo.refundTypeId][v.refundPathId],
           }),
           ),
         }),

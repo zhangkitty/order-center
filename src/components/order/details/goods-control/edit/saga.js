@@ -7,6 +7,7 @@ import { Link, hashHistory } from 'react-router';
 import assign from 'object-assign';
 import { initFeedbackSer, initFeedbackTypeSer, submitDataSer, initDataSer } from '../../server';
 import {
+  initData,
   initFeedbackFail, initFeedbackSuccess, initFeedbackTypeFail, initFeedbackTypeSuccess,
   submitDataFail, submitDataSuccess, initDataFail, initDataSuccess,
 } from './action';
@@ -28,6 +29,7 @@ function* initFeedbackTypeSaga() {
     message.error(`${__('common.sagaTitle3')}${data.msg}`);
     return yield put(initFeedbackTypeFail());
   }
+
   return yield put(initFeedbackTypeSuccess(data));
 }
 
@@ -60,5 +62,5 @@ export default function* () {
   yield takeEvery(TYPES.INIT_FEEDBACK, initFeedbackSaga);
   yield takeEvery(TYPES.INIT_FEEDBACK_TYPE, initFeedbackTypeSaga);
   yield takeEvery(TYPES.SUBMIT, submitDataSaga);
-  yield takeEvery(TYPES.INIT_DATA, initDataSaga);
+  yield takeLatest(TYPES.INIT_DATA, initDataSaga);
 }
