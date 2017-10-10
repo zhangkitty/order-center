@@ -108,6 +108,7 @@ const originPrice = (priceRefund = 0, data) => {
  *
  * @param source: dataSource
  */
+
 const svInit = (source) => {
   const maxObj = maxTypes(source);
   const priceObj = originPrice(
@@ -117,8 +118,15 @@ const svInit = (source) => {
     refundTypeId: v.refundPathId,
     isShow: (v.refundPathId === 1 && Number(maxObj[v.refundPathId]) > 0) ||
     (v.refundPathId > 1 && v.refundPathId !== 4),
-    refundAmount: priceObj[v.refundPathId],
-    refundAmount2: Number(Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2)),
+    refundAmount: priceObj[v.refundPathId] < 0 ? 0 : priceObj[v.refundPathId],
+    refundAmount2: Number(
+      Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
+    ) < 0 ?
+    0
+    :
+      Number(
+        Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
+      ),
     rate: v.priceWithExchangeRate.rate,
     rate2: 1 / v.priceWithExchangeRate.rate,
     currency: v.priceWithExchangeRate.symbol,
