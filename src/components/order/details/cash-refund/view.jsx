@@ -26,7 +26,7 @@ class cashRefund extends Component {
   }
   render() {
     const {
-      ready, submitLoad, submitValue, dispatch,
+      ready, submitLoad, submitValue, dispatch, submitDisabled,
       refundTypeList, refundAccountTypeList, canWithdrawAmount, notWithdrawAmount,
     } = this.props;
     const {
@@ -130,6 +130,7 @@ class cashRefund extends Component {
                 style={{ margin: '15px 80px 80px 0', left: '20%' }}
                 type="primary" htmlType="submit"
                 loading={submitLoad}
+                disabled={submitDisabled}
               >{__('common.submit')}</Button>
             </div>
           </div>
@@ -143,6 +144,7 @@ cashRefund.propTypes = {
   dispatch: PropTypes.func,
   ready: PropTypes.bool,
   submitLoad: PropTypes.bool,
+  submitDisabled: PropTypes.bool,
   params: PropTypes.shape(),
   orderId: PropTypes.string,
   submitValue: PropTypes.shape(),
