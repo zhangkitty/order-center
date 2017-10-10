@@ -473,7 +473,7 @@ const SingleRow = (props) => {
             }
           >
             {
-              data.have_remark === 1 ?
+              Number(data.have_remark) === 1 ?
                 <Button
                   className={Styles.haveRemark}
                   onClick={() => dispatch(remarkShow(data.order_id))}
@@ -516,7 +516,7 @@ const SingleRow = (props) => {
             }
           >
             {
-              data.have_remark_admin === 1 ?
+              Number(data.have_remark_admin) === 1 ?
                 <Button
                   className={Styles.haveRemark}
                   onClick={() => dispatch(logisticsRemark(data.order_id))}

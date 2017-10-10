@@ -32,7 +32,7 @@ const Reason = ({ reasons, dataSource: { orderGoods }, dispatch, submitValue }) 
               <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>{v.name}</Tag>
               {
                 v.children.map(d => (
-                  submitValue.reason.reasonId === 20 && d.id === 20 ?
+                  Number(submitValue.reason.reasonId) === 20 && Number(d.id) === 20 ?
                     <div key={d.id}>
                       <Radio
                         value={d.id} key={d.id}

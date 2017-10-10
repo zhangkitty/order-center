@@ -60,7 +60,7 @@ const copyPayment = (data) => {
   const arr = data.refundPaths.filter(d => d.refundTypeId > 1);
   const user = arr.find(v => v.refundTypeId === 2);
   const radio = arr.map(d => (
-    d.refundTypeId === 3 ?
+    Number(d.refundTypeId) === 3 ?
       assign({}, d, {
         check: true,
         refundAmount: user.refundAmount,
@@ -116,7 +116,7 @@ const svInit = (source) => {
     source);
   const obj = source.orderRefundPathList.map(v => ({
     refundTypeId: v.refundPathId,
-    isShow: (v.refundPathId === 1 && Number(maxObj[v.refundPathId]) > 0) ||
+    isShow: (Number(v.refundPathId) === 1 && Number(maxObj[v.refundPathId]) > 0) ||
     (v.refundPathId > 1 && v.refundPathId !== 4),
     refundAmount: priceObj[v.refundPathId] < 0 ? 0 : priceObj[v.refundPathId],
     refundAmount2: Number(
@@ -151,14 +151,14 @@ const allBack = (source, arr, back, rl, type, refundPaths) => {
   const p = Number(source.orderPriceInfo.shippingPrice.priceUsd.amount) +
     Number(source.orderPriceInfo.shippingInsurePrice.priceUsd.amount); // 运费 + 运费险
   const max = Number(maxTypes(source)[1]); // 礼品卡最大上限
-  const gift = arr.find(v => v.refundTypeId === 1) || {}; // 礼品卡
+  const gift = arr.find(v => Number(v.refundTypeId) === 1) || {}; // 礼品卡
   const show = max > 0;
   const price = {
     1: gift.refundAmount || 0,
-    2: Number(arr.find(v => v.refundTypeId === 2).refundAmount),
+    2: Number(arr.find(v => Number(v.refundTypeId) === 2).refundAmount),
     3: type === 3 ?
-      Number(arr.find(v => v.refundTypeId === 2).refundAmount) :
-      Number(arr.find(v => v.refundTypeId === 3).refundAmount),
+      Number(arr.find(v => Number(v.refundTypeId) === 2).refundAmount) :
+      Number(arr.find(v => Number(v.refundTypeId) === 3).refundAmount),
   };
   if (back) {
     if (show) {
