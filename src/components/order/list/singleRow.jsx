@@ -427,7 +427,7 @@ const SingleRow = (props) => {
           }
           {/*  退款/取消 */}
           {
-            (data.payment_method === 'cod' && data.order_status === 5)
+            (data.payment_method === 'cod' && Number(data.order_status) === 5)
             ||
             data.order_status > 7
               ?
