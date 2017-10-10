@@ -30,14 +30,13 @@ class orderList extends Component {
     } = this.props;
 
     const pageCurrent = () => {
-      if (searchType === 0) {
+      if (Number(searchType) === 0) {
         return queryString.pageNumber;
-      } else if (searchType === 1) {
+      } else if (Number(searchType) === 1) {
         return queryString2.pageNumber;
-      } else {
-        return queryString3.pageNumber;
       }
-    }
+      return queryString3.pageNumber;
+    };
     return (
       <div className={styles.content}>
         {/*  搜索  */}
@@ -51,7 +50,7 @@ class orderList extends Component {
                 .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} {...this.props} />)
             }
             {
-              total === 0 ? <div style={{ textAlign: 'center', color: 'rgba(0,0,0, .8)' }}><Icon type="frown-o" /> {__('common.contentTitle')}</div> : null
+              Number(total) === 0 ? <div style={{ textAlign: 'center', color: 'rgba(0,0,0, .8)' }}><Icon type="frown-o" /> {__('common.contentTitle')}</div> : null
             }
           </div>
         </Spin>
@@ -98,11 +97,11 @@ class orderList extends Component {
           current={pageCurrent()}
           onChange={
             (pageNumber, pageSize) => {
-              if (searchType === 0) {
+              if (Number(searchType) === 0) {
                 dispatch(commit('pageNumber', pageNumber));
                 dispatch(commit('pageSize', pageSize));
                 dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
-              } else if (searchType === 1) {
+              } else if (Number(searchType) === 1) {
                 dispatch(commit2('pageNumber', pageNumber));
                 dispatch(commit2('pageSize', pageSize));
                 dispatch(searchHigh(assign({}, queryString2, { pageNumber, pageSize })));
@@ -115,11 +114,11 @@ class orderList extends Component {
           }
           onShowSizeChange={
             (pageNumber, pageSize) => {
-              if (searchType === 0) {
+              if (Number(searchType) === 0) {
                 dispatch(commit('pageNumber', pageNumber));
                 dispatch(commit('pageSize', pageSize));
                 dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
-              } else if (searchType === 1) {
+              } else if (Number(searchType) === 1) {
                 dispatch(commit2('pageNumber', pageNumber));
                 dispatch(commit2('pageSize', pageSize));
                 dispatch(searchHigh(assign({}, queryString2, { pageNumber, pageSize })));

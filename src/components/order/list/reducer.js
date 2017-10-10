@@ -91,7 +91,7 @@ const defaultState = {
   markTag: {},
 };
 const cgsReducer = (dataSource, orderId, result) => {
-  const index = dataSource.findIndex(v => v.order_id === orderId);
+  const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));
   return [
     ...dataSource.slice(0, index),
     assign({}, dataSource[index], {
@@ -115,7 +115,7 @@ const delChange = (data, oid, gid, sort) => data.map((v) => {
     return assign({}, v, {
       order_goods: v.order_goods
         .map((d) => {
-          if (d.order_goods_id === gid) {
+          if (Number(d.order_goods_id) === Number(gid)) {
             return assign({}, d, { goods_status: 74, is_replace: 3 });  // 删除换货，商品的状态
           }
           if (!flag && d.order_goods_sort === sort) {
@@ -285,7 +285,7 @@ const reducer = (state = defaultState, action) => {
         visible: false,
         loadUpdata: false,
         dataSource: state.dataSource.map(v => (
-          v.order_id === action.data.orderId ?
+          Number(v.order_id) === Number(action.data.orderId) ?
             assign({}, v, {
               // transhRemark: action.mark,
               have_remark: 1,
@@ -307,7 +307,7 @@ const reducer = (state = defaultState, action) => {
         logisticsVisible: true,
         load: false,
         dataSource: state.dataSource.map(v => (
-          v.order_id === action.id ?
+          Number(v.order_id) === Number(action.id) ?
             assign({}, v, { transhRemark: action.data }) : v
         )),
       });
@@ -324,7 +324,7 @@ const reducer = (state = defaultState, action) => {
         // logisticsVisible: false,
         // loadUpdata: false,
         dataSource: state.dataSource.map(v => (
-          v.order_id === action.data.orderId ?
+          Number(v.order_id) === Number(action.data.orderId) ?
             assign({}, v, {
               transhRemark: action.data.mark,
               have_remark: 1,
