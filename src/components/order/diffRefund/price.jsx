@@ -106,7 +106,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 }}
               />
               {
-                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${maxTips[refundPathId] || ''}</span>
+                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${Number(maxTips[refundPathId]).toFixed(2) || ''}</span>
               }
             </div>
           </div>
