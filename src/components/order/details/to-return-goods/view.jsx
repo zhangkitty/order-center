@@ -48,8 +48,8 @@ class ToReturnGoods extends Component {
   render() {
     const {
       dispatch, batchShow, chooses, reasons,
-      ready, dataSource, paths, load,
-      shippingType, warehouse, submitValue,
+      ready, dataSource, paths, load, sucModal,
+      shippingType, warehouse, submitValue, sucModalHtml,
     } = this.props;
     const { return_info, refund_path, return_shipping_type, return_warehouse } = submitValue;
     if (ready) {
@@ -267,6 +267,14 @@ class ToReturnGoods extends Component {
               }
             </CG>
           </Modal>
+          <Modal
+            visible={sucModal}
+            onOk={() => dispatch(commit('sucModal', false))}
+            onCancel={() => dispatch(commit('sucModal', false))}
+            footer={null}
+          >
+            <div dangerouslySetInnerHTML={{ __html: sucModalHtml }} />
+          </Modal>
         </form>
       );
     }
@@ -278,6 +286,8 @@ ToReturnGoods.propTypes = {
   ready: PropTypes.bool,
   batchShow: PropTypes.bool,
   load: PropTypes.bool,
+  sucModal: PropTypes.bool,
+  sucModalHtml: PropTypes.string,
   dispatch: PropTypes.func,
   params: PropTypes.shape(),
   submitValue: PropTypes.shape(),

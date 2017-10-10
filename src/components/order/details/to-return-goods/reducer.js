@@ -6,6 +6,8 @@ const defaultState = {
   batchShow: false,
   orderId: '',
   load: false,
+  sucModal: false,
+  sucModalHtml: '',
   chooses: [],
   modalChooses: [],
   reasons: [],
