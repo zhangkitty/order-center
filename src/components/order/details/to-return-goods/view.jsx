@@ -63,7 +63,7 @@ class ToReturnGoods extends Component {
                 return message.warning(lan.needReason);
               }
               if (
-                return_info[i].reason_ids.filter(v => v < 6 && v !== 1).length &&
+                return_info[i].reason_ids.filter(v => Number(v) < 6 && Number(v) !== 1).length &&
                 !return_info[i].img_thumb.length
               ) {
                 return message.warning(lan.needPic);
@@ -113,7 +113,7 @@ class ToReturnGoods extends Component {
                   >
                     {
                       (d || []).map(v => (
-                          v.id < 6 && v.id !== 1 ?
+                        Number(v.id) < 6 && Number(v.id) !== 1 ?
                             <div key={v.id}>
                               <Checkbox value={v.id} >{Star}{v.name}</Checkbox>
                             </div>
