@@ -78,6 +78,10 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                   if (refundPathId === 3 && Number(value) !== Number(maxTips[3])) {
                     dispatch(changeChannelValue(4, 'checked', false));
                   }
+                  if (value < 0) {
+                    dispatch(changeChannelValue(refundPathId, 'refundAmount', 0));
+                    dispatch(changeChannelValue(refundPathId, 'refundAmount1', 0));
+                  }
                 }}
               />
               <span className={style.spanMargin}>{priceWithExchangeRate.symbol}</span>
@@ -94,6 +98,10 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                   }
                   if (refundPathId === 3 && (Number(e.target.value) / priceWithExchangeRate.rate).toFixed(2) !== Number(maxTips[3]).toFixed(2)) {
                     dispatch(changeChannelValue(4, 'checked', false));
+                  }
+                  if (e.target.value < 0) {
+                    dispatch(changeChannelValue(refundPathId, 'refundAmount1', 0));
+                    dispatch(changeChannelValue(refundPathId, 'refundAmount', 0));
                   }
                 }}
               />
