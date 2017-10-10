@@ -13,27 +13,7 @@ import styles from './style.css';
 
 const TP = Tabs.TabPane;
 
-const info = props => [{
-  name: __('order.entry.basic'),
-  key: 'base',
-  children: <BaseInfo {...props} />,
-}, {
-  name: __('order.entry.pay'),
-  key: 'pay',
-  children: <Payment {...props} />,
-}, {
-  name: __('order.entry.refunds'),
-  key: 'refund',
-  children: <Refund {...props} />,
-}, {
-  name: __('order.entry.return'),
-  key: 'orderReturn',
-  children: <OrderReturn {...props} />,
-}, {
-  name: __('order.entry.order_log'),
-  key: 'logs',
-  children: <Logs {...props} />,
-}];
+
 class DetailsEntry extends Component {
   constructor(props) {
     super(props);
@@ -45,6 +25,27 @@ class DetailsEntry extends Component {
   }
   render() {
     const { ready, activeKey, dispatch, orderId, billno, tabsLoad } = this.props;
+    const info = props => [{
+      name: `${billno}`, // order.entry.basic
+      key: 'base',
+      children: <BaseInfo {...props} />,
+    }, {
+      name: __('order.entry.pay'),
+      key: 'pay',
+      children: <Payment {...props} />,
+    }, {
+      name: __('order.entry.refunds'),
+      key: 'refund',
+      children: <Refund {...props} />,
+    }, {
+      name: __('order.entry.return'),
+      key: 'orderReturn',
+      children: <OrderReturn {...props} />,
+    }, {
+      name: __('order.entry.order_log'),
+      key: 'logs',
+      children: <Logs {...props} />,
+    }];
     if (ready) {
       return (
         <div
