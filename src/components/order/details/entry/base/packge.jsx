@@ -74,38 +74,33 @@ const pingkongShow = {
 
 const colors = {
   1: { bg: '#5AE0ED', border: 'none' },
-  2: { bg: '#0A8FE5', border: 'none' },
-  3: { bg: '#ffffff', border: '#0A8FE5' },
-  4: { bg: '#ffffff', border: '#8C00FF' },
-  5: { bg: 'rgba(255,45,138,0.2)', border: 'rgba(255,45,138,1)' },
-  6: { bg: '#FFD5DF19', border: 'none' },
-  7: { bg: 'rgba(255,45,138,1)', border: 'none' },
-  8: { bg: '#FA4405', border: 'none' },
-  9: { bg: '#FF9D00', border: 'none' },
-  10: { bg: '#00712A', border: 'none' },
-  11: { bg: 'rgba(10,143,229,1)', border: 'none' },
-  12: { bg: 'none', border: 'rgba(204,204,204,1)' },
-  13: { bg: 'none', border: 'rgba(224,16,208,1)' },
-  16: { bg: 'rgba(140,0,255,1)', border: 'none' },
-  20: { bg: 'rgba(159,78,114,1)', border: 'none' },
-  23: { bg: 'rgba(22,0,131,0.5)', border: 'none' },
-  28: { bg: 'none', border: '#E010D0' },
-  49: { bg: 'rgba(140,0,255,0.3)', border: 'none' },
-  52: { bg: 'rgba(140,0,255,0.2)', border: 'rgba(140,0,255,1)' },
-  54: { bg: 'black', border: 'none' }, // no ui
-  57: { bg: 'rgba(248,231,28,1)', border: 'rgba(140,0,255,1)' },
-  74: { bg: 'black', border: 'none' }, // no ui
-  75: { bg: 'rgba(248,231,28,1)', border: 'none' },
-  76: { bg: 'black', border: 'none' }, // no ui
-  77: { bg: 'black', border: 'none' }, // no ui
-  82: { bg: 'black', border: 'none' }, // no ui
-  84: { bg: 'rgba(173,139,139,1)', border: 'none' },
-  90: { bg: 'rgba(177,0,22,0.2)', border: 'rgba(177,0,22,1)' },
-  91: { bg: 'black', border: 'none' }, // no ui
-  94: { bg: 'black', border: 'none' }, // no ui
-  95: { bg: 'black', border: 'none' }, // no ui
-  96: { bg: 'black', border: 'none' }, // no ui
+  5: { bg: 'rgba(255,45,138,0.20)', border: '2px solid #FF2D8A' },
+  7: { bg: '#FF2D8A', border: 'none' },
+  11: { bg: '#0A8FE5', border: 'none' },
+  12: { bg: '#ffffff', border: '2px solid #CCCCCC' },
+  13: { bg: 'rgba(224,16,208,0.20)', border: '2px solid #E010D0' },
+  16: { bg: '#8C00FF', border: 'none' },
+  20: { bg: '#ffffff', border: 'none' },
+  23: { bg: 'rgba(22,0,131,0.50)', border: 'none' },
+  28: { bg: '#ffffff', border: '2px solid #E010D0' },
+  49: { bg: 'rgba(140,0,255,0.30)', border: 'none' },
+  52: { bg: 'rgba(140,0,255,0.20)', border: '2px solid #8C00FF' },
+  54: { bg: 'none', border: 'none' },
+  57: { bg: '#F8E71C', border: '2px solid #8C00FF' },
+  74: { bg: 'rgba(159,78,114,1)', border: 'none' },
+  75: { bg: '#AD8B8B', border: 'none' },
+  76: { bg: 'none', border: 'none' },
+  77: { bg: 'none', border: 'none' },
+  82: { bg: 'none', border: 'none' },
+  84: { bg: 'rgba(177,0,22,0.20)', border: '2px solid #B10016' },
+  90: { bg: 'rgba(248,231,28,1)', border: 'rgba(140,0,255,1)' },
+  91: { bg: 'none', border: 'none' },
+  94: { bg: 'none', border: 'none' },
+  126: { bg: 'none', border: 'none' },
+  127: { bg: 'none', border: 'none' },
 };
+
+
 const colorCirle = (circle = {}) => (
   <span
     style={{
@@ -115,7 +110,7 @@ const colorCirle = (circle = {}) => (
       display: 'inline-block',
       marginRight: '5px',
       backgroundColor: circle.bg || '#ccc',
-      border: `2px solid ${circle.border}` || 'none',
+      border: `${circle.border}` || 'none',
     }}
   />
 );
