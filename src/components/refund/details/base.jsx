@@ -192,7 +192,12 @@ const Base = ({
                   </span>
                 </div>
               }
-              onConfirm={() => dispatch(doRefundPass())}
+              onConfirm={() => dispatch(doRefundPass({
+                refund_bill_id: refundBillId,
+                refund_amount: refund_amount.price_usd.amount,
+                refund_currency: refund_amount.price_with_exchange_rate.amount,
+                currency_code: refund_amount.price_with_exchange_rate.symbol,
+              }))}
               okText={language.确认}
               cancelText={language.取消}
             >
