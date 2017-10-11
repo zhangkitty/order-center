@@ -64,7 +64,7 @@ function* doRefundSaga(action) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('refundInfo', { load: false, saveLoad: false, data: {} }));
-  yield put(getInfo(action.data.refund_bill_id));
+  yield put(getInfo(action.data.refund_bill_id));  // 成功后调这个接口，页面刷新
   return message.success(lan.osucess);
 }
 function* doRefundAgainSaga(action) {
@@ -74,7 +74,7 @@ function* doRefundAgainSaga(action) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('reverseRefund', { saveLoad: false, show: false, data: {} }));
-  yield put(getInfo(action.refundBillId));
+  yield put(getInfo(action.refundBillId));  // 成功后调这个接口，页面刷新
   return message.success(lan.osucess);
 }
 function* doRefundPassSaga(action) {

@@ -121,7 +121,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                   {
                     !!v.refundAccountTypeList.length &&
                     <div style={{ margin: '10px 150px' }}>
-                      <Select
+                      <Select   // Select的值是 对象（id，name）
                         allowClear
                         placeholder={__('order.goodsRefund.please_select_a_refund_account')}
                         style={{ width: 150 }}
