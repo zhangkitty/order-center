@@ -44,7 +44,7 @@ const colors = {
   3: { bg: '#ffffff', border: '#0A8FE5' },
   4: { bg: '#ffffff', border: '#8C00FF' },
   5: { bg: 'rgba(255,45,138,0.2)', border: 'rgba(255,45,138,1)' },
-  6: { bg: '#FFD5DF19', border: 'none' },
+  6: { bg: '#D5DF19', border: 'none' },
   7: { bg: 'rgba(255,45,138,1)', border: 'none' },
   8: { bg: '#FA4405', border: 'none' },
   9: { bg: '#FF9D00', border: 'none' },
