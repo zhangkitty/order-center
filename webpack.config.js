@@ -12,7 +12,7 @@ const languages = {
 module.exports = Object.keys(languages).map((lang) => ({
   entry: {
     app: ['babel-polyfill', './src/entry.jsx'],
-    common: ['react', 'antd', 'redux-saga', 'react-dom', 'redux', 'react-redux', 'react-router', 'whatwg-fetch'],
+    common: ['redux-saga', 'react-dom', 'redux', 'react-redux', 'react-router', 'whatwg-fetch'],
   },
   output: {
     filename: '[name].js',
