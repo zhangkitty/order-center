@@ -31,7 +31,7 @@ class cashRefund extends Component {
     } = this.props;
     const {
       refundBillId, refundPaths, remark, refundType, orderId,
-      refundPathId, refundMethod, account, refundAmount, refundMethod1,
+      refundPathId, refundMethod, account, refundAmount, refundMethod1, refundAmount2,
     } = submitValue;
     return (
       ready ?
@@ -51,6 +51,7 @@ class cashRefund extends Component {
               refundPaths: [{
                 refundPathId: 3,  // 写死
                 refundAmount: Number(refundAmount).toFixed(2),
+                refundAmount2: Number(refundAmount2).toFixed(2),
                 refundMethod: refundMethod === '其他' || refundMethod === 'others' ?  refundMethod1 : refundMethod,
                 account,
               }],

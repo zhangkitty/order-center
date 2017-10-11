@@ -26,13 +26,14 @@ const defaultState = {
     refundType: 3,
     refundPaths: [{
       account: null,
-      refundAmount: '',
+      refundAmount: '', // 美金金额
+      refundAmount1: '',  // 非美金金额（下单时的币种）
       refundMethod: '',
       refundPathId: 3,
       refundMethod1: '',
     }],
-    canWithdrawAmount: '',   // 可提现金额
-    notWithdrawAmount: '',   // 不可提现金额
+    canWithdrawAmount: '',   // 可提现金额（下单时的币种）
+    notWithdrawAmount: '',   // 不可提现金额（下单时的币种）
     remark: '',
   },
 };
@@ -57,15 +58,15 @@ const reducer = (state = defaultState, action) => {
         dataSource: under2Camal(action.res),
         refundTypeList: under2Camal(action.res).refundTypeList, // 退款路径列表
         refundAccountTypeList: under2Camal(action.res).refundAccountTypeList, // 退款方式列表
-        canWithdrawAmount: under2Camal(action.res).walletExtractable.priceUsd.amount, // 钱包可提现金额
-        notWithdrawAmount: under2Camal(action.res).walletNotExtractable.priceUsd.amount, // 钱包不提现
+        canWithdrawAmount: under2Camal(action.res).walletExtractable.priceWithExchangeRate.amount, // 钱包可提现金额
+        notWithdrawAmount: under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount, // 钱包不提现
         submitValue: assign({}, state.submitValue, {
           refundAmount: max1 < max2 ? max1 : max2, // 美元金额
           refundAmount2: max1 < max2 ? Number(max1 * rate2).toFixed(2) : Number(max2).toFixed(2), // 非美元金额
           rate,   // 汇率
-          rate2, //: under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
+          rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
-          max: max1 < max2 ? max1 : max2, // 美元金额
+          max: max1 < max2 ? max1 : max2, // 美元金额最大值
         }),
       });
     case TYPES.GET_REASON_SUCCESS:
