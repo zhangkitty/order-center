@@ -51,6 +51,7 @@ const reducer = (state = defaultState, action) => {
         under2Camal(action.res).remainingWithdrawAmount.priceUsd.amount,
       ).toFixed(2)); // 订单剩余可提现金额
       const rate = Number(under2Camal(action.res).walletExtractable.priceUsd.rate);   // 汇率
+      const rate2 = Number(under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate);   // 汇率
       return assign({}, state, {
         ready: true,
         dataSource: under2Camal(action.res),
@@ -60,9 +61,9 @@ const reducer = (state = defaultState, action) => {
         notWithdrawAmount: under2Camal(action.res).walletNotExtractable.priceUsd.amount, // 钱包不提现
         submitValue: assign({}, state.submitValue, {
           refundAmount: max1 < max2 ? max1 : max2, // 美元金额
-          refundAmount2: max1 < max2 ? Number(max1 * rate).toFixed(2) : Number(max2).toFixed(2), // 非美元金额
+          refundAmount2: max1 < max2 ? Number(max1 * rate2).toFixed(2) : Number(max2).toFixed(2), // 非美元金额
           rate,   // 汇率
-          rate2: under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
+          rate2, //: under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
           max: max1 < max2 ? max1 : max2, // 美元金额
         }),
