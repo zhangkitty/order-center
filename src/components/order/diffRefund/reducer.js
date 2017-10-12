@@ -35,7 +35,7 @@ const getMax = d => ({
   disabled: 0,
 });
 function changeChannelProp(refundPaths, { channel, key, val }) {
-  const type = refundPaths.find(item => item.refundPathId === channel).channelType;
+  const type = refundPaths.find(item => item.refundPathId === channel) || {}.channelType;
   const res = refundPaths.map((chan) => {
     if (chan.refundPathId === channel) {
       return assign({}, chan, {
