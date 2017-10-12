@@ -37,7 +37,7 @@ module.exports = {
   info_account_info: '账户信息',
   info_refund_protocal: '退款交易凭证号',
   info_refund_status: '退款状态',
-  info_operate_time: '操作时间',
+  info_operate_time: '退款时间',
   info_renfund: '退款',
   info_renfund_agian: '重新退款',
   logs_renfund_logs: '退款操作日志',
