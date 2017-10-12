@@ -143,12 +143,12 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       currency: walletRefund2,
       type: walletRefundSymbol,
     },
-    {
-      name: __('order.goodsRefund.user_refunded'),
-      us: userRefund,
-      currency: userRefund2,
-      type: userRefundSymbol,
-    },
+    // {
+    //   name: __('order.goodsRefund.user_refunded'),
+    //   us: userRefund,
+    //   currency: userRefund2,
+    //   type: userRefundSymbol,
+    // },
     //{
     //  name: __('order.goodsRefund.wait_refund'),
     //  us: waitRefund,

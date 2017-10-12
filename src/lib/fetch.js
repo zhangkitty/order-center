@@ -25,6 +25,17 @@ export default (url, args = {}, header) => {
       'content-type': 'application/json',
     },
   }, args)).then((res) => {  // header
+    const { status } = res;
+    if (status == 403) {
+      notification.open({
+        message: __('common.fetch_title1'),
+      });
+    } else if (status > 499) {
+      notification.open({
+        message: __('common.fetch_title2'),
+      });
+      throw new Error(status);
+    }
 
     // 流，下载
     // if (res.headers.get('content-type') === 'application/vnd.ms-excel;charset=UTF-8') {

@@ -119,4 +119,6 @@ module.exports = {
   change_refund3: 'Refund Reasons: ',
   change_refund4: 'Refund Type: ',
   change_refund5: 'Reject Reasons: ',
+  fetch_title1: 'No permission to operate!',  // fetch
+  fetch_title2: 'The server responds with an error, try refreshing the retry, or contact the developer for help  _(:3 」∠)_',
 };
