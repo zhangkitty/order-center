@@ -56,8 +56,6 @@ export default (url, args = {}, header) => {
     if (res.headers.get('content-type') === 'application/vnd.ms-excel;charset=UTF-8') {
       return res.blob();
     }
-
-
     return res.json();
   });
 };
