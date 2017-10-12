@@ -80,7 +80,7 @@ const colors = {
   12: { bg: '#ffffff', border: '2px solid #CCCCCC' },
   13: { bg: 'rgba(224,16,208,0.20)', border: '2px solid #E010D0' },
   16: { bg: '#8C00FF', border: 'none' },
-  20: { bg: '#ffffff', border: 'none' },
+  20: { bg: '#9F4E72;', border: 'none' },
   23: { bg: 'rgba(22,0,131,0.50)', border: 'none' },
   28: { bg: '#ffffff', border: '2px solid #E010D0' },
   49: { bg: 'rgba(140,0,255,0.30)', border: 'none' },
