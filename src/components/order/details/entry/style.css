@@ -9,11 +9,25 @@
     display: flex;
     flex-direction: column;
 }
+.baseContent {
+    display: flex;
+    color: #333;
+    font-size: 13px;
+}/* maxWidth: '1200px' */
+.spanWidth {
+    min-width: 120px;
+    max-width: 200px;
+    display: inline-block;
+    /*color: #797b7b;*/
+    text-align:right;
+    margin-right:10px;
+}
 .baseRight{
     margin-right: 30px;
 }
 .contentPadding {
     padding: 10px;
+    color: #333;
 }
 .cardBg {
     display: flex;
@@ -50,21 +64,22 @@
 .paymentFlex {
     display: flex;
     padding: 20px 35px;
+    color: #333;
 }
 .paymentInfo { margin-right:80px;}
 .spanWidthL {
     min-width: 180px;
     max-width: 250px;
     display: inline-block;
-    color: #797b7b;
+    /*color: #797b7b;*/
     text-align:right;
     margin-right:10px;
 }
 .spanWidthR {
-    min-width: 110px;
-    max-width: 200px;
+    min-width: 180px;
+    max-width: 250px;
     display: inline-block;
-    color: #797b7b;
+    /*color: #797b7b;*/
 }
 .payLog {
     margin-bottom: 10px;
@@ -86,7 +101,7 @@
 .antUploadText {
     margin-top: 8px;
     font-size: 12px;
-    color: #666;
+    color: #333;
 }
 
 .returnForm {
@@ -103,4 +118,9 @@
 }
 .returnWidth {
     width: 60px;
+}
+
+.cardBottom table td,
+.contentPadding table td {
+    color: #333;
 }

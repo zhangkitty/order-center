@@ -156,7 +156,7 @@ const Base = ({
           {
             info.right.map(v => (
               <div key={v.key} >
-                <span className={styles.spanWidthR}>{ v.name }: </span>
+                <span className={styles.spanWidthL}>{ v.name }: </span>
                 <span>{refund_detail[v.key]}</span>
               </div>
             ))

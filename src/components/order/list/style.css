@@ -70,6 +70,7 @@ form .colSpace2{
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #f0f0f0;
 }
 .orderTable { width:71%;}
 .orderOperateBg {
@@ -139,23 +140,33 @@ form .colSpace2{
     outline: 0;
     text-align: center;
 }
-
+.operatingTable {
+    width: 400px;
+    maxHeight: 300px;
+    overflow: auto;
+}
 .tableFloat {
     background-color: #fff;
     border-radius: 5px;
     width: 600px;
+    color: #333;
 }
 .tableFloat2 {
     background-color: #fff;
     border-radius: 5px;
     width: 400px;
+    color: #333;
 }
 .haveRemark { color:#f00; border-color: #f00;}
+.tableFloat table td, .tableFloat2 textarea,
+.operatingTable table td
+{ color: #333; }
 
 
 /* trouble order */
 .troubleBg {
     padding:20px 20px 0;
+    color: #333;
 }
 .troubleBg > span {
     vertical-align: top;
@@ -180,4 +191,8 @@ form .colSpace2{
 .changeSpan {
     width: 100px;
     display: inline-block;
+}
+
+.fontColor {
+    color: #333;
 }

@@ -32,28 +32,30 @@ const info = {
 const Base = ({ dataSource: { base: { order_info: { basic_info } } } }) => (
   <Card
     title={lan.基本信息}
-    bodyStyle={{ display: 'flex', maxWidth: '1200px' }}
+   // bodyStyle={{ display: 'flex', maxWidth: '1200px' }}
     className={style.baseBg}
   >
-    <div className={style.baseRight}>
-      {
-        info.left.map(v => (
-          <div key={v.key} >
-            <span className={style.spanWidth}>{ v.name }: </span>
-            <span>{basic_info[v.key]}</span>
-          </div>
-        ))
-      }
-    </div>
-    <div className={style.baseRight}>
-      {
-        info.right.map(v => (
-          <div key={v.key}>
-            <span className={style.spanWidth}>{ v.name }: </span>
-            <span>{basic_info[v.key]}</span>
-          </div>
-        ))
-      }
+    <div className={style.baseContent}>
+      <div className={style.baseRight}>
+        {
+          info.left.map(v => (
+            <div key={v.key} >
+              <span className={style.spanWidth}>{ v.name }: </span>
+              <span>{basic_info[v.key]}</span>
+            </div>
+          ))
+        }
+      </div>
+      <div className={style.baseRight}>
+        {
+          info.right.map(v => (
+            <div key={v.key}>
+              <span className={style.spanWidth}>{ v.name }: </span>
+              <span>{basic_info[v.key]}</span>
+            </div>
+          ))
+        }
+      </div>
     </div>
   </Card>
 );

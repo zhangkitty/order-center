@@ -64,85 +64,89 @@ const Address = (
       title={__('order.entry.shipping_address')}
       className={style.cardStyle}
     >
-      <div style={{ width: '50%', float: 'left' }}>
-        <Button
-          style={{ position: 'absolute', right: '10px' }}
-          onClick={() => hashHistory.push(`/order/details/edit-address/${orderId}/${billno}`)}
-        >{lan.edit}</Button>
-        {
-          info.sadrr.left.map(v => (
-            <div key={v.key}>
-              <span className={style.spanWidth}>{ v.name }:</span>
-              <span style={{ marginRight: '5px' }}>{shipping_address[v.key]}</span>
-              {
-                v.key === 'email' ?
-                  <Popover
-                    placement="topLeft"
-                    content={
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault();
-                          const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                          if (returnEmail.match(reg)) {
-                            return dispatch(updateEmail(orderId, returnEmail));
-                          }
-                          return message.warning(lan.emailValid);
-                        }}
-                      >
-                        <Input
-                          className={style.emailStyle}
-                          onChange={e => dispatch(commit('returnEmail', e.target.value))}
-                        />
-                        <Button htmlType="submit" type="primary">{lan.save}</Button>
-                      </form>
-                    }
-                    title={lan.upEmail}
-                    trigger="click"
-                    visible={emailShow}
-                    onVisibleChange={d => dispatch(commit('emailShow', d))}
-                  >
-                    <Button className={style.emailUpdate}>{lan.update}</Button>
-                  </Popover>
-                  : null
-              }
-            </div>
-          ))
-        }
-      </div>
-      <div>
-        {
-          info.sadrr.right.map(v => (
-            <div key={v.key}>
-              <span className={style.spanWidth}>{ v.name }:</span>
-              <span>{shipping_address[v.key]}</span>
-            </div>
-          ))
-        }
+      <div className={style.baseContent}>
+        <div style={{ width: '50%' }}>
+          <Button
+            style={{ position: 'absolute', right: '10px' }}
+            onClick={() => hashHistory.push(`/order/details/edit-address/${orderId}/${billno}`)}
+          >{lan.edit}</Button>
+          {
+            info.sadrr.left.map(v => (
+              <div key={v.key}>
+                <span className={style.spanWidth}>{ v.name }:</span>
+                <span style={{ marginRight: '5px' }}>{shipping_address[v.key]}</span>
+                {
+                  v.key === 'email' ?
+                    <Popover
+                      placement="topLeft"
+                      content={
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                            if (returnEmail.match(reg)) {
+                              return dispatch(updateEmail(orderId, returnEmail));
+                            }
+                            return message.warning(lan.emailValid);
+                          }}
+                        >
+                          <Input
+                            className={style.emailStyle}
+                            onChange={e => dispatch(commit('returnEmail', e.target.value))}
+                          />
+                          <Button htmlType="submit" type="primary">{lan.save}</Button>
+                        </form>
+                      }
+                      title={lan.upEmail}
+                      trigger="click"
+                      visible={emailShow}
+                      onVisibleChange={d => dispatch(commit('emailShow', d))}
+                    >
+                      <Button className={style.emailUpdate}>{lan.update}</Button>
+                    </Popover>
+                    : null
+                }
+              </div>
+            ))
+          }
+        </div>
+        <div>
+          {
+            info.sadrr.right.map(v => (
+              <div key={v.key}>
+                <span className={style.spanWidth}>{ v.name }:</span>
+                <span>{shipping_address[v.key]}</span>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </Card>
     <Card
       title={__('order.entry.billing_address')}
       className={style.cardStyle}
     >
-      <div style={{ width: '50%', float: 'left' }}>
-        {
-          info.badrr.left.map(v => (
-            <div key={v.key}>
-              <span className={style.spanWidth}>{ v.name }:</span>
-              <span>{billing_address[v.key]}</span>
-            </div>
-          ))
-        }
-      </div>
-      <div>
-        {
-          info.badrr.right.map(v => (
-            <div key={v.key}>
-              <span className={style.spanWidth}>{ v.name }:</span>
-              <span>{billing_address[v.key]}</span>
-            </div>
-          ))
-        }
+      <div className={style.baseContent}>
+        <div style={{ width: '50%' }}>
+          {
+            info.badrr.left.map(v => (
+              <div key={v.key}>
+                <span className={style.spanWidth}>{ v.name }:</span>
+                <span>{billing_address[v.key]}</span>
+              </div>
+            ))
+          }
+        </div>
+        <div>
+          {
+            info.badrr.right.map(v => (
+              <div key={v.key}>
+                <span className={style.spanWidth}>{ v.name }:</span>
+                <span>{billing_address[v.key]}</span>
+              </div>
+            ))
+          }
+        </div>
       </div>
     </Card>
 

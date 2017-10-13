@@ -308,11 +308,11 @@ const SingleRow = (props) => {
                   arrowPointAtCenter
                   content={
                     <Table
+                      className={Styles.operatingTable}
                       rowKey={fetchOperation.id}
                       dataSource={fetchOperation}
                       columns={columns} size="small"
                       pagination={false}
-                      style={{ width: '400px', maxHeight: '300px', overflow: 'auto' }}
                     />
                   }
                 >
@@ -382,7 +382,7 @@ const SingleRow = (props) => {
             Number(data.is_trouble) > 0 ?
               <Popconfirm
                 title={
-                  <div>
+                  <div className={Styles.fontColor}>
                     <p>{__('common.TroubleCancel')}</p>
                     {
                       showRisk(data.is_trouble, data.cancelRiskDesc)
