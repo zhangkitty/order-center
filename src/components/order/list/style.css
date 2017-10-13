@@ -70,7 +70,7 @@ form .colSpace2{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f0f0f0;
+    background-color: #e5e5e5;  /* f0f0f0 */
 }
 .orderTable { width:71%;}
 .orderOperateBg {
@@ -157,11 +157,17 @@ form .colSpace2{
     width: 400px;
     color: #333;
 }
-.haveRemark { color:#f00; border-color: #f00;}
+.haveRemark {
+    color:#f00;
+    border-color: #f00;
+}
 .tableFloat table td, .tableFloat2 textarea,
 .operatingTable table td
 { color: #333; }
-
+.refuseReason {
+    margin-left:5px;
+    color: #333;
+}
 
 /* trouble order */
 .troubleBg {

@@ -62,7 +62,6 @@ const ChnageGoods = (props) => {
             return dispatch(changeGoods(exchange));
           }}
         >{__('common.submit')}</Button>
-        { console.log(changeDisabled, 'changeDisabled')}
       </div>
     </Modal>
   );

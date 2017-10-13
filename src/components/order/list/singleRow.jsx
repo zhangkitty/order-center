@@ -367,9 +367,15 @@ const SingleRow = (props) => {
             <div style={{ height: '30px' }} />
             : null
           }
+          {/* 订单状态，拒收原因 */}
           <p>
             {colorCirle(colors[data.order_status])}
             {data.order_status_title}
+            {
+              data.refuse_reason && (data.order_status == 8 || data.order_status == 11) ?
+                <span className={Styles.refuseReason}>( {data.refuse_reason} )</span>
+                : null
+            }
             {/*
              <Icon type="message" style={{ color: 'rgb(255,35,0)' }}
             */}
