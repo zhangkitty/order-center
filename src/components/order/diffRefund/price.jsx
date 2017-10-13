@@ -49,13 +49,16 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
               { refundPathId !== 4 ?
                 <Chan
                   checked={checked}
-                  disabled={Number(refundPathId) === 4}
                   onChange={(e) => {
                     if (refundPathId === 2) {
                       dispatch(changeChannelValue(refundPathId, 'checked', e.target.checked));
                       dispatch(changeChannelValue(4, 'checked', false));
+                      dispatch(changeChannelValue(3, 'checked', false));
                     } else {
                       dispatch(changeChannelValue(refundPathId, 'checked', e.target.checked));
+                    }
+                    if (refundPathId === 3) {
+                      dispatch(changeChannelValue(2, 'checked', false));
                     }
                     if (refundPathId == 3 && refundAmount == Number(maxTips[3])) {
                       dispatch(changeChannelValue(4, 'checked', true));
