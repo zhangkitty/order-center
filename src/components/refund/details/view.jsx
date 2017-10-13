@@ -23,7 +23,7 @@ class Details extends Component {
       return (
         <div className={styles.contentPadding}>
           <Base {...this.props} />
-          {/*判断Goods组件是否显示*/}
+          {/* 判断Goods组件是否显示 */}
           {Number(refund_type_code) === 1 && <Goods {...this.props} />}
           <Info {...this.props} />
           <Logs {...this.props} />
