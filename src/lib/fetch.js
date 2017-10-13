@@ -11,21 +11,6 @@ if (process.env.NODE_ENV === 'test') {
   fetch = window.fetch;
 }
 
-let messageShowed = false;
-
-function showMessage(msg, fn = () => {}) {
-  if (!messageShowed) {
-    messageShowed = true;
-    notification.open({
-      message: '提醒',
-      description: msg,
-    });
-    setTimeout(() => {
-      messageShowed = false;
-      fn();
-    }, 3000);
-  }
-}
 
 export default (url, args = {}, header) => {
   let newUrl;
@@ -39,23 +24,41 @@ export default (url, args = {}, header) => {
     headers: header || {
       'content-type': 'application/json',
     },
-  }, args)).then((res) => {
+  }, args)).then((res) => {  // header
     const { status } = res;
-    if (res.redirected) { //  302
-    //  location.href = res.url; // 跳转登录
-    } else if (status === 403) {
-      showMessage('没有权限操作');
-    } else if (status === 500) {
-      showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
+    if (status == 403) {
+      notification.open({
+        message: __('common.fetch_title1'),
+      });
+    } else if (status > 499) {
+      notification.open({
+        message: __('common.fetch_title2'),
+      });
       throw new Error(status);
-    } else if (status !== 200) {
-      showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
     }
-    // const lagunage = res.headers.get('systemLagunage');
+
     // 流，下载
-    if (res.headers.get('content-type') === 'application/vnd.ms-excel;charset=UTF-8') {
-      return res.blob();
-    }
+    // if (res.headers.get('content-type') === 'application/vnd.ms-excel;charset=UTF-8') {
+    //   return res.blob();
+    // }
+
     return res.json();
+  }).then((data) => {  // body
+    const { error_code, msg } = data;
+    if (error_code == 302) { //  302
+     // message.error(msg, 10);
+      notification.open({
+        message: msg,
+      });
+      location.href = `${location.origin}/index_new.php`; // 跳转登录
+    }
+    // else if (error_code == 403) {
+    //   showMessage('没有权限操作');
+    // } else if (error_code == 500) {
+    //   showMessage('服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_');
+    //   throw new Error(status);
+    // }
+
+    return data;
   });
 };
