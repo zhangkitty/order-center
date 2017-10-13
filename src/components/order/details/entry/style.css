@@ -120,6 +120,16 @@
     width: 60px;
 }
 
+.packgeContent {
+    display: flex;
+    color: #333;
+    font-size: 13px;
+    width: 100%;
+}
+.packgeL {
+    flex: 0 0 200px;
+}
+
 .cardBottom table td,
 .contentPadding table td {
     color: #333;

@@ -26,11 +26,11 @@ const language = {
   新增备注: __('refund.details.base_add_remark'),
   驳回: __('refund.details.base_reject'),
   通过: __('refund.details.base_pass'),
-  退款路径: __('refund.details.base_refund_path'), //  TODO
+  退款路径: __('refund.details.base_refund_path'),
   用户钱包总额: __('refund.details.base_wallet_total'),
-  提现金额: __('refund.details.base_need_price'), // TODO：
-  退款提交人: __('refund.details.base_need_user'), // TODO：
-  退款操作人: __('refund.details.base_need_operate'), // TODO
+  提现金额: __('refund.details.base_need_price'),
+  退款提交人: __('refund.details.base_need_user'),
+  退款操作人: __('refund.details.base_need_operate'),
   退款返还金额: __('refund.details.base_refund_need_operate'),
   退款金额: __('refund.details.base_refund_price'),
   确认: __('refund.details.submit'),

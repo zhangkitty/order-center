@@ -162,7 +162,7 @@ class EditAddress extends Component {
                         if (obj) {
                           dispatch(commit('districtSource', obj.district));
                         } else {
-                          dispatch(commit('districtSource', []));
+                          dispatch(commit('districtSource', []));  // 置为空数组
                         }
                       }}
                     >

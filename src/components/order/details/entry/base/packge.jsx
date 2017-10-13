@@ -240,6 +240,7 @@ const Packge = (
   ].filter(res => res));
   return (
     <div>
+      {/* 按钮 */}
       {
         !show_refund_button &&
         !show_part_shipped_button &&
@@ -247,7 +248,7 @@ const Packge = (
         !show_review_order_button ?
           null
           :
-          <div style={{ margin: '20px 20px' }}>
+          <div style={{ margin: '0 20px 20px' }}>
             <BG>
               {
                 !!show_refund_button &&
@@ -307,59 +308,87 @@ const Packge = (
           </div>
 
       }
-      <Card title={lan.noPackge} className={style.cardBottom}>
-        <Table
-          size="small"
-          pagination={false}
-          dataSource={not_packaged_goods_list}
-          columns={col()}
-        />
-      </Card>
+      {/* 未形成包裹 */}
       {
-        package_list.map(v => (
-          <Card title={`${lan.packge}:${v.package_number}`} key={v.package_number} className={style.cardBottom}>
-            <div style={{ float: 'left', width: '20%' }}>
-              <div>
-                {
-                  colorCirle(colors[v.package_goods_list[0].status_code])
-                }
-                <span>{v.package_status}</span>
-              </div>
-              <div>
-                <span className={style.spanWidth}>{lan.qudao}: </span>
-                <span>{v.delivery_channel}</span>
-              </div>
-              <div>
-                <span className={style.spanWidth}>{lan.huohao}: </span>
-                <span>{v.delivery_number}</span>
-              </div>
-            </div>
+        not_packaged_goods_list.length > 0 &&
+          <Card
+            title={lan.noPackge}
+            className={style.cardBottom}
+          >
             <Table
               size="small"
               pagination={false}
-              dataSource={v.package_goods_list}
-              rowKey={'id'}
-              columns={col('show')}
+              dataSource={not_packaged_goods_list}
+              columns={col()}
             />
+          </Card>
+      }
+
+      {/* 包裹 */}
+      {
+        package_list.length > 0 &&
+        package_list.map(v => (
+          <Card
+            title={`${lan.packge}:${v.package_number}`}
+            key={v.package_number}
+            className={style.cardBottom}
+          >
+            <div className={style.packgeContent}>
+              <div className={style.packgeL}>
+                <div>
+                  {
+                    colorCirle(colors[v.package_goods_list[0].status_code])
+                  }
+                  <span>{v.package_status}</span>
+                </div>
+                <div>
+                  <span className={style.spanWidth}>{lan.qudao}: </span>
+                  <span>{v.delivery_channel}</span>
+                </div>
+                <div>
+                  <span className={style.spanWidth}>{lan.huohao}: </span>
+                  <span>{v.delivery_number}</span>
+                </div>
+              </div>
+              <Table
+                style={{ width: '100%' }}
+                size="small"
+                pagination={false}
+                dataSource={v.package_goods_list}
+                rowKey={'id'}
+                columns={col('show')}
+              />
+            </div>
           </Card>
         ))
       }
-      <Card title={lan.refundGoods} className={style.cardBottom}>
-        <Table
-          size="small"
-          pagination={false}
-          dataSource={returned_goods_list}
-          columns={col()}
-        />
-      </Card>
-      <Card title={lan.refund} className={style.cardBottom}>
-        <Table
-          size="small"
-          pagination={false}
-          dataSource={refund_goods_list}
-          columns={col()}
-        />
-      </Card>
+
+      {/* 退货商品 */}
+      {
+        returned_goods_list.length > 0 &&
+        <Card title={lan.refundGoods} className={style.cardBottom}>
+          <Table
+            size="small"
+            pagination={false}
+            dataSource={returned_goods_list}
+            columns={col()}
+          />
+        </Card>
+      }
+
+      {/* 退款商品 */}
+      {
+        refund_goods_list.length > 0 &&
+        <Card title={lan.refund} className={style.cardBottom}>
+          <Table
+            size="small"
+            pagination={false}
+            dataSource={refund_goods_list}
+            columns={col()}
+          />
+        </Card>
+      }
+      {/* Modal  */}
       <Modal
         visible={backReturnDate.show}
         onCancel={() => dispatch(commit('backReturnDate', assign({}, backReturnDate, { show: false })))}

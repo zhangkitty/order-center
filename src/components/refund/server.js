@@ -11,7 +11,7 @@ const list = {
   init: '/OrderDiffRefund/submitRefundBillSearch',    // 搜索提交
 };
 const details = {
-  getRefundBillDetail: '/OrderRefund/getRefundBillDetail', // get info TODO：缺少字段
+  getRefundBillDetail: '/OrderRefund/getRefundBillDetail', // get info
   listRefundRemark: '/OrderRefund/listRefundRemark', // 备注信息
   addRefundRemark: '/OrderRefund/addRefundRemark', // 新增备注
   rejectRefund: '/orderRefund/rejectRefund', // 驳回
