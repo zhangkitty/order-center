@@ -82,6 +82,7 @@ function* doRefundPassSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
+  yield put(getInfo(action.data.refund_bill_id));
   return message.success(lan.osucess);
 }
 export default function* () {
