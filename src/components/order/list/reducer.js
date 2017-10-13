@@ -89,6 +89,7 @@ const defaultState = {
     visible: false,
   },
   markTag: {},
+  changeDisabled: true,  // 换货按钮状态
 };
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));
@@ -343,6 +344,7 @@ const reducer = (state = defaultState, action) => {
           visible: true,
         },
         fetchgoodSize: [],
+        changeDisabled: true,
       });
     case TYPES.GOODS_SIZE:
       return assign({}, state, {
@@ -362,6 +364,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.GOODS_SIZE_SUCCESS:
       return assign({}, state, {
         fetchgoodSize: action.data.data,
+        changeDisabled: false,
       });
     case TYPES.CHANGE_GOODS:
       return assign({}, state, {

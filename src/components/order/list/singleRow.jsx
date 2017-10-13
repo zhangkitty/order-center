@@ -38,6 +38,7 @@ import Styles from './style.css';
 //  '95' => '已申请退货'
 // '96' => '退货'
 
+// 订单状态标记
 const colors = {
   1: { bg: '#5AE0ED', border: 'none' },
   2: { bg: '#0A8FE5', border: 'none' },
@@ -98,10 +99,12 @@ const changshow = {
   84: true,
   96: true,
 };
-// 不能选择商品的条件
+// 不能选择商品的条件（商品状态=需要退款、已经退款、 COD客服取消、COD客户取消， 换货，删除换货）
 const checkboxChecked = {
   5: true,
+  20: true,
   7: true,
+  74: true,
   75: true,
   94: true,
 };

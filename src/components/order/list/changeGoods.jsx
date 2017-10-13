@@ -8,7 +8,7 @@ import styles from './style.css';
 const Option = Select.Option;
 
 const ChnageGoods = (props) => {
-  const { exchange, dispatch, fetchgoodSize } = props;
+  const { exchange, dispatch, fetchgoodSize, changeDisabled } = props;
   const { orderId, goods_sn, site_from, goods_size, visible } = exchange;
   return (
     <Modal
@@ -53,6 +53,7 @@ const ChnageGoods = (props) => {
 
         <Button
           className={styles.changeButton}
+          disabled={changeDisabled}
           type="primary"
           onClick={() => {
             if (fetchgoodSize.length > 0 && !goods_size) {
@@ -61,6 +62,7 @@ const ChnageGoods = (props) => {
             return dispatch(changeGoods(exchange));
           }}
         >{__('common.submit')}</Button>
+        { console.log(changeDisabled, 'changeDisabled')}
       </div>
     </Modal>
   );
@@ -70,5 +72,6 @@ ChnageGoods.propTypes = {
   dispatch: PropTypes.func,
   exchange: PropTypes.shape(),
   fetchgoodSize: PropTypes.arrayOf(PropTypes.string),     // goods size
+  changeDisabled: PropTypes.bool,
 };
 export default ChnageGoods;
