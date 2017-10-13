@@ -161,6 +161,8 @@ class EditAddress extends Component {
                         const obj = citySource.find(d => d.city_name === v);
                         if (obj) {
                           dispatch(commit('districtSource', obj.district));
+                        } else {
+                          dispatch(commit('districtSource', []));
                         }
                       }}
                     >
