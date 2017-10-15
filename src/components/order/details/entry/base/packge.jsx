@@ -126,13 +126,14 @@ const Packge = (
     warehouse,
     partSendBtn,
     preSend,
+    activeKey,
   },
   ) => {
   const {
     not_packaged_goods_list, package_list, returned_goods_list, refund_goods_list,
   } = order_goods_info;
   const {
-    show_refund_button, show_priority_shipped_button,
+    show_refund_button, show_priority_shipped_button, show_cancel_priority_shipped_button,
     show_part_shipped_button, show_review_order_button,
   } = button_list;
   const col = show => ([
@@ -245,13 +246,14 @@ const Packge = (
         !show_refund_button &&
         !show_part_shipped_button &&
         !show_priority_shipped_button &&
+        !show_cancel_priority_shipped_button &&
         !show_review_order_button ?
           null
           :
           <div style={{ margin: '0 20px 20px' }}>
             <BG>
               {
-                !!show_refund_button &&
+                !!show_refund_button &&  // 退货按钮
                 <Button
                   onClick={() => {
                     if (chooseGoods.length) {
@@ -264,7 +266,7 @@ const Packge = (
                 </Button>
               }
               {
-                !!show_part_shipped_button &&
+                !!show_part_shipped_button &&    // 部分发货按钮
                 <Popover
                   content={
                     <form
@@ -293,21 +295,36 @@ const Packge = (
                 </Popover>
               }
               {
-                !!show_priority_shipped_button &&
+                !!show_priority_shipped_button && // 优先发货按钮
                 <Button
-                  onClick={() => dispatch(preSendAction(Number(orderId), preSend))}
+                  onClick={() => {
+                    dispatch(commit('preSend', preSend));  // 0
+                    dispatch(preSendAction(Number(orderId), preSend, billno, activeKey)); // preSend
+                  }}
                 >
-                  {preSend ? lan.quxiaoyouxianfahuo : lan.youxianfahuo}
+                  {lan.youxianfahuo}
                 </Button>
               }
               {
-                !!show_review_order_button &&
+                !!show_cancel_priority_shipped_button && // 取消优先发货按钮
+                <Button
+                  onClick={() => {
+                    dispatch(commit('preSend', +!preSend)); // 1
+                    dispatch(preSendAction(Number(orderId), 1, billno, activeKey)); // preSend
+                  }}
+                >
+                  {lan.quxiaoyouxianfahuo}
+                </Button>
+              }
+              {
+                !!show_review_order_button &&  // 审核订单按钮
                 <Button onClick={() => dispatch(examine(orderId))}>{lan.shenhedingdan}</Button>
               }
             </BG>
           </div>
 
       }
+
       {/* 未形成包裹 */}
       {
         not_packaged_goods_list.length > 0 &&

@@ -274,6 +274,7 @@ class ToReturnGoods extends Component {
             footer={null}
           >
             <div dangerouslySetInnerHTML={{ __html: sucModalHtml }} />
+            { console.log(sucModalHtml, 'sucModalHtml') } // TODO ceshi
           </Modal>
         </form>
       );

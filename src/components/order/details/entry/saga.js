@@ -53,12 +53,16 @@ function* partSendSaga(action) {
   yield put(commit('partSendBtn', true));
   return message.success(lan.part);
 }
+// 优先发货
 function* preSendSaga(action) {
+  console.log(action, 'action,优先发货');
   const data = yield preSendSer(action.oid, action.sendType);
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
   }
-  yield put(commit('preSend', +!action.sendType));
+
+  yield put(getInfo(action.oid, action.billno, action.activeKey));
+ // yield put(commit('preSend', +!action.sendType));
   return message.success(lan.osucess);
 }
 function* examineSaga(action) {
