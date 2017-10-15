@@ -31,6 +31,10 @@ export const getCity = v => ({
   v,
   type: TYPES.GET_CITY,
 });
+export const getCitySuccess = data => ({
+  data,
+  type: TYPES.GET_CITY_SUCCESS,
+});
 export const save = (data, billno) => ({
   data,
   billno,
