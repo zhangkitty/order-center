@@ -273,8 +273,12 @@ class ToReturnGoods extends Component {
             onCancel={() => dispatch(commit('sucModal', false))}
             footer={null}
           >
+            <p
+              style={{ textAlign: 'center', marginBottom: '15px', fontWeight: '700', color: '#000' }}
+            >
+              {__('order.entry.submit_info1')}
+            </p>
             <div dangerouslySetInnerHTML={{ __html: sucModalHtml }} />
-            { console.log(sucModalHtml, 'sucModalHtml') } // TODO ceshi
           </Modal>
         </form>
       );

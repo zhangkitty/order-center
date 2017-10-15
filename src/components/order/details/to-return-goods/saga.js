@@ -25,8 +25,8 @@ function* saveSaga(action) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('sucModal', true));
-  yield put(commit('sucModalHtml', data.data.return_label_message));
-  return message.success(lan.osucess);
+  return yield put(commit('sucModalHtml', data.data.return_label_message));
+//  return message.success(lan.osucess);
 }
 
 export default function* () {
