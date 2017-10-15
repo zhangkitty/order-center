@@ -45,6 +45,22 @@ const addresName = {
   telephone: __('order.entry.address_telephone'),
   national_id: __('order.entry.address_national'),
 };
+const getCity = (data, state, city) => {
+  const obj = data.find(d => d.province_name === state);
+  let citySource = [];
+  let districtSource = [];
+  if (obj) {
+    citySource = obj.cities;
+    const obj2 = citySource.find(d => d.city_name === city);
+    if (obj2) {
+      districtSource = obj2.district;
+    }
+  }
+  return {
+    citySource,
+    districtSource,
+  };
+};
 export default (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.GET_INFO_SUCCESS:
@@ -89,6 +105,14 @@ export default (state = defaultState, action) => {
     case TYPES.GET_CITY:
       return assign({}, state, {
         provinceLoad: true,
+      });
+    case TYPES.GET_CITY_SUCCESS:
+      return assign({}, state, {
+        cities: action.data,
+        citySource: getCity(action.data, state.submitValue.state, state.submitValue.city)
+          .citySource,
+        districtSource: getCity(action.data, state.submitValue.state, state.submitValue.city)
+          .districtSource,
       });
     case TYPES.INFO_COMMIT:
       return assign({}, state, {

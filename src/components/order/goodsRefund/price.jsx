@@ -39,8 +39,10 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
           value={submitValue.shipping}
           onChange={(e) => {
             const value = Number(e.target.value);
-            const check = submitValue.refundPaths.find(v => v.refundTypeId > 1 && v.check);
-            if (!check) {
+            const gift = submitValue.refundPaths.find(v => +v.refundTypeId === 1);
+            const check = submitValue.refundPaths.find(v => v.refundTypeId > 1 && v.check) || {};
+            if (!gift && !check) {
+              // 没有礼品卡的情况下 要提示先选择一个退款路径
               return message.warning(__('order.goodsRefund.Please_choose_pay_method'));
             }
             dispatch(subchange('shipping', Number(value)));
@@ -57,8 +59,10 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
           value={submitValue.rlFee}
           onChange={(e) => {
             const value = Number(e.target.value);
-            const check = submitValue.refundPaths.find(v => v.refundTypeId > 1 && v.check);
-            if (!check) {
+            const gift = submitValue.refundPaths.find(v => +v.refundTypeId === 1);
+            const check = submitValue.refundPaths.find(v => v.refundTypeId > 1 && v.check) || {};
+            if (!gift && !check) {
+              // 没有礼品卡的情况下 要提示先选择一个退款路径
               return message.warning(__('order.goodsRefund.Please_choose_pay_method'));
             }
             dispatch(subchange('rlFee', value));

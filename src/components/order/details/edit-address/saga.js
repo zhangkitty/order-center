@@ -2,7 +2,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import * as TYPES from './types';
-import { getInfoSuccess, getInfoShow, getInfoShowSuccess, commit, getCity } from './action';
+import { getInfoSuccess, getInfoShow, getInfoShowSuccess, commit, getCity, getCitySuccess } from './action';
 import { getAddressInfo, getcitySer, editAddresSave, addressShow } from '../server';
 
 const lan = {
@@ -34,7 +34,7 @@ function* getCitySaga(action) {
     return yield put(commit('cities', []));
   }
   yield put(commit('provinceLoad', false));
-  return yield put(commit('cities', data.data.provinces || []));
+  return yield put(getCitySuccess(data.data.provinces || []));
 }
 function* saveSaga(action) {
   const data = yield editAddresSave(action.data);

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import assign from 'object-assign';
 import { Input, Select, Spin, Button, message } from 'antd';
 import { commit, getInfo, infoCommit, getCity, save, getInfoShow } from './action';
 import style from './style.css';
@@ -43,6 +44,7 @@ class EditAddress extends Component {
       state,
       city,
       district,
+      order_id,
     } = submitValue;
     if (ready) {
       return (
@@ -54,7 +56,7 @@ class EditAddress extends Component {
             const isDistrict = addressShow.find(v => v.key === 'district');
             let flag = true;
             temp.every(({ key }) => {
-              if (isDistrict && !district) {
+              if (isDistrict && districtSource.length && !district) {
                 message.warning(lan.need);
                 flag = false;
                 return false;
@@ -67,7 +69,12 @@ class EditAddress extends Component {
               flag = true;
               return true;
             });
-            return flag && dispatch(save(submitValue, billno));
+            const showSave = addressShow.map(v => ({ [v.key]: submitValue[v.key] }))
+            .reduce((cur, pre) => assign(cur, pre), {});
+            const res = district ?
+              assign({}, showSave, { order_id }) :
+              assign({}, showSave, { district: Symbol('noNeed'), order_id });
+            return flag && dispatch(save(res, billno));
           }}
         >
           <Spin spinning={show}>
@@ -162,6 +169,7 @@ class EditAddress extends Component {
                         if (obj) {
                           dispatch(commit('districtSource', obj.district));
                         } else {
+                          dispatch(infoCommit('district', ''));
                           dispatch(commit('districtSource', []));  // 置为空数组
                         }
                       }}
