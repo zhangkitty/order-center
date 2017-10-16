@@ -359,11 +359,11 @@ const Packge = (
                   <span>{v.package_status}</span>
                 </div>
                 <div>
-                  <span className={style.spanWidth}>{lan.qudao}: </span>
+                  <span className={style.packgeWidth}>{lan.qudao}: </span>
                   <span>{v.delivery_channel}</span>
                 </div>
                 <div>
-                  <span className={style.spanWidth}>{lan.huohao}: </span>
+                  <span className={style.packgeWidth}>{lan.huohao}: </span>
                   <span>{v.delivery_number}</span>
                 </div>
               </div>

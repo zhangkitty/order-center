@@ -127,7 +127,14 @@
     width: 100%;
 }
 .packgeL {
-    flex: 0 0 200px;
+    flex: 0 0 300px;
+}
+.packgeWidth {
+    min-width: 120px;
+    max-width: 160px;
+    display: inline-block;
+    text-align:right;
+    margin-right:5px;
 }
 
 .cardBottom table td,
