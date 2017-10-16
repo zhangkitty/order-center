@@ -587,7 +587,7 @@ class TabsHeader extends Component {
                   placeholder={__('common.choose')}
                 >
                   <Option key="1"> {__('common.guangzhou')}</Option>
-                  <Option key="0">{__('common.west')}</Option>
+                  <Option key="10">{__('common.west')}</Option>
                 </Select>
                 <Button
                   onClick={() => {
