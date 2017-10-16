@@ -5,9 +5,6 @@ import { Radio, Input, Checkbox, Select } from 'antd';
 import { changeChannelValue, change } from './action';
 import style from './style.css';
 
-const Option = Select.Option;
-
-
 const inline = {
   width: '100px',
   display: 'inline-block',
@@ -28,7 +25,6 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
   } else {
     Chan = Radio;
   }
-  const activeOne = channels[channels.length - 1].checked;
   return (<div className={style.space}>
     {
       channels.map(({
@@ -176,8 +172,11 @@ RefundChannelGroup.propTypes = {
   dispatch: PropTypes.func,
   maxTips: PropTypes.shape(),
 };
+
+// 将退款路径分组，RefundChannelGrop组件代表每一组
 const Price = ({ refundPaths, dispatch, maxTips }) => {
   const result = [];
+  // 根据reducer里面的channelType,将同一组的内容放到result中去
   refundPaths.forEach((item) => {
     result[item.channelType] = result[item.channelType] || [];
     result[item.channelType].push(item);
