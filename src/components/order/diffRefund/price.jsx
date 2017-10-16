@@ -153,7 +153,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
               }
               <Input
                 placeholder={__('order.entry.cash_content7')}
-                required
+                required={!(refundPathId == 4 && refundAmount == 0)}
                 style={{ width: 150, marginLeft: '10px' }}
                 disabled={!checked}
                 value={account}
