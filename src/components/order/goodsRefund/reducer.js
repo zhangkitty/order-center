@@ -138,7 +138,7 @@ const svInit = (source) => {
   }));
   const checks = arr.filter(v => v.refundTypeId > 1 && v.refundTypeId < 4);
   const check = checks.find(v => v.check); // 获取用户，钱包路径是否有被选中
-  if (check) {
+  if (check || arr.filter(v => v.refundTypeId === 1).length) {
     return arr;
   }
   const checkId = checks.sort((a, b) => a.refundTypeId - b.refundTypeId)[0].refundTypeId;
