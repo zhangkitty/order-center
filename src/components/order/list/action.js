@@ -52,6 +52,7 @@ export const openModalCgs = (goodsId, orderId, siteFrom) => (
   }
 );
 
+// 搜索
 export const search = data => ({
   type: TYPES.SEARCH,
   data,
@@ -64,6 +65,7 @@ export const searchFail = () => ({
   type: TYPES.SEARCH_FAIL,
 });
 
+// 高级搜索
 export const searchHigh = data => ({
   type: TYPES.SEARCH_HIGH,
   data,
@@ -76,6 +78,7 @@ export const searchHighFail = () => ({
   type: TYPES.SEARCH_HIGH_FAIL,
 });
 
+// 搜索历史订单
 export const searchHistory = data => ({
   type: TYPES.SEARCH_HISTORY,
   data,
@@ -213,11 +216,14 @@ export const delChangeFail = () => ({
   type: TYPES.DEL_CHANGE_FAIL,
 });
 
+// 批量操作 (废弃)
 export const batchOperate = (url, data) => ({
   type: TYPES.BATCH_OPERATE,
   url,
   data,
 });
+
+// 取消风控订单
 export const cancelRisk = id => ({
   type: TYPES.CANCEL_RISK,
   id,
@@ -227,6 +233,8 @@ export const cancelRiskSuccess = (data, id) => ({
   data,
   id,
 });
+
+// 取消订单标记
 export const cancelTroubleTag = (troubleId, orderId) => ({
   type: TYPES.CANCEL_TROUBLE_TAG,
   troubleId,
@@ -236,10 +244,14 @@ export const cancelTroubleTagSuccess = oid => ({
   type: TYPES.CANCEL_TROUBLE_TAG_SUCCESS,
   oid,
 });
+
+// 订单标记弹窗
 export const markTag = oid => ({
   type: TYPES.MARK_TAG,
   oid,
 });
+
+// 订单标记
 export const updateOrderTag = data => ({
   type: TYPES.UPDATE_ORDER_TAG,
   data,
