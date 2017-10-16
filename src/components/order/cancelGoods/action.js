@@ -9,16 +9,17 @@ export const change = (key, val) => ({
   val,
 });
 
+// 订单列表-商品退款申请获取的返回信息
 export const getData = (orderId, goodsId) => ({
   type: TYPES.GET_DATA,
   orderId,
   goodsId,
 });
-
 export const getDataSuccess = res => ({
   type: TYPES.GET_DATA_SUCCESS,
   res,
 });
+// 获取普通商品退款或COD取消商品原因、差价退款原因
 export const getReason = () => ({
   type: TYPES.GET_REASON,
 });
