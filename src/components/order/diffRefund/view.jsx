@@ -34,7 +34,7 @@ class DiffRefund extends Component {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              const refund_paths = refundPaths.filter(v => v.checked).map((x) => {
+              const refund_paths = refundPaths.filter(v => v.checked && Number(v.refundAmount) !== 0).map((x) => {
                 if (x.refund_method1) {
                   x.refund_method = x.refund_method1;
                 }
