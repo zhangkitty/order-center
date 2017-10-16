@@ -34,6 +34,8 @@ const getMax = d => ({
   4: (Number(d.totalPrice.priceUsd.amount) * 1.5),
   disabled: 0,
 });
+
+// 改变refundPaths里面的内容
 function changeChannelProp(refundPaths, { channel, key, val }) {
   const type = refundPaths.find(item => item.refundPathId === channel) || {}.channelType;
   const res = refundPaths.map((chan) => {
