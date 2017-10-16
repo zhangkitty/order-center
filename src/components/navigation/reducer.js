@@ -10,52 +10,40 @@ const menus = [
     icon: 'bars',
     children: [
       {
-        link: '/order',
+        link: '/order', // 订单列表
         name: __('common.order_list'),
         crumbName: __('common.order_list'),
         nav: true,
       }, {
-        link: '/order/goodsRefund',
+        link: '/order/goodsRefund', // 商品退款
         name: __('common.goods_refunds'),
         crumbName: __('common.goods_refunds'),
         nav: true,
       }, {
-        link: '/order/cancelGoods',
+        link: '/order/cancelGoods', // 取消商品
         name: __('common.choose_goods'),
         crumbName: __('common.choose_goods'),
         nav: true,
       }, {
-        link: '/order/diffRefund',
+        link: '/order/diffRefund', // 差价退款
         name: __('common.diff_refund'),
         crumbName: __('common.diff_refund'),
         nav: true,
       },
       {
-        link: '/order/details/modify-diff-refund',
-        name: __('common.modifyDiffRefund'),
-        crumbName: __('common.modifyDiffRefund'),
-        nav: true,
-      },
-      {
-        link: '/order/details/modify-goods-refund',
-        name: __('common.modifyDiffRefund'),
-        crumbName: __('common.modifyDiffRefund'),
-        nav: true,
-      },
-      {
-        link: '/order/details/entry',
+        link: '/order/details/entry', // 订单详情
         name: __('nav.order_details'),
         crumbName: __('nav.order_details'),
         nav: true,
       },
       {
-        link: '/order/details/edit-address',
+        link: '/order/details/edit-address', // 订单详情中的修改地址
         name: __('nav.order_details_edit_address'),
         crumbName: __('nav.order_details_edit_address'),
         nav: false,
       },
       {
-        link: '/order/details/to-return-goods',
+        link: '/order/details/to-return-goods', // 订单详情-退货
         name: __('nav.order_details_to_return_goods'),
         crumbName: __('nav.order_details_to_return_goods'),
         nav: false,
