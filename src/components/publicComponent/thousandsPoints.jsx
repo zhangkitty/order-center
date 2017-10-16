@@ -1,5 +1,6 @@
 /**
- * Create by liufeng on 2017/7/25
+ * Create by liufeng on 2017/9/15
+ * 千分位
  */
 import React from 'react';
 import styles from './style.css';

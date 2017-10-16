@@ -1,3 +1,7 @@
+/**
+ * Create by liufeng on 2017/9/15
+ * 分页
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Pagination } from 'antd';

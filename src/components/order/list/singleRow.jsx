@@ -216,7 +216,7 @@ const SingleRow = (props) => {
             Number(data.order_type) === 3 ? <Button className={Styles.ButtonBg}>{__('common.order_type')}</Button> : null
           }
           <span> {data.payment_method}</span>
-          <span>{__('common.total')}{data.usd_price} </span>
+          <span>{__('common.total')} {data.usd_price} </span>
           <span> {data.currency_price}</span>
         </div>
       </div>
