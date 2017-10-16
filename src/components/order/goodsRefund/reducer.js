@@ -58,7 +58,7 @@ const changePath = (value, data, flag) => {
 };
 const copyPayment = (data) => {
   const arr = data.refundPaths.filter(d => d.refundTypeId > 1);
-  const user = arr.find(v => v.refundTypeId === 2);
+  const user = arr.find(v => v.refundTypeId === 2) || {};
   const radio = arr.map(d => (
     Number(d.refundTypeId) === 3 ?
       assign({}, d, {
@@ -114,7 +114,7 @@ const svInit = (source) => {
   const priceObj = originPrice(
     Number(source.orderPriceInfo.waitRefundPrice.priceUsd.amount || 0),
     source);
-  const obj = source.orderRefundPathList.map(v => ({
+  const arr = source.orderRefundPathList.map(v => ({
     refundTypeId: v.refundPathId,
     isShow: (Number(v.refundPathId) === 1 && Number(maxObj[v.refundPathId]) > 0) ||
     (Number(v.refundPathId) > 1 && Number(v.refundPathId) !== 4),
@@ -136,7 +136,13 @@ const svInit = (source) => {
     refund_method: '',
     account: '',
   }));
-  return obj;
+  const checks = arr.filter(v => v.refundTypeId > 1 && v.refundTypeId < 4);
+  const check = checks.find(v => v.check); // 获取用户，钱包路径是否有被选中
+  if (check) {
+    return arr;
+  }
+  const checkId = checks.sort((a, b) => a.refundTypeId - b.refundTypeId)[0].refundTypeId;
+  return arr.map(v => (v.refundTypeId === checkId ? assign({}, v, { check: true }) : v));
 };
 
 /**
