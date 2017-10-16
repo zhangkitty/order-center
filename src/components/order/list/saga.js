@@ -170,7 +170,7 @@ function* delChangeSaga(action) {
   return yield put(delChangeSuccess(action.oid, action.gid, action.sort));
 }
 
-// 批量操作
+// 批量操作 (废弃)
 function* batchOperateSaga(action) {
   const data = yield batchOperateSer(action.url, action.data);
   if (!data || data.code !== 0) {

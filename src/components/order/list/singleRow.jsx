@@ -398,7 +398,7 @@ const SingleRow = (props) => {
                     }
                   </div>
                 }
-                onConfirm={() => {
+                onConfirm={() => { // 取消订单标记
                   if (Number(data.is_trouble) > 0) {
                     dispatch(cancelTroubleTag(0, data.order_id)); // data.is_trouble,取消传0
                   }
@@ -406,14 +406,14 @@ const SingleRow = (props) => {
                 okText={__('common.submitName2')}
                 cancelText={__('common.submitName3')}
               >
-                <Button
+                <Button  // 取消风控订单
                   className={Styles.haveRemark}
                   onClick={() =>
                     (Number(data.is_trouble) === 3 && dispatch(cancelRisk(data.order_id)))}
                 >{orderTagName[data.is_trouble]}</Button>
               </Popconfirm>
               :
-              <Button
+              <Button // 订单标记弹窗
                 onClick={() => dispatch(markTag(data.order_id))}
               >{orderTagName[data.is_trouble]}</Button>
           }
