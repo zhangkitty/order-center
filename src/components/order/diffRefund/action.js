@@ -3,7 +3,7 @@
  */
 import * as TYPES from './types';
 
-
+// 获取订单差价退款金额信息(查询)
 export const initPriceInfo = data => ({
   type: TYPES.INIT_PRICEINFO,
   data,
@@ -16,7 +16,7 @@ export const initPriceInfoFail = () => ({
   type: TYPES.INIT_PRICEINFO_FAIL,
 });
 
-
+// 获取普通商品退款或COD取消商品原因、差价退款原因
 export const initReasonList = data => ({
   type: TYPES.INIT_REASONLIST,
   data,
