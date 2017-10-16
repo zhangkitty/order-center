@@ -1,3 +1,7 @@
+/**
+ * Create by xvliuzhu on 2017/9/20
+ * 订单详情
+ */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';

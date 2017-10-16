@@ -1,3 +1,7 @@
+/**
+ *  Create by xvliuzhu on 2017/9/25
+ *  退款详情
+ */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

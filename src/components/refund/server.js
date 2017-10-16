@@ -1,5 +1,5 @@
 /**
- * Create by liufeng on 2017/6/28
+ * Create by liufeng on 2017/9/28
  */
 import assign from 'object-assign';
 import fetch from '../../lib/fetch';

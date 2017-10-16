@@ -1,5 +1,6 @@
 /**
  * Create by liufeng on 2017/9/7
+ * 已品控（编辑）
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';

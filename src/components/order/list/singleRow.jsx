@@ -220,6 +220,8 @@ const SingleRow = (props) => {
           <span> {data.currency_price}</span>
         </div>
       </div>
+
+      {/* order goods */}
       <div className={Styles.orderTable}>
         <Table
           rowKey="order_goods_id"

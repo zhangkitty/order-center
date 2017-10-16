@@ -1,5 +1,6 @@
 /**
- *  Create by liufeng on 2017/6/28
+ *  Create by xvliuzhu on 2017/9/20
+ *  商品退款
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
