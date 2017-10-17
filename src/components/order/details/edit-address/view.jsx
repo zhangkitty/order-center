@@ -194,7 +194,7 @@ class EditAddress extends Component {
                   ((country_value === 'SA' && !!districtSource.length) || country_value !== 'SA')
                   &&
                   <div className={style.space}>
-                    <span className={style.spanWidth}>{validate && Star}{__('order.entry.address_district')}:</span>
+                    <span className={style.spanWidth}>{(validate || country_value === 'SA') && Star}{__('order.entry.address_district')}:</span>
                     <Select
                       value={district}
                       style={{ width: '30%' }}
