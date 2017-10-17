@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Modal, Input, Button, message } from 'antd';
+import { Modal, Input, Button, message, Select } from 'antd';
 import { commit, addRemark, rejectInfoAction, doRefund, refundTxnId, reverseRefundAction, reverseRefundSave } from './action';
 import styles from './style.css';
+
+const star = (<span style={{ color: 'red' }}>*</span>);
 
 const lan = {
   备注信息: __('common.content_name1'),
@@ -26,6 +28,7 @@ const lan = {
   重新退款: __('refund.details.info_renfund_agian'),
 };
 const TA = Input.TextArea;
+const Option = Select.Option;
 const Modals = ({
                   remarkInfo,
                   addRemarkInfo,
@@ -253,15 +256,33 @@ const Modals = ({
         }}
       >
         <div className={styles.addRemarkArea}>
-          <span className={styles.addRemarkSpan}>{lan.退款路径}</span>
-          <Input
+          <span className={styles.addRemarkSpan}>{lan.退款路径}{star}</span>
+          <Select
             required
+            className={styles.colSpace}
             value={reverseRefund.data.refund_method}
-            onChange={e => dispatch(reverseRefundAction('refund_method', e.target.value))}
+            onChange={e => dispatch(reverseRefundAction('refund_method', e))}
+            placeholder={__('common.choose')}
+          >
+            <Option key={__('common.refund_details1')} >{__('common.refund_details1')}</Option>
+            <Option key={__('common.refund_details2')} >{__('common.refund_details2')}</Option>
+            <Option key={__('common.refund_details3')} >{__('common.refund_details3')}</Option>
+            <Option key={__('common.refund_details4')} >{__('common.refund_details4')}</Option>
+            <Option key={__('common.refund_details5')} >{__('common.refund_details5')}</Option>
+            <Option key={__('common.refund_details6')} >{__('common.refund_details6')}</Option>
+            <Option key={__('common.refund_details7')} >{__('common.refund_details7')}</Option>
+            <Option key={__('common.refund_details8')} >{__('common.refund_details8')}</Option>
+          </Select>
+          {/*
+          <Input
+          required
+          value={reverseRefund.data.refund_method}
+          onChange={e => dispatch(reverseRefundAction('refund_method', e.target.value))}
           />
+          */}
         </div>
         <div className={styles.addRemarkArea} style={{ marginTop: '10px' }}>
-          <span className={styles.addRemarkSpan}>{lan.退款交易号}</span>
+          <span className={styles.addRemarkSpan}>{lan.退款交易号}{star}</span>
           <Input
             value={reverseRefund.data.refund_txn_id}
             onChange={e => dispatch(reverseRefundAction('refund_txn_id', e.target.value))}

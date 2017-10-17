@@ -119,6 +119,14 @@ module.exports = {
   change_refund3: '退款原因: ',
   change_refund4: '退款类型: ',
   change_refund5: '驳回原因: ',
+  refund_details1: 'PayPal',   // 退款详情
+  refund_details2: 'masapay',
+  refund_details3: 'worldpay',
+  refund_details4: 'oceanpay',
+  refund_details5: 'Paytm',
+  refund_details6: 'PayU',
+  refund_details7: 'yes bank',
+  refund_details8: '其他',
   fetch_title1: '没有权限操作!',  // fetch
   fetch_title2: '服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_',
 };

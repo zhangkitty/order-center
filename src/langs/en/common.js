@@ -119,6 +119,14 @@ module.exports = {
   change_refund3: 'Refund Reasons: ',
   change_refund4: 'Refund Type: ',
   change_refund5: 'Reject Reasons: ',
+  refund_details1: 'PayPal',   // 退款详情
+  refund_details2: 'masapay',
+  refund_details3: 'worldpay',
+  refund_details4: 'oceanpay',
+  refund_details5: 'Paytm',
+  refund_details6: 'PayU',
+  refund_details7: 'yes bank',
+  refund_details8: '其他',
   fetch_title1: 'No permission to operate!',  // fetch
   fetch_title2: 'The server responds with an error, try refreshing the retry, or contact the developer for help  _(:3 」∠)_',
 };
