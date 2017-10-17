@@ -12,13 +12,23 @@ const languages = {
 module.exports = Object.keys(languages).map((lang) => ({
   entry: {
     app: ['babel-polyfill', './src/entry.jsx'],
-    common: ['react', 'antd', 'redux-saga', 'react-dom', 'redux', 'react-redux', 'react-router'],
+    common: ['react', 'antd','redux-saga', 'react-dom', 'redux', 'react-redux', 'react-router', 'whatwg-fetch'],
   },
   output: {
     filename: '[name].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
     path: path.join(__dirname, 'dist', lang),
     publicPath: 'dist/' + lang + '/'
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.scss', '.css', '.json'],
+  },
+  externals: {
+    antd: 'window.antd',
+    react: 'window.React',
+    'react-dom': 'window.ReactDOM',
+    moment: 'window.moment',
+    'babel-polyfill': 'window.undefined'
   },
   module: {
     rules: [
@@ -38,7 +48,7 @@ module.exports = Object.keys(languages).map((lang) => ({
       },
       {
         test: /\.css$/,
-        loaders: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[path]__[local]-[hash:base64:5]'],
+        loaders: ['style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[path]__[local]-[hash:base64:5]', 'postcss-loader'],
       },
       {
         test: /\.(ttf|eot|svg|woff)/,
@@ -64,7 +74,7 @@ module.exports = Object.keys(languages).map((lang) => ({
     new webpack.DefinePlugin({
       process: {
         env: {
-          // BASE_URI: JSON.stringify('/index_new.php/Home'),
+          BASE_URI: JSON.stringify('/index_new.php/Order'),
           NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
           LOCALE: JSON.stringify(lang),
         },

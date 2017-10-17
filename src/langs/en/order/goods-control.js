@@ -1,0 +1,26 @@
+module.exports = {
+  channel_title: 'Feedback Origins explanation:',
+  channel_title1: 'TKs Feedback: Clients feedback the issues to customer service by submiting tickets ',
+  channel_title2: 'Payment Platform : Issues submitted from PayPal/wp by clients',
+  channel_title3: 'Advertising Platform: Issues submitted from the third party platform of reviews(for example:trustpilot)',
+  channel_title4: 'Product Reviews: Customers leave the item reviews directly on the item page',
+  channel_title5: 'QC Feedback: Issues submitted by QC when they are checking the return items',
+  channel_title6: 'Other Website Feedback: Customer feedback of the orders from platform website such as Amazon,AliExpress,etc',
+  channel_title7: 'Return center: Quality assessment issues are formed automatically after customers apply return online',
+  channel_title8: 'Blogger/Celebrity Review: Issues received from the items promoted by gurus',
+  order_number: 'Order NO.',
+  control_goods: 'Assessment Items',
+  control_channel: 'Feedback Origins',
+  control_type: 'Assessment Type',
+  control_img: 'Images(2 Images limited)',
+  control_title: '(Only jpg、jpeg/png allowed,single image size not exceed 3M )',
+  submitName: 'Save',    // 提交name
+  submitName1: 'Cancel',
+  submitName2: 'xxxx',
+  submitName3: 'Submit',
+  submitName4: 'Reset',
+  submitTitle: 'Upload picture size not exceed of 3M',    // 提交提示
+  submitTitle1: 'Please upload correct picture format',
+  submitTitle2: 'Upload complete',
+  submitTitle3: 'Upload failed',
+};

@@ -1,0 +1,204 @@
+.content {
+    padding:20px;
+    color: #000;
+    font-size: 14px;
+}
+.filterBg {
+    word-wrap: break-word ;
+}
+.rowSpace{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    color: rgba(0,0,0, .8);
+}
+.rowSpaceList {
+    min-width: 260px;
+    max-width: 470px;
+    margin: 5px 0 5px 15px;
+}
+.rowSpace{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    color: rgba(0,0,0, .8);
+}
+.batchBg {  }
+.batchBg > button { margin: 0 15px 0 0;  }
+.batchBg > span { margin: 0 5px 0 0;  }
+
+form .colSpace, .colSpace{
+    width:150px;
+    display: inline-block;
+}
+form .colSpace2{
+    width:330px;
+    display: inline-block;
+}
+.filterSpace {
+    margin-bottom: 20px;
+}
+.filterName {
+    min-width:130px;
+    max-width:195px;
+    display: inline-block;
+    text-align:right;
+    padding-right:10px;
+    vertical-align: middle;
+}
+.filterButton {
+    margin: 0 10px 0 36px;
+}
+.table_bg {
+    margin-top:15px;
+}
+.orderList {
+    margin-bottom:10px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #e9e9e9;
+}
+.orderTitle {
+    width:100%;
+    border-bottom:1px solid #e9e9e9;
+    padding:10px 20px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e5e5e5;  /* f0f0f0 */
+}
+.orderTable { width:71%;}
+.orderOperateBg {
+    border-left:1px solid #e9e9e9;
+    width: 28%;
+}
+.orderOperate {
+    width: 330px;
+    margin:0 auto;
+    text-align: center;
+}
+.orderOperate > button, .orderOperate > a  {
+    width: 150px;
+    margin: 6px;
+}
+.orderOperate > a  {
+    display: inline-block;
+    color: rgba(0,0,0,.65);
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    line-height: 26px;
+}
+.orderOperate > a:hover {
+    color: #108ee9;
+    border-color: #108ee9;
+}
+.orderTitleL {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+}
+.orderTitleR {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+    padding-right:20px;
+    align-items: center;
+}
+.orderTitleL > span, .orderTitleR > span {
+    margin-left: 20px;
+}
+.orderTitleR > span {
+    /*margin-right: 20px;*/
+}
+.orderSelect {
+    position: absolute;
+    left:0;
+    top: 40px;
+    z-index: 100;
+}
+.ButtonBg {
+    background: #f00;
+    border: none;
+    color: #fff;
+    margin-right:30px;
+}
+.buttonBorderBg {
+    display: flex;
+    flex-direction: column;
+    color:#49a9ee;
+}
+.buttonBorder, .buttonBorderBg > span {
+    margin: 5px;
+    cursor: pointer;
+    outline: 0;
+    text-align: center;
+}
+.operatingTable {
+    width: 400px;
+    maxHeight: 300px;
+    overflow: auto;
+}
+.tableFloat {
+    background-color: #fff;
+    border-radius: 5px;
+    width: 600px;
+    color: #333;
+}
+.tableFloat2 {
+    background-color: #fff;
+    border-radius: 5px;
+    width: 400px;
+    color: #333;
+}
+.haveRemark {
+    color:#f00;
+    border-color: #f00;
+}
+.tableFloat table td, .tableFloat2 textarea,
+.operatingTable table td
+{ color: #333; }
+.refuseReason {
+    margin-left:5px;
+    color: #333;
+}
+
+/* trouble order */
+.troubleBg {
+    padding:20px 20px 0;
+    color: #333;
+}
+.troubleBg > span {
+    vertical-align: top;
+    width: 100px;
+    display: inline-block;
+}
+.troubleContent {
+    width: 300px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+
+/*  */
+.changeMargin {
+    width: 200px;
+    margin: 0 15px 15px 0;
+}
+.changeButton {
+    margin: 15px 0 0 100px;
+}
+.changeSpan {
+    width: 100px;
+    display: inline-block;
+}
+
+.fontColor {
+    color: #333;
+}
