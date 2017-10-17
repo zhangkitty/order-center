@@ -38,8 +38,9 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                       account,
                       refund_method,
                       refund_method1,
+                      isShow,
       }) => (
-        <div key={refundPathId}>
+        <div key={refundPathId} style={{ display: !isShow ? 'none' : 'block' }}>
           <div className={style.spaceCon}>
             <div className={style.moneyName}>
               { refundPathId !== 4 ?
