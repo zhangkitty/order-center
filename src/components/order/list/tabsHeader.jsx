@@ -317,7 +317,7 @@ class TabsHeader extends Component {
                   e.preventDefault();
                   const tempHigh = (moment(paytimeEnd)).unix() - (moment(paytimeStart)).unix();
                   if ((!paytimeStart2 || !paytimeEnd2) && (!handleTimeStart || !handleTimeEnd)) {
-                    return message.warning(__('common.submitTitle1'));
+                    return message.warning(__('common.submitTitle1')); // 缺少时间
                   } else if (moment(paytimeStart2).valueOf() > moment(paytimeEnd2).valueOf()) {
                     return message.warning(__('order.name.time_interval_large1'));
                   } else if (moment.unix(tempHigh).dayOfYear() > 32) {
@@ -329,8 +329,8 @@ class TabsHeader extends Component {
                     queryString2,
                     {
                       pageNumber: 1,
-                      paytimeStart: moment(paytimeStart2).format('YYYY-MM-DD HH:mm:ss'),
-                      paytimeEnd: moment(paytimeEnd2).format('YYYY-MM-DD HH:mm:ss'),
+                      paytimeStart: paytimeStart2 ? moment(paytimeStart2).format('YYYY-MM-DD HH:mm:ss') : null,
+                      paytimeEnd: paytimeEnd2 ? moment(paytimeEnd2).format('YYYY-MM-DD HH:mm:ss') : null,
                       countryName: countryName2,
                       siteFrom: siteFrom2,
                       paymentMethod: paymentMethod2,

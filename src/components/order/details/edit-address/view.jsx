@@ -49,6 +49,7 @@ class EditAddress extends Component {
       city,
       district,
       order_id,
+      country_value,
     } = submitValue;
     if (ready) {
       return (
@@ -173,7 +174,9 @@ class EditAddress extends Component {
                         if (obj) {
                           dispatch(commit('districtSource', obj.district));
                         } else {
-                          dispatch(infoCommit('district', ''));
+                          if (country_value === 'SA') {
+                            dispatch(infoCommit('district', ''));
+                          }
                           dispatch(commit('districtSource', []));  // 置为空数组
                         }
                       }}
@@ -187,9 +190,11 @@ class EditAddress extends Component {
                   </div>
                 }
                 {
-                  key === 'district' && !!districtSource.length &&
+                  key === 'district' &&
+                  ((country_value === 'SA' && !!districtSource.length) || country_value !== 'SA')
+                  &&
                   <div className={style.space}>
-                    <span className={style.spanWidth}>{Star}{__('order.entry.address_district')}:</span>
+                    <span className={style.spanWidth}>{(validate || country_value === 'SA') && Star}{__('order.entry.address_district')}:</span>
                     <Select
                       value={district}
                       style={{ width: '30%' }}
