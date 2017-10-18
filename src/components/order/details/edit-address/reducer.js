@@ -26,9 +26,14 @@ const defaultState = {
     address_line_2: '',
     post: '',
     telephone: '',
-    country_value: '',
+    country_value: '',  //
+    english_name: '',  // 英文名
+    passport_number: '',  // 护照号
+    issue_place: '',  // 签发地址
+    issue_date: '',  // 签发日期
   },
 };
+// 提交字段名: 页面显示名称
 const addresName = {
   gender: __('order.entry.address_gender'),
   first_name: __('order.entry.address_first'),
@@ -43,7 +48,11 @@ const addresName = {
   address_line_2: __('order.entry.address2'),
   post: __('order.entry.address_post'),
   telephone: __('order.entry.address_telephone'),
-  national_id: __('order.entry.address_national'),
+  national_id: __('order.entry.address_national'),  // 身份证
+  english_name: __('order.entry.address_english'),  // 英文名
+  passport_number: __('order.entry.address_passport'),  // 护照号
+  issue_place: __('order.entry.address_place'),  // 签发地址
+  issue_date: __('order.entry.address_issue'),  // 签发日期
 };
 const getCity = (data, state, city) => {
   const obj = data.find(d => d.province_name === state);
@@ -64,7 +73,7 @@ const getCity = (data, state, city) => {
 export default (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.GET_INFO_SUCCESS:
-      return assign({}, state, {
+      return assign({}, state, { // 页面初始化，赋值
         country_list: action.data.country_list,
         submitValue: assign({}, state.submitValue, {
           order_id: state.orderId,
@@ -82,7 +91,11 @@ export default (state = defaultState, action) => {
           address_line_1: action.data.address_line_1,
           address_line_2: action.data.address_line_2,
           post: action.data.post,
-          telephone: action.data.telephone,
+          telephone: action.data.telephone,  // 电话号
+          english_name: action.data.english_name,
+          passport_number: action.data.passport_number,
+          issue_place: action.data.issue_place,
+          issue_date: action.data.issue_date,
         }),
       });
     case TYPES.GET_INFO_SHOW:
@@ -94,7 +107,7 @@ export default (state = defaultState, action) => {
         ready: true,
         addressShow: action.data.map(v => assign({
           name: addresName[Object.keys(v)[0]] || Object.keys(v)[0],
-          validate: Object.values(v)[0] === 1,
+          validate: Object.values(v)[0] === 1,  // 必填
           key: Object.keys(v)[0],
         })),
         show: false,

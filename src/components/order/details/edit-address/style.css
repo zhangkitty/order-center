@@ -13,4 +13,5 @@
 }
 .space {
     margin-top: 15px;
+    display: flex;
 }
