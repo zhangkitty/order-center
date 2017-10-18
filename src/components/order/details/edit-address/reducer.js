@@ -71,6 +71,7 @@ export default (state = defaultState, action) => {
           site_from: action.data.site_from,
           gender: action.data.gender,
           first_name: action.data.first_name,
+          father_name: action.data.father_name,
           last_name: action.data.last_name,
           country_id: action.data.country_id,
           country_value: action.data.country_list.find(v => v.id === action.data.country_id).value,
