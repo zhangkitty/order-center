@@ -1,12 +1,14 @@
 /**
  * Create by xvliuzhu on 2017/9/20
  * 订单详情- 地址编辑
+ * 刘峰 2017-10-18 11:45:53 俄罗斯地址新增护照号信息 （44690）
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Input, Select, Spin, Button, message } from 'antd';
+import { Input, Select, Spin, Button, message, DatePicker } from 'antd';
+import moment from 'moment';
 import { commit, getInfo, infoCommit, getCity, save, getInfoShow } from './action';
 import style from './style.css';
 
@@ -50,6 +52,7 @@ class EditAddress extends Component {
       district,
       order_id,
       country_value,
+      issue_date,
     } = submitValue;
     if (ready) {
       return (
@@ -86,8 +89,9 @@ class EditAddress extends Component {
             {
             addressShow.map(({ name, validate, key }) => (
               <div key={key}>
+                {/* 不是下拉框，输入框 */}
                 {
-                  key !== 'country_id' && key !== 'state' && key !== 'city' && key !== 'district' && key !== 'address_line_1' && key !== 'address_line_2' &&
+                  key !== 'country_id' && key !== 'state' && key !== 'city' && key !== 'district' && key !== 'address_line_1' && key !== 'address_line_2' && key !== 'issue_date' &&
                   <div className={style.space}>
                     <span className={style.spanWidth}>{validate && Star}{name}:</span>
                     <Input
@@ -98,6 +102,8 @@ class EditAddress extends Component {
                     />
                   </div>
                 }
+                {/* 不是下拉框 */}
+                {/* country 国家 */}
                 {
                   key === 'country_id' &&
                   <div className={style.space}>
@@ -125,6 +131,7 @@ class EditAddress extends Component {
                     </Select>
                   </div>
                 }
+                {/* state 州/省 */}
                 {
                   key === 'state' &&
                   <div className={style.space}>
@@ -222,6 +229,24 @@ class EditAddress extends Component {
                       value={submitValue[key]}
                       style={{ width: '30%' }}
                       onChange={e => dispatch(infoCommit(key, e.target.value))}
+                    />
+                  </div>
+                }
+                {/* passport  签发日期 */}
+                {
+                  key === 'issue_date' &&
+                  <div className={style.space}>
+                    <span className={style.spanWidth}>{validate && Star}{__('order.entry.address_issue')}:</span>
+                    <DatePicker
+                      // style={{ width: '150px' }}
+                      required={validate}
+                      allowClear={false}
+                      showTime
+                      format="DD.MM.YYYY"
+                      value={issue_date ? moment(issue_date, 'DD.MM.YYYY') : null}
+                      onChange={(value, str) => {
+                        dispatch(infoCommit('issue_date', str));
+                      }}
                     />
                   </div>
                 }

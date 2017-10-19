@@ -41,17 +41,20 @@
 .cardBottom {
     margin-bottom: 20px;
 }
-
+.addressList {
+    display: flex;
+    margin-top: 5px;
+    line-height: 15px;
+}
 .emailStyle {
     width: 200px;
     float: left;
     margin-right: 5px;
 }
 .emailUpdate {
-    border: none;
     color: #108ee9;
-    padding: 0 5px;
     text-decoration: underline;
+    flex: 0 0 50px;
 }
 .emailUpdate:hover {
     text-decoration: none;
