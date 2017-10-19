@@ -52,6 +52,7 @@ class EditAddress extends Component {
       district,
       order_id,
       country_value,
+      issue_date,
     } = submitValue;
     if (ready) {
       return (
@@ -90,7 +91,7 @@ class EditAddress extends Component {
               <div key={key}>
                 {/* 不是下拉框，输入框 */}
                 {
-                  key !== 'country_id' && key !== 'state' && key !== 'city' && key !== 'district' && key !== 'address_line_1' && key !== 'address_line_2' &&
+                  key !== 'country_id' && key !== 'state' && key !== 'city' && key !== 'district' && key !== 'address_line_1' && key !== 'address_line_2' && key !== 'issue_date' &&
                   <div className={style.space}>
                     <span className={style.spanWidth}>{validate && Star}{name}:</span>
                     <Input
@@ -231,35 +232,27 @@ class EditAddress extends Component {
                     />
                   </div>
                 }
+                {/* passport  签发日期 */}
+                {
+                  key === 'issue_date' &&
+                  <div className={style.space}>
+                    <span className={style.spanWidth}>{validate && Star}{__('order.entry.address_issue')}:</span>
+                    <DatePicker
+                      // style={{ width: '150px' }}
+                      required={validate}
+                      allowClear={false}
+                      showTime
+                      format="DD.MM.YYYY"
+                      value={issue_date ? moment(issue_date, 'DD.MM.YYYY') : null}
+                      onChange={(value, str) => {
+                        dispatch(infoCommit('issue_date', str));
+                      }}
+                    />
+                  </div>
+                }
               </div>
             ))
           }
-            {/* passport  护照号 */}
-            <div className={style.space}>
-              <span className={style.spanWidth}>{name}:</span>
-              <Input
-              //  value={submitValue[key]}
-                value={submitValue.passport}
-                style={{ width: '30%' }}
-              //  required={validate}  // 必填
-              //  onChange={e => dispatch(infoCommit(key, e.target.value))}
-                onChange={e => dispatch(infoCommit(submitValue.passport, e.target.value))}
-              />
-            </div>
-            <div className={style.space}>
-              <span className={style.spanWidth}>{name}:</span>
-              <DatePicker
-               // style={{ width: '150px' }}
-                allowClear={false}
-                showTime
-                format="DD.MM.YY"
-              //  value={paytimeStart ? moment(paytimeStart) : null}
-                value={submitValue.date ? moment(submitValue.date) : null}
-                onChange={(value, str) => {
-                  dispatch(infoCommit('submitValue.date', str));
-                }}
-              />
-            </div>
             <div style={{ marginTop: '15px' }}>
               <span className={style.spanWidth} />
               <Button onClick={() => dispatch(commit('submitValue', { order_id: orderId }))}>{lan.reset}</Button>

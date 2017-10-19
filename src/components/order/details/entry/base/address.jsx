@@ -63,16 +63,17 @@ const Address = (
     <Card
       title={__('order.entry.shipping_address')}
       className={style.cardStyle}
+      bodyStyle={{ padding: '24px 10px' }}
     >
       <div className={style.baseContent}>
         <div style={{ width: '50%' }}>
           <Button
-            style={{ position: 'absolute', right: '10px' }}
+            style={{ position: 'absolute', right: '10px', top: '55px' }}
             onClick={() => hashHistory.push(`/order/details/edit-address/${orderId}/${billno}`)}
           >{lan.edit}</Button>
           {
             info.sadrr.left.map(v => (
-              <div key={v.key}>
+              <div key={v.key} className={style.addressList}>
                 <span className={style.spanWidth}>{ v.name }:</span>
                 <span style={{ marginRight: '5px' }}>{shipping_address[v.key]}</span>
                 {
@@ -102,7 +103,10 @@ const Address = (
                       visible={emailShow}
                       onVisibleChange={d => dispatch(commit('emailShow', d))}
                     >
+                      {/*
                       <Button className={style.emailUpdate}>{lan.update}</Button>
+                      */}
+                      <a className={style.emailUpdate}>{lan.update}</a>
                     </Popover>
                     : null
                 }
@@ -113,7 +117,7 @@ const Address = (
         <div>
           {
             info.sadrr.right.map(v => (
-              <div key={v.key}>
+              <div key={v.key} className={style.addressList}>
                 <span className={style.spanWidth}>{ v.name }:</span>
                 <span>{shipping_address[v.key]}</span>
               </div>
@@ -125,12 +129,13 @@ const Address = (
     <Card
       title={__('order.entry.billing_address')}
       className={style.cardStyle}
+      bodyStyle={{ padding: '24px 10px' }}
     >
       <div className={style.baseContent}>
         <div style={{ width: '50%' }}>
           {
             info.badrr.left.map(v => (
-              <div key={v.key}>
+              <div key={v.key} className={style.addressList}>
                 <span className={style.spanWidth}>{ v.name }:</span>
                 <span>{billing_address[v.key]}</span>
               </div>
@@ -140,7 +145,7 @@ const Address = (
         <div>
           {
             info.badrr.right.map(v => (
-              <div key={v.key}>
+              <div key={v.key} className={style.addressList}>
                 <span className={style.spanWidth}>{ v.name }:</span>
                 <span>{billing_address[v.key]}</span>
               </div>

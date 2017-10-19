@@ -1,4 +1,5 @@
 import assign from 'object-assign';
+import moment from 'moment';
 import * as TYPES from './types';
 
 const defaultState = {
@@ -30,7 +31,7 @@ const defaultState = {
     english_name: '',  // 英文名
     passport_number: '',  // 护照号
     issue_place: '',  // 签发地址
-    issue_date: '',  // 签发日期
+    issue_date: moment(),  // 签发日期
   },
 };
 // 提交字段名: 页面显示名称
@@ -92,10 +93,10 @@ export default (state = defaultState, action) => {
           address_line_2: action.data.address_line_2,
           post: action.data.post,
           telephone: action.data.telephone,  // 电话号
-          english_name: action.data.english_name,
-          passport_number: action.data.passport_number,
-          issue_place: action.data.issue_place,
-          issue_date: action.data.issue_date,
+          english_name: action.data.english_name, // 英文名
+          passport_number: action.data.passport_number, // 护照号
+          issue_place: action.data.issue_place,  // 签发地址
+          issue_date: action.data.issue_date, // 签发日期
         }),
       });
     case TYPES.GET_INFO_SHOW:

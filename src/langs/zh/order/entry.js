@@ -23,7 +23,7 @@ module.exports = {
   address_father: 'Father Name',
   address_street: 'Street',
   address_national: 'National ID',
-  address_english: '英文名',
+  address_english: 'English Name',
   address_passport: '护照号码',
   address_place: '签发地址',
   address_issue: '签发日期',
