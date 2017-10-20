@@ -10,7 +10,7 @@ import queryString from '../../lib/query-string';
 const list = {
   init: '/Order/orderList',    // 普通搜索
   initHigh: '/Order/orderListAdv',    // 高级搜索
-  initData: '/Order/getSearchConfig',    // 初始化数据(国家,站点,支付方式,问题件类型,会员等级,订单状态等)
+  initData: '/Order/getSearchConfig',    // 初始化数据(国家,站点,支付方式等)
   operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
   orderRemark: '/order/remark',  // 备注查询
   orderSaveRemark: '/order/saveRemark',  // 添加备注
@@ -42,14 +42,14 @@ const goodsRefund = {
 
 export const searchSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'trouble_user', 'totalSelect', 'totalInput'];
-  return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
+  return fetch(`${list.init}?${camel2Under(queryString(keys, page))}`, {
     method: 'GET',
   })
 };
 
 export const seachHighSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'yoho_count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd',];
-  return fetch(`${list.initHigh}?${queryString(camel2Under(keys), camel2Under(page))}`, {
+  return fetch(`${list.initHigh}?${camel2Under(queryString(keys, page))}`, {
     method: 'GET',
   })
 };
@@ -57,10 +57,11 @@ export const seachHighSubmit = (page) => {
 // history order
 export const seachHistorySubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'siteFrom', 'memberId'];
-  return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
+  return fetch(`${list.init}?${camel2Under(queryString(keys, page))}`, {
     method: 'GET',
   })
 };
+
 
 // 初始化数据
 export const initDataSer = () => (
