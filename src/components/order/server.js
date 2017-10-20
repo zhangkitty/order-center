@@ -50,14 +50,14 @@ const goodsRefund = {
 
 export const searchSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'trouble_user', 'totalSelect', 'totalInput'];
-  return fetch(`${list.init}?${camel2Under(queryString(keys, page))}`, {
+  return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })
 };
 
 export const seachHighSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'yoho_count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd',];
-  return fetch(`${list.initHigh}?${camel2Under(queryString(keys, page))}`, {
+  return fetch(`${list.initHigh}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })
 };
@@ -65,64 +65,10 @@ export const seachHighSubmit = (page) => {
 // history order
 export const seachHistorySubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'siteFrom', 'memberId'];
-  return fetch(`${list.init}?${camel2Under(queryString(keys, page))}`, {
+  return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })
 };
-
-// 废弃，初始化数据里有
-// // 国家
-// export const initCountrySer = () => (
-//   fetch(list.initCountry, {
-//     method: 'GET',
-//   })
-// );
-//
-// // 站点
-// export const initSiteSer = () => (
-//   fetch(list.initSite, {
-//     method: 'GET',
-//   })
-// );
-//
-// // 支付方式
-// export const initPaymentSer = () => (
-//   fetch(list.initPayment, {
-//     method: 'GET',
-//   })
-// );
-//
-// // 问题件类型
-// export const initTroubleSer = () => (
-//   fetch(list.initTrouble, {
-//     method: 'GET',
-//   })
-// );
-//
-// // 会员等级
-// export const initMemberSer = () => (
-//   fetch(list.initMember, {
-//     method: 'GET',
-//   })
-// );
-// // 订单状态
-// export const initOrderSer = () => (
-//   fetch(list.initOrder, {
-//     method: 'GET',
-//   })
-// );
-// // 取消类型
-// export const initCancelSer = () => (
-//   fetch(list.initCance, {
-//     method: 'GET',
-//   })
-// );
-// // 商品状态
-// export const initGoodsSer = () => (
-//   fetch(list.initGoods, {
-//     method: 'GET',
-//   })
-// );
 
 // 初始化数据
 export const initDataSer = () => (
