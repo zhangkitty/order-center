@@ -31,7 +31,8 @@ const defaultState = {
     english_name: '',  // 英文名
     passport_number: '',  // 护照号
     issue_place: '',  // 签发地址
-    issue_date: moment(),  // 签发日期
+    issue_date: moment(),  // 签发日期   moment()
+    issue_date2: null,
   },
 };
 // 提交字段名: 页面显示名称
@@ -97,6 +98,7 @@ export default (state = defaultState, action) => {
           passport_number: action.data.passport_number, // 护照号
           issue_place: action.data.issue_place,  // 签发地址
           issue_date: action.data.issue_date, // 签发日期
+          issue_date2: action.data.issue_date, // 签发日期
         }),
       });
     case TYPES.GET_INFO_SHOW:

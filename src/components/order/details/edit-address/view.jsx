@@ -53,8 +53,16 @@ class EditAddress extends Component {
       order_id,
       country_value,
       issue_date,
+      issue_date2,
     } = submitValue;
     if (ready) {
+      // 时间校验
+      const dateValidate = (d) => {
+        if (moment(d, 'DD.MM.YYYY').format('DD.MM.YYYY').indexOf('Invalid') > -1) {
+          return null;
+        }
+        return moment(d, 'DD.MM.YYYY');
+      };
       return (
         <form
           className={style.form}
@@ -91,7 +99,7 @@ class EditAddress extends Component {
               <div key={key}>
                 {/* 不是下拉框，输入框 */}
                 {
-                  key !== 'country_id' && key !== 'state' && key !== 'city' && key !== 'district' && key !== 'address_line_1' && key !== 'address_line_2' && key !== 'issue_date' &&
+                  key !== 'country_id' && key !== 'state' && key !== 'city' && key !== 'district' && key !== 'address_line_1' && key !== 'address_line_2' && key !== 'issue_date' && key !== 'issue_date2' &&
                   <div className={style.space}>
                     <span className={style.spanWidth}>{validate && Star}{name}:</span>
                     <Input
@@ -243,11 +251,18 @@ class EditAddress extends Component {
                       allowClear={false}
                       showTime
                       format="DD.MM.YYYY"
-                      value={issue_date ? moment(issue_date, 'DD.MM.YYYY') : null}
+                      value={dateValidate(issue_date)}
                       onChange={(value, str) => {
                         dispatch(infoCommit('issue_date', str));
                       }}
                     />
+
+                    {
+                      // 错误值
+                      !dateValidate(issue_date) &&
+                      <span className={style.spanL}>{issue_date2}</span>
+                    }
+
                   </div>
                 }
               </div>
