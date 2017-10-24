@@ -259,8 +259,8 @@ class EditAddress extends Component {
 
                     {
                       // 错误值
-                      !dateValidate(issue_date) &&
-                      <span className={style.spanL}>{issue_date2}</span>
+                     // !dateValidate(issue_date) &&
+                     // <span className={style.spanL}>{issue_date2}</span>
                     }
 
                   </div>

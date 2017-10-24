@@ -1,5 +1,5 @@
 /**
- * Create by liufeng on 2017/6/28
+ * Create by liufeng on 2017/9/20
  */
 import assign from 'object-assign';
 import fetch from '../../lib/fetch';
@@ -42,14 +42,14 @@ const goodsRefund = {
 
 export const searchSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'trouble_user', 'totalSelect', 'totalInput'];
-  return fetch(`${list.init}?${camel2Under(queryString(keys, page))}`, {
+  return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })
 };
 
 export const seachHighSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'yoho_count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd',];
-  return fetch(`${list.initHigh}?${camel2Under(queryString(keys, page))}`, {
+  return fetch(`${list.initHigh}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })
 };
@@ -57,7 +57,7 @@ export const seachHighSubmit = (page) => {
 // history order
 export const seachHistorySubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'siteFrom', 'memberId'];
-  return fetch(`${list.init}?${camel2Under(queryString(keys, page))}`, {
+  return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })
 };
