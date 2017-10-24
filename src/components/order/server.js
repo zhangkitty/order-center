@@ -41,14 +41,14 @@ const goodsRefund = {
 };
 
 export const searchSubmit = (page) => {
-  const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'trouble_user', 'totalSelect', 'totalInput'];
+  const keys = ['pageSize', 'pageNumber', 'billno', 'orderId', 'email', 'shippingNo', 'referenceNumber', 'telephone', 'siteFrom', 'countryName', 'paytimeStart', 'paytimeEnd', 'txnId', 'paymentMethod', 'troubleType', 'trouble_user', 'totalSelect', 'totalInput', 'orderGoodsId']; // TODO 参数未定义
   return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })
 };
 
 export const seachHighSubmit = (page) => {
-  const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'yoho_count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd',];
+  const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'yoho_count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd', 'totalSelect', 'totalInput', 'orderGoodsId']; // TODO 参数未定义
   return fetch(`${list.initHigh}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })

@@ -59,7 +59,7 @@ class TabsHeader extends Component {
     } = this.props;
     const {
       billno, orderId, shippingNo, referenceNumber, telephone, email, paytimeStart, paytimeEnd,
-      countryName, siteFrom, txnId, paymentMethod, troubleType, trouble_user, totalSelect, totalInput,
+      countryName, siteFrom, txnId, paymentMethod, troubleType, trouble_user, totalSelect, totalInput, orderGoodsId,
     } = queryString;
     const {
       paytimeStart2,
@@ -68,6 +68,9 @@ class TabsHeader extends Component {
       siteFrom2,
       paymentMethod2,
       troubleType2,
+      totalSelect2,
+      totalInput2,
+      orderGoodsId2,
       goodsSn, yoho_count, memberLevel, orderStatus,
       cancelReason, goodsStatus, handleTimeStart, handleTimeEnd,
     } = queryString2;
@@ -105,6 +108,7 @@ class TabsHeader extends Component {
                     })));
                 }}
               >
+                {/* 订单号 */}
                 <div className={styles.rowSpace}>
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.order_number')}</span>
@@ -114,6 +118,7 @@ class TabsHeader extends Component {
                       onChange={e => dispatch(commit('billno', e.target.value))}
                     />
                   </div>
+                  {/* 订单id */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.order_id')}</span>
                     <Input
@@ -122,6 +127,7 @@ class TabsHeader extends Component {
                       onChange={e => dispatch(commit('orderId', e.target.value))}
                     />
                   </div>
+                  {/* 邮箱 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.email')}</span>
                     <Input
@@ -130,6 +136,7 @@ class TabsHeader extends Component {
                       onChange={e => dispatch(commit('email', e.target.value))}
                     />
                   </div>
+                  {/* 发货号 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.shipping_no')}</span>
                     <Input
@@ -138,6 +145,7 @@ class TabsHeader extends Component {
                       onChange={e => dispatch(commit('shippingNo', e.target.value))}
                     />
                   </div>
+                  {/* 包裹号 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.reference')}</span>
                     <Input
@@ -146,6 +154,7 @@ class TabsHeader extends Component {
                       onChange={e => dispatch(commit('referenceNumber', e.target.value))}
                     />
                   </div>
+                  {/* 手机号 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.telephone')}</span>
                     <Input
@@ -154,6 +163,7 @@ class TabsHeader extends Component {
                       onChange={e => dispatch(commit('telephone', e.target.value))}
                     />
                   </div>
+                  {/* 站点 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.site')}</span>
                     <Select
@@ -246,6 +256,7 @@ class TabsHeader extends Component {
                     />
                   </div>
 
+                  {/* 美金金额  TODO 参数id 未定义 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.total_select')}</span>
                     <Select
@@ -260,8 +271,9 @@ class TabsHeader extends Component {
                         dispatch(commit('totalSelect', val));
                       }}
                     >
-                      <Option key={1} > > </Option>
-                      <Option key={2} > = </Option>
+                      <Option key={1} > {'>'} </Option>
+                      <Option key={2} > {'='} </Option>
+                      <Option key={3} > {'<'} </Option>
                     </Select>
                     <Input
                       disabled={totalSelect === null || totalSelect === 'null' || !totalSelect}
@@ -270,6 +282,18 @@ class TabsHeader extends Component {
                       onChange={e => dispatch(commit('totalInput', e.target.value))}
                     />
                   </div>
+
+                  {/* 商品id TODO 参数名 未定义 */}
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.goods_id')}</span>
+                    <Input
+                      className={styles.colSpace}
+                      value={orderGoodsId}
+                      onChange={e => dispatch(commit('orderGoodsId', e.target.value))}
+                    />
+                  </div>
+
+                  {/* 付款时间 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>
                       <span style={{ color: 'red' }}>*</span>{__('order.name.paytime')}
@@ -338,6 +362,9 @@ class TabsHeader extends Component {
                       siteFrom: siteFrom2,
                       paymentMethod: paymentMethod2,
                       troubleType: troubleType2,
+                      totalSelect: totalSelect2,
+                      totalInput: totalInput2,
+                      orderGoodsId: orderGoodsId2,
                       handleTimeStart: handleTimeStart ? moment(handleTimeStart).format('YYYY-MM-DD HH:mm:ss') : null,
                       handleTimeEnd: handleTimeEnd ? moment(handleTimeEnd).format('YYYY-MM-DD HH:mm:ss') : null,
                     })));
@@ -527,6 +554,43 @@ class TabsHeader extends Component {
                         ))
                       }
                     </Select>
+                  </div>
+
+                  {/* 美金金额   TODO 参数id 未定义 */}
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.total_select')}</span>
+                    <Select
+                      allowClear
+                      className={styles.colSpace}
+                      style={{ width: '70px', marginRight: '10px' }}
+                      value={totalSelect2}
+                      onChange={(val) => {
+                        if (val === undefined) {
+                          dispatch(commit2('totalInput2', null));
+                        }
+                        dispatch(commit2('totalSelect2', val));
+                      }}
+                    >
+                      <Option key={1} > {'>'} </Option>
+                      <Option key={2} > {'='} </Option>
+                      <Option key={3} > {'<'} </Option>
+                    </Select>
+                    <Input
+                      disabled={totalSelect === null || totalSelect === 'null' || !totalSelect}
+                      className={styles.colSpace}
+                      value={totalInput2}
+                      onChange={e => dispatch(commit2('totalInput2', e.target.value))}
+                    />
+                  </div>
+
+                  {/* 商品id TODO 参数名 未定义 */}
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>{__('order.name.goods_id')}</span>
+                    <Input
+                      className={styles.colSpace}
+                      value={orderGoodsId2}
+                      onChange={e => dispatch(commit2('orderGoodsId2', e.target.value))}
+                    />
                   </div>
 
                   <div className={styles.rowSpaceList} style={{ maxWidth: '510px' }}>

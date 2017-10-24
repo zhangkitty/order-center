@@ -230,18 +230,19 @@ const SingleRow = (props) => {
           columns={[{
             title: '订单商品编号',
             dataIndex: 'order_goods_sort',
-            width: '80px',
+            width: '60px',
           }, {
             title: '商品图片',
             dataIndex: 'order_goods_img',
-            width: '100px',
+            width: '70px',
             render: d => (<img src={d} width="50px" height="50px" alt="goods images" />),
           }, {
             title: '商品属性',
             dataIndex: 'goods_sn',
             render: (d, res) => (
               <div>
-                <a href={res.goods_url} target="_blank"> {d}</a>
+                <p>{d}</p> {/* TODO 字段名未定，商品描述  */}
+                <a href={res.goods_url} target="_blank"> {d}</a><span style={{ marginLeft: '10px' }}>商品id:{res.order_goods_id}</span>
                 <span style={{ color: '#ff0000', marginLeft: '10px' }}>
                   {
                     replaceGoods(res.is_replace, res.replace_goods_sort) // res.goods_status
