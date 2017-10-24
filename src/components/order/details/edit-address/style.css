@@ -13,4 +13,9 @@
 }
 .space {
     margin-top: 15px;
+    display: flex;
+}
+.spanL {
+    margin-left: 10px;
+    line-height:28px;
 }

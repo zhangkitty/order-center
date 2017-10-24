@@ -32,6 +32,7 @@ const info = {
 const Base = ({ dataSource: { base: { order_info: { basic_info } } } }) => (
   <Card
     title={lan.基本信息}
+    bodyStyle={{ padding: '24px 10px' }}
    // bodyStyle={{ display: 'flex', maxWidth: '1200px' }}
     className={style.baseBg}
   >
