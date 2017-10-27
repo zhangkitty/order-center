@@ -1,5 +1,6 @@
 /**
  * Create by liufeng on 2017/6/28
+ * #44905 liufeng ,提交成功后，关闭页面
  */
 import { message } from 'antd';
 import { put, takeLatest } from 'redux-saga/effects';
@@ -43,7 +44,8 @@ function* submitSaga(action) {
   }
   message.success(lan.commit_success);
   yield put(change('submitdisabled', true));
-  return yield put(change('submitLoad', false));
+  yield put(change('submitLoad', false));
+  return setTimeout(window.close, 3000); // 关闭窗口
 }
 
 export default function* () {
