@@ -19,7 +19,7 @@ module.exports = {
   country: 'Country',
   txn: 'Payment Transacton ID',
   payment_method: 'Payment Method',
-  trouble: 'Problematic Order Type',
+  trouble: 'Order Type',
   remark_user: 'Operator',
   total_select: 'Total Amount (US$ )',
   search: 'Search',

@@ -19,7 +19,7 @@ module.exports = {
   country: '国家',
   txn: '付款流水号',
   payment_method: '支付方式',
-  trouble: '问题件类型',
+  trouble: '订单类型',
   remark_user: '标记人',
   total_select: '美金金额',
   search: '搜索',

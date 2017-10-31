@@ -218,6 +218,9 @@ class TabsHeader extends Component {
                       allowClear
                       className={styles.colSpace}
                       value={troubleType}
+
+                     // firstActiveValue={'2'}
+                      dropdownClassName={styles.dropdown}
                       onChange={(val) => {
                         if (val === undefined) {
                           dispatch(commit('trouble_user', null));
