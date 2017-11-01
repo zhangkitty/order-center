@@ -12,20 +12,12 @@
     justify-content: flex-start;
     flex-wrap: wrap;
     margin-bottom: 15px;
-    color: rgba(0,0,0, .8);
+    color: #333;
 }
 .rowSpaceList {
     min-width: 260px;
     max-width: 470px;
     margin: 5px 0 5px 15px;
-}
-.rowSpace{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-    color: rgba(0,0,0, .8);
 }
 .batchBg {  }
 .batchBg > button { margin: 0 15px 0 0;  }
@@ -62,6 +54,14 @@ form .colSpace2{
 }
 .ButtonBg > button {
     margin-right:15px;
+    color: #333;
+}
+
+.content table th {
+    color: #000;
+}
+.content table td {
+    color: #333;
 }
 
 

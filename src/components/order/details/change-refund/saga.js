@@ -1,5 +1,6 @@
 /**
  * Create by liufeng on 2017/6/28
+ * #44905 liufeng ,提交成功后，关闭页面
  */
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
@@ -27,7 +28,8 @@ function* submitSaga(action) {
     message.error(`${__('order.goodsRefund.submit_fail')}: ${data.msg}`);
     return yield put(change('submitLoad', false));
   }
-  return message.success(__('common.sagaTitle25'));
+  message.success(__('common.sagaTitle25'));
+  return setTimeout(window.close, 3000); // 关闭窗口
 }
 
 export default function* () {

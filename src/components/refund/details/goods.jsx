@@ -50,7 +50,7 @@ const Goods = ({ dataSource: { refund_goods } }) => (
           render: d => (
             !!d &&
             <span>
-              {d.price_usd.amount_with_symbol} {d.price_with_exchange_rate.amount_with_symbol}
+              {d.price_usd.amount_with_symbol}, {d.price_with_exchange_rate.amount_with_symbol}
             </span>
           ),
         },
@@ -61,8 +61,7 @@ const Goods = ({ dataSource: { refund_goods } }) => (
           render: d => (
             !!d &&
             <span>
-              {d.price_usd.amount_with_symbol},
-              {d.price_with_exchange_rate.amount_with_symbol}
+              {d.price_usd.amount_with_symbol}, {d.price_with_exchange_rate.amount_with_symbol}
             </span>
           ),
         },

@@ -108,31 +108,31 @@ const Base = ({
                   key === 'TOTAL' && !!card_payment_price &&
                   <span>
                     {card_payment_price.payment_method}:
-                    {card_payment_price.price_usd.amount_with_symbol},
-                    {card_payment_price.price_with_exchange_rate.amount_with_symbol}
+                    {card_payment_price.price_usd.amount_with_symbol}
+                    , {card_payment_price.price_with_exchange_rate.amount_with_symbol}
                     +
                   Wallet:
-                    {wallet_payment_price.price_usd.amount_with_symbol},
-                    {refund_detail.wallet_payment_price.price_with_exchange_rate.amount_with_symbol}
+                    {wallet_payment_price.price_usd.amount_with_symbol}
+                    , {refund_detail.wallet_payment_price.price_with_exchange_rate.amount_with_symbol}
                     +
                     {language.礼品卡}:
-                    {gift_card_payment_price.price_usd.amount_with_symbol},
-                    {gift_card_payment_price.price_with_exchange_rate.amount_with_symbol}
+                    {gift_card_payment_price.price_usd.amount_with_symbol}
+                    , {gift_card_payment_price.price_with_exchange_rate.amount_with_symbol}
                   </span>
                 }
                 {
                   key === 'REST' && !!card_can_be_refunded_price &&
                   <span>
-                    {card_can_be_refunded_price.price_usd.amount_with_symbol},
-                    {card_can_be_refunded_price.price_with_exchange_rate.amount_with_symbol}
+                    {card_can_be_refunded_price.price_usd.amount_with_symbol}
+                    , {card_can_be_refunded_price.price_with_exchange_rate.amount_with_symbol}
                     ({language.用户})
                   +
-                    {gift_card_can_be_refunded_price.price_usd.amount_with_symbol},
-                    {gift_card_can_be_refunded_price.price_with_exchange_rate.amount_with_symbol}
+                    {gift_card_can_be_refunded_price.price_usd.amount_with_symbol}
+                    , {gift_card_can_be_refunded_price.price_with_exchange_rate.amount_with_symbol}
                     ({language.礼品卡})
                   +
-                    {wallet_or_card_can_be_refunded_price.price_usd.amount_with_symbol},
-                    {wallet_or_card_can_be_refunded_price
+                    {wallet_or_card_can_be_refunded_price.price_usd.amount_with_symbol}
+                    , {wallet_or_card_can_be_refunded_price
                       .price_with_exchange_rate.amount_with_symbol}
                     (Wallet),
                 </span>
@@ -140,7 +140,7 @@ const Base = ({
                 {
                   key === 'WAIT' && !!refund_amount &&
                     <span style={{ color: 'red' }}>
-                      {refund_amount.price_usd.amount_with_symbol} {refund_amount
+                      {refund_amount.price_usd.amount_with_symbol}, {refund_amount
                       .price_with_exchange_rate.amount_with_symbol}
                       </span>
                 }
