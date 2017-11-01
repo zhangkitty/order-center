@@ -16,6 +16,7 @@ const tipStyle = {
   padding: '0 10px',
   borderRadius: '4px',
 };
+const Option = Select.Option;
 const star = (<span style={{ color: 'red' }}>*</span>);
 
 const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
@@ -120,11 +121,11 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
           </div>
           {
             !!refundAccountTypeList.length &&
-            <div style={{ marginLeft: 170, marginBottom: 5 }}>
+            <div className={style.priceR}>
               <Select
                 allowClear
                 placeholder={__('order.goodsRefund.please_select_a_refund_account')}
-                style={{ width: 150 }}
+                className={style.priceSelect}
                 disabled={!checked}
               //  value={`${refund_method || ''}`}
                 onChange={(e) => {
@@ -137,29 +138,100 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                   ))
                 }
               </Select>
-              {
-                refund_method === '其他' || refund_method === 'others' ?
-                  <Input
-                    placeholder={__('order.entry.cash_content8')}
-                    style={{ width: 150, marginLeft: '10px' }}
-                    disabled={!checked}
-                    required
-                    value={refund_method1}
-                    onChange={(e) => {
-                      dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
-                    }}
-                  />
-                :
-                null
-              }
-              <Input
-                placeholder={__('order.entry.cash_content7')}
-                required={!(refundPathId == 4 && refundAmount == 0)}
-                style={{ width: 150, marginLeft: '10px' }}
-                disabled={!checked}
-                value={account}
-                onChange={e => dispatch(changeChannelValue(refundPathId, 'account', e.target.value))}
-              />
+
+              <div>
+                {/* 退款方式 = Paytm  */}
+                {/* 退款方式 = PayPal， 退款币种 TODO 参数未定  */}
+                {
+                  refund_method === 'PayPal' &&
+                    <Input
+                      placeholder={__('order.entry.cash_content9')} // 请输入币种
+                      className={style.priceInput}
+                      disabled={!checked}
+                      required
+                      value={refund_method1}
+                      onChange={(e) => {
+                        dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                      }}
+                    />
+                }
+
+                {/* 退款方式 = yes bank， 银行代码/银行卡号/顾客姓名/发卡城市 TODO 参数未定    */}
+                {
+                  refund_method === 'yes bank' &&
+                    <span>
+                      <Input
+                        placeholder={__('order.entry.cash_content10')} // 请输入银行代码
+                        className={style.priceInput}
+                        disabled={!checked}
+                        required
+                        value={refund_method1}
+                        onChange={(e) => {
+                          dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                        }}
+                      />
+                      <Input
+                        placeholder={__('order.entry.cash_content11')} // 请输入银行卡号
+                        className={style.priceInput}
+                        disabled={!checked}
+                        required
+                        value={refund_method1}
+                        onChange={(e) => {
+                          dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                        }}
+                      />
+                      <Input
+                        placeholder={__('order.entry.cash_content12')} // 请输入顾客姓名
+                        className={style.priceInput}
+                        disabled={!checked}
+                        required
+                        value={refund_method1}
+                        onChange={(e) => {
+                          dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                        }}
+                      />
+                      <Input
+                        placeholder={__('order.entry.cash_content13')} // 请输入发卡城市
+                        className={style.priceInput}
+                        disabled={!checked}
+                        required
+                        value={refund_method1}
+                        onChange={(e) => {
+                          dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                        }}
+                      />
+                    </span>
+                }
+
+                {/* 退款方式--其他 */}
+                {
+                  refund_method === '其他' || refund_method === 'others' ?
+                    <Input
+                      placeholder={__('order.entry.cash_content8')} // 请输入正确的退款账户
+                      className={style.priceInput}
+                      disabled={!checked}
+                      required
+                      value={refund_method1}
+                      onChange={(e) => {
+                        dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                      }}
+                    />
+                  :
+                  null
+                }
+                {/* 退款账户信息 !== 'yes bank' 显示 */}
+                {
+                  refund_method !== 'yes bank' &&
+                    <Input
+                      placeholder={__('order.entry.cash_content7')} // 请输入正确的退款账户信息
+                      required={!(refundPathId == 4 && refundAmount == 0)}
+                      className={style.priceInput}
+                      disabled={!checked}
+                      value={account}
+                      onChange={e => dispatch(changeChannelValue(refundPathId, 'account', e.target.value))}
+                    />
+                }
+              </div>
             </div>
           }
         </div>

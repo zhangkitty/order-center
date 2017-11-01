@@ -25,7 +25,7 @@
     justify-content: flex-start;
     flex-wrap: wrap;
     margin-bottom: 15px;
-    color: rgba(0,0,0, .8);
+    color: #333;
 }
 .batchBg {  }
 .batchBg > button { margin: 0 15px 0 0;  }
@@ -162,7 +162,8 @@ form .colSpace2{
     border-color: #f00;
 }
 .tableFloat table td, .tableFloat2 textarea,
-.operatingTable table td
+.operatingTable table td,
+.orderTable table td
 { color: #333; }
 .refuseReason {
     margin-left:5px;
