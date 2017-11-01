@@ -49,7 +49,7 @@ const Modals = ({
       {
         remarkInfo.remarkSource.length ?
           remarkInfo.remarkSource.map(v => (
-            <div style={{ margin: '10px 20px' }} key={v.add_time}>
+            <div className={styles.modelCon} key={v.add_time}>
               <p>{v.add_time} {v.add_user}</p>
               <p>{v.remark}</p>
             </div>

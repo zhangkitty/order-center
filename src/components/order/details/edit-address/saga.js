@@ -6,10 +6,10 @@ import { getInfoSuccess, getInfoShow, getInfoShowSuccess, commit, getCity, getCi
 import { getAddressInfo, getcitySer, editAddresSave, addressShow } from '../server';
 
 const lan = {
-  ofail: __('order.entry.submit_info'),
-  osucess: __('order.entry.submit_info1'),
-  fail: __('order.entry.submit_info2'),
-  part: __('order.entry.submit_info3'),
+  ofail: __('order.entry.submit_info'),  // 操作失败
+  osucess: __('order.entry.submit_info1'), // 操作成功
+  fail: __('order.entry.submit_info2'), // 获取数据失败
+  part: __('order.entry.submit_info3'), // 加入部分发队列成功
 };
 function* getInfoSaga(action) {
   const data = yield getAddressInfo(action.id);
@@ -40,7 +40,7 @@ function* saveSaga(action) {
   const data = yield editAddresSave(action.data);
   if (!data || data.code !== 0) {
     yield put(commit('load', false));
-    return message.error(`${lan.fail}:${data.msg}`);
+    return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('load', false));
   message.success(lan.osucess);
