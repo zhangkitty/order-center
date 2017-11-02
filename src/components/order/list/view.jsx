@@ -23,6 +23,20 @@ class orderList extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(init());
+    const { params: { billno } } = props;
+    if (billno) {
+      this.props.dispatch(commit('billno', billno));
+    }
+  }
+  componentDidMount(props) {
+    this.props.dispatch(search(assign({},
+      this.props.queryString,
+      {
+        billno: this.props.params.billno,
+        pageNumber: 1,
+        paytimeStart: this.props.queryString.paytimeStart,
+        paytimeEnd: this.props.queryString.paytimeEnd,
+      })));
   }
   render() {
     const {
