@@ -59,7 +59,7 @@ class TabsHeader extends Component {
     } = this.props;
     const {
       billno, orderId, shippingNo, referenceNumber, telephone, email, paytimeStart, paytimeEnd,
-      countryName, siteFrom, txnId, paymentMethod, troubleType, trouble_user, totalSelect, totalInput, orderGoodsId,
+      countryName, siteFrom, txnId, paymentMethod, troubleType, trouble_user, totalSelect, totalInput, goodsId,
     } = queryString;
     const {
       paytimeStart2,
@@ -70,7 +70,7 @@ class TabsHeader extends Component {
       troubleType2,
       totalSelect2,
       totalInput2,
-      orderGoodsId2,
+      goodsId2,
       goodsSn, yoho_count, memberLevel, orderStatus,
       cancelReason, goodsStatus, handleTimeStart, handleTimeEnd,
     } = queryString2;
@@ -256,7 +256,7 @@ class TabsHeader extends Component {
                     />
                   </div>
 
-                  {/* 美金金额  TODO 参数id 未定义 */}
+                  {/* 美金金额 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.total_select')}</span>
                     <Select
@@ -283,13 +283,13 @@ class TabsHeader extends Component {
                     />
                   </div>
 
-                  {/* 商品id TODO 参数名 未定义 */}
+                  {/* 商品id */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.goods_id')}</span>
                     <Input
                       className={styles.colSpace}
-                      value={orderGoodsId}
-                      onChange={e => dispatch(commit('orderGoodsId', e.target.value))}
+                      value={goodsId}
+                      onChange={e => dispatch(commit('goodsId', e.target.value))}
                     />
                   </div>
 
@@ -364,7 +364,7 @@ class TabsHeader extends Component {
                       troubleType: troubleType2,
                       totalSelect: totalSelect2,
                       totalInput: totalInput2,
-                      orderGoodsId: orderGoodsId2,
+                      goodsId: goodsId2,
                       handleTimeStart: handleTimeStart ? moment(handleTimeStart).format('YYYY-MM-DD HH:mm:ss') : null,
                       handleTimeEnd: handleTimeEnd ? moment(handleTimeEnd).format('YYYY-MM-DD HH:mm:ss') : null,
                     })));
@@ -556,7 +556,7 @@ class TabsHeader extends Component {
                     </Select>
                   </div>
 
-                  {/* 美金金额   TODO 参数id 未定义 */}
+                  {/* 美金金额   */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.total_select')}</span>
                     <Select
@@ -583,13 +583,13 @@ class TabsHeader extends Component {
                     />
                   </div>
 
-                  {/* 商品id TODO 参数名 未定义 */}
+                  {/* 商品id  */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.goods_id')}</span>
                     <Input
                       className={styles.colSpace}
-                      value={orderGoodsId2}
-                      onChange={e => dispatch(commit2('orderGoodsId2', e.target.value))}
+                      value={goodsId2}
+                      onChange={e => dispatch(commit2('goodsId2', e.target.value))}
                     />
                   </div>
 

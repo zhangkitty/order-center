@@ -32,7 +32,7 @@ import * as TYPES from './types';
 function* searchSaga(action) {
  // console.log(action.data, 'search');
   const {
-    billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, trouble_user, totalInput,
+    billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, trouble_user, totalInput, goodsId,
   } = action.data;
   const data = yield searchSubmit(assign({}, action.data, {
     billno: billno ? encodeURIComponent(billno.trim()) : null,
@@ -44,6 +44,7 @@ function* searchSaga(action) {
     txnId: txnId ? encodeURIComponent(txnId.trim()) : null,
     trouble_user: trouble_user ? encodeURIComponent(trouble_user.trim()) : null,
     totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
+    goodsId: goodsId ? encodeURIComponent(goodsId.trim()) : null,
   }));
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle')}${data.msg}`);
@@ -54,11 +55,13 @@ function* searchSaga(action) {
 
 function* searchHighSaga(action) {
   const {
-    goodsSn, count,
+    goodsSn, count, totalInput, goodsId,
   } = action.data;
   const data = yield seachHighSubmit(assign({}, action.data, {
     goodsSn: goodsSn ? encodeURIComponent(goodsSn.trim()) : null,
     count: count ? encodeURIComponent(count.trim()) : null,
+    totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
+    goodsId: goodsId ? encodeURIComponent(goodsId.trim()) : null,
   }));
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle1')} ${data.msg}`);
