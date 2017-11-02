@@ -29,17 +29,20 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
   return (<div className={style.space}>
     {
       channels.map(({
-                      refundPathId,
-                      checked,
-                      refundPathName: name,
-                      refundAmount,
-                      refundAmount1,
-                      priceWithExchangeRate,
-                      refundAccountTypeList,
-                      account,
-                      refund_method,
-                      refund_method1,
-                      isShow,
+        refundPathId,
+        checked,
+        refundPathName: name,
+        refundAmount,
+        refundAmount1,
+        priceWithExchangeRate,
+        refundAccountTypeList,
+        account,
+        refund_method,
+        refund_method1,
+        isShow,
+        bank_code,
+        customer,
+        issuing_city,
       }) => (
         <div key={refundPathId} style={{ display: !isShow ? 'none' : 'block' }}>
           <div className={style.spaceCon}>
@@ -140,23 +143,8 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
               </Select>
 
               <div>
-                {/* 退款方式 = Paytm  */}
-                {/* 退款方式 = PayPal， 退款币种 TODO 参数未定  */}
-                {
-                  refund_method === 'PayPal' &&
-                    <Input
-                      placeholder={__('order.entry.cash_content9')} // 请输入币种
-                      className={style.priceInput}
-                      disabled={!checked}
-                      required
-                      value={refund_method1}
-                      onChange={(e) => {
-                        dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
-                      }}
-                    />
-                }
 
-                {/* 退款方式 = yes bank， 银行代码/银行卡号/顾客姓名/发卡城市 TODO 参数未定    */}
+                {/* 退款方式 = yes bank， 银行代码/银行卡号/顾客姓名/发卡城市     */}
                 {
                   refund_method === 'yes bank' &&
                     <span>
@@ -165,19 +153,19 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                         className={style.priceInput}
                         disabled={!checked}
                         required
-                        value={refund_method1}
+                        value={bank_code}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                          dispatch(changeChannelValue(refundPathId, 'bank_code ', e.target.value));
                         }}
                       />
                       <Input
-                        placeholder={__('order.entry.cash_content11')} // 请输入银行卡号
+                        placeholder={__('order.entry.cash_content11')} // 请输入银行卡号-账户信息
                         className={style.priceInput}
                         disabled={!checked}
                         required
-                        value={refund_method1}
+                        value={account}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                          dispatch(changeChannelValue(refundPathId, 'account', e.target.value));
                         }}
                       />
                       <Input
@@ -185,9 +173,9 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                         className={style.priceInput}
                         disabled={!checked}
                         required
-                        value={refund_method1}
+                        value={customer}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                          dispatch(changeChannelValue(refundPathId, 'customer', e.target.value));
                         }}
                       />
                       <Input
@@ -195,9 +183,9 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                         className={style.priceInput}
                         disabled={!checked}
                         required
-                        value={refund_method1}
+                        value={issuing_city}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                          dispatch(changeChannelValue(refundPathId, 'issuing_city', e.target.value));
                         }}
                       />
                     </span>
@@ -219,6 +207,8 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                   :
                   null
                 }
+                {/* 退款方式 = Paytm  */}
+                {/* 退款方式 = PayPal */}
                 {/* 退款账户信息 !== 'yes bank' 显示 */}
                 {
                   refund_method !== 'yes bank' &&
