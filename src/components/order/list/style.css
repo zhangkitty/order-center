@@ -203,6 +203,7 @@ form .colSpace2{
 .fontColor {
     color: #333;
 }
+
 /* “全部件”，“正常件”，“问题件”，“作废件” 突出显示   */
 .dropdown li:nth-child(1),.dropdown li:nth-child(2),.dropdown li:nth-child(6),.dropdown li:nth-child(9){
     color: #000;
@@ -215,5 +216,10 @@ form .colSpace2{
 .troubleList {
     display: flex;
     flex-direction: column;
-    margin: 5px;
+    margin: 0 5px 0 0;
+}
+.troubleList > span {
+    margin: 0 0 5px 0;
+    font-size: 13px;
+    color: #000;
 }
