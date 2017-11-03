@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Collapse, Select, Input, DatePicker, Button, message } from 'antd';
 import moment from 'moment';
+import parseParam from '../../../lib/query-string';
 import {
   search, commit, initCountry,
 } from './action';
@@ -46,6 +47,15 @@ class TabsHeader extends Component {
       refund_bill_type, refund_bill_status, refund_path_id, refund_path_status, site_from, apply_start_time, apply_end_time,
       country_id, member_level, refund_start_time, refund_end_time,
     } = queryString;
+
+    const exportSubmit = (param) => {
+      const keys = ['refund_bill_id', 'billno', 'email', 'add_user', 'handle_user',
+        'refund_bill_type', 'refund_bill_status', 'refund_path_id', 'refund_path_status', 'site_from', 'apply_start_time', 'apply_end_time',
+        'country_id', 'member_level', 'refund_start_time', 'refund_end_time'];
+      console.log(parseParam(keys, queryString));
+      return parseParam(keys, queryString);
+    };
+
     return (
       <div className={styles.tabsHeader}>
         <Collapse defaultActiveKey={['1']}>
@@ -294,74 +304,88 @@ class TabsHeader extends Component {
               >
                 {__('refund.list.search')}
               </Button>
+              {
+                refund_path_id == 4 &&
+                <a
+                  className={styles.buttonStyle} // TODO 线上要改
+
+                  href={`${location.origin}/index_new.php/Order/OrderDiffRefund/submitExportRefundBill?${exportSubmit()}`}
+                  // href={`http://192.168.1.177/index_new.php/Order/OrderDiffRefund/submitExportRefundBill?${exportSubmit()}`}
+                  target="_blank"
+                >
+                  {__('refund.list.export')}
+                </a>
+              }
             </form>
+
           </Panel>
         </Collapse>
+
+        {/* 按钮 */}
         {
-          !!total ?
-            <div className={styles.ButtonBg}>
-              <Button
-                style={refund_bill_status == null ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
-                onClick={() => {
-                  if (
-                    moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
-                    ||
-                    moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
-                  ) {
-                    return message.warning(__('refund.list.submitTitle'));
-                  }
-                  return dispatch(search(assign({},
-                    queryString,
-                    {
-                      pageNumber: 1,
-                      refund_bill_status: null,
-                    })));
-                }}
-              >
-                {__('refund.list.submitName2')}
-              </Button>
-              <Button
-                style={refund_bill_status == 1 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
-                onClick={() => {
-                  if (
-                    moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
-                    ||
-                    moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
-                  ) {
-                    return message.warning(__('refund.list.submitTitle'));
-                  }
-                  return dispatch(search(assign({},
-                    queryString,
-                    {
-                      pageNumber: 1,
-                      refund_bill_status: '1',
-                    })));
-                }}
-              >
-                {__('refund.list.submitName3')}({waitTotal})
-              </Button>
-              <Button
-                style={refund_bill_status == 4 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
-                onClick={() => {
-                  if (
-                    moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
-                    ||
-                    moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
-                  ) {
-                    return message.warning(__('refund.list.submitTitle'));
-                  }
-                  return dispatch(search(assign({},
-                    queryString,
-                    {
-                      pageNumber: 1,
-                      refund_bill_status: '4',
-                    })));
-                }}
-              >
-                {__('refund.list.submitName4')}({rejectTotal})
-              </Button>
-            </div>
-            : null
+          !!total &&
+          <div className={styles.ButtonBg}>
+            <Button
+              style={refund_bill_status == null ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              onClick={() => {
+                if (
+                  moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
+                  ||
+                  moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
+                ) {
+                  return message.warning(__('refund.list.submitTitle'));
+                }
+                return dispatch(search(assign({},
+                  queryString,
+                  {
+                    pageNumber: 1,
+                    refund_bill_status: null,
+                  })));
+              }}
+            >
+              {__('refund.list.submitName2')}
+            </Button>
+            <Button
+              style={refund_bill_status == 1 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              onClick={() => {
+                if (
+                  moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
+                  ||
+                  moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
+                ) {
+                  return message.warning(__('refund.list.submitTitle'));
+                }
+                return dispatch(search(assign({},
+                  queryString,
+                  {
+                    pageNumber: 1,
+                    refund_bill_status: '1',
+                  })));
+              }}
+            >
+              {__('refund.list.submitName3')}({waitTotal})
+            </Button>
+            <Button
+              style={refund_bill_status == 4 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              onClick={() => {
+                if (
+                  moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
+                  ||
+                  moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
+                ) {
+                  return message.warning(__('refund.list.submitTitle'));
+                }
+                return dispatch(search(assign({},
+                  queryString,
+                  {
+                    pageNumber: 1,
+                    refund_bill_status: '4',
+                  })));
+              }}
+            >
+              {__('refund.list.submitName4')}({rejectTotal})
+            </Button>
+          </div>
         }
       </div>
     );
