@@ -573,7 +573,7 @@ class TabsHeader extends Component {
                       <Option key={3} > {'<'} </Option>
                     </Select>
                     <Input
-                      disabled={totalSelect === null || totalSelect === 'null' || !totalSelect}
+                      disabled={totalSelect2 === null || totalSelect2 === 'null' || !totalSelect2}
                       className={styles.colSpace}
                       value={totalInput2}
                       onChange={e => dispatch(commit2('totalInput2', e.target.value))}
