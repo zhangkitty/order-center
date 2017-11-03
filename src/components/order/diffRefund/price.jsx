@@ -155,7 +155,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                         required
                         value={bank_code}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'bank_code ', e.target.value));
+                          dispatch(changeChannelValue(refundPathId, 'bank_code', e.target.value));
                         }}
                       />
                       <Input

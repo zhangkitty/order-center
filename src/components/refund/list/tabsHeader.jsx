@@ -308,7 +308,9 @@ class TabsHeader extends Component {
                 refund_path_id == 4 &&
                 <a
                   className={styles.buttonStyle} // TODO 线上要改
-                  href={`http://192.168.1.177/index_new.php/Order/OrderDiffRefund/submitExportRefundBill?${exportSubmit()}`}
+
+                  href={`${location.origin}/index_new.php/Order/OrderDiffRefund/submitExportRefundBill?${exportSubmit()}`}
+                  // href={`http://192.168.1.177/index_new.php/Order/OrderDiffRefund/submitExportRefundBill?${exportSubmit()}`}
                   target="_blank"
                 >
                   {__('refund.list.export')}
