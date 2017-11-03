@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "test": "",
-    "start": "node createNginx.js 58.213.139.100 8000",
+    "start": "node createNginx.js 192.168.1.177 8000",
     "build": "NODE_ENV=production webpack --config webpack.production.config.js",
     "dev": "webpack -w"
   },
