@@ -91,7 +91,7 @@ module.exports = Object.keys(languages).map((lang) => ({
     new i18n(languages[lang]),
     new HtmlWebpackPlugin({
       template: `./${lang=='en'?'en':'index'}-template.html`,
-      filename:`../${lang=='en'?'en':'index'}.html`
+      filename:`../../${lang=='en'?'en':'index'}.html`
     }),
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
