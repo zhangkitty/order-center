@@ -248,7 +248,7 @@ const SingleRow = (props) => {
                     replaceGoods(res.is_replace, res.replace_goods_sort) // res.goods_status
                   }
                 </span>
-                <p>{__('order.name.goods_id')}: {res.order_goods_id}</p>
+                <p>{__('order.name.goods_id')}: {res.goods_id}</p>
                 <p> {res.goods_attr}</p>
               </div>
             ),
