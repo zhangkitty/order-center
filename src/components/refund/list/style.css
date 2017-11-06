@@ -52,6 +52,19 @@ form .colSpace2{
 .ButtonBg {
     margin-top:25px;
 }
+.buttonStyle {
+    border: 1px solid #d9d9d9;
+    padding: 0 15px;
+    border-radius: 4px;
+    color: #333;
+    line-height: 26px;
+    display: inline-block;
+}
+.buttonStyle:hover {
+    color: #108ee9;
+    border-color: #108ee9;
+}
+
 .ButtonBg > button {
     margin-right:15px;
     color: #333;

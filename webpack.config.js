@@ -4,6 +4,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const i18n = require('i18n-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const languages = {
   en: require('./src/langs/en'),
   zh: require('./src/langs/zh'),
@@ -15,7 +16,7 @@ module.exports = Object.keys(languages).map((lang) => ({
     common: ['react', 'antd','redux-saga', 'react-dom', 'redux', 'react-redux', 'react-router', 'whatwg-fetch'],
   },
   output: {
-    filename: '[name].js',
+    filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
     path: path.join(__dirname, 'dist', lang),
     publicPath: 'dist/' + lang + '/'
@@ -80,7 +81,17 @@ module.exports = Object.keys(languages).map((lang) => ({
         },
       },
     }),
-    new webpack.optimize.CommonsChunkPlugin(['common', 'manifest']),
-    new i18n(languages[lang])
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['common', 'manifest'],
+      filename: '[name].[chunkhash].js',
+      minChunks: function(module) {
+        return module.context && module.context.indexOf('node_modules') !== -1;
+      }
+    }),
+    new i18n(languages[lang]),
+    new HtmlWebpackPlugin({
+      template: `./${lang=='en'?'en':'index'}-template.html`,
+      filename:`../../${lang=='en'?'en':'index'}.html`
+    })
   ],
 }));
