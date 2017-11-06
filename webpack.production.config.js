@@ -81,18 +81,7 @@ module.exports = Object.keys(languages).map((lang) => ({
         },
       },
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['common', 'manifest'],
-      filename: '[name].[chunkhash].js',
-      minChunks: function(module) {
-        return module.context && module.context.indexOf('node_modules') !== -1;
-      }
-    }),
-    new i18n(languages[lang]),
-    new HtmlWebpackPlugin({
-      template: `./${lang=='en'?'en':'index'}-template.html`,
-      filename:`../../${lang=='en'?'en':'index'}.html`
-    }),
+    new webpack.optimize.CommonsChunkPlugin(['common', 'manifest']),
     new webpack.optimize.UglifyJsPlugin({
       minimize: true,
     }),
