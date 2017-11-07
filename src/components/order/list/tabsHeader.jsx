@@ -228,6 +228,7 @@ class TabsHeader extends Component {
                       allowClear
                       className={styles.colSpace}
                       value={troubleType}
+                    //  dropdownClassName={styles.dropdown}
                       onChange={(val) => {
                         if (val === undefined) {
                           dispatch(commit('trouble_user', null));
@@ -441,11 +442,13 @@ class TabsHeader extends Component {
                       }
                     </Select>
                   </div>
+                  {/* 订单类型 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>{__('order.name.trouble')}</span>
                     <Select
                       allowClear
                       className={styles.colSpace}
+                  //    dropdownClassName={styles.dropdown}
                       value={troubleType2}
                       onChange={val => dispatch(commit2('troubleType2', val))}
                     >

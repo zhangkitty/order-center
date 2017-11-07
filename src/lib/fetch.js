@@ -30,7 +30,7 @@ export default (url, args = {}, header) => {
       notification.open({
         message: __('common.fetch_title1'),
       });
-    } else if (status > 499) {
+    } else if (status != 200) {
       notification.open({
         message: __('common.fetch_title2'),
       });
