@@ -18,7 +18,6 @@
     min-width: 120px;
     max-width: 200px;
     display: inline-block;
-    /*color: #797b7b;*/
     text-align:right;
     margin-right:10px;
 }
@@ -74,7 +73,6 @@
     min-width: 180px;
     max-width: 250px;
     display: inline-block;
-    /*color: #797b7b;*/
     text-align:right;
     margin-right:10px;
 }
@@ -82,7 +80,6 @@
     min-width: 180px;
     max-width: 250px;
     display: inline-block;
-    /*color: #797b7b;*/
 }
 .payLog {
     margin-bottom: 10px;

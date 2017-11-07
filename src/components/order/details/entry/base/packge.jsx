@@ -1,3 +1,8 @@
+/**
+ * Create by xvliuzhu on 2017/9/15
+ * 订单详情 - packge
+ * 未形成包裹，包裹，退货商品，退款商品 都是循环的
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
@@ -36,10 +41,11 @@ const lan = {
   xibu: __('order.entry.west'),
 };
 
-// '1' => '已付款',
+// 商品状态
+//  '1' => '已付款',
 //  '5' => '需要退款',
 //  '7' => '已经退款'
-// '11' => '已审核',
+//  '11' => '已审核',
 //  '12' => '无货',
 //  '13' => '备货中',
 //  '16' => '发货',
@@ -50,7 +56,7 @@ const lan = {
 //  '52' => '发货中',
 //  '54' => 'COD已签收',
 //  '57' => '海外发货',（无对应翻译）
-// '74' => '删除换货',
+//  '74' => '删除换货',
 //  '75' => 'COD客服取消',
 //  '76' => 'COD派件异常',
 //  '77' => 'COD已拒收',
@@ -59,8 +65,10 @@ const lan = {
 //  '90' => 'COD派件中',
 //  '91' => 'COD已报损',
 //  '94' => 'COD客户自提',
-//  '95' => '已申请退货'
-// '96' => '退货'
+//  '126' => '已申请退货'
+//  '127' => '退货'
+
+// 品控显示
 const pingkongShow = {
   5: '需要退款',
   7: '已经退款',
@@ -71,7 +79,7 @@ const pingkongShow = {
   126: '已申请退货',
   127: '退货',
 };
-
+//  商品状态前的标记
 const colors = {
   1: { bg: '#5AE0ED', border: 'none' },
   5: { bg: 'rgba(255,45,138,0.20)', border: '2px solid #FF2D8A' },
@@ -136,6 +144,7 @@ const Packge = (
     show_refund_button, show_priority_shipped_button, show_cancel_priority_shipped_button,
     show_part_shipped_button, show_review_order_button,
   } = button_list;
+  // 判断 商品状态 是否显示（循环）
   const col = show => ([
     show ?
       null :
@@ -166,6 +175,7 @@ const Packge = (
               </Link>
               : null
           }
+          {/*  回货日期 按钮 */}
           {
               Number(rec.status_code) === 11 &&
               <Button
@@ -189,6 +199,7 @@ const Packge = (
       render: (d, rec) => (
         <span className={style.packeFlex}>
           <Checkbox
+            checked={chooseGoods.indexOf(rec.id) > -1}
             onChange={(e) => {
               const value = e.target.checked;
               if (value) {
@@ -346,7 +357,31 @@ const Packge = (
         package_list.length > 0 &&
         package_list.map(v => (
           <Card
-            title={`${lan.packge}:${v.package_number}`}
+            title={
+              <div>{`${lan.packge}:${v.package_number}`}
+                <Button
+                  className={style.orderSelect}
+                  size="small"
+                  onClick={() => {
+                    const temp = [];
+                    const arr = v.package_goods_list.map((f) => {
+                      const index = chooseGoods.findIndex(d => d === f.id);
+                      if (index > -1) {
+                        temp.push(chooseGoods[index]);
+                        chooseGoods = [...chooseGoods.slice(0, index), ...chooseGoods.slice(index + 1)];
+                      }
+                      return f.id;
+                    });
+                    if (arr.length === temp.length) {
+                      return dispatch(commit('chooseGoods', chooseGoods));
+                    }
+                    return dispatch(commit('chooseGoods', [...new Set(chooseGoods.concat(arr))]));
+                  }}
+                >
+                  {__('common.allChoose')}
+                </Button>
+              </div>
+            }
             key={v.package_number}
             className={style.cardBottom}
           >
