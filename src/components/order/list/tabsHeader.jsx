@@ -228,7 +228,7 @@ class TabsHeader extends Component {
                       allowClear
                       className={styles.colSpace}
                       value={troubleType}
-                    //  dropdownClassName={styles.dropdown}
+                      dropdownClassName={styles.dropdown}
                       onChange={(val) => {
                         if (val === undefined) {
                           dispatch(commit('trouble_user', null));
@@ -448,7 +448,7 @@ class TabsHeader extends Component {
                     <Select
                       allowClear
                       className={styles.colSpace}
-                  //    dropdownClassName={styles.dropdown}
+                      dropdownClassName={styles.dropdown}
                       value={troubleType2}
                       onChange={val => dispatch(commit2('troubleType2', val))}
                     >
