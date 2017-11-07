@@ -37,6 +37,7 @@ module.exports = {
   batchection: '批量部分发',
   guangzhou: '广州',
   west: '西部',
+  nansha: '南沙仓',
   platform: '平台订单取消',
   review: '批量审核',
   customerCancel: '客服取消',

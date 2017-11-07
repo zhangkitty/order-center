@@ -37,6 +37,7 @@ module.exports = {
   batchection: 'Partial Shipped in Batch',
   guangzhou: 'Guangzhou warehouse',
   west: 'Western warehouse',
+  nansha: 'nansha warehouse',
   platform: 'Platform Order cancelled',
   review: 'Bulk confirmation',
   customerCancel: 'Canceled by Customer Service',
