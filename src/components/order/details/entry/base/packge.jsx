@@ -116,7 +116,7 @@ const colorCirle = (circle = {}) => (
 );
 const Packge = (
   {
-    dataSource: { base: { order_goods_info, button_list } },
+    dataSource: { base: { order_goods_info, button_list, order_info } },
     orderId,
     dispatch,
     backReturnDate,
@@ -136,6 +136,7 @@ const Packge = (
     show_refund_button, show_priority_shipped_button, show_cancel_priority_shipped_button,
     show_part_shipped_button, show_review_order_button,
   } = button_list;
+  const {basic_info:{status_code}} = order_info;
   const col = show => ([
     show ?
       null :
@@ -189,6 +190,7 @@ const Packge = (
       render: (d, rec) => (
         <span className={style.packeFlex}>
           <Checkbox
+            disabled={[5,7,75,82,20,74].indexOf(rec.status_code)>-1}
             onChange={(e) => {
               const value = e.target.checked;
               if (value) {
@@ -242,6 +244,7 @@ const Packge = (
   return (
     <div>
       {/* 按钮 */}
+      <div style={{ margin: '0 20px 20px' }}>
       {
         !show_refund_button &&
         !show_part_shipped_button &&
@@ -250,80 +253,89 @@ const Packge = (
         !show_review_order_button ?
           null
           :
-          <div style={{ margin: '0 20px 20px' }}>
-            <BG>
-              {
-                !!show_refund_button &&  // 退货按钮
-                <Button
-                  onClick={() => {
-                    if (chooseGoods.length) {
-                      return dispatch(operateReturn(orderId, chooseGoods.join(',')));
-                    }
-                    return message.warning(__('common.sagaTitle24'));
-                  }}
-                >
-                  {lan.tuibuo}
-                </Button>
-              }
-              {
-                !!show_part_shipped_button &&    // 部分发货按钮
-                <Popover
-                  content={
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        if (warehouse < 1) {
-                          return message.waring(lan.needWarehouse);
-                        }
-                        return dispatch(partSend(orderId, warehouse));
-                      }}
-                    >
-                      <RG onChange={e => dispatch(commit('warehouse', Number(e.target.value)))}>
-                        <Radio value={1}>{lan.guangzhou}</Radio>
-                        <Radio value={10}>{lan.xibu}</Radio>
-                      </RG>
-                      <Button htmlType="submit" type="primary">{lan.save}</Button>
-                      <Button onClick={() => dispatch(commit('warehouseShow', false))}>{lan.cancel}</Button>
-                    </form>
+          <BG>
+            {
+              !!show_refund_button &&  // 退货按钮
+              <Button
+                onClick={() => {
+                  if (chooseGoods.length) {
+                    return dispatch(operateReturn(orderId, chooseGoods.join(',')));
                   }
-                  title={lan.upEmail}
-                  trigger="click"
-                  visible={warehouseShow}
-                  onVisibleChange={d => dispatch(commit('warehouseShow', d))}
-                >
-                  <Button disabled={partSendBtn}>{lan.bufenfa}</Button>
-                </Popover>
-              }
-              {
-                !!show_priority_shipped_button && // 优先发货按钮
-                <Button
-                  onClick={() => {
-                    dispatch(commit('preSend', preSend));  // 0
-                    dispatch(preSendAction(Number(orderId), preSend, billno, activeKey)); // preSend
-                  }}
-                >
-                  {lan.youxianfahuo}
-                </Button>
-              }
-              {
-                !!show_cancel_priority_shipped_button && // 取消优先发货按钮
-                <Button
-                  onClick={() => {
-                    dispatch(commit('preSend', +!preSend)); // 1
-                    dispatch(preSendAction(Number(orderId), 1, billno, activeKey)); // preSend
-                  }}
-                >
-                  {lan.quxiaoyouxianfahuo}
-                </Button>
-              }
-              {
-                !!show_review_order_button &&  // 审核订单按钮
-                <Button onClick={() => dispatch(examine(orderId))}>{lan.shenhedingdan}</Button>
-              }
-            </BG>
-          </div>
-
+                  return message.warning(__('common.sagaTitle24'));
+                }}
+              >
+                {lan.tuibuo}
+              </Button>
+            }
+            {
+              !!show_part_shipped_button &&    // 部分发货按钮
+              <Popover
+                content={
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (warehouse < 1) {
+                        return message.waring(lan.needWarehouse);
+                      }
+                      return dispatch(partSend(orderId, warehouse));
+                    }}
+                  >
+                    <RG onChange={e => dispatch(commit('warehouse', Number(e.target.value)))}>
+                      <Radio value={1}>{lan.guangzhou}</Radio>
+                      <Radio value={10}>{lan.xibu}</Radio>
+                    </RG>
+                    <Button htmlType="submit" type="primary">{lan.save}</Button>
+                    <Button onClick={() => dispatch(commit('warehouseShow', false))}>{lan.cancel}</Button>
+                  </form>
+                }
+                title={lan.upEmail}
+                trigger="click"
+                visible={warehouseShow}
+                onVisibleChange={d => dispatch(commit('warehouseShow', d))}
+              >
+                <Button disabled={partSendBtn}>{lan.bufenfa}</Button>
+              </Popover>
+            }
+            {
+              !!show_priority_shipped_button && // 优先发货按钮
+              <Button
+                onClick={() => {
+                  dispatch(commit('preSend', preSend));  // 0
+                  dispatch(preSendAction(Number(orderId), preSend, billno, activeKey)); // preSend
+                }}
+              >
+                {lan.youxianfahuo}
+              </Button>
+            }
+            {
+              !!show_cancel_priority_shipped_button && // 取消优先发货按钮
+              <Button
+                onClick={() => {
+                  dispatch(commit('preSend', +!preSend)); // 1
+                  dispatch(preSendAction(Number(orderId), 1, billno, activeKey)); // preSend
+                }}
+              >
+                {lan.quxiaoyouxianfahuo}
+              </Button>
+            }
+            {
+              !!show_review_order_button &&  // 审核订单按钮
+              <Button onClick={() => dispatch(examine(orderId))}>{lan.shenhedingdan}</Button>
+            }
+          </BG>
       }
+      {status_code && status_code<=7?
+        <Button
+            onClick={() => {
+              if(!chooseGoods.length)return message.warning(__('common.sagaTitle24'));
+              return window.open(`${location.origin}${location.pathname}#/order/goodsRefund/${orderId}/${chooseGoods.join(',')}`);
+            }}
+            style={{marginLeft:20}}
+        >
+          {__('common.order_operation2')}
+        </Button>:null
+      }
+      </div>
 
       {/* 未形成包裹 */}
       {

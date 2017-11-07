@@ -32,7 +32,7 @@ class cashRefund extends Component {
     } = this.props;
     const {
       refundBillId, refundPaths, remark, refundType, orderId,
-      refundPathId, refundMethod, account, refundAmount, refundMethod1, refundAmount2,
+      refundPathId, refundMethod, account, refundAmount, refundMethod1, refundAmount2
     } = submitValue;
     return (
       ready ?
@@ -84,7 +84,7 @@ class cashRefund extends Component {
             {/* 退款金额 */}
             <div className={style.mainContentB}>
               <Price {...this.props} />
-              <div className={style.mark}>
+              {refundType!=3?null:(<div className={style.mark}>
                 <span className={style.descWidth}>{__('order.entry.cash_content6')}：</span>
                 <Select
                   style={{ width: '150px', marginRight: '10px' }}
@@ -113,7 +113,8 @@ class cashRefund extends Component {
                   value={account}
                   onChange={e => dispatch(subchange('account', e.target.value))}
                 />
-              </div>
+              </div>)}
+              
               <div className={style.mark}>
                 <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
                 <TextArea

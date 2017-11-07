@@ -14,6 +14,7 @@ const lan = {
   jine: __('order.entry.refund_6'),
   shangpin: __('order.entry.refund_7'),
   lujin: __('order.entry.refund_8'),
+  yuanyin: __('order.entry.refund_17'),
   zhaungtai: __('order.entry.refund_9'),
   pingzhenghao: __('order.entry.refund_10'),
   bohuiyuanyin: __('order.entry.refund_11'),
@@ -94,6 +95,10 @@ const Refund = (
               title: lan.lujin,
               dataIndex: 'refund_record_list',
               render: d => (<span>{d.map(v => v.refund_path_name).join('、')}</span>),
+            },
+            {
+              title: lan.yuanyin,
+              dataIndex: 'refund_reason'
             },
             {
               title: lan.zhaungtai,
