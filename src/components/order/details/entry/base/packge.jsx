@@ -200,11 +200,8 @@ const Packge = (
       render: (d, rec) => (
         <span className={style.packeFlex}>
           <Checkbox
-<<<<<<< HEAD
             disabled={[5,7,75,82,20,74].indexOf(rec.status_code)>-1}
-=======
             checked={chooseGoods.indexOf(rec.id) > -1}
->>>>>>> master
             onChange={(e) => {
               const value = e.target.checked;
               if (value) {
