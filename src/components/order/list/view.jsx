@@ -30,14 +30,16 @@ class orderList extends Component {
     }
   }
   componentDidMount(props) {
-    this.props.dispatch(search(assign({},
-      this.props.queryString,
-      {
-        billno: this.props.params.billno,
-        pageNumber: 1,
-        paytimeStart: this.props.queryString.paytimeStart,
-        paytimeEnd: this.props.queryString.paytimeEnd,
-      })));
+    if (this.props.params.billno) {
+      this.props.dispatch(search(assign({},
+        this.props.queryString,
+        {
+          billno: this.props.params.billno,
+          pageNumber: 1,
+          paytimeStart: this.props.queryString.paytimeStart,
+          paytimeEnd: this.props.queryString.paytimeEnd,
+        })));
+    }
   }
   render() {
     const {
