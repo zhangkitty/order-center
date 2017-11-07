@@ -154,6 +154,11 @@ module.exports = {
   cash_content4: 'Type',
   cash_content5: 'Withdraw Amount',
   cash_content6: 'Account',
-  cash_content7: 'Please input correct refund account info',
-  cash_content8: 'Please input the correct refund account',
+  cash_content7: 'Enter refund account info',
+  cash_content8: 'Enter refund account',
+  cash_content9: 'Enter Refund Currency',
+  cash_content10: 'Enter Bank Code',
+  cash_content11: 'Enter Card Number',
+  cash_content12: 'Enter Card Holder\'s Name',
+  cash_content13: 'Enter Card Issuer City',
 };

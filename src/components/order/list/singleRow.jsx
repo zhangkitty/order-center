@@ -230,35 +230,37 @@ const SingleRow = (props) => {
           columns={[{
             title: '订单商品编号',
             dataIndex: 'order_goods_sort',
-            width: '80px',
+            width: '50px',
           }, {
             title: '商品图片',
             dataIndex: 'order_goods_img',
-            width: '100px',
-            render: d => (<img src={d} width="50px" height="50px" alt="goods images" />),
+            width: '80px',
+            render: d => (<img src={d} width="60px" height="60px" alt="goods images" />),
           }, {
             title: '商品属性',
             dataIndex: 'goods_sn',
             render: (d, res) => (
               <div>
+                <p>{res.goods_name}</p>
                 <a href={res.goods_url} target="_blank"> {d}</a>
                 <span style={{ color: '#ff0000', marginLeft: '10px' }}>
                   {
                     replaceGoods(res.is_replace, res.replace_goods_sort) // res.goods_status
                   }
                 </span>
+                <p>{__('order.name.goods_id')}: {res.goods_id}</p>
                 <p> {res.goods_attr}</p>
               </div>
             ),
           }, {
             title: '价格',
             dataIndex: 'price',
-            width: '15%',
+            width: '10%',
             render: (d, res) => (<div style={{ textAlign: 'center' }}> ${d} <p style={{ color: '#f00' }}>(${res.coupon_price})</p></div>),
           }, {
             title: '退款单状态',
             dataIndex: 'refund_bill_status',
-            width: '15%',
+            width: '12%',
             render: (d, res) => (
               <div style={{ textAlign: 'center' }}>
                 { // 非COD订单，显示商品对应的退款单状态名称
@@ -294,7 +296,7 @@ const SingleRow = (props) => {
             ),
           }, {
             title: '操作',
-            width: '15%',
+            width: '18%',
             render: rec => (
               <div className={Styles.buttonBorderBg} key={rec.order_goods_id}>
                 {/* 操作查询 */}

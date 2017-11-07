@@ -156,4 +156,9 @@ module.exports = {
   cash_content6: '账户',
   cash_content7: '请输入正确的退款账户信息',
   cash_content8: '请输入正确的退款账户',
+  cash_content9: '请输入币种',
+  cash_content10: '请输入银行代码',
+  cash_content11: '请输入银行卡号',
+  cash_content12: '请输入顾客姓名',
+  cash_content13: '请输入发卡城市',
 };

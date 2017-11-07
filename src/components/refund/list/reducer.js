@@ -64,7 +64,6 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         queryString: action.data,
         searchLoad: true,
-        searchType: 0,
       });
     case TYPES.SEARCH_FAIL:
       return assign({}, state, {
