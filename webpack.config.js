@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const path = require('path');
 const i18n = require('i18n-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const languages = {
   en: require('./src/langs/en'),
   zh: require('./src/langs/zh'),
@@ -72,6 +73,7 @@ module.exports = Object.keys(languages).map((lang) => ({
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(['dist']),
     new webpack.DefinePlugin({
       process: {
         env: {
@@ -82,7 +84,7 @@ module.exports = Object.keys(languages).map((lang) => ({
       },
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['common', 'manifest'],
+      names: ['common','manifest'],
       filename: '[name].[chunkhash].js',
       minChunks: function(module) {
         return module.context && module.context.indexOf('node_modules') !== -1;
