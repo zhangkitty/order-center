@@ -8,10 +8,14 @@ import styles from './style.css';
 
 const star = (<span style={{ color: 'red' }}>*</span>);
 const RG = Radio.Group;
+const RadioGroup = Radio.Group;
 const TextArea = Input.TextArea;
 const orderTagName = [
-  __('common.orderTrouble1'), __('common.orderTrouble2'), __('common.orderTrouble3'),
-  __('common.orderTrouble4'), __('common.orderTrouble5'),
+  __('common.orderTrouble1'),
+  __('common.orderTrouble2'),
+  __('common.orderTrouble3'),
+  __('common.orderTrouble4'),
+  __('common.orderTrouble5'),
 ];
 const MarkTag = ({ markTag, dispatch }) => (
   <Modal
@@ -33,12 +37,35 @@ const MarkTag = ({ markTag, dispatch }) => (
     <div className={styles.troubleBg}>
       <span>{star}{__('common.title')}</span>
       <div className={styles.troubleContent}>
-        <RG
-          options={orderTagName.map((v, i) => ({ label: v, value: i + 1 }))}
+        <RadioGroup
           value={markTag.is_trouble}
           onChange={e => dispatch(change('markTag', assign({}, markTag, { is_trouble: e.target.value })))}
-        />
+        >
+          <div className={styles.troubleListBg}>
+            <div className={styles.troubleList}>
+              <span>{__('common.orderTypeTitle1')}</span>
+              <Radio value={4}>{__('common.orderTrouble4')}</Radio>
+              <Radio value={5}>{__('common.orderTrouble5')}</Radio>
+            </div>
+            <div className={styles.troubleList}>
+              <span>{__('common.orderTypeTitle2')}</span>
+              <Radio value={1}>{__('common.orderTrouble1')}</Radio>
+              <Radio value={3}>{__('common.orderTrouble3')}</Radio>
+            </div>
+            <div className={styles.troubleList}>
+              <span>{__('common.orderTypeTitle3')}</span>
+              <Radio value={2}>{__('common.orderTrouble2')}</Radio>
+            </div>
+          </div>
+
+          {/*
+            orderTagName.map((v, i) => (
+              <Radio value={i + 1}>{v}</Radio>
+            ))
+          */}
+        </RadioGroup>
       </div>
+
       <span>{star}{__('common.order_operation5')}</span>
       <TextArea
         className={styles.troubleContent}
