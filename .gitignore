@@ -53,3 +53,5 @@ jspm_packages
 dist
 nginx.conf
 nginx.pid
+index.html
+en.html
