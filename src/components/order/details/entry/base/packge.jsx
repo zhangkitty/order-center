@@ -292,6 +292,7 @@ const Packge = (
                       <RG onChange={e => dispatch(commit('warehouse', Number(e.target.value)))}>
                         <Radio value={1}>{lan.guangzhou}</Radio>
                         <Radio value={10}>{lan.xibu}</Radio>
+                        <Radio value={20}>{__('common.nansha')}</Radio>
                       </RG>
                       <Button htmlType="submit" type="primary">{lan.save}</Button>
                       <Button onClick={() => dispatch(commit('warehouseShow', false))}>{lan.cancel}</Button>
