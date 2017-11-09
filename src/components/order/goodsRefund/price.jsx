@@ -28,7 +28,13 @@ const types = {
 };
 
 const star = (<span style={{ color: 'red' }}>*</span>);
-
+const onC = (dispatch, submitValue, i, data) => (
+    dispatch(subchange('refundPaths', [
+      ...submitValue.refundPaths.slice(0, i),
+      assign({}, submitValue.refundPaths[i], data),
+      ...submitValue.refundPaths.slice(i + 1),
+    ],
+)));
 const Price = ({ dataSource, submitValue, dispatch }) => {
   const RLPrice = dataSource.rlFee || [];
   return (
@@ -131,14 +137,10 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                         style={{ width: 150 }}
                        // value={`${v.refund_method || ''}`}
                         onChange={(va) => {
-                          dispatch(subchange('refundPaths', [
-                            ...submitValue.refundPaths.slice(0, i),
-                            assign({}, submitValue.refundPaths[i], {
-                              refund_method: va,
-                              refund_method_id: v.refundAccountTypeList.find(d => d.name === va).id,
-                            }),
-                            ...submitValue.refundPaths.slice(i + 1),
-                          ]));
+                          onC(dispatch, submitValue, i, {
+                            refund_method: va,
+                            refund_method_id: v.refundAccountTypeList.find(d => d.name === va).id,
+                          });
                         }
                         }
                       >
@@ -148,30 +150,56 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                           ))
                         }
                       </Select>
+                      {/* 退款方式--其他 */}
                       {
-                        Number(v.refund_method_id) === 4 &&
+                        +v.refund_method_id === 4 &&
                         <Input
                           placeholder={__('order.entry.cash_content8')}
                           style={{ width: 150, marginLeft: '5px' }}
                           value={v.refund_method2}
-                          onChange={e => dispatch(subchange('refundPaths', [
-                            ...submitValue.refundPaths.slice(0, i),
-                            assign({}, submitValue.refundPaths[i],
-                              { refund_method2: e.target.value }),
-                            ...submitValue.refundPaths.slice(i + 1),
-                          ]))}
+                          onChange={e => onC(dispatch, submitValue, i, {
+                            refund_method2: e.target.value })}
+                        />
+                      }
+                      {/* 退款方式 = yes bank， 银行代码/银行卡号/顾客姓名/发卡城市     */}
+                      {
+                        +v.refund_method_id === 3 &&
+                        <Input
+                          placeholder={__('order.entry.cash_content10')} // 银行代码
+                          style={{ width: 150, marginLeft: '5px' }}
+                          value={v.bank_code}
+                          onChange={e => onC(dispatch, submitValue, i, {
+                            bank_code: e.target.value })}
                         />
                       }
                       <Input
-                        placeholder={__('order.entry.cash_content7')}
+                        placeholder={+v.refund_method_id === 3 ? __('order.entry.cash_content11') : __('order.entry.cash_content7')} // 银行卡号 || 输入正确的账户信息
                         style={{ width: 150, marginLeft: '5px' }}
                         value={v.account}
-                        onChange={e => dispatch(subchange('refundPaths', [
-                          ...submitValue.refundPaths.slice(0, i),
-                          assign({}, submitValue.refundPaths[i], { account: e.target.value }),
-                          ...submitValue.refundPaths.slice(i + 1),
-                        ]))}
+                        onChange={e => onC(dispatch, submitValue, i, {
+                          account: e.target.value })}
                       />
+                      {
+                        +v.refund_method_id === 3 &&
+                        <Input
+                          placeholder={__('order.entry.cash_content12')} // 顾客姓名
+                          style={{ width: 150, marginLeft: '5px' }}
+                          value={v.customer}
+                          onChange={e => onC(dispatch, submitValue, i, {
+                            customer: e.target.value })}
+                        />
+                      }
+                      {
+                        +v.refund_method_id === 3 &&
+                        <Input
+                          placeholder={__('order.entry.cash_content13')} // 发卡城市
+                          style={{ width: 150, marginLeft: '5px' }}
+                          value={v.issuing_city}
+                          onChange={e => onC(dispatch, submitValue, i, {
+                            issuing_city: e.target.value })}
+                        />
+                      }
+
                     </div>
                   }
                 </div>
