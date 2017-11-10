@@ -6,10 +6,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Card, Table, Button, Modal, Spin, Checkbox, Popover, Radio, message } from 'antd';
+import {
+  Card,
+  Table,
+  Button,
+  Modal,
+  Spin,
+  Checkbox,
+  Popover,
+  Radio,
+  message
+} from 'antd';
 import assign from 'object-assign';
 import style from '../style.css';
-import { backGoodsDates, commit, operateReturn, partSend, preSendAction, examine } from '../action';
+import {
+  backGoodsDates,
+  commit,
+  operateReturn,
+  partSend,
+  preSendAction,
+  examine
+} from '../action';
 
 const BG = Button.Group;
 const RG = Radio.Group;
@@ -38,7 +55,7 @@ const lan = {
   save: __('order.entry.confirm'),
   cancel: __('order.entry.cancel'),
   guangzhou: __('order.entry.Guangzhou'),
-  xibu: __('order.entry.west'),
+  xibu: __('order.entry.west')
 };
 
 // 商品状态
@@ -77,7 +94,7 @@ const pingkongShow = {
   57: '海外发货',
   54: 'COD已签收',
   126: '已申请退货',
-  127: '退货',
+  127: '退货'
 };
 //  商品状态前的标记
 const colors = {
@@ -105,9 +122,8 @@ const colors = {
   91: { bg: '#ccc', border: 'none' },
   94: { bg: '#ccc', border: 'none' },
   126: { bg: '#ccc', border: 'none' },
-  127: { bg: '#ccc', border: 'none' },
+  127: { bg: '#ccc', border: 'none' }
 };
-
 
 const colorCirle = (circle = {}) => (
   <span
@@ -118,265 +134,315 @@ const colorCirle = (circle = {}) => (
       display: 'inline-block',
       marginRight: '5px',
       backgroundColor: circle.bg || '#ccc',
-      border: `${circle.border}` || 'none',
+      border: `${circle.border}` || 'none'
     }}
   />
 );
-const Packge = (
-  {
-    dataSource: { base: { order_goods_info, button_list } },
-    orderId,
-    dispatch,
-    backReturnDate,
-    billno,
-    chooseGoods,
-    warehouseShow,
-    warehouse,
-    partSendBtn,
-    preSend,
-    activeKey,
-  },
-  ) => {
+const Packge = ({
+  dataSource: { base: { order_goods_info, button_list, order_info } },
+  orderId,
+  dispatch,
+  backReturnDate,
+  billno,
+  chooseGoods,
+  warehouseShow,
+  warehouse,
+  partSendBtn,
+  preSend,
+  activeKey
+}) => {
   const {
-    not_packaged_goods_list, package_list, returned_goods_list, refund_goods_list,
+    not_packaged_goods_list,
+    package_list,
+    returned_goods_list,
+    refund_goods_list
   } = order_goods_info;
   const {
-    show_refund_button, show_priority_shipped_button, show_cancel_priority_shipped_button,
-    show_part_shipped_button, show_review_order_button,
+    show_refund_button,
+    show_priority_shipped_button,
+    show_cancel_priority_shipped_button,
+    show_part_shipped_button,
+    show_review_order_button
   } = button_list;
+  const { basic_info: { status_code } } = order_info;
   // 判断 商品状态 是否显示（循环）
-  const col = show => ([
-    show ?
-      null :
-    {
-      title: lan.goodsStatus,
-      dataIndex: 'status',
-      render: (d, rec) => (
-        <div >
-          {
-            colorCirle(colors[rec.status_code])
-          }
-          <span>{d}</span>
-          {
-            pingkongShow[rec.status_code] ?
-              <Link
-                to={
-                  rec.is_assessed ?
-                    '/order/details/goods-control/edit/'  // 已品控
-                    :
-                    '/order/details/goods-control/list/' // 品控
+  const col = show =>
+    [
+      show
+        ? null
+        : {
+            title: lan.goodsStatus,
+            dataIndex: 'status',
+            render: (d, rec) => (
+              <div>
+                {colorCirle(colors[rec.status_code])}
+                <span>{d}</span>
+                {pingkongShow[rec.status_code] ? (
+                  <Link
+                    to={
+                      rec.is_assessed
+                        ? '/order/details/goods-control/edit/' // 已品控
+                        : '/order/details/goods-control/list/' // 品控
+                    }
+                    query={{
+                      data: JSON.stringify(
+                        assign({}, rec, {
+                          order_id: orderId,
+                          billno
+                        })
+                      )
+                    }}
+                    style={{ marginLeft: '10px' }}
+                  >
+                    {rec.is_assessed ? lan.yipinkong : lan.pinkong}
+                  </Link>
+                ) : null}
+                {/*  回货日期 按钮 */}
+                {Number(rec.status_code) === 11 && (
+                  <Button
+                    style={{ marginLeft: '10px' }}
+                    onClick={() =>
+                      dispatch(
+                        backGoodsDates({
+                          order_goods_id: Number(rec.id),
+                          goods_sn: rec.sku,
+                          goods_attr: rec.attr,
+                          order_id: orderId
+                        })
+                      )}
+                  >
+                    {lan.huihuo}
+                  </Button>
+                )}
+              </div>
+            )
+          },
+      {
+        title: lan.img,
+        dataIndex: 'pic',
+        render: (d, rec) => (
+          <span className={style.packeFlex}>
+            <Checkbox
+              disabled={[5, 7, 75, 82, 20, 74].indexOf(rec.status_code) > -1}
+              checked={chooseGoods.indexOf(rec.id) > -1}
+              onChange={e => {
+                const value = e.target.checked;
+                if (value) {
+                  return dispatch(
+                    commit('chooseGoods', [...chooseGoods, rec.id])
+                  );
                 }
-                query={{ data: JSON.stringify(assign({}, rec, {
-                  order_id: orderId, billno,
-                })) }}
-                style={{ marginLeft: '10px' }}
-              >
-                { rec.is_assessed ? lan.yipinkong : lan.pinkong}
-              </Link>
-              : null
-          }
-          {/*  回货日期 按钮 */}
-          {
-              Number(rec.status_code) === 11 &&
-              <Button
-                style={{ marginLeft: '10px' }}
-                onClick={() => dispatch(backGoodsDates({
-                  order_goods_id: Number(rec.id),
-                  goods_sn: rec.sku,
-                  goods_attr: rec.attr,
-                  order_id: orderId,
-                }))}
-              >
-                {lan.huihuo}
-              </Button>
-            }
-        </div>
-        ),
-    },
-    {
-      title: lan.img,
-      dataIndex: 'pic',
-      render: (d, rec) => (
-        <span className={style.packeFlex}>
-          <Checkbox
-            checked={chooseGoods.indexOf(rec.id) > -1}
-            onChange={(e) => {
-              const value = e.target.checked;
-              if (value) {
-                return dispatch(commit('chooseGoods', [...chooseGoods, rec.id]));
-              }
-              return dispatch(commit('chooseGoods', chooseGoods.filter(v => v !== rec.id)));
-            }}
-          />
-          <span style={{ width: '50px', display: 'inline-block' }}>{rec.serial_number}</span>
-          <img alt="pic" src={d} width="50px" height="50px" style={{ margin: '0 10px' }} />
-          {
-            show && pingkongShow[rec.status_code] ?
+                return dispatch(
+                  commit('chooseGoods', chooseGoods.filter(v => v !== rec.id))
+                );
+              }}
+            />
+            <span style={{ width: '50px', display: 'inline-block' }}>
+              {rec.serial_number}
+            </span>
+            <img
+              alt="pic"
+              src={d}
+              width="50px"
+              height="50px"
+              style={{ margin: '0 10px' }}
+            />
+            {show && pingkongShow[rec.status_code] ? (
               <Link
                 to={
-                rec.is_assessed ?
-                  '/order/details/goods-control/edit/'  // 已品控
-                  :
-                  '/order/details/goods-control/list/' // 品控
-              }
-                query={{ data: JSON.stringify(assign({}, rec, {
-                  order_id: orderId, billno,
-                })) }}
+                  rec.is_assessed
+                    ? '/order/details/goods-control/edit/' // 已品控
+                    : '/order/details/goods-control/list/' // 品控
+                }
+                query={{
+                  data: JSON.stringify(
+                    assign({}, rec, {
+                      order_id: orderId,
+                      billno
+                    })
+                  )
+                }}
               >
-                { rec.is_assessed ? lan.yipinkong : lan.pinkong}
+                {rec.is_assessed ? lan.yipinkong : lan.pinkong}
               </Link>
-              : null
-          }
-        </span>
-      ),
-    },
-    {
-      title: lan.sku,
-      dataIndex: 'sku',
-    },
-    {
-      title: lan.code,
-      dataIndex: 'attr',
-
-    },
-    {
-      title: `${lan.sale}($)`,
-      dataIndex: 'sale_price',
-      render: d => (<span>{d.amount_with_symbol}</span>),
-    },
-    {
-      title: `${lan.discount}($)`,
-      dataIndex: 'discount_price',
-      render: d => (<span>{d.amount_with_symbol}</span>),
-    },
-  ].filter(res => res));
+            ) : null}
+          </span>
+        )
+      },
+      {
+        title: lan.sku,
+        dataIndex: 'sku'
+      },
+      {
+        title: lan.code,
+        dataIndex: 'attr'
+      },
+      {
+        title: `${lan.sale}($)`,
+        dataIndex: 'sale_price',
+        render: d => <span>{d.amount_with_symbol}</span>
+      },
+      {
+        title: `${lan.discount}($)`,
+        dataIndex: 'discount_price',
+        render: d => <span>{d.amount_with_symbol}</span>
+      }
+    ].filter(res => res);
   return (
     <div>
       {/* 按钮 */}
-      {
-        !show_refund_button &&
+      <div style={{ margin: '0 20px 20px' }}>
+        {!show_refund_button &&
         !show_part_shipped_button &&
         !show_priority_shipped_button &&
         !show_cancel_priority_shipped_button &&
-        !show_review_order_button ?
-          null
-          :
-          <div style={{ margin: '0 20px 20px' }}>
-            <BG>
-              {
-                !!show_refund_button &&  // 退货按钮
-                <Button
-                  onClick={() => {
-                    if (chooseGoods.length) {
-                      return dispatch(operateReturn(orderId, chooseGoods.join(',')));
-                    }
-                    return message.warning(__('common.sagaTitle24'));
-                  }}
-                >
-                  {lan.tuibuo}
-                </Button>
-              }
-              {
-                !!show_part_shipped_button &&    // 部分发货按钮
-                <Popover
-                  content={
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        if (warehouse < 1) {
-                          return message.waring(lan.needWarehouse);
-                        }
-                        return dispatch(partSend(orderId, warehouse));
-                      }}
-                    >
-                      <RG onChange={e => dispatch(commit('warehouse', Number(e.target.value)))}>
-                        <Radio value={1}>{lan.guangzhou}</Radio>
-                        <Radio value={10}>{lan.xibu}</Radio>
-                        <Radio value={20}>{__('common.nansha')}</Radio>
-                      </RG>
-                      <Button htmlType="submit" type="primary">{lan.save}</Button>
-                      <Button onClick={() => dispatch(commit('warehouseShow', false))}>{lan.cancel}</Button>
-                    </form>
+        !show_review_order_button ? null : (
+          <BG>
+            {!!show_refund_button && ( // 退货按钮
+              <Button
+                onClick={() => {
+                  if (chooseGoods.length) {
+                    return dispatch(
+                      operateReturn(orderId, chooseGoods.join(','))
+                    );
                   }
-                  title={lan.upEmail}
-                  trigger="click"
-                  visible={warehouseShow}
-                  onVisibleChange={d => dispatch(commit('warehouseShow', d))}
-                >
-                  <Button disabled={partSendBtn}>{lan.bufenfa}</Button>
-                </Popover>
-              }
-              {
-                !!show_priority_shipped_button && // 优先发货按钮
-                <Button
-                  onClick={() => {
-                    dispatch(commit('preSend', preSend));  // 0
-                    dispatch(preSendAction(Number(orderId), preSend, billno, activeKey)); // preSend
-                  }}
-                >
-                  {lan.youxianfahuo}
-                </Button>
-              }
-              {
-                !!show_cancel_priority_shipped_button && // 取消优先发货按钮
-                <Button
-                  onClick={() => {
-                    dispatch(commit('preSend', +!preSend)); // 1
-                    dispatch(preSendAction(Number(orderId), 1, billno, activeKey)); // preSend
-                  }}
-                >
-                  {lan.quxiaoyouxianfahuo}
-                </Button>
-              }
-              {
-                !!show_review_order_button &&  // 审核订单按钮
-                <Button onClick={() => dispatch(examine(orderId))}>{lan.shenhedingdan}</Button>
-              }
-            </BG>
-          </div>
-
-      }
+                  return message.warning(__('common.sagaTitle24'));
+                }}
+              >
+                {lan.tuibuo}
+              </Button>
+            )}
+            {!!show_part_shipped_button && ( // 部分发货按钮
+              <Popover
+                content={
+                  <form
+                    onSubmit={e => {
+                      e.preventDefault();
+                      if (warehouse < 1) {
+                        return message.waring(lan.needWarehouse);
+                      }
+                      return dispatch(partSend(orderId, warehouse));
+                    }}
+                  >
+                    <RG
+                      onChange={e =>
+                        dispatch(commit('warehouse', Number(e.target.value)))}
+                    >
+                      <Radio value={1}>{lan.guangzhou}</Radio>
+                      <Radio value={10}>{lan.xibu}</Radio>
+                    </RG>
+                    <Button htmlType="submit" type="primary">
+                      {lan.save}
+                    </Button>
+                    <Button
+                      onClick={() => dispatch(commit('warehouseShow', false))}
+                    >
+                      {lan.cancel}
+                    </Button>
+                  </form>
+                }
+                title={lan.upEmail}
+                trigger="click"
+                visible={warehouseShow}
+                onVisibleChange={d => dispatch(commit('warehouseShow', d))}
+              >
+                <Button disabled={partSendBtn}>{lan.bufenfa}</Button>
+              </Popover>
+            )}
+            {!!show_priority_shipped_button && ( // 优先发货按钮
+              <Button
+                onClick={() => {
+                  dispatch(commit('preSend', preSend)); // 0
+                  dispatch(
+                    preSendAction(Number(orderId), preSend, billno, activeKey)
+                  ); // preSend
+                }}
+              >
+                {lan.youxianfahuo}
+              </Button>
+            )}
+            {!!show_cancel_priority_shipped_button && ( // 取消优先发货按钮
+              <Button
+                onClick={() => {
+                  dispatch(commit('preSend', +!preSend)); // 1
+                  dispatch(
+                    preSendAction(Number(orderId), 1, billno, activeKey)
+                  ); // preSend
+                }}
+              >
+                {lan.quxiaoyouxianfahuo}
+              </Button>
+            )}
+            {!!show_review_order_button && ( // 审核订单按钮
+              <Button onClick={() => dispatch(examine(orderId))}>
+                {lan.shenhedingdan}
+              </Button>
+            )}
+          </BG>
+        )}
+        {status_code && status_code <= 7 ? (
+          <Button
+            onClick={() => {
+              if (!chooseGoods.length)
+                return message.warning(__('common.sagaTitle24'));
+              return window.open(
+                `${location.origin}${location.pathname}#/order/goodsRefund/${orderId}/${chooseGoods.join(
+                  ','
+                )}`
+              );
+            }}
+            style={{ marginLeft: 20 }}
+          >
+            {__('common.order_operation2')}
+          </Button>
+        ) : null}
+      </div>
 
       {/* 未形成包裹 */}
-      {
-        not_packaged_goods_list.length > 0 &&
-          <Card
-            title={lan.noPackge}
-            className={style.cardBottom}
-          >
-            <Table
-              size="small"
-              pagination={false}
-              dataSource={not_packaged_goods_list}
-              columns={col()}
-            />
-          </Card>
-      }
+      {not_packaged_goods_list.length > 0 && (
+        <Card title={lan.noPackge} className={style.cardBottom}>
+          <Table
+            size="small"
+            pagination={false}
+            dataSource={not_packaged_goods_list}
+            columns={col()}
+          />
+        </Card>
+      )}
 
       {/* 包裹 */}
-      {
-        package_list.length > 0 &&
+      {package_list.length > 0 &&
         package_list.map(v => (
           <Card
             title={
-              <div>{`${lan.packge}:${v.package_number}`}
+              <div className={style.center}>
+                <span
+                  style={{ marginRight: 10 }}
+                >{`${lan.packge}:${v.package_number}`}</span>
                 <Button
                   className={style.orderSelect}
                   size="small"
                   onClick={() => {
                     const temp = [];
-                    const arr = v.package_goods_list.map((f) => {
+                    const arr = v.package_goods_list.map(f => {
                       const index = chooseGoods.findIndex(d => d === f.id);
                       if (index > -1) {
                         temp.push(chooseGoods[index]);
-                        chooseGoods = [...chooseGoods.slice(0, index), ...chooseGoods.slice(index + 1)];
+                        chooseGoods = [
+                          ...chooseGoods.slice(0, index),
+                          ...chooseGoods.slice(index + 1)
+                        ];
                       }
                       return f.id;
                     });
                     if (arr.length === temp.length) {
                       return dispatch(commit('chooseGoods', chooseGoods));
                     }
-                    return dispatch(commit('chooseGoods', [...new Set(chooseGoods.concat(arr))]));
+                    return dispatch(
+                      commit('chooseGoods', [
+                        ...new Set(chooseGoods.concat(arr))
+                      ])
+                    );
                   }}
                 >
                   {__('common.allChoose')}
@@ -389,9 +455,7 @@ const Packge = (
             <div className={style.packgeContent}>
               <div className={style.packgeL}>
                 <div>
-                  {
-                    colorCirle(colors[v.package_goods_list[0].status_code])
-                  }
+                  {colorCirle(colors[v.package_goods_list[0].status_code])}
                   <span>{v.package_status}</span>
                 </div>
                 <div>
@@ -413,13 +477,43 @@ const Packge = (
               />
             </div>
           </Card>
-        ))
-      }
+        ))}
 
       {/* 退货商品 */}
-      {
-        returned_goods_list.length > 0 &&
-        <Card title={lan.refundGoods} className={style.cardBottom}>
+      {returned_goods_list.length > 0 && (
+        <Card
+          title={
+            <div className={style.center}>
+              <span style={{ marginRight: 10 }}>{lan.refundGoods}</span>
+              <Button
+                size="small"
+                onClick={() => {
+                  const temp = [];
+                  const arr = returned_goods_list.map(f => {
+                    const index = chooseGoods.findIndex(d => d === f.id);
+                    if (index > -1) {
+                      temp.push(chooseGoods[index]);
+                      chooseGoods = [
+                        ...chooseGoods.slice(0, index),
+                        ...chooseGoods.slice(index + 1)
+                      ];
+                    }
+                    return f.id;
+                  });
+                  if (arr.length === temp.length) {
+                    return dispatch(commit('chooseGoods', chooseGoods));
+                  }
+                  return dispatch(
+                    commit('chooseGoods', [...new Set(chooseGoods.concat(arr))])
+                  );
+                }}
+              >
+                {__('common.allChoose')}
+              </Button>
+            </div>
+          }
+          className={style.cardBottom}
+        >
           <Table
             size="small"
             pagination={false}
@@ -427,11 +521,10 @@ const Packge = (
             columns={col()}
           />
         </Card>
-      }
+      )}
 
       {/* 退款商品 */}
-      {
-        refund_goods_list.length > 0 &&
+      {refund_goods_list.length > 0 && (
         <Card title={lan.refund} className={style.cardBottom}>
           <Table
             size="small"
@@ -440,41 +533,52 @@ const Packge = (
             columns={col()}
           />
         </Card>
-      }
+      )}
       {/* Modal  */}
       <Modal
         visible={backReturnDate.show}
-        onCancel={() => dispatch(commit('backReturnDate', assign({}, backReturnDate, { show: false })))}
-        onOk={() => dispatch(commit('backReturnDate', assign({}, backReturnDate, { show: false })))}
+        onCancel={() =>
+          dispatch(
+            commit(
+              'backReturnDate',
+              assign({}, backReturnDate, { show: false })
+            )
+          )}
+        onOk={() =>
+          dispatch(
+            commit(
+              'backReturnDate',
+              assign({}, backReturnDate, { show: false })
+            )
+          )}
       >
-        {
-          backReturnDate.ready ?
-            <Spin /> :
-            <div>
-              {
-                backReturnDate.return_status < 2 ?
-                  <div>
-                    <div>
-                      <span>{backReturnDate.return_status_name}</span>
-                    </div>
-                    <div>
-                      <span>{backReturnDate.shelve_name}</span>
-                      <span>{backReturnDate.shelve_number}</span>
-                    </div>
-                  </div>
-                  :
-                  <div>
-                    <div>
-                      <span>{backReturnDate.return_status_name}</span>
-                    </div>
-                    <div>
-                      <span>{backReturnDate.return_date_name}</span>
-                      <span>{backReturnDate.return_date}</span>
-                    </div>
-                  </div>
-              }
-            </div>
-        }
+        {backReturnDate.ready ? (
+          <Spin />
+        ) : (
+          <div>
+            {backReturnDate.return_status < 2 ? (
+              <div>
+                <div>
+                  <span>{backReturnDate.return_status_name}</span>
+                </div>
+                <div>
+                  <span>{backReturnDate.shelve_name}</span>
+                  <span>{backReturnDate.shelve_number}</span>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div>
+                  <span>{backReturnDate.return_status_name}</span>
+                </div>
+                <div>
+                  <span>{backReturnDate.return_date_name}</span>
+                  <span>{backReturnDate.return_date}</span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </Modal>
     </div>
   );
@@ -489,6 +593,6 @@ Packge.propTypes = {
   billno: PropTypes.string,
   warehouse: PropTypes.number,
   preSend: PropTypes.number,
-  chooseGoods: PropTypes.arrayOf(PropTypes.string),
+  chooseGoods: PropTypes.arrayOf(PropTypes.string)
 };
 export default Packge;

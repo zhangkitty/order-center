@@ -105,6 +105,7 @@ module.exports = {
   refund_14: '修改申请',
   refund_15: '取消退款',
   refund_16: '确认取消此退款单', // 退款
+  refund_17: '退款原因',
   order_return_1: '退货单号',   // 退货
   order_return_2: '退货单类型',
   order_return_3: '运单类型',
