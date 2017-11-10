@@ -413,7 +413,7 @@ const SingleRow = (props) => {
               >{orderTagName[data.is_trouble]}</Button>
           }
           {/*  退款/取消 */}
-          {
+          {/* {
             (data.payment_method === 'cod' && Number(data.order_status) === 5)
             ||
             data.order_status > 7
@@ -431,7 +431,7 @@ const SingleRow = (props) => {
                   return window.open(`${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${res.join(',')}`);
                 }}
               >{__('common.order_operation2')}</Button>
-          }
+          } */}
 
           {/*  差价退款 */}
           <Link to={`/order/diffRefund/${data.order_id}/2`} target="_blank">{__('common.order_operation3')}</Link>

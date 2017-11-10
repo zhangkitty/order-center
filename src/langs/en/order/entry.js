@@ -105,6 +105,7 @@ module.exports = {
   refund_14: 'Modify application',
   refund_15: 'Refund Canceled',
   refund_16: 'Confirm to cancel this refund order', // 退款
+  refund_17: 'Refund Reasons',
   order_return_1: 'RAN',   // 退货
   order_return_2: 'Return Applied Type',
   order_return_3: 'Waybill Type',

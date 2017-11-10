@@ -141,3 +141,8 @@
 .contentPadding table td {
     color: #333;
 }
+
+.center{
+    display: flex;
+    align-items: center;
+}
