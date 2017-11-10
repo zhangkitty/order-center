@@ -33,9 +33,9 @@ const defaultState = {
  */
 const maxTypes = data => (
   {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-    3: data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount,
+    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    3: data.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
   }
 );
 
@@ -50,7 +50,7 @@ const changePath = (value, data, flag) => {
   const radio = arr.map(d => (
     d.refundTypeId === value ?
       assign({}, d, { check: true }) :
-      flag ? assign({}, d, { check: false, refundAmount: 0.00, refundAmount2: 0.00 }) :
+      flag ? assign({}, d, { check: false, refundAmount: 0.00, refundCurrency: 0.00 }) :
         assign({}, d, { check: false })
   ));
   const result = data.filter(d => d.refundTypeId < 2).concat(radio);
@@ -64,9 +64,9 @@ const copyPayment = (data) => {
       assign({}, d, {
         check: true,
         refundAmount: user.refundAmount,
-        refundAmount2: user.refundAmount2,
+        refundCurrency: user.refundCurrency,
       })
-      : assign({}, d, { check: false, refundAmount: 0.00, refundAmount2: 0.00 })
+      : assign({}, d, { check: false, refundAmount: 0.00, refundCurrency: 0.00 })
   ));
   const result = data.refundPaths.filter(d => d.refundTypeId < 2).concat(radio);
   return assign({}, data, {
@@ -119,7 +119,7 @@ const svInit = (source) => {
     isShow: (Number(v.refundPathId) === 1 && Number(maxObj[v.refundPathId]) > 0) ||
     (Number(v.refundPathId) > 1 && Number(v.refundPathId) !== 4),
     refundAmount: priceObj[v.refundPathId] < 0 ? 0 : priceObj[v.refundPathId],
-    refundAmount2: Number(
+    refundCurrency: Number(
       Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
     ) < 0 ?
     0
@@ -203,7 +203,7 @@ const allBack = (source, arr, back, rl, type, refundPaths) => {
   }
   return refundPaths.map(v => assign({}, v, {
     refundAmount: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
-    refundAmount2: v.check ? Number(Number(price[v.refundTypeId] * v.rate).toFixed(2)) : 0.00,
+    refundCurrency: v.check ? Number(Number(price[v.refundTypeId] * v.rate).toFixed(2)) : 0.00,
 
   }));
 };
@@ -242,7 +242,7 @@ const reducer = (state = defaultState, action) => {
             ...state.submitValue.refundPaths.slice(0, action.i),
             assign({}, state.submitValue.refundPaths[action.i], {
               refundAmount: action.value,
-              refundAmount2: Number(Number(action.value) * action.rate).toFixed(2),
+              refundCurrency: Number(Number(action.value) * action.rate).toFixed(2),
             }),
             ...state.submitValue.refundPaths.slice(action.i + 1),
           ],
@@ -255,7 +255,7 @@ const reducer = (state = defaultState, action) => {
             ...state.submitValue.refundPaths.slice(0, action.i),
             assign({}, state.submitValue.refundPaths[action.i], {
               refundAmount: Number(Number(action.value) * action.rate2).toFixed(2),
-              refundAmount2: action.value,
+              refundCurrency: action.value,
             }),
             ...state.submitValue.refundPaths.slice(action.i + 1),
           ],
@@ -290,7 +290,7 @@ const reducer = (state = defaultState, action) => {
           remark: '',
           refundPaths: state.submitValue.refundPaths.map(v => assign({}, v, {
             refundAmount: '',
-            refundAmount2: '',
+            refundCurrency: '',
             refund_method: '',
             account: '',
             check: false,

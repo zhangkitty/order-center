@@ -27,18 +27,18 @@ const defaultState = {
 };
 const maxTypes = data => ({
   1: {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
+    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount,
   },
   2: {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: Number(Number(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount)
+    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    2: Number(Number(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount)
       +
-      (Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5))
+      (Number(data.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5))
       .toFixed(2), // 钱包(实付金额*150%+钱包可退金额)
-    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-    4: data.orderPriceInfo.totalPrice.priceUsd.amount * 1.5,  // 溢出（实付金额*150%）
+    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    4: data.orderPriceInfo.totalPrice.priceWithExchangeRate.amount * 1.5,  // 溢出（实付金额*150%）
   },
 }
 );
@@ -70,7 +70,7 @@ const reducer = (state = defaultState, action) => {
             refundPathName: v.refundPathName,   // 退款单类型ID
               //  isShow: v.isShow,
             refundAmount: v.refundAmount.priceUsd.amount,   // 美元金额
-            refundAmount2: v.refundAmount.priceWithExchangeRate.amount,  // 非美元金额
+            refundCurrency: v.refundAmount.priceWithExchangeRate.amount,  // 非美元金额
             rate: v.refundAmount.priceUsd.rate,   // 汇率
             rate2: v.refundAmount.priceWithExchangeRate.rate, // 汇率（转$）
             currency: v.refundAmount.priceWithExchangeRate.symbol, // 非美元币种
@@ -98,7 +98,7 @@ const reducer = (state = defaultState, action) => {
           remark: '',
           recordList: state.submitValue.recordList.map(v => assign({}, v, {
             refundAmount: '',
-            refundAmount2: '',
+            refundCurrency: '',
             refund_method: '',
             account: '',
           })),

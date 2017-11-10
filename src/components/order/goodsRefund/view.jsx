@@ -50,7 +50,7 @@ class GoodsRefund extends Component {
               submitValue,
               { refundPaths: refundPaths.filter(v => v.check).map(v => (assign({}, v, {
                 refundAmount: Number(v.refundAmount).toFixed(2),
-                refundAmount2: Number(v.refundAmount2).toFixed(2),
+                refundCurrency: Number(v.refundCurrency).toFixed(2),
               }))) });
             const newRes = {
               order_id: Number(res.orderId),
