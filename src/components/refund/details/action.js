@@ -93,3 +93,8 @@ export const doRefundPass = data => ({
   type: TYPES.DO_REFUND_PASS,
   data,
 });
+export const changeOrder = (billno, refundBillId) => ({
+  type: TYPES.CHANGE_ORDER,
+  billno,
+  refundBillId,
+});

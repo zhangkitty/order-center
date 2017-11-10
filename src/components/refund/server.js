@@ -19,6 +19,7 @@ const details = {
   doRefund: '/OrderRefund/doRefund', // 提交退款
   doRefundAgain: '/OrderRefund/doRefundAgain', // 重新退款
   doRefundPass: '/OrderRefund/doRefundPass', // 通过
+  changeOrder: '/OrderRefund/addRefundRemark', // 更改订单号 TODO 接口不对
 }
 
 // 获取所有搜索数据
@@ -85,5 +86,12 @@ export const doRefundPassSer = data => (
   fetch(details.doRefundPass, {
     method: 'POST',
     body: JSON.stringify(data)
+  })
+)
+// TODO 更改订单号
+export const changeOrderSer = billno => (
+  fetch(details.changeOrder, {
+    method: 'POST',
+    body: JSON.stringify({billno})
   })
 )

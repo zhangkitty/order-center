@@ -30,6 +30,11 @@ const defaultState = {
     show: false,
     data: {},
   },
+  changeOrderInfo: {
+    show: false,
+    billno: '',
+    refundBillId: '',
+  },
 };
 
 export default (state = defaultState, action) => {
@@ -147,6 +152,12 @@ export default (state = defaultState, action) => {
           saveLoad: false,
           show: false,
           data: {},
+        }),
+      });
+    case TYPES.CHANGE_ORDER:
+      return assign({}, state, {
+        changeOrderInfo: assign({}, state.changeOrderInfo, {
+          show: true,
         }),
       });
     case TYPES.SAVE:
