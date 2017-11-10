@@ -120,12 +120,12 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                       <span style={spanWidth}>{v.currency}</span>
                       <Input
                         style={{ width: '150px' }}
-                        value={v.refundAmount2}
+                        value={v.refundCurrency}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(otherPriceChange(e.target.value, i, v.rate2))}
                       />
-                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${v.max}</span>
+                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{v.currency}{v.max}</span>
                     </div>
                   </div>
                   {

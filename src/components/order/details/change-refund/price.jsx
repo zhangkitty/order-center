@@ -32,7 +32,7 @@ const Price = ({ submitValue, dispatch }) => {
                     ...submitValue.recordList.slice(0, i),
                     assign({}, submitValue.recordList[i], {
                       refundAmount: e.target.value,
-                      refundAmount2: Number(Number(e.target.value) * v.rate2).toFixed(2),
+                      refundCurrency: Number(Number(e.target.value) * v.rate2).toFixed(2),
                     }),
                     ...submitValue.recordList.slice(i + 1),
                   ]))}
@@ -41,17 +41,17 @@ const Price = ({ submitValue, dispatch }) => {
                 <Input
                   style={{ width: '150px' }}
                   type="number"
-                  value={v.refundAmount2}
+                  value={v.refundCurrency}
                   onChange={e => dispatch(subchange('recordList', [
                     ...submitValue.recordList.slice(0, i),
                     assign({}, submitValue.recordList[i], {
                       refundAmount: Number(Number(e.target.value) / v.rate2).toFixed(2),
-                      refundAmount2: e.target.value,
+                      refundCurrency: e.target.value,
                     }),
                     ...submitValue.recordList.slice(i + 1),
                   ]))}
                 />
-                <span className={style.titleBg}>{__('order.goodsRefund.no_over_price')}${v.max}</span>
+                <span className={style.titleBg}>{__('order.goodsRefund.no_over_price')}{v.currency}{v.max}</span>
               </div>
             </div>
           ))

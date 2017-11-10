@@ -27,11 +27,11 @@ const defaultState = {
 };
 
 const getMax = d => ({
-  1: d.giftCardCanBeRefundedPrice.priceUsd.amount,
-  2: (Number(d.totalPrice.priceUsd.amount) * 1.5) +
-  Number(d.walletOrCardCanBeRefundedPrice.priceUsd.amount),
-  3: d.cardCanBeRefundedPrice.priceUsd.amount,
-  4: (Number(d.totalPrice.priceUsd.amount) * 1.5),
+  1: d.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+  2: (Number(d.totalPrice.priceWithExchangeRate.amount) * 1.5) +
+  Number(d.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount),
+  3: d.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
+  4: (Number(d.totalPrice.priceWithExchangeRate.amount) * 1.5),
   disabled: 0,
 });
 
@@ -88,7 +88,7 @@ const reducer = (state = defaultState, action) => {
           channelType: chanelTypeTable[item.refundPathId],
           refund_method: '',
           refund_method1: '',
-          refundAmount1: 0,
+          refundCurrency: 0,
           refundAmount: 0,
         })),
         maxTips: getMax(action.data.orderPriceInfo),

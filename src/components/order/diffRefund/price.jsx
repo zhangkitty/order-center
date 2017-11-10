@@ -33,7 +33,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
         checked,
         refundPathName: name,
         refundAmount,
-        refundAmount1,
+        refundCurrency,
         priceWithExchangeRate,
         refundAccountTypeList,
         account,
@@ -83,16 +83,16 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                   const value = e.target.value;
                   dispatch(change('maxTips', assign({}, maxTips, { disabled: Number(value) })));
                   dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(value).toFixed(2)));
-                  dispatch(changeChannelValue(refundPathId, 'refundAmount1', Number(value * priceWithExchangeRate.rate).toFixed(2)));
-                  if (refundPathId === 3 && Number(value) === Number(maxTips[3])) {
+                  dispatch(changeChannelValue(refundPathId, 'refundCurrency', Number(value * priceWithExchangeRate.rate).toFixed(2)));
+                  if (refundPathId === 3 && Number(value * priceWithExchangeRate.rate).toFixed(2) === Number(maxTips[3]).toFixed(2)) {
                     dispatch(changeChannelValue(4, 'checked', true));
                   }
-                  if (refundPathId === 3 && Number(value) !== Number(maxTips[3])) {
+                  if (refundPathId === 3 && Number(value * priceWithExchangeRate.rate).toFixed(2) !== Number(maxTips[3]).toFixed(2)) {
                     dispatch(changeChannelValue(4, 'checked', false));
                   }
                   if (value < 0) {
                     dispatch(changeChannelValue(refundPathId, 'refundAmount', 0));
-                    dispatch(changeChannelValue(refundPathId, 'refundAmount1', 0));
+                    dispatch(changeChannelValue(refundPathId, 'refundCurrency', 0));
                   }
                 }}
               />
@@ -101,24 +101,24 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 style={{ width: '150px' }}
                 type="number"
                 disabled={!checked}
-                value={Number(refundAmount1).toFixed(2)}
+                value={Number(refundCurrency).toFixed(2)}
                 onChange={(e) => {
-                  dispatch(changeChannelValue(refundPathId, 'refundAmount1', Number(e.target.value).toFixed(2)));
+                  dispatch(changeChannelValue(refundPathId, 'refundCurrency', Number(e.target.value).toFixed(2)));
                   dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(e.target.value / priceWithExchangeRate.rate).toFixed(2)));
-                  if (refundPathId === 3 && (Number(e.target.value) / priceWithExchangeRate.rate).toFixed(2) === Number(maxTips[3]).toFixed(2)) {
+                  if (refundPathId === 3 && (Number(e.target.value).toFixed(2) === Number(maxTips[3]).toFixed(2))) {
                     dispatch(changeChannelValue(4, 'checked', true));
                   }
-                  if (refundPathId === 3 && (Number(e.target.value) / priceWithExchangeRate.rate).toFixed(2) !== Number(maxTips[3]).toFixed(2)) {
+                  if (refundPathId === 3 && (Number(e.target.value).toFixed(2) !== Number(maxTips[3]).toFixed(2))) {
                     dispatch(changeChannelValue(4, 'checked', false));
                   }
                   if (e.target.value < 0) {
-                    dispatch(changeChannelValue(refundPathId, 'refundAmount1', 0));
+                    dispatch(changeChannelValue(refundPathId, 'refundCurrency', 0));
                     dispatch(changeChannelValue(refundPathId, 'refundAmount', 0));
                   }
                 }}
               />
               {
-                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${Number(maxTips[refundPathId]).toFixed(2) || ''}</span>
+                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{priceWithExchangeRate.symbol}{Number(maxTips[refundPathId]).toFixed(2) || ''}</span>
               }
             </div>
           </div>
