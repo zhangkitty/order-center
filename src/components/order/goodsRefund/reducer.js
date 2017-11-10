@@ -132,7 +132,7 @@ const svInit = (source) => {
     currency: v.priceWithExchangeRate.symbol,
     check: priceObj[v.refundPathId] > 0,
     max: maxObj[v.refundPathId],
-    refundAccountTypeList: v.refund_account_type_list || [],
+    refundAccountTypeList: v.refundAccountTypeList || [],
     refund_method: '',
     account: '',
   }));
