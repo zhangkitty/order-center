@@ -235,7 +235,7 @@ const Modals = ({
           <Button onClick={() => dispatch(commit('refundInfo', assign({}, refundInfo, { data: {} })))}>
             {lan.取消}
           </Button>
-          <Button type={'primary'} htmlType={'submit'} loading={addRemarkInfo.saveLoad} >
+          <Button type={'primary'} htmlType={'submit'} loading={refundInfo.saveLoad} >
             {lan.确认}
           </Button>
         </div>
