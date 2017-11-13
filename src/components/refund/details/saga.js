@@ -107,7 +107,7 @@ function* doRefundPassSaga(action) {
 
 // 更改订单号
 function* changeOrderSaga(action) {
-  const data = yield changeOrderSer(action.billno, action.refundBillId);
+  const data = yield changeOrderSer(action.billno, action.refund_record_id, action.refundBillId);
   if (!data || data.code !== 0) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }

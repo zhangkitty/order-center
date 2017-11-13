@@ -88,9 +88,9 @@ export const doRefundPassSer = data => (
   })
 )
 // 更改订单号
-export const changeOrderSer = (billno, refundBillId) => (
+export const changeOrderSer = (billno, refund_record_id) => (
   fetch(details.changeOrder, {
     method: 'POST',
-    body: JSON.stringify({ billno: billno, refund_bill_id: refundBillId })
+    body: JSON.stringify({ billno: billno, refund_record_id: refund_record_id })
   })
 )

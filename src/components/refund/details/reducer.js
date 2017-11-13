@@ -1,5 +1,5 @@
-import assign from 'object-assign';
-import * as TYPES from './types';
+import assign from "object-assign";
+import * as TYPES from "./types";
 
 const defaultState = {
   ready: false,
@@ -33,6 +33,7 @@ const defaultState = {
   changeOrderInfo: {
     show: false,
     billno: '',
+    refund_record_id: '',
     refundBillId: '',
   },
 };

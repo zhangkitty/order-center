@@ -1,4 +1,4 @@
-import * as TYPES from './types';
+import * as TYPES from "./types";
 
 export const commit = (key, value) => ({
   type: TYPES.COMMIT,
@@ -93,8 +93,9 @@ export const doRefundPass = data => ({
   type: TYPES.DO_REFUND_PASS,
   data,
 });
-export const changeOrder = (billno, refundBillId) => ({
+export const changeOrder = (billno, refund_record_id, refundBillId) => ({
   type: TYPES.CHANGE_ORDER,
   billno,
+  refund_record_id,
   refundBillId,
 });

@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Table, Button } from 'antd';
-import assign from 'object-assign';
-import { Link } from 'react-router';
-import { refund, showReverseRefund, commit } from './action';
+import React from "react";
+import PropTypes from "prop-types";
+import {Table, Button} from "antd";
+import assign from "object-assign";
+import {Link} from "react-router";
+import {refund, showReverseRefund, commit} from "./action";
 
 const lan = {
   退款信息: __('refund.details.info_refund_info'),
@@ -49,7 +49,7 @@ const Info = (
                   <Button
                     type="primary"
                     style={{ marginLeft: '5px' }}
-                    onClick={() => dispatch(commit('changeOrderInfo', assign({}, changeOrderInfo, { show: true, billno: '', refundBillId })))}
+                    onClick={() => dispatch(commit('changeOrderInfo', assign({}, changeOrderInfo, { show: true, billno: '', refund_record_id: rec.record_id, refundBillId })))}
                   >
                     {lan.更改}
                   </Button>
