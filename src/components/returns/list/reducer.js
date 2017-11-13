@@ -1,9 +1,8 @@
 /**
  * Create by liufeng on 2017/6/28
  */
-import assign from 'object-assign';
-import moment from 'moment';
-import * as TYPES from './types';
+import assign from "object-assign";
+import * as TYPES from "./types";
 
 const defaultState = {
   batchChooseOrder: [],
@@ -101,13 +100,14 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.INIT_COUNTRY_SUCCESS:
       return assign({}, state, {
-        fetchType: action.data.data.refund_bill_type_list,
-        fetchStatus: action.data.data.refund_bill_status_list,
-        fetchPath: action.data.data.refund_path_list,
+        fetchSite: action.data.data.site,  // 站点
+        fetchCountry: action.data.data.country, // 国家
+        fetchMember: action.data.data.member_level, // 会员等级
+        fetchType: action.data.data.warehouse, // 仓库
+        fetchInsurance: action.data.data.insurance_status, // 是否购买退货险 退货问题件 退货单状态
+        fetchReturn: action.data.data.return_order_status, // 退货单状态
+        fetchReturnStatus: action.data.data.refund_status, // 退货状态
         fetchPathStatus: action.data.data.refund_path_status_list,
-        fetchSite: action.data.data.site_list,
-        fetchCountry: action.data.data.country_list,
-        fetchMember: action.data.data.member_level_list,
         load: false,
       });
     default:

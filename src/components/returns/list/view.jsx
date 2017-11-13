@@ -2,21 +2,20 @@
  *  Create by liufeng on 2017/9/25
  *  退款列表
  */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import assign from 'object-assign';
-import { Table, message } from 'antd';
-import { Link, hashHistory } from 'react-router';
-import { connect } from 'react-redux';
-import moment from 'moment';
-import Pagination from '../../publicComponent/pagination';
-import { search, commit, init } from './action';
-import TabsHeader from './tabsHeader';
+import React, {Component} from "react";
+import PropTypes from "prop-types";
+import assign from "object-assign";
+import {Table, message} from "antd";
+import {Link} from "react-router";
+import {connect} from "react-redux";
+import moment from "moment";
+import Pagination from "../../publicComponent/pagination";
+import {search, commit, init} from "./action";
+import TabsHeader from "./tabsHeader";
+import styles from "./style.css";
 
-import styles from './style.css';
 
-
-class refundList extends Component {
+class returnsList extends Component {
   constructor(props) {
     super(props);
     this.props.dispatch(init());
@@ -165,7 +164,7 @@ class refundList extends Component {
     );
   }
 }
-refundList.propTypes = {
+returnsList.propTypes = {
   dispatch: PropTypes.func,
   load: PropTypes.bool,
   searchLoad: PropTypes.bool,
@@ -175,5 +174,5 @@ refundList.propTypes = {
   location: PropTypes.shape(),
 };
 
-const mapStateToProps = state => state['refund/list'];
-export default connect(mapStateToProps)(refundList);
+const mapStateToProps = state => state['returns/list'];
+export default connect(mapStateToProps)(returnsList);

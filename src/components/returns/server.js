@@ -1,14 +1,13 @@
 /**
  * Create by liufeng on 2017/9/28
  */
-import assign from 'object-assign';
-import fetch from '../../lib/fetch';
-import { camel2Under, under2Camal } from '../../lib/camal';
-import queryString from '../../lib/query-string';
+import fetch from "../../lib/fetch";
+import {camel2Under} from "../../lib/camal";
+import queryString from "../../lib/query-string";
 
 const list = {
-  initCountry: '/OrderDiffRefund/refundBillSearch',   // 获取所有搜索数据
-  init: '/OrderDiffRefund/submitRefundBillSearch',    // 搜索提交
+  initCountry: '/OrderReturn/getOrderReturnSearchConfig',   // 获取所有搜索数据
+  init: '/OrderReturn/getOrderReturnList',    // 搜索提交
 };
 const details = {
   getRefundBillDetail: '/OrderRefund/getRefundBillDetail', // get info
