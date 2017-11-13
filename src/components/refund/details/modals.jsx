@@ -1,12 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import assign from 'object-assign';
-import { Modal, Input, Button, message, Select } from 'antd';
+import React from "react";
+import PropTypes from "prop-types";
+import assign from "object-assign";
+import {Modal, Input, Button, message, Select} from "antd";
 import {
-  commit, addRemark, rejectInfoAction, doRefund, refundTxnId, reverseRefundAction, reverseRefundSave,
-  changeOrder,
-} from './action';
-import styles from './style.css';
+  commit,
+  addRemark,
+  rejectInfoAction,
+  doRefund,
+  refundTxnId,
+  reverseRefundAction,
+  reverseRefundSave,
+  changeOrder
+} from "./action";
+import styles from "./style.css";
 
 const star = (<span style={{ color: 'red' }}>*</span>);
 
@@ -318,7 +324,7 @@ const Modals = ({
           if (changeOrderInfo.billno.trim().length < 1) {
             return message.warning(__('refund.details.submitTitle'));
           }
-          return dispatch(changeOrder(changeOrderInfo.billno, changeOrderInfo.refundBillId));
+          return dispatch(changeOrder(changeOrderInfo.billno, +changeOrderInfo.refundBillId));
         }}
       >
         <div className={styles.addRemarkArea}>

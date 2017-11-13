@@ -1,14 +1,28 @@
-import { takeEvery, put, takeLatest } from 'redux-saga/effects';
-import { message } from 'antd';
-import assign from 'object-assign';
-import * as TYPES from './types';
+import {takeEvery, put, takeLatest} from "redux-saga/effects";
+import {message} from "antd";
+import assign from "object-assign";
+import * as TYPES from "./types";
 import {
-  commit, getInfo, getInfoSuccess, remarkInfoSuccess, refundFail, refundSucess, doRefundFail, reverseRefundSaveFail,
-} from './action';
+  commit,
+  getInfo,
+  getInfoSuccess,
+  remarkInfoSuccess,
+  refundFail,
+  refundSucess,
+  doRefundFail,
+  reverseRefundSaveFail
+} from "./action";
 import {
-  getRefundDetailsInfo, remarkInfoSer, addRemarkInfoSer, rejectInfoSer, refundSer, doRefundSer, doRefundAgainSer, doRefundPassSer,
-  changeOrderSer,
-} from '../server';
+  getRefundDetailsInfo,
+  remarkInfoSer,
+  addRemarkInfoSer,
+  rejectInfoSer,
+  refundSer,
+  doRefundSer,
+  doRefundAgainSer,
+  doRefundPassSer,
+  changeOrderSer
+} from "../server";
 
 const lan = {
   ofail: __('order.entry.submit_info'),
@@ -93,7 +107,7 @@ function* doRefundPassSaga(action) {
 
 // 更改订单号
 function* changeOrderSaga(action) {
-  const data = yield changeOrderSer(action.billno);
+  const data = yield changeOrderSer(action.billno, action.refundBillId);
   if (!data || data.code !== 0) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
