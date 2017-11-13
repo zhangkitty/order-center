@@ -11,4 +11,6 @@ module.exports = {
   cash_refund: 'Withdraw refund',
   refund: 'Refund lists',
   refund_details: 'Refund details',
+  returns: 'Returns lists',
+  returns_details: 'Returns details',
 };
