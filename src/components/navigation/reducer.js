@@ -84,6 +84,18 @@ const menus = [
         crumbName: __('nav.refund_details'),
         nav: true,
       },
+      {
+        link: '/returns', // 退货列表
+        name: __('nav.returns'),
+        crumbName: __('nav.returns'),
+        nav: true,
+      },
+      {
+        link: '/returns/details',  // 退货详情
+        name: __('nav.returns_details'),
+        crumbName: __('nav.returns_details'),
+        nav: true,
+      },
     ],
   },
 ];
