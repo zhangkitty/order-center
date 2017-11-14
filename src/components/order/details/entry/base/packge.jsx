@@ -330,6 +330,7 @@ const Packge = ({
                     >
                       <Radio value={1}>{lan.guangzhou}</Radio>
                       <Radio value={10}>{lan.xibu}</Radio>
+                      <Radio value={20}>{__('common.nansha')}</Radio>
                     </RG>
                     <Button htmlType="submit" type="primary">
                       {lan.save}
