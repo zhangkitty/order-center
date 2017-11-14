@@ -123,7 +123,6 @@ const Info = (
                   onClick={() => (
                     dispatch(showReverseRefund(rec.record_id))
                   )}
-                  loading={refundInfo.load}
                 >
                   {lan.重新退款}
                 </Button>
