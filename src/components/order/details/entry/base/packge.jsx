@@ -15,7 +15,7 @@ import {
   Checkbox,
   Popover,
   Radio,
-  message
+  message,
 } from 'antd';
 import assign from 'object-assign';
 import style from '../style.css';
@@ -25,7 +25,7 @@ import {
   operateReturn,
   partSend,
   preSendAction,
-  examine
+  examine,
 } from '../action';
 
 const BG = Button.Group;
@@ -55,7 +55,7 @@ const lan = {
   save: __('order.entry.confirm'),
   cancel: __('order.entry.cancel'),
   guangzhou: __('order.entry.Guangzhou'),
-  xibu: __('order.entry.west')
+  xibu: __('order.entry.west'),
 };
 
 // 商品状态
@@ -94,7 +94,7 @@ const pingkongShow = {
   57: '海外发货',
   54: 'COD已签收',
   126: '已申请退货',
-  127: '退货'
+  127: '退货',
 };
 //  商品状态前的标记
 const colors = {
@@ -122,7 +122,7 @@ const colors = {
   91: { bg: '#ccc', border: 'none' },
   94: { bg: '#ccc', border: 'none' },
   126: { bg: '#ccc', border: 'none' },
-  127: { bg: '#ccc', border: 'none' }
+  127: { bg: '#ccc', border: 'none' },
 };
 
 const colorCirle = (circle = {}) => (
@@ -134,7 +134,7 @@ const colorCirle = (circle = {}) => (
       display: 'inline-block',
       marginRight: '5px',
       backgroundColor: circle.bg || '#ccc',
-      border: `${circle.border}` || 'none'
+      border: `${circle.border}` || 'none',
     }}
   />
 );
@@ -149,20 +149,20 @@ const Packge = ({
   warehouse,
   partSendBtn,
   preSend,
-  activeKey
+  activeKey,
 }) => {
   const {
     not_packaged_goods_list,
     package_list,
     returned_goods_list,
-    refund_goods_list
+    refund_goods_list,
   } = order_goods_info;
   const {
     show_refund_button,
     show_priority_shipped_button,
     show_cancel_priority_shipped_button,
     show_part_shipped_button,
-    show_review_order_button
+    show_review_order_button,
   } = button_list;
   const { basic_info: { status_code } } = order_info;
   // 判断 商品状态 是否显示（循环）
@@ -171,52 +171,52 @@ const Packge = ({
       show
         ? null
         : {
-            title: lan.goodsStatus,
-            dataIndex: 'status',
-            render: (d, rec) => (
-              <div>
-                {colorCirle(colors[rec.status_code])}
-                <span>{d}</span>
-                {pingkongShow[rec.status_code] ? (
-                  <Link
-                    to={
+          title: lan.goodsStatus,
+          dataIndex: 'status',
+          render: (d, rec) => (
+            <div>
+              {colorCirle(colors[rec.status_code])}
+              <span>{d}</span>
+              {pingkongShow[rec.status_code] ? (
+                <Link
+                  to={
                       rec.is_assessed
                         ? '/order/details/goods-control/edit/' // 已品控
                         : '/order/details/goods-control/list/' // 品控
                     }
-                    query={{
-                      data: JSON.stringify(
+                  query={{
+                    data: JSON.stringify(
                         assign({}, rec, {
                           order_id: orderId,
-                          billno
-                        })
-                      )
-                    }}
-                    style={{ marginLeft: '10px' }}
-                  >
-                    {rec.is_assessed ? lan.yipinkong : lan.pinkong}
-                  </Link>
+                          billno,
+                        }),
+                      ),
+                  }}
+                  style={{ marginLeft: '10px' }}
+                >
+                  {rec.is_assessed ? lan.yipinkong : lan.pinkong}
+                </Link>
                 ) : null}
-                {/*  回货日期 按钮 */}
-                {Number(rec.status_code) === 11 && (
-                  <Button
-                    style={{ marginLeft: '10px' }}
-                    onClick={() =>
+              {/*  回货日期 按钮 */}
+              {Number(rec.status_code) === 11 && (
+              <Button
+                style={{ marginLeft: '10px' }}
+                onClick={() =>
                       dispatch(
                         backGoodsDates({
                           order_goods_id: Number(rec.id),
                           goods_sn: rec.sku,
                           goods_attr: rec.attr,
-                          order_id: orderId
-                        })
+                          order_id: orderId,
+                        }),
                       )}
-                  >
-                    {lan.huihuo}
-                  </Button>
+              >
+                {lan.huihuo}
+              </Button>
                 )}
-              </div>
-            )
-          },
+            </div>
+            ),
+        },
       {
         title: lan.img,
         dataIndex: 'pic',
@@ -225,15 +225,15 @@ const Packge = ({
             <Checkbox
               disabled={[5, 7, 75, 82, 20, 74].indexOf(rec.status_code) > -1}
               checked={chooseGoods.indexOf(rec.id) > -1}
-              onChange={e => {
+              onChange={(e) => {
                 const value = e.target.checked;
                 if (value) {
                   return dispatch(
-                    commit('chooseGoods', [...chooseGoods, rec.id])
+                    commit('chooseGoods', [...chooseGoods, rec.id]),
                   );
                 }
                 return dispatch(
-                  commit('chooseGoods', chooseGoods.filter(v => v !== rec.id))
+                  commit('chooseGoods', chooseGoods.filter(v => v !== rec.id)),
                 );
               }}
             />
@@ -258,35 +258,35 @@ const Packge = ({
                   data: JSON.stringify(
                     assign({}, rec, {
                       order_id: orderId,
-                      billno
-                    })
-                  )
+                      billno,
+                    }),
+                  ),
                 }}
               >
                 {rec.is_assessed ? lan.yipinkong : lan.pinkong}
               </Link>
             ) : null}
           </span>
-        )
+        ),
       },
       {
         title: lan.sku,
-        dataIndex: 'sku'
+        dataIndex: 'sku',
       },
       {
         title: lan.code,
-        dataIndex: 'attr'
+        dataIndex: 'attr',
       },
       {
         title: `${lan.sale}($)`,
         dataIndex: 'sale_price',
-        render: d => <span>{d.amount_with_symbol}</span>
+        render: d => <span>{d.amount_with_symbol}</span>,
       },
       {
         title: `${lan.discount}($)`,
         dataIndex: 'discount_price',
-        render: d => <span>{d.amount_with_symbol}</span>
-      }
+        render: d => <span>{d.amount_with_symbol}</span>,
+      },
     ].filter(res => res);
   return (
     <div>
@@ -303,7 +303,7 @@ const Packge = ({
                 onClick={() => {
                   if (chooseGoods.length) {
                     return dispatch(
-                      operateReturn(orderId, chooseGoods.join(','))
+                      operateReturn(orderId, chooseGoods.join(',')),
                     );
                   }
                   return message.warning(__('common.sagaTitle24'));
@@ -316,7 +316,7 @@ const Packge = ({
               <Popover
                 content={
                   <form
-                    onSubmit={e => {
+                    onSubmit={(e) => {
                       e.preventDefault();
                       if (warehouse < 1) {
                         return message.waring(lan.needWarehouse);
@@ -355,7 +355,7 @@ const Packge = ({
                 onClick={() => {
                   dispatch(commit('preSend', preSend)); // 0
                   dispatch(
-                    preSendAction(Number(orderId), preSend, billno, activeKey)
+                    preSendAction(Number(orderId), preSend, billno, activeKey),
                   ); // preSend
                 }}
               >
@@ -367,7 +367,7 @@ const Packge = ({
                 onClick={() => {
                   dispatch(commit('preSend', +!preSend)); // 1
                   dispatch(
-                    preSendAction(Number(orderId), 1, billno, activeKey)
+                    preSendAction(Number(orderId), 1, billno, activeKey),
                   ); // preSend
                 }}
               >
@@ -384,12 +384,11 @@ const Packge = ({
         {status_code && status_code <= 7 ? (
           <Button
             onClick={() => {
-              if (!chooseGoods.length)
-                return message.warning(__('common.sagaTitle24'));
+              if (!chooseGoods.length) { return message.warning(__('common.sagaTitle24')); }
               return window.open(
                 `${location.origin}${location.pathname}#/order/goodsRefund/${orderId}/${chooseGoods.join(
-                  ','
-                )}`
+                  ',',
+                )}`,
               );
             }}
             style={{ marginLeft: 20 }}
@@ -425,13 +424,13 @@ const Packge = ({
                   size="small"
                   onClick={() => {
                     const temp = [];
-                    const arr = v.package_goods_list.map(f => {
+                    const arr = v.package_goods_list.map((f) => {
                       const index = chooseGoods.findIndex(d => d === f.id);
                       if (index > -1) {
                         temp.push(chooseGoods[index]);
                         chooseGoods = [
                           ...chooseGoods.slice(0, index),
-                          ...chooseGoods.slice(index + 1)
+                          ...chooseGoods.slice(index + 1),
                         ];
                       }
                       return f.id;
@@ -441,8 +440,8 @@ const Packge = ({
                     }
                     return dispatch(
                       commit('chooseGoods', [
-                        ...new Set(chooseGoods.concat(arr))
-                      ])
+                        ...new Set(chooseGoods.concat(arr)),
+                      ]),
                     );
                   }}
                 >
@@ -490,13 +489,13 @@ const Packge = ({
                 size="small"
                 onClick={() => {
                   const temp = [];
-                  const arr = returned_goods_list.map(f => {
+                  const arr = returned_goods_list.map((f) => {
                     const index = chooseGoods.findIndex(d => d === f.id);
                     if (index > -1) {
                       temp.push(chooseGoods[index]);
                       chooseGoods = [
                         ...chooseGoods.slice(0, index),
-                        ...chooseGoods.slice(index + 1)
+                        ...chooseGoods.slice(index + 1),
                       ];
                     }
                     return f.id;
@@ -505,7 +504,7 @@ const Packge = ({
                     return dispatch(commit('chooseGoods', chooseGoods));
                   }
                   return dispatch(
-                    commit('chooseGoods', [...new Set(chooseGoods.concat(arr))])
+                    commit('chooseGoods', [...new Set(chooseGoods.concat(arr))]),
                   );
                 }}
               >
@@ -542,15 +541,15 @@ const Packge = ({
           dispatch(
             commit(
               'backReturnDate',
-              assign({}, backReturnDate, { show: false })
-            )
+              assign({}, backReturnDate, { show: false }),
+            ),
           )}
         onOk={() =>
           dispatch(
             commit(
               'backReturnDate',
-              assign({}, backReturnDate, { show: false })
-            )
+              assign({}, backReturnDate, { show: false }),
+            ),
           )}
       >
         {backReturnDate.ready ? (
@@ -592,8 +591,9 @@ Packge.propTypes = {
   dispatch: PropTypes.func,
   backReturnDate: PropTypes.shape(),
   billno: PropTypes.string,
+  activeKey: PropTypes.string,
   warehouse: PropTypes.number,
   preSend: PropTypes.number,
-  chooseGoods: PropTypes.arrayOf(PropTypes.string)
+  chooseGoods: PropTypes.arrayOf(PropTypes.string),
 };
 export default Packge;
