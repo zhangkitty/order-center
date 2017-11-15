@@ -324,7 +324,7 @@ const Modals = ({
           if (changeOrderInfo.billno.trim().length < 1) {
             return message.warning(__('refund.details.submitTitle'));
           }
-          return dispatch(changeOrder(changeOrderInfo.billno, +changeOrderInfo.refund_record_id));
+          return dispatch(changeOrder(changeOrderInfo.billno, +changeOrderInfo.refund_record_id, refundBillId));
         }}
       >
         <div className={styles.addRemarkArea}>
