@@ -2,7 +2,7 @@ import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import assign from 'object-assign';
 import * as TYPES from './types';
-import {getOrderReturnDetail,getOrderRefund,getUpdateStatus} from './server'
+import {getOrderReturnDetailSer,getOrderRefundSer,getUpdateStatusSer} from './server'
 import {getOrderReturnDetailSuccess,clickRefundedButtonSagaSuccess,getOrderReturnDetail} from "./action"
 import {hashHistory} from 'react-router'
 
@@ -11,11 +11,12 @@ const lan = {
   osucess: __('order.entry.submit_info1'),
   fail: __('order.entry.submit_info2'),
   part: __('order.entry.submit_info3'),
+  推送消息成功:'推送消息成功',
 };
 
 //获取退货单详情信息
 function* getOrderReturnDetailSaga(action) {
-  const data = yield getOrderReturnDetail(action.id)
+  const data = yield getOrderReturnDetailSer(action.id)
   console.log(data,data)
   if(!data||data.code!==0){
     return message.error(`${lan.fail}:${data.msg}`);
@@ -25,25 +26,26 @@ function* getOrderReturnDetailSaga(action) {
 
 //点击已退款按钮，将退款结果推送给退货中心
 function* clickRefundedButtonSaga(action) {
-  const data = yield getOrderRefund(action.id)
+  const data = yield getOrderRefundSer(action.id)
   if(!data||data.code!==0){
     return message.error(`${lan.fail}:${data.msg}`);
   }
-  // return hashHistory.push('/')
-  yield put(getOrderReturnDetail(id)))
+  message.success(`${lan.推送消息成功}`);
+  yield put(getOrderReturnDetail(action.id))
 }
 
 //点击已办结按钮
 function *clickAlreadyDoneButtonSaga(action) {
-  const data=yield getUpdateStatus(action.id)
+  const data=yield getUpdateStatusSer(action.id)
   if(!data||data.code!==0){
     return message.error(`${lan.fail}:${data.msg}`);
   }
-  //
+  message.success(`${lan.推送消息成功}`);
+  yield put(getOrderReturnDetail(action.id))
 }
 
 export default function* () {
-  yield takeEvery(TYPES.GETORDERRETURNDETAIL,getOrderReturnDetailSaga)
+  yield takeLatest(TYPES.GETORDERRETURNDETAIL,getOrderReturnDetailSaga)
   yield takeLatest(TYPES.CLICKREFUNDEDBUTTON,clickRefundedButtonSaga)
   yield takeLatest(TYPES.CLICKALREADYDONEBUTTON,clickAlreadyDoneButtonSaga)
 }

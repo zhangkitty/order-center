@@ -145,14 +145,14 @@ const Base1=(
             if(a===1&&b===1){
               return <Button
                 type="primary"
-                onClick={e=>dispatch(clickRefundedButton(params.id))}
+                onClick={e=>dispatch(clickAlreadyDoneButton(params.id))}
               >
                 {lan.已办结}
                 </Button>
             }else {
               return <Button
                 type="primary"
-                onClick={e=>dispatch(clickAlreadyDoneButton(params.id))}
+                onClick={e=>dispatch(clickRefundedButton(params.id))}
               >
                 {lan.已退款}
                 </Button>

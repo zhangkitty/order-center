@@ -7,19 +7,19 @@ const details = {
   getUpdateStatus:'/OrderReturn/updateStatus'//点击已办结按钮
 }
 
-export  const  getOrderReturnDetail=(id)=>(
+export  const  getOrderReturnDetailSer=(id)=>(
   fetch(`${details.getOrderReturnDetail}?return_order_id=${id}`,{
     method: 'GET',
   }).then(res=>under2Camal(res))
 )
 
-export const getOrderRefund=(id)=>(
+export const getOrderRefundSer=(id)=>(
   fetch(`${details.getOrderRefund}?return_order_id=${id}`,{
     method:'GET',
   }).then(res=>under2Camal(res))
 )
 
-export const getUpdateStatus=(id)=>(
+export const getUpdateStatusSer=(id)=>(
   fetch(`${details.getUpdateStatus}?return_order_id=${id}`,{
     method:'GET',
   }).then(res=>under2Camal(res))
