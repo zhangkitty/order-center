@@ -6,9 +6,8 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Upload, Icon } from 'antd';
 import moment from 'moment';
-import parseParam from '../../../lib/query-string';
 import {
-  search, commit, change, initCountry,
+  search, commit, change, initCountry, exportSubmit,
 } from './action';
 
 import styles from './style.css';
@@ -46,7 +45,7 @@ class TabsHeader extends Component {
 
   render() {
     const {
-      dispatch, queryString, searchLoad, tracking_update,
+      dispatch, queryString, searchLoad, exportLoad, tracking_update,
       fetchSite,
       fetchCountry,
       fetchMember,
@@ -66,15 +65,6 @@ class TabsHeader extends Component {
       return_order_status, refund_status, shipping_status, order_type, receiver_country, return_label_type, warehouse,
       member_level, payment, time_tag, start_time, end_time,
     } = queryString;
-
-    const exportSubmit = (param) => {
-      const keys = [return_order_id, order_no, email, tracking_no, good_sn, source_site, insurance_states, trouble_state,
-        return_order_status, refund_status, shipping_status, order_type, receiver_country, return_label_type, warehouse,
-        member_level, payment, time_tag];
-      console.log(parseParam(keys, queryString));
-      return parseParam(keys, queryString);
-    };
-
     return (
       <div className={styles.tabsHeader}>
         <Collapse defaultActiveKey={['1']}>
@@ -400,13 +390,27 @@ class TabsHeader extends Component {
                   >
                     {__('returns.list.search')}
                   </Button>
-                  <a
-                    className={styles.buttonStyle}
-                    href={`${location.origin}/index_new.php/Order/OrderReturn/excelOrderReturn?${exportSubmit()}`}
-                    target="_blank"
+                  {/* 导出 */}
+                  <Button
+                    className={styles.filterButton}
+                    loading={exportLoad}
+                    onClick={() => {
+                      if (
+                        moment(start_time).valueOf() > moment(end_time).valueOf()
+                      ) {
+                        return message.warning(__('returns.list.submitTitle'));
+                      }
+                      return dispatch(exportSubmit(assign({},
+                        queryString,
+                        {
+                          page_number: 1,
+                          start_time: moment(start_time).format('YYYY-MM-DD HH:mm:ss'),
+                          end_time: moment(end_time).format('YYYY-MM-DD HH:mm:ss'),
+                        })));
+                    }}
                   >
                     {__('returns.list.export')}
-                  </a>
+                  </Button>
                 </form>
               </TabItem>
 
@@ -426,7 +430,6 @@ class TabsHeader extends Component {
                   <Upload
                     name={'file'}
                     action="/index_new.php/Order/OrderReturn/uploadReturnShip"
-                   // headers={{ token: localStorage.getItem('token') }}
                     onChange={(info) => {
                       if (info.file.status === 'done') {
                         if (info.file.response.code !== 0) {
@@ -445,11 +448,11 @@ class TabsHeader extends Component {
                     </Button>
                   </Upload>
                   <br /><br />
+                  {/* 更新运单号返回信息 */}
                   <span
                     dangerouslySetInnerHTML={{ __html: tracking_update }}
                   />
                 </div>
-
               </TabItem>
             </Tabs>
 
@@ -462,6 +465,7 @@ class TabsHeader extends Component {
 TabsHeader.propTypes = {
   dispatch: PropTypes.func,
   searchLoad: PropTypes.bool,
+  exportLoad: PropTypes.bool,
   queryString: PropTypes.shape(),
   fetchSite: PropTypes.arrayOf(PropTypes.shape()),  // 站点
   fetchCountry: PropTypes.arrayOf(PropTypes.shape()), // 国家

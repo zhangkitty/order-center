@@ -20,6 +20,7 @@ const defaultState = {
   fetchOrderType: [],   // 退货单类型
   fetchPayment: [],   // 是否COD
   fetchTimeTag: [],   // 时间标识
+  exportData: null,
   queryString: {
     page_size: 10,
     page_number: 1,
@@ -47,9 +48,10 @@ const defaultState = {
   },
   searchLoad: false,
   load: false,
+  exportLoad: false,  // 导出load
   loadUpdata: false,
   total: 0,
-  tracking_update: null,
+  tracking_update: null, // 更新运单号返回信息
 };
 
 const reducer = (state = defaultState, action) => {
@@ -76,6 +78,11 @@ const reducer = (state = defaultState, action) => {
         dataSource: action.data.data || [],
         total: action.data.total,
         searchLoad: false,
+      });
+    case TYPES.EXPORT:
+      return assign({}, state, {
+        queryString: action.data,
+        exportLoad: true,
       });
     case TYPES.INIT_COUNTRY:
       return assign({}, state, {

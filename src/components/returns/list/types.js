@@ -7,7 +7,8 @@ export const INIT = `${prefix}init`;
 
 export const SEARCH = `${prefix}search`;
 export const SEARCH_SUCCESS = `${prefix}search_success`;
-export const SEARCH_FAIL = `${prefix}search_fail`;
+export const EXPORT = `${prefix}export`;
+export const EXPORT_SUCCESS = `${prefix}export_success`;
 
 export const CHANGE = `${prefix}change`;
 export const COMMIT = `${prefix}commit`;

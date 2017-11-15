@@ -4,10 +4,13 @@
 import fetch from "../../lib/fetch";
 import {camel2Under} from "../../lib/camal";
 import queryString from "../../lib/query-string";
+import { parseQuery } from "../../lib/query-string";
+
 
 const list = {
   initCountry: '/OrderReturn/getOrderReturnSearchConfig',   // 获取所有搜索数据
   init: '/OrderReturn/getOrderReturnList',    // 搜索提交
+  export: '/OrderReturn/excelOrderReturn',    // 导出
 };
 const details = {
   getRefundBillDetail: '/OrderRefund/getRefundBillDetail', // get info
@@ -37,6 +40,19 @@ export const searchSubmit = (page) => {
     method: 'GET',
   })
 };
+
+// 导出
+export const exportSubmit = (page) => {
+  const keys = [
+    'return_order_id', 'order_no', 'email', 'tracking_no', 'good_sn', 'source_site', 'insurance_states', 'trouble_state',
+    'return_order_status', 'refund_status', 'shipping_status', 'order_type', 'receiver_country', 'return_label_type', 'warehouse',
+    'member_level', 'payment', 'time_tag', 'start_time', 'end_time'];
+  return fetch(list.export, {
+    method: 'POST',
+    body: JSON.stringify(parseQuery(keys, page))
+  })
+};
+
 
 export const getRefundDetailsInfo = id => (
   fetch(`${details.getRefundBillDetail}?refund_bill_id=${id}`, {

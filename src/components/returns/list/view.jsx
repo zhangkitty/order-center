@@ -97,7 +97,7 @@ class returnsList extends Component {
               dataIndex: 'state',
               width: '70px',
             }, {
-              title: __('refund.list.last_time'), // 操作时间
+              title: __('returns.list.last_time'), // 操作时间
               dataIndex: 'last_time',
               width: '130px',
             }, {
@@ -105,7 +105,7 @@ class returnsList extends Component {
               dataIndex: 'refund_status',
               width: '70px',
             }, {
-              title: __('refund.list.refund_time'), // 退款时间
+              title: __('returns.list.refund_time'), // 退款时间
               dataIndex: 'refund_time',  // TODO 字段名没有，不对
               width: '130px',
             }, {
