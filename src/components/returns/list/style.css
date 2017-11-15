@@ -26,6 +26,7 @@
 form .colSpace, .colSpace{
     width:150px;
     display: inline-block;
+    color: #333;
 }
 form .colSpace2{
     width:330px;
@@ -41,6 +42,7 @@ form .colSpace2{
     text-align:right;
     padding-right:10px;
     vertical-align: middle;
+    color: #333;
 }
 .filterButton {
     margin: 0 10px 0 36px;
@@ -69,6 +71,7 @@ form .colSpace2{
     margin-right:15px;
     color: #333;
 }
+form .colSpace2 input {color: #333;}
 
 .content table th {
     color: #000;
@@ -76,6 +79,24 @@ form .colSpace2{
 .content table td {
     color: #333;
 }
+
+/*   */
+.downloadCon {
+    width: 50%;
+    /*border: 1px solid #ccc;*/
+    padding: 20px 0;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 13px;
+    color: #000;
+}
+.downloadCon span {
+    display: inline;
+}
+.upload {
+    margin-top: 15px;
+}
+
 
 
 
