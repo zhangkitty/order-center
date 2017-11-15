@@ -45,7 +45,8 @@ const Info = (
               <div>
                 <Link to={`order/details/entry/${rec.order_id}/${d}/refund`}>{d}</Link>
                 {
-                  (+rec.refund_status_code === 1 || +rec.refund_status_code === 4) &&
+                  // 退款记录为未退款/退款失败 且 订单类型为提现退款时，显示
+                  ((+rec.refund_status_code === 1 || +rec.refund_status_code === 4) && +refund_type_code === 3) &&
                   <Button
                     type="primary"
                     style={{ marginLeft: '5px' }}
