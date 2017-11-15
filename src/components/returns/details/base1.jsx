@@ -1,6 +1,7 @@
 import styles from './style.css'
 import {Button} from 'antd'
 import { Link } from 'react-router';
+import {clickRefundedButton,clickAlreadyDoneButton} from './action'
 const lan  ={
   退货单基本信息:"退货单基本信息",
   退货单号:'退货单号',
@@ -31,6 +32,7 @@ const Base1=(
     dispatch,
     returnsInfoData,
     remarkInfo,
+    params,
   }
 )=>{
   const info={
@@ -141,9 +143,19 @@ const Base1=(
         <div style={{paddingLeft:400,paddingTop:20}}>
           {function (a,b) {
             if(a===1&&b===1){
-              return <Button type="primary">{lan.已办结}</Button>
+              return <Button
+                type="primary"
+                onClick={e=>dispatch(clickRefundedButton(params.id))}
+              >
+                {lan.已办结}
+                </Button>
             }else {
-              return <Button type="primary">{lan.已退款}</Button>
+              return <Button
+                type="primary"
+                onClick={e=>dispatch(clickAlreadyDoneButton(params.id))}
+              >
+                {lan.已退款}
+                </Button>
             }
           }(returnsInfoData['refundStatus'],returnsInfoData['state'])}
         </div>
