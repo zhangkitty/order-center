@@ -10,24 +10,26 @@ import {
 import {
   searchSuccess, searchFail,
   initCountrySuccess, initCountryFail,
+  commit,
 } from './action';
 
 import * as TYPES from './types';
 
 function* searchSaga(action) {
   const {
-    refund_bill_id, billno, email, add_user, handle_user,
+    return_order_id, order_no, email, tracking_no, good_sn,
   } = action.data;
   const data = yield searchSubmit(assign({}, action.data, {
-    refund_bill_id: refund_bill_id ? encodeURIComponent(refund_bill_id.trim()) : null,
-    billno: billno ? encodeURIComponent(billno.trim()) : null,
+    return_order_id: return_order_id ? encodeURIComponent(return_order_id.trim()) : null,
+    order_no: order_no ? encodeURIComponent(order_no.trim()) : null,
     email: email ? encodeURIComponent(email.trim()) : null,
-    add_user: add_user ? encodeURIComponent(add_user.trim()) : null,
-    handle_user: handle_user ? encodeURIComponent(handle_user.trim()) : null,
+    tracking_no: tracking_no ? encodeURIComponent(tracking_no.trim()) : null,
+    good_sn: good_sn ? encodeURIComponent(good_sn.trim()) : null,
   }));
+  console.log(data, 'data');
   if (!data || data.code !== 0) {
-    message.error(`${__('refund.list.submitTitle2')}${data.msg}`);
-    return yield put(searchFail());
+    yield put(commit('searchLoad', false));
+    return message.error(`${__('refund.list.submitTitle2')}${data.msg}`);
   }
   return yield put(searchSuccess(data));
 }

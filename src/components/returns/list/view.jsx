@@ -1,18 +1,17 @@
 /**
- *  Create by liufeng on 2017/9/25
- *  退款列表
+ *  Create by liufeng on 2017/11/14
+ *  退货列表
  */
-import React, {Component} from "react";
-import PropTypes from "prop-types";
-import assign from "object-assign";
-import {Table, message} from "antd";
-import {Link} from "react-router";
-import {connect} from "react-redux";
-import moment from "moment";
-import Pagination from "../../publicComponent/pagination";
-import {search, commit, init} from "./action";
-import TabsHeader from "./tabsHeader";
-import styles from "./style.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import assign from 'object-assign';
+import { Table, message } from 'antd';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import Pagination from '../../publicComponent/pagination';
+import { search, commit, init } from './action';
+import TabsHeader from './tabsHeader';
+import styles from './style.css';
 
 
 class returnsList extends Component {
@@ -37,20 +36,6 @@ class returnsList extends Component {
             loading={searchLoad}
             pagination={false}
             dataSource={dataSource}
-            onChange={() => {
-              if (
-                moment(queryString.apply_start_time).valueOf() > moment(queryString.apply_end_time).valueOf()
-                ||
-                moment(queryString.refund_start_time).valueOf() > moment(queryString.refund_end_time).valueOf()
-              ) {
-                return message.warning(__('refund.list.submitTitle'));
-              }
-              return dispatch(search(assign({},
-                queryString,
-                {
-                  sorting_rule: queryString.sorting_rule === 0 ? 1 : 0,
-                })));
-            }}
             columns={[{
               title: __('refund.list.refund_number'),
               dataIndex: 'refund_bill_id',
@@ -92,16 +77,6 @@ class returnsList extends Component {
               title: __('refund.list.content'), // 退金额
               dataIndex: 'refund_record_amount',
               width: '100px',
-              render: text => (
-                <div>
-                  { text.price_usd.amount_with_symbol }
-                  {
-                    text.price_with_exchange_rate ?
-                      <span style={{ marginLeft: '5px' }}>{ text.price_with_exchange_rate.amount_with_symbol }</span>
-                      : null
-                  }
-                </div>
-              ),
             }, {
               title: __('refund.list.path_status'), // 退款记录状态
               dataIndex: 'refund_record_status_msg',
@@ -117,7 +92,6 @@ class returnsList extends Component {
             }, {
               title: __('refund.list.apply_time'), // 退款申请日期
               dataIndex: 'refund_bill_add_time',
-              sorter: true,
               width: '130px',
             }, {
               title: __('refund.list.operator'),
@@ -144,19 +118,19 @@ class returnsList extends Component {
         </div>
         <Pagination
           total={total}
-          current={queryString.pageNumber}
+          current={queryString.page_number}
           onChange={
-            (pageNumber, pageSize) => {
-              dispatch(commit('pageNumber', pageNumber));
-              dispatch(commit('pageSize', pageSize));
-              dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
+            (page_number, page_size) => {
+              dispatch(commit('page_number', page_number));
+              dispatch(commit('pageSize', page_size));
+              dispatch(search(assign({}, queryString, { page_number, page_size })));
             }
           }
           onShowSizeChange={
-            (pageNumber, pageSize) => {
-              dispatch(commit('pageNumber', pageNumber));
-              dispatch(commit('pageSize', pageSize));
-              dispatch(search(assign({}, queryString, { pageNumber, pageSize })));
+            (page_number, page_size) => {
+              dispatch(commit('page_number', page_size));
+              dispatch(commit('page_size', page_size));
+              dispatch(search(assign({}, queryString, { page_number, page_size })));
             }
           }
         />
