@@ -80,6 +80,9 @@ class returnsList extends Component {
               title: __('returns.list.tracking'), // 运单号
               dataIndex: 'tracking_no',
               width: '100px',
+              render: (text, record) => (
+                <a href={record.tracking_no_url} target="_blank">{text}</a>
+              ),
             }, {
               title: __('returns.list.warehouse'),
               dataIndex: 'warehouse',

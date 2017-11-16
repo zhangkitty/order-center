@@ -419,8 +419,8 @@ class TabsHeader extends Component {
 
                 <div className={styles.downloadCon}>
                   <a
-                    className={styles.buttonStyle} // TODO 地址错误（下载模板）
-                    href={`${location.origin}/index_new.php/Order/OrderReturn/excelOrderReturn?${exportSubmit()}`}
+                    className={styles.buttonStyle} // （下载模板）
+                    href={`${location.origin}/Public/File/upload_excel/example.xls`}
                     target="_blank"
                   >
                     {__('returns.list.download')}
