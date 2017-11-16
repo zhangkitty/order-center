@@ -27,7 +27,9 @@ const lan = {
   去退款: '去退款',
   已办结: '已办结',
 };
-const Base = ({ dispatch, returnsInfoData, remarkInfo, params, tracking_no_url }) => {
+const Base = ({
+                dispatch, returnsInfoData, remarkInfo, params, tracking_no_url, buttonIsDone, buttonIsRefund,
+}) => {
   const info = {
     left: [
       { name: lan.退货单号, key: 'returnOrderId' },
@@ -131,22 +133,23 @@ const Base = ({ dispatch, returnsInfoData, remarkInfo, params, tracking_no_url }
           </div>
         </div>
         <div style={{ paddingLeft: 400, paddingTop: 20 }}>
-          {(function (a, b) {
-            if (a === 1 && b === 1) {
-              return (<Button
-                type="primary"
-                onClick={e => dispatch(clickAlreadyDoneButton(params.id))}
-              >
-                {lan.已办结}
-              </Button>);
-            }
-            return (<Button
+          {
+            buttonIsDone && <Button
               type="primary"
-              onClick={e => dispatch(clickRefundedButton(params.id))}
+              onClick={() => dispatch(clickAlreadyDoneButton(params.id))}
+            >
+              {lan.已办结}
+            </Button>
+          }
+
+          {
+            buttonIsRefund && <Button
+              type="primary"
+              onClick={() => dispatch(clickRefundedButton(params.id))}
             >
               {lan.已退款}
-            </Button>);
-          }(returnsInfoData.refundStatus, returnsInfoData.state))}
+            </Button>
+          }
         </div>
       </div>
 

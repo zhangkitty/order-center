@@ -6,6 +6,8 @@ const defaultState = {
   returnsInfoReady: false,
   returnsInfoData: null,
   tracking_no_url: null,
+  buttonIsDone: null,
+  buttonIsRefund: null,
 };
 
 export default (state = defaultState, action) => {
@@ -15,6 +17,8 @@ export default (state = defaultState, action) => {
         returnsInfoReady: true,
         returnsInfoData: action.data,
         tracking_no_url: action.data.trackingNoUrl,
+        buttonIsDone: action.data.buttonIsDone,
+        buttonIsRefund: action.data.buttonIsRefund,
       });
     default:
       return state;
