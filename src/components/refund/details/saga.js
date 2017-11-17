@@ -31,7 +31,7 @@ const lan = {
   part: __('order.entry.submit_info3'),
 };
 function* getInfoSaga(action) {
-  const data = yield getRefundDetailsInfo(action.id);
+  const data = yield getRefundDetailsInfo(action.id, action.billno);
   if (!data || data.code !== 0) {
     return message.error(`${lan.fail}:${data.msg}`);
   }

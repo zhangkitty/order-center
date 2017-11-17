@@ -38,8 +38,8 @@ export const searchSubmit = (page) => {
   })
 };
 
-export const getRefundDetailsInfo = id => (
-  fetch(`${details.getRefundBillDetail}?refund_bill_id=${id}`, {
+export const getRefundDetailsInfo = (id, billno)=> (
+  fetch(`${details.getRefundBillDetail}?refund_bill_id=${id}&billno=${billno}`, {
     method: 'GET',
   })
 )
