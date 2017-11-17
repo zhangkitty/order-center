@@ -148,7 +148,7 @@ class TabsHeader extends Component {
                         style={{ width: '200px' }}
                         tokenSeparators={[',']}
                         // value={source_site}
-                        onChange={val => dispatch(commit('source_site', val))}
+                        onChange={val => dispatch(commit('source_site', val.join(',')))}
                       >
                         {
                           fetchSite.map(item => (

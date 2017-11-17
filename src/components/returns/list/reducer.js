@@ -30,7 +30,7 @@ const defaultState = {
     email: null,
     tracking_no: null,
     good_sn: null,
-    source_site: null,
+    source_site: '',
     insurance_states: '0', // 退货险
     trouble_state: '0',
     return_order_status: null,
