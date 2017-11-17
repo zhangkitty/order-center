@@ -84,6 +84,12 @@ const menus = [
         crumbName: __('nav.refund_details'),
         nav: true,
       },
+      {
+        link: '/order-management',  // 平台订单管理
+        name: __('nav.order_management'),
+        crumbName: __('nav.order_management'),
+        nav: true,
+      },
     ],
   },
 ];
