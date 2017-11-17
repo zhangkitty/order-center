@@ -161,6 +161,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.country')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={receiver_country}
                         onChange={val => dispatch(commit('receiver_country', val))}
@@ -263,6 +264,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.refund_status')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={refund_status}
                         onChange={val => dispatch(commit('refund_status', val))}
@@ -280,6 +282,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.is_cod')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={payment}
                         onChange={val => dispatch(commit('payment', val))}
@@ -296,6 +299,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.member_level')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={member_level}
                         onChange={val => dispatch(commit('member_level', val))}
@@ -312,6 +316,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.return_label_type')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={return_label_type}
                         onChange={val => dispatch(commit('return_label_type', val))}
