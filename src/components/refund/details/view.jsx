@@ -20,6 +20,7 @@ class Details extends Component {
     dispatch(getInfo(id, billno));
     dispatch(commit('refundBillId', id));
     dispatch(commit('billno', billno));
+    sessionStorage.setItem('details-bn', billno);
   }
   render() {
     const { ready } = this.props;
