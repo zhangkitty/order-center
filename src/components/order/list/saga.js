@@ -13,7 +13,8 @@ import {
   goodSizeSer, changeGoodsSer,
   batchOperateSer, getRisk, cancelTroubleTag,
   updateOrderTagSer, delChangeSer,
-  batchCheckSer, batchDeleteSer, batchPartSer,
+  batchCheckSer, batchDeleteSer, batchPartSer, noStockApplySer, noStockSer, returnAlreadyAuditSer,
+  getNoGoodsListSer, underCarriageSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
@@ -24,13 +25,13 @@ import {
   goodSizeFail, goodSizeSuccess, changeGoodsFail, changeGoodsSuccess,
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
   delChangeFail, delChangeSuccess,
-  batchCheckSuccess, batchDeleteSuccess, batchPartSuccess,
+  batchCheckSuccess, batchDeleteSuccess, batchPartSuccess, getStockList,
+  getStockListSuccess,
 } from './action';
 
 import * as TYPES from './types';
 
 function* searchSaga(action) {
- // console.log(action.data, 'search');
   const {
     billno, orderId, email, shippingNo, referenceNumber, telephone, txnId, trouble_user, totalInput, goodsId,
   } = action.data;
@@ -237,11 +238,56 @@ function* batchPartSaga(action) {
   return yield put(batchPartSuccess(action.data));
 }
 
+//无货审核 批量申请
+function* noStockApply(action) {
+  const data = yield noStockApplySer(action.param);
+  if (!data || data.code !== 0) {
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
+  }
+  message.success(__('common.sagaTitle28'));
+  return yield refreshListData();
+}
+
+//无货审核 
+function* noStock(action) {
+  const data = yield noStockSer(action.param);
+  if (!data || data.code !== 0) {
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
+  }
+  return yield put(getStockList(data));
+}
+
+//返回已审核
+function* returnAlreadyAudit(action) {
+  const data = yield returnAlreadyAuditSer(action.param);
+  if (!data || data.code !== 0) {
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
+  }
+  message.success(__('common.sagaTitle28'));
+  return yield refreshListData();
+}
+
+//无货下架列表
+function* getNoGoodsList(action) {
+  const data = yield getNoGoodsListSer(action.param);
+  if (!data || data.code !== 0) {
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
+  }
+  return yield put(getStockListSuccess([data.data]));
+}
+function* underCarriage(action) {
+  const data = yield underCarriageSer(action.param);
+  if (!data || data.code !== 0) {
+    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
+  }
+  message.success(__('common.sagaTitle28'));  
+  return yield refreshListData();
+}
 
 export default function* () {
-  yield takeLatest(TYPES.SEARCH, searchSaga);
-  yield takeLatest(TYPES.SEARCH_HIGH, searchHighSaga);
-  yield takeLatest(TYPES.SEARCH_HISTORY, searchHistorySaga);
+  yield takeEvery(TYPES.SEARCH, searchSaga);
+  yield takeEvery(TYPES.SEARCH_HIGH, searchHighSaga);
+  yield takeEvery(TYPES.SEARCH_HISTORY, searchHistorySaga);
   yield takeEvery(TYPES.INIT_DATA, initDataSaga);  // 初始化数据
   yield takeEvery(TYPES.OPERATION_GOODS, operationGoodsSaga);
   yield takeEvery(TYPES.REMARK, remarkSaga);
@@ -258,4 +304,14 @@ export default function* () {
   yield takeLatest(TYPES.BATCH_CHECK, batchCheckSaga);
   yield takeLatest(TYPES.BATCH_DELETE, batchDeleteSaga);
   yield takeLatest(TYPES.BATCH_PART, batchPartSaga);
+  yield takeLatest(TYPES.NO_STOCK_APPLY, noStockApply);
+  yield takeLatest(TYPES.NO_STOCK, noStock);
+  yield takeLatest(TYPES.RETURN_ALREADY_AUDIT, returnAlreadyAudit);
+  yield takeLatest(TYPES.GET_NO_GOODS_LIST, getNoGoodsList);
+  yield takeLatest(TYPES.UNDER_CARRIAGE, underCarriage);
 }
+
+//刷新订单
+const refreshData = () => {
+  EventEmitter.emit('refresh');
+};

@@ -90,6 +90,10 @@ const defaultState = {
   },
   markTag: {},
   changeDisabled: true,  // 换货按钮状态
+  selectAllStateStatus:false,
+  stockList:{stock:{},occupy:{}},
+  site:[],
+  dataSource_noGoods:[]
 };
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));
@@ -461,6 +465,27 @@ const reducer = (state = defaultState, action) => {
           return v;
         }),
       });
+    case TYPES.GET_STOCK_LIST:
+      return assign({},state,{stockList:action.data.data});
+    case TYPES.GET_NO_GOODS_LIST_SUCCESS:
+      for(let v in action.data[0]){
+        for(let i in action.data[0][v]){
+          let value = action.data[0][v][i];
+          action.data[0][v][i]={'checked':false,value};
+        }
+      }
+      return assign({},state,{dataSource_noGoods:action.data});
+    case TYPES.CHANGE_NO_GOODS_LIST:
+      let newArr = state.dataSource_noGoods.map(v=>v);
+      newArr[0][action.v][action.i].checked = action.checked;
+      return assign({},state,{dataSource_noGoods:newArr});
+    case TYPES.CHANGE_SOURCE_CHECKED:
+      let tmpArr = state.dataSource_noGoods.map(v=>v);
+      for(let i in tmpArr[0][action.v]){
+        let value = tmpArr[0][action.v][i];
+        tmpArr[0][action.v][i].checked=action.checked;
+      }
+      return assign({},state,{dataSource_noGoods:tmpArr});
     default:
       return state;
   }

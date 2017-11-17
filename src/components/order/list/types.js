@@ -102,3 +102,17 @@ export const CANCEL_TROUBLE_TAG_SUCCESS = `${prefix}cancel_trouble_tag_success`;
 export const MARK_TAG = `${prefix}mark_tag`;
 export const UPDATE_ORDER_TAG = `${prefix}update_mark_tag`;
 export const UPDATE_ORDER_TAG_SUCCESS = `${prefix}update_mark_tag_success`;
+
+//无货审核 
+export const NO_STOCK_APPLY = `${prefix}noStockApply`
+export const NO_STOCK = `${prefix}noStock`
+export const GET_STOCK_LIST = `${prefix}get_stock_list`
+export const RETURN_ALREADY_AUDIT = `${prefix}return_already_audit`
+export const CHANGE_SOURCE_CHECKED = `${prefix}change_source_checked`
+
+//无货下架
+export const GET_NO_GOODS_LIST = `${prefix}get_no_goods_list`
+export const GET_NO_GOODS_LIST_SUCCESS = `${prefix}get_no_goods_list_success`
+export const CHANGE_NO_GOODS_LIST = `${prefix}change_no_goods_list`
+export const UNDER_CARRIAGE = `${prefix}underCarriage`
+
