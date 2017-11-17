@@ -1,9 +1,28 @@
-import { takeEvery, put, takeLatest } from 'redux-saga/effects';
-import { message } from 'antd';
-import assign from 'object-assign';
-import * as TYPES from './types';
-import { commit, getInfo, getInfoSuccess, remarkInfoSuccess, refundFail, refundSucess, doRefundFail, reverseRefundSaveFail } from './action';
-import { getRefundDetailsInfo, remarkInfoSer, addRemarkInfoSer, rejectInfoSer, refundSer, doRefundSer, doRefundAgainSer, doRefundPassSer } from '../server';
+import {takeEvery, put, takeLatest} from "redux-saga/effects";
+import {message} from "antd";
+import assign from "object-assign";
+import * as TYPES from "./types";
+import {
+  commit,
+  getInfo,
+  getInfoSuccess,
+  remarkInfoSuccess,
+  refundFail,
+  refundSucess,
+  doRefundFail,
+  reverseRefundSaveFail
+} from "./action";
+import {
+  getRefundDetailsInfo,
+  remarkInfoSer,
+  addRemarkInfoSer,
+  rejectInfoSer,
+  refundSer,
+  doRefundSer,
+  doRefundAgainSer,
+  doRefundPassSer,
+  changeOrderSer
+} from "../server";
 
 const lan = {
   ofail: __('order.entry.submit_info'),
@@ -85,6 +104,18 @@ function* doRefundPassSaga(action) {
   yield put(getInfo(action.data.refund_bill_id));
   return message.success(lan.osucess);
 }
+
+// 更改订单号
+function* changeOrderSaga(action) {
+  const data = yield changeOrderSer(action.billno, action.refund_record_id, action.refundBillId);
+  if (!data || data.code !== 0) {
+    return message.error(`${lan.ofail}:${data.msg}`);
+  }
+  yield put(commit('changeOrderInfo', assign({}, { show: false, billno: '' })));
+  yield put(getInfo(action.refundBillId));  // 成功后调这个接口，页面刷新
+  return message.success(lan.osucess);
+}
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.REMARK_INFO, remarkInfoSaga);
@@ -94,4 +125,5 @@ export default function* () {
   yield takeLatest(TYPES.DO_REFUND, doRefundSaga);
   yield takeLatest(TYPES.REVERSE_REFUND_SAVE, doRefundAgainSaga);
   yield takeLatest(TYPES.DO_REFUND_PASS, doRefundPassSaga);
+  yield takeLatest(TYPES.CHANGE_ORDER, changeOrderSaga);
 }
