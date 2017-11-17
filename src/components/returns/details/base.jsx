@@ -68,7 +68,7 @@ const Base = ({
                 {(function (key) {
                   if (key === 'refundStatus') {
                     if (returnsInfoData[key] === 0) { // oms to={`order/details/entry/${returnsInfoData.orderId}/${returnsInfoData.orderNo}`}
-                      return <span>{lan.未退款} <Link target="_blank" to={`${returnsInfoData.refundUrl}`}>{lan.去退款}</Link></span>;
+                      return <span>{lan.未退款} <Link target="_blank" href={`${location.host}${returnsInfoData.refundUrl}`}>{lan.去退款}</Link></span>;
                     }
                     return <span>{lan.已退款}</span>;
                   }
@@ -87,7 +87,7 @@ const Base = ({
                   {
                     (function (key) {
                       if (key === 'orderNo') {
-                        return <Link target="_blank" to={`order/list/${returnsInfoData.orderNo}`}>{returnsInfoData[key]}</Link>;
+                        return <Link target="_blank" to={`/order/list/${returnsInfoData.orderNo}`}>{returnsInfoData[key]}</Link>;
                       }
                       return <span>{returnsInfoData[key]}</span>;
                     }(v.key))
