@@ -10,9 +10,10 @@ export const infoCommit = (key, value) => ({
   key,
   value,
 });
-export const getInfo = id => ({
+export const getInfo = (id, billno) => ({
   type: TYPES.GET_INFO,
   id,
+  billno,
 });
 export const getInfoSuccess = data => ({
   type: TYPES.GET_INFO_SUCCESS,
