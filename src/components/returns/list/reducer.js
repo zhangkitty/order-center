@@ -45,6 +45,7 @@ const defaultState = {
     time_tag: 'apply',  //
     start_time: moment(Date.now()).subtract(1, 'M').format('YYYY-MM-DD'),
     end_time: moment(Date.now()).format('YYYY-MM-DD'),
+    sort_order: 0,
   },
   searchLoad: false,
   load: false,
