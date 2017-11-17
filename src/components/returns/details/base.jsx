@@ -1,8 +1,9 @@
 import React from 'react';
-import styles from './style.css';
 import { Button } from 'antd';
 import { Link } from 'react-router';
 import { clickRefundedButton, clickAlreadyDoneButton } from './action';
+
+import styles from './style.css';
 
 const lan = {
   退货单基本信息: '退货单基本信息',
@@ -67,7 +68,7 @@ const Base = ({
                 {(function (key) {
                   if (key === 'refundStatus') {
                     if (returnsInfoData[key] === 0) { // oms to={`order/details/entry/${returnsInfoData.orderId}/${returnsInfoData.orderNo}`}
-                      return <span>{lan.未退款} <Link target="_blank" to={`${returnsInfoData.refundrl}`}>{lan.去退款}</Link></span>;
+                      return <span>{lan.未退款} <Link target="_blank" to={`${returnsInfoData.refundUrl}`}>{lan.去退款}</Link></span>;
                     }
                     return <span>{lan.已退款}</span>;
                   }
