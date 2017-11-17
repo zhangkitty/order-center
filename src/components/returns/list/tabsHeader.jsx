@@ -199,7 +199,7 @@ class TabsHeader extends Component {
                         style={{ width: '200px' }}
                         tokenSeparators={[',']}
                         // value={warehouse}
-                        onChange={val => dispatch(commit('warehouse', val))}
+                        onChange={val => dispatch(commit('warehouse', val.join(',')))}
                       >
                         {
                           fetchWarehouse.map(item => (
@@ -218,7 +218,7 @@ class TabsHeader extends Component {
                         style={{ width: '200px' }}
                         tokenSeparators={[',']}
                         // value={return_order_status}
-                        onChange={val => dispatch(commit('return_order_status', val))}
+                        onChange={val => dispatch(commit('return_order_status', val.join(',')))}
                       >
                         {
                           fetchReturn.map(item => (
@@ -338,7 +338,7 @@ class TabsHeader extends Component {
                         style={{ width: '200px' }}
                         tokenSeparators={[',']}
                         // value={order_type}
-                        onChange={val => dispatch(commit('order_type', val))}
+                        onChange={val => dispatch(commit('order_type', val.join(',')))}
                       >
                         {
                           fetchOrderType.map(item => (

@@ -30,18 +30,18 @@ const defaultState = {
     email: null,
     tracking_no: null,
     good_sn: null,
-    source_site: '',
+    source_site: '', // 站点，多选
     insurance_states: '0', // 退货险
     trouble_state: '0',
-    return_order_status: null,
     refund_status: null,   // 退款状态
     shipping_status: '0', // 包裹状态
-    order_type: null,
     receiver_country: null,
     return_label_type: null,
-    warehouse: null,
+    warehouse: '', // 仓库，多选
+    return_order_status: '', // 退货单状态，多选
     member_level: null,
     payment: null, // 是否COD
+    order_type: '', // 退货单类型，多选
     time_tag: 'apply',  //
     start_time: moment(Date.now()).subtract(1, 'M').format('YYYY-MM-DD'),
     end_time: moment(Date.now()).format('YYYY-MM-DD'),
