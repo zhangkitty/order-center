@@ -26,6 +26,9 @@ import {
   partSend,
   preSendAction,
   examine,
+  openModal,
+  openModalCgs,
+  remarkShow,
 } from '../action';
 
 const BG = Button.Group;
@@ -125,6 +128,37 @@ const colors = {
   127: { bg: '#ccc', border: 'none' },
 };
 
+// 显示换货入口（商品状态）
+const changshow = {
+  1: true,  // 已付款
+  11: true, // 已审核
+  13: true, // 备货中
+  84: true, // 有货
+  28: true, // 无货审核
+  12: true, // 无货
+  23: true,  // 等待出仓
+  49: true, // 等待发货
+  52: true, // 发货中(add)
+  16: true, // 发货
+  7: true, // 已经退款
+  20: true, // 换货(被换)
+  126: true, // 已申请退货
+  127: true, // 已退货
+};
+// 备注
+const columnsRemark = [{
+  title: __('common.operationCheck'),
+  dataIndex: 'user_name',
+  width: '80px',
+}, {
+  title: __('common.operationCheck1'),
+  dataIndex: 'add_time',
+  width: '150px',
+}, {
+  title: __('common.order_operation4'),
+  dataIndex: 'remark',
+}];
+
 const colorCirle = (circle = {}) => (
   <span
     style={{
@@ -150,6 +184,7 @@ const Packge = ({
   partSendBtn,
   preSend,
   activeKey,
+  fetchRemark,
 }) => {
   const {
     not_packaged_goods_list,
@@ -266,6 +301,21 @@ const Packge = ({
                 {rec.is_assessed ? lan.yipinkong : lan.pinkong}
               </Link>
             ) : null}
+
+            {/* 换货 */}
+            { // changshow[rec.goods_status] && Number(rec.is_replace) !== 2 ?
+              changshow[rec.goods_status] ?
+                <span
+                  onClick={() => {
+                    dispatch(openModalCgs(rec.order_goods_id, orderId, order_info.basic_info.site_from));
+                  }
+                  }
+                  role="button" tabIndex={0}
+                >
+                  {__('common.change_goods')}
+                </span>
+                : null
+            }
           </span>
         ),
       },
@@ -381,6 +431,7 @@ const Packge = ({
             )}
           </BG>
         )}
+        {/* 退款/取消  */}
         {status_code && status_code <= 7 ? (
           <Button
             onClick={() => {
@@ -396,6 +447,41 @@ const Packge = ({
             {__('common.order_operation2')}
           </Button>
         ) : null}
+
+        {/*  备注 */}
+        <Popover
+          placement="bottomRight"
+          trigger="click"
+          arrowPointAtCenter
+          content={
+            <div className={style.tableFloat}>
+              <Table
+                dataSource={fetchRemark}
+                columns={columnsRemark} size="small"
+                pagination={false}
+                style={{ width: '600px', maxHeight: '400px', overflow: 'auto' }}
+              />
+              <Button
+                style={{ margin: '10px' }}
+                type="primary"
+                onClick={() => dispatch(openModal(orderId))}
+              >
+                {__('common.order_operation6')}
+              </Button>
+            </div>
+          }
+        >
+          {
+          //  Number(have_remark) === 1 ?
+              <Button
+                className={style.haveRemark}
+                onClick={() => dispatch(remarkShow(orderId))}
+              >{__('common.order_operation4')}</Button>
+           //   :
+           //   <Button onClick={() => dispatch(remarkShow(orderId))}>{__('common.order_operation4')}</Button>
+          }
+        </Popover>
+
       </div>
 
       {/* 未形成包裹 */}
@@ -595,5 +681,6 @@ Packge.propTypes = {
   warehouse: PropTypes.number,
   preSend: PropTypes.number,
   chooseGoods: PropTypes.arrayOf(PropTypes.string),
+  fetchRemark: PropTypes.arrayOf(PropTypes.shape()),
 };
 export default Packge;

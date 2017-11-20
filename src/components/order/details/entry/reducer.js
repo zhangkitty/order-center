@@ -37,6 +37,21 @@ const defaultState = {
     img: '',
   },
   returnEmail: '',
+  operationVisible: false,  // 操作查询
+  clickVisible: false,
+  visible: false,   // add
+  logisticsVisible: false,  // 物流备注
+  exchange: {
+    goods_sn: '',   // sku
+    site_from: '',    // 站点
+    order_goods_id: '',  // 订单商品id（被换）
+    order_id: '',      // 订单id
+    goods_size: '', // 新商品 size
+    load: false,
+    visible: false,
+  },
+  markTag: {},
+  changeDisabled: true,  // 换货按钮状态
 };
 
 export default (state = defaultState, action) => {
