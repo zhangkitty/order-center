@@ -1,9 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import assign from 'object-assign';
-import { Modal, Input, Button, message, Select } from 'antd';
-import { commit, addRemark, rejectInfoAction, doRefund, refundTxnId, reverseRefundAction, reverseRefundSave } from './action';
-import styles from './style.css';
+import React from "react";
+import PropTypes from "prop-types";
+import assign from "object-assign";
+import {Modal, Input, Button, message, Select} from "antd";
+import {
+  commit,
+  addRemark,
+  rejectInfoAction,
+  doRefund,
+  refundTxnId,
+  reverseRefundAction,
+  reverseRefundSave,
+  changeOrder
+} from "./action";
+import styles from "./style.css";
 
 const star = (<span style={{ color: 'red' }}>*</span>);
 
@@ -26,17 +35,20 @@ const lan = {
   线下退款请填写此信息: __('refund.details.modals_tip_offline'),
   请填写退款交易凭证号: __('refund.details.modals_tip_need'),
   重新退款: __('refund.details.info_renfund_agian'),
+  订单号: __('refund.details.order_number'),
+  更改订单号: __('refund.details.change_order'),
 };
 const TA = Input.TextArea;
 const Option = Select.Option;
 const Modals = ({
-                  remarkInfo,
-                  addRemarkInfo,
-                  rejectInfo,
-                  refundInfo,
-                  reverseRefund,
-                  refundBillId,
-    dispatch,
+  remarkInfo,
+  addRemarkInfo,
+  rejectInfo,
+  refundInfo,
+  reverseRefund,
+  refundBillId,
+  changeOrderInfo,
+  dispatch,
 }) => (
   <div>
     {/* 备注信息 */}
@@ -235,7 +247,7 @@ const Modals = ({
           <Button onClick={() => dispatch(commit('refundInfo', assign({}, refundInfo, { data: {} })))}>
             {lan.取消}
           </Button>
-          <Button type={'primary'} htmlType={'submit'} loading={addRemarkInfo.saveLoad} >
+          <Button type={'primary'} htmlType={'submit'} loading={refundInfo.saveLoad} >
             {lan.确认}
           </Button>
         </div>
@@ -298,6 +310,41 @@ const Modals = ({
         </div>
       </form>
     </Modal>
+    {/* 更改订单号 */}
+    <Modal
+      title={lan.更改订单号}
+      visible={changeOrderInfo.show}
+      footer={null}
+      onCancel={() => dispatch(commit('changeOrderInfo', assign({}, changeOrderInfo, { show: false })))}
+    >
+      <form
+        className={styles.addRemarkForm}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (changeOrderInfo.billno.trim().length < 1) {
+            return message.warning(__('refund.details.submitTitle'));
+          }
+          return dispatch(changeOrder(changeOrderInfo.billno, +changeOrderInfo.refund_record_id, refundBillId));
+        }}
+      >
+        <div className={styles.addRemarkArea}>
+          <span className={styles.addRemarkSpan}>{lan.订单号}</span>
+          <Input
+            style={{ width: '60%' }}
+            value={changeOrderInfo.billno}
+            onChange={e => dispatch(commit('changeOrderInfo', assign({}, changeOrderInfo, { billno: e.target.value })))}
+          />
+        </div>
+        <div className={styles.addRemarkBts}>
+          <Button onClick={() => dispatch(commit('changeOrderInfo', assign({}, changeOrderInfo, { show: false })))}>
+            {lan.取消}
+          </Button>
+          <Button type={'primary'} htmlType={'submit'} loading={addRemarkInfo.load} >
+            {lan.确认}
+          </Button>
+        </div>
+      </form>
+    </Modal>
   </div>
 );
 Modals.propTypes = {
@@ -306,6 +353,7 @@ Modals.propTypes = {
   rejectInfo: PropTypes.shape(),
   refundInfo: PropTypes.shape(),
   reverseRefund: PropTypes.shape(),
+  changeOrderInfo: PropTypes.shape(),
   dispatch: PropTypes.func,
   refundBillId: PropTypes.string,
 };

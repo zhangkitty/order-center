@@ -1,4 +1,4 @@
-import * as TYPES from './types';
+import * as TYPES from "./types";
 
 export const commit = (key, value) => ({
   type: TYPES.COMMIT,
@@ -10,9 +10,10 @@ export const infoCommit = (key, value) => ({
   key,
   value,
 });
-export const getInfo = id => ({
+export const getInfo = (id, billno) => ({
   type: TYPES.GET_INFO,
   id,
+  billno,
 });
 export const getInfoSuccess = data => ({
   type: TYPES.GET_INFO_SUCCESS,
@@ -92,4 +93,10 @@ export const reverseRefundSaveFail = () => ({
 export const doRefundPass = data => ({
   type: TYPES.DO_REFUND_PASS,
   data,
+});
+export const changeOrder = (billno, refund_record_id, refundBillId) => ({
+  type: TYPES.CHANGE_ORDER,
+  billno,
+  refund_record_id,
+  refundBillId,
 });

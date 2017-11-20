@@ -16,9 +16,11 @@ import styles from './style.css';
 
 class Details extends Component {
   componentDidMount() {
-    const { params: { id }, dispatch } = this.props;
-    dispatch(getInfo(id));
+    const { params: { id, billno }, dispatch } = this.props;
+    dispatch(getInfo(id, billno));
     dispatch(commit('refundBillId', id));
+    dispatch(commit('billno', billno));
+    sessionStorage.setItem('details-bn', billno);
   }
   render() {
     const { ready } = this.props;

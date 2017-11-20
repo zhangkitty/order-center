@@ -133,7 +133,7 @@ class refundList extends Component {
               width: '80px',
               render: (text, record) => {
                 const obj = {
-                  children: <Link to={`/refund/details/${record.refund_bill_id}`} target="_blank">{ __('refund.list.operate1') }</Link>,
+                  children: <Link to={`/refund/details/${record.refund_bill_id}/${record.billno}`} target="_blank">{ __('refund.list.operate1') }</Link>,
                   props: {
                     rowSpan: record.rowSpan,
                   },
