@@ -11,7 +11,7 @@ const spanWidth = {
 
 const star = (<span style={{ color: 'red' }}>*</span>);
 
-const Price = ({ submitValue, dispatch }) => {
+const Price = ({ submitValue, dispatch ,dataSource}) => {
   return (
     <div className={style.spaceBg}>
       <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}:</span>
@@ -28,6 +28,7 @@ const Price = ({ submitValue, dispatch }) => {
                   style={{ width: '150px' }}
                   type="number"
                   value={v.refundAmount}
+                  disabled={dataSource.isUsd?false:true}
                   onChange={e => dispatch(subchange('recordList', [
                     ...submitValue.recordList.slice(0, i),
                     assign({}, submitValue.recordList[i], {
@@ -42,6 +43,7 @@ const Price = ({ submitValue, dispatch }) => {
                   style={{ width: '150px' }}
                   type="number"
                   value={v.refundCurrency}
+                  disabled={dataSource.isUsd?true:false}
                   onChange={e => dispatch(subchange('recordList', [
                     ...submitValue.recordList.slice(0, i),
                     assign({}, submitValue.recordList[i], {
