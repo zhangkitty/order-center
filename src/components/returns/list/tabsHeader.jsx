@@ -35,12 +35,8 @@ class TabsHeader extends Component {
 
 //  time control
   disabledDate(current) {
-    const { apply_start_time } = this.props.queryString;
-    return (current && current.valueOf() < moment(apply_start_time).valueOf());
-  }
-  disabledRefundDate(current) {
-    const { refund_start_time } = this.props.queryString;
-    return (current && current.valueOf() < moment(refund_start_time).valueOf());
+    const { start_time } = this.props.queryString;
+    return (current && current.valueOf() < moment(start_time).valueOf());
   }
 
   render() {
