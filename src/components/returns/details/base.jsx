@@ -27,6 +27,7 @@ const lan = {
   已退款: '已退款',
   去退款: '去退款',
   已办结: '已办结',
+  退款路径: '退款路径',
 };
 const Base = ({
                 dispatch, returnsInfoData, remarkInfo, params, tracking_no_url, buttonIsDone, buttonIsRefund,
@@ -38,6 +39,7 @@ const Base = ({
       { name: lan.退款状态, key: 'refundStatus' },
       { name: lan.是否问题件, key: 'troubleStatus' },
       { name: lan.运单类型, key: 'returnLabelType' },
+      { name: lan.退款路径, key: 'refundPath' },
     ],
     middle: [
       { name: lan.订单号, key: 'orderNo' },
@@ -51,7 +53,7 @@ const Base = ({
       { name: lan.运费险, key: 'insurance' },
       { name: lan.退货单状态, key: 'state' },
       { name: lan.回寄物流单号, key: 'trackingNo' },
-      { name: lan.RL扣除费用, key: '' },
+      { name: lan.RL扣除费用, key: 'shippingFee' },
     ],
   };
 
