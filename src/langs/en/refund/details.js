@@ -51,4 +51,8 @@ module.exports = {
   modals_refund_protocal_number: '退款交易号',
   modals_tip_offline: '线下退款请填写此信息',
   modals_tip_need: '请填写退款交易凭证号',
+  change: '更改',
+  order_number: '订单号',
+  change_order: '更改订单号',
+  submitTitle: '请输入订单号',
 };

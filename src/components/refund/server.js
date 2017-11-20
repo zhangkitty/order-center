@@ -1,10 +1,9 @@
 /**
  * Create by liufeng on 2017/9/28
  */
-import assign from 'object-assign';
-import fetch from '../../lib/fetch';
-import { camel2Under, under2Camal } from '../../lib/camal';
-import queryString from '../../lib/query-string';
+import fetch from "../../lib/fetch";
+import {camel2Under} from "../../lib/camal";
+import queryString from "../../lib/query-string";
 
 const list = {
   initCountry: '/OrderDiffRefund/refundBillSearch',   // 获取所有搜索数据
@@ -19,6 +18,7 @@ const details = {
   doRefund: '/OrderRefund/doRefund', // 提交退款
   doRefundAgain: '/OrderRefund/doRefundAgain', // 重新退款
   doRefundPass: '/OrderRefund/doRefundPass', // 通过
+  changeOrder: '/OrderReturn/modifyOrderIdByRefundRecordId', // 更改订单号
 }
 
 // 获取所有搜索数据
@@ -38,8 +38,8 @@ export const searchSubmit = (page) => {
   })
 };
 
-export const getRefundDetailsInfo = id => (
-  fetch(`${details.getRefundBillDetail}?refund_bill_id=${id}`, {
+export const getRefundDetailsInfo = (id, billno)=> (
+  fetch(`${details.getRefundBillDetail}?refund_bill_id=${id}&billno=${billno}`, {
     method: 'GET',
   })
 )
@@ -85,5 +85,12 @@ export const doRefundPassSer = data => (
   fetch(details.doRefundPass, {
     method: 'POST',
     body: JSON.stringify(data)
+  })
+)
+// 更改订单号
+export const changeOrderSer = (billno, refund_record_id) => (
+  fetch(details.changeOrder, {
+    method: 'POST',
+    body: JSON.stringify({ billno: billno, refund_record_id: refund_record_id })
   })
 )

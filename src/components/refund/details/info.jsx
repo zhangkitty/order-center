@@ -1,8 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Table, Button } from 'antd';
-import { Link } from 'react-router';
-import { refund, showReverseRefund } from './action';
+import React from "react";
+import PropTypes from "prop-types";
+import {Table, Button} from "antd";
+import assign from "object-assign";
+import {Link} from "react-router";
+import {refund, showReverseRefund, commit} from "./action";
 
 const lan = {
   退款信息: __('refund.details.info_refund_info'),
@@ -18,12 +19,13 @@ const lan = {
   操作: __('common.operationCheck2'),
   退款: __('refund.details.info_renfund'),
   重新退款: __('refund.details.info_renfund_agian'),
+  更改: __('refund.details.change'),
 };
 
 const Info = (
   {
     dataSource: { refund_path, refund_detail: { refund_type_code } },
-    dispatch, refundBillId, refundInfo,
+    dispatch, refundBillId, refundInfo, changeOrderInfo,
   },
   ) => (
     <div>
@@ -38,9 +40,22 @@ const Info = (
           {
             title: lan.订单号,
             dataIndex: 'billno',
-            width: 100,
+            width: 130,
             render: (d, rec) => (
-              <Link to={`order/details/entry/${rec.order_id}/${d}/refund`}>{d}</Link>
+              <div>
+                <Link to={`order/details/entry/${rec.order_id}/${d}/refund`}>{d}</Link>
+                {
+                  // 退款记录为未退款/退款失败 且 订单类型为提现退款时，显示
+                  ((+rec.refund_status_code === 1 || +rec.refund_status_code === 4) && +refund_type_code === 3) &&
+                  <Button
+                    type="primary"
+                    style={{ marginLeft: '5px' }}
+                    onClick={() => dispatch(commit('changeOrderInfo', assign({}, changeOrderInfo, { show: true, billno: '', refund_record_id: rec.record_id, refundBillId })))}
+                  >
+                    {lan.更改}
+                  </Button>
+                }
+              </div>
           ),
           },
           {
@@ -56,12 +71,12 @@ const Info = (
           {
             title: lan.退款路径,
             dataIndex: 'refund_path',
-            width: 100,
+            width: 70,
           },
           {
             title: lan.账户,
             dataIndex: 'payment_method',
-            width: 100,
+            width: 70,
           },
           {
             title: lan.账户信息,
@@ -76,12 +91,12 @@ const Info = (
           {
             title: lan.退款状态,
             dataIndex: 'refund_status',
-            width: 100,
+            width: 80,
           },
           {
             title: lan.操作人,
             dataIndex: 'operation_user_name',
-            width: 100,
+            width: 70,
           },
           {
             title: lan.操作时间,
@@ -90,7 +105,7 @@ const Info = (
           },
           {
             title: lan.操作,
-            width: 100,
+            width: 130,
             render: rec => (
               <div>
                 {
@@ -139,5 +154,6 @@ Info.propTypes = {
   refundInfo: PropTypes.shape(),
   dispatch: PropTypes.func,
   refundBillId: PropTypes.string,
+  changeOrderInfo: PropTypes.shape(),
 };
 export default Info;
