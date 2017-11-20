@@ -43,9 +43,10 @@ module.exports = {
   submitName2: '全部',
   submitName3: '待退款',
   submitName4: '驳回',
-  submitName5: 'xxxxx',
   submitTitle: '结束时间必须大于开始时间', // 提交提示
   submitTitle1: '获取数据失败: ',
   submitTitle2: '搜索失败: ',
+  submitTitle3: '导出失败: ',
+  submitTitle4: '导出成功！',
   content: '退金额($)',
 };

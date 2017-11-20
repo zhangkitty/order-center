@@ -36,7 +36,7 @@ function* exportSaga(action) {
   const data = yield exportSubmit(action.data);
   if (!data || data.code !== 0) {
     yield put(change('exportLoad', false));
-    return message.error(`${__('refund.list.submitTitle3')}${data.msg}`);
+    return message.error(`${__('returns.list.submitTitle3')}${data.msg}`);
   }
   message.success(__('returns.list.submitTitle4'));
   yield put(change('exportLoad', false));

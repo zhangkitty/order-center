@@ -8,6 +8,7 @@ import assign from 'object-assign';
 import { Table, message } from 'antd';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import Pagination from '../../publicComponent/pagination';
 import { search, commit, init } from './action';
 import TabsHeader from './tabsHeader';
@@ -36,6 +37,20 @@ class returnsList extends Component {
             loading={searchLoad}
             pagination={false}
             dataSource={dataSource}
+            onChange={() => {
+              if (
+                moment(queryString.start_time).valueOf() > moment(queryString.end_time).valueOf()
+              ) {
+                return message.warning(__('returns.list.submitTitle'));
+              }
+              return dispatch(search(assign({},
+                queryString,
+                {
+                  start_time: moment(queryString.start_time).format('YYYY-MM-DD HH:mm:ss'),
+                  end_time: moment(queryString.end_time).format('YYYY-MM-DD HH:mm:ss'),
+                  sort_order: queryString.sort_order === 0 ? 1 : 0,
+                })));
+            }}
             columns={[{
               title: __('returns.list.refund_number'),
               dataIndex: 'return_order_id',
@@ -80,6 +95,9 @@ class returnsList extends Component {
               title: __('returns.list.tracking'), // 运单号
               dataIndex: 'tracking_no',
               width: '100px',
+              render: (text, record) => (
+                <a href={record.tracking_no_url} target="_blank">{text}</a>
+              ),
             }, {
               title: __('returns.list.warehouse'),
               dataIndex: 'warehouse',
@@ -100,6 +118,7 @@ class returnsList extends Component {
               title: __('returns.list.last_time'), // 操作时间
               dataIndex: 'last_time',
               width: '130px',
+              sorter: true,
             }, {
               title: __('returns.list.refund_status'), // 退款状态
               dataIndex: 'refund_status',

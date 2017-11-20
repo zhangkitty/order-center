@@ -148,7 +148,7 @@ class TabsHeader extends Component {
                         style={{ width: '200px' }}
                         tokenSeparators={[',']}
                         // value={source_site}
-                        onChange={val => dispatch(commit('source_site', val))}
+                        onChange={val => dispatch(commit('source_site', val.join(',')))}
                       >
                         {
                           fetchSite.map(item => (
@@ -161,6 +161,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.country')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={receiver_country}
                         onChange={val => dispatch(commit('receiver_country', val))}
@@ -198,7 +199,7 @@ class TabsHeader extends Component {
                         style={{ width: '200px' }}
                         tokenSeparators={[',']}
                         // value={warehouse}
-                        onChange={val => dispatch(commit('warehouse', val))}
+                        onChange={val => dispatch(commit('warehouse', val.join(',')))}
                       >
                         {
                           fetchWarehouse.map(item => (
@@ -217,7 +218,7 @@ class TabsHeader extends Component {
                         style={{ width: '200px' }}
                         tokenSeparators={[',']}
                         // value={return_order_status}
-                        onChange={val => dispatch(commit('return_order_status', val))}
+                        onChange={val => dispatch(commit('return_order_status', val.join(',')))}
                       >
                         {
                           fetchReturn.map(item => (
@@ -263,6 +264,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.refund_status')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={refund_status}
                         onChange={val => dispatch(commit('refund_status', val))}
@@ -280,6 +282,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.is_cod')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={payment}
                         onChange={val => dispatch(commit('payment', val))}
@@ -296,6 +299,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.member_level')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={member_level}
                         onChange={val => dispatch(commit('member_level', val))}
@@ -312,6 +316,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.return_label_type')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={return_label_type}
                         onChange={val => dispatch(commit('return_label_type', val))}
@@ -333,7 +338,7 @@ class TabsHeader extends Component {
                         style={{ width: '200px' }}
                         tokenSeparators={[',']}
                         // value={order_type}
-                        onChange={val => dispatch(commit('order_type', val))}
+                        onChange={val => dispatch(commit('order_type', val.join(',')))}
                       >
                         {
                           fetchOrderType.map(item => (
@@ -419,8 +424,8 @@ class TabsHeader extends Component {
 
                 <div className={styles.downloadCon}>
                   <a
-                    className={styles.buttonStyle} // TODO 地址错误（下载模板）
-                    href={`${location.origin}/index_new.php/Order/OrderReturn/excelOrderReturn?${exportSubmit()}`}
+                    className={styles.buttonStyle} // （下载模板）
+                    href={`${location.origin}/Public/File/upload_excel/example.xls`}
                     target="_blank"
                   >
                     {__('returns.list.download')}
