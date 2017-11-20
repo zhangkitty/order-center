@@ -40,7 +40,7 @@ const Om = ({ dataSource, dispatch }) => (
                 onChange={d => dispatch(changeDate(d.format('YYYYMMDD'), index))}
               />
               <a
-                href={`${location.origin}/index_new.php/Order/AliOrder/exportNotifyAliSellerShipmentLog?${rec.date}`}
+                href={`${location.origin}/index_new.php/Order/AliOrder/exportNotifyAliSellerShipmentLog?date=${rec.date}`}
                 target="_blank"
                 style={{ marginLeft: '25px' }}
               >{lan.日志下载}</a>
