@@ -93,7 +93,8 @@ const defaultState = {
   selectAllStateStatus:false,
   stockList:{stock:{},occupy:{}},
   site:[],
-  dataSource_noGoods:[]
+  dataSource_noGoods:[],
+  showBatchNoGoods:false
 };
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));

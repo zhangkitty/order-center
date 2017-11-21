@@ -26,7 +26,7 @@ import {
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
   delChangeFail, delChangeSuccess,
   batchCheckSuccess, batchDeleteSuccess, batchPartSuccess, getStockList,
-  getStockListSuccess,
+  getStockListSuccess, change
 } from './action';
 
 import * as TYPES from './types';
@@ -254,6 +254,7 @@ function* noStock(action) {
   if (!data || data.code !== 0) {
     return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
+  yield put(change('showBatchNoGoods', true));
   return yield put(getStockList(data));
 }
 

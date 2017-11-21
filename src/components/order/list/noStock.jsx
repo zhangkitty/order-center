@@ -81,7 +81,6 @@ let _batchChooseGoods;
 class TabsHeader extends Component {
   state = {
     selectAllStateStatus: false,
-    visible: false,
     showShelfNoGoods: false,
     down: ''
   };
@@ -90,9 +89,10 @@ class TabsHeader extends Component {
       batchChooseGoods,
       dispatch,
       stockList: data,
-      dataSource_noGoods
+      dataSource_noGoods,
+      showBatchNoGoods
     } = this.props;
-    const { visible, showShelfNoGoods, down } = this.state;
+    const { showShelfNoGoods, down } = this.state;
     const dataSource = [
       {
         key: '1',
@@ -226,7 +226,6 @@ class TabsHeader extends Component {
         {/* 批量无货 */}
         <Button
           onClick={() => {
-            this.setState({ visible: true });
             if (_batchChooseGoods !== batchChooseGoods) {
               dispatch(noStock(batchChooseGoods));
               _batchChooseGoods = batchChooseGoods;
@@ -238,7 +237,7 @@ class TabsHeader extends Component {
         </Button>
         <Modal
           title={showShelfNoGoods ? __('common.order_operation14') : __('common.order_operation15')}
-          visible={visible}
+          visible={showBatchNoGoods}
           onCancel={this.handleCancel}
           footer={null}
         >
@@ -334,7 +333,8 @@ class TabsHeader extends Component {
     this.setState({ selectAllStateStatus: !selectAllStateStatus });
   };
   handleCancel = () => {
-    this.setState({ visible: false, showShelfNoGoods: false });
+    this.setState({ showShelfNoGoods: false });
+    this.props.dispatch(change('showBatchNoGoods', false));
   };
   submit = () => {
     const {
