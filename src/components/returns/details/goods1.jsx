@@ -56,6 +56,9 @@ const Goods = ({ returnsInfoData: { returnOrderGoods } }) => (
           title: lan.退货原因,
           dataIndex: 'returnReason',
           width: 150,
+          render: (data, rec) => (
+            <span dangerouslySetInnerHTML={{ __html: data }}></span>
+          ),
         },
       ]}
     />
