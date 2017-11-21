@@ -33,7 +33,7 @@ class returnsList extends Component {
         <div className={styles.table_bg}>
           <Table
             rowKey="record_id"
-            bordered
+           // bordered
             loading={searchLoad}
             pagination={false}
             dataSource={dataSource}
@@ -125,7 +125,7 @@ class returnsList extends Component {
               width: '70px',
             }, {
               title: __('returns.list.refund_time'), // 退款时间
-              dataIndex: 'refund_time',  // TODO 字段名没有，不对
+              dataIndex: 'refund_time',
               width: '130px',
             }, {
               title: __('returns.list.order_type'), // 退货单类型
