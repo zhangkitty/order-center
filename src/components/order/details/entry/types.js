@@ -19,6 +19,8 @@ export const PROFIT_SHOW = `${prefix}profit_show`;
 export const GEN_RL = `${prefix}gen_rl`;
 export const CANCEL_REFUND = `${prefix}cancel_refund`;
 
+export const OPEN_MODAL = `${prefix}open_modal`;
+export const OPEN_MODAL_CGS = `${prefix}open_modal_cgs`;
 
 // 商品操作查询
 export const OPERATION_GOODS = `${prefix}operation_goods`;

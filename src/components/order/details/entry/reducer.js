@@ -1,3 +1,4 @@
+import merge from 'lodash.merge';
 import assign from 'object-assign';
 import * as TYPES from './types';
 
@@ -41,6 +42,12 @@ const defaultState = {
   clickVisible: false,
   visible: false,   // add
   logisticsVisible: false,  // 物流备注
+  load: false,
+  loadUpdata: false,
+  remarkModal: {
+    order_goods_id: '',
+    remark: '',
+  },
   exchange: {
     goods_sn: '',   // sku
     site_from: '',    // 站点
@@ -52,6 +59,23 @@ const defaultState = {
   },
   markTag: {},
   changeDisabled: true,  // 换货按钮状态
+};
+
+const cgsReducer = (dataSource, orderId, result) => {
+  const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));
+  return [
+    ...dataSource.slice(0, index),
+    assign({}, dataSource[index], {
+      order_goods: [
+        ...dataSource[index].order_goods.map(v => (
+          v.order_goods_sort === result.replace_goods_sort ?
+            assign({}, v, { is_replace: 1 }) : v
+        )),
+        result,
+      ],
+    }),
+    ...dataSource.slice(index + 1),
+  ];
 };
 
 export default (state = defaultState, action) => {
@@ -128,6 +152,105 @@ export default (state = defaultState, action) => {
     case TYPES.COMMIT:
       return assign({}, state, {
         [action.key]: action.value,
+      });
+    case TYPES.OPEN_MODAL:  // add remark
+      return assign({}, state, {
+        // clickVisible: false,
+        visible: true,
+        remarkModal: {
+          order_id: action.orderId,
+          remark: '',
+        },
+      });
+    case TYPES.REMARK:
+      return assign({}, state, {
+        load: true,
+      });
+    // case TYPES.REMARK_FAIL:
+    //   return assign({}, state, {
+    //     load: false,
+    //     clickVisible: true,
+    //   });
+    case TYPES.REMARK_SUCCESS:
+      return assign({}, state, {
+        fetchRemark: action.data.data || [],
+        clickVisible: true,
+        load: false,
+      });
+    case TYPES.REMARK_SAVE:
+      return assign({}, state, {
+        loadUpdata: true,
+      });
+    // case TYPES.REMARK_SAVE_FAIL:
+    //   return assign({}, state, {
+    //     visible: false,
+    //     loadUpdata: false,
+    //   });
+    case TYPES.REMARK_SAVE_SUCCESS:  // 备注更新成功，备注状态改为 1
+      return merge({}, state, {
+        visible: false,
+        loadUpdata: false,
+        dataSource: merge({}, state.dataSource, { base: { order_info: { basic_info: { have_remark: 2 } } } }),
+      });
+    case TYPES.OPEN_MODAL_CGS:
+      return assign({}, state, {
+        exchange: {
+          goods_sn: action.goods_sn,
+          site_from: action.siteFrom,
+          order_goods_id: action.goodsId,
+          order_id: action.orderId,
+          load: false,
+          visible: true,
+        },
+        fetchgoodSize: [],
+        changeDisabled: true,
+      });
+    case TYPES.GOODS_SIZE:
+      return assign({}, state, {
+        exchange: {
+          goods_sn: action.data.goods_sn,
+          site_from: action.data.site_from,
+          order_goods_id: action.data.order_goods_id,
+          order_id: action.data.order_id,
+          load: false,
+          visible: true,
+        },
+      });
+    // case TYPES.GOODS_SIZE_FAIL:
+    //   return assign({}, state, {
+    //     load: false,
+    //   });
+    case TYPES.GOODS_SIZE_SUCCESS:
+      return assign({}, state, {
+        fetchgoodSize: action.data.data,
+        changeDisabled: false,
+      });
+    case TYPES.CHANGE_GOODS:
+      return assign({}, state, {
+        exchange: {
+          goods_sn: action.data.goods_sn,
+          site_from: action.data.site_from,
+          order_goods_id: action.data.order_goods_id,
+          order_id: action.data.order_id,
+          goods_size: action.data.goods_size,
+          load: true,
+          visible: true,
+        },
+      });
+    // case TYPES.CHANGE_GOODS_FAIL:
+    //   return assign({}, state, {
+    //     exchange: assign({}, state.exchange, {
+    //       load: false,
+    //       visible: true,
+    //     }),
+    //   });
+    case TYPES.CHANGE_GOODS_SUCCESS:
+      return assign({}, state, {
+        dataSource: cgsReducer(state.dataSource, action.orderId, action.data.data),
+        exchange: assign({}, state.exchange, {
+          load: false,
+          visible: false,
+        }),
       });
     default:
       return state;

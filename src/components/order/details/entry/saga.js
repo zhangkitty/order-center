@@ -5,13 +5,14 @@ import * as TYPES from './types';
 import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsFail, operationGoodsSuccess,
-  remarkShowFail, remarkShowSuccess, remarkSaveFail, remarkSaveSuccess,
+  remarkShowFail, remarkShowSuccess, remarkSaveSuccess,
   goodSizeFail, goodSizeSuccess, changeGoodsFail, changeGoodsSuccess,
   delChangeSuccess,
 } from './action';
 import {
   getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer,
   preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer,
+  operationGoodsSer,
   remarkSer, remarkSaveSer,
   goodSizeSer, changeGoodsSer,
   delChangeSer,
@@ -67,7 +68,7 @@ function* partSendSaga(action) {
 }
 // 优先发货
 function* preSendSaga(action) {
-  console.log(action, 'action,优先发货');
+ // console.log(action, 'action,优先发货');
   const data = yield preSendSer(action.oid, action.sendType);
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
@@ -134,7 +135,7 @@ function* remarkSaga(action) {
   const data = yield remarkSer(action.id);
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle11')} ${data.msg}`);
-    return yield put(remarkShowFail());
+  //  return yield put(remarkShowFail());
   }
   return yield put(remarkShowSuccess(data));
 }
@@ -144,7 +145,8 @@ function* remarkSaveSaga(action) {
   const data = yield remarkSaveSer(action.orderId, action.remark);
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle12')}${data.msg}`);
-    return yield put(remarkSaveFail());
+    yield put(commit('loadUpdata', 'false'));
+    // return yield put(remarkSaveFail());
   }
   message.success(__('common.sagaTitle13'));
   return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
@@ -194,10 +196,10 @@ export default function* () {
   yield takeLatest(TYPES.PROFIT_SHOW, profitShowSaga);
   yield takeLatest(TYPES.GEN_RL, genRlSaga);
   yield takeLatest(TYPES.CANCEL_REFUND, cancelRefundSaga);
-  yield takeEvery(TYPES.OPERATION_GOODS, operationGoodsSaga);
+  // yield takeEvery(TYPES.OPERATION_GOODS, operationGoodsSaga);
   yield takeEvery(TYPES.REMARK, remarkSaga);
   yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
-  yield takeEvery(TYPES.GOODS_SIZE, goodSizeSaga);
-  yield takeEvery(TYPES.CHANGE_GOODS, changeGoodsSaga);
-  yield takeLatest(TYPES.DEL_CHANGE, delChangeSaga);
+  // yield takeEvery(TYPES.GOODS_SIZE, goodSizeSaga);
+  // yield takeEvery(TYPES.CHANGE_GOODS, changeGoodsSaga);
+  // yield takeLatest(TYPES.DEL_CHANGE, delChangeSaga);
 }

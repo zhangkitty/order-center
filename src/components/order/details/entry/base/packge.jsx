@@ -16,19 +16,14 @@ import {
   Popover,
   Radio,
   message,
+  Input,
 } from 'antd';
 import assign from 'object-assign';
 import style from '../style.css';
 import {
-  backGoodsDates,
-  commit,
-  operateReturn,
-  partSend,
-  preSendAction,
-  examine,
-  openModal,
-  openModalCgs,
-  remarkShow,
+  backGoodsDates, commit, operateReturn, partSend, preSendAction, examine,
+  openModal, openModalCgs,
+  remarkShow, remarkSave,
 } from '../action';
 
 const BG = Button.Group;
@@ -185,6 +180,7 @@ const Packge = ({
   preSend,
   activeKey,
   fetchRemark,
+  visible, remarkModal, loadUpdata,
 }) => {
   const {
     not_packaged_goods_list,
@@ -200,6 +196,7 @@ const Packge = ({
     show_review_order_button,
   } = button_list;
   const { basic_info: { status_code } } = order_info;
+  const { basic_info } = order_info;
   // 判断 商品状态 是否显示（循环）
   const col = show =>
     [
@@ -307,7 +304,7 @@ const Packge = ({
               changshow[rec.goods_status] ?
                 <span
                   onClick={() => {
-                    dispatch(openModalCgs(rec.order_goods_id, orderId, order_info.basic_info.site_from));
+                    dispatch(openModalCgs(rec.order_goods_id, orderId, basic_info.site_from));
                   }
                   }
                   role="button" tabIndex={0}
@@ -450,7 +447,7 @@ const Packge = ({
 
         {/*  备注 */}
         <Popover
-          placement="bottomRight"
+          placement="bottom"
           trigger="click"
           arrowPointAtCenter
           content={
@@ -459,9 +456,9 @@ const Packge = ({
                 dataSource={fetchRemark}
                 columns={columnsRemark} size="small"
                 pagination={false}
-                style={{ width: '600px', maxHeight: '400px', overflow: 'auto' }}
+                style={{ width: '500px', maxHeight: '400px', overflow: 'auto' }}
               />
-              <Button
+              <Button // 新增备注
                 style={{ margin: '10px' }}
                 type="primary"
                 onClick={() => dispatch(openModal(orderId))}
@@ -472,13 +469,13 @@ const Packge = ({
           }
         >
           {
-          //  Number(have_remark) === 1 ?
+            +basic_info.have_remark === 1 ?
               <Button
                 className={style.haveRemark}
                 onClick={() => dispatch(remarkShow(orderId))}
               >{__('common.order_operation4')}</Button>
-           //   :
-           //   <Button onClick={() => dispatch(remarkShow(orderId))}>{__('common.order_operation4')}</Button>
+             :
+              <Button onClick={() => dispatch(remarkShow(orderId))}>{__('common.order_operation4')}</Button>
           }
         </Popover>
 
@@ -666,6 +663,41 @@ const Packge = ({
           </div>
         )}
       </Modal>
+      {/* 备注提交 */}
+      <Modal
+        zIndex={1100}
+        visible={visible}
+        onCancel={() => dispatch(commit('visible', false))}
+        footer={null}
+      >
+        <div style={{ margin: '30px 50px 15px' }}>
+          <div>{__('common.order_operation6')}
+            <Input.TextArea
+              style={{ margin: '10px auto' }}
+              rows={3}
+              value={remarkModal.remark}
+              onChange={e => dispatch(commit('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
+            />
+          </div>
+          <Button
+            key="submit"
+            type="primary"
+            loading={loadUpdata}
+            onClick={() => {
+              if (remarkModal.remark.trim().length === 0) {
+                return message.warning(__('common.order_operation9'));
+              }
+              return dispatch(remarkSave(remarkModal.order_id, remarkModal.remark));
+            }}
+            style={{ marginRight: '20px' }}
+          >
+            {__('common.order_operation7')}
+          </Button>
+          <Button key="back" onClick={() => dispatch(commit('visible', false))}>
+            {__('common.order_operation8')}
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 };
@@ -682,5 +714,8 @@ Packge.propTypes = {
   preSend: PropTypes.number,
   chooseGoods: PropTypes.arrayOf(PropTypes.string),
   fetchRemark: PropTypes.arrayOf(PropTypes.shape()),
+  visible: PropTypes.bool,
+  remarkModal: PropTypes.shape(),
+  loadUpdata: PropTypes.bool,
 };
 export default Packge;
