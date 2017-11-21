@@ -35,20 +35,22 @@ const columns = [
     dataIndex: 'stock',
     render: text =>
       text
-        ? Object.keys(text)
-            .reduce(
-              (sum, v) =>
-                Array.isArray(sum)
-                  ? sum.concat([`${v}:${text[v]}`])
-                  : [`${sum}:${text[sum]}`, `${v}:${text[v]}`]
-            )
-            .join(', ')
+        ? (Object.keys(text).length > 1
+            ? Object.keys(text).reduce(
+                (sum, v) =>
+                  Array.isArray(sum)
+                    ? sum.concat([`${v}:${text[v]}`])
+                    : [`${sum}:${text[sum]}`, `${v}:${text[v]}`]
+              )
+            : Object.keys(text).map(v => `${v}:${text[v]}`)
+          ).join(', ')
         : 0
   },
   {
     title: (
       <div>
-        {__('common.noGoods_name3')}<Popover content={tipContent}>
+        {__('common.noGoods_name3')}
+        <Popover content={tipContent}>
           <div
             className={styles.showTip}
             style={{
@@ -133,7 +135,7 @@ class TabsHeader extends Component {
               dispatch(changeAllSource('1', e.target.checked));
             }}
           >
-          {__('common.noGoods_name11')}
+            {__('common.noGoods_name11')}
           </Checkbox>
         ),
         dataIndex: '1',
@@ -159,7 +161,7 @@ class TabsHeader extends Component {
               dispatch(changeAllSource('2', e.target.checked));
             }}
           >
-          {__('common.noGoods_name12')}
+            {__('common.noGoods_name12')}
           </Checkbox>
         ),
         dataIndex: '2',
@@ -185,7 +187,7 @@ class TabsHeader extends Component {
               dispatch(changeAllSource('3', e.target.checked));
             }}
           >
-          {__('common.noGoods_name13')}
+            {__('common.noGoods_name13')}
           </Checkbox>
         ),
         dataIndex: '3',
@@ -229,6 +231,8 @@ class TabsHeader extends Component {
             if (_batchChooseGoods !== batchChooseGoods) {
               dispatch(noStock(batchChooseGoods));
               _batchChooseGoods = batchChooseGoods;
+            } else {
+              dispatch(change('showBatchNoGoods', true));
             }
           }}
         >
@@ -236,7 +240,11 @@ class TabsHeader extends Component {
           {__('common.order_operation13')}
         </Button>
         <Modal
-          title={showShelfNoGoods ? __('common.order_operation14') : __('common.order_operation15')}
+          title={
+            showShelfNoGoods
+              ? __('common.order_operation14')
+              : __('common.order_operation15')
+          }
           visible={showBatchNoGoods}
           onCancel={this.handleCancel}
           footer={null}
@@ -265,7 +273,7 @@ class TabsHeader extends Component {
                   }}
                   style={{ marginRight: 10 }}
                 >
-                {__('common.cancel')}
+                  {__('common.cancel')}
                 </Button>
                 <Button onClick={this.submit}>{__('common.submit')}</Button>
               </div>
@@ -274,7 +282,9 @@ class TabsHeader extends Component {
             <div>
               <div style={{ overflow: 'hidden', marginBottom: 10 }}>
                 <span style={{ float: 'left' }}>sku:{data.sku}</span>
-                <span style={{ float: 'right' }}>{data.size?data.size.replace(/\<br \/\>/,' '):null}</span>
+                <span style={{ float: 'right' }}>
+                  {data.size ? data.size.replace(/\<br \/\>/, ' ') : null}
+                </span>
               </div>
               <Table
                 dataSource={dataSource}
@@ -283,7 +293,7 @@ class TabsHeader extends Component {
               />
               <div style={{ marginTop: 20, textAlign: 'center' }}>
                 <Button onClick={this.handleCancel} style={{ marginRight: 10 }}>
-                {__('common.cancel')}
+                  {__('common.cancel')}
                 </Button>
                 <Button
                   style={{ marginRight: 10 }}
@@ -292,14 +302,14 @@ class TabsHeader extends Component {
                     if (!dataSource_noGoods.length) dispatch(getNoGoodsList());
                   }}
                 >
-                {__('common.noGoods_name17')}
+                  {__('common.noGoods_name17')}
                 </Button>
                 <Button
                   onClick={() => {
                     dispatch(returnAlreadyAudit(batchChooseGoods));
                   }}
                 >
-                {__('common.noGoods_name18')}
+                  {__('common.noGoods_name18')}
                 </Button>
               </div>
             </div>
