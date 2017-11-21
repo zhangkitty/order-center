@@ -61,6 +61,7 @@ class GoodsRefund extends Component {
               .map(v => ({
                 refund_path_id: v.refundTypeId,
                 refund_amount: Number(v.refundAmount),
+                refund_currency:Number(v.refundCurrency),
                 refund_method: Number(v.refund_method_id) === 4
                   ? v.refund_method2 : v.refund_method,
                 account: v.account || Symbol('noValue'),

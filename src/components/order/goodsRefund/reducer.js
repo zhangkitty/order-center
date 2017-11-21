@@ -15,6 +15,7 @@ const defaultState = {
   load: false,
   loadUpdata: false,
   total: 0,
+  isUsd:null,
   submitLoad: false,
   submitValue: {
     orderId: null,
@@ -34,7 +35,7 @@ const defaultState = {
 const maxTypes = data => (
   {
     1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
-    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    2: Number((data.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5 +data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount).toFixed(2),
     3: data.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
   }
 );
@@ -219,6 +220,7 @@ const reducer = (state = defaultState, action) => {
           refundPaths: svInit(under2Camal(action.res)),
         }),
         cachePaths: svInit(under2Camal(action.res)),
+        isUsd:under2Camal(action.res).isUsd
       });
     case TYPES.GET_REASON_SUCCESS:
       return assign({}, state, {

@@ -35,7 +35,7 @@ const onC = (dispatch, submitValue, i, data) => (
       ...submitValue.refundPaths.slice(i + 1),
     ],
 )));
-const Price = ({ dataSource, submitValue, dispatch }) => {
+const Price = ({ dataSource, submitValue, dispatch ,isUsd}) => {
   const RLPrice = dataSource.rlFee || [];
   return (
     <div style={{ marginBottom: '20px' }}>
@@ -113,6 +113,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                       <Input
                         style={{ width: '150px' }}
                         value={v.refundAmount}
+                        disabled={isUsd?false:true}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(usPriceChange(e.target.value, i, v.rate))}
@@ -121,6 +122,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                       <Input
                         style={{ width: '150px' }}
                         value={v.refundCurrency}
+                        disabled={isUsd?true:false}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(otherPriceChange(e.target.value, i, v.rate2))}
