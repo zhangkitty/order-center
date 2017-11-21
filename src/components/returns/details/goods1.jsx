@@ -2,13 +2,13 @@ import React from 'react';
 import { Table } from 'antd';
 
 const lan = {
-  申请退货商品信息: '申请退货商品信息',
-  退货ＱＣ状态: '退货ＱＣ状态',
-  商品图片: '商品图片',
-  商品名称: '商品名称',
-  尺码: '尺码',
-  商品SKU: '商品SKU',
-  退货原因: '退货原因',
+  申请退货商品信息: __('returns.details.申请退货商品信息'),
+  退货ＱＣ状态: __('returns.details.退货ＱＣ状态'),
+  商品图片: __('returns.details.商品图片'),
+  商品名称: __('returns.details.商品名称'),
+  尺码: __('returns.details.尺码'),
+  商品SKU: __('returns.details.商品SKU'),
+  退货原因: __('returns.details.退货原因'),
 };
 
 
