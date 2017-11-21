@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Table } from 'antd';
 
 const lan = {
-  退货单操作日志: '退货单操作日志',
+  退货单操作日志: __('returns.details.退货单操作日志'),
   时间: __('common.operationCheck1'),
   操作人: __('common.operationCheck'),
   操作日志: __('refund.details.logs_logs'),

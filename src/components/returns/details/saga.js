@@ -11,13 +11,12 @@ const lan = {
   osucess: __('order.entry.submit_info1'),
   fail: __('order.entry.submit_info2'),
   part: __('order.entry.submit_info3'),
-  推送消息成功:'推送消息成功',
+  推送消息成功:__('returns.details.推送消息成功'),
 };
 
 //获取退货单详情信息
 function* getOrderReturnDetailSaga(action) {
   const data = yield getOrderReturnDetailSer(action.id)
-  console.log(data,data)
   if(!data||data.code!==0){
     return message.error(`${lan.fail}:${data.msg}`);
   }

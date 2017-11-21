@@ -3,13 +3,13 @@ import { Table } from 'antd';
 import { Link } from 'react-router';
 
 const lan = {
-  未申请却退回商品信息: '未申请却退回商品信息',
-  退货ＱＣ状态: '退货ＱＣ状态',
-  商品图片: '商品图片',
-  商品名称: '商品名称',
-  尺码: '尺码',
-  商品SKU: '商品SKU',
-  关联退货单: '关联退货单',
+  未申请却退回商品信息: __('returns.details.未申请却退回商品信息'),
+  退货ＱＣ状态: __('returns.details.退货ＱＣ状态'),
+  商品图片: __('returns.details.商品图片'),
+  商品名称: __('returns.details.商品名称'),
+  尺码: __('returns.details.尺码'),
+  商品SKU: __('returns.details.商品SKU'),
+  关联退货单: __('returns.details.关联退货单'),
 };
 
 
