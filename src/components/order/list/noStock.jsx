@@ -19,9 +19,9 @@ const RadioGroup = Radio.Group;
 
 const tipContent = (
   <div>
-    B区待占：查询该sku+尺码，且 商品状态=已审核 或 备货中，的商品数之和<br />
-    C区东部／西部待占：查询该sku+尺码， 商品状态=已审核 或 备货中，国家=美国，的商品数之和<br />
-    D区待占：查询该sku+尺码，商品状态=已审核 或 备货中，国家=欧洲国家，的商品数之和
+    {__('common.noGoods_name19')}<br />
+    {__('common.noGoods_name20')}<br />
+    {__('common.noGoods_name21')}
   </div>
 );
 
@@ -242,8 +242,8 @@ class TabsHeader extends Component {
         <Modal
           title={
             showShelfNoGoods
-              ? __('common.order_operation14')
-              : __('common.order_operation15')
+              ? __('common.noGoods_name14')
+              : __('common.noGoods_name15')
           }
           visible={showBatchNoGoods}
           onCancel={this.handleCancel}
