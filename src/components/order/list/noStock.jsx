@@ -228,12 +228,12 @@ class TabsHeader extends Component {
         {/* 批量无货 */}
         <Button
           onClick={() => {
-            if (_batchChooseGoods !== batchChooseGoods) {
+            //if (_batchChooseGoods !== batchChooseGoods) {
               dispatch(noStock(batchChooseGoods));
-              _batchChooseGoods = batchChooseGoods;
-            } else {
-              dispatch(change('showBatchNoGoods', true));
-            }
+            //  _batchChooseGoods = batchChooseGoods;
+            //} else {
+            //  dispatch(change('showBatchNoGoods', true));
+            //}
           }}
         >
           {' '}
