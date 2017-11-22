@@ -15,7 +15,7 @@ const defaultState = {
   load: false,
   loadUpdata: false,
   total: 0,
-  isUsd:null,
+  isUsd: null,
   submitLoad: false,
   submitValue: {
     orderId: null,
@@ -203,8 +203,8 @@ const allBack = (source, arr, back, rl, type, refundPaths) => {
     }
   }
   return refundPaths.map(v => assign({}, v, {
-    refundAmount: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
-    refundCurrency: v.check ? Number(Number(price[v.refundTypeId] * v.rate).toFixed(2)) : 0.00,
+    refundAmount: v.check ? Number(Number(price[v.refundTypeId] * v.rate2).toFixed(2)) : 0.00,
+    refundCurrency: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
 
   }));
 };
@@ -220,7 +220,7 @@ const reducer = (state = defaultState, action) => {
           refundPaths: svInit(under2Camal(action.res)),
         }),
         cachePaths: svInit(under2Camal(action.res)),
-        isUsd:under2Camal(action.res).isUsd
+        isUsd: under2Camal(action.res).isUsd,
       });
     case TYPES.GET_REASON_SUCCESS:
       return assign({}, state, {

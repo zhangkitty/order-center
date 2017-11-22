@@ -54,7 +54,7 @@ const Price = ({ dataSource, submitValue, dispatch ,isUsd}) => {
               return message.warning(__('order.goodsRefund.Please_choose_pay_method'));
             }
             dispatch(subchange('shipping', Number(value)));
-            return dispatch(allback(value*(SP+SIP), Number(submitValue.rlFee), check.refundTypeId));
+            return dispatch(allback(value, Number(submitValue.rlFee), check.refundTypeId));
           }}
         >
           <Radio value={0}>{__('order.goodsRefund.no_no_back')}</Radio>
