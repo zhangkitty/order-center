@@ -60,14 +60,6 @@ const list = {
   operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
   orderRemark: '/order/remark',  // 备注查询
   orderSaveRemark: '/order/saveRemark',  // 添加备注
- // logisticsRemark: '/order/logisticsRemark',  // 物流备注查询
- // logisticsRemarkSave: '/order/saveLogisticsRemark',  // 添加物流备注
-  sizeBySku: '/order/listAvailabeGoodsSizeBySku',  // sku查尺码
-  chageGoods: '/order/exchageOrderGoods',  // 换货
-  delGoods: '/order/delExchagedOrderGoods',  // 删除换货
-//  getRisk: '/order/riskReason',  // 风控订单 备注
-//  cancelTroubleTag: '/order/tag',  // 订单标记 更新，取消
-
 };
 
 
@@ -307,36 +299,5 @@ export const remarkSaveSer = (orderId, remark) => (
     body: JSON.stringify(camel2Under({
       orderId , remark
     })),
-  })
-);
-// 产品尺码-查
-export const goodSizeSer = (data) => (
-  fetch(list.sizeBySku, {
-    method: 'POST',
-    body: JSON.stringify(assign({}, data, {
-      order_id: Symbol('noneed'),
-      load: Symbol('noneed'),
-      visible: Symbol('noneed'),
-    })),
-  })
-);
-
-// 换货
-export const changeGoodsSer = (data) => (
-  fetch(list.chageGoods, {
-    method: 'POST',
-    body: JSON.stringify(assign({}, data, {
-      site_from: Symbol('noneed'),
-      load: Symbol('noneed'),
-      visible: Symbol('noneed'),
-    })),
-  })
-);
-
-// delGoods
-export const delChangeSer = (oid, gid) => (
-  fetch(list.delGoods, {
-    method: 'POST',
-    body: JSON.stringify({ order_id: Number(oid), order_goods_id: Number(gid)}),
   })
 );

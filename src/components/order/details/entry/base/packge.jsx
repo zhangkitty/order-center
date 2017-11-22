@@ -7,22 +7,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import {
-  Card,
-  Table,
-  Button,
-  Modal,
-  Spin,
-  Checkbox,
-  Popover,
-  Radio,
-  message,
-  Input,
+  Card, Table, Button, Modal, Spin, Checkbox, Popover, Radio, message, Input,
 } from 'antd';
 import assign from 'object-assign';
 import style from '../style.css';
 import {
   backGoodsDates, commit, operateReturn, partSend, preSendAction, examine,
-  openModal, openModalCgs,
+  openModal, operationGoods,
   remarkShow, remarkSave,
 } from '../action';
 
@@ -94,6 +85,15 @@ const pingkongShow = {
   126: '已申请退货',
   127: '退货',
 };
+// 不能选择商品的条件（商品状态=需要退款、已经退款、 COD客服取消、COD客户取消， 换货，删除换货）
+const checkboxChecked = {
+  5: true, // 需要退款
+  20: true, // 换货
+  7: true, // 已经退款
+  74: true, // 删除换货
+  75: true, // COD客服取消
+  82: true, // COD用户取消"
+};
 //  商品状态前的标记
 const colors = {
   1: { bg: '#5AE0ED', border: 'none' },
@@ -123,22 +123,15 @@ const colors = {
   127: { bg: '#ccc', border: 'none' },
 };
 
-// 显示换货入口（商品状态）
-const changshow = {
-  1: true,  // 已付款
-  11: true, // 已审核
-  13: true, // 备货中
-  84: true, // 有货
-  28: true, // 无货审核
-  12: true, // 无货
-  23: true,  // 等待出仓
-  49: true, // 等待发货
-  52: true, // 发货中(add)
-  16: true, // 发货
-  7: true, // 已经退款
-  20: true, // 换货(被换)
-  126: true, // 已申请退货
-  127: true, // 已退货
+// 显示换货标记
+const replaceGoods = (source, d) => {
+  const obj = {
+    0: '',
+    1: __('common.change1'),
+    2: `(${d}${__('common.change2')})`,
+    3: `(${__('common.del_goods')})`,
+  };
+  return obj[source];
 };
 // 备注
 const columnsRemark = [{
@@ -152,6 +145,19 @@ const columnsRemark = [{
 }, {
   title: __('common.order_operation4'),
   dataIndex: 'remark',
+}];
+// 操作查询
+const columns = [{
+  title: __('common.operationCheck'),
+  dataIndex: 'user_name',
+  width: '80px',
+}, {
+  title: __('common.operationCheck1'),
+  dataIndex: 'add_time',
+  width: '150px',
+}, {
+  title: __('common.operationCheck2'),
+  dataIndex: 'status',
 }];
 
 const colorCirle = (circle = {}) => (
@@ -180,6 +186,7 @@ const Packge = ({
   preSend,
   activeKey,
   fetchRemark,
+  fetchOperation,
   visible, remarkModal, loadUpdata,
 }) => {
   const {
@@ -275,44 +282,62 @@ const Packge = ({
             <img
               alt="pic"
               src={d}
-              width="50px"
-              height="50px"
+              width="65px"
+              height="65px"
               style={{ margin: '0 10px' }}
             />
-            {show && pingkongShow[rec.status_code] ? (
-              <Link
-                to={
-                  rec.is_assessed
-                    ? '/order/details/goods-control/edit/' // 已品控
-                    : '/order/details/goods-control/list/' // 品控
-                }
-                query={{
-                  data: JSON.stringify(
-                    assign({}, rec, {
-                      order_id: orderId,
-                      billno,
-                    }),
-                  ),
-                }}
-              >
-                {rec.is_assessed ? lan.yipinkong : lan.pinkong}
-              </Link>
-            ) : null}
+            <div className={style.buttonBorderBg}>
+              {show && pingkongShow[rec.status_code] ? (
+                <Link
+                  to={
+                    rec.is_assessed
+                      ? '/order/details/goods-control/edit/' // 已品控
+                      : '/order/details/goods-control/list/' // 品控
+                  }
+                  query={{
+                    data: JSON.stringify(
+                      assign({}, rec, {
+                        order_id: orderId,
+                        billno,
+                      }),
+                    ),
+                  }}
+                >
+                  {rec.is_assessed ? lan.yipinkong : lan.pinkong}
+                </Link>
+              ) : null}
 
-            {/* 换货 */}
-            { // changshow[rec.goods_status] && Number(rec.is_replace) !== 2 ?
-              changshow[rec.goods_status] ?
+              {/* 操作查询 */}
+              <Popover
+                placement="bottomRight"
+                trigger="click"
+                arrowPointAtCenter
+                content={
+                  <Table
+                    className={style.operatingTable}
+                    rowKey={fetchOperation.id}
+                    dataSource={fetchOperation}
+                    columns={columns} size="small"
+                    pagination={false}
+                  />
+                }
+              >
                 <span
-                  onClick={() => {
-                    dispatch(openModalCgs(rec.order_goods_id, orderId, basic_info.site_from));
-                  }
-                  }
+                  onClick={() => dispatch(operationGoods(rec.id))}
                   role="button" tabIndex={0}
                 >
-                  {__('common.change_goods')}
+                  {__('common.operation')}
                 </span>
-                : null
-            }
+              </Popover>
+
+              {/* 换货 */}
+              <span style={{ color: '#ff0000' }}>
+                {/* TODO  字段名 缺失 */}
+                {
+                  replaceGoods(rec.is_replace, rec.replace_goods_sort) // res.goods_status
+                }
+              </span>
+            </div>
           </span>
         ),
       },
@@ -439,7 +464,7 @@ const Packge = ({
                 )}`,
               );
             }}
-            style={{ marginLeft: 20 }}
+            style={{ margin: '0 20px' }}
           >
             {__('common.order_operation2')}
           </Button>
@@ -483,7 +508,47 @@ const Packge = ({
 
       {/* 未形成包裹 */}
       {not_packaged_goods_list.length > 0 && (
-        <Card title={lan.noPackge} className={style.cardBottom}>
+        <Card
+          title={
+            <div className={style.center}>
+              <span
+                style={{ marginRight: 10 }}
+              >
+                {lan.noPackge}
+              </span>
+              <Button
+                className={style.orderSelect}
+                size="small"
+                onClick={() => {
+                  const temp = [];
+                  const arr = not_packaged_goods_list.map((f) => {
+                    const index = chooseGoods.findIndex(d => d === f.id);
+                    if (index > -1) {
+                      temp.push(chooseGoods[index]);
+                      chooseGoods = [
+                        ...chooseGoods.slice(0, index),
+                        ...chooseGoods.slice(index + 1),
+                      ];
+                    }
+                    return f;
+                  }).filter(v => !checkboxChecked[v.status_code]).map(v => v.id);
+                  console.log(arr, chooseGoods, 'arr');
+                  if (arr.length === temp.length) {
+                    return dispatch(commit('chooseGoods', chooseGoods));
+                  }
+                  return dispatch(
+                    commit('chooseGoods', [
+                      ...new Set(chooseGoods.concat(arr)),
+                    ]),
+                  );
+                }}
+              >
+                {__('common.allChoose')}
+              </Button>
+            </div>
+          }
+          className={style.cardBottom}
+        >
           <Table
             size="small"
             pagination={false}
@@ -516,8 +581,8 @@ const Packge = ({
                           ...chooseGoods.slice(index + 1),
                         ];
                       }
-                      return f.id;
-                    });
+                      return f;
+                    }).filter(d => !checkboxChecked[d.status_code]).map(d => d.id);
                     if (arr.length === temp.length) {
                       return dispatch(commit('chooseGoods', chooseGoods));
                     }
@@ -541,6 +606,12 @@ const Packge = ({
                   {colorCirle(colors[v.package_goods_list[0].status_code])}
                   <span>{v.package_status}</span>
                 </div>
+                {
+                  v.delivery_time && <div>
+                    <span className={style.packgeWidth}>{__('order.entry.delivery_time')}: </span>
+                    <span>{v.delivery_time}</span>
+                  </div>
+                }
                 <div>
                   <span className={style.packgeWidth}>{lan.qudao}: </span>
                   <span>{v.delivery_channel}</span>
@@ -581,8 +652,8 @@ const Packge = ({
                         ...chooseGoods.slice(index + 1),
                       ];
                     }
-                    return f.id;
-                  });
+                    return f;
+                  }).filter(v => !checkboxChecked[v.status_code]).map(v => v.id);
                   if (arr.length === temp.length) {
                     return dispatch(commit('chooseGoods', chooseGoods));
                   }
@@ -713,6 +784,7 @@ Packge.propTypes = {
   warehouse: PropTypes.number,
   preSend: PropTypes.number,
   chooseGoods: PropTypes.arrayOf(PropTypes.string),
+  fetchOperation: PropTypes.arrayOf(PropTypes.shape()),
   fetchRemark: PropTypes.arrayOf(PropTypes.shape()),
   visible: PropTypes.bool,
   remarkModal: PropTypes.shape(),

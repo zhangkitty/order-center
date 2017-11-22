@@ -60,6 +60,7 @@ module.exports = {
   discount_price: '折后价',
   send_goods_channel: '发货渠道',
   send_goods_number: '发货号',
+  delivery_time: '发货时间',
   goods_rejected: '退货',
   goods_send_first: '优先发货',
   goods_send_first_cancel: '取消优先发货',

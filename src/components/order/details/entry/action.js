@@ -103,16 +103,6 @@ export const openModal = (orderId, remark) => ({
   remark,
 });
 
-// 弹窗-size
-export const openModalCgs = (goodsId, orderId, siteFrom) => (
-  {
-    type: TYPES.OPEN_MODAL_CGS,
-    goodsId,
-    orderId,
-    siteFrom,
-  }
-);
-
 // 备注显示
 export const remarkShow = id => ({
   type: TYPES.REMARK,
@@ -133,49 +123,5 @@ export const remarkSave = (orderId, remark) => ({
 export const remarkSaveSuccess = data => ({
   type: TYPES.REMARK_SAVE_SUCCESS,
   data,
-});
-
-//  sku查size
-export const goodSize = data => ({
-  type: TYPES.GOODS_SIZE,
-  data,
-});
-export const goodSizeSuccess = data => ({
-  type: TYPES.GOODS_SIZE_SUCCESS,
-  data,
-});
-export const goodSizeFail = () => ({
-  type: TYPES.GOODS_SIZE_FAIL,
-});
-
-// 换货
-export const changeGoods = data => ({
-  type: TYPES.CHANGE_GOODS,
-  data,
-});
-export const changeGoodsSuccess = (orderId, data) => ({
-  type: TYPES.CHANGE_GOODS_SUCCESS,
-  data,
-  orderId,
-});
-export const changeGoodsFail = () => ({
-  type: TYPES.CHANGE_GOODS_FAIL,
-});
-
-// 删除换货
-export const delChange = (oid, gid, sort) => ({
-  type: TYPES.DEL_CHANGE,
-  oid,
-  gid,
-  sort,
-});
-export const delChangeSuccess = (oid, gid, sort) => ({
-  type: TYPES.DEL_CHANGE_SUCCESS,
-  oid,
-  gid,
-  sort,
-});
-export const delChangeFail = () => ({
-  type: TYPES.DEL_CHANGE_FAIL,
 });
 
