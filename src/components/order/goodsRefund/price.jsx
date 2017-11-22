@@ -75,7 +75,7 @@ const Price = ({ dataSource, submitValue, dispatch ,isUsd}) => {
             return dispatch(allback(Number(submitValue.shipping), value, check.refundTypeId));
           }}
         >
-          {RLPrice.map(v => (<Radio value={Number(v)} key={v}>${v}</Radio>))}
+          {RLPrice.map(v => (<Radio value={Number(v.amount)} key={v.amount}>{v.amountWithSymbol}</Radio>))}
         </Rg>
       </div>
       <div className={style.space}>
@@ -123,6 +123,7 @@ const Price = ({ dataSource, submitValue, dispatch ,isUsd}) => {
                         style={{ width: '150px' }}
                         value={v.refundCurrency}
                         disabled={isUsd?true:false}
+                        max={v.max}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(otherPriceChange(e.target.value, i, v.rate2))}

@@ -155,21 +155,21 @@ const svInit = (source) => {
  * @returns []
  */
 const allBack = (source, arr, back, rl, type, refundPaths) => {
-  const p = Number(source.orderPriceInfo.shippingPrice.priceUsd.amount) +
-    Number(source.orderPriceInfo.shippingInsurePrice.priceUsd.amount); // 运费 + 运费险
+  const p = Number(source.orderPriceInfo.shippingPrice.priceWithExchangeRate.amount) +
+    Number(source.orderPriceInfo.shippingInsurePrice.priceWithExchangeRate.amount); // 运费 + 运费险
   const max = Number(maxTypes(source)[1]); // 礼品卡最大上限
   const gift = arr.find(v => Number(v.refundTypeId) === 1) || {}; // 礼品卡
   const show = max > 0;
   const price = {
-    1: gift.refundAmount || 0,
-    2: Number(arr.find(v => Number(v.refundTypeId) === 2).refundAmount),
+    1: gift.refundCurrency || 0,
+    2: Number(arr.find(v => Number(v.refundTypeId) === 2).refundCurrency),
     3: type === 3 ?
-      Number(arr.find(v => Number(v.refundTypeId) === 2).refundAmount) :
-      Number(arr.find(v => Number(v.refundTypeId) === 3).refundAmount),
+      Number(arr.find(v => Number(v.refundTypeId) === 2).refundCurrency) :
+      Number(arr.find(v => Number(v.refundTypeId) === 3).refundCurrency),
   };
   if (back) {
     if (show) {
-      const total = gift.refundAmount + p;
+      const total = gift.refundCurrency + p;
       if (total > max) {
         price[1] = max;
         price[type || 2] = price[type || 2] + (total - max);
@@ -193,7 +193,7 @@ const allBack = (source, arr, back, rl, type, refundPaths) => {
     if (show) {
       if (total < 0) {
         price[type || 2] = 0;
-        const temp = gift.refundAmount + total;
+        const temp = gift.refundCurrency + total;
         price[1] = temp > 0 ? temp : 0;
       } else {
         price[type || 2] = total;
