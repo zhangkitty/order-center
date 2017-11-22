@@ -37,6 +37,8 @@ const onC = (dispatch, submitValue, i, data) => (
 )));
 const Price = ({ dataSource, submitValue, dispatch ,isUsd}) => {
   const RLPrice = dataSource.rlFee || [];
+  const {orderPriceInfo:{shippingPrice:{priceWithExchangeRate:{amount:SP}}}} = dataSource
+  const {orderPriceInfo:{shippingInsurePrice:{priceWithExchangeRate:{amount:SIP}}}} = dataSource
   return (
     <div style={{ marginBottom: '20px' }}>
       <div className={style.flex}>
@@ -52,7 +54,7 @@ const Price = ({ dataSource, submitValue, dispatch ,isUsd}) => {
               return message.warning(__('order.goodsRefund.Please_choose_pay_method'));
             }
             dispatch(subchange('shipping', Number(value)));
-            return dispatch(allback(value, Number(submitValue.rlFee), check.refundTypeId));
+            return dispatch(allback(value*(SP+SIP), Number(submitValue.rlFee), check.refundTypeId));
           }}
         >
           <Radio value={0}>{__('order.goodsRefund.no_no_back')}</Radio>

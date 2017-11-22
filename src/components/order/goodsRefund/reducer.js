@@ -35,7 +35,7 @@ const defaultState = {
 const maxTypes = data => (
   {
     1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
-    2: Number((data.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5 +data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount).toFixed(2),
+    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount,
     3: data.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
   }
 );
