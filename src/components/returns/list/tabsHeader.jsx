@@ -211,6 +211,7 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.returns_status')}</span>
                       <Select
+                        allowClear
                         className={styles.colSpace}
                         value={return_order_status}
                         onChange={val => dispatch(commit('return_order_status', val))}
