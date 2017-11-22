@@ -24,21 +24,20 @@ const defaultState = {
   queryString: {
     page_size: 10,
     page_number: 1,
-   // member_level, payment, time_tag, start_time, end_time,
     order_no: null,
     return_order_id: null,
     email: null,
     tracking_no: null,
     good_sn: null,
     source_site: '', // 站点，多选
+    receiver_country: '', // 国家，多选
     insurance_states: '0', // 退货险
     trouble_state: '0',
     refund_status: null,   // 退款状态
     shipping_status: '0', // 包裹状态
-    receiver_country: null,
     return_label_type: null,
     warehouse: '', // 仓库，多选
-    return_order_status: '', // 退货单状态，多选
+    return_order_status: null, // 退货单状态
     member_level: null,
     payment: null, // 是否COD
     order_type: '', // 退货单类型，多选

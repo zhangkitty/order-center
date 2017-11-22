@@ -157,10 +157,12 @@ class TabsHeader extends Component {
                     <div className={styles.rowSpaceList}>
                       <span className={styles.filterName}>{__('returns.list.country')}</span>
                       <Select
-                        allowClear
                         className={styles.colSpace}
-                        value={receiver_country}
-                        onChange={val => dispatch(commit('receiver_country', val))}
+                        mode="tags"
+                        style={{ width: '200px' }}
+                        tokenSeparators={[',']}
+                       // value={receiver_country}
+                        onChange={val => dispatch(commit('receiver_country', val.join(',')))}
                       >
                         {
                           fetchCountry.map(item => (
@@ -210,11 +212,8 @@ class TabsHeader extends Component {
                       <span className={styles.filterName}>{__('returns.list.returns_status')}</span>
                       <Select
                         className={styles.colSpace}
-                        mode="tags"
-                        style={{ width: '200px' }}
-                        tokenSeparators={[',']}
-                        // value={return_order_status}
-                        onChange={val => dispatch(commit('return_order_status', val.join(',')))}
+                        value={return_order_status}
+                        onChange={val => dispatch(commit('return_order_status', val))}
                       >
                         {
                           fetchReturn.map(item => (
