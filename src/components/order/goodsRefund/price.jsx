@@ -35,10 +35,10 @@ const onC = (dispatch, submitValue, i, data) => (
       ...submitValue.refundPaths.slice(i + 1),
     ],
 )));
-const Price = ({ dataSource, submitValue, dispatch ,isUsd}) => {
+const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
   const RLPrice = dataSource.rlFee || [];
-  const {orderPriceInfo:{shippingPrice:{priceWithExchangeRate:{amount:SP}}}} = dataSource
-  const {orderPriceInfo:{shippingInsurePrice:{priceWithExchangeRate:{amount:SIP}}}} = dataSource
+  const { orderPriceInfo: { shippingPrice: { priceWithExchangeRate: { amount: SP } } } } = dataSource;
+  const { orderPriceInfo: { shippingInsurePrice: { priceWithExchangeRate: { amount: SIP } } } } = dataSource;
   return (
     <div style={{ marginBottom: '20px' }}>
       <div className={style.flex}>
@@ -115,7 +115,7 @@ const Price = ({ dataSource, submitValue, dispatch ,isUsd}) => {
                       <Input
                         style={{ width: '150px' }}
                         value={v.refundAmount}
-                        disabled={isUsd?false:true}
+                        disabled={!isUsd}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(usPriceChange(e.target.value, i, v.rate))}
@@ -124,7 +124,7 @@ const Price = ({ dataSource, submitValue, dispatch ,isUsd}) => {
                       <Input
                         style={{ width: '150px' }}
                         value={v.refundCurrency}
-                        disabled={isUsd?true:false}
+                        disabled={!!isUsd}
                         max={v.max}
                         type={'number'}
                         step={0.1}
