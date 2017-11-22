@@ -19,8 +19,10 @@ const RadioGroup = Radio.Group;
 
 const tipContent = (
   <div>
-    {__('common.noGoods_name19')}<br />
-    {__('common.noGoods_name20')}<br />
+    {__('common.noGoods_name19')}
+    <br />
+    {__('common.noGoods_name20')}
+    <br />
     {__('common.noGoods_name21')}
   </div>
 );
@@ -69,7 +71,10 @@ const columns = [
         </Popover>
       </div>
     ),
-    dataIndex: 'occupy'
+    dataIndex: 'occupy',
+    render: (text, record) => {
+      return record.stock ? text : '-';
+    }
   }
 ];
 
@@ -229,7 +234,7 @@ class TabsHeader extends Component {
         <Button
           onClick={() => {
             //if (_batchChooseGoods !== batchChooseGoods) {
-              dispatch(noStock(batchChooseGoods));
+            dispatch(noStock(batchChooseGoods));
             //  _batchChooseGoods = batchChooseGoods;
             //} else {
             //  dispatch(change('showBatchNoGoods', true));
@@ -239,6 +244,7 @@ class TabsHeader extends Component {
           {' '}
           {__('common.order_operation13')}
         </Button>
+        {/* 弹窗 */}
         <Modal
           title={
             showShelfNoGoods
@@ -251,6 +257,7 @@ class TabsHeader extends Component {
         >
           {showShelfNoGoods ? (
             <div>
+              {/* 无货下架 */}
               <div style={{ marginTo: 10, marginBottom: 10 }}>
                 <RadioGroup
                   options={options}
@@ -280,6 +287,7 @@ class TabsHeader extends Component {
             </div>
           ) : (
             <div>
+              {/* 库存清单 */}
               <div style={{ overflow: 'hidden', marginBottom: 10 }}>
                 <span style={{ float: 'left' }}>sku:{data.sku}</span>
                 <span style={{ float: 'right' }}>
