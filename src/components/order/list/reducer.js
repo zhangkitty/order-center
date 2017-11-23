@@ -94,7 +94,9 @@ const defaultState = {
   stockList:{stock:{},occupy:{}},
   site:[],
   dataSource_noGoods:[],
-  showBatchNoGoods:false
+  showBatchNoGoods:false,
+  showShelfNoGoods: false,
+  down: '',
 };
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));
@@ -482,10 +484,20 @@ const reducer = (state = defaultState, action) => {
       return assign({},state,{dataSource_noGoods:newArr});
     case TYPES.CHANGE_SOURCE_CHECKED:
       let tmpArr = state.dataSource_noGoods.map(v=>v);
-      for(let i in tmpArr[0][action.v]){
-        let value = tmpArr[0][action.v][i];
-        tmpArr[0][action.v][i].checked=action.checked;
+      if(Array.isArray(action.v)){
+        for(let v in tmpArr[0]){
+          for(let i in tmpArr[0][v]){
+            let value = tmpArr[0][v][i];
+            tmpArr[0][v][i].checked=action.checked;
+          }
+        }
+      }else{
+        for(let i in tmpArr[0][action.v]){
+          let value = tmpArr[0][action.v][i];
+          tmpArr[0][action.v][i].checked=action.checked;
+        }
       }
+      
       return assign({},state,{dataSource_noGoods:tmpArr});
     default:
       return state;

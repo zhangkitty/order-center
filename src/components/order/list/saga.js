@@ -26,7 +26,7 @@ import {
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
   delChangeFail, delChangeSuccess,
   batchCheckSuccess, batchDeleteSuccess, batchPartSuccess, getStockList,
-  getStockListSuccess, change
+  getStockListSuccess, change, changeAllSource
 } from './action';
 
 import * as TYPES from './types';
@@ -266,6 +266,7 @@ function* returnAlreadyAudit(action) {
   }
   message.success(__('common.sagaTitle33'));
   yield put(change('showBatchNoGoods',false));
+  yield put(change('showShelfNoGoods', false));
   return yield refreshListData();
 }
 
@@ -286,6 +287,8 @@ function* underCarriage(action) {
   }
   message.success(__('common.sagaTitle34'));  
   yield put(change('showBatchNoGoods',false));
+  yield put(change('down', ''));
+  yield put(changeAllSource(['1','2','3'], false));
   return yield refreshListData();
 }
 

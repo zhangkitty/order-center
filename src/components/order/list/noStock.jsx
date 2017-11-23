@@ -87,19 +87,18 @@ let _batchChooseGoods;
 
 class TabsHeader extends Component {
   state = {
-    selectAllStateStatus: false,
-    showShelfNoGoods: false,
-    down: ''
+    selectAllStateStatus: false
   };
   render() {
     const {
+      showShelfNoGoods,
       batchChooseGoods,
       dispatch,
       stockList: data,
       dataSource_noGoods,
-      showBatchNoGoods
+      showBatchNoGoods,
+      down
     } = this.props;
-    const { showShelfNoGoods, down } = this.state;
     const dataSource = [
       {
         key: '1',
@@ -258,14 +257,14 @@ class TabsHeader extends Component {
           onCancel={this.handleCancel}
           footer={null}
         >
+          {/* 无货下架 */}
           {showShelfNoGoods ? (
             <div>
-              {/* 无货下架 */}
               <div style={{ marginTo: 10, marginBottom: 10 }}>
                 <RadioGroup
                   options={options}
                   onChange={e => {
-                    this.setState({ down: e.target.value });
+                    dispatch(change('down', e.target.value));
                   }}
                   value={down}
                 />
@@ -279,7 +278,9 @@ class TabsHeader extends Component {
               <div style={{ marginTop: 20, textAlign: 'center' }}>
                 <Button
                   onClick={() => {
-                    this.setState({ showShelfNoGoods: false });
+                    dispatch(change('showShelfNoGoods', false));
+                    dispatch(change('down', ''));
+                    dispatch(changeAllSource(['1','2','3'], false));
                   }}
                   style={{ marginRight: 10 }}
                 >
@@ -288,9 +289,10 @@ class TabsHeader extends Component {
                 <Button onClick={this.submit}>{__('common.submit')}</Button>
               </div>
             </div>
-          ) : (
+          ) : null}
+          {/* 库存清单 */}
+          {!showShelfNoGoods ? (
             <div>
-              {/* 库存清单 */}
               <div style={{ overflow: 'hidden', marginBottom: 10 }}>
                 <span style={{ float: 'left' }}>sku:{data.sku}</span>
                 <span style={{ float: 'right' }}>
@@ -309,7 +311,7 @@ class TabsHeader extends Component {
                 <Button
                   style={{ marginRight: 10 }}
                   onClick={() => {
-                    this.setState({ showShelfNoGoods: true });
+                    dispatch(change('showShelfNoGoods', true));
                     if (!dataSource_noGoods.length) dispatch(getNoGoodsList());
                   }}
                 >
@@ -324,7 +326,7 @@ class TabsHeader extends Component {
                 </Button>
               </div>
             </div>
-          )}
+          ):null}
         </Modal>
       </div>
     );
@@ -354,8 +356,11 @@ class TabsHeader extends Component {
     this.setState({ selectAllStateStatus: !selectAllStateStatus });
   };
   handleCancel = () => {
-    this.setState({ showShelfNoGoods: false });
-    this.props.dispatch(change('showBatchNoGoods', false));
+    const {dispatch} = this.props;
+    dispatch(change('showShelfNoGoods', false));
+    dispatch(change('showBatchNoGoods', false));
+    dispatch(change('down', ''));
+    dispatch(changeAllSource(['1','2','3'], false));
   };
   submit = () => {
     const {
