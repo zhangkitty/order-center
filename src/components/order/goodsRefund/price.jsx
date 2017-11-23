@@ -117,7 +117,6 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                         value={v.refundAmount}
                         disabled={!isUsd}
                         type={'number'}
-                        max={v.max * v.rate2}
                         step={0.1}
                         onChange={e => dispatch(usPriceChange(e.target.value, i, v.rate))}
                       />
