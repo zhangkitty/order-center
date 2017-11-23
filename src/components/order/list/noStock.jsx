@@ -367,7 +367,8 @@ class TabsHeader extends Component {
       dispatch,
       stockList: { sku, size },
       dataSource_noGoods,
-      batchChooseGoods
+      batchChooseGoods,
+      down
     } = this.props;
     let site = [];
     if (dataSource_noGoods.length) {
@@ -384,7 +385,7 @@ class TabsHeader extends Component {
       sku,
       size,
       site: site.length ? site.join(',') : '',
-      down: this.state.down,
+      down: down,
       order_goods_id: batchChooseGoods.length ? batchChooseGoods.join(',') : ''
     };
     dispatch(underCarriage(param));
