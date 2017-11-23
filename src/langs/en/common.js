@@ -115,6 +115,10 @@ module.exports = {
   sagaTitle29: 'Success in exchanging！', // 平台取消成功提示
   sagaTitle30: 'Failed to acquire price info',
   sagaTitle31: 'Failed to acquire datas',
+  sagaTitle32: '加入无货审核队列成功',
+  sagaTitle33: '加入已审核队列成功',
+  sagaTitle34: '加入无货审核队列成功',
+  sagaTitle35: '库存下架同步失败,请去商城后台查看',
   contentTitle: 'No data',
   content_name: 'Refund Reason',  // 内容名称
   content_name1: 'Notes',

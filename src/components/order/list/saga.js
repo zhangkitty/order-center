@@ -244,7 +244,7 @@ function* noStockApply(action) {
   if (!data || data.code !== 0) {
     return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
-  message.success(__('common.sagaTitle28'));
+  message.success(__('common.sagaTitle32'));
   return yield refreshListData();
 }
 
@@ -264,7 +264,8 @@ function* returnAlreadyAudit(action) {
   if (!data || data.code !== 0) {
     return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
-  message.success(__('common.sagaTitle28'));
+  message.success(__('common.sagaTitle33'));
+  yield put(change('showBatchNoGoods',false));
   return yield refreshListData();
 }
 
@@ -276,12 +277,15 @@ function* getNoGoodsList(action) {
   }
   return yield put(getStockListSuccess([data.data]));
 }
+
+//无货下架 提交
 function* underCarriage(action) {
   const data = yield underCarriageSer(action.param);
   if (!data || data.code !== 0) {
-    return message.error(`${__('common.sagaTitle22')}${data.msg}`);
+    return message.error(`${__('common.sagaTitle35')}${data.msg}`);
   }
-  message.success(__('common.sagaTitle28'));  
+  message.success(__('common.sagaTitle34'));  
+  yield put(change('showBatchNoGoods',false));
   return yield refreshListData();
 }
 

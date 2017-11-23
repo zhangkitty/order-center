@@ -115,6 +115,10 @@ module.exports = {
   sagaTitle29: '操作成功', // 平台取消成功提示
   sagaTitle30: '获取价格信息失败',
   sagaTitle31: '获取数据失败',
+  sagaTitle32: '加入无货审核队列成功',
+  sagaTitle33: '加入已审核队列成功',
+  sagaTitle34: '库存下架同步成功',
+  sagaTitle35: '库存下架同步失败,请去商城后台查看',
   contentTitle: '暂无数据',
   content_name: '退款原因',   // 内容名称
   content_name1: '备注信息',

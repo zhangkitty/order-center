@@ -134,6 +134,7 @@ class TabsHeader extends Component {
     ];
     const columns_noGoods = [
       {
+        className:styles.verticalAlign,
         title: (
           <Checkbox
             onChange={e => {
@@ -160,6 +161,7 @@ class TabsHeader extends Component {
         }
       },
       {
+        className:styles.verticalAlign,
         title: (
           <Checkbox
             onChange={e => {
@@ -186,6 +188,7 @@ class TabsHeader extends Component {
         }
       },
       {
+        className:styles.verticalAlign,
         title: (
           <Checkbox
             onChange={e => {
@@ -267,7 +270,7 @@ class TabsHeader extends Component {
                   value={down}
                 />
               </div>
-              <div>{__('common.order_operation16')}</div>
+              <div>{__('common.noGoods_name16')}</div>
               <Table
                 dataSource={dataSource_noGoods}
                 columns={columns_noGoods}
