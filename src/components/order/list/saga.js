@@ -287,6 +287,7 @@ function* underCarriage(action) {
   }
   message.success(__('common.sagaTitle34'));  
   yield put(change('showBatchNoGoods',false));
+  yield put(change('showShelfNoGoods', false));
   yield put(change('down', ''));
   yield put(changeAllSource(['1','2','3'], false));
   return yield refreshListData();
