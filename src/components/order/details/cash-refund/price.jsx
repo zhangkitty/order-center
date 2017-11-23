@@ -28,7 +28,7 @@ const Price = ({ submitValue, dispatch }) => {
             disabled
             onChange={(e) => {
               dispatch(subchange('refundAmount', e.target.value));
-            //  dispatch(subchange('refundAmount2', Number(Number(e.target.value) * submitValue.rate2).toFixed(2))); // 取消，美元填写
+            //  dispatch(subchange('refundCurrency', Number(Number(e.target.value) * submitValue.rate2).toFixed(2))); // 取消，美元填写
             }}
           />
           <span
@@ -38,10 +38,10 @@ const Price = ({ submitValue, dispatch }) => {
           <Input
             type="number"
             className={style.flex_input}
-            value={submitValue.refundAmount2}
+            value={submitValue.refundCurrency}
             onChange={(e) => {
               dispatch(subchange('refundAmount', Number(Number(e.target.value) / submitValue.rate2).toFixed(2)));
-              dispatch(subchange('refundAmount2', e.target.value));
+              dispatch(subchange('refundCurrency', e.target.value));
             }}
           />
           <span className={style.tipStyle}>

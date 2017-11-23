@@ -61,7 +61,7 @@ const reducer = (state = defaultState, action) => {
         notWithdrawAmount: under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount, // 钱包不提现（下单币种）
         submitValue: assign({}, state.submitValue, {
           refundAmount: max1 < max2 ? Number(max1 / rate2).toFixed(2) : Number(max2 / rate2).toFixed(2), // 美元金额
-          refundAmount2: max1 < max2 ? max1 : max2, // 金额（下单币种）
+          refundCurrency: max1 < max2 ? max1 : max2, // 金额（下单币种）
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
           max: max1 < max2 ? max1 : max2, // 金额最大值（下单币种）
