@@ -11,6 +11,7 @@ const defaultState = {
   chooses: [],
   modalChooses: [],
   reasons: [],
+  rlFee: [],
   dataSource: [],
   paths: [],
   shippingType: [],
@@ -21,6 +22,7 @@ const defaultState = {
     refund_path: null,
     return_shipping_type: '',
     return_warehouse: null,
+    rl_fee: null,
   },
 };
 
@@ -66,6 +68,7 @@ export default (state = defaultState, action) => {
           refund_path: action.data.refund_path.find(v => Number(v.id) === 1) ? action.data.refund_path.find(v => Number(v.id) === 1).id : '',
           return_shipping_type: getShippingType(action.data.default_warehouse),
         }),
+        rlFee: action.data.rl_fee,
       });
     case TYPES.SAVE:
       return assign({}, state, {

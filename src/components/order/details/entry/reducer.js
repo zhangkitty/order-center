@@ -14,6 +14,7 @@ const defaultState = {
   warehouse: 0,
   partSendBtn: false,
   rlLoading: false,
+  rlmodal: false,
   preSend: 0,
   dataSource: {
     base: {}, // 基本

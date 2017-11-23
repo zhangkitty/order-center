@@ -53,7 +53,7 @@ class ToReturnGoods extends Component {
     const {
       dispatch, batchShow, chooses, reasons,
       ready, dataSource, paths, load, sucModal,
-      shippingType, warehouse, submitValue, sucModalHtml,
+      shippingType, warehouse, submitValue, sucModalHtml, rlFee,
     } = this.props;
     const { return_info, refund_path, return_shipping_type, return_warehouse } = submitValue;
     if (ready) {
@@ -118,14 +118,14 @@ class ToReturnGoods extends Component {
                     {
                       (d || []).map(v => (
                         Number(v.id) < 6 && Number(v.id) !== 1 ?
-                            <div key={v.id}>
-                              <Checkbox value={v.id} >{Star}{v.name}</Checkbox>
-                            </div>
+                          <div key={v.id}>
+                            <Checkbox value={v.id} >{Star}{v.name}</Checkbox>
+                          </div>
 
                             :
-                            <div key={v.id}>
-                              <Checkbox value={v.id}>{v.name}</Checkbox>
-                            </div>
+                          <div key={v.id}>
+                            <Checkbox value={v.id}>{v.name}</Checkbox>
+                          </div>
 
                         ))
                       }
@@ -217,6 +217,34 @@ class ToReturnGoods extends Component {
               }
             </RG>
           </div>
+
+          <div style={{ margin: '20px 0' }}>
+            <span style={spanWidth}>{lan.type}{Star}:</span>
+            <RG value={submitValue.return_shipping_type} onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}>
+              {
+                shippingType.map(v => (
+                  <Radio
+                    value={v.id} key={v.id}
+                    disabled={v.id === 1 && RANChoose[submitValue.return_warehouse]}
+                  >{v.name}</Radio>
+                ))
+              }
+            </RG>
+          </div>
+
+          <div style={{ margin: '20px 0', display: submitValue.return_shipping_type === 1 ? '' : 'none' }}>
+            <span style={spanWidth} />
+            <RG value={submitValue.rl_fee} onChange={e => dispatch(infoCommit('rl_fee', e.target.value))}>
+              {
+                rlFee.map(v => (
+                  <Radio
+                    value={v.amount} key={v.amount}
+                  >{v.amount_with_symbol}</Radio>
+                ))
+              }
+            </RG>
+          </div>
+
           <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{lan.warehouse}{Star}:</span>
             <Select
@@ -238,19 +266,6 @@ class ToReturnGoods extends Component {
                 ))
               }
             </Select>
-          </div>
-          <div style={{ margin: '20px 0' }}>
-            <span style={spanWidth}>{lan.type}{Star}:</span>
-            <RG value={submitValue.return_shipping_type} onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}>
-              {
-                shippingType.map(v => (
-                  <Radio
-                    value={v.id} key={v.id}
-                    disabled={v.id === 1 && RANChoose[submitValue.return_warehouse]}
-                  >{v.name}</Radio>
-                ))
-              }
-            </RG>
           </div>
           <Button type="primary" disabled={load} htmlType="submit">{lan.save}</Button>
           <Modal

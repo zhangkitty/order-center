@@ -42,6 +42,7 @@ const OrderReturn = (
     orderId,
     billno,
     rlLoading,
+    rlmodal,
   },
 ) => (
   <div className={styles.contentPadding}>
@@ -112,8 +113,9 @@ const OrderReturn = (
                   <Button
                     style={{ margin: '5px' }}
                     onClick={() => {
-                      dispatch(commit('rlLoading', true));
-                      dispatch(genRl(rec.return_order_id, orderId, billno));
+                      // dispatch(commit('rlLoading', true));
+                      // dispatch(genRl(rec.return_order_id, orderId, billno));
+                      dispatch(commit('rlmodal', true));
                     }}
                   >{lan.rl}</Button>
                 }
@@ -126,6 +128,17 @@ const OrderReturn = (
           },
         ]}
       />
+      <Modal
+        visible={rlmodal}
+        onOk={
+          () => console.log(1)
+        }
+        onCancel={
+          () => dispatch(commit('rlmodal', false))
+        }
+        okText="确认"
+        cancelText="取消"
+      >1111</Modal>
       <Modal
         onCancel={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { show: false })))}
         okText={lan.save}
