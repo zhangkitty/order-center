@@ -111,6 +111,9 @@ const originPrice = (priceRefund = 0, data) => {
  */
 
 const svInit = (source) => {
+  const { orderPriceInfo: { isAllCancel } } = source;
+  const { orderPriceInfo: { totalPrice: { priceUsd: { amount: amount1 } } } } = source;
+  const { orderPriceInfo: { totalPrice: { priceWithExchangeRate: { amount: amount2 } } } } = source;
   const maxObj = maxTypes(source);
   const priceObj = originPrice(
     Number(source.orderPriceInfo.waitRefundPrice.priceUsd.amount || 0),
@@ -119,15 +122,15 @@ const svInit = (source) => {
     refundTypeId: v.refundPathId,
     isShow: (Number(v.refundPathId) === 1 && Number(maxObj[v.refundPathId]) > 0) ||
     (Number(v.refundPathId) > 1 && Number(v.refundPathId) !== 4),
-    refundAmount: priceObj[v.refundPathId] < 0 ? 0 : priceObj[v.refundPathId],
-    refundCurrency: Number(
+    refundAmount: isAllCancel ? amount1 : (priceObj[v.refundPathId] < 0 ? 0 : priceObj[v.refundPathId]),
+    refundCurrency: isAllCancel ? amount2 : (Number(
       Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
     ) < 0 ?
     0
     :
       Number(
         Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
-      ),
+      )),
     rate: v.priceWithExchangeRate.rate,
     rate2: 1 / v.priceWithExchangeRate.rate,
     currency: v.priceWithExchangeRate.symbol,
