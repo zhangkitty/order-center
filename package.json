@@ -38,7 +38,8 @@
     "postcss-loader": "^2.0.6",
     "react-redux-component-loader": "^3.5.2",
     "style-loader": "^0.18.2",
-    "webpack": "^3.5.5"
+    "webpack": "^3.5.5",
+    "webpack-bundle-analyzer": "^2.9.1"
   },
   "dependencies": {
     "antd": "^2.12.8",
