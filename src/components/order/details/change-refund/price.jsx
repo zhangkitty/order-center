@@ -11,12 +11,11 @@ const spanWidth = {
 
 const star = (<span style={{ color: 'red' }}>*</span>);
 
-const Price = ({ submitValue, dispatch ,dataSource}) => {
-  return (
-    <div className={style.spaceBg}>
-      <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}:</span>
-      <div>
-        {
+const Price = ({ submitValue, dispatch, dataSource }) => (
+  <div className={style.spaceBg}>
+    <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}:</span>
+    <div>
+      {
           submitValue.recordList.map((v, i) => (
             <div className={style.flex_center}>
               <div className={style.flex_left}>
@@ -28,7 +27,7 @@ const Price = ({ submitValue, dispatch ,dataSource}) => {
                   style={{ width: '150px' }}
                   type="number"
                   value={v.refundAmount}
-                  disabled={dataSource.isUsd?false:true}
+                  disabled={!dataSource.isUsd}
                   onChange={e => dispatch(subchange('recordList', [
                     ...submitValue.recordList.slice(0, i),
                     assign({}, submitValue.recordList[i], {
@@ -43,7 +42,7 @@ const Price = ({ submitValue, dispatch ,dataSource}) => {
                   style={{ width: '150px' }}
                   type="number"
                   value={v.refundCurrency}
-                  disabled={dataSource.isUsd?true:false}
+                  disabled={!!dataSource.isUsd}
                   onChange={e => dispatch(subchange('recordList', [
                     ...submitValue.recordList.slice(0, i),
                     assign({}, submitValue.recordList[i], {
@@ -58,13 +57,13 @@ const Price = ({ submitValue, dispatch ,dataSource}) => {
             </div>
           ))
         }
-      </div>
     </div>
+  </div>
   );
-};
 
 Price.propTypes = {
   submitValue: PropTypes.shape(),
   dispatch: PropTypes.func,
+  dataSource: PropTypes.shape(),
 };
 export default Price;
