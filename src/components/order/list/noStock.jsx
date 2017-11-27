@@ -332,10 +332,10 @@ class TabsHeader extends Component {
     );
   }
   selectAllGoods = () => {
-    const { dispatch, dataSource } = this.props;
+    const { dispatch, dataSource, batchChooseGoods } = this.props;
     const { selectAllStateStatus } = this.state;
     let arr;
-    if (!selectAllStateStatus) {
+    if (!selectAllStateStatus||!batchChooseGoods.length) {
       let checkboxChecked = {
         5: 1, // 需要退款
         20: 1, // 换货
