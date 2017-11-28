@@ -100,7 +100,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
               <Input
                 style={{ width: '150px' }}
                 type="number"
-                disabled={!checked&&(isUsd?false:true)}
+                disabled={!checked && (!isUsd)}
                 value={Number(refundCurrency).toFixed(2)}
                 onChange={(e) => {
                   dispatch(changeChannelValue(refundPathId, 'refundCurrency', Number(e.target.value).toFixed(2)));
