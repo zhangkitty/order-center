@@ -19,7 +19,7 @@ const tipStyle = {
 const Option = Select.Option;
 const star = (<span style={{ color: 'red' }}>*</span>);
 
-const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
+const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
   let Chan;
   if (channels.length === 1) {
     Chan = Checkbox;
@@ -77,7 +77,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
                 style={{ width: '150px' }}
                 type="number"
                 required
-                disabled={!checked}
+                disabled={!(!checked && isUsd)}
                 value={Number(refundAmount).toFixed(2)}
                 onChange={(e) => {
                   const value = e.target.value;
@@ -100,7 +100,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips }) => {
               <Input
                 style={{ width: '150px' }}
                 type="number"
-                disabled={!checked}
+                disabled={!checked&&(isUsd?false:true)}
                 value={Number(refundCurrency).toFixed(2)}
                 onChange={(e) => {
                   dispatch(changeChannelValue(refundPathId, 'refundCurrency', Number(e.target.value).toFixed(2)));
@@ -237,7 +237,7 @@ RefundChannelGroup.propTypes = {
 };
 
 // 将退款路径分组，RefundChannelGrop组件代表每一组
-const Price = ({ refundPaths, dispatch, maxTips }) => {
+const Price = ({ refundPaths, dispatch, maxTips, isUsd }) => {
   const result = [];
   // 根据reducer里面的channelType,将同一组的内容放到result中去
   refundPaths.forEach((item) => {
@@ -251,7 +251,7 @@ const Price = ({ refundPaths, dispatch, maxTips }) => {
       {
       result.map((item, idx) => ({ arr: item, key: idx })).map(item => (
         <RefundChannelGroup
-          channels={item.arr} type={item.key} key={item.key} dispatch={dispatch} maxTips={maxTips}
+          channels={item.arr} type={item.key} key={item.key} dispatch={dispatch} maxTips={maxTips} isUsd={isUsd}
         />
       ))
     }

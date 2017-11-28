@@ -24,6 +24,7 @@ const defaultState = {
   maxTips: {},
   submitLoad: false,
   submitdisabled: false,
+  isUsd: null,
 };
 
 const getMax = d => ({
@@ -94,6 +95,7 @@ const reducer = (state = defaultState, action) => {
         maxTips: getMax(action.data.orderPriceInfo),
         orderPriceInfo: action.data.orderPriceInfo,
         loading: false,
+        isUsd: action.data.isUsd,
       });
     case TYPES.CHANGE_CHANNEL_VALUE:
       return assign({}, state, {
