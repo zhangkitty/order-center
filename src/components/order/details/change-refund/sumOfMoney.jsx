@@ -51,7 +51,7 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
     },
     cardCanBeRefundedPrice: {
       priceUsd: { amount: cardCanBeRefunded },
-      priceWithExchangeRate: { amountWithSymbol: cardCanBeRefunded2, symbol: cardCanBeRefundedSymbol },
+      priceWithExchangeRate: { amountWithSymbol: cardCanBeRefunded2, symbol: cardCanBeRefundedSymbol  },
     },
     walletOrCardCanBeRefundedPrice: { // 钱包或用户可退金额
       priceUsd: { amount: walletRefund },

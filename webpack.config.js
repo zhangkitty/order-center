@@ -35,17 +35,17 @@ module.exports = Object.keys(languages).map((lang) => ({
   resolve: {
     extensions: ['.js', '.jsx', '.scss', '.css', '.json'],
   },
-  externals(request, name, callback) {
-    if (externalsTable.hasOwnProperty(name)) {
-      return callback(null, externalsTable[name]);
+  externals(context, request, callback) {
+    if (externalsTable.hasOwnProperty(request)) {
+      return callback(null, externalsTable[request]);
     }
-    if (name.indexOf('lodash.') === 0) {
-      return callback(null, '_.' + name.slice('lodash.'.length));
+    if (request.indexOf('lodash.') === 0) {
+      return callback(null, '_.' + request.slice('lodash.'.length));
     }
-    if (name.indexOf('lodash/') === 0) {
-      return callback(null, '_.' + name.slice('lodash/'.length));
+    if (request.indexOf('lodash/') === 0) {
+      return callback(null, '_.' + request.slice('lodash/'.length));
     }
-    if (name.indexOf('moment') === 0) {
+    if (request.indexOf('moment') === 0) {
       return callback(null, 'undefined');
     }
     callback();
@@ -107,8 +107,8 @@ module.exports = Object.keys(languages).map((lang) => ({
       // minChunks: function(module) {
       //   return module.context && module.context.indexOf('node_modules') !== -1;
       // }
-      // minChunks:2,
-      // minChunks:Infinity,
+      // minChunks:3,
+      //minChunks:Infinity,
     }),
     new i18n(languages[lang]),
     new HtmlWebpackPlugin({

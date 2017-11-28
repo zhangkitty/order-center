@@ -17,6 +17,7 @@ const defaultState = {
   load: false,
   loadUpdata: false,
   total: 0,
+
   submitLoad: false,
   submitValue: {
     refundBillId: null,

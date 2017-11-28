@@ -5,6 +5,7 @@ import assign from 'object-assign';
 import * as TYPES from './types';
 import { under2Camal } from '../../../lib/camal';
 
+
 const defaultState = {
   ready: false,
   dataSource: {},
@@ -112,8 +113,8 @@ const originPrice = (priceRefund = 0, data) => {
 
 const svInit = (source) => {
   const { orderPriceInfo: { isAllCancel } } = source;
-  const { orderPriceInfo: { totalPrice: { priceUsd: { amount: amount1 } } } } = source;
-  const { orderPriceInfo: { totalPrice: { priceWithExchangeRate: { amount: amount2 } } } } = source;
+  const { orderPriceInfo: { waitRefundPrice: { priceUsd: { amount: amount1 } } } } = source;
+  const { orderPriceInfo: { waitRefundPrice: { priceWithExchangeRate: { amount: amount2 } } } } = source;
   const maxObj = maxTypes(source);
   const priceObj = originPrice(
     Number(source.orderPriceInfo.waitRefundPrice.priceUsd.amount || 0),
