@@ -116,11 +116,15 @@ const colors = {
   77: { bg: '#ccc', border: 'none' },
   82: { bg: '#ccc', border: 'none' },
   84: { bg: 'rgba(177,0,22,0.20)', border: '2px solid #B10016' },
+  85: { bg: 'rgba(177,0,22,0.20)', border: '2px solid #B10016' },
+  86: { bg: 'rgba(177,0,22,0.20)', border: '2px solid #B10016' },
+  87: { bg: 'rgba(177,0,22,0.20)', border: '2px solid #B10016' },
   90: { bg: 'rgba(248,231,28,1)', border: 'rgba(140,0,255,1)' },
   91: { bg: '#ccc', border: 'none' },
   94: { bg: '#ccc', border: 'none' },
   126: { bg: '#ccc', border: 'none' },
   127: { bg: '#ccc', border: 'none' },
+  130: { bg: 'rgba(177,0,22,0.20)', border: '2px solid #B10016' },
 };
 
 // 显示换货标记
