@@ -12,4 +12,6 @@ module.exports = {
   refund: '退款列表',
   refund_details: '退款详情',
   order_management: '平台订单管理',
+  returns: '退货列表',
+  returns_details: '退货详情',
 };
