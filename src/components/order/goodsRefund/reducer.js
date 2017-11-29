@@ -132,12 +132,18 @@ const svInit = (source) => {
   const priceObj = originPrice(
     Number(source.orderPriceInfo.waitRefundPrice.priceUsd.amount || 0),
     source);
+  const mypriceObj1 = originPrice(
+    amount1 || 0,
+    source);
+  const mypriceObj2 = originPrice(
+    amount1 || 0,
+    source);
   const arr = source.orderRefundPathList.map(v => ({
     refundTypeId: v.refundPathId,
     isShow: (Number(v.refundPathId) === 1 && Number(maxObj[v.refundPathId]) > 0) ||
     (Number(v.refundPathId) > 1 && Number(v.refundPathId) !== 4),
-    refundAmount: isAllCancel ? amount1 : (priceObj[v.refundPathId] < 0 ? 0 : priceObj[v.refundPathId]),
-    refundCurrency: isAllCancel ? amount2 : (Number(
+    refundAmount: isAllCancel ? +Number(mypriceObj1[v.refundPathId]).toFixed(2) : (priceObj[v.refundPathId] < 0 ? 0 : priceObj[v.refundPathId]),
+    refundCurrency: isAllCancel ? +Number(mypriceObj2[v.refundPathId]).toFixed(2) : (Number(
       Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
     ) < 0 ?
     0
