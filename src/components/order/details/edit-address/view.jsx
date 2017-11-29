@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Input, Select, Spin, Button, message, DatePicker } from 'antd';
+import { Input, Select, Spin, Button, message, DatePicker,Alert } from 'antd';
 import moment from 'moment';
 import { commit, getInfo, infoCommit, getCity, save, getInfoShow } from './action';
 import style from './style.css';
@@ -22,6 +22,7 @@ const lan = {
   needCity: __('order.entry.submit_title1'),
   needDistrict: __('order.entry.submit_title2'),
   need: __('order.entry.order_return_15'),
+  '您已输入的字符个数':__('order.details.edit-address.numberYouHaveEntered'),
 };
 const addressLine = {
   address_line_1: __('order.entry.address1'),
@@ -38,7 +39,24 @@ class EditAddress extends Component {
     dispatch(commit('billno', bid));
   }
 
-  render() {
+ jisuan(a) {
+   let b = []
+   return function xx(a) {
+     if(a.length>4){
+       b.push(a.slice(0, 4).concat('\n'))
+       let temp = a.slice(4)
+       if (temp.length < 4) {
+         b.push(temp)
+         return b.join("")
+       }
+       xx(temp)
+     }else {
+       return a
+     }
+   }(a)
+ }
+
+  render(){
     const {
       ready, dispatch, submitValue, country_list, load, provinceLoad,
       cities, citySource, districtSource, orderId, billno, addressShow,
@@ -58,6 +76,7 @@ class EditAddress extends Component {
     if (ready) {
       // 时间校验
       const dateValidate = (d) => {
+
         if (moment(d, 'DD.MM.YYYY').format('DD.MM.YYYY').indexOf('Invalid') > -1) {
           return null;
         }
@@ -104,9 +123,9 @@ class EditAddress extends Component {
                     <span className={style.spanWidth}>{validate && Star}{name}:</span>
                     <Input
                       value={submitValue[key]}
-                      style={{ width: '30%' }}
+                      style={{ width: '25em' }}
                       required={validate}
-                      onChange={e => dispatch(infoCommit(key, e.target.value))}
+                      onChange={e => dispatch(infoCommit(key, e.target.value.slice(0,30)))}
                     />
                   </div>
                 }
@@ -118,7 +137,7 @@ class EditAddress extends Component {
                     <span className={style.spanWidth}>{Star}{__('order.entry.address_country')}:</span>
                     <Select
                       value={country_id}
-                      style={{ width: '30%' }}
+                      style={{ width: '25em' }}
                       showSearch
                       filterOption={(ip, { props }) => (
                         props.children.toLowerCase().startsWith(ip.toLowerCase())
@@ -146,7 +165,7 @@ class EditAddress extends Component {
                     <span className={style.spanWidth}>{validate && Star}{__('order.entry.address_state')}:</span>
                     <Select
                       value={state}
-                      style={{ width: '30%' }}
+                      style={{ width: '25em' }}
                       mode="combobox"
                       showSearch
                       filterOption={(ip, { props }) => (
@@ -177,7 +196,7 @@ class EditAddress extends Component {
                     <span className={style.spanWidth}>{validate && Star}{__('order.entry.address_city')}:</span>
                     <Select
                       value={city}
-                      style={{ width: '30%' }}
+                      style={{ width: '25em' }}
                       mode="combobox"
                       showSearch
                       filterOption={(ip, { props }) => (
@@ -212,7 +231,7 @@ class EditAddress extends Component {
                     <span className={style.spanWidth}>{(validate || country_value === 'SA') && Star}{__('order.entry.address_district')}:</span>
                     <Select
                       value={district}
-                      style={{ width: '30%' }}
+                      style={{ width: '25em' }}
                       mode="combobox"
                       showSearch
                       filterOption={(ip, { props }) => (
@@ -235,9 +254,22 @@ class EditAddress extends Component {
                     <TA
                       required={validate}
                       value={submitValue[key]}
-                      style={{ width: '30%' }}
-                      onChange={e => dispatch(infoCommit(key, e.target.value))}
+                      style={{ width: '25em' }}
+                      cols={8}
+                      onChange={e => {
+                        const value = e.target.value;
+                        return dispatch(infoCommit(key, value));
+                        }
+                      }
                     />
+                   <span style={{
+                     margin: '0 10px',
+                     padding: '5px 10px',
+                     borderRadius: '4px',
+                     lineHeight:'100%'
+                   }}>
+                     {lan.您已输入的字符个数}:{submitValue[key].length}
+                   </span>
                   </div>
                 }
                 {/* passport  签发日期 */}
