@@ -77,7 +77,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                 style={{ width: '150px' }}
                 type="number"
                 required
-                disabled={!(!checked && isUsd)}
+                disabled={!checked && (!isUsd)}
                 value={Number(refundAmount).toFixed(2)}
                 onChange={(e) => {
                   const value = e.target.value;
@@ -100,7 +100,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
               <Input
                 style={{ width: '150px' }}
                 type="number"
-                disabled={!checked && (!isUsd)}
+                disabled={!(!checked && isUsd)}
                 value={Number(refundCurrency).toFixed(2)}
                 onChange={(e) => {
                   dispatch(changeChannelValue(refundPathId, 'refundCurrency', Number(e.target.value).toFixed(2)));
