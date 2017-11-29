@@ -33,13 +33,26 @@ const defaultState = {
  *
  * @param data: dataSource
  */
-const maxTypes = data => (
-  {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
-    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount,
-    3: data.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
+const maxTypes = (data) => {
+  if (data.isUsd === 0) {
+    return {
+      1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      3: data.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    };
   }
-);
+  if (data.isUsd === 1) {
+    return {
+      1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
+      2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
+      3: data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount,
+    };
+  }
+
+  return null;
+}
+
+;
 
 /**
  *

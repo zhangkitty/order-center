@@ -130,7 +130,7 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                         step={0.1}
                         onChange={e => dispatch(otherPriceChange(e.target.value, i, v.rate2))}
                       />
-                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{v.currency}{v.max}</span>
+                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd ?'$': v.currency}{v.max}</span>
                     </div>
                   </div>
                   {
