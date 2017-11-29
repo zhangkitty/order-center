@@ -27,14 +27,36 @@ const defaultState = {
   isUsd: null,
 };
 
-const getMax = d => ({
-  1: d.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
-  2: (Number(d.totalPrice.priceWithExchangeRate.amount) * 1.5) +
-  Number(d.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount),
-  3: d.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
-  4: (Number(d.totalPrice.priceWithExchangeRate.amount) * 1.5),
-  disabled: 0,
-});
+const getMax = (d) => {
+  if (d.isUsd === 0) {
+    return {
+      1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      2: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
+      Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount),
+      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
+      disabled: 0,
+    };
+  }
+  if (d.isUsd === 1) {
+    return {
+      1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
+      2: (Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5) +
+      Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount),
+      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount,
+      4: (Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5),
+      disabled: 0,
+    };
+  }
+  return {
+    1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    2: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
+    Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount),
+    3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
+    disabled: 0,
+  };
+};
 
 // 改变refundPaths里面的内容
 function changeChannelProp(refundPaths, { channel, key, val }) {
@@ -92,7 +114,7 @@ const reducer = (state = defaultState, action) => {
           refundCurrency: 0,
           refundAmount: 0,
         })),
-        maxTips: getMax(action.data.orderPriceInfo),
+        maxTips: getMax(action.data),
         orderPriceInfo: action.data.orderPriceInfo,
         loading: false,
         isUsd: action.data.isUsd,

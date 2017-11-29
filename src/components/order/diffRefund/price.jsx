@@ -77,7 +77,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                 style={{ width: '150px' }}
                 type="number"
                 required
-                disabled={!checked && (!isUsd)}
+                disabled={checked ? (isUsd !== 1) : true}
                 value={Number(refundAmount).toFixed(2)}
                 onChange={(e) => {
                   const value = e.target.value;
@@ -100,7 +100,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
               <Input
                 style={{ width: '150px' }}
                 type="number"
-                disabled={!(!checked && isUsd)}
+                disabled={checked ? (isUsd !== 0) : true}
                 value={Number(refundCurrency).toFixed(2)}
                 onChange={(e) => {
                   dispatch(changeChannelValue(refundPathId, 'refundCurrency', Number(e.target.value).toFixed(2)));
@@ -118,7 +118,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                 }}
               />
               {
-                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{priceWithExchangeRate.symbol}{Number(maxTips[refundPathId]).toFixed(2) || ''}</span>
+                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd === 1 ? '$' : priceWithExchangeRate.symbol}{Number(maxTips[refundPathId]).toFixed(2) || ''}</span>
               }
             </div>
           </div>

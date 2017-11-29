@@ -54,7 +54,7 @@ class DiffRefund extends Component {
             }}
           >
             <SumOfMoney orderPriceInfo={orderPriceInfo} dispatch={dispatch} />
-            <Price refundPaths={this.props.refundPaths} dispatch={dispatch} maxTips={maxTips} />
+            <Price {...this.props} />
             <div className={styles.row}>
               <span className={styles.rowSpan}>{__('common.content_name')}{Star}:</span>
               <Radio.Group
