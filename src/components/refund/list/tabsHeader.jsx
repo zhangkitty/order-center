@@ -321,7 +321,7 @@ class TabsHeader extends Component {
                     >
                       {__('refund.list.export')}
                     </Button>
-                    <Tooltip placement="top" title={'请设置导出退款的申请时间！'}>
+                    <Tooltip placement="top" title={__('refund.list.export_title')}>
                       <Icon type="question-circle" style={{ marginLeft: '10px' }} />
                     </Tooltip>
                   </span>
