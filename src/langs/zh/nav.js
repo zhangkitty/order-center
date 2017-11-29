@@ -12,4 +12,5 @@ module.exports = {
   refund: '退款列表',
   refund_details: '退款详情',
   order_management: '平台订单管理',
+  failedaddrorder: '地址校验失败列表',
 };

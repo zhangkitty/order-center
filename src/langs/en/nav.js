@@ -12,4 +12,5 @@ module.exports = {
   refund: 'Refund lists',
   refund_details: 'Refund details',
   order_management: 'Platform order management',
+  failedaddrorder: 'failedaddrorder',
 };

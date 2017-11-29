@@ -29,6 +29,7 @@ module.exports = Object.keys(languages).map((lang) => ({
     react: 'window.React',
     'react-dom': 'window.ReactDOM',
     moment: 'window.moment',
+    xlsx: 'window.XLSX',
     'babel-polyfill': 'window.undefined'
   },
   module: {
