@@ -27,8 +27,14 @@ export const searchSuccess = data => ({
   data,
   type: TYPES.SEARCH_SUCCESS,
 });
-export const searchFail = () => ({
-  type: TYPES.SEARCH_FAIL,
+
+export const exportSubmit = data => ({
+  type: TYPES.EXPORT,
+  data,
+});
+export const exportSubmitSuccess = data => ({
+  data,
+  type: TYPES.EXPORT_SUCCESS,
 });
 
 export const initCountry = () => ({
@@ -38,6 +44,4 @@ export const initCountrySuccess = data => ({
   type: TYPES.INIT_COUNTRY_SUCCESS,
   data,
 });
-export const initCountryFail = () => ({
-  type: TYPES.INIT_COUNTRY_FAIL,
-});
+

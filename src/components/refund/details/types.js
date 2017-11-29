@@ -23,3 +23,4 @@ export const REVERSE_REFUND_SAVE = `${prefix}reverse_refund_save`;
 export const REVERSE_REFUND_SAVE_FAIL = `${prefix}reverse_refund_save_fail`;
 export const REVERSE_REFUND_SAVE_SUCCESS = `${prefix}reverse_refund_save_success`;
 export const DO_REFUND_PASS = `${prefix}do_refund_pass`;
+export const CHANGE_ORDER = `${prefix}change_order`;

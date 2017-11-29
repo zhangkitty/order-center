@@ -1,14 +1,16 @@
 /**
  * Create by liufeng on 2017/9/28
  */
-import assign from 'object-assign';
-import fetch from '../../lib/fetch';
-import { camel2Under, under2Camal } from '../../lib/camal';
-import queryString from '../../lib/query-string';
+import fetch from "../../lib/fetch";
+import {camel2Under} from "../../lib/camal";
+import queryString from "../../lib/query-string";
+import { parseQuery } from "../../lib/query-string";
+
 
 const list = {
-  initCountry: '/OrderDiffRefund/refundBillSearch',   // 获取所有搜索数据
-  init: '/OrderDiffRefund/submitRefundBillSearch',    // 搜索提交
+  initCountry: '/OrderReturn/getOrderReturnSearchConfig',   // 获取所有搜索数据
+  init: '/OrderReturn/getOrderReturnList',    // 搜索提交
+  export: '/OrderReturn/excelOrderReturn',    // 导出
 };
 const details = {
   getRefundBillDetail: '/OrderRefund/getRefundBillDetail', // get info
@@ -30,13 +32,27 @@ export const initCountrySer = () => (
 
 // 搜索
 export const searchSubmit = (page) => {
-  const keys = ['pageSize', 'pageNumber', 'refund_bill_id', 'billno', 'email', 'add_user', 'handle_user',
-    'refund_bill_type', 'refund_bill_status', 'refund_path_id', 'refund_path_status', 'site_from', 'apply_start_time', 'apply_end_time',
-    'country_id', 'member_level', 'refund_start_time', 'refund_end_time', 'sorting_rule'];
-  return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
+  const keys = ['page_size', 'page_number',
+    'return_order_id', 'order_no', 'email', 'tracking_no', 'good_sn', 'source_site', 'insurance_states', 'trouble_state',
+    'return_order_status', 'refund_status', 'shipping_status', 'order_type', 'receiver_country', 'return_label_type', 'warehouse',
+    'member_level', 'payment', 'time_tag', 'start_time', 'end_time', 'sort_order'];
+  return fetch(`${list.init}?${queryString(keys, page)}`, {
     method: 'GET',
   })
 };
+
+// 导出
+export const exportSubmit = (page) => {
+  const keys = [
+    'return_order_id', 'order_no', 'email', 'tracking_no', 'good_sn', 'source_site', 'insurance_states', 'trouble_state',
+    'return_order_status', 'refund_status', 'shipping_status', 'order_type', 'receiver_country', 'return_label_type', 'warehouse',
+    'member_level', 'payment', 'time_tag', 'start_time', 'end_time', 'sort_order'];
+  return fetch(list.export, {
+    method: 'POST',
+    body: JSON.stringify(parseQuery(keys, page))
+  })
+};
+
 
 export const getRefundDetailsInfo = id => (
   fetch(`${details.getRefundBillDetail}?refund_bill_id=${id}`, {

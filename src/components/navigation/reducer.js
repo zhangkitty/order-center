@@ -85,6 +85,12 @@ const menus = [
         nav: true,
       },
       {
+        link: '/order-management',  // 平台订单管理
+        name: __('nav.order_management'),
+        crumbName: __('nav.order_management'),
+        nav: true,
+      },
+      {
         link: '/returns', // 退货列表
         name: __('nav.returns'),
         crumbName: __('nav.returns'),

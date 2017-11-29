@@ -11,6 +11,7 @@ module.exports = {
   cash_refund: 'Withdraw refund',
   refund: 'Refund lists',
   refund_details: 'Refund details',
+  order_management: 'Platform order management',
   returns: 'Returns lists',
   returns_details: 'Returns details',
 };
