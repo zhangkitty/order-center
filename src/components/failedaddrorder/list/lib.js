@@ -5,8 +5,8 @@ export function jeneratesheet(arr) {
   sheetResult['A1'] = {v: 'ID'};
   sheetResult['B1'] = {v: '订单号'};
   sheetResult['C1'] = {v: '包裹号'};
-  sheetResult['D1'] = {v: '是否COD'};
-  sheetResult['E1'] = {v: '原因'};
+  sheetResult['D1'] = {v: '渠道'};
+  sheetResult['E1'] = {v: '失败原因'};
   sheetResult['F1'] = {v: '国家'};
   sheetResult['G1'] = {v: '提交人'};
   sheetResult['H1'] = {v: '提交时间'};
@@ -15,7 +15,7 @@ export function jeneratesheet(arr) {
   sheetResult['K1'] = {v: '处理时间'};
   sheetResult['L1'] = {v: '类型'};
   sheetResult['M1'] = {v: '状态'};
-  let colNames = ['id', 'billno', 'package_no', 'payment_method', 'content', 'country_name', 'commit_user',
+  let colNames = ['id', 'billno', 'package_no', 'ship_method', 'content', 'country_name', 'commit_user',
     'add_time', 'site_from', 'user_name', 'last_update_time', 'type', 'status',];
   arr.map((item, index) => {
     let count = index + 2;
