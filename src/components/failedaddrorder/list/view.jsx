@@ -45,9 +45,9 @@ class Index extends Component {
       key: 'package_no',
     }, {
     }, {
-      title: __('failedaddrorder.list.payment_method'),
-      dataIndex: 'payment_method',
-      key: 'payment_method',
+      title: __('failedaddrorder.list.ship_method'),
+      dataIndex: 'ship_method',
+      key: 'ship_method',
     }, {
       title: __('failedaddrorder.list.reason'),
       width: '20%',

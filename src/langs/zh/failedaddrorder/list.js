@@ -16,7 +16,7 @@ module.exports = {
   piliangdelete: '批量删除',
   piliangrecheck: '批量重新校验',
   piliangdaochu: '批量导出',
-  reason: '原因',
+  reason: '失败原因',
   country_name: '国家',
   commit_user: '提交人',
   add_time: '提交时间',
