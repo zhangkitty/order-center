@@ -220,6 +220,7 @@ const Packge = ({
             <div>
               {colorCirle(colors[rec.status_code])}
               <span>{d}</span>
+              {rec.storage_type && <span style={{ marginLeft: '8px' }}> ({rec.storage_type})</span> }{/* 退货入库类型， 退货商品/退款商品 才有这个值 */}
               {pingkongShow[rec.status_code] ? (
                 <Link
                   to={
