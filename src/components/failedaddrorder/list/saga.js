@@ -3,7 +3,6 @@
  */
 import { message } from 'antd';
 import { put, takeLatest } from 'redux-saga/effects';
-import XLSX from 'xlsx';
 import {
   initSearch,
   searchFailedAddrList,
@@ -11,13 +10,13 @@ import {
   auditOrder,
   processOrder,
   recheckOrder,
+  exportOrder,
 } from '../server';
 import {
   searchSuccess, searchList_success, searchList_fail, deleteSuccess, deleteFail,
   recheckSuccess, recheckFail, processSuccess, processFail, auditSuccess, auditFail,
   batchDeleteSuccess, batchDeleteFail, batchRecheckSuccess, batchRecheckFail,
 } from './action';
-import { jeneratesheet, s2ab } from './lib';
 import * as TYPES from './types';
 const FileSaver = require('file-saver');
 
@@ -65,19 +64,6 @@ function* auditOrderSaga(action) {
   return yield put(auditSuccess({data: data, myIndex: action.data.myIndex}));
 }
 
-function* exportOrderSaga(action) {
-  let workbook = {
-    SheetNames: ['mysheet'],
-    Sheets: {
-      'mysheet': jeneratesheet(action.data),
-    }
-  };
-  let wopts = {bookType: 'xlsx', bookSST: false, type: 'binary'};
-  let wbout = XLSX.write(workbook, wopts);
-  let blob = new Blob([s2ab(wbout)], {type: 'application/vnd.ms-excel'});
-  FileSaver.saveAs(blob, 'export_data.xls');
-}
-
 function* processOrderSaga(action) {
   const data = yield processOrder({id: action.data.id});
   if (!data || data.code !== 0) {
@@ -102,6 +88,13 @@ function* batchRecheckSaga(action) {
     return yield put(batchRecheckFail());
   }
   return yield put(batchRecheckSuccess(data));
+}
+
+function* exportOrderSaga(action) {
+  console.log(action.data);
+  const data = yield exportOrder({ids: action.data});
+  const name = (new Date()).toLocaleString();
+  FileSaver.saveAs(data, `${name}.xls`);
 }
 
 export default function* () {

@@ -37,10 +37,10 @@ export default (url, args = {}, header) => {
       throw new Error(status);
     }
 
-    // 流，下载
-    // if (res.headers.get('content-type') === 'application/vnd.ms-excel;charset=UTF-8') {
-    //   return res.blob();
-    // }
+    // 流，下载 application/vnd.ms-excel;charset=UTF-8
+    if (res.headers.get('content-type') === 'application/download') {
+      return res.blob();
+    }
 
     return res.json();
   }).then((data) => {  // body

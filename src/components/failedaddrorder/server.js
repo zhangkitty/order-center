@@ -14,6 +14,7 @@ const list = {
   auditOrder: '/OrderCheckAddress/auditAddress',    //订单审核
   processOrder: '/OrderCheckAddress/process',       //订单处理
   recheckOrder: '/OrderCheckAddress/checkAddress',       //订单重复校验
+  exportOrder: '/OrderCheckAddress/batchExport',       //订单导出
 };
 
 export const initSearch = (page) => {
@@ -52,6 +53,13 @@ export const processOrder = (data) => {
 
 export const recheckOrder = (data) => {
   return fetch(`${list.recheckOrder}`, {
+    method: 'post',
+    body: JSON.stringify(data),
+  })
+};
+
+export const exportOrder = (data) => {
+  return fetch(`${list.exportOrder}`, {
     method: 'post',
     body: JSON.stringify(data),
   })

@@ -62,7 +62,7 @@ class Index extends Component {
       dataIndex: 'commit_user',
       key: 'commit_user',
     }, {
-      title: __('failedaddrorder.list.add_time'),
+      title: __('failedaddrorder.list.commitTime'),
       dataIndex: 'add_time',
       key: 'add_time',
     }, {
@@ -133,7 +133,7 @@ class Index extends Component {
     }else{
       let temp3 = [];
       that.state.selectedRows.map((item)=>{
-        temp3.push(item.id)
+        temp3.push(item.order_id)
       });
       confirm({
         title: __('failedaddrorder.list.text5'),
@@ -157,13 +157,17 @@ class Index extends Component {
     if(this.state.selectedRowKeys.length == 0){
       message.warning(`${__('failedaddrorder.list.text1')}`);
     }else{
+      let temp4 = [];
+      that.state.selectedRows.map((item)=>{
+        temp4.push(item.id)
+      });
       confirm({
         title: __('failedaddrorder.list.text6'),
         okText: __('failedaddrorder.list.text3'),
         okType: 'danger',
         cancelText: __('failedaddrorder.list.text4'),
         onOk() {
-          that.props.dispatch(exportOrder(that.state.selectedRows));
+          that.props.dispatch(exportOrder(temp4));
           that.setState({
             selectedRowKeys: [],
             selectedRows: [],
