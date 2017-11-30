@@ -236,7 +236,7 @@ class ToReturnGoods extends Component {
             <span style={spanWidth} />
             <RG value={submitValue.rl_fee} onChange={e => dispatch(infoCommit('rl_fee', e.target.value))}>
               {
-                rlFee.map(v => (
+                rlFee || [].map(v => (
                   <Radio
                     value={v.amount} key={v.amount}
                   >{v.amount_with_symbol}</Radio>

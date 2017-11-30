@@ -31,6 +31,7 @@ const lan = {
   yundanpingzh: __('order.entry.order_return_13'),
   upload: __('order.entry.order_return_14'),
   need: __('order.entry.order_return_15'),
+  RL扣除费用: 'RL扣除费用',
 };
 
 const reqImg = require.context('../../images');
@@ -138,7 +139,14 @@ const OrderReturn = (
         }
         okText="确认"
         cancelText="取消"
-      >1111</Modal>
+      >
+        <div>
+          {lan.RL扣除费用}
+        </div>
+        <div>
+          ldjfla
+        </div>
+      </Modal>
       <Modal
         onCancel={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { show: false })))}
         okText={lan.save}
