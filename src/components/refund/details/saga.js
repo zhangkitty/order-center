@@ -122,7 +122,7 @@ function* changeOrderSaga(action) {
 
 // 取消退款单
 function* canceltherefundbillSaga(action) {
-  const data = yield canceltherefundbillSer(action.refund_bill_id);
+  const data = yield canceltherefundbillSer(action.refund_bill_id, action.reasonRecord);
   if (!data || data.code !== 0) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }

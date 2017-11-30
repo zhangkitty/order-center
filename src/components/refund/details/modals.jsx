@@ -361,7 +361,9 @@ const Modals = ({
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { load: true })));
           if (cancelTheRefundBill.reasonRecord.trim().length < 1) {
+            dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { load: false })));
             return message.warning(lan.取消原因不能为空);
           }
           return dispatch(cancelTheRefundBillAction(refundBillId, cancelTheRefundBill.reasonRecord));
@@ -381,7 +383,7 @@ const Modals = ({
           <Button onClick={() => dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { show: false })))}>
             {lan.取消}
           </Button>
-          <Button type={'primary'} htmlType={'submit'} loading={addRemarkInfo.load} >
+          <Button type={'primary'} htmlType={'submit'} loading={cancelTheRefundBill.load} >
             {lan.确认}
           </Button>
         </div>

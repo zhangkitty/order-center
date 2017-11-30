@@ -2,7 +2,7 @@ import assign from 'object-assign';
 import * as TYPES from './types';
 
 const lan = {
-  已取消: __('refund.details.已取消'),
+  取消退款: __('refund.details.取消退款'),
 };
 
 const defaultState = {
@@ -44,6 +44,7 @@ const defaultState = {
     show: false,
     refund_bill_id: '',
     reasonRecord: '',
+    load: false,
   },
 };
 
@@ -179,7 +180,7 @@ export default (state = defaultState, action) => {
         [action.key]: action.value,
       });
     case TYPES.CANCELTHEREFUNDBILLSUCCESS:
-      return _.merge({}, state, { dataSource: { refund_detail: { refund_status: lan.已取消 } } });
+      return _.merge({}, state, { dataSource: { refund_detail: { refund_status: lan.取消退款 } } }, { cancelTheRefundBill: { show: false } }, { cancelTheRefundBill: { load: false } });
     default:
       return state;
   }

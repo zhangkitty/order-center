@@ -97,9 +97,12 @@ export const changeOrderSer = (billno, refund_record_id) => (
 )
 
 //取消提现退款
-export const canceltherefundbillSer=(refund_bill_id)=>(
+export const canceltherefundbillSer=(refund_bill_id,reasonRecord)=>(
   fetch(details.cancelTheRefundBill,{
     method:'POST',
-    body:JSON.stringify({refund_bill_id:refund_bill_id})
+    body:JSON.stringify({
+      refund_bill_id:refund_bill_id,
+      cancel_reason:reasonRecord
+    })
   })
 )
