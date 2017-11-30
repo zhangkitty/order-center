@@ -266,6 +266,10 @@ class Index extends Component {
                   page_number: 1,
                   page_size: page_size,
                 })));
+              this.setState({
+                selectedRowKeys: [],
+                selectedRows: [],
+              });
             }}
           >
 
@@ -459,6 +463,7 @@ class Index extends Component {
             current={current}
             onChange={
               (pageNumber, pageSize) => {
+                console.log('111', pageNumber, pageSize);
                 dispatch(commit('current', pageNumber));
                 let temp1 = commitTime.length == 0 ? "": moment(commitTime[0]).format('YYYY-MM-DD HH:mm:ss');
                 let temp2 = commitTime.length == 0 ? "": moment(commitTime[1]).format('YYYY-MM-DD HH:mm:ss');
@@ -470,11 +475,17 @@ class Index extends Component {
                     page_number: pageNumber,
                     page_size: pageSize,
                   })));
+                this.setState({
+                  selectedRowKeys: [],
+                  selectedRows: [],
+                });
               }
             }
             onShowSizeChange={
               (pageNumber, pageSize) => {
+                console.log('222', pageNumber, pageSize);
                 dispatch(commit('current', pageNumber));
+                dispatch(commit('page_size', pageSize));
                 let temp1 = commitTime.length == 0 ? "": moment(commitTime[0]).format('YYYY-MM-DD HH:mm:ss');
                 let temp2 = commitTime.length == 0 ? "": moment(commitTime[1]).format('YYYY-MM-DD HH:mm:ss');
                 this.props.dispatch(searchList(assign({},
@@ -485,6 +496,10 @@ class Index extends Component {
                     page_number: pageNumber,
                     page_size: pageSize,
                   })));
+                this.setState({
+                  selectedRowKeys: [],
+                  selectedRows: [],
+                });
               }
             }
           />
