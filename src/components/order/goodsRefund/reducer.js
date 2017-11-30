@@ -136,7 +136,7 @@ const svInit = (source) => {
     amount1 || 0,
     source);
   const mypriceObj2 = originPrice(
-    amount1 || 0,
+    amount2 || 0,
     source);
   const arr = source.orderRefundPathList.map(v => ({
     refundTypeId: v.refundPathId,
