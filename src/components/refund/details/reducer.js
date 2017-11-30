@@ -1,5 +1,9 @@
-import assign from "object-assign";
-import * as TYPES from "./types";
+import assign from 'object-assign';
+import * as TYPES from './types';
+
+const lan = {
+  已取消: __('refund.details.已取消'),
+};
 
 const defaultState = {
   ready: false,
@@ -35,6 +39,11 @@ const defaultState = {
     billno: '',
     refund_record_id: '',
     refundBillId: '',
+  },
+  cancelTheRefundBill: {
+    show: false,
+    refund_bill_id: '',
+    reasonRecord: '',
   },
 };
 
@@ -169,6 +178,8 @@ export default (state = defaultState, action) => {
       return assign({}, state, {
         [action.key]: action.value,
       });
+    case TYPES.CANCELTHEREFUNDBILLSUCCESS:
+      return _.merge({}, state, { dataSource: { refund_detail: { refund_status: lan.已取消 } } });
     default:
       return state;
   }

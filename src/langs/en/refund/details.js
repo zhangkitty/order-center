@@ -55,4 +55,5 @@ module.exports = {
   order_number: '订单号',
   change_order: '更改订单号',
   submitTitle: '请输入订单号',
+  取消提现: '取消提现',
 };

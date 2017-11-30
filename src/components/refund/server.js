@@ -19,6 +19,7 @@ const details = {
   doRefundAgain: '/OrderRefund/doRefundAgain', // 重新退款
   doRefundPass: '/OrderRefund/doRefundPass', // 通过
   changeOrder: '/OrderReturn/modifyOrderIdByRefundRecordId', // 更改订单号
+  cancelTheRefundBill:'/OrderDiffRefund/cancelTheRefundBill'
 }
 
 // 获取所有搜索数据
@@ -92,5 +93,13 @@ export const changeOrderSer = (billno, refund_record_id) => (
   fetch(details.changeOrder, {
     method: 'POST',
     body: JSON.stringify({ billno: billno, refund_record_id: refund_record_id })
+  })
+)
+
+//取消提现退款
+export const canceltherefundbillSer=(refund_bill_id)=>(
+  fetch(details.cancelTheRefundBill,{
+    method:'POST',
+    body:JSON.stringify({refund_bill_id:refund_bill_id})
   })
 )
