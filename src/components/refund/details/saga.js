@@ -126,7 +126,6 @@ function* canceltherefundbillSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
-  debugger;
   yield put(cancelTheRefundBillSuccessAction());
   return message.success(lan.osucess);
 }
