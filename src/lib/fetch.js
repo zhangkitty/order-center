@@ -38,7 +38,7 @@ export default (url, args = {}, header) => {
     }
 
     // 流，下载 application/vnd.ms-excel;charset=UTF-8
-    if (res.headers.get('content-type') === 'application/download') {
+    if (res.headers.get('content-type') === 'application/vnd.ms-excel;charset=UTF-8') {
       return res.blob();
     }
 
