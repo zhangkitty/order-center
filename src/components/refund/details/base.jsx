@@ -169,11 +169,14 @@ const Base = ({
             onClick={() => dispatch(remarkInfoShow(refundBillId, remarkInfo))}
           >{language.查看备注信息}</Button>
           {
-            refund_detail.refund_type === '提现退款' && refund_detail.apply_user_name === '用户' && refund_detail.refund_status === '驳回' ?
-              <Button
-                style={{ marginLeft: 20 }}
-                onClick={() => dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { show: true })))}
-              >{language.取消提现}</Button>
+              ((refund_detail.refund_type === '提现退款') || (refund_detail.refund_type === 'Refund Withdraw'))
+            && refund_detail.apply_user_name === '用户'
+            && (refund_detail.refund_status === '驳回' || refund_detail.refund_status === 'Rejected')
+                  ?
+                    <Button
+                      style={{ marginLeft: 20 }}
+                      onClick={() => dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { show: true })))}
+                    >{language.取消提现}</Button>
               : null
           }
         </div>

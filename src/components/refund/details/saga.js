@@ -127,7 +127,8 @@ function* canceltherefundbillSaga(action) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(cancelTheRefundBillSuccessAction());
-  return message.success(lan.osucess);
+  yield message.success(lan.osucess);
+  return put(this.props.dispatch(getInfo(action.refund_bill_id, action.billno)));
 }
 
 export default function* () {
