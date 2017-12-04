@@ -227,11 +227,14 @@ class TabsHeader extends Component {
                     style={{ width: '250px' }}
                     tokenSeparators={[',']}
                     // value={country_id}
+                    showSearch
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.props.children.toLowerCase().startsWith(input.toLowerCase())}
                     onChange={val => dispatch(commit('country_id', val))}
                   >
                     {
                       fetchCountry.map(item => (
-                        <Option key={item.id} > {item.country}</Option>
+                        <Option key={item.id}>{item.country}</Option>
                       ))
                     }
                   </Select>
