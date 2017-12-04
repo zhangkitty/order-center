@@ -39,9 +39,9 @@ const lan = {
   重新退款: __('refund.details.info_renfund_agian'),
   订单号: __('refund.details.order_number'),
   更改订单号: __('refund.details.change_order'),
-  取消提现: __('refund.details.取消提现'),
-  取消原因: '取消原因',
-  取消原因不能为空: '取消原因不能为空',
+  取消提现: __('refund.details.Cancel_withdrawal'),
+  取消原因: __('refund.details.Reason_for_Cancellation'),
+  取消原因不能为空: __('refund.details.Cancel_the_reason_can_not_be_empty'),
 };
 const TA = Input.TextArea;
 const Option = Select.Option;

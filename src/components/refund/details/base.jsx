@@ -35,7 +35,7 @@ const language = {
   退款金额: __('refund.details.base_refund_price'),
   确认: __('refund.details.submit'),
   取消: __('common.cancel'),
-  取消提现: __('refund.details.取消提现'),
+  取消提现: __('refund.details.Cancel_withdrawal'),
 };
 
 const Base = ({
@@ -169,9 +169,8 @@ const Base = ({
             onClick={() => dispatch(remarkInfoShow(refundBillId, remarkInfo))}
           >{language.查看备注信息}</Button>
           {
-              ((refund_detail.refund_type === '提现退款') || (refund_detail.refund_type === 'Refund Withdraw'))
-            && refund_detail.apply_user_name === '用户'
-            && (refund_detail.refund_status === '驳回' || refund_detail.refund_status === 'Rejected')
+            refund_detail.refund_status_code === '4' && refund_detail.apply_user_name === '用户'
+            && refund_detail.refund_type_code === '3'
                   ?
                     <Button
                       style={{ marginLeft: 20 }}

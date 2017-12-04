@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Input, Select, Spin, Button, message, DatePicker,Alert } from 'antd';
+import { Input, Select, Spin, Button, message, DatePicker, Alert } from 'antd';
 import moment from 'moment';
 import { commit, getInfo, infoCommit, getCity, save, getInfoShow } from './action';
 import style from './style.css';
@@ -22,7 +22,7 @@ const lan = {
   needCity: __('order.entry.submit_title1'),
   needDistrict: __('order.entry.submit_title2'),
   need: __('order.entry.order_return_15'),
-  '您已输入的字符个数':__('order.details.edit-address.numberYouHaveEntered'),
+  您已输入的字符个数: __('order.details.edit-address.numberYouHaveEntered'),
 };
 const addressLine = {
   address_line_1: __('order.entry.address1'),
@@ -39,7 +39,7 @@ class EditAddress extends Component {
     dispatch(commit('billno', bid));
   }
 
-  render(){
+  render() {
     const {
       ready, dispatch, submitValue, country_list, load, provinceLoad,
       cities, citySource, districtSource, orderId, billno, addressShow,
@@ -59,7 +59,6 @@ class EditAddress extends Component {
     if (ready) {
       // 时间校验
       const dateValidate = (d) => {
-
         if (moment(d, 'DD.MM.YYYY').format('DD.MM.YYYY').indexOf('Invalid') > -1) {
           return null;
         }
@@ -108,7 +107,7 @@ class EditAddress extends Component {
                       value={submitValue[key]}
                       style={{ width: '25em' }}
                       required={validate}
-                      onChange={e => dispatch(infoCommit(key, e.target.value.slice(0,30)))}
+                      onChange={e => dispatch(infoCommit(key, e.target.value.slice(0, 30)))}
                     />
                   </div>
                 }
@@ -239,20 +238,21 @@ class EditAddress extends Component {
                       value={submitValue[key]}
                       style={{ width: '25em' }}
                       cols={8}
-                      onChange={e => {
+                      onChange={(e) => {
                         const value = e.target.value;
                         return dispatch(infoCommit(key, value));
-                        }
+                      }
                       }
                     />
-                   <span style={{
-                     margin: '0 10px',
-                     padding: '5px 10px',
-                     borderRadius: '4px',
-                     lineHeight:'100%'
-                   }}>
-                     {lan.您已输入的字符个数}:{submitValue[key].length}
-                   </span>
+                    <span style={{
+                      margin: '0 10px',
+                      padding: '5px 10px',
+                      borderRadius: '4px',
+                      lineHeight: '100%',
+                    }}
+                    >
+                      {lan.您已输入的字符个数}:{submitValue[key].length}
+                    </span>
                   </div>
                 }
                 {/* passport  签发日期 */}

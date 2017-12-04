@@ -2,7 +2,7 @@ import assign from 'object-assign';
 import * as TYPES from './types';
 
 const lan = {
-  取消退款: __('refund.details.取消退款'),
+  取消退款: __('refund.details.Cancel_the_refund'),
 };
 
 const defaultState = {

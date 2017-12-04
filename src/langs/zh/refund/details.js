@@ -55,6 +55,8 @@ module.exports = {
   order_number: '订单号',
   change_order: '更改订单号',
   submitTitle: '请输入订单号',
-  取消提现: '取消提现',
-  取消退款: '取消退款',
+  Cancel_withdrawal: '取消提现',
+  Cancel_the_refund: '取消退款',
+  Reason_for_Cancellation: '取消原因',
+  Cancel_the_reason_can_not_be_empty: '取消原因不能为空',
 };
