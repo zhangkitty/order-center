@@ -1,7 +1,7 @@
-import {takeEvery, put, takeLatest} from "redux-saga/effects";
-import {message} from "antd";
-import assign from "object-assign";
-import * as TYPES from "./types";
+import { takeEvery, put, takeLatest } from 'redux-saga/effects';
+import { message } from 'antd';
+import assign from 'object-assign';
+import * as TYPES from './types';
 import {
   commit,
   getInfo,
@@ -10,8 +10,9 @@ import {
   refundFail,
   refundSucess,
   doRefundFail,
-  reverseRefundSaveFail
-} from "./action";
+  reverseRefundSaveFail,
+  cancelTheRefundBillSuccessAction,
+} from './action';
 import {
   getRefundDetailsInfo,
   remarkInfoSer,
@@ -21,8 +22,9 @@ import {
   doRefundSer,
   doRefundAgainSer,
   doRefundPassSer,
-  changeOrderSer
-} from "../server";
+  changeOrderSer,
+  canceltherefundbillSer,
+} from '../server';
 
 const lan = {
   ofail: __('order.entry.submit_info'),
@@ -118,6 +120,17 @@ function* changeOrderSaga(action) {
   return message.success(lan.osucess);
 }
 
+// 取消退款单
+function* canceltherefundbillSaga(action) {
+  const data = yield canceltherefundbillSer(action.refund_bill_id, action.reasonRecord);
+  if (!data || data.code !== 0) {
+    return message.error(`${lan.ofail}:${data.msg}`);
+  }
+  yield put(cancelTheRefundBillSuccessAction());
+  yield message.success(lan.osucess);
+  return put(this.props.dispatch(getInfo(action.refund_bill_id, action.billno)));
+}
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.REMARK_INFO, remarkInfoSaga);
@@ -128,4 +141,5 @@ export default function* () {
   yield takeLatest(TYPES.REVERSE_REFUND_SAVE, doRefundAgainSaga);
   yield takeLatest(TYPES.DO_REFUND_PASS, doRefundPassSaga);
   yield takeLatest(TYPES.CHANGE_ORDER, changeOrderSaga);
+  yield takeLatest(TYPES.CANCELTHEREFUNDBILL, canceltherefundbillSaga);
 }

@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import assign from "object-assign";
-import {Modal, Input, Button, message, Select} from "antd";
+import React from 'react';
+import PropTypes from 'prop-types';
+import assign from 'object-assign';
+import { Modal, Input, Button, message, Select } from 'antd';
 import {
   commit,
   addRemark,
@@ -10,11 +10,13 @@ import {
   refundTxnId,
   reverseRefundAction,
   reverseRefundSave,
-  changeOrder
-} from "./action";
-import styles from "./style.css";
+  changeOrder,
+  cancelTheRefundBillAction,
+} from './action';
+import styles from './style.css';
 
 const star = (<span style={{ color: 'red' }}>*</span>);
+const { TextArea } = Input;
 
 const lan = {
   备注信息: __('common.content_name1'),
@@ -37,6 +39,9 @@ const lan = {
   重新退款: __('refund.details.info_renfund_agian'),
   订单号: __('refund.details.order_number'),
   更改订单号: __('refund.details.change_order'),
+  取消提现: __('refund.details.取消提现'),
+  取消原因: '取消原因',
+  取消原因不能为空: '取消原因不能为空',
 };
 const TA = Input.TextArea;
 const Option = Select.Option;
@@ -49,6 +54,7 @@ const Modals = ({
   refundBillId,
   changeOrderInfo,
   dispatch,
+  cancelTheRefundBill,
 }) => (
   <div>
     {/* 备注信息 */}
@@ -340,6 +346,44 @@ const Modals = ({
             {lan.取消}
           </Button>
           <Button type={'primary'} htmlType={'submit'} loading={addRemarkInfo.load} >
+            {lan.确认}
+          </Button>
+        </div>
+      </form>
+    </Modal>
+    {/* 取消提现 */}
+    <Modal
+      title={lan.取消提现}
+      visible={cancelTheRefundBill.show}
+      onCancel={() => dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { show: false })))}
+      footer={null}
+    >
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { load: true })));
+          if (cancelTheRefundBill.reasonRecord.trim().length < 1) {
+            dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { load: false })));
+            return message.warning(lan.取消原因不能为空);
+          }
+          return dispatch(cancelTheRefundBillAction(refundBillId, cancelTheRefundBill.reasonRecord));
+        }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <div style={{ width: 60 }}>{lan.取消原因}</div>
+          {star}
+          <div style={{ paddingLeft: 20, width: 400 }}>
+            <TextArea
+              value={cancelTheRefundBill.reasonRecord}
+              onChange={e => dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { reasonRecord: e.target.value })))}
+            />
+          </div>
+        </div>
+        <div className={styles.addRemarkBts}>
+          <Button onClick={() => dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { show: false })))}>
+            {lan.取消}
+          </Button>
+          <Button type={'primary'} htmlType={'submit'} loading={cancelTheRefundBill.load} >
             {lan.确认}
           </Button>
         </div>
