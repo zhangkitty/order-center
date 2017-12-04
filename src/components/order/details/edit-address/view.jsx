@@ -39,23 +39,6 @@ class EditAddress extends Component {
     dispatch(commit('billno', bid));
   }
 
- jisuan(a) {
-   let b = []
-   return function xx(a) {
-     if(a.length>4){
-       b.push(a.slice(0, 4).concat('\n'))
-       let temp = a.slice(4)
-       if (temp.length < 4) {
-         b.push(temp)
-         return b.join("")
-       }
-       xx(temp)
-     }else {
-       return a
-     }
-   }(a)
- }
-
   render(){
     const {
       ready, dispatch, submitValue, country_list, load, provinceLoad,
