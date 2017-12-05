@@ -1,6 +1,6 @@
 import assign from 'object-assign';
 import fetch from '../../../lib/fetch';
-import {camel2Under} from '../../../lib/camal';
+import {camel2Under,under2Camal} from '../../../lib/camal';
 
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
@@ -56,6 +56,14 @@ const cashRefund = {
   getData: '/OrderDiffRefund/cashRefund',
   submit: '/OrderRefund/applyWithDrawAndCancelWalletRefund'
 }
+
+//查看RL费用
+const RL = {
+    fetchrlfee :'/OrderReturn/fetchRlFee',
+    postRlFeeSer:'/OrderReturn/rebuildRl'
+}
+
+
 
 
 export const getInfoSer = (id, bill) => {
@@ -270,3 +278,19 @@ export const addressShow = (site, countryId) => (
     method: 'GET',
   })
 )
+
+//查看RL费用
+export const fetchrlfeeSer = (orderId)=>(
+    fetch(`${RL.fetchrlfee}?order_id=${orderId}`,{
+        method:'GET',
+    }).then(res=>under2Camal(res))
+)
+
+//提交RL费用
+export const rebuildrlSer = (d)=>(
+    fetch((`${RL.postRlFeeSer}`),{
+      method:'POST',
+      body:JSON.stringify(camel2Under(d))
+    })
+)
+

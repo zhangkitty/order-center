@@ -86,3 +86,12 @@ export const cancelRefund = id => ({
   id,
 });
 
+export const fetchRlFee = id => ({
+  type: TYPES.FETCHRLFEE,
+  id,
+});
+
+export const rebuildRl = d => ({
+  type: TYPES.REBUILDRL,
+  d,
+});

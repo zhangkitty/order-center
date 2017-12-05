@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message } from 'antd';
-import { commit, uploadTrackAction, uploadTrackShow, genRl } from './action';
+import { commit, uploadTrackAction, uploadTrackShow, genRl, fetchRlFee, rebuildRl } from './action';
 
 import styles from './style.css';
 
@@ -32,6 +32,7 @@ const lan = {
   upload: __('order.entry.order_return_14'),
   need: __('order.entry.order_return_15'),
   RL扣除费用: 'RL扣除费用',
+  rl费用必填: __('order.entry.rl_fee_required'),
 };
 
 const reqImg = require.context('../../images');
@@ -44,6 +45,10 @@ const OrderReturn = (
     billno,
     rlLoading,
     rlmodal,
+    rlFee,
+    reFeeValue,
+    modal_return_order_id,
+    confirmLoading,
   },
 ) => (
   <div className={styles.contentPadding}>
@@ -116,6 +121,8 @@ const OrderReturn = (
                     onClick={() => {
                       // dispatch(commit('rlLoading', true));
                       // dispatch(genRl(rec.return_order_id, orderId, billno));
+                      dispatch(commit('modal_return_order_id', rec.return_order_id));
+                      dispatch(fetchRlFee(orderId));
                       dispatch(commit('rlmodal', true));
                     }}
                   >{lan.rl}</Button>
@@ -131,8 +138,21 @@ const OrderReturn = (
       />
       <Modal
         visible={rlmodal}
+        confirmLoading={confirmLoading}
         onOk={
-          () => console.log(1)
+          () => {
+            dispatch(commit('confirmLoading', true));
+            const d = {
+              language: 'zh',
+              order_id: orderId,
+              rl_fee: reFeeValue,
+              return_order_id: modal_return_order_id,
+            };
+            if (reFeeValue === null) {
+              return message.error(lan.rl费用必填);
+            }
+            dispatch(rebuildRl(d));
+          }
         }
         onCancel={
           () => dispatch(commit('rlmodal', false))
@@ -141,10 +161,21 @@ const OrderReturn = (
         cancelText="取消"
       >
         <div>
-          {lan.RL扣除费用}
+          {lan.RL扣除费用}:
         </div>
-        <div>
-          ldjfla
+        <div style={{ marginTop: 10 }}>
+          {
+            Array.isArray(rlFee) ?
+              <div>
+                <Radio.Group value={reFeeValue} onChange={e => dispatch(commit('reFeeValue', e.target.value))}>{
+                  rlFee.map(v => (
+                    <Radio value={v.amount}>{v.amountWithSymbol}</Radio>
+                  ))
+                }
+                </Radio.Group>
+              </div> :
+                null
+          }
         </div>
       </Modal>
       <Modal

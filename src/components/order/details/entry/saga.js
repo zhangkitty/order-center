@@ -3,7 +3,21 @@ import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import * as TYPES from './types';
 import { commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
-import { getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer } from '../server';
+import {
+  getInfoSer,
+  rebuildrlSer,
+  updateEmailSer,
+  backGoodsDatesSer,
+  operateReturnSer,
+  partSendSer,
+  preSendSer,
+  examineSer,
+  uploadtrack,
+  profitShowSer,
+  genRlSer,
+  cancelRefundSer,
+  fetchrlfeeSer,
+} from '../server';
 
 const lan = {
   ofail: __('order.entry.submit_info'),
@@ -106,6 +120,26 @@ function* cancelRefundSaga(action) {
   }
   return message.success(lan.osucess);
 }
+// 获取RL费用
+function* fetchrlfeeSaga(action) {
+  const data = yield fetchrlfeeSer(action.id);
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.ofail}:${data.msg}`);
+  }
+  yield put(commit('rlFee', data.data));
+}
+
+// 提交RL费用
+function* rebuildrlSaga(action) {
+  const data = yield rebuildrlSer(action.d);
+  yield put(commit('confirmLoading', false));
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.ofail}:${data.msg}`);
+  }
+  return message.success(`${data.msg}`);
+}
+
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -118,4 +152,6 @@ export default function* () {
   yield takeLatest(TYPES.PROFIT_SHOW, profitShowSaga);
   yield takeLatest(TYPES.GEN_RL, genRlSaga);
   yield takeLatest(TYPES.CANCEL_REFUND, cancelRefundSaga);
+  yield takeLatest(TYPES.FETCHRLFEE, fetchrlfeeSaga);
+  yield takeLatest(TYPES.REBUILDRL, rebuildrlSaga);
 }

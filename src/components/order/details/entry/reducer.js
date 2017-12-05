@@ -38,6 +38,10 @@ const defaultState = {
     img: '',
   },
   returnEmail: '',
+  rlFee: null,
+  reFeeValue: null,
+  modal_return_order_id: null,
+  confirmLoading:false,
 };
 
 export default (state = defaultState, action) => {

@@ -18,3 +18,5 @@ export const EXAMINE_SUCCESS = `${prefix}examine_success`;
 export const PROFIT_SHOW = `${prefix}profit_show`;
 export const GEN_RL = `${prefix}gen_rl`;
 export const CANCEL_REFUND = `${prefix}cancel_refund`;
+export const FETCHRLFEE = `${prefix}fetchrlfee`;
+export const REBUILDRL = `${prefix}rebuildrl`;

@@ -161,4 +161,5 @@ module.exports = {
   cash_content11: '请输入银行卡号',
   cash_content12: '请输入顾客姓名',
   cash_content13: '请输入发卡城市',
+  rl_fee_required: 'rl费用必填',
 };
