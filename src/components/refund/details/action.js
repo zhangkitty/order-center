@@ -1,4 +1,4 @@
-import * as TYPES from "./types";
+import * as TYPES from './types';
 
 export const commit = (key, value) => ({
   type: TYPES.COMMIT,
@@ -99,4 +99,14 @@ export const changeOrder = (billno, refund_record_id, refundBillId) => ({
   billno,
   refund_record_id,
   refundBillId,
+});
+
+export const cancelTheRefundBillAction = (refund_bill_id, reasonRecord) => ({
+  type: TYPES.CANCELTHEREFUNDBILL,
+  refund_bill_id,
+  reasonRecord,
+});
+
+export const cancelTheRefundBillSuccessAction = () => ({
+  type: TYPES.CANCELTHEREFUNDBILLSUCCESS,
 });

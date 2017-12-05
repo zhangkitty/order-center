@@ -86,3 +86,42 @@ export const cancelRefund = id => ({
   id,
 });
 
+// 商品操作查询
+export const operationGoods = id => ({
+  type: TYPES.OPERATION_GOODS,
+  id,
+});
+export const operationGoodsSuccess = data => ({
+  type: TYPES.OPERATION_GOODS_SUCCESS,
+  data,
+});
+
+// 弹窗
+export const openModal = (orderId, remark) => ({
+  type: TYPES.OPEN_MODAL,
+  orderId,
+  remark,
+});
+
+// 备注显示
+export const remarkShow = id => ({
+  type: TYPES.REMARK,
+  id,
+});
+export const remarkShowSuccess = data => ({
+  type: TYPES.REMARK_SUCCESS,
+  data,
+});
+
+
+// 备注更新
+export const remarkSave = (orderId, remark) => ({
+  type: TYPES.REMARK_SAVE,
+  orderId,
+  remark,
+});
+export const remarkSaveSuccess = data => ({
+  type: TYPES.REMARK_SAVE_SUCCESS,
+  data,
+});
+

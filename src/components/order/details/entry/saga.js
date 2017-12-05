@@ -2,8 +2,17 @@ import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import * as TYPES from './types';
-import { commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
-import { getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer, preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer } from '../server';
+import {
+  commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
+  operationGoodsSuccess,
+  remarkShowSuccess, remarkSaveSuccess,
+} from './action';
+import {
+  getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer,
+  preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer,
+  operationGoodsSer,
+  remarkSer, remarkSaveSer,
+} from '../server';
 
 const lan = {
   ofail: __('order.entry.submit_info'),
@@ -55,7 +64,7 @@ function* partSendSaga(action) {
 }
 // 优先发货
 function* preSendSaga(action) {
-  console.log(action, 'action,优先发货');
+ // console.log(action, 'action,优先发货');
   const data = yield preSendSer(action.oid, action.sendType);
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
@@ -106,6 +115,43 @@ function* cancelRefundSaga(action) {
   }
   return message.success(lan.osucess);
 }
+
+// 商品操作查询
+function* operationGoodsSaga(action) {
+  const data = yield operationGoodsSer(action.id);
+  if (!data || data.code !== 0) {
+    message.error(`${__('common.sagaTitle10')}${data.msg}`);
+    yield put(commit('load', 'false'));
+    return yield put(commit('operationVisible', 'true'));
+   // return yield put(operationGoodsFail());
+  }
+  return yield put(operationGoodsSuccess(data));
+}
+
+// 备注查看
+function* remarkSaga(action) {
+  const data = yield remarkSer(action.id);
+  if (!data || data.code !== 0) {
+    message.error(`${__('common.sagaTitle11')} ${data.msg}`);
+    yield put(commit('load', 'false'));
+    return yield put(commit('clickVisible', 'true'));
+  //  return yield put(remarkShowFail());
+  }
+  return yield put(remarkShowSuccess(data));
+}
+
+// 备注更新
+function* remarkSaveSaga(action) {
+  const data = yield remarkSaveSer(action.orderId, action.remark);
+  if (!data || data.code !== 0) {
+    message.error(`${__('common.sagaTitle12')}${data.msg}`);
+    return yield put(commit('loadUpdata', 'false'));
+    // return yield put(remarkSaveFail());
+  }
+  message.success(__('common.sagaTitle13'));
+  return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
+}
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -118,4 +164,7 @@ export default function* () {
   yield takeLatest(TYPES.PROFIT_SHOW, profitShowSaga);
   yield takeLatest(TYPES.GEN_RL, genRlSaga);
   yield takeLatest(TYPES.CANCEL_REFUND, cancelRefundSaga);
+  yield takeEvery(TYPES.OPERATION_GOODS, operationGoodsSaga);
+  yield takeEvery(TYPES.REMARK, remarkSaga);
+  yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
 }

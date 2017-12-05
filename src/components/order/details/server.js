@@ -18,7 +18,6 @@ const entry = {
   orderProfit: '/OrderDetail/orderProfit',
   rebuildRl: '/orderReturn/rebuildRl',
   cancelTheRefundBill: '/OrderDiffRefund/cancelTheRefundBill',
-
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
@@ -56,6 +55,12 @@ const cashRefund = {
   getData: '/OrderDiffRefund/cashRefund',
   submit: '/OrderRefund/applyWithDrawAndCancelWalletRefund'
 }
+
+const list = {
+  operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
+  orderRemark: '/order/remark',  // 备注查询
+  orderSaveRemark: '/order/saveRemark',  // 添加备注
+};
 
 
 export const getInfoSer = (id, bill) => {
@@ -270,3 +275,29 @@ export const addressShow = (site, countryId) => (
     method: 'GET',
   })
 )
+
+
+// 商品操作查询
+export const operationGoodsSer = id => (
+  fetch(`${list.operationGoods}?order_goods_id=${id}`, {
+    method: 'GET',
+  })
+);
+
+// 订单备注-查看
+export const remarkSer = id => {
+//  const keys = ['order_id'];
+  return fetch(`${list.orderRemark}?order_id=${id}`, {
+    method: 'GET',
+  })
+};
+
+// 订单备注-更新
+export const remarkSaveSer = (orderId, remark) => (
+  fetch(list.orderSaveRemark, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under({
+      orderId , remark
+    })),
+  })
+);

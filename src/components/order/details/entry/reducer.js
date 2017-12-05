@@ -1,3 +1,4 @@
+import merge from 'lodash.merge';
 import assign from 'object-assign';
 import * as TYPES from './types';
 
@@ -37,6 +38,17 @@ const defaultState = {
     img: '',
   },
   returnEmail: '',
+  operationVisible: false,  // 操作查询
+  clickVisible: false,
+  visible: false,   // add
+  load: false,
+  loadUpdata: false,
+  fetchOperation: [],  // 操作状态
+  remarkModal: {   // 备注
+    order_goods_id: '',
+    remark: '',
+  },
+  changeDisabled: true,  // 换货按钮状态
 };
 
 export default (state = defaultState, action) => {
@@ -113,6 +125,48 @@ export default (state = defaultState, action) => {
     case TYPES.COMMIT:
       return assign({}, state, {
         [action.key]: action.value,
+      });
+    case TYPES.OPEN_MODAL:  // add remark
+      return assign({}, state, {
+        // clickVisible: false,
+        visible: true,
+        remarkModal: {
+          order_id: action.orderId,
+          remark: '',
+        },
+      });
+    case TYPES.REMARK:
+      return assign({}, state, {
+        load: true,
+      });
+    case TYPES.REMARK_SUCCESS:
+      return assign({}, state, {
+        fetchRemark: action.data.data || [],
+        clickVisible: true,
+        load: false,
+      });
+    case TYPES.REMARK_SAVE:
+      return assign({}, state, {
+        loadUpdata: true,
+      });
+    case TYPES.REMARK_SAVE_SUCCESS:  // 备注更新成功，备注状态改为 1
+      return merge({}, state, {
+        visible: false,
+        loadUpdata: false,
+        dataSource: merge({},
+          state.dataSource, { base: { order_info: { basic_info: { have_remark: 1 } } } },
+        ),
+      });
+    case TYPES.OPERATION_GOODS:
+      return assign({}, state, {
+        load: true,
+        operationVisible: false,
+      });
+    case TYPES.OPERATION_GOODS_SUCCESS:
+      return assign({}, state, {
+        fetchOperation: action.data.data || [],
+        load: false,
+        operationVisible: true,
       });
     default:
       return state;
