@@ -1,12 +1,11 @@
 /**
- * Create by liufeng on 2017/9/20
+ * Create by shenjialin on 2017/9/20
  */
 import assign from 'object-assign';
 import fetch from '../../lib/fetch';
 // import { camel2Under, under2Camal } from '../../lib/camal';
 // import queryString from '../../lib/query-string';
 
-// 订单列表
 const list = {
   init: '/OrderCheckAddress/getSearchCondition',    //选项初始化
   searchList: '/OrderCheckAddress/getOrderCheckAddressList',    //列表搜索
