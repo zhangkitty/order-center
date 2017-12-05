@@ -3,8 +3,6 @@
  */
 import assign from 'object-assign';
 import fetch from '../../lib/fetch';
-// import { camel2Under, under2Camal } from '../../lib/camal';
-// import queryString from '../../lib/query-string';
 
 const list = {
   init: '/OrderCheckAddress/getSearchCondition',    //选项初始化
