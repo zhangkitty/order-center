@@ -32,7 +32,6 @@ const lan = {
   fail: __('order.entry.submit_info2'),
   part: __('order.entry.submit_info3'),
 };
-const bn = sessionStorage.getItem('details-bn');
 function* getInfoSaga(action) {
   const data = yield getRefundDetailsInfo(action.id, action.billno);
   if (!data || data.code !== 0) {
@@ -67,7 +66,8 @@ function* rejectInfoSaga(action) { // 驳回
   }
   yield put(commit('rejectInfo', assign({}, action.info, { reamrkShow: false })));
   message.success(lan.osucess);
-  return yield put(getInfo(action.id, bn));
+  return yield put(getInfo(action.id, sessionStorage.getItem('details-bn')));
+ // return location.reload();
 }
 function* refundSaga(action) {
   const data = yield refundSer(action.record_id);
@@ -87,7 +87,7 @@ function* doRefundSaga(action) { // 提交退款
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('refundInfo', { load: false, saveLoad: false, data: {} }));
-  yield put(getInfo(action.data.refund_bill_id, bn));  // 成功后调这个接口，页面刷新
+  yield put(getInfo(action.data.refund_bill_id, sessionStorage.getItem('details-bn')));  // 成功后调这个接口，页面刷新
   return message.success(lan.osucess);
 }
 function* doRefundAgainSaga(action) { // 重新退款
@@ -97,7 +97,7 @@ function* doRefundAgainSaga(action) { // 重新退款
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('reverseRefund', { saveLoad: false, show: false, data: {} }));
-  yield put(getInfo(action.refundBillId, bn));  // 成功后调这个接口，页面刷新
+  yield put(getInfo(action.refundBillId, sessionStorage.getItem('details-bn')));  // 成功后调这个接口，页面刷新
   return message.success(lan.osucess);
 }
 function* doRefundPassSaga(action) { // 通过
@@ -105,7 +105,7 @@ function* doRefundPassSaga(action) { // 通过
   if (!data || data.code !== 0) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
-  yield put(getInfo(action.data.refund_bill_id, bn));  // 成功后调这个接口，页面刷新
+  yield put(getInfo(action.data.refund_bill_id, sessionStorage.getItem('details-bn')));  // 成功后调这个接口，页面刷新
   return message.success(lan.osucess);
 }
 
@@ -116,11 +116,11 @@ function* changeOrderSaga(action) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('changeOrderInfo', assign({}, { show: false, billno: '' })));
-  yield put(getInfo(action.refundBillId, bn));  // 成功后调这个接口，页面刷新
+  yield put(getInfo(action.refundBillId, sessionStorage.getItem('details-bn')));  // 成功后调这个接口，页面刷新
   return message.success(lan.osucess);
 }
 
-// 取消退款单
+// 取消提现
 function* canceltherefundbillSaga(action) {
   const data = yield canceltherefundbillSer(action.refund_bill_id, action.reasonRecord);
   if (!data || data.code !== 0) {
@@ -128,7 +128,7 @@ function* canceltherefundbillSaga(action) {
   }
   yield put(cancelTheRefundBillSuccessAction());
   yield message.success(lan.osucess);
-  return yield put(getInfo(action.refund_bill_id, bn));
+  return yield put(getInfo(action.refund_bill_id, sessionStorage.getItem('details-bn')));
 }
 
 export default function* () {
