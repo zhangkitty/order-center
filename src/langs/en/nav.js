@@ -14,4 +14,5 @@ module.exports = {
   order_management: 'Platform order management',
   returns: 'Returns lists',
   returns_details: 'Returns details',
+  failedaddrorder: 'failed address order',
 };
