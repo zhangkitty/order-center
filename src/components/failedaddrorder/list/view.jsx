@@ -467,7 +467,6 @@ class Index extends Component {
             current={current}
             onChange={
               (pageNumber, pageSize) => {
-                console.log('111', pageNumber, pageSize);
                 dispatch(commit('current', pageNumber));
                 let temp1 = commitTime.length == 0 ? "": moment(commitTime[0]).format('YYYY-MM-DD HH:mm:ss');
                 let temp2 = commitTime.length == 0 ? "": moment(commitTime[1]).format('YYYY-MM-DD HH:mm:ss');
@@ -487,7 +486,6 @@ class Index extends Component {
             }
             onShowSizeChange={
               (pageNumber, pageSize) => {
-                console.log('222', pageNumber, pageSize);
                 dispatch(commit('current', pageNumber));
                 dispatch(commit('page_size', pageSize));
                 let temp1 = commitTime.length == 0 ? "": moment(commitTime[0]).format('YYYY-MM-DD HH:mm:ss');

@@ -106,7 +106,6 @@ const reducer = (state = defaultState, action) => {
         loadding1: false,
       });
     case TYPES.PROCESSSUCCESS:
-      console.log('111', action.data.myIndex);
       let temp2 = state.dataList;
       temp2[action.data.myIndex] = action.data.data.data[0];
       return assign({}, state, {
@@ -114,7 +113,6 @@ const reducer = (state = defaultState, action) => {
         dataList: temp2,
       });
     case TYPES.PROCESSFAIL:
-      console.log('222');
       return assign({}, state, {
         loadding1: false,
       });
@@ -130,7 +128,6 @@ const reducer = (state = defaultState, action) => {
         loadding1: false,
       });
     case TYPES.BATCHDELETESUCCESS:
-      console.log(action.data.data);
       let temp4 = state.dataList;
       action.data.data.map((k)=>{
         temp4.map((m, index)=>{
@@ -152,7 +149,6 @@ const reducer = (state = defaultState, action) => {
         loadding1: true,
       });
     case TYPES.BATCHRECHECKSUCCESS:
-      console.log(action.data.data);
       let temp5 = state.dataList;
       action.data.data.map((k)=>{
         temp5.map((m, index)=>{

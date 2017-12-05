@@ -91,7 +91,6 @@ function* batchRecheckSaga(action) {
 }
 
 function* exportOrderSaga(action) {
-  console.log(action.data);
   const data = yield exportOrder({ids: action.data});
   const name = (new Date()).toLocaleString();
   FileSaver.saveAs(data, `${name}.xls`);
