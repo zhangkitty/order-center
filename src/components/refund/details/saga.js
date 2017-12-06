@@ -32,6 +32,7 @@ const lan = {
   fail: __('order.entry.submit_info2'),
   part: __('order.entry.submit_info3'),
 };
+
 function* getInfoSaga(action) {
   const data = yield getRefundDetailsInfo(action.id, action.billno);
   if (!data || data.code !== 0) {
@@ -67,7 +68,6 @@ function* rejectInfoSaga(action) { // 驳回
   yield put(commit('rejectInfo', assign({}, action.info, { reamrkShow: false })));
   message.success(lan.osucess);
   return yield put(getInfo(action.id, sessionStorage.getItem('details-bn')));
- // return location.reload();
 }
 function* refundSaga(action) {
   const data = yield refundSer(action.record_id);
@@ -120,7 +120,7 @@ function* changeOrderSaga(action) {
   return message.success(lan.osucess);
 }
 
-// 取消提现
+// 取消退款单
 function* canceltherefundbillSaga(action) {
   const data = yield canceltherefundbillSer(action.refund_bill_id, action.reasonRecord);
   if (!data || data.code !== 0) {

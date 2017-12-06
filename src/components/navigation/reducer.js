@@ -102,6 +102,12 @@ const menus = [
         crumbName: __('nav.returns_details'),
         nav: true,
       },
+      {
+        link: '/failedaddrorder',  // 平台订单管理
+        name: __('nav.failedaddrorder'),
+        crumbName: __('nav.failedaddrorder'),
+        nav: true,
+      },
     ],
   },
 ];

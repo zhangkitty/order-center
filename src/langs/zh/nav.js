@@ -14,4 +14,5 @@ module.exports = {
   order_management: '平台订单管理',
   returns: '退货列表',
   returns_details: '退货详情',
+  failedaddrorder: '地址校验失败列表',
 };
