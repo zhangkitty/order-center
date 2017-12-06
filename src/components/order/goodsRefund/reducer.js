@@ -178,58 +178,116 @@ const svInit = (source) => {
  * @returns []
  */
 const allBack = (source, arr, back, rl, type, refundPaths) => {
-  const p = Number(source.orderPriceInfo.shippingPrice.priceWithExchangeRate.amount) +
-    Number(source.orderPriceInfo.shippingInsurePrice.priceWithExchangeRate.amount); // 运费 + 运费险
-  const max = Number(maxTypes(source)[1]); // 礼品卡最大上限
-  const gift = arr.find(v => Number(v.refundTypeId) === 1) || {}; // 礼品卡
-  const show = max > 0;
-  const price = {
-    1: gift.refundCurrency || 0,
-    2: Number(arr.find(v => Number(v.refundTypeId) === 2).refundCurrency),
-    3: type === 3 ?
-      Number(arr.find(v => Number(v.refundTypeId) === 2).refundCurrency) :
-      Number(arr.find(v => Number(v.refundTypeId) === 3).refundCurrency),
-  };
-  if (back) {
-    if (show) {
-      const total = gift.refundCurrency + p;
-      if (total > max) {
-        price[1] = max;
-        price[type || 2] = price[type || 2] + (total - max);
+  let p;
+  if (source.isUsd === 0) {
+    p = Number(source.orderPriceInfo.shippingPrice.priceWithExchangeRate.amount) +
+        Number(source.orderPriceInfo.shippingInsurePrice.priceWithExchangeRate.amount); // 运费 + 运费险
+    const max = Number(maxTypes(source)[1]); // 礼品卡最大上限
+    const gift = arr.find(v => Number(v.refundTypeId) === 1) || {}; // 礼品卡
+    const show = max > 0;
+    const price = {
+      1: gift.refundCurrency || 0,
+      2: Number(arr.find(v => Number(v.refundTypeId) === 2).refundCurrency),
+      3: type === 3 ?
+          Number(arr.find(v => Number(v.refundTypeId) === 2).refundCurrency) :
+          Number(arr.find(v => Number(v.refundTypeId) === 3).refundCurrency),
+    };
+    if (back) {
+      if (show) {
+        const total = gift.refundCurrency + p;
+        if (total > max) {
+          price[1] = max;
+          price[type || 2] = price[type || 2] + (total - max);
+        } else {
+          price[1] = total;
+        }
+        const rlTotal = price[type || 2] - rl;
+        if (rlTotal > 0) {
+          price[type || 2] = rlTotal;
+        } else {
+          price[1] = price[1] + rlTotal > 0 ? price[1] + rlTotal : 0;
+          price[type || 2] = 0;
+        }
       } else {
-        price[1] = total;
+        const total = (price[type || 2] + p) - rl;
+        price[type || 2] = total > 0 ? total : 0;
       }
-      const rlTotal = price[type || 2] - rl;
-      if (rlTotal > 0) {
-        price[type || 2] = rlTotal;
-      } else {
-        price[1] = price[1] + rlTotal > 0 ? price[1] + rlTotal : 0;
-        price[type || 2] = 0;
-      }
-    } else {
-      const total = (price[type || 2] + p) - rl;
-      price[type || 2] = total > 0 ? total : 0;
     }
-  }
-  if (!back) {
-    const total = price[type || 2] - rl;
-    if (show) {
-      if (total < 0) {
-        price[type || 2] = 0;
-        const temp = gift.refundCurrency + total;
-        price[1] = temp > 0 ? temp : 0;
+    if (!back) {
+      const total = price[type || 2] - rl;
+      if (show) {
+        if (total < 0) {
+          price[type || 2] = 0;
+          const temp = gift.refundCurrency + total;
+          price[1] = temp > 0 ? temp : 0;
+        } else {
+          price[type || 2] = total;
+        }
       } else {
-        price[type || 2] = total;
+        price[type || 2] = total > 0 ? total : 0;
       }
-    } else {
-      price[type || 2] = total > 0 ? total : 0;
     }
-  }
-  return refundPaths.map(v => assign({}, v, {
-    refundAmount: v.check ? Number(Number(price[v.refundTypeId] * v.rate2).toFixed(2)) : 0.00,
-    refundCurrency: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
+    return refundPaths.map(v => assign({}, v, {
+      refundAmount: v.check ? Number(Number(price[v.refundTypeId] * v.rate2).toFixed(2)) : 0.00,
+      refundCurrency: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
 
-  }));
+    }));
+  }
+  if (source.isUsd === 1) {
+    p = Number(source.orderPriceInfo.shippingPrice.priceUsd.amount) +
+        Number(source.orderPriceInfo.shippingInsurePrice.priceUsd.amount); // 运费 + 运费险
+    const max = Number(maxTypes(source)[1]); // 礼品卡最大上限
+    const gift = arr.find(v => Number(v.refundTypeId) === 1) || {}; // 礼品卡
+    const show = max > 0;
+    const price = {
+      1: gift.refundAmount || 0,
+      2: Number(arr.find(v => Number(v.refundTypeId) === 2).refundAmount),
+      3: type === 3 ?
+          Number(arr.find(v => Number(v.refundTypeId) === 2).refundAmount) :
+          Number(arr.find(v => Number(v.refundTypeId) === 3).refundAmount),
+    };
+    if (back) {
+      if (show) {
+        const total = gift.refundAmount + p;
+        if (total > max) {
+          price[1] = max;
+          price[type || 2] = price[type || 2] + (total - max);
+        } else {
+          price[1] = total;
+        }
+        const rlTotal = price[type || 2] - rl;
+        if (rlTotal > 0) {
+          price[type || 2] = rlTotal;
+        } else {
+          price[1] = price[1] + rlTotal > 0 ? price[1] + rlTotal : 0;
+          price[type || 2] = 0;
+        }
+      } else {
+        const total = (price[type || 2] + p) - rl;
+        price[type || 2] = total > 0 ? total : 0;
+      }
+    }
+    if (!back) {
+      const total = price[type || 2] - rl;
+      if (show) {
+        if (total < 0) {
+          price[type || 2] = 0;
+          const temp = gift.refundAmount + total;
+          price[1] = temp > 0 ? temp : 0;
+        } else {
+          price[type || 2] = total;
+        }
+      } else {
+        price[type || 2] = total > 0 ? total : 0;
+      }
+    }
+    return refundPaths.map(v => assign({}, v, {
+      refundAmount: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
+      refundCurrency: v.check ? Number(Number(price[v.refundTypeId] * v.rate).toFixed(2)) : 0.00,
+
+    }));
+  }
+  return null;
 };
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
