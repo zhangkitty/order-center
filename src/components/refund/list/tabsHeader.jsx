@@ -223,7 +223,7 @@ class TabsHeader extends Component {
                   <span className={styles.filterName}>{__('refund.list.country')}</span>
                   <Select
                     className={styles.colSpace}
-                    mode="tags"
+                    mode="multiple"
                     style={{ width: '250px' }}
                     tokenSeparators={[',']}
                     // value={country_id}
