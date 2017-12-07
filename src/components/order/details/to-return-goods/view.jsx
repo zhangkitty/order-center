@@ -29,7 +29,7 @@ const lan = {
   fileNumber: __('common.file_less_three'),
 };
 const CG = Checkbox.Group;
-const RG = Radio.Group;
+const RadioGroup = Radio.Group;
 const Op = Select.Option;
 const Star = (<span style={{ color: 'red' }}>*</span>);
 const spanWidth = { width: '120px', display: 'inline-block' };
@@ -209,40 +209,40 @@ class ToReturnGoods extends Component {
           />
           <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{lan.path}{Star}:</span>
-            <RG value={submitValue.refund_path} onChange={e => dispatch(infoCommit('refund_path', e.target.value))}>
+            <RadioGroup value={submitValue.refund_path} onChange={e => dispatch(infoCommit('refund_path', e.target.value))}>
               {
                 paths.map(v => (
                   <Radio value={v.id} key={v.id}>{v.name}</Radio>
                 ))
               }
-            </RG>
+            </RadioGroup>
           </div>
 
           <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{lan.type}{Star}:</span>
-            <RG value={submitValue.return_shipping_type} onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}>
+            <RadioGroup value={submitValue.return_shipping_type} onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}>
               {
                 shippingType.map(v => (
                   <Radio
                     value={v.id} key={v.id}
-                    disabled={v.id === 1 && RANChoose[submitValue.return_warehouse]}
+                    // disabled={v.id === 1 && RANChoose[submitValue.return_warehouse]}
                   >{v.name}</Radio>
                 ))
               }
-            </RG>
+            </RadioGroup>
           </div>
 
           <div style={{ margin: '20px 0', display: submitValue.return_shipping_type === 1 ? '' : 'none' }}>
             <span style={spanWidth} />
-            <RG value={submitValue.rl_fee} onChange={e => dispatch(infoCommit('rl_fee', e.target.value))}>
+            <RadioGroup value={submitValue.rl_fee} onChange={e => dispatch(infoCommit('rl_fee', e.target.value))}>
               {
-                rlFee || [].map(v => (
+                (rlFee || []).map(v => (
                   <Radio
                     value={v.amount} key={v.amount}
                   >{v.amount_with_symbol}</Radio>
                 ))
               }
-            </RG>
+            </RadioGroup>
           </div>
 
           <div style={{ margin: '20px 0' }}>
@@ -321,6 +321,7 @@ ToReturnGoods.propTypes = {
   shippingType: PropTypes.arrayOf(PropTypes.shape),
   reasons: PropTypes.arrayOf(PropTypes.shape),
   warehouse: PropTypes.arrayOf(PropTypes.shape),
+  rlFee: PropTypes.arrayOf(PropTypes.shape),
 };
 const mapStateToProps = state => state['order/details/to-return-goods'];
 export default connect(mapStateToProps)(ToReturnGoods);
