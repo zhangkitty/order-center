@@ -225,7 +225,7 @@ class ToReturnGoods extends Component {
                 shippingType.map(v => (
                   <Radio
                     value={v.id} key={v.id}
-                    // disabled={v.id === 1 && RANChoose[submitValue.return_warehouse]}
+                    disabled={v.id === 1 && RANChoose[submitValue.return_warehouse]}
                   >{v.name}</Radio>
                 ))
               }
