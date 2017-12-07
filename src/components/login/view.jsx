@@ -25,7 +25,7 @@ class LoginCom extends Component {
             </div>
             <h3 className={style.loginTitle}>
               <img className={style.loginIcon} role="presentation" src={reqImg('./icon.png')} />
-              商品中心
+              订单中心
             </h3>
             <form
               className={style.loginBorderBg}

@@ -187,14 +187,14 @@ class TabsHeader extends Component {
                       allowClear
                       className={styles.colSpace}
                       value={countryName}
+                      showSearch
+                      optionFilterProp="children"
+                      filterOption={(input, option) => option.props.children.toLowerCase().startsWith(input.toLowerCase())}
                       onChange={val => dispatch(commit('countryName', val))}
                     >
-                      {/*
-                       <Option key={null}>{__('order.name.choose')}</Option>
-                      */}
                       {
                         fetchCountry.map(item => (
-                          <Option key={item.id} > {item.name}</Option>
+                          <Option key={item.id}>{item.name}</Option>
                         ))
                       }
                     </Select>
@@ -418,11 +418,14 @@ class TabsHeader extends Component {
                       allowClear
                       className={styles.colSpace}
                       value={countryName2}
+                      showSearch
+                      optionFilterProp="children"
+                      filterOption={(input, option) => option.props.children.toLowerCase().startsWith(input.toLowerCase())}
                       onChange={val => dispatch(commit2('countryName2', val))}
                     >
                       {
                         fetchCountry.map(item => (
-                          <Option key={item.id} > {item.name}</Option>
+                          <Option key={item.id}>{item.name}</Option>
                         ))
                       }
                     </Select>
