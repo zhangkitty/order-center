@@ -2,7 +2,13 @@ import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import * as TYPES from './types';
-import { commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess } from './action';
+
+import {
+  commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
+  operationGoodsSuccess,
+  remarkShowSuccess, remarkSaveSuccess,
+} from './action';
+
 import {
   getInfoSer,
   rebuildrlSer,
@@ -17,17 +23,9 @@ import {
   genRlSer,
   cancelRefundSer,
   fetchrlfeeSer,
-} from '../server';
-import {
-  commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
-  operationGoodsSuccess,
-  remarkShowSuccess, remarkSaveSuccess,
-} from './action';
-import {
-  getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer,
-  preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer,
   operationGoodsSer,
-  remarkSer, remarkSaveSer,
+  remarkSer,
+  remarkSaveSer,
 } from '../server';
 
 const lan = {
@@ -149,7 +147,6 @@ function* rebuildrlSaga(action) {
   }
   return message.success(`${data.msg}`);
 }
-
 
 
 // 商品操作查询
