@@ -1,0 +1,69 @@
+.contentPadding {
+    padding: 15px;
+    color: #333;
+}
+.alertBg {
+    border:1px dashed rgba(0,0,0, .7);
+    padding:10px;
+    display: flex;
+    margin-bottom:15px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.baseBorder {
+    display: flex;
+}
+.spanWidthL {
+    min-width: 110px;
+    max-width: 200px;
+    display: inline-block;
+    text-align:right;
+    margin-right:10px;
+}
+.spanWidthR {
+    min-width: 110px;
+    max-width: 200px;
+    display: inline-block;
+}
+.baseSpace {
+    margin-right: 20px;
+    min-width:300px;
+}
+.goodsImg {
+    display: flex;
+}
+.goodsImgDesc {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.addRemarkForm {
+    display: flex;
+    flex-direction: column;
+    color: #333;
+}
+.addRemarkArea {
+    display: flex;
+}
+.addRemarkSpan {
+    display: inline-block;
+    width: 100px;
+}
+.addRemarkBts {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+.modelCon {
+    margin: 10px 20px;
+    color: #333;
+}
+
+.contentPadding table th {
+    color: #000;
+}
+
+.contentPadding table td {
+    color: #333;
+}

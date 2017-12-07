@@ -19,6 +19,7 @@ module.exports = {
   refund_time: '退款日期',
   search: '搜索',
   export: '导出',
+  export_title: '导出退款请先设置退款申请时间！',
   operate: '操作',
   operate1: '查看详情',
   submit: '提交',

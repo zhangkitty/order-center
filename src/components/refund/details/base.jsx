@@ -35,6 +35,7 @@ const language = {
   退款金额: __('refund.details.base_refund_price'),
   确认: __('refund.details.submit'),
   取消: __('common.cancel'),
+  取消提现: __('refund.details.Cancel_withdrawal'),
 };
 
 const Base = ({
@@ -43,6 +44,7 @@ const Base = ({
                 refundBillId,
                 remarkInfo,
                 addRemarkInfo,
+                cancelTheRefundBill,
                 rejectInfo,
 }) => {
   const {
@@ -166,6 +168,16 @@ const Base = ({
             loading={remarkInfo.load}
             onClick={() => dispatch(remarkInfoShow(refundBillId, remarkInfo))}
           >{language.查看备注信息}</Button>
+          {
+            refund_detail.refund_status_code === '4' && refund_detail.apply_user_name === '用户'
+            && refund_detail.refund_type_code === '3'
+                  ?
+                    <Button
+                      style={{ marginLeft: 20 }}
+                      onClick={() => dispatch(commit('cancelTheRefundBill', assign({}, cancelTheRefundBill, { show: true })))}
+                    >{language.取消提现}</Button>
+              : null
+          }
         </div>
         <div>
           <Button icon="plus" onClick={() => dispatch(commit('addRemarkInfo', assign({}, addRemarkInfo, { reamrkShow: true, remark: '' })))}>{language.新增备注}</Button>
@@ -216,5 +228,6 @@ Base.propTypes = {
   dispatch: PropTypes.func,
   refundBillId: PropTypes.string,
   remarkInfo: PropTypes.shape(),
+  cancelTheRefundBill: PropTypes.shape(),
 };
 export default Base;
