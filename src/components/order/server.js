@@ -237,3 +237,40 @@ export const batchPartSer = (url, data) => (
     body: JSON.stringify(data),
   })
 );
+
+//无货审核 批量申请
+export const noStockApplySer = (data) => (
+  fetch('/NoStock/apply', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+);
+
+//无货审核 
+export const noStockSer = (data) => (
+  fetch('/NoStock/stockList', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+);
+
+//返回已审核 
+export const returnAlreadyAuditSer = (data) => (
+  fetch('/NoStock/returnAlreadyAudit', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+);
+
+//无货下架
+export const getNoGoodsListSer = () => (
+  fetch('/NoStock/siteList', {
+    method: 'POST'
+  })
+);
+export const underCarriageSer = data => (
+  fetch('/NoStock/underCarriage', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+);

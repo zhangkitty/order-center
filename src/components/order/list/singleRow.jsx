@@ -152,7 +152,7 @@ const SingleRow = (props) => {
     record, fetchOperation, operationVisible,
     logisticsVisible, remark, fetchLogisticsRemark, dataSource,
     batchChooseOrder, batchChooseGoods, cancelRiskDesc,
-    queryString3,
+    queryString3, selectAllStateStatus,
   } = props;
   const { siteFrom, memberId } = queryString3;
   const batchGoods = batchChooseGoods.join(',');
