@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Collapse, Select, Input, DatePicker, Button, message } from 'antd';
+import { Collapse, Select, Input, DatePicker, Button, message, Tooltip, Icon } from 'antd';
 import moment from 'moment';
 import parseParam from '../../../lib/query-string';
 import {
@@ -223,15 +223,18 @@ class TabsHeader extends Component {
                   <span className={styles.filterName}>{__('refund.list.country')}</span>
                   <Select
                     className={styles.colSpace}
-                    mode="tags"
+                    mode="multiple"
                     style={{ width: '250px' }}
                     tokenSeparators={[',']}
                     // value={country_id}
+                    showSearch
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.props.children.toLowerCase().startsWith(input.toLowerCase())}
                     onChange={val => dispatch(commit('country_id', val))}
                   >
                     {
                       fetchCountry.map(item => (
-                        <Option key={item.id} > {item.country}</Option>
+                        <Option key={item.id}>{item.country}</Option>
                       ))
                     }
                   </Select>
@@ -305,16 +308,26 @@ class TabsHeader extends Component {
                 {__('refund.list.search')}
               </Button>
               {
-                refund_path_id == 4 &&
-                <a
-                  className={styles.buttonStyle} // TODO 线上要改
-
-                  href={`${location.origin}/index_new.php/Order/OrderDiffRefund/submitExportRefundBill?${exportSubmit()}`}
-                  // href={`http://192.168.1.177/index_new.php/Order/OrderDiffRefund/submitExportRefundBill?${exportSubmit()}`}
-                  target="_blank"
-                >
-                  {__('refund.list.export')}
-                </a>
+                queryString.apply_start_time && queryString.apply_end_time ?
+                  <a
+                    className={styles.buttonStyle}
+                    href={`${location.origin}/index_new.php/Order/OrderDiffRefund/submitExportRefundBill?${exportSubmit()}`}
+                    target="_blank"
+                  >
+                    {__('refund.list.export')}
+                  </a>
+                  :
+                  <span>
+                    <Button
+                      className={styles.buttonStyle}
+                      disabled
+                    >
+                      {__('refund.list.export')}
+                    </Button>
+                    <Tooltip placement="top" title={__('refund.list.export_title')}>
+                      <Icon type="question-circle" style={{ marginLeft: '10px' }} />
+                    </Tooltip>
+                  </span>
               }
             </form>
 

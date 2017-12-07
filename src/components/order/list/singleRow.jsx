@@ -78,7 +78,10 @@ const changshow = {
   1: true,  // 已付款
   11: true, // 已审核
   13: true, // 备货中
-  84: true, // 有货
+  84: true, // 有货B区
+  85: true, // 有货C东区
+  86: true, // 有货C西区
+  87: true, // 有货D区
   28: true, // 无货审核
   12: true, // 无货
   23: true,  // 等待出仓
@@ -89,6 +92,7 @@ const changshow = {
   20: true, // 换货(被换)
   126: true, // 已申请退货
   127: true, // 已退货
+  130: true, // 有货南沙仓
 };
 // 不能选择商品的条件（商品状态=需要退款、已经退款、 COD客服取消、COD客户取消， 换货，删除换货）
 const checkboxChecked = {
@@ -148,7 +152,7 @@ const SingleRow = (props) => {
     record, fetchOperation, operationVisible,
     logisticsVisible, remark, fetchLogisticsRemark, dataSource,
     batchChooseOrder, batchChooseGoods, cancelRiskDesc,
-    queryString3,
+    queryString3, selectAllStateStatus,
   } = props;
   const { siteFrom, memberId } = queryString3;
   const batchGoods = batchChooseGoods.join(',');

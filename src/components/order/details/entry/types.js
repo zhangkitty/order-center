@@ -20,3 +20,17 @@ export const GEN_RL = `${prefix}gen_rl`;
 export const CANCEL_REFUND = `${prefix}cancel_refund`;
 export const FETCHRLFEE = `${prefix}fetchrlfee`;
 export const REBUILDRL = `${prefix}rebuildrl`;
+
+export const OPEN_MODAL = `${prefix}open_modal`;
+
+// 商品操作查询
+export const OPERATION_GOODS = `${prefix}operation_goods`;
+export const OPERATION_GOODS_SUCCESS = `${prefix}operation_goods_success`;
+
+// 备注显示
+export const REMARK = `${prefix}remark`;
+export const REMARK_SUCCESS = `${prefix}remark_success`;
+
+// 备注更新
+export const REMARK_SAVE = `${prefix}remark_save`;
+export const REMARK_SAVE_SUCCESS = `${prefix}remark_save_success`;

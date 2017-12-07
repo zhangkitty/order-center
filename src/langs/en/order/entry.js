@@ -60,6 +60,7 @@ module.exports = {
   discount_price: 'Discount Price',
   send_goods_channel: 'Shipping Method',
   send_goods_number: 'Shipping No.',
+  delivery_time: 'Shipping Time',
   goods_rejected: 'Return the Item',
   goods_send_first: 'Priority Delivery',
   goods_send_first_cancel: 'Cancel the priority in delivery',
