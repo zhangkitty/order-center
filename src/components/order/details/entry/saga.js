@@ -136,6 +136,9 @@ function* fetchrlfeeSaga(action) {
     return message.warning(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('rlFee', data.data));
+  if (data.data === null) {
+    yield put(commit('reFeeValue', 0));
+  }
 }
 
 // 提交RL费用
@@ -145,7 +148,9 @@ function* rebuildrlSaga(action) {
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
   }
-  return message.success(`${data.msg}`);
+  yield message.success(`${data.msg}`);
+  yield put(commit('rlmodal', false));
+  yield put(getInfo(action.d.order_id, action.d.billno, 'orderReturn'));
 }
 
 

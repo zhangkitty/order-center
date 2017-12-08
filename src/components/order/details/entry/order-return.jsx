@@ -147,8 +147,10 @@ const OrderReturn = (
               order_id: orderId,
               rl_fee: reFeeValue,
               return_order_id: modal_return_order_id,
+              billno,
             };
             if (reFeeValue === null) {
+              dispatch(commit('confirmLoading', false));
               return message.error(lan.rl费用必填);
             }
             dispatch(rebuildRl(d));
@@ -167,14 +169,16 @@ const OrderReturn = (
           {
             Array.isArray(rlFee) ?
               <div>
-                <Radio.Group value={reFeeValue} onChange={e => dispatch(commit('reFeeValue', e.target.value))}>{
+                <Radio.Group value={reFeeValue || 0} onChange={e => dispatch(commit('reFeeValue', e.target.value))}>{
                   rlFee.map(v => (
                     <Radio value={v.amount}>{v.amountWithSymbol}</Radio>
                   ))
                 }
                 </Radio.Group>
               </div> :
-                null
+              <div>
+                <Radio checked>0</Radio>
+              </div>
           }
         </div>
       </Modal>
