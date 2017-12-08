@@ -45,7 +45,7 @@ const MyModal = (props) => {
                   <Tag color="#919191" className={styles.rowTag}>{v[0]}</Tag>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {v[1].map(value => (
-                      <Radio value={value}>{value.name}</Radio>
+                      <Radio disabled={value.is_send} value={value}>{value.name}<span style={{ color: 'red' }}>{`(+${value.point})`}</span></Radio>
                         ))}
                   </div>
                 </div>
