@@ -17,6 +17,9 @@ import TabsHeader from './tabsHeader';
 import SingleRow from './singleRow';
 import ChnageGoods from './changeGoods';
 import MarkTag from './markTag';
+// 补偿积分modal
+import MyModal from './modal';
+
 
 import styles from './style.css';
 
@@ -72,7 +75,10 @@ class orderList extends Component {
             }
           </div>
         </Spin>
+        {/* 积分补偿 */}
+        <MyModal {...this.props} />
         {/* 备注提交 */}
+
         <Modal
           visible={visible}
           onCancel={() => dispatch(change('visible', false))}
