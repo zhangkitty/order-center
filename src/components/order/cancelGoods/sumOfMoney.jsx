@@ -6,7 +6,7 @@ const priceTypes = data => (
   <p key={data.key || data.name}>{`${data.name} : $${data.us}`} <span>{`${data.currency ? ` , ${data.currency}` : ''}`}</span></p>
 );
 
-const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
+const SumOfMoney = ({ dataSource: { orderPriceInfo }, remainingPriceTotalUnder50 }) => {
   const {
     totalPrice: {
       priceUsd: { amount: totalPrice },
@@ -169,6 +169,10 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
         {
           refundPrice.map(v => priceTypes(v))
         }
+        {
+          remainingPriceTotalUnder50 &&
+          <p className={style.sumofmoney_title}>{__('order.diffRefund.cancel_goods_title')}</p>
+        }
       </div>
     </div>
   );
@@ -176,6 +180,7 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
 
 SumOfMoney.propTypes = {
   dataSource: PropTypes.shape(),
+  remainingPriceTotalUnder50: PropTypes.bool,
 };
 
 export default SumOfMoney;
