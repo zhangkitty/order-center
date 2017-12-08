@@ -234,7 +234,7 @@ class ToReturnGoods extends Component {
 
           <div style={{ margin: '20px 0', display: submitValue.return_shipping_type === 1 ? '' : 'none' }}>
             <span style={spanWidth} />
-            <RadioGroup value={submitValue.rl_fee} onChange={e => dispatch(infoCommit('rl_fee', e.target.value))}>
+            <RadioGroup value={submitValue.rl_fee || 0} onChange={e => dispatch(infoCommit('rl_fee', e.target.value))}>
               {
                 (rlFee || []).map(v => (
                   <Radio
