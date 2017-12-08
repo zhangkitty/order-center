@@ -171,7 +171,7 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo }, remainingPriceTotalUnder50
         }
         {
           remainingPriceTotalUnder50 &&
-          <p className={style.sumofmoney_title}>{__('order.diffRefund.cancel_goods_title')}</p>
+          <p className={style.sumofmoney_title}>{__('order.goodsRefund.cancel_goods_title')}</p>
         }
       </div>
     </div>
