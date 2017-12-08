@@ -8,6 +8,7 @@ import {
   change, remarkShow, openModal, searchHistory,
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange, commit,
+  getOrderRewardPointInfo,
 } from './action';
 
 import Styles from './style.css';
@@ -525,7 +526,13 @@ const SingleRow = (props) => {
           {/* 积分补偿 */}
           {data.reward_point === 1 ?
             <Button
-              onClick={e => dispatch(change('mymodalshow', true))}
+              onClick={
+                (e) => {
+                  dispatch(getOrderRewardPointInfo(data.order_id));
+
+                }
+
+              }
             >{lan.积分补偿}</Button> :
               null
           }

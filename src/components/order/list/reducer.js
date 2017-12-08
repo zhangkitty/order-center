@@ -101,6 +101,11 @@ const defaultState = {
 
   // 积分补偿
   mymodalshow: null,
+  mymodaldata: {},
+  addPointReason: {},
+
+  // 积分补偿提交
+  addPointLoading: false,
 };
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));

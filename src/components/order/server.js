@@ -274,3 +274,24 @@ export const underCarriageSer = data => (
     body: JSON.stringify(data),
   })
 );
+
+//积分补偿
+export const getorderrewardpointinfoSer = (id)=>(
+    fetch(`/Order/getOrderRewardPointInfo?order_id=${id}`,{
+      method:'GET'
+    })
+)
+
+//积分补偿提交
+export const addpointSer  = (mymodaldata,addPointReason)=>{
+  const data = {
+    'order_id':mymodaldata.order_id,
+    'point_type':addPointReason.point_type,
+    'point':addPointReason.point,
+  }
+  return fetch('/Order/addPoint',{
+    method:'POST',
+    body:JSON.stringify(data),
+  })
+}
+
