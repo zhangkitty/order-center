@@ -1,8 +1,8 @@
 {
-  "presets": [["es2015", {
+  "presets": [["env", {
     "modules": false
   }], "react"],
   "plugins": [
-    ["syntax-dynamic-import"]
+    ["syntax-dynamic-import"], "syntax-class-properties", "transform-class-properties"
   ]
 }
