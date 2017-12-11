@@ -39,7 +39,7 @@ const MyModal = (props) => {
         <div>{mymodaldata.billno}</div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div style={{ flexBasis: 150 }}>{lan.补偿订单}:</div>
+        <div style={{ flexBasis: 150 }}>{lan.补偿邮箱}:</div>
         <div>{mymodaldata.email}</div>
       </div>
       <div style={{ display: 'flex' }}>
