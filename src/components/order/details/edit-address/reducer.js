@@ -28,6 +28,7 @@ const defaultState = {
     address_line_2: '',
     post: '',
     telephone: '',
+    national_id: '',
     country_value: '',  //
     english_name: '',  // 英文名
     passport_number: '',  // 护照号
@@ -91,6 +92,7 @@ const getSV = (action, state) => (
     address_line_2: action.data.address_line_2,
     post: action.data.post,
     telephone: action.data.telephone,  // 电话号
+    national_id: action.data.national_id,  // 身份证
     english_name: action.data.english_name, // 英文名
     passport_number: action.data.passport_number, // 护照号
     issue_place: action.data.issue_place,  // 签发地址
