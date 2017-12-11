@@ -31,7 +31,7 @@ const lan = {
   yundanpingzh: __('order.entry.order_return_13'),
   upload: __('order.entry.order_return_14'),
   need: __('order.entry.order_return_15'),
-  RL扣除费用: 'RL扣除费用',
+  RL扣除费用: __('order.entry.rl_deducted_costs'),
   rl费用必填: __('order.entry.rl_fee_required'),
 };
 
@@ -139,6 +139,7 @@ const OrderReturn = (
       <Modal
         visible={rlmodal}
         confirmLoading={confirmLoading}
+        maskClosable={false}
         onOk={
           () => {
             dispatch(commit('confirmLoading', true));
@@ -169,7 +170,7 @@ const OrderReturn = (
           {
             Array.isArray(rlFee) ?
               <div>
-                <Radio.Group value={reFeeValue || 0} onChange={e => dispatch(commit('reFeeValue', e.target.value))}>{
+                <Radio.Group disabled={confirmLoading} value={reFeeValue || 0} onChange={e => dispatch(commit('reFeeValue', e.target.value))}>{
                   rlFee.map(v => (
                     <Radio value={v.amount}>{v.amountWithSymbol}</Radio>
                   ))
