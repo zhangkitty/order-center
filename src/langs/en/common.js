@@ -2,7 +2,7 @@
  * Created by liufeng on 2017/8/29.
  */
 module.exports = {
-  Integral_compensation: 'Integral Compensation',
+  Integral_compensation: 'Points compensation',
   order_manage: 'Order Admin',
   order_list: 'Order List',
   goods_refunds: 'Item refund',

@@ -6,11 +6,11 @@ import styles from './style.css';
 
 
 const lan = {
-  取消: '取消',
-  提交: '提交',
-  补偿订单: '补偿订单',
-  补偿邮箱: '补偿邮箱',
-  补偿类型: '补偿类型',
+  取消: __('order.list.modal.cancel'),
+  提交: __('order.list.modal.commit'),
+  补偿订单: __('order.list.modal.Compensation_Order'),
+  补偿邮箱: __('order.list.modal.Compensation_Email'),
+  补偿类型: __('order.list.modal.Compensation_Type'),
 };
 const MyModal = (props) => {
   const { mymodalshow, dispatch, mymodaldata, addPointReason, addPointLoading } = props;
@@ -19,6 +19,7 @@ const MyModal = (props) => {
   }
   return (<Modal
     visible={mymodalshow}
+    width={'650px'}
     onCancel={() => dispatch(change('mymodalshow', false))}
     footer={[
       <Button key="back" onClick={() => dispatch(change('mymodalshow', false))}>{lan.取消}</Button>,
@@ -33,10 +34,16 @@ const MyModal = (props) => {
     ]}
   >
     <div style={{ paddingTop: 20 }}>
-      <div><span>{lan.补偿订单}:</span><span style={{ marginLeft: 25 }}>{mymodaldata.billno}</span></div>
-      <div><span>{lan.补偿邮箱}:</span><span style={{ marginLeft: 25 }}>{mymodaldata.email}</span></div>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ flexBasis: 150 }}>{lan.补偿订单}:</div>
+        <div>{mymodaldata.billno}</div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ flexBasis: 150 }}>{lan.补偿订单}:</div>
+        <div>{mymodaldata.email}</div>
+      </div>
       <div style={{ display: 'flex' }}>
-        <div style={{ flexBasis: 80 }}>{lan.补偿类型}<span style={{ color: 'red' }}>*</span></div>
+        <div style={{ flexBasis: 150 }}>{lan.补偿类型}<span style={{ color: 'red' }}>*</span></div>
         {
           <Radio.Group value={addPointReason} onChange={e => dispatch(change('addPointReason', e.target.value))}>
             <div style={{ display: 'flex' }}>
