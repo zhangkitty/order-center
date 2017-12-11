@@ -158,7 +158,10 @@ const OrderReturn = (
           }
         }
         onCancel={
-          () => dispatch(commit('rlmodal', false))
+          () => {
+            dispatch(commit('rlmodal', false));
+            dispatch(commit('reFeeValue', 0));
+          }
         }
         okText="确认"
         cancelText="取消"

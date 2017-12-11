@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Spin, Table, Checkbox, Upload, Button, Radio, Select, Modal, message } from 'antd';
 import { commit, getInfo, batchChoose, infoCommit, save } from './action';
+import styles from './style.css';
 
 const reqImg = require.context('../../images');
 
@@ -299,6 +300,9 @@ class ToReturnGoods extends Component {
             </p>
             <div dangerouslySetInnerHTML={{ __html: sucModalHtml }} />
           </Modal>
+          <div className={styles.spin} style={{ display: load ? '' : 'none' }}>
+            <Spin size="large" className={styles.location} />
+          </div>
         </form>
       );
     }
