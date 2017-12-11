@@ -25,6 +25,7 @@ function* saveSaga(action) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('sucModal', true));
+  yield put(commit('spinloading', true));
   return yield put(commit('sucModalHtml', data.data.return_label_message));
 //  return message.success(lan.osucess);
 }

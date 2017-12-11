@@ -54,7 +54,7 @@ class ToReturnGoods extends Component {
     const {
       dispatch, batchShow, chooses, reasons,
       ready, dataSource, paths, load, sucModal,
-      shippingType, warehouse, submitValue, sucModalHtml, rlFee,
+      shippingType, warehouse, submitValue, sucModalHtml, rlFee, spinloading,
     } = this.props;
     const { return_info, refund_path, return_shipping_type, return_warehouse } = submitValue;
     if (ready) {
@@ -77,6 +77,7 @@ class ToReturnGoods extends Component {
             if (!refund_path || !return_shipping_type || !return_warehouse) {
               return message.warning(lan.need);
             }
+            dispatch(commit('spinloading', false));
             return dispatch(save(submitValue));
           }}
         >
@@ -300,7 +301,7 @@ class ToReturnGoods extends Component {
             </p>
             <div dangerouslySetInnerHTML={{ __html: sucModalHtml }} />
           </Modal>
-          <div className={styles.spin} style={{ display: load ? '' : 'none' }}>
+          <div className={styles.spin} style={{ display: spinloading ? 'none' : '' }}>
             <Spin size="large" className={styles.location} />
           </div>
         </form>
@@ -326,6 +327,7 @@ ToReturnGoods.propTypes = {
   reasons: PropTypes.arrayOf(PropTypes.shape),
   warehouse: PropTypes.arrayOf(PropTypes.shape),
   rlFee: PropTypes.arrayOf(PropTypes.shape),
+  spinloading: PropTypes.bool,
 };
 const mapStateToProps = state => state['order/details/to-return-goods'];
 export default connect(mapStateToProps)(ToReturnGoods);

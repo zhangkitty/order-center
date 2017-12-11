@@ -16,6 +16,7 @@ const defaultState = {
   paths: [],
   shippingType: [],
   warehouse: [],
+  spinloading: true,
   submitValue: {
     order_id: null,
     return_info: [],
