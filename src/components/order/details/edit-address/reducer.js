@@ -13,6 +13,7 @@ const defaultState = {
   districtSource: [],
   addressShow: [],
   load: false,
+  submitValueCopy: {}, // 原始值
   submitValue: {
     order_id: '',
     gender: '',
@@ -73,35 +74,39 @@ const getCity = (data, state, city) => {
     districtSource,
   };
 };
+const getSV = (action, state) => (
+  assign({}, state.submitValue, {
+    order_id: state.orderId,
+    site_from: action.data.site_from,
+    gender: action.data.gender,
+    first_name: action.data.first_name,
+    father_name: action.data.father_name,
+    last_name: action.data.last_name,
+    country_id: action.data.country_id,
+    country_value: action.data.country_list.find(v => v.id === action.data.country_id).value,
+    state: action.data.state,
+    city: action.data.city,
+    district: action.data.district,
+    street: action.data.street,
+    address_line_1: action.data.address_line_1,
+    address_line_2: action.data.address_line_2,
+    post: action.data.post,
+    telephone: action.data.telephone,  // 电话号
+    national_id: action.data.national_id,  // 身份证
+    english_name: action.data.english_name, // 英文名
+    passport_number: action.data.passport_number, // 护照号
+    issue_place: action.data.issue_place,  // 签发地址
+    issue_date: action.data.issue_date, // 签发日期
+    issue_date2: action.data.issue_date, // 签发日期
+  })
+);
 export default (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.GET_INFO_SUCCESS:
       return assign({}, state, { // 页面初始化，赋值
         country_list: action.data.country_list,
-        submitValue: assign({}, state.submitValue, {
-          order_id: state.orderId,
-          site_from: action.data.site_from,
-          gender: action.data.gender,
-          first_name: action.data.first_name,
-          father_name: action.data.father_name,
-          last_name: action.data.last_name,
-          country_id: action.data.country_id,
-          country_value: action.data.country_list.find(v => v.id === action.data.country_id).value,
-          state: action.data.state,
-          city: action.data.city,
-          district: action.data.district,
-          street: action.data.street,
-          address_line_1: action.data.address_line_1,
-          address_line_2: action.data.address_line_2,
-          post: action.data.post,
-          telephone: action.data.telephone,  // 电话号
-          national_id: action.data.national_id,  // 身份证
-          english_name: action.data.english_name, // 英文名
-          passport_number: action.data.passport_number, // 护照号
-          issue_place: action.data.issue_place,  // 签发地址
-          issue_date: action.data.issue_date, // 签发日期
-          issue_date2: action.data.issue_date, // 签发日期
-        }),
+        submitValue: getSV(action, state),
+        submitValueCopy: getSV(action, state),
       });
     case TYPES.GET_INFO_SHOW:
       return assign({}, state, {

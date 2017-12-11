@@ -43,7 +43,7 @@ class EditAddress extends Component {
     const {
       ready, dispatch, submitValue, country_list, load, provinceLoad,
       cities, citySource, districtSource, orderId, billno, addressShow,
-      show,
+      show, submitValueCopy,
     } = this.props;
     const {
       site_from,
@@ -285,7 +285,7 @@ class EditAddress extends Component {
           }
             <div style={{ marginTop: '15px' }}>
               <span className={style.spanWidth} />
-              <Button onClick={() => dispatch(commit('submitValue', { order_id: orderId }))}>{lan.reset}</Button>
+              <Button onClick={() => dispatch(commit('submitValue', submitValueCopy))}>{lan.reset}</Button>
               <Button htmlType="submit" type="primary" loading={load} style={{ marginLeft: '35px' }}>
                 {lan.save}
               </Button>
@@ -305,6 +305,7 @@ EditAddress.propTypes = {
   dispatch: PropTypes.func,
   params: PropTypes.shape(),
   submitValue: PropTypes.shape(),
+  submitValueCopy: PropTypes.shape(),
   orderId: PropTypes.string,
   billno: PropTypes.string,
   country_list: PropTypes.arrayOf(PropTypes.shape()),
