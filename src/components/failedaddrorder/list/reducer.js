@@ -68,7 +68,7 @@ const reducer = (state = defaultState, action) => {
         loadding1: false,
       });
     case TYPES.DELETESUCCESS:
-      let temp = state.dataList;
+      const temp = state.dataList;
       temp[action.data.myIndex] = action.data.data.data[0];
       return assign({}, state, {
         loadding1: false,
@@ -95,7 +95,7 @@ const reducer = (state = defaultState, action) => {
         loadding1: true,
       });
     case TYPES.RECHECKSUCCESS:
-      let temp1 = state.dataList;
+      const temp1 = state.dataList;
       temp1[action.data.myIndex] = action.data.data.data[0];
       return assign({}, state, {
         loadding1: false,
@@ -106,7 +106,7 @@ const reducer = (state = defaultState, action) => {
         loadding1: false,
       });
     case TYPES.PROCESSSUCCESS:
-      let temp2 = state.dataList;
+      const temp2 = state.dataList;
       temp2[action.data.myIndex] = action.data.data.data[0];
       return assign({}, state, {
         loadding1: false,
@@ -117,7 +117,7 @@ const reducer = (state = defaultState, action) => {
         loadding1: false,
       });
     case TYPES.AUDITSUCCESS:
-      let temp3 = state.dataList;
+      const temp3 = state.dataList;
       temp3[action.data.myIndex] = action.data.data.data[0];
       return assign({}, state, {
         loadding1: false,
@@ -128,13 +128,13 @@ const reducer = (state = defaultState, action) => {
         loadding1: false,
       });
     case TYPES.BATCHDELETESUCCESS:
-      let temp4 = state.dataList;
-      action.data.data.map((k)=>{
-        temp4.map((m, index)=>{
-          if(m.id == k.id){
+      const temp4 = state.dataList;
+      action.data.data.map((k) => {
+        temp4.map((m, index) => {
+          if (m.id == k.id) {
             temp4[index] = k;
           }
-        })
+        });
       });
       return assign({}, state, {
         loadding1: false,
@@ -149,13 +149,13 @@ const reducer = (state = defaultState, action) => {
         loadding1: true,
       });
     case TYPES.BATCHRECHECKSUCCESS:
-      let temp5 = state.dataList;
-      action.data.data.map((k)=>{
-        temp5.map((m, index)=>{
-          if(m.id == k.id){
+      const temp5 = state.dataList;
+      action.data.data.map((k) => {
+        temp5.map((m, index) => {
+          if (m.id == k.id) {
             temp5[index] = k;
           }
-        })
+        });
       });
       return assign({}, state, {
         loadding1: false,

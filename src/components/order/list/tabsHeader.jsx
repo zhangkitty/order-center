@@ -9,10 +9,12 @@ import moment from 'moment';
 import {
   search, searchHigh, commit, commit2,
   initData,
-  change, batchOperate, batchCheck, batchDelete, batchPart,
+  change, batchOperate, batchCheck, batchDelete, batchPart,batchPartSuccess, noStockApply
 } from './action';
 
 import styles from './style.css';
+
+import NoStock from './noStock';
 
 const fontColor = {
   color: '#108ee9',
@@ -34,7 +36,21 @@ class TabsHeader extends Component {
   constructor(props) {
     super(props);
     // dispatch(init());
-    props.dispatch(initData());  // 初始化数据（封装接口）
+    props.dispatch(initData());  // 初始化数据（封装接口）w
+  }
+
+  componentDidMount(){
+    const {dispatch} = this.props;
+    window.refreshListData=()=>{
+      if(sessionStorage.getItem('search')){
+        let s = JSON.parse(sessionStorage.getItem('search'));
+        if(s.type=='1'){
+          dispatch(search(s.data));
+        }else if(s.type=='2'){
+          dispatch(searchHigh(s.data));
+        }
+      }
+    };
   }
 
 //  time control
@@ -187,14 +203,14 @@ class TabsHeader extends Component {
                       allowClear
                       className={styles.colSpace}
                       value={countryName}
+                      showSearch
+                      optionFilterProp="children"
+                      filterOption={(input, option) => option.props.children.toLowerCase().startsWith(input.toLowerCase())}
                       onChange={val => dispatch(commit('countryName', val))}
                     >
-                      {/*
-                       <Option key={null}>{__('order.name.choose')}</Option>
-                      */}
                       {
                         fetchCountry.map(item => (
-                          <Option key={item.id} > {item.name}</Option>
+                          <Option key={item.id}>{item.name}</Option>
                         ))
                       }
                     </Select>
@@ -418,11 +434,14 @@ class TabsHeader extends Component {
                       allowClear
                       className={styles.colSpace}
                       value={countryName2}
+                      showSearch
+                      optionFilterProp="children"
+                      filterOption={(input, option) => option.props.children.toLowerCase().startsWith(input.toLowerCase())}
                       onChange={val => dispatch(commit2('countryName2', val))}
                     >
                       {
                         fetchCountry.map(item => (
-                          <Option key={item.id} > {item.name}</Option>
+                          <Option key={item.id}>{item.name}</Option>
                         ))
                       }
                     </Select>
@@ -691,6 +710,7 @@ class TabsHeader extends Component {
                   }}
                 > {__('common.review')}</Button>
               </div>
+              <NoStock {...this.props}/>
             </TabItem>
           </Tabs>
         </Panel>

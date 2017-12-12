@@ -30,4 +30,5 @@ module.exports = {
   please_select_a_refund_account: 'Please select refund account',
   Please_enter_a_user_refund_account: 'Please input the refund account of customer',
   Please_choose_pay_method: 'Please select refund method',
+  cancel_goods_title: 'Amount paypable of the remaining items is less than $50: Please confirm cancel or not',
 };
