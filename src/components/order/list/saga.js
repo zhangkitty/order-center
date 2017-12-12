@@ -14,7 +14,7 @@ import {
   batchOperateSer, getRisk, cancelTroubleTag,
   updateOrderTagSer, delChangeSer,
   batchCheckSer, batchDeleteSer, batchPartSer, noStockApplySer, noStockSer, returnAlreadyAuditSer,
-  getNoGoodsListSer, underCarriageSer,
+  getNoGoodsListSer, underCarriageSer, getorderrewardpointinfoSer, addpointSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
@@ -26,7 +26,7 @@ import {
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
   delChangeFail, delChangeSuccess,
   batchCheckSuccess, batchDeleteSuccess, batchPartSuccess, getStockList,
-  getStockListSuccess, change, changeAllSource
+  getStockListSuccess, change, changeAllSource,
 } from './action';
 
 import * as TYPES from './types';
@@ -238,7 +238,7 @@ function* batchPartSaga(action) {
   return yield put(batchPartSuccess(action.data));
 }
 
-//无货审核 批量申请
+// 无货审核 批量申请
 function* noStockApply(action) {
   const data = yield noStockApplySer(action.param);
   if (!data || data.code !== 0) {
@@ -248,7 +248,7 @@ function* noStockApply(action) {
   return yield refreshListData();
 }
 
-//无货审核 
+// 无货审核
 function* noStock(action) {
   const data = yield noStockSer(action.param);
   if (!data || data.code !== 0) {
@@ -258,19 +258,19 @@ function* noStock(action) {
   return yield put(getStockList(data));
 }
 
-//返回已审核
+// 返回已审核
 function* returnAlreadyAudit(action) {
   const data = yield returnAlreadyAuditSer(action.param);
   if (!data || data.code !== 0) {
     return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
   message.success(__('common.sagaTitle33'));
-  yield put(change('showBatchNoGoods',false));
+  yield put(change('showBatchNoGoods', false));
   yield put(change('showShelfNoGoods', false));
   return yield refreshListData();
 }
 
-//无货下架列表
+// 无货下架列表
 function* getNoGoodsList(action) {
   const data = yield getNoGoodsListSer(action.param);
   if (!data || data.code !== 0) {
@@ -279,18 +279,39 @@ function* getNoGoodsList(action) {
   return yield put(getStockListSuccess([data.data]));
 }
 
-//无货下架 提交
+// 无货下架 提交
 function* underCarriage(action) {
   const data = yield underCarriageSer(action.param);
   if (!data || data.code !== 0) {
     return message.error(`${__('common.sagaTitle35')}${data.msg}`);
   }
-  message.success(__('common.sagaTitle34'));  
-  yield put(change('showBatchNoGoods',false));
+  message.success(__('common.sagaTitle34'));
+  yield put(change('showBatchNoGoods', false));
   yield put(change('showShelfNoGoods', false));
   yield put(change('down', ''));
-  yield put(changeAllSource(['1','2','3'], false));
+  yield put(changeAllSource(['1', '2', '3'], false));
   return yield refreshListData();
+}
+
+// 积分补偿
+function* getorderrewardpointinfoSaga(action) {
+  const data = yield getorderrewardpointinfoSer(action.id);
+  if (!data || data.code !== 0) {
+    return message.error(`${data.msg}`);
+  }
+  yield put(change('mymodalshow', true));
+  yield put(change('mymodaldata', data.data));
+}
+
+// 积分补偿提交
+function* addpointSaga(action) {
+  const data = yield addpointSer(action.mymodaldata, action.addPointReason);
+  if (!data || data.code !== 0) {
+    yield put(change('addPointLoading', false));
+    return message.error(`${data.msg}`);
+  }
+  yield put(change('addPointLoading', false));
+  return message.success(`${data.msg}`);
 }
 
 export default function* () {
@@ -318,9 +339,11 @@ export default function* () {
   yield takeLatest(TYPES.RETURN_ALREADY_AUDIT, returnAlreadyAudit);
   yield takeLatest(TYPES.GET_NO_GOODS_LIST, getNoGoodsList);
   yield takeLatest(TYPES.UNDER_CARRIAGE, underCarriage);
+  yield takeLatest(TYPES.GETORDERREWARDPOINTINFO, getorderrewardpointinfoSaga);
+  yield takeLatest(TYPES.ADDPOINT, addpointSaga);
 }
 
-//刷新订单
+// 刷新订单
 const refreshData = () => {
   EventEmitter.emit('refresh');
 };
