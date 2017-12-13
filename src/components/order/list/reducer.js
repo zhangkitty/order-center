@@ -106,6 +106,11 @@ const defaultState = {
 
   // 积分补偿提交
   addPointLoading: false,
+  // 批量退货信息
+  BulkReturnInfo: [],
+  // 换货modal
+  ExchangeShow: false,
+
 };
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));

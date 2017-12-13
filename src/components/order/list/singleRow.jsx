@@ -32,6 +32,8 @@ import Styles from './style.css';
 // 语言包
 const lan = {
   积分补偿: __('common.Integral_compensation'),
+  换货: '换货',
+  没有选择换货商品: '没有选择换货商品',
 };
 
 // 订单状态的标记
@@ -103,12 +105,23 @@ const changshow = {
 };
 // 不能选择商品的条件（商品状态=需要退款、已经退款、 COD客服取消、COD客户取消， 换货，删除换货）
 const checkboxChecked = {
-  5: true, // 需要退款
-  20: true, // 换货
-  7: true, // 已经退款
-  74: true, // 删除换货
-  75: true, // COD客服取消
-  82: true, // COD用户取消"
+  1: true, // 已付款
+  11: true, // 已审核
+  13: true, // 备货中
+  84: true, // 有货B区
+  85: true, // 有货C东区
+  86: true, // 有货C西区
+  87: true, // 有货D区
+  130: true, // 有货南沙仓
+  28: true, // 无货审核
+  12: true, // 无货
+  23: true, // 等待出仓
+  49: true, // 等待发货
+  16: true, // 发货
+  127: true, // 已经退款
+  20: true, // 被换
+  54: true, // COD已签收
+  91: true, // COD已报损
 };
 // 操作查询
 const columns = [{
@@ -159,7 +172,7 @@ const SingleRow = (props) => {
     record, fetchOperation, operationVisible,
     logisticsVisible, remark, fetchLogisticsRemark, dataSource,
     batchChooseOrder, batchChooseGoods, cancelRiskDesc,
-    queryString3, selectAllStateStatus,
+    queryString3, selectAllStateStatus, BulkReturnInfo,
   } = props;
   const { siteFrom, memberId } = queryString3;
   const batchGoods = batchChooseGoods.join(',');
@@ -183,8 +196,9 @@ const SingleRow = (props) => {
             className={Styles.orderSelect}
             size="small"
             onClick={() => {
+              const bulkarr = data.order_goods.filter(v => checkboxChecked[v.goods_status]);
               let arr = data.order_goods
-                              .filter(v => !checkboxChecked[v.goods_status])
+                              .filter(v => checkboxChecked[v.goods_status])
                               .map(v => v.order_goods_id);
               if (arr.length) {
                 if (batchChooseGoods.length === arr.length) {
@@ -192,6 +206,11 @@ const SingleRow = (props) => {
                 }
               }
               dispatch(change('batchChooseGoods', arr));
+              if (bulkarr.length > 0) {
+                dispatch(change('BulkReturnInfo', bulkarr));
+              } else {
+                dispatch(change('BulkReturnInfo', bulkarr));
+              }
             }}
           >{__('common.allChoose')}</Button>
 
@@ -231,9 +250,12 @@ const SingleRow = (props) => {
             type: 'checkbox',
             selectedRowKeys: batchChooseGoods,
             getCheckboxProps: rec => ({
-              disabled: !!checkboxChecked[rec.goods_status],
+              disabled: checkboxChecked[rec.goods_status] === undefined || rec.is_replace === '2',
             }),
-            onChange: t => dispatch(change('batchChooseGoods', t)),
+            onChange: (selectedRowKeys, selectedRows) => {
+              dispatch(change('BulkReturnInfo', selectedRows));
+              dispatch(change('batchChooseGoods', selectedRowKeys));
+            },
           }}
           pagination={false}
           showHeader={false}
@@ -529,13 +551,26 @@ const SingleRow = (props) => {
               onClick={
                 (e) => {
                   dispatch(getOrderRewardPointInfo(data.order_id));
-
                 }
 
               }
             >{lan.积分补偿}</Button> :
               null
           }
+          {/* 批量换货 */}
+          <Button
+            onClick={
+                () => {
+                  if (BulkReturnInfo.length > 0) {
+                    dispatch(change('ExchangeShow', true));
+                  } else {
+                    return message.info(lan.没有选择换货商品);
+                  }
+                }
+              }
+          >
+            {lan.换货}
+          </Button>
 
 
         </div>
