@@ -23,7 +23,7 @@ const defaultState = {
     refund_path: null,
     return_shipping_type: '',
     return_warehouse: null,
-    rl_fee: null,
+    rl_fee: 0,
   },
 };
 
