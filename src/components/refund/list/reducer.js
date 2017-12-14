@@ -17,6 +17,7 @@ const defaultState = {
   fetchCountry: [],    // 国家列表
   fetchMember: [],    // 会员等级列表
   fetchStatus: [],    // 退款单状态列表
+  fetchRefund: [],
   queryString: {
     pageSize: 10,
     pageNumber: 1,
@@ -101,13 +102,14 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.INIT_COUNTRY_SUCCESS:
       return assign({}, state, {
-        fetchType: action.data.data.refund_bill_type_list,
-        fetchStatus: action.data.data.refund_bill_status_list,
-        fetchPath: action.data.data.refund_path_list,
-        fetchPathStatus: action.data.data.refund_path_status_list,
-        fetchSite: action.data.data.site_list,
-        fetchCountry: action.data.data.country_list,
-        fetchMember: action.data.data.member_level_list,
+        fetchType: action.data.data.refund_bill_type_list || [],
+        fetchStatus: action.data.data.refund_bill_status_list || [],
+        fetchPath: action.data.data.refund_path_list || [],
+        fetchPathStatus: action.data.data.refund_path_status_list || [],
+        fetchSite: action.data.data.site_list || [],
+        fetchCountry: action.data.data.country_list || [],
+        fetchMember: action.data.data.member_level_list || [],
+        fetchRefund: action.data.data.refund_method_list || [],
         load: false,
       });
     default:
