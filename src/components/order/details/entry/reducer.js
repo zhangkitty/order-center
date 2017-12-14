@@ -39,9 +39,9 @@ const defaultState = {
   },
   returnEmail: '',
   rlFee: null,
-  reFeeValue: null,
+  reFeeValue: 0,
   modal_return_order_id: null,
-  confirmLoading:false,
+  confirmLoading: false,
   operationVisible: false,  // 操作查询
   clickVisible: false,
   visible: false,   // add
