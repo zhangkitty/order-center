@@ -64,6 +64,14 @@ export const GOODS_SIZE = `${prefix}goods_size`;
 export const GOODS_SIZE_SUCCESS = `${prefix}goods_size_success`;
 export const GOODS_SIZE_FAIL = `${prefix}goods_size_fail`;
 
+// 改变size
+export const CHANGESIZE = `${prefix}changesize`;
+// 改变SKU
+export const CHANGEMYSKU = `${prefix}changemysku`;
+
+// 点击确定
+export const CHANGESUBMITVALUE = `${prefix}changesubmitvalue`;
+
 // 换货
 export const CHANGE_GOODS = `${prefix}change_goods`;
 export const CHANGE_GOODS_SUCCESS = `${prefix}change_goods_success`;

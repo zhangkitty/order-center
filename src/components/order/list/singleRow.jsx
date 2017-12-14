@@ -269,6 +269,8 @@ const SingleRow = (props) => {
                 val.size = [];
                 val.selectedDisabled = true;
                 val.selectedValue = null;
+                val.mysku = '';
+                val.submitValue = [];
                 return val;
               })
             );

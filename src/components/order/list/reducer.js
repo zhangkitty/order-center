@@ -113,13 +113,42 @@ const defaultState = {
 
 };
 
-function addsize(BulkReturnInfo, size, order_goods_id) {
-  return BulkReturnInfo.map((v) => {
-    if (v.order_goods_id === order_goods_id) {
-      v.size = size;
-    }
-    return v;
-  });
+function addsize(BulkReturnInfo, order_goods_id, size) {
+  const arr = BulkReturnInfo.map(v => (
+      v.order_goods_id === order_goods_id ?
+          assign({}, v, { selectedDisabled: false, size }) : v
+  ));
+  return arr;
+}
+
+function changeSelectValue(BulkReturnInfo, order_goods_id, selectedValue) {
+  const arr = BulkReturnInfo.map(v => (
+      v.order_goods_id === order_goods_id ?
+          assign({}, v, { selectedValue }) : v
+  ));
+  return arr;
+}
+
+function changeMySku(BulkReturnInfo, order_goods_id, sku) {
+  const arr = BulkReturnInfo.map(v => (
+      v.order_goods_id === order_goods_id ?
+          assign({}, v, { mysku: sku }) : v
+  ));
+  return arr;
+}
+
+function changeSubmitValue(BulkReturnInfo, order_goods_id) {
+  const arr = BulkReturnInfo.map(v => (
+    v.order_goods_id === order_goods_id ?
+        (function (c) {
+          const temp = c;
+          temp.push({ mysku: v.mysku, selectedValue: v.selectedValue });
+          return assign({}, v, { submitValue: temp });
+        }(v.submitValue))
+      : v
+  ));
+  console.log(arr);
+  return arr;
 }
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));
@@ -392,12 +421,10 @@ const reducer = (state = defaultState, action) => {
         load: false,
       });
     case TYPES.GOODS_SIZE_SUCCESS:
-      console.log(addsize(state.BulkReturnInfo, action.data.data, action.order_goods_id));
-      debugger
       return assign({}, state, {
         fetchgoodSize: action.data.data,
         changeDisabled: false,
-        BulkReturnInfo: addsize(state.BulkReturnInfo, action.data.data, action.order_goods_id),
+        BulkReturnInfo: addsize(state.BulkReturnInfo, action.order_goods_id, action.data.data),
       });
     case TYPES.CHANGE_GOODS:
       return assign({}, state, {
@@ -525,6 +552,21 @@ const reducer = (state = defaultState, action) => {
       }
 
       return assign({}, state, { dataSource_noGoods: tmpArr });
+    case TYPES.CHANGESIZE:
+      return assign({}, state, {
+        BulkReturnInfo: changeSelectValue(state.BulkReturnInfo, action.order_goods_id, action.value),
+      });
+
+
+    case TYPES.CHANGEMYSKU :
+      return assign({}, state, {
+        BulkReturnInfo: changeMySku(state.BulkReturnInfo, action.order_goods_id, action.sku),
+      });
+
+    case TYPES.CHANGESUBMITVALUE:
+      return assign({}, state, {
+        BulkReturnInfo: changeSubmitValue(state.BulkReturnInfo, action.order_goods_id),
+      });
     default:
       return state;
   }

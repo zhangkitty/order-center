@@ -188,6 +188,23 @@ export const goodSizeSuccess = (data, order_goods_id) => ({
   data,
   order_goods_id,
 });
+
+export const changeSize = (order_goods_id, value) => ({
+  type: TYPES.CHANGESIZE,
+  order_goods_id,
+  value,
+});
+
+export const changeMySku = (order_goods_id, sku) => ({
+  type: TYPES.CHANGEMYSKU,
+  order_goods_id,
+  sku,
+});
+// 点击确定
+export const changeSubmitValue = order_goods_id => ({
+  type: TYPES.CHANGESUBMITVALUE,
+  order_goods_id,
+});
 export const goodSizeFail = () => ({
   type: TYPES.GOODS_SIZE_FAIL,
 });
