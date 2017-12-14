@@ -183,9 +183,10 @@ export const goodSize = data => ({
   type: TYPES.GOODS_SIZE,
   data,
 });
-export const goodSizeSuccess = data => ({
+export const goodSizeSuccess = (data, order_goods_id) => ({
   type: TYPES.GOODS_SIZE_SUCCESS,
   data,
+  order_goods_id,
 });
 export const goodSizeFail = () => ({
   type: TYPES.GOODS_SIZE_FAIL,

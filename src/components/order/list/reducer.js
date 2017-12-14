@@ -112,6 +112,15 @@ const defaultState = {
   ExchangeShow: false,
 
 };
+
+function addsize(BulkReturnInfo, size, order_goods_id) {
+  return BulkReturnInfo.map((v) => {
+    if (v.order_goods_id === order_goods_id) {
+      v.size = size;
+    }
+    return v;
+  });
+}
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));
   return [
@@ -367,25 +376,28 @@ const reducer = (state = defaultState, action) => {
         fetchgoodSize: [],
         changeDisabled: true,
       });
-    case TYPES.GOODS_SIZE:
-      return assign({}, state, {
-        exchange: {
-          goods_sn: action.data.goods_sn,
-          site_from: action.data.site_from,
-          order_goods_id: action.data.order_goods_id,
-          order_id: action.data.order_id,
-          load: false,
-          visible: true,
-        },
-      });
+    // case TYPES.GOODS_SIZE:
+    //   return assign({}, state, {
+    //     exchange: {
+    //       goods_sn: action.data.goods_sn,
+    //       site_from: action.data.site_from,
+    //       order_goods_id: action.data.order_goods_id,
+    //       order_id: action.data.order_id,
+    //       load: false,
+    //       visible: true,
+    //     },
+    //   });
     case TYPES.GOODS_SIZE_FAIL:
       return assign({}, state, {
         load: false,
       });
     case TYPES.GOODS_SIZE_SUCCESS:
+      console.log(addsize(state.BulkReturnInfo, action.data.data, action.order_goods_id));
+      debugger
       return assign({}, state, {
         fetchgoodSize: action.data.data,
         changeDisabled: false,
+        BulkReturnInfo: addsize(state.BulkReturnInfo, action.data.data, action.order_goods_id),
       });
     case TYPES.CHANGE_GOODS:
       return assign({}, state, {

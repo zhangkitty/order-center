@@ -147,10 +147,9 @@ function* logisticsRemarkSaveSaga(action) {
 function* goodSizeSaga(action) {
   const data = yield goodSizeSer(action.data);
   if (!data || data.code !== 0) {
-    message.error(`${__('common.sagaTitle17')}${data.msg}`);
-    return yield put(goodSizeFail());
+    return message.error(`${__('common.sagaTitle17')}${data.msg}`);
   }
-  return yield put(goodSizeSuccess(data));
+  return yield put(goodSizeSuccess(data, action.data.order_goods_id));
 }
 
 // 换货

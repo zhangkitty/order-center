@@ -196,7 +196,10 @@ const SingleRow = (props) => {
             className={Styles.orderSelect}
             size="small"
             onClick={() => {
-              const bulkarr = data.order_goods.filter(v => checkboxChecked[v.goods_status]);
+              const bulkarr = (data.order_goods.filter(v => checkboxChecked[v.goods_status])).map((value) => {
+                value.site_from = data.site_from;
+                return value;
+              });
               let arr = data.order_goods
                               .filter(v => checkboxChecked[v.goods_status])
                               .map(v => v.order_goods_id);
@@ -259,7 +262,17 @@ const SingleRow = (props) => {
           }}
           pagination={false}
           showHeader={false}
-          dataSource={data.order_goods}
+          dataSource={(function (v) {
+            return (
+              v.order_goods.map((val) => {
+                val.site_from = v.site_from;
+                val.size = [];
+                val.selectedDisabled = true;
+                val.selectedValue = null;
+                return val;
+              })
+            );
+          }(data))}
           columns={[{
             title: '订单商品编号',
             dataIndex: 'order_goods_sort',
