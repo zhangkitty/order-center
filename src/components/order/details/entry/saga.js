@@ -148,6 +148,7 @@ function* rebuildrlSaga(action) {
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
   }
+  yield put(commit('reFeeValue', 0));
   yield message.success(`${data.msg}`);
   yield put(commit('rlmodal', false));
   yield put(getInfo(action.d.order_id, action.d.billno, 'orderReturn'));
