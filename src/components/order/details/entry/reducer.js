@@ -20,7 +20,8 @@ const defaultState = {
     base: {}, // 基本
     pay: {}, // 支付信息
     refund: {}, // 退款信息
-    orderReturn: {},  // 退货信息
+    orderReturn: [],  // 退货信息
+    exchange: [],  // 换货信息
     logs: {}, // 订单日志
   },
   backReturnDate: {

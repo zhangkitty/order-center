@@ -90,6 +90,10 @@ class refundList extends Component {
               dataIndex: 'refund_path_name', // 退款路径
               width: '60px',
             }, {
+              title: __('refund.list.refund_method'),
+              dataIndex: 'refund_method', // 退款方式
+              width: '60px',
+            }, {
               title: __('refund.list.content'), // 退金额
               dataIndex: 'refund_record_amount',
               width: '100px',

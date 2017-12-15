@@ -20,6 +20,7 @@ module.exports = {
   address_first: 'First Name',
   address_last: 'Last Name',
   address_district: 'District',
+  middle_name: 'Middle Name',
   address_father: 'Father Name',
   address_street: 'Street',
   address_national: 'National ID',

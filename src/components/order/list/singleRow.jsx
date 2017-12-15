@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin } from 'antd';
 import { Link } from 'react-router';
 import assign from 'object-assign';
+
 import {
   change, remarkShow, openModal, searchHistory,
   logisticsRemark, logisticsRemarkSave, operationGoods,
-  openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange,
+  openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange, commit,
+  getOrderRewardPointInfo,
 } from './action';
 
 import Styles from './style.css';
@@ -26,6 +28,11 @@ import Styles from './style.css';
 //  '12' => '派件中',
 //  '13' => '已经退款',
 //  '14' => '已取消',
+
+// 语言包
+const lan = {
+  积分补偿: __('common.Integral_compensation'),
+};
 
 // 订单状态的标记
 const colors = {
@@ -516,6 +523,21 @@ const SingleRow = (props) => {
                 <Button onClick={() => dispatch(logisticsRemark(data.order_id))}>{__('common.order_operation5')}</Button>
             }
           </Popover>
+          {/* 积分补偿 */}
+          {data.reward_point === 1 ?
+            <Button
+              onClick={
+                (e) => {
+                  dispatch(getOrderRewardPointInfo(data.order_id));
+
+                }
+
+              }
+            >{lan.积分补偿}</Button> :
+              null
+          }
+
+
         </div>
       </div>
     </div>

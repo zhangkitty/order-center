@@ -90,13 +90,22 @@ const defaultState = {
   },
   markTag: {},
   changeDisabled: true,  // 换货按钮状态
-  selectAllStateStatus:false,
-  stockList:{stock:{},occupy:{}},
-  site:[],
-  dataSource_noGoods:[],
-  showBatchNoGoods:false,
+  selectAllStateStatus: false,
+  stockList: { stock: {}, occupy: {} },
+  site: [],
+  dataSource_noGoods: [],
+  showBatchNoGoods: false,
   showShelfNoGoods: false,
   down: '',
+
+
+  // 积分补偿
+  mymodalshow: null,
+  mymodaldata: {},
+  addPointReason: {},
+
+  // 积分补偿提交
+  addPointLoading: false,
 };
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));
@@ -469,36 +478,36 @@ const reducer = (state = defaultState, action) => {
         }),
       });
     case TYPES.GET_STOCK_LIST:
-      return assign({},state,{stockList:action.data.data});
+      return assign({}, state, { stockList: action.data.data });
     case TYPES.GET_NO_GOODS_LIST_SUCCESS:
-      for(let v in action.data[0]){
-        for(let i in action.data[0][v]){
-          let value = action.data[0][v][i];
-          action.data[0][v][i]={'checked':false,value};
+      for (const v in action.data[0]) {
+        for (const i in action.data[0][v]) {
+          const value = action.data[0][v][i];
+          action.data[0][v][i] = { checked: false, value };
         }
       }
-      return assign({},state,{dataSource_noGoods:action.data});
+      return assign({}, state, { dataSource_noGoods: action.data });
     case TYPES.CHANGE_NO_GOODS_LIST:
-      let newArr = state.dataSource_noGoods.map(v=>v);
+      const newArr = state.dataSource_noGoods.map(v => v);
       newArr[0][action.v][action.i].checked = action.checked;
-      return assign({},state,{dataSource_noGoods:newArr});
+      return assign({}, state, { dataSource_noGoods: newArr });
     case TYPES.CHANGE_SOURCE_CHECKED:
-      let tmpArr = state.dataSource_noGoods.map(v=>v);
-      if(Array.isArray(action.v)){
-        for(let v in tmpArr[0]){
-          for(let i in tmpArr[0][v]){
-            let value = tmpArr[0][v][i];
-            tmpArr[0][v][i].checked=action.checked;
+      const tmpArr = state.dataSource_noGoods.map(v => v);
+      if (Array.isArray(action.v)) {
+        for (const v in tmpArr[0]) {
+          for (const i in tmpArr[0][v]) {
+            const value = tmpArr[0][v][i];
+            tmpArr[0][v][i].checked = action.checked;
           }
         }
-      }else{
-        for(let i in tmpArr[0][action.v]){
-          let value = tmpArr[0][action.v][i];
-          tmpArr[0][action.v][i].checked=action.checked;
+      } else {
+        for (const i in tmpArr[0][action.v]) {
+          const value = tmpArr[0][action.v][i];
+          tmpArr[0][action.v][i].checked = action.checked;
         }
       }
-      
-      return assign({},state,{dataSource_noGoods:tmpArr});
+
+      return assign({}, state, { dataSource_noGoods: tmpArr });
     default:
       return state;
   }

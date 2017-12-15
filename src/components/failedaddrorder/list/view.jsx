@@ -38,6 +38,7 @@ class Index extends Component {
       title: __('failedaddrorder.list.billno'),
       dataIndex: 'billno',
       key: 'billno',
+      render: (text, record) => <Link target="_blank" to={`order/list/${text}`}>{text}</Link>,
     }, {
       title: __('failedaddrorder.list.package_no'),
       dataIndex: 'package_no',
@@ -89,7 +90,7 @@ class Index extends Component {
       dataIndex: 'operation',
       key: 'operation',
       render: (text, record, index) => (<div>
-        <Link to={`/order/details/edit-address/${record.order_id}/${record.billno}`}>{__('failedaddrorder.list.editAddr')}</Link>
+        <Link to={`/order/details/edit-address/${record.order_id}/${record.billno}`} target="_blank">{__('failedaddrorder.list.editAddr')}</Link>
         {record.button.recheck != 0 && (<Button style={{ marginLeft: '5px' }} onClick={() => this.showConfirm1({ id: record.order_id, myIndex: index })}>{__('failedaddrorder.list.recheck')}</Button>)}
         {record.button.is_del != 0 && (<Button style={{ marginLeft: '5px' }} onClick={() => this.showConfirm2({ id: record.id, myIndex: index })}>{__('failedaddrorder.list.delete')}</Button>)}
         {record.button.check != 0 && (<Button style={{ marginLeft: '5px' }} onClick={() => this.showConfirm3({ id: record.id, myIndex: index })}>{__('failedaddrorder.list.audited')}</Button>)}
