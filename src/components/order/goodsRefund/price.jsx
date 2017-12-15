@@ -36,7 +36,7 @@ const onC = (dispatch, submitValue, i, data) => (
     ],
 )));
 const Price = ({ dataSource, submitValue, dispatch }) => {
-  const RLPrice = dataSource.rlFee || [];
+  const RLPrice = dataSource.rlFee;
   return (
     <div style={{ marginBottom: '20px' }}>
       <div className={style.flex}>
@@ -75,7 +75,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
             return dispatch(allback(Number(submitValue.shipping), value, check.refundTypeId));
           }}
         >
-          {RLPrice.map(v => (<Radio value={Number(v)} key={v}>${v}</Radio>))}
+          {RLPrice.map(v => (<Radio value={v.amount} key={v.amount}>{v.amountWithSymbol}</Radio>))}
         </Rg>
       </div>
       <div className={style.space}>
