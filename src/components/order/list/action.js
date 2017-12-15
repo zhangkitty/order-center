@@ -53,10 +53,13 @@ export const openModalCgs = (goodsId, orderId, siteFrom) => (
 );
 
 // 搜索
-export const search = data => ({
-  type: TYPES.SEARCH,
-  data,
-});
+export const search = (data) => {
+  sessionStorage.setItem('search', JSON.stringify({ type: '1', data }));
+  return {
+    type: TYPES.SEARCH,
+    data,
+  };
+};
 export const searchSuccess = data => ({
   data,
   type: TYPES.SEARCH_SUCCESS,
@@ -66,10 +69,13 @@ export const searchFail = () => ({
 });
 
 // 高级搜索
-export const searchHigh = data => ({
-  type: TYPES.SEARCH_HIGH,
-  data,
-});
+export const searchHigh = (data) => {
+  sessionStorage.setItem('search', JSON.stringify({ type: '2', data }));
+  return {
+    type: TYPES.SEARCH_HIGH,
+    data,
+  };
+};
 export const searchHighSuccess = data => ({
   data,
   type: TYPES.SEARCH_HIGH_SUCCESS,
@@ -293,3 +299,67 @@ export const batchPartSuccess = data => ({
   type: TYPES.BATCH_PART_SUCCESS,
   data,
 });
+
+// 无货审核 批量申请
+export const noStockApply = ids => ({
+  type: TYPES.NO_STOCK_APPLY,
+  param: { order_goods_id: ids.join(',') },
+});
+
+// 无货审核
+export const noStock = ids => ({
+  type: TYPES.NO_STOCK,
+  param: { order_goods_id: ids.join(',') },
+});
+
+// 库存清单
+export const getStockList = data => ({
+  type: TYPES.GET_STOCK_LIST,
+  data,
+});
+
+// 返回已审核
+export const returnAlreadyAudit = ids => ({
+  type: TYPES.RETURN_ALREADY_AUDIT,
+  param: { order_goods_id: ids.join(',') },
+});
+
+
+// 无货下架
+export const getNoGoodsList = () => ({
+  type: TYPES.GET_NO_GOODS_LIST,
+});
+export const getStockListSuccess = data => ({
+  type: TYPES.GET_NO_GOODS_LIST_SUCCESS,
+  data,
+});
+export const changeNoGoodsList = (v, i, checked) => ({
+  type: TYPES.CHANGE_NO_GOODS_LIST,
+  checked,
+  v,
+  i,
+});
+export const changeAllSource = (v, checked) => ({
+  type: TYPES.CHANGE_SOURCE_CHECKED,
+  v,
+  checked,
+});
+export const underCarriage = param => ({
+  type: TYPES.UNDER_CARRIAGE,
+  param,
+});
+
+
+// 积分补偿
+export const getOrderRewardPointInfo = id => ({
+  type: TYPES.GETORDERREWARDPOINTINFO,
+  id,
+});
+
+// 积分补偿提交
+export const addPoint = (mymodaldata, addPointReason) => ({
+  type: TYPES.ADDPOINT,
+  mymodaldata,
+  addPointReason,
+});
+

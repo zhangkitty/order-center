@@ -19,6 +19,7 @@ const details = {
   doRefundAgain: '/OrderRefund/doRefundAgain', // 重新退款
   doRefundPass: '/OrderRefund/doRefundPass', // 通过
   changeOrder: '/OrderReturn/modifyOrderIdByRefundRecordId', // 更改订单号
+  cancelTheRefundBill:'/OrderDiffRefund/cancelTheRefundBill'
 }
 
 // 获取所有搜索数据
@@ -32,7 +33,7 @@ export const initCountrySer = () => (
 export const searchSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'refund_bill_id', 'billno', 'email', 'add_user', 'handle_user',
     'refund_bill_type', 'refund_bill_status', 'refund_path_id', 'refund_path_status', 'site_from', 'apply_start_time', 'apply_end_time',
-    'country_id', 'member_level', 'refund_start_time', 'refund_end_time', 'sorting_rule'];
+    'country_id', 'member_level', 'refund_method', 'refund_start_time', 'refund_end_time', 'sorting_rule'];
   return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })
@@ -92,5 +93,16 @@ export const changeOrderSer = (billno, refund_record_id) => (
   fetch(details.changeOrder, {
     method: 'POST',
     body: JSON.stringify({ billno: billno, refund_record_id: refund_record_id })
+  })
+)
+
+//取消提现退款
+export const canceltherefundbillSer=(refund_bill_id,reasonRecord)=>(
+  fetch(details.cancelTheRefundBill,{
+    method:'POST',
+    body:JSON.stringify({
+      refund_bill_id:refund_bill_id,
+      cancel_reason:reasonRecord
+    })
   })
 )

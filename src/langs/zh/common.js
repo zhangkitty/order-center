@@ -2,6 +2,7 @@
  * Created by liufeng on 2017/8/29.
  */
 module.exports = {
+  Integral_compensation: '补偿积分',
   order_manage: '订单管理',
   order_list: '订单列表',
   goods_refunds: '商品退款申请',
@@ -32,6 +33,9 @@ module.exports = {
   order_operation8: '取消',
   order_operation9: '缺少备注',
   order_operation10: '缺少物流备注',
+  order_operation11: '全选商品',
+  order_operation12: '批量无货审核',
+  order_operation13: '批量无货',
   allChoose: '全选',
   cancel: '取消',
   batchection: '批量部分发',
@@ -112,6 +116,10 @@ module.exports = {
   sagaTitle29: '操作成功', // 平台取消成功提示
   sagaTitle30: '获取价格信息失败',
   sagaTitle31: '获取数据失败',
+  sagaTitle32: '加入无货审核队列成功',
+  sagaTitle33: '加入已审核队列成功',
+  sagaTitle34: '库存下架同步成功',
+  sagaTitle35: '库存下架同步失败,请去商城后台查看',
   contentTitle: '暂无数据',
   content_name: '退款原因',   // 内容名称
   content_name1: '备注信息',
@@ -133,4 +141,25 @@ module.exports = {
   refund_details8: '其他',
   fetch_title1: '没有权限操作!',  // fetch
   fetch_title2: '服务器响应出错,请尝试 刷新 重试,或者联系开发人员需求帮助  _(:3 」∠)_',
+  noGoods_name1: '仓库',
+  noGoods_name2: '库存',
+  noGoods_name3: '待占',
+  noGoods_name4: '当前尺码下架',
+  noGoods_name5: '全部尺码下架',
+  noGoods_name6: '备货区',
+  noGoods_name7: 'B区',
+  noGoods_name8: 'C区东部',
+  noGoods_name9: 'C区西部',
+  noGoods_name10: 'D区',
+  noGoods_name11: '广州仓',
+  noGoods_name12: '广州欧洲仓',
+  noGoods_name13: '广州美国仓',
+  noGoods_name14: '无货下架',
+  noGoods_name15: '库存清单',
+  noGoods_name16: '下架站点',
+  noGoods_name17: '确认无货',
+  noGoods_name18: '返回已审核',
+  noGoods_name19: 'B区待占：查询该sku+尺码，且 商品状态=已审核 或 备货中，的商品数之和',
+  noGoods_name20: 'C区东部／西部待占：查询该sku+尺码， 商品状态=已审核 或 备货中，国家=美国，的商品数之和',
+  noGoods_name21: 'D区待占：查询该sku+尺码，商品状态=已审核 或 备货中，国家=欧洲国家，的商品数之和',
 };

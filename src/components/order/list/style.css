@@ -223,3 +223,12 @@ form .colSpace2{
     font-size: 13px;
     color: #000;
 }
+.verticalAlign{
+    vertical-align: top;
+}
+
+.rowTag {
+    /*width: 150px;*/
+    text-align: center;
+    margin-bottom: 10px;
+}

@@ -23,6 +23,7 @@ const defaultState = {
     reason: { reasonId: null, goodsIds: [] },
     remark: '',
   },
+  remainingPriceTotalUnder50: false,
 };
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -32,6 +33,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         ready: true,
         dataSource: under2Camal(action.res),
+        remainingPriceTotalUnder50: action.res.remainingPriceTotalUnder50,
       });
     case TYPES.GET_REASON_SUCCESS:
       return assign({}, state, {

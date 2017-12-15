@@ -138,11 +138,36 @@
 }
 
 .cardBottom table td,
-.contentPadding table td {
+.contentPadding table td,
+.operatingTable table td {
     color: #333;
 }
 
 .center{
     display: flex;
     align-items: center;
+}
+
+.tableFloat {
+    background-color: #fff;
+    border-radius: 5px;
+    color: #333;
+}
+.haveRemark {
+    color:#f00;
+    border-color: #f00;
+}
+.operatingTable {
+    width: 400px;
+    max-height: 300px;
+    overflow: auto;
+}
+.buttonBorderBg {
+    display: flex;
+    flex-direction: column;
+    color:#49a9ee;
+}
+.buttonBorderBg > span {
+    cursor: pointer;
+    outline: 0;
 }

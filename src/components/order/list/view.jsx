@@ -17,6 +17,9 @@ import TabsHeader from './tabsHeader';
 import SingleRow from './singleRow';
 import ChnageGoods from './changeGoods';
 import MarkTag from './markTag';
+// 补偿积分modal
+import MyModal from './modal';
+
 
 import styles from './style.css';
 
@@ -44,7 +47,7 @@ class orderList extends Component {
   render() {
     const {
       dispatch, dataSource, total, queryString, queryString2, queryString3, visible,
-      loadUpdata, searchType, remarkModal, searchLoad,
+      loadUpdata, searchType, remarkModal, searchLoad, selectAllStateStatus,
     } = this.props;
 
     const pageCurrent = () => {
@@ -65,14 +68,17 @@ class orderList extends Component {
           <div className={styles.table_bg}>
             {
               dataSource
-                .map((v, i) => <SingleRow data={v} index={i} key={v.order_id} {...this.props} />)
+                .map((v, i) => <SingleRow selectAllStateStatus={selectAllStateStatus} data={v} index={i} key={v.order_id} {...this.props} />)
             }
             {
               Number(total) === 0 ? <div style={{ textAlign: 'center', color: 'rgba(0,0,0, .8)' }}><Icon type="frown-o" /> {__('common.contentTitle')}</div> : null
             }
           </div>
         </Spin>
+        {/* 积分补偿 */}
+        <MyModal {...this.props} />
         {/* 备注提交 */}
+
         <Modal
           visible={visible}
           onCancel={() => dispatch(change('visible', false))}

@@ -6,25 +6,15 @@ const path = require('path');
 const i18n = require('i18n-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const languages = {
   en: require('./src/langs/en'),
   zh: require('./src/langs/zh'),
 };
 
-const externalsTable ={
-  antd: 'window.antd',
-  react: 'window.React',
-  'react-dom': 'window.ReactDOM',
-  moment: 'window.moment',
-  'babel-polyfill': 'window.undefined',
-  'lodash': '_',
-};
-
 module.exports = Object.keys(languages).map((lang) => ({
   entry: {
     app: ['babel-polyfill', './src/entry.jsx'],
-    common: ['react', 'antd','redux-saga', 'react-dom', 'redux', 'react-redux', 'react-router', 'whatwg-fetch', 'prop-types'],
+    common: ['react', 'antd','redux-saga', 'react-dom', 'redux', 'react-redux', 'react-router', 'whatwg-fetch'],
   },
   output: {
     filename: '[name].[chunkhash].js',
@@ -35,20 +25,12 @@ module.exports = Object.keys(languages).map((lang) => ({
   resolve: {
     extensions: ['.js', '.jsx', '.scss', '.css', '.json'],
   },
-  externals(context, request, callback) {
-    if (externalsTable.hasOwnProperty(request)) {
-      return callback(null, externalsTable[request]);
-    }
-    if (request.indexOf('lodash.') === 0) {
-      return callback(null, '_.' + request.slice('lodash.'.length));
-    }
-    if (request.indexOf('lodash/') === 0) {
-      return callback(null, '_.' + request.slice('lodash/'.length));
-    }
-    if (request.indexOf('moment') === 0) {
-      return callback(null, 'undefined');
-    }
-    callback();
+  externals: {
+    antd: 'window.antd',
+    react: 'window.React',
+    'react-dom': 'window.ReactDOM',
+    moment: 'window.moment',
+    'babel-polyfill': 'window.undefined'
   },
   module: {
     rules: [
@@ -56,7 +38,7 @@ module.exports = Object.keys(languages).map((lang) => ({
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loaders: [
-          'babel-loader?cacheDirectory', {
+          'babel-loader', {
             loader: 'react-redux-component-loader',
             options: {
               externals: ['navigation', 'login'],
@@ -104,17 +86,12 @@ module.exports = Object.keys(languages).map((lang) => ({
     new webpack.optimize.CommonsChunkPlugin({
       names: ['common','manifest'],
       filename: '[name].[chunkhash].js',
-      // minChunks: function(module) {
-      //   return module.context && module.context.indexOf('node_modules') !== -1;
-      // }
-      // minChunks:3,
-      //minChunks:Infinity,
+      minChunks: Infinity
     }),
     new i18n(languages[lang]),
     new HtmlWebpackPlugin({
       template: `./${lang=='en'?'en':'index'}-template.html`,
       filename:`../../${lang=='en'?'en':'index'}.html`
-    }),
-    // new BundleAnalyzerPlugin()
+    })
   ],
 }));
