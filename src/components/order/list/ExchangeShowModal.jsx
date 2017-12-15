@@ -16,9 +16,10 @@ const lan = {
 };
 const Option = Select.Option;
 const exchangeshowModal = (props) => {
-  const { dispatch, ExchangeShow, BulkReturnInfo } = props;
+  const { dispatch, ExchangeShow, BulkReturnInfo, confirmLoading } = props;
   return (
     <Modal
+      confirmLoading={confirmLoading}
       visible={ExchangeShow}
       onCancel={() => dispatch(change('ExchangeShow', false))}
       okText={lan.提交}
@@ -27,6 +28,7 @@ const exchangeshowModal = (props) => {
         if (temp === 0) {
           return message.info(lan.没有换货信息);
         }
+        dispatch(change('confirmLoading', true));
         dispatch(batchExchangeOrderGoods(BulkReturnInfo));
       }}
       width={800}
@@ -57,6 +59,7 @@ const exchangeshowModal = (props) => {
                 <div style={{ flexBasis: 200 }}>
                   <Input
                     type="text"
+                    value={v.mysku}
                     onChange={e => dispatch(changeMySku(v.order_goods_id, e.target.value))}
                     onPressEnter={e => dispatch(goodSize(
                       {
@@ -69,7 +72,7 @@ const exchangeshowModal = (props) => {
                 </div>
                 <div style={{ flexBasis: 50, marginLeft: 20 }}>{lan.尺码}</div>
                 <Select
-                  style={{ flexBasis: 100, marginRight: 20 }}
+                  style={{ flexBasis: 150, marginRight: 20 }}
                   disabled={v.selectedDisabled}
                   value={v.selectedValue}
                   onChange={(value) => {
@@ -102,6 +105,7 @@ exchangeshowModal.propTypes = {
   dispatch: PropTypes.func,
   ExchangeShow: PropTypes.Boolean,
   BulkReturnInfo: PropTypes.arrayOf(PropTypes.shape()),
+  confirmLoading: PropTypes.Boolean,
 
 };
 export default exchangeshowModal;

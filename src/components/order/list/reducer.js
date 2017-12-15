@@ -110,6 +110,8 @@ const defaultState = {
   BulkReturnInfo: [],
   // 换货modal
   ExchangeShow: false,
+  // 提交loading
+  confirmLoading: false,
 
 };
 
@@ -148,6 +150,19 @@ function changeSubmitValue(BulkReturnInfo, order_goods_id) {
       : v
   ));
   console.log(arr);
+  return arr;
+}
+
+function changeBulkReturnInfo(data) {
+  const arr = data.map(v => (
+    assign({}, v, {
+      selectedDisabled: true,
+      selectedValue: null,
+      mysku: '',
+      submitValue: [],
+
+    })
+  ));
   return arr;
 }
 const cgsReducer = (dataSource, orderId, result) => {
@@ -566,6 +581,11 @@ const reducer = (state = defaultState, action) => {
     case TYPES.CHANGESUBMITVALUE:
       return assign({}, state, {
         BulkReturnInfo: changeSubmitValue(state.BulkReturnInfo, action.order_goods_id),
+      });
+
+    case TYPES.CHANGEBULKRETURNINFO:
+      return assign({}, state, {
+        BulkReturnInfo: changeBulkReturnInfo(state.BulkReturnInfo),
       });
     default:
       return state;

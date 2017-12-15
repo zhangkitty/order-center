@@ -14,7 +14,7 @@ import {
   batchOperateSer, getRisk, cancelTroubleTag,
   updateOrderTagSer, delChangeSer,
   batchCheckSer, batchDeleteSer, batchPartSer, noStockApplySer, noStockSer, returnAlreadyAuditSer,
-  getNoGoodsListSer, underCarriageSer, getorderrewardpointinfoSer, addpointSer,batchexchangeordergoodsSer
+  getNoGoodsListSer, underCarriageSer, getorderrewardpointinfoSer, addpointSer, batchexchangeordergoodsSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
@@ -26,7 +26,7 @@ import {
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
   delChangeFail, delChangeSuccess,
   batchCheckSuccess, batchDeleteSuccess, batchPartSuccess, getStockList,
-  getStockListSuccess, change, changeAllSource,
+  getStockListSuccess, change, changeAllSource,changeBulkReturnInfo
 } from './action';
 
 import * as TYPES from './types';
@@ -300,6 +300,7 @@ function* getorderrewardpointinfoSaga(action) {
   }
   yield put(change('mymodalshow', true));
   yield put(change('mymodaldata', data.data));
+  return null;
 }
 
 // 积分补偿提交
@@ -316,7 +317,17 @@ function* addpointSaga(action) {
 // 提交批量换货
 function* batchexchangeordergoodsSaga(action) {
   const data = yield batchexchangeordergoodsSer(action.data);
-  console.log(data)
+  if (!data || data.code !== 0) {
+    yield put(change('confirmLoading', false));
+    return message.error(`${data.msg}`);
+  }
+  yield put(change('ExchangeShow', false));
+
+  yield put(change('confirmLoading', false));
+
+  yield put(changeBulkReturnInfo());
+  console.log(1111111)
+  return null;
 }
 
 export default function* () {

@@ -133,3 +133,5 @@ export const ADDPOINT = `${prefix}addpoint`;
 // 提交批量换货
 export const BATCHEXCHANGEORDERGOODS = `${prefix}batchexchangeordergoods`;
 
+export const CHANGEBULKRETURNINFO = `${prefix}changebulkreturninfo`;
+
