@@ -135,3 +135,5 @@ export const BATCHEXCHANGEORDERGOODS = `${prefix}batchexchangeordergoods`;
 
 export const CHANGEBULKRETURNINFO = `${prefix}changebulkreturninfo`;
 
+export const CHANGEDATASOURCE = `${prefix}changedatasource`;
+

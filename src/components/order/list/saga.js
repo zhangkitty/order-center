@@ -2,6 +2,7 @@
  * Create by liufeng on 2017/8/30
  */
 import { message } from 'antd';
+import moment from 'moment';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 import assign from 'object-assign';
 import {
@@ -26,7 +27,7 @@ import {
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
   delChangeFail, delChangeSuccess,
   batchCheckSuccess, batchDeleteSuccess, batchPartSuccess, getStockList,
-  getStockListSuccess, change, changeAllSource,changeBulkReturnInfo
+  getStockListSuccess, change, changeAllSource, changeBulkReturnInfo, changedataSource,
 } from './action';
 
 import * as TYPES from './types';
@@ -321,12 +322,22 @@ function* batchexchangeordergoodsSaga(action) {
     yield put(change('confirmLoading', false));
     return message.error(`${data.msg}`);
   }
+  const queryString =
+    {
+      pageNumber: 1,
+      orderId: action.data[0].order_id,
+      paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD'),   // 付款时间
+      paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD'),          // 付款时间
+    };
+  const singleData = yield searchSubmit(queryString);
+  if (!singleData || singleData.code !== 0) {
+    yield put(change('confirmLoading', false));
+    return message.error(`${singleData.msg}`);
+  }
+  yield put(changedataSource(action.data[0].order_id, singleData.data[0]));
   yield put(change('ExchangeShow', false));
-
   yield put(change('confirmLoading', false));
-
   yield put(changeBulkReturnInfo());
-  console.log(1111111)
   return null;
 }
 

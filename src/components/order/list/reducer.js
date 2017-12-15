@@ -149,7 +149,6 @@ function changeSubmitValue(BulkReturnInfo, order_goods_id) {
         }(v.submitValue))
       : v
   ));
-  console.log(arr);
   return arr;
 }
 
@@ -162,6 +161,13 @@ function changeBulkReturnInfo(data) {
       submitValue: [],
 
     })
+  ));
+  return arr;
+}
+
+function changeDataSource(dataSource, orderId, data) {
+  const arr = dataSource.map(v => (
+    v.order_id === orderId ? data : v
   ));
   return arr;
 }
@@ -586,6 +592,11 @@ const reducer = (state = defaultState, action) => {
     case TYPES.CHANGEBULKRETURNINFO:
       return assign({}, state, {
         BulkReturnInfo: changeBulkReturnInfo(state.BulkReturnInfo),
+      });
+
+    case TYPES.CHANGEDATASOURCE:
+      return assign({}, state, {
+        dataSource: changeDataSource(state.dataSource, action.orderId, action.data),
       });
     default:
       return state;

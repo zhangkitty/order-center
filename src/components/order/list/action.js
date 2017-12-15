@@ -390,3 +390,11 @@ export const batchExchangeOrderGoods = data => ({
 export const changeBulkReturnInfo = () => ({
   type: TYPES.CHANGEBULKRETURNINFO,
 });
+
+// 提交成功后改变dataSource
+export const changedataSource = (orderId, data) => ({
+  type: TYPES.CHANGEDATASOURCE,
+  orderId,
+  data,
+});
+

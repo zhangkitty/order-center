@@ -76,7 +76,6 @@ const exchangeshowModal = (props) => {
                   disabled={v.selectedDisabled}
                   value={v.selectedValue}
                   onChange={(value) => {
-                    console.log(value);
                     dispatch(changeSize(v.order_goods_id, value));
                   }}
                 >
