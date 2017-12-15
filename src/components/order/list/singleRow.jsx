@@ -529,7 +529,6 @@ const SingleRow = (props) => {
               onClick={
                 (e) => {
                   dispatch(getOrderRewardPointInfo(data.order_id));
-
                 }
 
               }

@@ -98,7 +98,7 @@ const Refund = (
             },
             {
               title: lan.yuanyin,
-              dataIndex: 'refund_reason'
+              dataIndex: 'refund_reason',
             },
             {
               title: lan.zhaungtai,

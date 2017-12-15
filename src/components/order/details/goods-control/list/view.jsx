@@ -67,16 +67,16 @@ class goodsControl extends Component {
    // const options = [];
     return (
       <Spin spinning={loadInit}>
-      <div className={Styles.content}>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!feedback_reason.name || !feedback_type) {
-              return message.warning(__('order.goodsRefund.missing_something'));
-            } else if (feedback_reason.length < 1) {
-              return message.warning(__('order.goodsRefund.missing_something'));
-            }
-            return dispatch(submitData(assign({},
+        <div className={Styles.content}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!feedback_reason.name || !feedback_type) {
+                return message.warning(__('order.goodsRefund.missing_something'));
+              } else if (feedback_reason.length < 1) {
+                return message.warning(__('order.goodsRefund.missing_something'));
+              }
+              return dispatch(submitData(assign({},
               queryString, {
                 order_id: queryVal.order_id,
                 billno: queryVal.billno,
@@ -84,45 +84,45 @@ class goodsControl extends Component {
                 goods_sn: queryVal.sku,
                 feedback_reason: feedback_reason.children,
               })));
-          }}
-        >
-          <h2>{__('order.goods-control.order_number')}: {queryVal.billno}</h2>
-          <div className={Styles.reasonImg}>
-            <span className={Styles.descWidth}>{__('order.goods-control.control_goods')}</span>
-            <div style={{ display: 'flex' }}>
-              <div className={Styles.reasonImg} style={{ margin: '0 15px' }}>
-                <span style={{ margin: '0 10px' }}>{queryVal.serial_number}</span>
-                <img src={queryVal.pic} width="80px" height="80px" alt="goods images" />
-                <div className={Styles.goods_attr}>
-                  {queryVal.sku} <br />
-                  {queryVal.attr}
+            }}
+          >
+            <h2>{__('order.goods-control.order_number')}: {queryVal.billno}</h2>
+            <div className={Styles.reasonImg}>
+              <span className={Styles.descWidth}>{__('order.goods-control.control_goods')}</span>
+              <div style={{ display: 'flex' }}>
+                <div className={Styles.reasonImg} style={{ margin: '0 15px' }}>
+                  <span style={{ margin: '0 10px' }}>{queryVal.serial_number}</span>
+                  <img src={queryVal.pic} width="80px" height="80px" alt="goods images" />
+                  <div className={Styles.goods_attr}>
+                    {queryVal.sku} <br />
+                    {queryVal.attr}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className={Styles.reason}>
-            <span className={Styles.descWidth}>
-              <Popover placement="bottomLeft" content={content}>
-                <Icon type="question-circle" />
-              </Popover>
-              &nbsp;&nbsp;{star}{__('order.goods-control.control_channel')}
-            </span>
-            <RadioGroup
-              value={feedback_type}
-              onChange={e => dispatch(commit('feedback_type', Number(e.target.value)))}
-            >
-              {
+            <div className={Styles.reason}>
+              <span className={Styles.descWidth}>
+                <Popover placement="bottomLeft" content={content}>
+                  <Icon type="question-circle" />
+                </Popover>
+                {star}{__('order.goods-control.control_channel')}
+              </span>
+              <RadioGroup
+                value={feedback_type}
+                onChange={e => dispatch(commit('feedback_type', Number(e.target.value)))}
+              >
+                {
                 fetchFeedback.map(item => (
                   <Radio value={item.id} key={item.id}> {item.name}</Radio>
                 ))
               }
-            </RadioGroup>
-          </div>
+              </RadioGroup>
+            </div>
 
-          <div className={Styles.reason}>
-            <span className={Styles.descWidth}>{star}{__('order.goods-control.control_type')}</span>
-            <div className={Styles.reasonitemBg}>
-              {
+            <div className={Styles.reason}>
+              <span className={Styles.descWidth}>{star}{__('order.goods-control.control_type')}</span>
+              <div className={Styles.reasonitemBg}>
+                {
                 fetchFeedbackType.map(({ name, children }) => (
                   <div key={name} className={Styles.reasonitem}>
                     <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>
@@ -136,14 +136,14 @@ class goodsControl extends Component {
                   </div>
                 ))
               }
+              </div>
             </div>
-          </div>
-          <div className={Styles.reason}>
-            <span className={Styles.descWidth}>
-              {__('order.goods-control.control_img')}
-            </span>
-            <div>
-              {
+            <div className={Styles.reason}>
+              <span className={Styles.descWidth}>
+                {__('order.goods-control.control_img')}
+              </span>
+              <div>
+                {
                 feedback_thumb.map(v => (
                   <div className={Styles.uploaderImgBg}>
                     <Button
@@ -157,7 +157,7 @@ class goodsControl extends Component {
                   // <img src={v} alt="model" className={Styles.uploaderImg} />
                 ))
               }
-              {
+                {
                 feedback_thumb.length < 2 ?
                   <Upload
                     className={Styles.uploader}
@@ -183,33 +183,33 @@ class goodsControl extends Component {
                   </Upload>
                   : null
               }
-              <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>
-                {__('order.goods-control.control_title')}
-              </Tag>
-            </div>
+                <Tag color="#919191" style={{ textAlign: 'center', marginBottom: '10px' }}>
+                  {__('order.goods-control.control_title')}
+                </Tag>
+              </div>
 
-          </div>
-          <div className={Styles.mark}>
-            <span className={Styles.descWidth}>{__('order.goodsRefund.mark')}</span>
-            <TextArea
+            </div>
+            <div className={Styles.mark}>
+              <span className={Styles.descWidth}>{__('order.goodsRefund.mark')}</span>
+              <TextArea
              // placeholder="备注信息"
-              autosize={{ minRows: 2, maxRows: 6 }}
-              style={{ width: '65%' }}
-              value={remark}
-              onChange={e => dispatch(commit('remark', e.target.value))}
-            />
-          </div>
-          {/*
+                autosize={{ minRows: 2, maxRows: 6 }}
+                style={{ width: '65%' }}
+                value={remark}
+                onChange={e => dispatch(commit('remark', e.target.value))}
+              />
+            </div>
+            {/*
            <Button style={{ margin: '15px 80px 80px 0', left: '20%' }}>取消</Button>
           */}
 
-          <Button
-            style={{ margin: '15px 80px 80px 0', left: '20%' }}
-            type="primary" htmlType="submit"
-            loading={submitLoad}
-          >{__('order.goods-control.submitName3')}</Button>
-        </form>
-      </div>
+            <Button
+              style={{ margin: '15px 80px 80px 0', left: '20%' }}
+              type="primary" htmlType="submit"
+              loading={submitLoad}
+            >{__('order.goods-control.submitName3')}</Button>
+          </form>
+        </div>
       </Spin>
     );
   }

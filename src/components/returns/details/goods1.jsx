@@ -57,7 +57,7 @@ const Goods = ({ returnsInfoData: { returnOrderGoods } }) => (
           dataIndex: 'returnReason',
           width: 150,
           render: (data, rec) => (
-            <span dangerouslySetInnerHTML={{ __html: data }}></span>
+            <span dangerouslySetInnerHTML={{ __html: data }} />
           ),
         },
       ]}
