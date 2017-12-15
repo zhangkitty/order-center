@@ -227,11 +227,18 @@ const allBack = (source, arr, back, rl, type, refundPaths) => {
         price[type || 2] = total > 0 ? total : 0;
       }
     }
-    return refundPaths.map(v => assign({}, v, {
-      refundAmount: v.check ? Number(Number(price[v.refundTypeId] * v.rate2).toFixed(2)) : 0.00,
-      refundCurrency: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
-
-    }));
+    return refundPaths.map((v) => {
+      const temp = assign({}, v, {
+        refundAmount: v.check ? Number(Number(price[v.refundTypeId] * v.rate2).toFixed(2)) : 0.00,
+        refundCurrency:
+          v.check ?
+            Number(Number(price[v.refundTypeId]).toFixed(2)) < v.max ?
+            Number(Number(price[v.refundTypeId]).toFixed(2))
+              : v.max
+          : 0.00,
+      });
+      return temp;
+    });
   }
   if (source.isUsd === 1) {
     p = Number(source.orderPriceInfo.shippingPrice.priceUsd.amount) +
@@ -282,7 +289,11 @@ const allBack = (source, arr, back, rl, type, refundPaths) => {
       }
     }
     return refundPaths.map(v => assign({}, v, {
-      refundAmount: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
+      refundAmount: v.check ?
+        Number(Number(price[v.refundTypeId]).toFixed(2)) < v.max ?
+          Number(Number(price[v.refundTypeId]).toFixed(2)) :
+          v.max
+        : 0.00,
       refundCurrency: v.check ? Number(Number(price[v.refundTypeId] * v.rate).toFixed(2)) : 0.00,
 
     }));
