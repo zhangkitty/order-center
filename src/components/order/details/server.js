@@ -18,6 +18,8 @@ const entry = {
   orderProfit: '/OrderDetail/orderProfit',
   rebuildRl: '/orderReturn/rebuildRl',
   cancelTheRefundBill: '/OrderDiffRefund/cancelTheRefundBill',
+  getTroubleTypes: '/OrderLogisticsTroubles/getTroubleTypes',
+  trackTroublePublish: '/OrderLogisticsTroubles/publish',
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
@@ -301,3 +303,17 @@ export const remarkSaveSer = (orderId, remark) => (
     })),
   })
 );
+
+// 物流问题记录 问题类型
+export const getTroubleTypes = () => {
+  return fetch(entry.getTroubleTypes, {
+    method: 'GET',
+  })
+};
+// 物流问题记录 创建问题
+export const trackTroublePublish = d => {
+  return fetch(entry.trackTroublePublish, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under(d)),
+  })
+};

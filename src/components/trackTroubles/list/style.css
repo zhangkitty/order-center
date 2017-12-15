@@ -1,0 +1,20 @@
+.fliterFlex {
+    display: flex;
+    flex-direction: column;
+}
+.fliterFlex > div {
+    display: flex;
+    flex-direction: row;
+}
+.fliterFlex > div > div{
+    display: flex;
+    width: 20%;
+    margin: 10px;
+}
+.fliterFlex > div > div > span{
+    width: 120px;
+}
+.searchBtn {
+    display: flex;
+    justify-content: flex-end;
+}

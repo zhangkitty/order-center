@@ -15,6 +15,7 @@ import {
   backGoodsDates, commit, operateReturn, partSend, preSendAction, examine,
   openModal, operationGoods,
   remarkShow, remarkSave,
+  createQs,
 } from '../action';
 
 const BG = Button.Group;
@@ -45,6 +46,8 @@ const lan = {
   cancel: __('order.entry.cancel'),
   guangzhou: __('order.entry.Guangzhou'),
   xibu: __('order.entry.west'),
+  fankui: __('order.entry.fankui'),
+  fankuishow: __('order.entry.fankuishow'),
 };
 
 // 商品状态
@@ -192,6 +195,7 @@ const Packge = ({
   fetchRemark,
   fetchOperation,
   visible, remarkModal, loadUpdata,
+  trackTroubleLoad, trackTroubleTypes, trackTroubleForm,
 }) => {
   const {
     not_packaged_goods_list,
@@ -572,6 +576,7 @@ const Packge = ({
                 <span
                   style={{ marginRight: 10 }}
                 >{`${lan.packge}:${v.package_number}`}</span>
+                {/* 全选按钮 */}
                 <Button
                   className={style.orderSelect}
                   size="small"
@@ -600,6 +605,25 @@ const Packge = ({
                 >
                   {__('common.allChoose')}
                 </Button>
+                {/* 物流问题反馈 */}
+                <Button
+                  className={style.btnSpace}
+                  size="small"
+                  onClick={() => {
+                    if (trackTroubleTypes.length) {
+                      dispatch(commit('trackTroubleForm', { reference_number: v.package_number }));
+                      return dispatch(commit('trackTroubleShow', true));
+                    }
+                    return dispatch(createQs(v.package_number));
+                  }}
+                  loading={trackTroubleLoad}
+                >
+                  {lan.fankui}
+                </Button>
+                {/* 查看物流问题 */}
+                <Link>
+                  {lan.fankuishow}
+                </Link>
               </div>
             }
             key={v.package_number}
@@ -794,5 +818,8 @@ Packge.propTypes = {
   visible: PropTypes.bool,
   remarkModal: PropTypes.shape(),
   loadUpdata: PropTypes.bool,
+  trackTroubleLoad: PropTypes.bool,
+  trackTroubleTypes: PropTypes.arrayOf(PropTypes.shape()),
+  trackTroubleForm: PropTypes.shape(),
 };
 export default Packge;

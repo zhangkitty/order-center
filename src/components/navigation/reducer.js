@@ -108,6 +108,12 @@ const menus = [
         crumbName: __('nav.failedaddrorder'),
         nav: true,
       },
+      {
+        link: '/trackTroubles',  // 物流问题列表
+        name: __('nav.tracktrouble'),
+        crumbName: __('nav.tracktrouble'),
+        nav: true,
+      },
     ],
   },
 ];
