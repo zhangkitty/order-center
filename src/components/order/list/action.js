@@ -381,3 +381,8 @@ export const addPoint = (mymodaldata, addPointReason) => ({
   addPointReason,
 });
 
+//提交批量换货信息
+export const batchExchangeOrderGoods = (data)=>({
+  type: TYPES.BATCHEXCHANGEORDERGOODS,
+  data,
+})

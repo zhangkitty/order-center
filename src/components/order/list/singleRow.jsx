@@ -271,6 +271,7 @@ const SingleRow = (props) => {
                 val.selectedValue = null;
                 val.mysku = '';
                 val.submitValue = [];
+                val.order_id = v.order_id;
                 return val;
               })
             );

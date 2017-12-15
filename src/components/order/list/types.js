@@ -130,3 +130,6 @@ export const GETORDERREWARDPOINTINFO = `${prefix}getorderrewardpointinfo`;
 // 积分补偿提交
 export const ADDPOINT = `${prefix}addpoint`;
 
+// 提交批量换货
+export const BATCHEXCHANGEORDERGOODS = `${prefix}batchexchangeordergoods`;
+

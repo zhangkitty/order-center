@@ -14,7 +14,7 @@ import {
   batchOperateSer, getRisk, cancelTroubleTag,
   updateOrderTagSer, delChangeSer,
   batchCheckSer, batchDeleteSer, batchPartSer, noStockApplySer, noStockSer, returnAlreadyAuditSer,
-  getNoGoodsListSer, underCarriageSer, getorderrewardpointinfoSer, addpointSer,
+  getNoGoodsListSer, underCarriageSer, getorderrewardpointinfoSer, addpointSer,batchexchangeordergoodsSer
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
@@ -313,6 +313,12 @@ function* addpointSaga(action) {
   return message.success(`${data.msg}`);
 }
 
+// 提交批量换货
+function* batchexchangeordergoodsSaga(action) {
+  const data = yield batchexchangeordergoodsSer(action.data);
+  console.log(data)
+}
+
 export default function* () {
   yield takeEvery(TYPES.SEARCH, searchSaga);
   yield takeEvery(TYPES.SEARCH_HIGH, searchHighSaga);
@@ -340,6 +346,7 @@ export default function* () {
   yield takeLatest(TYPES.UNDER_CARRIAGE, underCarriage);
   yield takeLatest(TYPES.GETORDERREWARDPOINTINFO, getorderrewardpointinfoSaga);
   yield takeLatest(TYPES.ADDPOINT, addpointSaga);
+  yield takeLatest(TYPES.BATCHEXCHANGEORDERGOODS, batchexchangeordergoodsSaga);
 }
 
 // 刷新订单

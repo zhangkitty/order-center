@@ -1,8 +1,8 @@
 import React from 'react';
-import { Modal, Select, Input, Button } from 'antd';
+import { Modal, Select, Input, Button, message } from 'antd';
 import PropTypes from 'prop-types';
 
-import { change, goodSize, changeSize, changeMySku, changeSubmitValue } from './action';
+import { change, goodSize, changeSize, changeMySku, changeSubmitValue, batchExchangeOrderGoods } from './action';
 
 const lan = {
   被换商品: '被换商品',
@@ -10,6 +10,9 @@ const lan = {
   自定义SKU: '自定义SKU',
   尺码: '尺码',
   确定: '确定',
+  没选尺码: '没选尺码',
+  提交: '提交',
+  没有换货信息: '没有换货信息',
 };
 const Option = Select.Option;
 const exchangeshowModal = (props) => {
@@ -18,6 +21,14 @@ const exchangeshowModal = (props) => {
     <Modal
       visible={ExchangeShow}
       onCancel={() => dispatch(change('ExchangeShow', false))}
+      okText={lan.提交}
+      onOk={() => {
+        const temp = BulkReturnInfo.reduce((sum, value) => sum + value.submitValue.length, 0);
+        if (temp === 0) {
+          return message.info(lan.没有换货信息);
+        }
+        dispatch(batchExchangeOrderGoods(BulkReturnInfo));
+      }}
       width={800}
     >
       <div style={{ marginTop: 20 }}>
@@ -71,7 +82,12 @@ const exchangeshowModal = (props) => {
                   }
                 </Select>
                 <Button
-                  onClick={() => dispatch(changeSubmitValue(v.order_goods_id))}
+                  onClick={() => {
+                    if (v.selectedValue) {
+                      return dispatch(changeSubmitValue(v.order_goods_id));
+                    }
+                    return message.info(lan.没选尺码);
+                  }}
                 >{lan.确定}</Button>
               </div>
             </div>
