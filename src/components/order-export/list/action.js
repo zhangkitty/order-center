@@ -19,13 +19,13 @@ export const commit = (key, val) => ({
   val,
 });
 
-export const search = data => ({
-  type: TYPES.SEARCH,
+export const exportSubmit = data => ({
+  type: TYPES.EXPORT,
   data,
 });
-export const searchSuccess = data => ({
+export const exportSubmitSuccess = data => ({
   data,
-  type: TYPES.SEARCH_SUCCESS,
+  type: TYPES.EXPORT_SUCCESS,
 });
 
 export const initCountry = () => ({

@@ -61,6 +61,10 @@ module.exports = Object.keys(languages).map((lang) => ({
         loaders: ['file-loader'],
       },
       {
+        test: /\.ejs$/,
+        loaders: ['ejs-loader'],
+      },
+      {
         test: /\/me\.json$/,
         use: [ {
           loader: 'react-redux-component-loader',

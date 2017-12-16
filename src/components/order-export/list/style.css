@@ -7,94 +7,41 @@
     word-wrap: break-word ;
 }
 .rowSpace{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: flex-start;*/
+    /*flex-wrap: wrap;*/
+    margin: 0 auto;
+    width: 500px;
     color: #333;
 }
 .rowSpaceList {
-    min-width: 260px;
-    max-width: 470px;
-    margin: 5px 0 5px 15px;
+    margin: 20px auto;
 }
-.batchBg {  }
-.batchBg > button { margin: 0 15px 0 0;  }
-.batchBg > span { margin: 0 5px 0 0;  }
 
 form .colSpace, .colSpace{
-    width:150px;
+    width:250px;
     display: inline-block;
     color: #333;
 }
-form .colSpace2{
-    width:330px;
-    display: inline-block;
-}
+
 .filterSpace {
     margin-bottom: 20px;
 }
 .filterName {
-    min-width:130px;
-    max-width:195px;
+    width:130px;
     display: inline-block;
     text-align:right;
     padding-right:10px;
     vertical-align: middle;
     color: #333;
 }
-.filterButton {
-    margin: 0 10px 0 36px;
-}
-
-.tabsHeader {
-    margin-bottom:15px;
-}
-.ButtonBg {
-    margin-top:25px;
-}
-.buttonStyle {
-    border: 1px solid #d9d9d9;
-    padding: 0 15px;
-    border-radius: 4px;
-    color: #333;
-    line-height: 26px;
-    display: inline-block;
-}
-.buttonStyle:hover {
-    color: #108ee9;
-    border-color: #108ee9;
-}
-
-.ButtonBg > button {
-    margin-right:15px;
-    color: #333;
-}
-form .colSpace2 input {color: #333;}
 
 .content table th {
     color: #000;
 }
 .content table td {
     color: #333;
-}
-
-/*   */
-.downloadCon {
-    width: 50%;
-    /*border: 1px solid #ccc;*/
-    padding: 20px 0;
-    text-align: center;
-    margin: 0 auto;
-    font-size: 13px;
-    color: #000;
-}
-.downloadCon span {
-    display: inline;
-}
-.upload {
-    margin-top: 15px;
 }
 
 

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            /*font-family:serif;*/
+            font-family: 'PayPal-Sans', 'Helvetica Neue', helvetica, Arial, sans-serif;
+        }
+        @page{
+            margin: 0.4cm;
+        }
+        .contain{
+            /*font-size: 1em;*/
+            font-size: 14px;
+            width: 287mm;
+            height: 200mm;
+        }
+        .contain:not(:first-child) {
+            page-break-before: always;
+        }
+
+        /*  worldpay */
+        .middle{
+            border-bottom: 1px solid #fff;
+            border-top: 1px solid #fff;
+            height:70mm;
+            box-sizing: border-box;
+        }
+        .head{
+            height: 40px;
+            line-height: 40px;
+            font-size: 1.5em;
+            font-weight: 700;
+            color: rgba(250,0,11, 1);
+            /*box-sizing: border-box;*/
+            background-color: rgba(207,207,207, 1);
+            margin-botton: 0.4cm;
+        }
+
+        .designNum{
+            display: table-cell;
+            vertical-align: middle;
+            height: 10mm;
+            padding-left: 5px;
+            width: 11mm;
+        }
+        .bgRed {
+            background-color: rgb(255,0,11);
+            color: #fff;
+        }
+        .light {
+            background-color: rgba(194,194,194, 1);
+        }
+        table { }
+        .odd th, .odd td {text-align:left; padding-left:5px; }
+        th { font-weight: 100; }
+        .odd td {
+            background-color: rgba(234,234,234, 1);
+        }
+
+        /*  Paypal */
+        .contents {
+            background: #fff;
+            color: #333;
+            border-radius: 3px;
+            border: 1px dotted #ccc;
+        }
+        .contents .head {
+            border-bottom: 1px dotted #ccc;
+            padding: 15px 20px 5px 20px;
+            background-color: #fff;
+            color: #333;
+        }
+        .contents h1 {
+            font-family: 'PayPal-Sans-Big', 'Helvetica Neue', helvetica, Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 400;
+            margin: 0;
+        }
+        .contents .details {
+            padding: 0px 25px;
+        }
+        .contents .details section {
+            padding: 0.5em 0;
+            border-bottom: 1px dotted #ccc;
+        }
+        .contents .details section:last-child {
+            border-bottom: none;
+        }
+        .contents a {
+            color: #1070B4;
+            text-decoration: none;
+        }
+        .contents a:hover {
+            text-decoration: underline;
+        }
+        .TDHeader div.row {
+            line-height: 2em;
+        }
+        .TDHeader .row div.col-sm-3:last-child {
+            text-align: right;
+        }
+        .TDHeader .row span.status-field.completed {
+            color: #117F65;
+            border: 1px solid #21ce93;
+            padding: 2px 10px;
+            font-size: 79%;
+            margin-left: 8px;
+            text-transform: uppercase;
+        }
+        .headBg, .hidden-print { display: flex; }
+        .headLeft { width: 75%;}
+        .headRight { width: 25%;}
+        .total-amount {
+            font-size: 200%;
+            padding-left: 0.2em;
+            white-space: nowrap;
+        }
+        .TDHeader .td-type, .TDHeader .td-purpose {
+            font-weight: 500;
+        }
+        .time {width: 48%; margin-right:1.5%; white-space: nowrap;}
+        .trans-id { width: 50%; white-space: nowrap;}
+        .trans-id:before {
+            content: "|";
+            margin: 0 0.5em 0 0;
+            color: #ccc;
+        }
+        .contents h3 {
+            margin: 0.5em 0 0.75em 0;
+            font-size: 100%;
+            font-weight: 500 !important;
+        }
+        .ShippedToSeller div .addressee {
+            margin-bottom: 0.5em;
+        }
+        .conditions-hdr {
+            margin-top: 1em;
+        }
+        .contents ul {
+            margin: 0.5em;
+            padding: 0;
+        }
+        .infoBg, .addressBg { display: flex;}
+        .address {width: 50%;box-sizing: border-box;}
+        .infoLeft { width: 33%;}
+        .infoRight {width: 67%;    margin: 0.5em 0 0.75em;}
+        .account-status {
+            font-size: 93%;
+            color: #999;
+        }
+        div.account-status span {
+            font-weight: bold;
+            color: #000;
+        }
+        .contents ul {
+            margin: 0.5em;
+            padding: 0;
+            list-style: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="box">
+    <%if(list.payment_method == 'worldpay'){%>
+        <div class="contain">
+            <div class="head">Payment Details</div>
+            <div class="middle">
+                <table>
+                    <tbody>
+                        <tr><td style="vertical-align: top">
+                            <table>
+                                <tbody><tr class="odd">
+                                    <th class="light">creation date</th>
+                                    <td>
+                                        <%=list.add_time%>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <th class="light">order code</th>
+                                    <td><%=list.billno%></td>
+                                </tr>
+                                <tr class="odd">
+                                    <th class="light">amount</th>
+                                    <td><%=list.currency_code%> <%=list.currency_total%></td>
+                                    <td>&nbsp;</td>
+                                    <th class="light">status</th>
+                                    <td>CAPTURED</td>
+                                </tr>
+                                <tr class="odd">
+                                    <th class="light">last update</th>
+                                    <td>
+                                        <%=list.pay_time%>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <th class="light">brand-protocol</th>
+                                    <td>VISA_DEBIT-SSL</td>
+                                </tr>
+                                <tr class="odd">
+                                    <th class="light">cardholder name</th>
+                                    <td><%=list.first_name%> <%=list.last_name%></td>
+                                    <td>&nbsp;</td>
+                                    <th class="light">customer interaction</th>
+                                    <td>ECommerce</td>
+                                </tr>
+                                <tr class="odd"></tr>
+                                </tbody></table>
+                        </td>
+                        <td style="vertical-align: top">
+                            <table>
+                                <tbody><tr>
+                                    <td>
+                                        <table class="avscvc">
+
+                                            <tbody><tr class="odd">
+                                                <th class="light" rowspan="2" valign="top">Security Level</th>
+                                                <th align="left" rowspan="2" class="bgRed">Acquirer returned</th>
+                                                <th align="left" colspan="2" class="bgRed">Required</th>
+                                            </tr>
+                                            <tr class="odd">
+                                                <th align="left" class="bgRed">default</th>
+                                                <th align="left" class="bgRed">override</th>
+                                            </tr>
+                                            <tr class="odd">
+                                                <th class="light">AVS</th>
+                                                <td align="left">
+                                                    <b>J</b>&nbsp;-&nbsp;Postcode and address not matched
+                                                </td>
+                                                <td align="left"><span class="hover">H</span>
+                                                </td>
+                                                <td align="left"><span title="(no transaction override)">-</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="odd">
+                                                <th class="light">CVC</th>
+                                                <td align="left">
+                                                    <b>A</b>&nbsp;-&nbsp;CVV/CVC matched
+                                                </td>
+                                                <td align="left">
+                                                    <b>C</b>&nbsp;-&nbsp;CVV/CVC not checked
+                                                </td>
+                                                <td align="left"><span>-</span>
+                                                </td>
+                                            </tr>
+                                            </tbody></table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tbody><tr class="odd">
+                                                <th class="light">Shopper IP address &nbsp;</th>
+                                                <td><%=list.ip%> &nbsp;</td>
+                                            </tr>
+                                            <tr class="odd">
+                                                <th class="light">Shopper IP country &nbsp;</th>
+                                                <td><%=list.country%> &nbsp;</td>
+                                            </tr>
+                                            <tr class="odd">
+                                                <th class="light">Card issuer country &nbsp;</th>
+                                                <td><%=list.country%> &nbsp;</td>
+                                            </tr>
+                                            </tbody></table>
+                                    </td>
+                                </tr>
+                                </tbody></table>
+                        </td>
+                    </tr>
+                    </tbody></table>
+            </div>
+        </div>
+    <%}else{%>
+    <div class="contain contents" data-reactid="14">
+        <div class="head" data-reactid="15">
+           <h1 data-reactid="19">Transaction details <%=list.payment_method%></h1>
+        </div>
+        <div class="details" data-reactid="29">
+            <section class="TDHeader" data-reactid="31">
+                <div class="row headBg" data-reactid="32">
+                    <div class="headLeft" data-reactid="33">
+                        <div data-reactid="34">
+                            <span class="td-type">Payment received</span>
+                            <span> from <%=list.first_name%> <%=list.last_name%> <!-- 名 姓 --></span>
+                        </div>
+                        <div class="row hidden-print" data-reactid="35">
+                            <div class="time" data-reactid="36">    <%=list.pay_time%> <!-- 支付时间 --></div>
+                            <div class="trans-id" data-reactid="37">Transaction ID: <%=list.txn_id%></div><!-- 交易凭证号 -->
+                        </div>
+                        <div class="row" data-reactid="38">
+                            <div class="payment-status no-wrap col-sm-6" data-reactid="39">Payment status:<span class="status-field completed" data-reactid="42">Completed</span>
+                            </div>
+                        </div>
+                        <div data-reactid="43"></div>
+                        <div class="row" data-reactid="44">
+                            <div class="no-wrap col-md-6" data-reactid="45">Payment type:<span data-reactid="48">Mobile payment</span>
+                            </div>
+                            <div class="view-details-no-pipe no-wrap col-md-6" data-reactid="49"></div>
+                        </div>
+                    </div>
+                    <div class="headRight" data-reactid="50">
+                        <div data-reactid="51"><span class="total-amount-msg" data-reactid="52">Gross amount</span>
+                        </div>
+                        <div data-reactid="53"><span class="total-amount" data-reactid="54"><%=list.currency_total%>&nbsp;<%=list.currency_code%> </span></div> <!-- 支付金额，币种 -->
+                    </div>
+                </div>
+            </section>
+            <div class="row addressBg" data-reactid="55">
+                <div class="address" data-reactid="56">
+                    <section class="ShippedToSeller" data-reactid="57">
+                        <div class="row" data-reactid="58">
+                            <div class="col-md-12" data-reactid="59">
+                                <div data-reactid="60">
+                                    <h3 data-reactid="61">OK to ship to</h3>
+                                    <div class="addressee" data-reactid="62"><%=list.first_name%> <%=list.last_name%></div>
+                                    <div data-reactid="63">
+                                        <%=list.address1%><br>
+                                        <%=list.address2%><br>
+                                        <%=list.zipcode%> <%=list.city%> <br>
+                                        <%=list.country%><br>
+                                        <%=list.telphone%>
+                                    </div>
+                                    <div data-reactid="64"></div>
+                                    <div class="confirmed addr-confirm" data-reactid="65">Confirmed
+                                        <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=p/pop/confirmed_address" data-reactid="67"><span class="icon icon-small icon-tooltip-small" data-reactid="68"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="address" style="margin-left:50px;" data-reactid="75">
+                    <section class="SellerProtection" data-reactid="76">
+                        <div class="row" data-reactid="77">
+                            <div class="col-md-12" data-reactid="78">
+                                <h3 data-reactid="79">Seller Protection</h3>
+                                <div data-reactid="80">Eligible</div>
+                                <div data-reactid="81">
+                                    <div class="conditions-hdr" data-reactid="82">Eligible when you ...</div>
+                                    <ul data-reactid="83"><li>Ship to the address on this page.</li>
+                                        <li>Save your tracking or shipping information.</li>
+                                        <li>Follow the <a href="https://www.paypal.com/webapps/mpp/ua/useragreement-full#11" target="_blank" data-pa-click="main:businessweb:txns:detail:toSellerProReq">requirements for Seller Protection</a>.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!--  -->
+            <section class="ProductID" data-reactid="158">
+                <div data-reactid="150">Refund
+                </div>
+            </section>
+            <section class="ProductID" data-reactid="158">
+                <div class="row infoBg" data-reactid="159">
+                    <h3 class="infoLeft" data-reactid="160">Invoice ID</h3>
+                    <p class="infoRight" data-reactid="161"><%=list.billno%></p>
+                </div>
+            </section>
+            <section class="NameEmailPaidBy pagebreak" data-reactid="164">
+                <div class="row infoBg" data-reactid="165">
+                    <h3 class="infoLeft" data-reactid="166">Paid by</h3>
+                    <div class="col-sm-8 infoRight" data-reactid="167">
+                        <div data-reactid="169"><span data-reactid="170"><%=list.first_name%> <%=list.last_name%></span><span data-reactid="171"></span></div>
+                        <div class="account-status" data-reactid="172">The sender of this payment is <span>not verified and is located outside the US</span>.</div>
+                        <div data-reactid="173"><%=list.email%></div>
+                    </div>
+                </div>
+            </section><!-- react-empty: 174 -->
+        </div>
+    </div>
+
+
+    <%}%>
+
+</div>
+</body>
+</html>

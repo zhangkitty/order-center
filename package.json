@@ -63,6 +63,8 @@
     "react-router-redux": "^4.0.8",
     "redux": "^3.7.2",
     "redux-saga": "^0.15.6",
-    "whatwg-fetch": "^2.0.1"
+    "whatwg-fetch": "^2.0.1",
+    "ejs-loader": "^0.3.0",
+    "pds-serv-fe": "^1.2.0"
   }
 }

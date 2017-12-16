@@ -5,8 +5,6 @@
 const prefix = 'order_export_';
 export const INIT = `${prefix}init`;
 
-export const SEARCH = `${prefix}search`;
-export const SEARCH_SUCCESS = `${prefix}search_success`;
 export const EXPORT = `${prefix}export`;
 export const EXPORT_SUCCESS = `${prefix}export_success`;
 
