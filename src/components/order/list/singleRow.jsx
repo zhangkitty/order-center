@@ -118,7 +118,7 @@ const checkboxChecked = {
   23: true, // 等待出仓
   49: true, // 等待发货
   16: true, // 发货
-  127: true, // 已经退款
+  7: true, // 已经退款
   20: true, // 被换
   54: true, // COD已签收
   91: true, // COD已报损
