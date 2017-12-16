@@ -66,4 +66,6 @@ Price.propTypes = {
   dispatch: PropTypes.func,
   dataSource: PropTypes.shape(),
 };
+
+
 export default Price;
