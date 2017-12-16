@@ -41,6 +41,20 @@ const maxTypes = data => ({
     3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount,
     4: data.orderPriceInfo.totalPrice.priceWithExchangeRate.amount * 1.5,  // 溢出（实付金额*150%）
   },
+  3: {
+    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
+    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
+    3: data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount,
+  },
+  4: {
+    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
+    2: Number(Number(data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount)
+        +
+        (Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5))
+        .toFixed(2), // 钱包(实付金额*150%+钱包可退金额)
+    3: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
+    4: data.orderPriceInfo.totalPrice.priceUsd.amount * 1.5,  // 溢出（实付金额*150%）
+  },
 }
 );
 const maxv = (res, refundPathId) => {
@@ -48,9 +62,9 @@ const maxv = (res, refundPathId) => {
   const temp = maxTypes(ss); // 最大值
   let temp2;
   if (Number(ss.refundBillInfo.refundTypeId) !== 2) {
-    temp2 = temp[1];
+    temp2 = res.is_usd ? temp[3] : temp[1];
   } else {
-    temp2 = temp[2];
+    temp2 = res.is_usd ? temp[4] : temp[2];
   }
   return temp2[refundPathId];
 };
@@ -115,8 +129,6 @@ const reducer = (state = defaultState, action) => {
       return state;
   }
 };
-
-
 
 export default reducer;
 

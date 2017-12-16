@@ -52,7 +52,7 @@ const Price = ({ submitValue, dispatch, dataSource }) => (
                     ...submitValue.recordList.slice(i + 1),
                   ]))}
                 />
-                <span className={style.titleBg}>{__('order.goodsRefund.no_over_price')}{v.currency}{v.max}</span>
+                <span className={style.titleBg}>{__('order.goodsRefund.no_over_price')}{dataSource.isUsd ? '$' : v.currency}{v.max}</span>
               </div>
             </div>
           ))
