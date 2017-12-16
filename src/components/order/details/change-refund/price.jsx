@@ -68,4 +68,6 @@ Price.propTypes = {
 };
 
 
+
+
 export default Price;
