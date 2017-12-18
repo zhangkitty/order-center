@@ -138,7 +138,7 @@ const svInit = (source) => {
     amount1 = isUsd ? source.orderPriceInfo.waitRefundPrice.priceUsd.amount : source.orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
   }
   // 减去运费和运费险剩下的钱(均不退)
-  const noRefund = amount1 - shippingInsurePrice - shippingPrice;
+  const noRefund = isAllCancel ? (amount1 - shippingInsurePrice - shippingPrice) : amount1;
   const maxObj = maxTypes(source);
   const temp = Object.values(maxObj).reduce((result, value) => {
     if (noRefund - result.reduce((sum, val) => sum + val, 0) > value) {
