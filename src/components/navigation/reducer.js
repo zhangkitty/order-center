@@ -108,6 +108,13 @@ const menus = [
         crumbName: __('nav.failedaddrorder'),
         nav: true,
       },
+      {
+        link: '/stockingExpired', // 备货超期
+        name: __('nav.stockingExpired'),
+        crumbName: __('nav.stockingExpired'),
+        nav: true,
+
+      },
     ],
   },
 ];
