@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Input, Select, DatePicker, Button } from 'antd';
-import { filterCommit } from './action';
+import { filterCommit, getData } from './action';
 import style from './style.css';
 
 // TODO: lan
@@ -26,6 +26,10 @@ const Filters = ({
 }) => (
   <form
     className={style.fliterFlex}
+    onSubmit={(e) => {
+      e.preventDefault();
+      dispatch(getData(filter));
+    }}
   >
     {/* row 1 */}
     <div>
@@ -43,7 +47,7 @@ const Filters = ({
       </div>
       <div>
         <span>{ lan.leixing }</span>
-        <Select value={filter.trouble_type} onChange={v => dispatch(filterCommit('trouble_type', v))}>
+        <Select value={filter.trouble_type} onChange={v => dispatch(filterCommit('trouble_type', v))} allowClear>
           {filters.trouble_type.map(v => (<OP key={v.id}>{v.name}</OP>))}
         </Select>
       </div>
@@ -52,13 +56,13 @@ const Filters = ({
     <div>
       <div>
         <span>{ lan.zhaungtai }</span>
-        <Select value={filter.handle_status} onChange={v => dispatch(filterCommit('handle_status', v))}>
+        <Select value={filter.handle_status} onChange={v => dispatch(filterCommit('handle_status', v))} allowClear>
           {filters.handle_status.map(v => (<OP key={v.id}>{v.name}</OP>))}
         </Select>
       </div>
       <div>
         <span>{ lan.jieguo }</span>
-        <Select value={filter.handle_result} onChange={v => dispatch(filterCommit('handle_result', v))}>
+        <Select value={filter.handle_result} onChange={v => dispatch(filterCommit('handle_result', v))} allowClear>
           {filters.handle_result.map(v => (<OP key={v.id}>{v.name}</OP>))}
         </Select>
       </div>
@@ -68,7 +72,7 @@ const Filters = ({
       </div>
       <div>
         <span>{ lan.cou }</span>
-        <Select value={filter.shipping_country_name} onChange={v => dispatch(filterCommit('shipping_country_name', v))}>
+        <Select value={filter.shipping_country_name} onChange={v => dispatch(filterCommit('shipping_country_name', v))} allowClear>
           {filters.country.map(v => (<OP key={v.id}>{v.name}</OP>))}
         </Select>
       </div>
@@ -77,7 +81,7 @@ const Filters = ({
     <div>
       <div>
         <span>{ lan.site }</span>
-        <Select value={filter.site_from} onChange={v => dispatch(filterCommit('site_from', v))}>
+        <Select value={filter.site_from} onChange={v => dispatch(filterCommit('site_from', v))} allowClear>
           {filters.site_from.map(v => (<OP key={v.id}>{v.name}</OP>))}
         </Select>
       </div>
