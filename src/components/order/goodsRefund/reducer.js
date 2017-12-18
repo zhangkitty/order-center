@@ -119,38 +119,43 @@ const originPrice = (priceRefund = 0, data) => {
   return price;
 };
 
+
 /**
  *
  * @param source: dataSource
  */
 
 const svInit = (source) => {
+  const { isUsd } = source;
   const { orderPriceInfo: { isAllCancel } } = source;
-  const { orderPriceInfo: { waitRefundPrice: { priceUsd: { amount: amount1 } } } } = source;
-  const { orderPriceInfo: { waitRefundPrice: { priceWithExchangeRate: { amount: amount2 } } } } = source;
+  // 运费和运费险
+  const shippingInsurePrice = isUsd ? source.orderPriceInfo.shippingInsurePrice.priceUsd.amount : source.orderPriceInfo.shippingInsurePrice.priceWithExchangeRate.amount;
+  const shippingPrice = isUsd ? source.orderPriceInfo.shippingPrice.priceUsd.amount : source.orderPriceInfo.shippingPrice.priceWithExchangeRate.amount;
+  let amount1;
+  if (isAllCancel) {
+    amount1 = isUsd ? source.orderPriceInfo.orderCanBeRefundedPrice.priceUsd.amount : source.orderPriceInfo.orderCanBeRefundedPrice.priceWithExchangeRate.amount;
+  } else {
+    amount1 = isUsd ? source.orderPriceInfo.waitRefundPrice.priceUsd.amount : source.orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
+  }
+  // 减去运费和运费险剩下的钱(均不退)
+  const noRefund = amount1 - shippingInsurePrice - shippingPrice;
   const maxObj = maxTypes(source);
-  const priceObj = originPrice(
-    Number(source.orderPriceInfo.waitRefundPrice.priceUsd.amount || 0),
-    source);
-  const mypriceObj1 = originPrice(
-    amount1 || 0,
-    source);
-  const mypriceObj2 = originPrice(
-    amount2 || 0,
-    source);
+  const temp = Object.values(maxObj).reduce((result, value) => {
+    if (noRefund - result.reduce((sum, val) => sum + val, 0) > value) {
+      return [...result, value];
+    }
+    return [...result, noRefund - result.reduce((sum, val) => sum + val, 0) > 0 ? noRefund - result.reduce((sum, val) => sum + val, 0) : 0];
+  }, []);
+  const priceObj = temp.reduce((result, value, idx) => {
+    result[++idx] = Number(Number(value).toFixed(2));
+    return result;
+  }, {});
   const arr = source.orderRefundPathList.map(v => ({
     refundTypeId: v.refundPathId,
     isShow: (Number(v.refundPathId) === 1 && Number(maxObj[v.refundPathId]) > 0) ||
     (Number(v.refundPathId) > 1 && Number(v.refundPathId) !== 4),
-    refundAmount: isAllCancel ? +Number(mypriceObj1[v.refundPathId]).toFixed(2) : (priceObj[v.refundPathId] < 0 ? 0 : priceObj[v.refundPathId]),
-    refundCurrency: isAllCancel ? +Number(mypriceObj2[v.refundPathId]).toFixed(2) : (Number(
-      Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
-    ) < 0 ?
-    0
-    :
-      Number(
-        Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
-      )),
+    refundAmount: isUsd === 1 ? priceObj[v.refundPathId] : Number(Number(priceObj[v.refundPathId] * (1 / v.priceWithExchangeRate.rate)).toFixed(2)),
+    refundCurrency: isUsd === 1 ? Number(Number(priceObj[v.refundPathId] * v.priceWithExchangeRate.rate).toFixed(2)) : priceObj[v.refundPathId],
     rate: v.priceWithExchangeRate.rate,
     rate2: 1 / v.priceWithExchangeRate.rate,
     currency: v.priceWithExchangeRate.symbol,
@@ -230,12 +235,7 @@ const allBack = (source, arr, back, rl, type, refundPaths) => {
     return refundPaths.map((v) => {
       const temp = assign({}, v, {
         refundAmount: v.check ? Number(Number(price[v.refundTypeId] * v.rate2).toFixed(2)) : 0.00,
-        refundCurrency:
-          v.check ?
-            Number(Number(price[v.refundTypeId]).toFixed(2)) < v.max ?
-            Number(Number(price[v.refundTypeId]).toFixed(2))
-              : v.max
-          : 0.00,
+        refundCurrency: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
       });
       return temp;
     });
@@ -289,11 +289,7 @@ const allBack = (source, arr, back, rl, type, refundPaths) => {
       }
     }
     return refundPaths.map(v => assign({}, v, {
-      refundAmount: v.check ?
-        Number(Number(price[v.refundTypeId]).toFixed(2)) < v.max ?
-          Number(Number(price[v.refundTypeId]).toFixed(2)) :
-          v.max
-        : 0.00,
+      refundAmount: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
       refundCurrency: v.check ? Number(Number(price[v.refundTypeId] * v.rate).toFixed(2)) : 0.00,
 
     }));

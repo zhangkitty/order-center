@@ -67,7 +67,4 @@ Price.propTypes = {
   dataSource: PropTypes.shape(),
 };
 
-
-
-
 export default Price;
