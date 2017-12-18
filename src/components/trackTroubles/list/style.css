@@ -18,3 +18,27 @@
     display: flex;
     justify-content: flex-end;
 }
+.modalBtnLay {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+.modalempty {
+    text-align: center;
+    margin: 30px;
+}
+.modalForm {
+    display: flex;
+    margin: 20px 0;
+}
+.handleDesc {
+    display: flex;
+    margin: 20px;
+}
+.handleDesc > span {
+    width: 120px;
+}
+.handleBtn {
+    display: flex;
+    justify-content: center;
+}

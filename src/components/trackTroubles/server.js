@@ -5,6 +5,10 @@ import { camel2Under } from '../../lib/camal';
 const list = {
   getData: '/OrderLogisticsTroubles/getPagedList',
   getFilter: '/OrderLogisticsTroubles/getSearchFilters',
+  getRemarks: '/OrderLogisticsTroubles/getNotes',
+  addRemark: '/OrderLogisticsTroubles/addNote',
+  followTrouble: '/OrderLogisticsTroubles/follow',
+  handledSer: 'OrderLogisticsTroubles/handle',
 };
 
 export const getDataSer = (filter) => {
@@ -20,5 +24,30 @@ export const getDataSer = (filter) => {
 export const getFilters = () => (
   fetch(list.getFilter, {
     method: 'GET'
+  })
+);
+export const getRemarks = id => (
+  fetch(`${list.getRemarks}?trouble_id=${id}`, {
+    method: 'GET'
+  })
+);
+
+export const addRemark = (id, note) => (
+  fetch(list.addRemark, {
+    method: 'post',
+    body: JSON.stringify({ trouble_id: +id, note }),
+  })
+);
+
+export const followTroubleSer = id => (
+  fetch(list.followTrouble, {
+    method: 'post',
+    body: JSON.stringify({ trouble_id: +id }),
+  })
+);
+export const handledSer = (id, res) => (
+  fetch(list.followTrouble, {
+    method: 'post',
+    body: JSON.stringify({ trouble_id: +id, handle_result: +res }),
   })
 );
