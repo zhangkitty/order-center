@@ -21,9 +21,9 @@ function* exportSaga(action) {
   const data = yield exportSubmit(action.data);
   if (!data || data.code !== 0) {
     yield put(change('exportLoad', false));
-    return message.error(`${__('returns.list.submitTitle3')}${data.msg}`);
+    return message.error(`${__('order-export.submitTitle3')}${data.msg}`);
   }
-  message.success(__('returns.list.submitTitle4'));
+  message.success(__('order-export.submitTitle4'));
   yield put(change('exportLoad', false));
   yield put(exportSubmitSuccess(data));
   const lists = data.data;
@@ -43,8 +43,8 @@ function* exportSaga(action) {
 function* initCountrySaga() {
   const data = yield initCountrySer();
   if (!data || data.code !== 0) {
-    yield put(change('load', false));
-    return message.error(`${__('refund.list.submitTitle1')} ${data.msg}`);
+  //  yield put(change('load', false));
+    return message.error(`${__('order-export.submitTitle1')} ${data.msg}`);
   }
   return yield put(initCountrySuccess(data));
 }

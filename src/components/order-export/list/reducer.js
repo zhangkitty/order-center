@@ -6,7 +6,6 @@ import * as TYPES from './types';
 
 const defaultState = {
   dataSource: {},
-  showType: null,
   fetchContent: [],
   fetchMethod: [],
   queryString: {
@@ -14,12 +13,8 @@ const defaultState = {
     export_method: '0',
     param: null, // XLP5236, LKH5236-ABCDEG
   },
-  searchLoad: false,
-  load: false,
+  // load: false,
   exportLoad: false,  // 导出load
-  loadUpdata: false,
-  total: 0,
-  tracking_update: null, // 更新运单号返回信息
 };
 
 const reducer = (state = defaultState, action) => {
@@ -45,17 +40,17 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         dataSource: action.data.data,
         showType: action.data.data.payment_method,
-        exportLoad: true,
+        exportLoad: false,
       });
     case TYPES.INIT_COUNTRY:
       return assign({}, state, {
-        load: true,
+        // load: true,
       });
     case TYPES.INIT_COUNTRY_SUCCESS:
       return assign({}, state, {
         fetchContent: action.data.data.export_content, // 付款凭证
         fetchMethod: action.data.data.export_method, // 按包裹号导出
-        load: false,
+      //  load: false,
       });
     default:
       return state;

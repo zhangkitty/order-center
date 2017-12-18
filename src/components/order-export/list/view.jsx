@@ -21,7 +21,7 @@ class returnsList extends Component {
   render() {
     const {
       fetchContent, fetchMethod,
-      dispatch, dataSource, queryString, load, searchLoad, showType,
+      dispatch, dataSource, queryString, exportLoad,
     } = this.props;
     const {
       export_content, export_method, param,
@@ -35,7 +35,7 @@ class returnsList extends Component {
             if (
               !param || param.trim().length < 1
             ) {
-              return message.warning('缺少必填字段');
+              return message.warning(__('order-export.submitTitle')); // 缺少必填字段
             }
             return dispatch(exportSubmit(queryString));
           }}
@@ -43,7 +43,7 @@ class returnsList extends Component {
           <div className={styles.rowSpace}>
 
             <div className={styles.rowSpaceList}>
-              <span className={styles.filterName}>{Star}导出内容</span>
+              <span className={styles.filterName}>{Star}{__('order-export.exportContent')}</span>
               <Select
                // allowClear
                 className={styles.colSpace}
@@ -59,7 +59,7 @@ class returnsList extends Component {
             </div>
 
             <div className={styles.rowSpaceList}>
-              <span className={styles.filterName}>{Star}导出方式</span>
+              <span className={styles.filterName}>{Star}{__('order-export.exportContent1')}</span>
               <Select
                 className={styles.colSpace}
                 value={export_method}
@@ -73,10 +73,10 @@ class returnsList extends Component {
               </Select>
             </div>
             <div className={styles.rowSpaceList}>
-              <span className={styles.filterName}>{Star}{__('returns.list.refund_number')}</span>
+              <span className={styles.filterName}>{Star}{__('order-export.exportContent2')}</span>
               <Input
                 className={styles.colSpace}
-                placeholder="请输入单个包裹号"
+                placeholder={__('order-export.submitTitle2')}
                 value={param}
                 onChange={e => dispatch(commit('param', e.target.value))}
               />
@@ -87,10 +87,10 @@ class returnsList extends Component {
               <Button
                 className={styles.filterButton}
                 type="primary"
-                loading={searchLoad}
+                loading={exportLoad}
                 htmlType={'submit'}
               >
-                导出
+                {__('order-export.export')}
               </Button>
             </div>
           </div>
@@ -104,9 +104,7 @@ class returnsList extends Component {
 }
 returnsList.propTypes = {
   dispatch: PropTypes.func,
-  load: PropTypes.bool,
-  searchLoad: PropTypes.bool,
-  showType: PropTypes.string,
+  exportLoad: PropTypes.bool,
   dataSource: PropTypes.shape(),
   fetchContent: PropTypes.arrayOf(PropTypes.shape()),
   fetchMethod: PropTypes.arrayOf(PropTypes.shape()),
