@@ -4,7 +4,7 @@
 import { message } from 'antd';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 import assign from 'object-assign';
-import { printed } from '../../../lib/deal-func'; //printToDataLandscape
+import { printed } from '../../../lib/deal-func';
 import moment from 'moment';
 import {
   initCountrySer, exportSubmit,
@@ -37,8 +37,7 @@ function* exportSaga(action) {
     add_time,
     pay_time,
     paypal_time,
-  }));
-  // return window.open(data.data);
+  }), false, false, '', true, true);
 }
 
 function* initCountrySaga() {

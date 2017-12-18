@@ -38,7 +38,7 @@ module.exports = Object.keys(languages).map((lang) => ({
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loaders: [
-          'babel-loader', {
+          'babel-loader?cacheDirectory', {
             loader: 'react-redux-component-loader',
             options: {
               externals: ['navigation', 'login'],

@@ -84,7 +84,7 @@ export const printed = (str, isInfo = false, isUrl = 0, otherStr = '', isPrintDa
       newPrint.document.write(str);
       newPrint.document.close();
     } else {
-      pdsS('http://pdf.dotfashion.cn?landscape=' + landscape, str);
+      pdsS('http://pdf.dotfashion.cn?background=true&landscape=' + landscape, str);
     }
   }
   return true;

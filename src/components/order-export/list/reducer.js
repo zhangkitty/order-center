@@ -12,7 +12,7 @@ const defaultState = {
   queryString: {
     export_content: '0', // 退货险
     export_method: '0',
-    param: 'LKH5236-ABCDEG',
+    param: null, // XLP5236, LKH5236-ABCDEG
   },
   searchLoad: false,
   load: false,

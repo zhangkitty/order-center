@@ -95,18 +95,9 @@ class returnsList extends Component {
             </div>
           </div>
         </form>
-
-        {console.log(dataSource, 'dataSource')}
-
         {
-          showType === 'worldpay' &&
-            <div>worldpay worldpay</div>
+          // console.log(dataSource, 'dataSource')
         }
-        {
-          showType === 'paypal' &&
-          <div>paypal  paypal</div>
-        }
-
       </div>
     );
   }
