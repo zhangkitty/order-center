@@ -5,6 +5,7 @@ import { message } from 'antd';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 import assign from 'object-assign';
 import { printed } from '../../../lib/deal-func'; //printToDataLandscape
+import moment from 'moment';
 import {
   initCountrySer, exportSubmit,
 } from '../server';
@@ -26,8 +27,16 @@ function* exportSaga(action) {
   yield put(change('exportLoad', false));
   yield put(exportSubmitSuccess(data));
   const lists = data.data;
+  moment.locale('en');
+  const add_time = moment(data.data.add_time).format('DD/MM/YYYY - h:mm'); // 下单时间 worlpay
+  const pay_time = moment(data.data.add_time).format('DD/MM/YYYY - h:mm');  // 付款时间  worlpay
+  const paypal_time = moment(data.data.pay_time).format('MMMM Do YYYY, h:mm:ss a');   // 付款时间  paypal
+  // console.log(paypal_time, 'paypal_time');
   return yield printed(tpl({
     list: lists,
+    add_time,
+    pay_time,
+    paypal_time,
   }));
   // return window.open(data.data);
 }

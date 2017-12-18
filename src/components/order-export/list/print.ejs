@@ -10,6 +10,13 @@
             /*font-family:serif;*/
             font-family: 'PayPal-Sans', 'Helvetica Neue', helvetica, Arial, sans-serif;
         }
+        a {
+            color: #1070B4;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
         @page{
             margin: 0.4cm;
         }
@@ -91,13 +98,6 @@
         .contents .details section:last-child {
             border-bottom: none;
         }
-        .contents a {
-            color: #1070B4;
-            text-decoration: none;
-        }
-        .contents a:hover {
-            text-decoration: underline;
-        }
         .TDHeader div.row {
             line-height: 2em;
         }
@@ -123,8 +123,8 @@
         .TDHeader .td-type, .TDHeader .td-purpose {
             font-weight: 500;
         }
-        .time {width: 48%; margin-right:1.5%; white-space: nowrap;}
-        .trans-id { width: 50%; white-space: nowrap;}
+        .time {margin-right:3%; white-space: nowrap;}
+        .trans-id {white-space: nowrap;}
         .trans-id:before {
             content: "|";
             margin: 0 0.5em 0 0;
@@ -178,7 +178,7 @@
                                 <tbody><tr class="odd">
                                     <th class="light">creation date</th>
                                     <td>
-                                        <%=list.add_time%>
+                                        <%=add_time%> <!--下单时间  worlpay  -->
                                     </td>
                                     <td>&nbsp;</td>
                                     <th class="light">order code</th>
@@ -194,7 +194,7 @@
                                 <tr class="odd">
                                     <th class="light">last update</th>
                                     <td>
-                                        <%=list.pay_time%>
+                                        <%=pay_time%> <!--付款时间  worlpay  -->
                                     </td>
                                     <td>&nbsp;</td>
                                     <th class="light">brand-protocol</th>
@@ -287,7 +287,7 @@
                             <span> from <%=list.first_name%> <%=list.last_name%> <!-- 名 姓 --></span>
                         </div>
                         <div class="row hidden-print" data-reactid="35">
-                            <div class="time" data-reactid="36">    <%=list.pay_time%> <!-- 支付时间 --></div>
+                            <div class="time" data-reactid="36">    <%=paypal_time%> <!-- 支付时间 --></div>
                             <div class="trans-id" data-reactid="37">Transaction ID: <%=list.txn_id%></div><!-- 交易凭证号 -->
                         </div>
                         <div class="row" data-reactid="38">
@@ -323,10 +323,12 @@
                                         <%=list.country%><br>
                                         <%=list.telphone%>
                                     </div>
+                                    <!--
                                     <div data-reactid="64"></div>
                                     <div class="confirmed addr-confirm" data-reactid="65">Confirmed
                                         <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=p/pop/confirmed_address" data-reactid="67"><span class="icon icon-small icon-tooltip-small" data-reactid="68"></span></a>
                                     </div>
+                                    -->
                                 </div>
                             </div>
                         </div>
@@ -353,7 +355,8 @@
 
             <!--  -->
             <section class="ProductID" data-reactid="158">
-                <div data-reactid="150">Refund
+                <div data-reactid="150">
+                    <a href="https://www.paypal.com/activity/actions/refund/edit/<%=list.txn_id%>" data-reactid="153">Refund</a>
                 </div>
             </section>
             <section class="ProductID" data-reactid="158">
