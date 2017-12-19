@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
-import { Button, Modal, Spin, Table, Input, Select, message, Upload, Icon } from 'antd';
+import { Button, Modal, Spin, Table, Input, Select, message } from 'antd';
 import { commit, addRemark, handled } from './action';
+import UploadWrap from './uploadWrap';
 import style from './style.css';
 
 // TODO
@@ -17,7 +18,7 @@ const Modals = ({
   dispatch,
   remarkShow, remarkLoad, remarkData, remark, troubleId,
   handledShow, filters, handleType, filter, load,
-  uploadShow, fileList,
+  uploadShow,
 }) => (
   <div>
     {/* 备注 */}
@@ -125,38 +126,7 @@ const Modals = ({
     >
       <div className={style.uploadLay}>
         <span className={style.uploadSpan}>{lan.uploadImg} :</span>
-        <Upload
-          action="/index_new.php/order/OrderLogisticsTroubles/upload"
-          listType="picture-card"
-          multiple
-          name={'files[]'}
-          data={{ trouble_id: troubleId }}
-          fileList={fileList}
-          showUploadList={{ showPreviewIcon: false, showRemoveIcon: true }}
-          beforeUpload={(file, list) => {
-            const isImg = file.type === 'image/jpeg' || file.type === 'image/png';
-            if (list.length > 2 || !isImg) {
-              message.error('最多只能上传2张图片,且格式为jpeg 或者 png');
-              return false;
-            }
-            return true;
-          }}
-          onChange={({ file, list }) => {
-            const { response, status } = file;
-
-            if (status === 'done') {
-              console.log(response);
-            }
-          }}
-        >
-          {
-            fileList.length > 2 ? null :
-            <div>
-              <Icon type="plus" />
-              <div>Upload</div>
-            </div>
-          }
-        </Upload>
+        <UploadWrap troubleId={troubleId} flag={uploadShow} />
       </div>
 
     </Modal>
@@ -166,6 +136,7 @@ Modals.propTypes = {
   dispatch: PropTypes.func,
   remarkShow: PropTypes.bool,
   remarkLoad: PropTypes.bool,
+  uploadShow: PropTypes.bool,
   load: PropTypes.bool,
   remark: PropTypes.string,
   troubleId: PropTypes.string,
@@ -174,7 +145,6 @@ Modals.propTypes = {
   filters: PropTypes.shape(),
   filter: PropTypes.shape(),
   handleType: PropTypes.string,
-  fileList: PropTypes.arrayOf(PropTypes.shape()),
 };
 
 export default Modals;
