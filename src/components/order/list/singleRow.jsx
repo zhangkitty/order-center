@@ -120,7 +120,7 @@ const checkboxChecked = {
   16: true, // 发货
   7: true, // 已经退款
   20: true, // 被换
-  54: true, // COD已签收
+  // 54: true, // COD已签收
   91: true, // COD已报损
 };
 // 操作查询
