@@ -3,7 +3,17 @@
  */
 import * as TYPES from './types';
 
-// export const init = () => ({
-//   type: TYPES.INIT,
-// });
+export const getOverStockSearchConditions = () => ({
+  type: TYPES.GETOVERSTOCKSEARCHCONDITIONS,
+});
 
+export const change = (key, val) => ({
+  type: TYPES.CHANGE,
+  key,
+  val,
+});
+
+export const getOverStockList = val => ({
+  type: TYPES.GETOVERSTOCKLIST,
+  val,
+});

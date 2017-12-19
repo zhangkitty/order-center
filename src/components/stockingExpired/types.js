@@ -3,4 +3,9 @@
  */
 
 const prefix = 'stockingExpired_';
-// export const INIT = `${prefix}init`;
+
+export const GETOVERSTOCKSEARCHCONDITIONS = `${prefix}getoverstocksearchconditions`;
+
+export const CHANGE = `${prefix}change`;
+
+export const GETOVERSTOCKLIST = `${prefix}getoverstocklist`;
