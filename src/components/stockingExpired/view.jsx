@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table } from 'antd';
+import assign from 'object-assign';
+import { Table, Pagination } from 'antd';
 import Head from './head';
-import { getOverStockSearchConditions } from './action';
+import { getOverStockList, getOverStockSearchConditions, change } from './action';
+
 
 const lan = {
   订单号: '订单号',
@@ -17,6 +19,12 @@ const lan = {
   待上架数量: '待上架数量',
   回货日期: '回货日期',
 };
+const style = {
+  marginTop: '15px',
+  display: 'flex',
+  justifyContent: 'flex-end',
+};
+
 class stockingExpired extends React.Component {
 
 
@@ -76,11 +84,33 @@ class stockingExpired extends React.Component {
       dataIndex: 'returnTime',
       key: 'returnTime',
     }];
-    const { TableData } = this.props;
+    const { TableData, total, dispatch, pageNumber } = this.props;
     return (
       <div>
         <Head {...this.props} />
-        <Table columns={columns} dataSource={TableData} pagination={false}/>
+        <Table columns={columns} dataSource={TableData} pagination={false} />
+        <Pagination
+          style={style}
+          showSizeChanger
+          showQuickJumper
+          current={pageNumber}
+          onChange={(page) => {
+            dispatch(change('pageNumber', page));
+            dispatch(getOverStockList(assign({}, this.props, {
+              pageNumber: page,
+            })));
+          }}
+          total={total}
+          showTotal={records => `${records} ${__('common.content_name2')}`}
+          onShowSizeChange={(current, size) => {
+            console.log(current);
+            console.log(size);
+            dispatch(change('pageSize', size));
+            dispatch(getOverStockList(assign({}, this.props, {
+              pageSize: size,
+            })));
+          }}
+        />
       </div>
     );
   }

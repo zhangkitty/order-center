@@ -22,6 +22,10 @@ const defaultState = {
 
   // 列表数据
   TableData: [],
+  // 分页信息
+  total: 0,
+  pageNumber: 1,
+  pageSize: 10,
 };
 
 const reducer = (state = defaultState, action) => {

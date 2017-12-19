@@ -28,8 +28,8 @@ function* getoverstocklistSaga(action) {
     return message.info(lan.选择的时间不能超过一个月);
   }
   const temp = {
-    page_number: 1,
-    page_size: 100000,
+    page_number: val.pageNumber,
+    page_size: val.pageSize,
     billno: val.billno,
     site_from: val.chooseSite,
     goods_sn: val.SKU,
@@ -41,7 +41,8 @@ function* getoverstocklistSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${data.msg}`);
   }
-  yield put(change('TableData',data.data))
+  yield put(change('TableData', data.data));
+  yield put(change('total', data.total));
   return null;
 }
 
