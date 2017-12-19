@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Table, Button, Popconfirm } from 'antd';
-import { remarkShow, followTrouble, handledModal } from './action';
+import { remarkShow, followTrouble, handledModal, uploadShow } from './action';
 
 // TODO： lan
 const lan = {
@@ -125,7 +125,7 @@ const TableView = ({ dataSource, load, dispatch, filter }) => (
             }
             {
               +rec.handle_status === 1 &&
-              <Button >{lan.upload}</Button>
+              <Button onClick={() => dispatch(uploadShow(rec.id))}>{lan.upload}</Button>
             }
           </Bg>
         ),

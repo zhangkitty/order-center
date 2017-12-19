@@ -38,6 +38,8 @@ export const defaultState = {
   remark: '', // 备注
   troubleId: '', // 记录ID
   handledShow: false, // 已处理弹窗开关
+  uploadShow: false, // 上传图片弹窗开关
+  fileList: [], // 上传图片文件列表
 };
 
 const reducer = (state = defaultState, action) => {
@@ -71,6 +73,11 @@ const reducer = (state = defaultState, action) => {
     case types.addRemark:
       return assign({}, state, {
         remarkLoad: true,
+      });
+    case types.uploadShow:
+      return assign({}, state, {
+        uploadShow: true,
+        troubleId: action.id,
       });
     case types.commit:
       return assign({}, state, {

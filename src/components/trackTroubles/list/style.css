@@ -42,3 +42,10 @@
     display: flex;
     justify-content: center;
 }
+.uploadLay {
+    margin: 50px;
+    display: flex;
+}
+.uploadSpan {
+    width: 120px;
+}

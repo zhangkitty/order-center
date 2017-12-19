@@ -10,3 +10,4 @@ export const addRemark = (id, remark) => ({ type: types.addRemark, id, remark })
 export const followTrouble = (id, filter) => ({ type: types.followTrouble, id, filter });
 export const handled = (id, res, filter) => ({ type: types.handled, id, res, filter });
 export const handledModal = id => ({ type: types.handledModal, id });
+export const uploadShow = id => ({ type: types.uploadShow, id });

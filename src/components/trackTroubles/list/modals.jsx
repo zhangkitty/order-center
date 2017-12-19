@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Button, Modal, Spin, Table, Input, Select, message } from 'antd';
+import { Button, Modal, Spin, Table, Input, Select, message, Upload, Icon } from 'antd';
 import { commit, addRemark, handled } from './action';
 import style from './style.css';
 
@@ -10,12 +10,14 @@ const lan = {
   add: '添加',
   addDesc: '添加一条记录',
   yichuliDesc: '请选择处理结果',
+  uploadImg: '上传图片',
 };
 const OP = Select.Option;
 const Modals = ({
   dispatch,
   remarkShow, remarkLoad, remarkData, remark, troubleId,
   handledShow, filters, handleType, filter, load,
+  uploadShow, fileList,
 }) => (
   <div>
     {/* 备注 */}
@@ -116,6 +118,48 @@ const Modals = ({
         </Button>
       </div>
     </Modal>
+    {/* 上传图片 */}
+    <Modal
+      footer={null}
+      onCancel={() => dispatch(commit('uploadShow', false))} visible={uploadShow}
+    >
+      <div className={style.uploadLay}>
+        <span className={style.uploadSpan}>{lan.uploadImg} :</span>
+        <Upload
+          action="/index_new.php/order/OrderLogisticsTroubles/upload"
+          listType="picture-card"
+          multiple
+          name={'files[]'}
+          data={{ trouble_id: troubleId }}
+          fileList={fileList}
+          showUploadList={{ showPreviewIcon: false, showRemoveIcon: true }}
+          beforeUpload={(file, list) => {
+            const isImg = file.type === 'image/jpeg' || file.type === 'image/png';
+            if (list.length > 2 || !isImg) {
+              message.error('最多只能上传2张图片,且格式为jpeg 或者 png');
+              return false;
+            }
+            return true;
+          }}
+          onChange={({ file, list }) => {
+            const { response, status } = file;
+
+            if (status === 'done') {
+              console.log(response);
+            }
+          }}
+        >
+          {
+            fileList.length > 2 ? null :
+            <div>
+              <Icon type="plus" />
+              <div>Upload</div>
+            </div>
+          }
+        </Upload>
+      </div>
+
+    </Modal>
   </div>
 );
 Modals.propTypes = {
@@ -130,6 +174,7 @@ Modals.propTypes = {
   filters: PropTypes.shape(),
   filter: PropTypes.shape(),
   handleType: PropTypes.string,
+  fileList: PropTypes.arrayOf(PropTypes.shape()),
 };
 
 export default Modals;

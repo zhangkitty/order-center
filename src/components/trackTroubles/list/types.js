@@ -9,3 +9,4 @@ export const addRemark = `${prefix}addRemark`;
 export const followTrouble = `${prefix}followTrouble`;
 export const handled = `${prefix}handled`;
 export const handledModal = `${prefix}handledModal`;
+export const uploadShow = `${prefix}uploadShow`;
