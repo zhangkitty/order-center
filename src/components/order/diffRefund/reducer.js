@@ -33,7 +33,7 @@ const getMax = (d) => {
       1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
       2: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
       Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount),
-      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount > 0 ? d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount : 0,
       4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
       disabled: 0,
     };
@@ -43,7 +43,7 @@ const getMax = (d) => {
       1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
       2: (Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5) +
       Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount),
-      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount,
+      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount > 0 ? d.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount : 0,
       4: (Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5),
       disabled: 0,
     };
