@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message } from 'antd';
-import { commit, uploadTrackAction, uploadTrackShow, genRl } from './action';
+import { commit, uploadTrackAction, uploadTrackShow, genRl, fetchRlFee, rebuildRl } from './action';
 
 import styles from './style.css';
 
@@ -31,6 +31,8 @@ const lan = {
   yundanpingzh: __('order.entry.order_return_13'),
   upload: __('order.entry.order_return_14'),
   need: __('order.entry.order_return_15'),
+  RL扣除费用: __('order.entry.rl_deducted_costs'),
+  rl费用必填: __('order.entry.rl_fee_required'),
 };
 
 const reqImg = require.context('../../images');
@@ -42,6 +44,11 @@ const OrderReturn = (
     orderId,
     billno,
     rlLoading,
+    rlmodal,
+    rlFee,
+    reFeeValue,
+    modal_return_order_id,
+    confirmLoading,
   },
 ) => (
   <div className={styles.contentPadding}>
@@ -112,8 +119,11 @@ const OrderReturn = (
                   <Button
                     style={{ margin: '5px' }}
                     onClick={() => {
-                      dispatch(commit('rlLoading', true));
-                      dispatch(genRl(rec.return_order_id, orderId, billno));
+                      // dispatch(commit('rlLoading', true));
+                      // dispatch(genRl(rec.return_order_id, orderId, billno));
+                      dispatch(commit('modal_return_order_id', rec.return_order_id));
+                      dispatch(fetchRlFee(orderId));
+                      dispatch(commit('rlmodal', true));
                     }}
                   >{lan.rl}</Button>
                 }
@@ -126,6 +136,56 @@ const OrderReturn = (
           },
         ]}
       />
+      <Modal
+        visible={rlmodal}
+        confirmLoading={confirmLoading}
+        maskClosable={false}
+        onOk={
+          () => {
+            dispatch(commit('confirmLoading', true));
+            const d = {
+              language: 'zh',
+              order_id: orderId,
+              rl_fee: reFeeValue,
+              return_order_id: modal_return_order_id,
+              billno,
+            };
+            if (reFeeValue === null) {
+              dispatch(commit('confirmLoading', false));
+              return message.error(lan.rl费用必填);
+            }
+            dispatch(rebuildRl(d));
+          }
+        }
+        onCancel={
+          () => {
+            dispatch(commit('rlmodal', false));
+            dispatch(commit('reFeeValue', 0));
+          }
+        }
+        okText="确认"
+        cancelText="取消"
+      >
+        <div>
+          {lan.RL扣除费用}:
+        </div>
+        <div style={{ marginTop: 10 }}>
+          {
+            Array.isArray(rlFee) ?
+              <div>
+                <Radio.Group disabled={confirmLoading} value={reFeeValue || 0} onChange={e => dispatch(commit('reFeeValue', e.target.value))}>{
+                  rlFee.map(v => (
+                    <Radio value={v.amount}>{v.amountWithSymbol}</Radio>
+                  ))
+                }
+                </Radio.Group>
+              </div> :
+              <div>
+                <Radio checked>0</Radio>
+              </div>
+          }
+        </div>
+      </Modal>
       <Modal
         onCancel={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { show: false })))}
         okText={lan.save}

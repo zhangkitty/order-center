@@ -166,4 +166,6 @@ module.exports = {
   cash_content11: 'Enter Card Number',
   cash_content12: 'Enter Card Holder\'s Name',
   cash_content13: 'Enter Card Issuer City',
+  rl_fee_required: 'rl费用必填',
+  rl_deducted_costs: 'RL扣除费用',
 };
