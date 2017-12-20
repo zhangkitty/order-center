@@ -40,12 +40,12 @@ class TabsHeader extends Component {
   render() {
     const {
       dispatch, queryString, searchLoad, waitTotal, rejectTotal, total,
-      fetchType, fetchStatus, fetchPath, fetchPathStatus, fetchSite, fetchCountry, fetchMember,
+      fetchType, fetchStatus, fetchPath, fetchPathStatus, fetchSite, fetchCountry, fetchMember, fetchRefund,
     } = this.props;
     const {
       refund_bill_id, billno, email, add_user, handle_user,
       refund_bill_type, refund_bill_status, refund_path_id, refund_path_status, site_from, apply_start_time, apply_end_time,
-      country_id, member_level, refund_start_time, refund_end_time,
+      country_id, member_level, refund_start_time, refund_end_time, refund_method,
     } = queryString;
 
     const exportSubmit = (param) => {
@@ -270,11 +270,27 @@ class TabsHeader extends Component {
                     }
                   </Select>
                 </div>
+                {/* 账户 */}
+                <div className={styles.rowSpaceList}>
+                  <span className={styles.filterName}>{__('refund.list.refund_method')}</span>
+                  <Select
+                    allowClear
+                    className={styles.colSpace}
+                    value={refund_method}
+                    onChange={val => dispatch(commit('refund_method', val))}
+                  >
+                    {
+                      fetchRefund.map(item => (
+                        <Option key={item.name}>{item.name}</Option>
+                      ))
+                    }
+                  </Select>
+                </div>
                 {/* 退款日期 */}
                 <div className={styles.rowSpaceList}>
-                <span className={styles.filterName}>
-                  {__('refund.list.refund_time')}
-                </span>
+                  <span className={styles.filterName}>
+                    {__('refund.list.refund_time')}
+                  </span>
                   <div className={styles.colSpace2}>
                     <DatePicker
                       style={{ width: '150px' }}
@@ -314,6 +330,7 @@ class TabsHeader extends Component {
                     href={`${location.origin}/index_new.php/Order/OrderDiffRefund/submitExportRefundBill?${exportSubmit()}`}
                     target="_blank"
                   >
+
                     {__('refund.list.export')}
                   </a>
                   :
@@ -415,6 +432,7 @@ TabsHeader.propTypes = {
   fetchSite: PropTypes.arrayOf(PropTypes.shape()), // 站点
   fetchCountry: PropTypes.arrayOf(PropTypes.shape()),  // 国家
   fetchMember: PropTypes.arrayOf(PropTypes.shape()),
+  fetchRefund: PropTypes.arrayOf(PropTypes.shape()),
   waitTotal: PropTypes.number,
   rejectTotal: PropTypes.number,
   total: PropTypes.number,

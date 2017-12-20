@@ -309,10 +309,12 @@ function* addpointSaga(action) {
   const data = yield addpointSer(action.mymodaldata, action.addPointReason);
   if (!data || data.code !== 0) {
     yield put(change('addPointLoading', false));
-    return message.error(`${data.msg}`);
+    message.error(`${data.msg}`);
+    return yield put(change('mymodalshow', false));
   }
   yield put(change('addPointLoading', false));
-  return message.success(`${data.msg}`);
+  message.success(`${data.msg}`);
+  return yield put(change('mymodalshow', false));
 }
 
 // 提交批量换货

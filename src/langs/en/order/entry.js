@@ -19,6 +19,7 @@ module.exports = {
   address_gender: 'Gender',
   address_first: 'First Name',
   address_last: 'Last Name',
+  middle_name: 'Middle Name',
   address_district: 'District',
   address_father: 'Father Name',
   address_street: 'Street',
