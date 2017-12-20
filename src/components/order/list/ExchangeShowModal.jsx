@@ -62,13 +62,16 @@ const exchangeshowModal = (props) => {
                     type="text"
                     value={v.mysku}
                     onChange={e => dispatch(changeMySku(v.order_goods_id, e.target.value))}
-                    onPressEnter={e => dispatch(goodSize(
-                      {
-                        goods_sn: e.target.value,
-                        site_from: v.site_from,
-                        order_goods_id: v.order_goods_id,
-                      },
-                    ))}
+                    onPressEnter={(e) => {
+                      dispatch(changeSize(v.order_goods_id, ''));
+                      dispatch(goodSize(
+                        {
+                          goods_sn: e.target.value,
+                          site_from: v.site_from,
+                          order_goods_id: v.order_goods_id,
+                        },
+                      ));
+                    }}
                   />
                 </div>
                 <div style={{ flexBasis: 50, marginLeft: 20 }}>{lan.尺码}</div>
