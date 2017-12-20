@@ -295,3 +295,26 @@ export const addpointSer  = (mymodaldata,addPointReason)=>{
   })
 }
 
+//提交批量换货
+export const batchexchangeordergoodsSer=(data)=>{
+  const arr  = data.map(v=>{
+    return v.submitValue.map(value=>{
+      return assign({},value,{
+        order_id:v.order_id,
+        order_goods_id:v.order_goods_id,
+        goods_sn:value.mysku,
+        goods_size:value.selectedValue
+      })
+    })
+  }).filter(v=>v.length>0)
+  const temp = []
+  arr.map(v=>v.map(val=>temp.push(val)))
+  console.log(temp)
+  return fetch('/Order/batchExchangeOrderGoods',{
+    method:'POST',
+    body:JSON.stringify({
+      goods_list:temp
+    })
+  })
+}
+
