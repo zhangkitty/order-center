@@ -106,7 +106,71 @@ const defaultState = {
 
   // 积分补偿提交
   addPointLoading: false,
+  // 批量退货信息
+  BulkReturnInfo: [],
+  // 换货modal
+  ExchangeShow: false,
+  // 提交loading
+  confirmLoading: false,
+
 };
+
+function addsize(BulkReturnInfo, order_goods_id, size) {
+  const arr = BulkReturnInfo.map(v => (
+      v.order_goods_id === order_goods_id ?
+          assign({}, v, { selectedDisabled: false, size }) : v
+  ));
+  return arr;
+}
+
+function changeSelectValue(BulkReturnInfo, order_goods_id, selectedValue) {
+  const arr = BulkReturnInfo.map(v => (
+      v.order_goods_id === order_goods_id ?
+          assign({}, v, { selectedValue }) : v
+  ));
+  return arr;
+}
+
+function changeMySku(BulkReturnInfo, order_goods_id, sku) {
+  const arr = BulkReturnInfo.map(v => (
+      v.order_goods_id === order_goods_id ?
+          assign({}, v, { mysku: sku }) : v
+  ));
+  return arr;
+}
+
+function changeSubmitValue(BulkReturnInfo, order_goods_id) {
+  const arr = BulkReturnInfo.map(v => (
+    v.order_goods_id === order_goods_id ?
+        (function (c) {
+          const temp = c;
+          temp.push({ mysku: v.mysku, selectedValue: v.selectedValue });
+          return assign({}, v, { submitValue: temp });
+        }(v.submitValue))
+      : v
+  ));
+  return arr;
+}
+
+function changeBulkReturnInfo(data) {
+  const arr = data.map(v => (
+    assign({}, v, {
+      selectedDisabled: true,
+      selectedValue: null,
+      mysku: '',
+      submitValue: [],
+
+    })
+  ));
+  return arr;
+}
+
+function changeDataSource(dataSource, orderId, data) {
+  const arr = dataSource.map(v => (
+    v.order_id === orderId ? data : v
+  ));
+  return arr;
+}
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));
   return [
@@ -362,17 +426,17 @@ const reducer = (state = defaultState, action) => {
         fetchgoodSize: [],
         changeDisabled: true,
       });
-    case TYPES.GOODS_SIZE:
-      return assign({}, state, {
-        exchange: {
-          goods_sn: action.data.goods_sn,
-          site_from: action.data.site_from,
-          order_goods_id: action.data.order_goods_id,
-          order_id: action.data.order_id,
-          load: false,
-          visible: true,
-        },
-      });
+    // case TYPES.GOODS_SIZE:
+    //   return assign({}, state, {
+    //     exchange: {
+    //       goods_sn: action.data.goods_sn,
+    //       site_from: action.data.site_from,
+    //       order_goods_id: action.data.order_goods_id,
+    //       order_id: action.data.order_id,
+    //       load: false,
+    //       visible: true,
+    //     },
+    //   });
     case TYPES.GOODS_SIZE_FAIL:
       return assign({}, state, {
         load: false,
@@ -381,6 +445,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         fetchgoodSize: action.data.data,
         changeDisabled: false,
+        BulkReturnInfo: addsize(state.BulkReturnInfo, action.order_goods_id, action.data.data),
       });
     case TYPES.CHANGE_GOODS:
       return assign({}, state, {
@@ -508,6 +573,31 @@ const reducer = (state = defaultState, action) => {
       }
 
       return assign({}, state, { dataSource_noGoods: tmpArr });
+    case TYPES.CHANGESIZE:
+      return assign({}, state, {
+        BulkReturnInfo: changeSelectValue(state.BulkReturnInfo, action.order_goods_id, action.value),
+      });
+
+
+    case TYPES.CHANGEMYSKU :
+      return assign({}, state, {
+        BulkReturnInfo: changeMySku(state.BulkReturnInfo, action.order_goods_id, action.sku),
+      });
+
+    case TYPES.CHANGESUBMITVALUE:
+      return assign({}, state, {
+        BulkReturnInfo: changeSubmitValue(state.BulkReturnInfo, action.order_goods_id),
+      });
+
+    case TYPES.CHANGEBULKRETURNINFO:
+      return assign({}, state, {
+        BulkReturnInfo: changeBulkReturnInfo(state.BulkReturnInfo),
+      });
+
+    case TYPES.CHANGEDATASOURCE:
+      return assign({}, state, {
+        dataSource: changeDataSource(state.dataSource, action.orderId, action.data),
+      });
     default:
       return state;
   }
