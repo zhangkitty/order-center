@@ -39,7 +39,7 @@ export const defaultState = {
   troubleId: '', // 记录ID
   handledShow: false, // 已处理弹窗开关
   uploadShow: false, // 上传图片弹窗开关
-  fileList: [], // 上传图片文件列表
+  imgList: [], // 上传图片文件列表
 };
 
 const reducer = (state = defaultState, action) => {
@@ -47,6 +47,7 @@ const reducer = (state = defaultState, action) => {
     case types.getData:
     case types.followTrouble:
     case types.handled:
+    case types.uploadImg:
       return assign({}, state, {
         load: true,
       });
@@ -78,6 +79,13 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         uploadShow: true,
         troubleId: action.id,
+        imgList: action.imgList.map((v, i) => ({
+          uid: 0 - i,
+          name: v.split('/')[v.split('/').length - 1],
+          status: 'done',
+          url: v,
+          thumbUrl: v,
+        })),
       });
     case types.commit:
       return assign({}, state, {

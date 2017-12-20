@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Table, Button, Popconfirm } from 'antd';
-import { remarkShow, followTrouble, handledModal, uploadShow } from './action';
+import { remarkShow, followTrouble, handledModal, uploadShow, commit } from './action';
 
 // TODO： lan
 const lan = {
@@ -99,7 +99,16 @@ const TableView = ({ dataSource, load, dispatch, filter }) => (
       },
       {
         title: lan.p,
-        dataIndex: 'image', // TODO
+        dataIndex: 'attachments',
+        render: d => d && d.map(v => (
+          <img
+            alt={'pic'} src={v} key={v} width={30} style={{ margin: '0 5px', cursor: 'pointer' }}
+            onClick={() => {
+              dispatch(commit('previewVisible', true));
+              dispatch(commit('previewImage', v));
+            }}
+          />
+        )),
       },
       {
         title: lan.q,
@@ -124,8 +133,12 @@ const TableView = ({ dataSource, load, dispatch, filter }) => (
               </Popconfirm>
             }
             {
-              +rec.handle_status === 1 &&
-              <Button onClick={() => dispatch(uploadShow(rec.id))}>{lan.upload}</Button>
+              +rec.handle_status === 1 && (rec.attachments || []).length < 2 &&
+              <Button
+                onClick={() => dispatch(uploadShow(rec.id, rec.attachments || []))}
+              >
+                {lan.upload}
+              </Button>
             }
           </Bg>
         ),

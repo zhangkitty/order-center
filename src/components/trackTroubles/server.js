@@ -9,6 +9,7 @@ const list = {
   addRemark: '/OrderLogisticsTroubles/addNote',
   followTrouble: '/OrderLogisticsTroubles/follow',
   handledSer: 'OrderLogisticsTroubles/handle',
+  uploadImgSer: '/OrderLogisticsTroubles/upload',
 };
 
 export const getDataSer = (filter) => {
@@ -51,3 +52,13 @@ export const handledSer = (id, res) => (
     body: JSON.stringify({ trouble_id: +id, handle_result: +res }),
   })
 );
+export const uploadImgSer = (id, files) => {
+  const formData = new FormData();
+  const data = files.filter(v => !(v.uid <= 0)).map(v => v.file);
+  data.forEach(v =>  formData.append('files[]', v));
+  formData.append('trouble_id', id);
+  return fetch(list.uploadImgSer, {
+    method: 'post',
+    body: formData,
+  }, {});
+};

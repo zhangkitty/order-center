@@ -3,7 +3,7 @@ import { message } from 'antd';
 import { takeLatest, takeEvery, put } from 'redux-saga/effects';
 import * as types from './types';
 import { commit, getDataSuccess, remarkShow, getData } from './action';
-import { getFilters, getDataSer, getRemarks, addRemark, followTroubleSer, handledSer } from '../server';
+import { getFilters, getDataSer, getRemarks, addRemark, followTroubleSer, handledSer, uploadImgSer } from '../server';
 
 const lan = {
   ofail: __('order.entry.submit_info'),
@@ -71,6 +71,17 @@ function* handledSaga(action) {
   message.success(lan.osucess);
   return yield put(getData(action.filter));
 }
+function* uploadImgSaga(action) {
+  const data = yield uploadImgSer(action.id, action.imgList);
+  if (!data || data.code !== 0) {
+    message.error(`${lan.fail}: ${data.msg}`);
+    return yield put(commit('load', false));
+  }
+  yield put(commit('load', false));
+  yield put(commit('uploadShow', false));
+  message.success(lan.osucess);
+  return yield put(getData(action.filter));
+}
 function* saga() {
   yield takeEvery(types.getFilters, getFiltersSaga);
   yield takeEvery(types.getData, getDataSaga);
@@ -78,5 +89,6 @@ function* saga() {
   yield takeLatest(types.addRemark, addRemarkSaga);
   yield takeLatest(types.followTrouble, followTroubleSaga);
   yield takeLatest(types.handled, handledSaga);
+  yield takeLatest(types.uploadImg, uploadImgSaga);
 }
 export default saga;

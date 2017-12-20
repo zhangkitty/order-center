@@ -45,7 +45,13 @@
 .uploadLay {
     margin: 50px;
     display: flex;
+    flex-wrap: wrap;
 }
 .uploadSpan {
     width: 120px;
+}
+.uploadBtn {
+    margin-left: 43%;
+    transform: translate(-50%);
+    margin-top: 20px;
 }

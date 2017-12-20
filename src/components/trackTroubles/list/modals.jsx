@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Button, Modal, Spin, Table, Input, Select, message } from 'antd';
-import { commit, addRemark, handled } from './action';
+import { commit, addRemark, handled, getData, uploadImg } from './action';
 import UploadWrap from './uploadWrap';
 import style from './style.css';
 
@@ -18,7 +18,7 @@ const Modals = ({
   dispatch,
   remarkShow, remarkLoad, remarkData, remark, troubleId,
   handledShow, filters, handleType, filter, load,
-  uploadShow,
+  uploadShow, imgList, previewVisible, previewImage,
 }) => (
   <div>
     {/* 备注 */}
@@ -68,18 +68,6 @@ const Modals = ({
               dataIndex: 'note',
               width: 100,
             },
-            {
-              title: '图片',
-              dataIndex: 'attachment',
-              width: 100,
-              render: d => (
-                d && JSON.parse(d).files.map(v =>
-                  (
-                    <img alt={'pic'} src={`${JSON.parse(d).dir}${v}`} key={v} />
-                  ),
-                )
-              ),
-            },
           ]}
         />
       </Spin>
@@ -126,9 +114,18 @@ const Modals = ({
     >
       <div className={style.uploadLay}>
         <span className={style.uploadSpan}>{lan.uploadImg} :</span>
-        <UploadWrap troubleId={troubleId} flag={uploadShow} />
+        <UploadWrap troubleId={troubleId} flag={uploadShow} files={imgList} dispatch={dispatch} />
+        <Button
+          className={style.uploadBtn}
+          type={'primary'}
+          loading={load} onClick={() => dispatch(uploadImg(troubleId, imgList, filter))}
+          disabled={!(imgList.filter(v => !(v.uid <= 0)).length)}
+        >{lan.save}</Button>
       </div>
-
+    </Modal>
+    {/* 图片预览 */}
+    <Modal visible={previewVisible} footer={null} onCancel={() => dispatch(commit('previewVisible', false))}>
+      <img alt="example" style={{ width: '100%' }} src={previewImage} />
     </Modal>
   </div>
 );
@@ -137,10 +134,13 @@ Modals.propTypes = {
   remarkShow: PropTypes.bool,
   remarkLoad: PropTypes.bool,
   uploadShow: PropTypes.bool,
+  previewVisible: PropTypes.bool,
   load: PropTypes.bool,
   remark: PropTypes.string,
   troubleId: PropTypes.string,
+  previewImage: PropTypes.string,
   remarkData: PropTypes.arrayOf(PropTypes.shape()),
+  imgList: PropTypes.arrayOf(PropTypes.shape()),
   handledShow: PropTypes.bool,
   filters: PropTypes.shape(),
   filter: PropTypes.shape(),
