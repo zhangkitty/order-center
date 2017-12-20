@@ -45,7 +45,7 @@ const maxTypes = (data) => {
     return {
       1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
       2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-      3: data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount > 0 ? data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount > 0 : 0,
+      3: data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount > 0 ? data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount : 0,
     };
   }
 
@@ -146,12 +146,10 @@ const svInit = (source) => {
     }
     return [...result, noRefund - result.reduce((sum, val) => sum + val, 0) > 0 ? noRefund - result.reduce((sum, val) => sum + val, 0) : 0];
   }, []);
-  console.log(temp);
   const priceObj = temp.reduce((result, value, idx) => {
     result[++idx] = Number(Number(value).toFixed(2));
     return result;
   }, {});
-  console.log(priceObj);
   const arr = source.orderRefundPathList.map(v => ({
     refundTypeId: v.refundPathId,
     isShow: (Number(v.refundPathId) === 1 && Number(maxObj[v.refundPathId]) > 0) ||
