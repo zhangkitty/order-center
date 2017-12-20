@@ -5,14 +5,15 @@ import PropTypes from 'prop-types';
 import { change, goodSize, changeSize, changeMySku, changeSubmitValue, batchExchangeOrderGoods } from './action';
 
 const lan = {
-  被换商品: '被换商品',
-  换货商品: '换货商品',
-  自定义SKU: '自定义SKU',
-  尺码: '尺码',
-  确定: '确定',
-  没选尺码: '没选尺码',
-  提交: '提交',
-  没有换货信息: '没有换货信息',
+  被换商品: __('order.list.ExchangeShowModal.被换商品'),
+  换货商品: __('order.list.ExchangeShowModal.换货商品'),
+  自定义SKU: __('order.list.ExchangeShowModal.自定义SKU'),
+  尺码: __('order.list.ExchangeShowModal.尺码'),
+  确定: __('order.list.ExchangeShowModal.确定'),
+  没选尺码: __('order.list.ExchangeShowModal.没选尺码'),
+  提交: __('order.list.ExchangeShowModal.提交'),
+  没有换货信息: __('order.list.ExchangeShowModal.没有换货信息'),
+  信息不全: __('order.list.ExchangeShowModal.信息不全'),
 };
 const Option = Select.Option;
 const exchangeshowModal = (props) => {
@@ -85,10 +86,13 @@ const exchangeshowModal = (props) => {
                 </Select>
                 <Button
                   onClick={() => {
-                    if (v.selectedValue) {
+                    if (v.selectedDisabled === false) {
+                      if (v.size.length > 0 && v.selectedValue === null) {
+                        return message.info(lan.没选尺码);
+                      }
                       return dispatch(changeSubmitValue(v.order_goods_id));
                     }
-                    return message.info(lan.没选尺码);
+                    return message.info(lan.信息不全);
                   }}
                 >{lan.确定}</Button>
               </div>
