@@ -621,7 +621,7 @@ const Packge = ({
                   {lan.fankui}
                 </Button>
                 {/* 查看物流问题 */}
-                <Link>
+                <Link to={`/trackTroubles/list/${v.package_number}`}>
                   {lan.fankuishow}
                 </Link>
               </div>

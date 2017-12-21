@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Input, Select, DatePicker, Button } from 'antd';
+import moment from 'moment';
 import { filterCommit, getData } from './action';
 import style from './style.css';
 
@@ -87,11 +88,33 @@ const Filters = ({
       </div>
       <div >
         <span>{ lan.tijiaoDate }</span>
-        <RP style={{ width: '100%' }} />
+        <RP
+          style={{ width: '100%' }}
+          format={'YYYY-MM-DD'}
+          value={[
+            filter.add_time_from ? moment(filter.add_time_from) : null,
+            filter.add_time_to ? moment(filter.add_time_to) : null,
+          ]}
+          onChange={(d, str) => {
+            dispatch(filterCommit('add_time_from', str[0]));
+            dispatch(filterCommit('add_time_to', str[1]));
+          }}
+        />
       </div>
       <div >
         <span>{ lan.fahuoDate }</span>
-        <RP style={{ width: '100%' }} />
+        <RP
+          style={{ width: '100%' }}
+          format={'YYYY-MM-DD'}
+          value={[
+            filter.delivery_time_from ? moment(filter.delivery_time_from) : null,
+            filter.delivery_time_to ? moment(filter.delivery_time_to) : null,
+          ]}
+          onChange={(d, str) => {
+            dispatch(filterCommit('delivery_time_from', str[0]));
+            dispatch(filterCommit('delivery_time_to', str[1]));
+          }}
+        />
       </div>
     </div>
     <div className={style.searchBtn}>
