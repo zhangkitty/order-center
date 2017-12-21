@@ -19,6 +19,8 @@ import ChnageGoods from './changeGoods';
 import MarkTag from './markTag';
 // 补偿积分modal
 import MyModal from './modal';
+// 换货modal
+import ExchangeshowModal from './ExchangeShowModal';
 
 
 import styles from './style.css';
@@ -77,6 +79,8 @@ class orderList extends Component {
         </Spin>
         {/* 积分补偿 */}
         <MyModal {...this.props} />
+        {/* 换货modal */}
+        <ExchangeshowModal {...this.props} />
         {/* 备注提交 */}
 
         <Modal

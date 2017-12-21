@@ -36,6 +36,7 @@ const defaultState = {
     issue_place: '',  // 签发地址
     issue_date: moment(),  // 签发日期   moment()
     issue_date2: null,
+    cancel_stock_occupy: 0,
   },
 };
 // 提交字段名: 页面显示名称
@@ -59,6 +60,7 @@ const addresName = {
   passport_number: __('order.entry.address_passport'),  // 护照号
   issue_place: __('order.entry.address_place'),  // 签发地址
   issue_date: __('order.entry.address_issue'),  // 签发日期
+  cancel_stock_occupy: __('order.entry.address_cancel_stock'),  // 取消库存占用
 };
 const getCity = (data, state, city) => {
   const obj = data.find(d => d.province_name === state);
@@ -101,6 +103,7 @@ const getSV = (action, state) => (
     issue_place: action.data.issue_place,  // 签发地址
     issue_date: action.data.issue_date, // 签发日期
     issue_date2: action.data.issue_date, // 签发日期
+    cancel_stock_occupy: 0, // 取消库存占用,不获取这个值，每次都是默认值
   })
 );
 export default (state = defaultState, action) => {
