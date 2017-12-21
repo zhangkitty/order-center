@@ -73,7 +73,12 @@ const Filters = ({
       </div>
       <div>
         <span>{ lan.cou }</span>
-        <Select value={filter.shipping_country_name} onChange={v => dispatch(filterCommit('shipping_country_name', v))} allowClear>
+        <Select
+          mode={'multiple'}
+          value={(filter.shipping_country_name ? filter.shipping_country_name.split(',') : [])}
+          onChange={v => dispatch(filterCommit('shipping_country_name', v.join(',')))}
+          allowClear
+        >
           {filters.country.map(v => (<OP key={v.id}>{v.name}</OP>))}
         </Select>
       </div>
@@ -82,7 +87,12 @@ const Filters = ({
     <div>
       <div>
         <span>{ lan.site }</span>
-        <Select value={filter.site_from} onChange={v => dispatch(filterCommit('site_from', v))} allowClear>
+        <Select
+          mode={'multiple'}
+          value={(filter.site_from ? filter.site_from.split(',') : [])}
+          onChange={v => dispatch(filterCommit('site_from', v.join(',')))}
+          allowClear
+        >
           {filters.site_from.map(v => (<OP key={v.id}>{v.name}</OP>))}
         </Select>
       </div>

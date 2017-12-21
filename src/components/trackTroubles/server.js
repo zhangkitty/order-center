@@ -8,7 +8,7 @@ const list = {
   getRemarks: '/OrderLogisticsTroubles/getNotes',
   addRemark: '/OrderLogisticsTroubles/addNote',
   followTrouble: '/OrderLogisticsTroubles/follow',
-  handledSer: 'OrderLogisticsTroubles/handle',
+  handledSer: '/OrderLogisticsTroubles/handle',
   uploadImgSer: '/OrderLogisticsTroubles/upload',
 };
 
@@ -47,7 +47,7 @@ export const followTroubleSer = id => (
   })
 );
 export const handledSer = (id, res) => (
-  fetch(list.followTrouble, {
+  fetch(list.handledSer, {
     method: 'post',
     body: JSON.stringify({ trouble_id: +id, handle_result: +res }),
   })
