@@ -86,6 +86,15 @@ export const cancelRefund = id => ({
   id,
 });
 
+export const fetchRlFee = id => ({
+  type: TYPES.FETCHRLFEE,
+  id,
+});
+
+export const rebuildRl = d => ({
+  type: TYPES.REBUILDRL,
+  d,
+});
 // 商品操作查询
 export const operationGoods = id => ({
   type: TYPES.OPERATION_GOODS,

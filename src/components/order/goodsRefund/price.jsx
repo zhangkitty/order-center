@@ -77,7 +77,7 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
             return dispatch(allback(Number(submitValue.shipping), value, check.refundTypeId));
           }}
         >
-          {RLPrice.map(v => (<Radio value={Number(v.amount)} key={v.amount}>{v.amountWithSymbol}</Radio>))}
+          {RLPrice.map(v => (<Radio value={Number(v)} key={v}>${v}</Radio>))}
         </Rg>
       </div>
       <div className={style.space}>
@@ -115,7 +115,6 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                       <Input
                         style={{ width: '150px' }}
                         value={v.refundAmount}
-                        disabled={!isUsd}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(usPriceChange(e.target.value, i, v.rate))}
@@ -123,14 +122,12 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                       <span style={spanWidth}>{v.currency}</span>
                       <Input
                         style={{ width: '150px' }}
-                        value={v.refundCurrency}
-                        disabled={!!isUsd}
-                        max={v.max}
+                        value={v.refundAmount2}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(otherPriceChange(e.target.value, i, v.rate2))}
                       />
-                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd ?'$': v.currency}{v.max}</span>
+                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${v.max}</span>
                     </div>
                   </div>
                   {

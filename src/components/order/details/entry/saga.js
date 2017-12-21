@@ -2,16 +2,30 @@ import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import * as TYPES from './types';
+
 import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
   remarkShowSuccess, remarkSaveSuccess,
 } from './action';
+
 import {
-  getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer,
-  preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer,
+  getInfoSer,
+  rebuildrlSer,
+  updateEmailSer,
+  backGoodsDatesSer,
+  operateReturnSer,
+  partSendSer,
+  preSendSer,
+  examineSer,
+  uploadtrack,
+  profitShowSer,
+  genRlSer,
+  cancelRefundSer,
+  fetchrlfeeSer,
   operationGoodsSer,
-  remarkSer, remarkSaveSer,
+  remarkSer,
+  remarkSaveSer,
 } from '../server';
 
 const lan = {
@@ -64,7 +78,7 @@ function* partSendSaga(action) {
 }
 // 优先发货
 function* preSendSaga(action) {
- // console.log(action, 'action,优先发货');
+  console.log(action, 'action,优先发货');
   const data = yield preSendSer(action.oid, action.sendType);
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
@@ -115,6 +129,31 @@ function* cancelRefundSaga(action) {
   }
   return message.success(lan.osucess);
 }
+// 获取RL费用
+function* fetchrlfeeSaga(action) {
+  const data = yield fetchrlfeeSer(action.id);
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.ofail}:${data.msg}`);
+  }
+  yield put(commit('rlFee', data.data));
+  if (data.data === null) {
+    yield put(commit('reFeeValue', 0));
+  }
+}
+
+// 提交RL费用
+function* rebuildrlSaga(action) {
+  const data = yield rebuildrlSer(action.d);
+  yield put(commit('confirmLoading', false));
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.ofail}:${data.msg}`);
+  }
+  yield put(commit('reFeeValue', 0));
+  yield message.success(`${data.msg}`);
+  yield put(commit('rlmodal', false));
+  yield put(getInfo(action.d.order_id, action.d.billno, 'orderReturn'));
+}
+
 
 // 商品操作查询
 function* operationGoodsSaga(action) {
@@ -164,6 +203,8 @@ export default function* () {
   yield takeLatest(TYPES.PROFIT_SHOW, profitShowSaga);
   yield takeLatest(TYPES.GEN_RL, genRlSaga);
   yield takeLatest(TYPES.CANCEL_REFUND, cancelRefundSaga);
+  yield takeLatest(TYPES.FETCHRLFEE, fetchrlfeeSaga);
+  yield takeLatest(TYPES.REBUILDRL, rebuildrlSaga);
   yield takeEvery(TYPES.OPERATION_GOODS, operationGoodsSaga);
   yield takeEvery(TYPES.REMARK, remarkSaga);
   yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
