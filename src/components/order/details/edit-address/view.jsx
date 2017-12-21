@@ -33,9 +33,9 @@ class EditAddress extends Component {
   constructor(props) {
     super(props);
     const { ready, dispatch, params: { id, bid }, orderId } = props;
-    if (!ready || id !== orderId) {
-      dispatch(getInfo(id));
-    }
+  //  if (!ready || id !== orderId) {
+    dispatch(getInfo(id));
+  //  }
     dispatch(commit('orderId', id));
     dispatch(commit('billno', bid));
   }
