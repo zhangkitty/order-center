@@ -40,66 +40,82 @@ const TableView = ({ dataSource, load, dispatch, filter }) => (
       {
         title: lan.a,
         dataIndex: 'add_time',
+        width: 100,
       },
       {
         title: lan.b,
         dataIndex: 'order_id',
+        width: 100,
       },
       {
         title: lan.c,
         dataIndex: 'reference_number',
+        width: 100,
       },
       {
         title: lan.d,
         dataIndex: 'shipping_method_real',
+        width: 100,
       },
       {
         title: lan.e,
         dataIndex: 'shipping_no',
+        width: 100,
       },
       {
         title: lan.f,
         dataIndex: 'trouble_type_description',
+        width: 100,
       },
       {
         title: lan.g,
         dataIndex: 'trouble_description',
+        width: 100,
       },
       {
         title: lan.h,
         dataIndex: 'delivery_time',
+        width: 100,
       },
       {
         title: lan.i,
         dataIndex: 'site_from',
+        width: 100,
       },
       {
         title: lan.j,
         dataIndex: 'shipping_country_name',
+        width: 100,
       },
       {
         title: lan.k,
         dataIndex: 'add_admin_user_name',
+        width: 100,
       },
       {
         title: lan.l,
         dataIndex: 'level',
+        width: 100,
       },
       {
         title: lan.m,
         dataIndex: 'handle_status_description',
+        width: 100,
       },
       {
         title: lan.n,
         dataIndex: 'handle_admin_user_name',
+        width: 100,
       },
       {
         title: lan.o,
         dataIndex: 'handle_result_description',
+        width: 100,
       },
       {
         title: lan.p,
         dataIndex: 'attachments',
+        width: 100,
         render: d => d && d.map(v => (
           <img
             alt={'pic'} src={v} key={v} width={30} style={{ margin: '0 5px', cursor: 'pointer' }}
@@ -112,6 +128,7 @@ const TableView = ({ dataSource, load, dispatch, filter }) => (
       },
       {
         title: lan.q,
+        width: 100,
         render: rec => (
           <Bg>
             <Button
