@@ -95,7 +95,7 @@ const TableView = ({ dataSource, load, dispatch, filter }) => (
       {
         title: lan.l,
         dataIndex: 'level',
-        width: 100,
+        width: 50,
       },
       {
         title: lan.m,
