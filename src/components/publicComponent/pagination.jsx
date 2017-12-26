@@ -24,9 +24,7 @@ const Page = ({ total, onChange, onShowSizeChange, current }) => (
     onChange={onChange}
     showTotal={records => `${records} ${__('common.content_name2')}`}
     defaultPageSize={10}
-    onShowSizeChange={(cur, size) => {
-      return onShowSizeChange(cur, size);
-    }}
+    onShowSizeChange={(cur, size) => onShowSizeChange(cur, size)}
   />
 );
 

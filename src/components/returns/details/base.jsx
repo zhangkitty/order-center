@@ -12,7 +12,7 @@ const lan = {
   退款状态: __('returns.details.RefundStatus'),
   是否问题件: __('returns.details.IsTheProblem'),
   运单类型: __('returns.details.WaybillType'),
-  收货人国家:__('returns.details.ReceiverCountry'),
+  收货人国家: __('returns.details.ReceiverCountry'),
   包裹状态: __('returns.details.ParcelStatus'),
   物流渠道: __('returns.details.LogisticsChannels'),
   是否付费: __('returns.details.WhetherToPay'),

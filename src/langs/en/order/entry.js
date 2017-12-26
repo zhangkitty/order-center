@@ -166,4 +166,6 @@ module.exports = {
   cash_content11: 'Enter Card Number',
   cash_content12: 'Enter Card Holder\'s Name',
   cash_content13: 'Enter Card Issuer City',
+  fankui: '物流问题反馈',
+  fankuishow: '查看物流问题',
 };

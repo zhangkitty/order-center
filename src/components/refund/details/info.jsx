@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import {Table, Button} from "antd";
-import assign from "object-assign";
-import {Link} from "react-router";
-import {refund, showReverseRefund, commit} from "./action";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Table, Button } from 'antd';
+import assign from 'object-assign';
+import { Link } from 'react-router';
+import { refund, showReverseRefund, commit } from './action';
 
 const lan = {
   退款信息: __('refund.details.info_refund_info'),

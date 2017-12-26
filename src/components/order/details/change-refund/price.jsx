@@ -11,12 +11,11 @@ const spanWidth = {
 
 const star = (<span style={{ color: 'red' }}>*</span>);
 
-const Price = ({ submitValue, dispatch }) => {
-  return (
-    <div className={style.spaceBg}>
-      <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}:</span>
-      <div>
-        {
+const Price = ({ submitValue, dispatch }) => (
+  <div className={style.spaceBg}>
+    <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}:</span>
+    <div>
+      {
           submitValue.recordList.map((v, i) => (
             <div className={style.flex_center}>
               <div className={style.flex_left}>
@@ -56,10 +55,9 @@ const Price = ({ submitValue, dispatch }) => {
             </div>
           ))
         }
-      </div>
     </div>
+  </div>
   );
-};
 
 Price.propTypes = {
   submitValue: PropTypes.shape(),

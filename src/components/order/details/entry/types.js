@@ -32,3 +32,6 @@ export const REMARK_SUCCESS = `${prefix}remark_success`;
 // 备注更新
 export const REMARK_SAVE = `${prefix}remark_save`;
 export const REMARK_SAVE_SUCCESS = `${prefix}remark_save_success`;
+
+export const TRACK_TROUBLE = `${prefix}track_trouble`;
+export const TRACK_TROUBLE_SUBMIT = `${prefix}track_trouble_submit`;

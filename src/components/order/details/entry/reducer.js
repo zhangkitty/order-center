@@ -50,6 +50,12 @@ const defaultState = {
     remark: '',
   },
   changeDisabled: true,  // 换货按钮状态
+  trackTroubleLoad: false, // 物流问题反馈按钮
+  trackTroubleShow: false, // 物流问题反馈弹窗
+  trackTroubleTypes: [], // 物流问题记录 问题类型
+  trackTroubleForm: { // 物流问题记录 提交数据
+    trackTroubleSubmitLoad: false,
+  },
 };
 
 export default (state = defaultState, action) => {
@@ -168,6 +174,15 @@ export default (state = defaultState, action) => {
         fetchOperation: action.data.data || [],
         load: false,
         operationVisible: true,
+      });
+    case TYPES.TRACK_TROUBLE:
+      return assign({}, state, {
+        trackTroubleLoad: true,
+        trackTroubleForm: { reference_number: action.pkgNum },
+      });
+    case TYPES.TRACK_TROUBLE_SUBMIT:
+      return assign({}, state, {
+        trackTroubleForm: { trackTroubleSubmitLoad: true },
       });
     default:
       return state;

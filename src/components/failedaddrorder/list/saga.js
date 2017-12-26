@@ -18,6 +18,7 @@ import {
   batchDeleteSuccess, batchDeleteFail, batchRecheckSuccess, batchRecheckFail,
 } from './action';
 import * as TYPES from './types';
+
 const FileSaver = require('file-saver');
 
 function* searchSaga(action) {
@@ -38,16 +39,16 @@ function* searchFailedAddrListSaga(action) {
 }
 
 function* deleteOrderSaga(action) {
-  const data = yield deleteOrder({ids: [action.data.id]});
+  const data = yield deleteOrder({ ids: [action.data.id] });
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle')}${data.msg}`);
-    return yield put(deleteFail({myIndex: action.data.myIndex}));
+    return yield put(deleteFail({ myIndex: action.data.myIndex }));
   }
-  return yield put(deleteSuccess({data: data, myIndex: action.data.myIndex}));
+  return yield put(deleteSuccess({ data, myIndex: action.data.myIndex }));
 }
 
 function* batchDeleteSaga(action) {
-  const data = yield deleteOrder({ids: action.data});
+  const data = yield deleteOrder({ ids: action.data });
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle')}${data.msg}`);
     return yield put(batchDeleteFail());
@@ -56,33 +57,33 @@ function* batchDeleteSaga(action) {
 }
 
 function* auditOrderSaga(action) {
-  const data = yield auditOrder({ids: [action.data.id]});
+  const data = yield auditOrder({ ids: [action.data.id] });
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle')}${data.msg}`);
-    return yield put(auditFail({myIndex: action.data.myIndex}));
+    return yield put(auditFail({ myIndex: action.data.myIndex }));
   }
-  return yield put(auditSuccess({data: data, myIndex: action.data.myIndex}));
+  return yield put(auditSuccess({ data, myIndex: action.data.myIndex }));
 }
 
 function* processOrderSaga(action) {
-  const data = yield processOrder({id: action.data.id});
+  const data = yield processOrder({ id: action.data.id });
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle')}${data.msg}`);
-    return yield put(processFail({myIndex: action.data.myIndex}));
+    return yield put(processFail({ myIndex: action.data.myIndex }));
   }
-  return yield put(processSuccess({data: data, myIndex: action.data.myIndex}));
+  return yield put(processSuccess({ data, myIndex: action.data.myIndex }));
 }
 
 function* recheckOrderSaga(action) {
-  const data = yield recheckOrder({order_id: [action.data.id]});
+  const data = yield recheckOrder({ order_id: [action.data.id] });
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle')}${data.msg}`);
-    return yield put(recheckFail({myIndex: action.data.myIndex}));
+    return yield put(recheckFail({ myIndex: action.data.myIndex }));
   }
-  return yield put(recheckSuccess({data: data, myIndex: action.data.myIndex}));
+  return yield put(recheckSuccess({ data, myIndex: action.data.myIndex }));
 }
 function* batchRecheckSaga(action) {
-  const data = yield recheckOrder({order_id: action.data});
+  const data = yield recheckOrder({ order_id: action.data });
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle')}${data.msg}`);
     return yield put(batchRecheckFail());
@@ -91,7 +92,7 @@ function* batchRecheckSaga(action) {
 }
 
 function* exportOrderSaga(action) {
-  const data = yield exportOrder({ids: action.data});
+  const data = yield exportOrder({ ids: action.data });
   const name = (new Date()).toLocaleString();
   FileSaver.saveAs(data, `${name}.xls`);
 }

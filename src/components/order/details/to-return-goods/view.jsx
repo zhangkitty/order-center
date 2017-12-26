@@ -118,14 +118,14 @@ class ToReturnGoods extends Component {
                     {
                       (d || []).map(v => (
                         Number(v.id) < 6 && Number(v.id) !== 1 ?
-                            <div key={v.id}>
-                              <Checkbox value={v.id} >{Star}{v.name}</Checkbox>
-                            </div>
+                          <div key={v.id}>
+                            <Checkbox value={v.id} >{Star}{v.name}</Checkbox>
+                          </div>
 
                             :
-                            <div key={v.id}>
-                              <Checkbox value={v.id}>{v.name}</Checkbox>
-                            </div>
+                          <div key={v.id}>
+                            <Checkbox value={v.id}>{v.name}</Checkbox>
+                          </div>
 
                         ))
                       }
