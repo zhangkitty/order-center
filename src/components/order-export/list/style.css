@@ -1,0 +1,50 @@
+.content {
+    padding:20px;
+    color: #000;
+    font-size: 14px;
+}
+.filterBg {
+    word-wrap: break-word ;
+}
+.rowSpace{
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: flex-start;*/
+    /*flex-wrap: wrap;*/
+    margin: 0 auto;
+    width: 500px;
+    color: #333;
+}
+.rowSpaceList {
+    margin: 20px auto;
+}
+
+form .colSpace, .colSpace{
+    width:250px;
+    display: inline-block;
+    color: #333;
+}
+
+.filterSpace {
+    margin-bottom: 20px;
+}
+.filterName {
+    width:130px;
+    display: inline-block;
+    text-align:right;
+    padding-right:10px;
+    vertical-align: middle;
+    color: #333;
+}
+
+.content table th {
+    color: #000;
+}
+.content table td {
+    color: #333;
+}
+
+
+
+
+

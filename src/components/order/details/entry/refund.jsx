@@ -54,30 +54,40 @@ const Refund = (
         }
       >
         <Table
-          size="small"
+         // size="small"
           rowKey="id"
-          pagination={false}
+          // pagination={false}
           dataSource={refund_bill_list || []}
           columns={[
             {
               title: lan.bianhao,
               dataIndex: 'id',
+              width: '60px',
+            },
+            {
+              title: __('order.name.order_number'),
+              dataIndex: 'billno',
+              width: '80px',
             },
             {
               title: lan.leixing,
               dataIndex: 'type',
+              width: '80px',
             },
             {
               title: lan.shijian,
               dataIndex: 'date_of_application',
+              width: '130px',
             },
             {
               title: lan.ren,
               dataIndex: 'applicant',
+              width: '60px',
             },
             {
               title: lan.jine,
               dataIndex: 'apply_for_refund_amount',
+              width: '130px',
               render: d => (
                 <span>
                   {d.price_usd.amount_with_symbol}
@@ -89,31 +99,38 @@ const Refund = (
             {
               title: lan.shangpin,
               dataIndex: 'refund_goods_list',
+             // width: '180px',
               render: d => (<span>{d.join('、')}</span>),
             },
             {
               title: lan.lujin,
               dataIndex: 'refund_record_list',
+              width: '70px',
               render: d => (<span>{d.map(v => v.refund_path_name).join('、')}</span>),
             },
             {
               title: lan.yuanyin,
               dataIndex: 'refund_reason',
+              width: '70px',
             },
             {
               title: lan.zhaungtai,
               dataIndex: 'status',
+              width: '80px',
             },
             {
               title: lan.bohuiyuanyin,
               dataIndex: 'reject_reason',
+              width: '100px',
             },
             {
               title: lan.pingzhenghao,
               dataIndex: 'refund_txn_id',
+              width: '100px',
             },
             {
               title: lan.caozuo,
+              width: '100px',
               render: rec => (
                 <div>
                   {
@@ -121,6 +138,7 @@ const Refund = (
                     (Number(rec.status_code) === 4 || Number(rec.status_code) === 1) ?
                       <Link
                         to={`order/details/change-refund/${rec.id}`}
+                        style={{ marginRight: '5px' }}
                       >
                         {lan.xiugaishenqing}
                       </Link> : null
@@ -131,7 +149,7 @@ const Refund = (
                         title={lan.cancelRefund}
                         onConfirm={() => dispatch(cancelRefund(rec.id))}
                       >
-                        <Button style={{ marginLeft: '5px' }}>{lan.quxiaotuikuai}</Button>
+                        <Button>{lan.quxiaotuikuai}</Button>
                       </Popconfirm>
                       : null
                   }
@@ -140,7 +158,6 @@ const Refund = (
             },
           ]}
         />
-
       </Card>
     </div>
 );
@@ -149,5 +166,6 @@ Refund.propTypes = {
   dataSource: PropTypes.shape(),
   orderId: PropTypes.string,
   dispatch: PropTypes.func,
+//  total: PropTypes.number,
 };
 export default Refund;
