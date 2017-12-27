@@ -1,7 +1,6 @@
 import assign from 'object-assign';
 import fetch from '../../../lib/fetch';
-import {camel2Under} from  '../../../lib/camal';
-import under2Camal from  '../../../lib/camal';
+import {camel2Under,under2Camal} from  '../../../lib/camal';
 
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
