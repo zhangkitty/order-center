@@ -52,8 +52,8 @@ class cashRefund extends Component {
               refundPaths: [{
                 refundPathId: 3,  // 写死
                 refundAmount: Number(refundAmount).toFixed(2),
-                refundCurrency: Number(refundCurrency).toFixed(2),
-                refundMethod: refundMethod === '其他' || refundMethod === 'others' ?  refundMethod1 : refundMethod,
+                refundCurrency: Number(refundAmount2).toFixed(2),
+                refundMethod: refundMethod === '其他' || refundMethod === 'others' ? refundMethod1 : refundMethod,
                 account,
               }],
               canWithdrawAmount,   // 可提现金额
