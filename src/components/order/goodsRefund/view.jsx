@@ -53,6 +53,8 @@ class GoodsRefund extends Component {
                 refundCurrency: Number(v.refundCurrency).toFixed(2),
               }))) });
             const newRes = {
+              is_return_freight_insurance: submitValue.shipping, // lemonlone，2017-12-27，运费和运费险，0均不退，1均退
+              rl_amount: submitValue.rlFee, // lemonlone，2017-12-27，RL 费用
               order_id: Number(res.orderId),
               order_goods_ids: res.goodsIds.join(','),
               reason: Number(res.reason.reasonId),
@@ -61,7 +63,7 @@ class GoodsRefund extends Component {
               .map(v => ({
                 refund_path_id: v.refundTypeId,
                 refund_amount: Number(v.refundAmount),
-                refund_currency:Number(v.refundCurrency),
+                refund_currency: Number(v.refundCurrency),
                 refund_method: Number(v.refund_method_id) === 4
                   ? v.refund_method2 : v.refund_method,
                 account: v.account || Symbol('noValue'),
