@@ -32,7 +32,7 @@ class cashRefund extends Component {
     } = this.props;
     const {
       refundBillId, refundPaths, remark, refundType, orderId,
-      refundPathId, refundMethod, account, refundAmount, refundMethod1, refundAmount2,
+      refundPathId, refundMethod, account, refundAmount, refundMethod1, refundCurrency,
     } = submitValue;
     return (
       ready ?
@@ -52,7 +52,7 @@ class cashRefund extends Component {
               refundPaths: [{
                 refundPathId: 3,  // 写死
                 refundAmount: Number(refundAmount).toFixed(2),
-                refundCurrency: Number(refundAmount2).toFixed(2),
+                refundCurrency: Number(refundCurrency).toFixed(2),
                 refundMethod: refundMethod === '其他' || refundMethod === 'others' ? refundMethod1 : refundMethod,
                 account,
               }],
@@ -60,6 +60,7 @@ class cashRefund extends Component {
               notWithdrawAmount,   // 不提现金额
               remark,
             };
+            console.log(temp);
             return dispatch(submitForward(temp));
           }}
         >
