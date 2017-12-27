@@ -575,7 +575,6 @@ const SingleRow = (props) => {
           }
           {/* 批量换货 */}
           <Button
-            style={{ display: 'none' }}
             onClick={
                 () => {
                   if (BulkReturnInfo.length > 0) {
