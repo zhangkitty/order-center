@@ -58,6 +58,14 @@ const cashRefund = {
   submit: '/OrderRefund/applyWithDrawAndCancelWalletRefund'
 }
 
+//查看RL费用
+const RL = {
+    fetchrlfee :'/OrderReturn/fetchRlFee',
+    postRlFeeSer:'/OrderReturn/rebuildRl'
+}
+
+
+
 const list = {
   operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
   orderRemark: '/order/remark',  // 备注查询
@@ -317,3 +325,19 @@ export const trackTroublePublish = d => {
     body: JSON.stringify(camel2Under(d)),
   })
 };
+
+//查看RL费用
+export const fetchrlfeeSer = (orderId)=>(
+    fetch(`${RL.fetchrlfee}?order_id=${orderId}`,{
+        method:'GET',
+    }).then(res=>under2Camal(res))
+)
+
+//提交RL费用
+export const rebuildrlSer = (d)=>(
+    fetch((`${RL.postRlFeeSer}`),{
+      method:'POST',
+      body:JSON.stringify(camel2Under(d))
+    })
+)
+

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import assign from 'object-assign';
-import { Modal, Input, Button, message, Select } from 'antd';
+import React from "react";
+import PropTypes from "prop-types";
+import assign from "object-assign";
+import {Modal, Input, Button, message, Select} from "antd";
 import {
   commit,
   addRemark,
@@ -55,6 +55,7 @@ const Modals = ({
   changeOrderInfo,
   dispatch,
   cancelTheRefundBill,
+  billno,
 }) => (
   <div>
     {/* 备注信息 */}

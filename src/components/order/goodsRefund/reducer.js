@@ -5,6 +5,7 @@ import assign from 'object-assign';
 import * as TYPES from './types';
 import { under2Camal } from '../../../lib/camal';
 
+
 const defaultState = {
   ready: false,
   dataSource: {},
@@ -15,6 +16,7 @@ const defaultState = {
   load: false,
   loadUpdata: false,
   total: 0,
+  isUsd: null,
   submitLoad: false,
   submitValue: {
     orderId: null,
@@ -31,13 +33,26 @@ const defaultState = {
  *
  * @param data: dataSource
  */
-const maxTypes = data => (
-  {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
-    3: data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount,
+const maxTypes = (data) => {
+  if (data.isUsd === 0) {
+    return {
+      1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      3: data.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount > 0 ? data.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount : 0,
+    };
   }
-);
+  if (data.isUsd === 1) {
+    return {
+      1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
+      2: data.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount,
+      3: data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount > 0 ? data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount : 0,
+    };
+  }
+
+  return null;
+}
+
+;
 
 /**
  *
@@ -50,7 +65,7 @@ const changePath = (value, data, flag) => {
   const radio = arr.map(d => (
     d.refundTypeId === value ?
       assign({}, d, { check: true }) :
-      flag ? assign({}, d, { check: false, refundAmount: 0.00, refundAmount2: 0.00 }) :
+      flag ? assign({}, d, { check: false, refundAmount: 0.00, refundCurrency: 0.00 }) :
         assign({}, d, { check: false })
   ));
   const result = data.filter(d => d.refundTypeId < 2).concat(radio);
@@ -64,9 +79,9 @@ const copyPayment = (data) => {
       assign({}, d, {
         check: true,
         refundAmount: user.refundAmount,
-        refundAmount2: user.refundAmount2,
+        refundCurrency: user.refundCurrency,
       })
-      : assign({}, d, { check: false, refundAmount: 0.00, refundAmount2: 0.00 })
+      : assign({}, d, { check: false, refundAmount: 0.00, refundCurrency: 0.00 })
   ));
   const result = data.refundPaths.filter(d => d.refundTypeId < 2).concat(radio);
   return assign({}, data, {
@@ -104,29 +119,43 @@ const originPrice = (priceRefund = 0, data) => {
   return price;
 };
 
+
 /**
  *
  * @param source: dataSource
  */
 
 const svInit = (source) => {
+  const { isUsd } = source;
+  const { orderPriceInfo: { isAllCancel } } = source;
+  // 运费和运费险
+  const shippingInsurePrice = isUsd ? source.orderPriceInfo.shippingInsurePrice.priceUsd.amount : source.orderPriceInfo.shippingInsurePrice.priceWithExchangeRate.amount;
+  const shippingPrice = isUsd ? source.orderPriceInfo.shippingPrice.priceUsd.amount : source.orderPriceInfo.shippingPrice.priceWithExchangeRate.amount;
+  let amount1;
+  if (isAllCancel) {
+    amount1 = isUsd ? source.orderPriceInfo.orderCanBeRefundedPrice.priceUsd.amount : source.orderPriceInfo.orderCanBeRefundedPrice.priceWithExchangeRate.amount;
+  } else {
+    amount1 = isUsd ? source.orderPriceInfo.waitRefundPrice.priceUsd.amount : source.orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
+  }
+  // 减去运费和运费险剩下的钱(均不退)
+  const noRefund = isAllCancel ? (amount1 - shippingInsurePrice - shippingPrice) : amount1;
   const maxObj = maxTypes(source);
-  const priceObj = originPrice(
-    Number(source.orderPriceInfo.waitRefundPrice.priceUsd.amount || 0),
-    source);
+  const temp = Object.values(maxObj).reduce((result, value) => {
+    if (noRefund - result.reduce((sum, val) => sum + val, 0) > value) {
+      return [...result, value];
+    }
+    return [...result, noRefund - result.reduce((sum, val) => sum + val, 0) > 0 ? noRefund - result.reduce((sum, val) => sum + val, 0) : 0];
+  }, []);
+  const priceObj = temp.reduce((result, value, idx) => {
+    result[++idx] = Number(Number(value).toFixed(2));
+    return result;
+  }, {});
   const arr = source.orderRefundPathList.map(v => ({
     refundTypeId: v.refundPathId,
     isShow: (Number(v.refundPathId) === 1 && Number(maxObj[v.refundPathId]) > 0) ||
     (Number(v.refundPathId) > 1 && Number(v.refundPathId) !== 4),
-    refundAmount: priceObj[v.refundPathId] < 0 ? 0 : priceObj[v.refundPathId],
-    refundAmount2: Number(
-      Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
-    ) < 0 ?
-    0
-    :
-      Number(
-        Number(priceObj[v.refundPathId] * Number(v.priceWithExchangeRate.rate)).toFixed(2),
-      ),
+    refundAmount: isUsd === 1 ? priceObj[v.refundPathId] : Number(Number(priceObj[v.refundPathId] * (1 / v.priceWithExchangeRate.rate)).toFixed(2)),
+    refundCurrency: isUsd === 1 ? Number(Number(priceObj[v.refundPathId] * v.priceWithExchangeRate.rate).toFixed(2)) : priceObj[v.refundPathId],
     rate: v.priceWithExchangeRate.rate,
     rate2: 1 / v.priceWithExchangeRate.rate,
     currency: v.priceWithExchangeRate.symbol,
@@ -154,58 +183,118 @@ const svInit = (source) => {
  * @returns []
  */
 const allBack = (source, arr, back, rl, type, refundPaths) => {
-  const p = Number(source.orderPriceInfo.shippingPrice.priceUsd.amount) +
-    Number(source.orderPriceInfo.shippingInsurePrice.priceUsd.amount); // 运费 + 运费险
-  const max = Number(maxTypes(source)[1]); // 礼品卡最大上限
-  const gift = arr.find(v => Number(v.refundTypeId) === 1) || {}; // 礼品卡
-  const show = max > 0;
-  const price = {
-    1: gift.refundAmount || 0,
-    2: Number(arr.find(v => Number(v.refundTypeId) === 2).refundAmount),
-    3: type === 3 ?
-      Number(arr.find(v => Number(v.refundTypeId) === 2).refundAmount) :
-      Number(arr.find(v => Number(v.refundTypeId) === 3).refundAmount),
-  };
-  if (back) {
-    if (show) {
-      const total = gift.refundAmount + p;
-      if (total > max) {
-        price[1] = max;
-        price[type || 2] = price[type || 2] + (total - max);
+  let p;
+  if (source.isUsd === 0) {
+    p = Number(source.orderPriceInfo.shippingPrice.priceWithExchangeRate.amount) +
+        Number(source.orderPriceInfo.shippingInsurePrice.priceWithExchangeRate.amount); // 运费 + 运费险
+    const max = Number(maxTypes(source)[1]); // 礼品卡最大上限
+    const gift = arr.find(v => Number(v.refundTypeId) === 1) || {}; // 礼品卡
+    const show = max > 0;
+    const price = {
+      1: gift.refundCurrency || 0,
+      2: Number(arr.find(v => Number(v.refundTypeId) === 2).refundCurrency),
+      3: type === 3 ?
+          Number(arr.find(v => Number(v.refundTypeId) === 2).refundCurrency) :
+          Number(arr.find(v => Number(v.refundTypeId) === 3).refundCurrency),
+    };
+    if (back) {
+      if (show) {
+        const total = gift.refundCurrency + p;
+        if (total > max) {
+          price[1] = max;
+          price[type || 2] = price[type || 2] + (total - max);
+        } else {
+          price[1] = total;
+        }
+        const rlTotal = price[type || 2] - rl;
+        if (rlTotal > 0) {
+          price[type || 2] = rlTotal;
+        } else {
+          price[1] = price[1] + rlTotal > 0 ? price[1] + rlTotal : 0;
+          price[type || 2] = 0;
+        }
       } else {
-        price[1] = total;
+        const total = (price[type || 2] + p) - rl;
+        price[type || 2] = total > 0 ? total : 0;
       }
-      const rlTotal = price[type || 2] - rl;
-      if (rlTotal > 0) {
-        price[type || 2] = rlTotal;
-      } else {
-        price[1] = price[1] + rlTotal > 0 ? price[1] + rlTotal : 0;
-        price[type || 2] = 0;
-      }
-    } else {
-      const total = (price[type || 2] + p) - rl;
-      price[type || 2] = total > 0 ? total : 0;
     }
-  }
-  if (!back) {
-    const total = price[type || 2] - rl;
-    if (show) {
-      if (total < 0) {
-        price[type || 2] = 0;
-        const temp = gift.refundAmount + total;
-        price[1] = temp > 0 ? temp : 0;
+    if (!back) {
+      const total = price[type || 2] - rl;
+      if (show) {
+        if (total < 0) {
+          price[type || 2] = 0;
+          const temp = gift.refundCurrency + total;
+          price[1] = temp > 0 ? temp : 0;
+        } else {
+          price[type || 2] = total;
+        }
       } else {
-        price[type || 2] = total;
+        price[type || 2] = total > 0 ? total : 0;
       }
-    } else {
-      price[type || 2] = total > 0 ? total : 0;
     }
+    return refundPaths.map((v) => {
+      const temp = assign({}, v, {
+        refundAmount: v.check ? Number(Number(price[v.refundTypeId] * v.rate2).toFixed(2)) : 0.00,
+        refundCurrency: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
+      });
+      return temp;
+    });
   }
-  return refundPaths.map(v => assign({}, v, {
-    refundAmount: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
-    refundAmount2: v.check ? Number(Number(price[v.refundTypeId] * v.rate).toFixed(2)) : 0.00,
+  if (source.isUsd === 1) {
+    p = Number(source.orderPriceInfo.shippingPrice.priceUsd.amount) +
+        Number(source.orderPriceInfo.shippingInsurePrice.priceUsd.amount); // 运费 + 运费险
+    const max = Number(maxTypes(source)[1]); // 礼品卡最大上限
+    const gift = arr.find(v => Number(v.refundTypeId) === 1) || {}; // 礼品卡
+    const show = max > 0;
+    const price = {
+      1: gift.refundAmount || 0,
+      2: Number(arr.find(v => Number(v.refundTypeId) === 2).refundAmount),
+      3: type === 3 ?
+          Number(arr.find(v => Number(v.refundTypeId) === 2).refundAmount) :
+          Number(arr.find(v => Number(v.refundTypeId) === 3).refundAmount),
+    };
+    if (back) {
+      if (show) {
+        const total = gift.refundAmount + p;
+        if (total > max) {
+          price[1] = max;
+          price[type || 2] = price[type || 2] + (total - max);
+        } else {
+          price[1] = total;
+        }
+        const rlTotal = price[type || 2] - rl;
+        if (rlTotal > 0) {
+          price[type || 2] = rlTotal;
+        } else {
+          price[1] = price[1] + rlTotal > 0 ? price[1] + rlTotal : 0;
+          price[type || 2] = 0;
+        }
+      } else {
+        const total = (price[type || 2] + p) - rl;
+        price[type || 2] = total > 0 ? total : 0;
+      }
+    }
+    if (!back) {
+      const total = price[type || 2] - rl;
+      if (show) {
+        if (total < 0) {
+          price[type || 2] = 0;
+          const temp = gift.refundAmount + total;
+          price[1] = temp > 0 ? temp : 0;
+        } else {
+          price[type || 2] = total;
+        }
+      } else {
+        price[type || 2] = total > 0 ? total : 0;
+      }
+    }
+    return refundPaths.map(v => assign({}, v, {
+      refundAmount: v.check ? Number(Number(price[v.refundTypeId]).toFixed(2)) : 0.00,
+      refundCurrency: v.check ? Number(Number(price[v.refundTypeId] * v.rate).toFixed(2)) : 0.00,
 
-  }));
+    }));
+  }
+  return null;
 };
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -219,6 +308,7 @@ const reducer = (state = defaultState, action) => {
           refundPaths: svInit(under2Camal(action.res)),
         }),
         cachePaths: svInit(under2Camal(action.res)),
+        isUsd: under2Camal(action.res).isUsd,
       });
     case TYPES.GET_REASON_SUCCESS:
       return assign({}, state, {
@@ -242,7 +332,7 @@ const reducer = (state = defaultState, action) => {
             ...state.submitValue.refundPaths.slice(0, action.i),
             assign({}, state.submitValue.refundPaths[action.i], {
               refundAmount: action.value,
-              refundAmount2: Number(Number(action.value) * action.rate).toFixed(2),
+              refundCurrency: Number(Number(action.value) * action.rate).toFixed(2),
             }),
             ...state.submitValue.refundPaths.slice(action.i + 1),
           ],
@@ -255,7 +345,7 @@ const reducer = (state = defaultState, action) => {
             ...state.submitValue.refundPaths.slice(0, action.i),
             assign({}, state.submitValue.refundPaths[action.i], {
               refundAmount: Number(Number(action.value) * action.rate2).toFixed(2),
-              refundAmount2: action.value,
+              refundCurrency: action.value,
             }),
             ...state.submitValue.refundPaths.slice(action.i + 1),
           ],
@@ -290,7 +380,7 @@ const reducer = (state = defaultState, action) => {
           remark: '',
           refundPaths: state.submitValue.refundPaths.map(v => assign({}, v, {
             refundAmount: '',
-            refundAmount2: '',
+            refundCurrency: '',
             refund_method: '',
             account: '',
             check: false,

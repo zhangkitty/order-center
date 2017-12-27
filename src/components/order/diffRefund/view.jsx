@@ -34,7 +34,7 @@ class DiffRefund extends Component {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              const refund_paths = refundPaths.filter(v => v.checked && Number(v.refundAmount) !== 0).map((x) => {
+              const refund_paths = refundPaths.filter(v => v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0)).map((x) => {
                 if (x.refund_method === '其他' || x.refund_method === 'others') {
                   x.refund_method = x.refund_method1;
                 }
@@ -54,7 +54,7 @@ class DiffRefund extends Component {
             }}
           >
             <SumOfMoney orderPriceInfo={orderPriceInfo} dispatch={dispatch} />
-            <Price refundPaths={this.props.refundPaths} dispatch={dispatch} maxTips={maxTips} />
+            <Price {...this.props} />
             <div className={styles.row}>
               <span className={styles.rowSpan}>{__('common.content_name')}{Star}:</span>
               <Radio.Group

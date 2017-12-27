@@ -1,4 +1,3 @@
-import merge from 'lodash.merge';
 import assign from 'object-assign';
 import * as TYPES from './types';
 
@@ -15,6 +14,7 @@ const defaultState = {
   warehouse: 0,
   partSendBtn: false,
   rlLoading: false,
+  rlmodal: false,
   preSend: 0,
   dataSource: {
     base: {}, // 基本
@@ -39,6 +39,10 @@ const defaultState = {
     img: '',
   },
   returnEmail: '',
+  rlFee: null,
+  reFeeValue: 0,
+  modal_return_order_id: null,
+  confirmLoading: false,
   operationVisible: false,  // 操作查询
   clickVisible: false,
   visible: false,   // add
