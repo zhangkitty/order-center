@@ -35,8 +35,10 @@ const onC = (dispatch, submitValue, i, data) => (
       ...submitValue.refundPaths.slice(i + 1),
     ],
 )));
-const Price = ({ dataSource, submitValue, dispatch }) => {
-  const RLPrice = dataSource.rlFee;
+const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
+  const RLPrice = dataSource.rlFee || [];
+  const { orderPriceInfo: { shippingPrice: { priceWithExchangeRate: { amount: SP } } } } = dataSource;
+  const { orderPriceInfo: { shippingInsurePrice: { priceWithExchangeRate: { amount: SIP } } } } = dataSource;
   return (
     <div style={{ marginBottom: '20px' }}>
       <div className={style.flex}>
@@ -113,6 +115,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                       <Input
                         style={{ width: '150px' }}
                         value={v.refundAmount}
+                        disabled={!isUsd}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(usPriceChange(e.target.value, i, v.rate))}
@@ -120,12 +123,14 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                       <span style={spanWidth}>{v.currency}</span>
                       <Input
                         style={{ width: '150px' }}
-                        value={v.refundAmount2}
+                        value={v.refundCurrency}
+                        disabled={!!isUsd}
+                        max={v.max}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(otherPriceChange(e.target.value, i, v.rate2))}
                       />
-                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${v.max}</span>
+                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd ? '$' : v.currency}{v.max}</span>
                     </div>
                   </div>
                   {

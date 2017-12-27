@@ -5,7 +5,7 @@
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
 import { put, takeLatest } from 'redux-saga/effects';
-import { getDataSer, getReasonSer, goodsRefundSubmit } from '../server';
+import { getDataSer, getReasonSer, goodsRefundSubmit, getorderrewardpointinfoSer } from '../server';
 import {
   change, getDataSuccess, getReasonSuccess,
 } from './action';

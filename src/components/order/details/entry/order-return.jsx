@@ -174,7 +174,7 @@ const OrderReturn = (
             Array.isArray(rlFee) ?
               <div>
                 <Radio.Group disabled={confirmLoading} value={reFeeValue || 0} onChange={e => dispatch(commit('reFeeValue', e.target.value))}>{
-                  rlFee.map(v => (
+                  (rlFee || []).map(v => (
                     <Radio value={v.amount}>{v.amountWithSymbol}</Radio>
                   ))
                 }

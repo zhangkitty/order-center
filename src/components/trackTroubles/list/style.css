@@ -1,0 +1,57 @@
+.fliterFlex {
+    display: flex;
+    flex-direction: column;
+}
+.fliterFlex > div {
+    display: flex;
+    flex-direction: row;
+}
+.fliterFlex > div > div{
+    display: flex;
+    width: 20%;
+    margin: 10px;
+}
+.fliterFlex > div > div > span{
+    width: 120px;
+}
+.searchBtn {
+    display: flex;
+    justify-content: flex-end;
+}
+.modalBtnLay {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+.modalempty {
+    text-align: center;
+    margin: 30px;
+}
+.modalForm {
+    display: flex;
+    margin: 20px 0;
+}
+.handleDesc {
+    display: flex;
+    margin: 20px;
+}
+.handleDesc > span {
+    width: 120px;
+}
+.handleBtn {
+    display: flex;
+    justify-content: center;
+}
+.uploadLay {
+    margin: 50px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.uploadSpan {
+    width: 120px;
+}
+.uploadBtn {
+    margin-left: 43%;
+    transform: translate(-50%);
+    margin-top: 20px;
+}

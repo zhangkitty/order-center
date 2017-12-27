@@ -1,6 +1,7 @@
 import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
+import assign from 'object-assign';
 import * as TYPES from './types';
 
 import {
@@ -26,6 +27,8 @@ import {
   operationGoodsSer,
   remarkSer,
   remarkSaveSer,
+  getTroubleTypes,
+  trackTroublePublish,
 } from '../server';
 
 const lan = {
@@ -33,6 +36,7 @@ const lan = {
   osucess: __('order.entry.submit_info1'),
   fail: __('order.entry.submit_info6'),
   part: __('order.entry.submit_info7'),
+  dataFail: __('order.entry.submit_info2'),
 };
 /* eslint prefer-const: 0 */
 /* eslint consistent-return: 0 */
@@ -78,7 +82,7 @@ function* partSendSaga(action) {
 }
 // 优先发货
 function* preSendSaga(action) {
-  console.log(action, 'action,优先发货');
+ // console.log(action, 'action,优先发货');
   const data = yield preSendSer(action.oid, action.sendType);
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
@@ -190,7 +194,28 @@ function* remarkSaveSaga(action) {
   message.success(__('common.sagaTitle13'));
   return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
-
+// 获取物流反馈问题原因
+function* getTrackTroubleReason() {
+  const data = yield getTroubleTypes();
+  if (!data || data.code !== 0) {
+    message.error(`${lan.dataFail}: ${data.msg}`);
+    return yield put(commit('trackTroubleLoad', false));
+  }
+  yield put(commit('trackTroubleShow', true));
+  yield put(commit('trackTroubleLoad', false));
+  return yield put(commit('trackTroubleTypes', data.data));
+}
+// 获取物流反馈问题创建
+function* trackTroubleSubmit(action) {
+  const data = yield trackTroublePublish(action.form);
+  if (!data || data.code !== 0) {
+    message.error(`${lan.ofail}: ${data.msg}`);
+    return yield put(commit('trackTroubleForm', assign({}, action.form, { trackTroubleSubmitLoad: false })));
+  }
+  yield put(commit('trackTroubleForm', assign({}, action.form, { trackTroubleSubmitLoad: false })));
+  yield put(commit('trackTroubleShow', false));
+  return message.success(lan.osucess);
+}
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -208,4 +233,6 @@ export default function* () {
   yield takeEvery(TYPES.OPERATION_GOODS, operationGoodsSaga);
   yield takeEvery(TYPES.REMARK, remarkSaga);
   yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
+  yield takeLatest(TYPES.TRACK_TROUBLE, getTrackTroubleReason);
+  yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
 }

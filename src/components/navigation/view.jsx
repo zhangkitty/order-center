@@ -51,11 +51,11 @@ class Navigation extends Component {
             </div>
             <div className={styles.menubtn}>
               <a
-                href={'index.html' + location.hash}
+                href={`index.html${location.hash}`}
                 className={styles.language}
               >中</a>
               <a
-                href={'en.html' + location.hash}
+                href={`en.html${location.hash}`}
                 className={styles.language}
               >En</a>
             </div>
