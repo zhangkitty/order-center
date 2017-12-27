@@ -19,7 +19,7 @@ const Goods = ({ returnsInfoData: { returnOrderGoods } }) => (
       size="small"
       pagination={false}
       dataSource={returnOrderGoods}
-      rowKey={'goodsId'}
+      rowKey={'orderGoodsId'}
       //  bordered
       columns={[
         {
