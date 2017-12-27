@@ -1,3 +1,3 @@
-module.exports={
-  numberYouHaveEntered:'The number of characters you have entered',
-}
+module.exports = {
+  numberYouHaveEntered: 'The number of characters you have entered',
+};

@@ -171,3 +171,6 @@
     cursor: pointer;
     outline: 0;
 }
+.btnSpace {
+    margin: 0 15px;
+}

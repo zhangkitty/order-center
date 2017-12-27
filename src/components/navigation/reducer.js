@@ -108,6 +108,18 @@ const menus = [
         crumbName: __('nav.failedaddrorder'),
         nav: true,
       },
+      {
+        link: '/order-export',  // 订单信息导出
+        name: __('nav.order_export'),
+        crumbName: __('nav.order_export'),
+        nav: true,
+      },
+      {
+        link: '/trackTroubles',  // 物流问题列表
+        name: __('nav.tracktrouble'),
+        crumbName: __('nav.tracktrouble'),
+        nav: true,
+      },
     ],
   },
 ];

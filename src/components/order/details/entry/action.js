@@ -134,3 +134,14 @@ export const remarkSaveSuccess = data => ({
   data,
 });
 
+// 物流问题反馈
+export const createQs = pkgNum => ({
+  pkgNum,
+  type: TYPES.TRACK_TROUBLE,
+});
+
+// 物流问题反馈 创建问题
+export const trackTroubleSubmit = form => ({
+  form,
+  type: TYPES.TRACK_TROUBLE_SUBMIT,
+});

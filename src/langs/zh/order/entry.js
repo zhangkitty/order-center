@@ -166,6 +166,8 @@ module.exports = {
   cash_content11: '请输入银行卡号',
   cash_content12: '请输入顾客姓名',
   cash_content13: '请输入发卡城市',
+  fankui: '物流问题反馈',
+  fankuishow: '查看物流问题',
   rl_fee_required: 'rl费用必填',
   rl_deducted_costs: 'RL扣除费用',
 };

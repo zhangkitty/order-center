@@ -72,7 +72,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.SEARCH_SUCCESS:
       const wantedList = [];
-      action.data.data.refund_bill_list.map(k => {
+      action.data.data.refund_bill_list.map((k) => {
         k.refund_record_list.map((m, index) => {
           const temp = m;
           temp.refund_bill_id = k.refund_bill_id;
