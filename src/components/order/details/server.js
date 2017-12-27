@@ -18,6 +18,8 @@ const entry = {
   orderProfit: '/OrderDetail/orderProfit',
   rebuildRl: '/orderReturn/rebuildRl',
   cancelTheRefundBill: '/OrderDiffRefund/cancelTheRefundBill',
+  getTroubleTypes: '/OrderLogisticsTroubles/getTroubleTypes',
+  trackTroublePublish: '/OrderLogisticsTroubles/publish',
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
@@ -55,6 +57,14 @@ const cashRefund = {
   getData: '/OrderDiffRefund/cashRefund',
   submit: '/OrderRefund/applyWithDrawAndCancelWalletRefund'
 }
+
+//查看RL费用
+const RL = {
+    fetchrlfee :'/OrderReturn/fetchRlFee',
+    postRlFeeSer:'/OrderReturn/rebuildRl'
+}
+
+
 
 const list = {
   operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
@@ -301,3 +311,33 @@ export const remarkSaveSer = (orderId, remark) => (
     })),
   })
 );
+
+// 物流问题记录 问题类型
+export const getTroubleTypes = () => {
+  return fetch(entry.getTroubleTypes, {
+    method: 'GET',
+  })
+};
+// 物流问题记录 创建问题
+export const trackTroublePublish = d => {
+  return fetch(entry.trackTroublePublish, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under(d)),
+  })
+};
+
+//查看RL费用
+export const fetchrlfeeSer = (orderId)=>(
+    fetch(`${RL.fetchrlfee}?order_id=${orderId}`,{
+        method:'GET',
+    }).then(res=>under2Camal(res))
+)
+
+//提交RL费用
+export const rebuildrlSer = (d)=>(
+    fetch((`${RL.postRlFeeSer}`),{
+      method:'POST',
+      body:JSON.stringify(camel2Under(d))
+    })
+)
+

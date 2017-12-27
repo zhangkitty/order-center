@@ -66,5 +66,5 @@ class LoginCom extends Component {
 LoginCom.proptTypes = {
   open: PropTypes.bool,
 };
-const mapStatetoProps = state => state['login'];
+const mapStatetoProps = state => state.login;
 export default connect(mapStatetoProps)(LoginCom);

@@ -50,7 +50,7 @@ class GoodsRefund extends Component {
               submitValue,
               { refundPaths: refundPaths.filter(v => v.check).map(v => (assign({}, v, {
                 refundAmount: Number(v.refundAmount).toFixed(2),
-                refundAmount2: Number(v.refundAmount2).toFixed(2),
+                refundCurrency: Number(v.refundCurrency).toFixed(2),
               }))) });
             const newRes = {
               order_id: Number(res.orderId),
@@ -61,6 +61,7 @@ class GoodsRefund extends Component {
               .map(v => ({
                 refund_path_id: v.refundTypeId,
                 refund_amount: Number(v.refundAmount),
+                refund_currency:Number(v.refundCurrency),
                 refund_method: Number(v.refund_method_id) === 4
                   ? v.refund_method2 : v.refund_method,
                 account: v.account || Symbol('noValue'),

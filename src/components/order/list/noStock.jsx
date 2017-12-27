@@ -12,9 +12,10 @@ import {
   changeAllSource,
   getNoGoodsList,
   changeNoGoodsList,
-  underCarriage
+  underCarriage,
 } from './action';
 import styles from './style.css';
+
 const RadioGroup = Radio.Group;
 
 const tipContent = (
@@ -30,7 +31,7 @@ const tipContent = (
 const columns = [
   {
     title: __('common.noGoods_name1'),
-    dataIndex: 'canku'
+    dataIndex: 'canku',
   },
   {
     title: __('common.noGoods_name2'),
@@ -42,11 +43,11 @@ const columns = [
                 (sum, v) =>
                   Array.isArray(sum)
                     ? sum.concat([`${v}:${text[v]}`])
-                    : [`${sum}:${text[sum]}`, `${v}:${text[v]}`]
+                    : [`${sum}:${text[sum]}`, `${v}:${text[v]}`],
               )
             : Object.keys(text).map(v => `${v}:${text[v]}`)
           ).join(', ')
-        : 0
+        : 0,
   },
   {
     title: (
@@ -63,7 +64,7 @@ const columns = [
               height: 15,
               textAlign: 'center',
               lineHeight: '15px',
-              position: 'relative'
+              position: 'relative',
             }}
           >
             ?
@@ -72,22 +73,20 @@ const columns = [
       </div>
     ),
     dataIndex: 'occupy',
-    render: (text, record) => {
-      return record.stock ? text : '-';
-    }
-  }
+    render: (text, record) => record.stock ? text : '-',
+  },
 ];
 
 const options = [
   { label: __('common.noGoods_name4'), value: '1' },
-  { label: __('common.noGoods_name5'), value: '2' }
+  { label: __('common.noGoods_name5'), value: '2' },
 ];
 
 let _batchChooseGoods;
 
 class TabsHeader extends Component {
   state = {
-    selectAllStateStatus: false
+    selectAllStateStatus: false,
   };
   render() {
     const {
@@ -97,46 +96,46 @@ class TabsHeader extends Component {
       stockList: data,
       dataSource_noGoods,
       showBatchNoGoods,
-      down
+      down,
     } = this.props;
     const dataSource = [
       {
         key: '1',
         canku: __('common.noGoods_name6'),
         stock: data.stock.back,
-        occupy: data.occupy.back
+        occupy: data.occupy.back,
       },
       {
         key: '2',
         canku: __('common.noGoods_name7'),
         stock: data.stock.b,
-        occupy: data.occupy.b
+        occupy: data.occupy.b,
       },
       {
         key: '3',
         canku: __('common.noGoods_name8'),
         stock: data.stock['c-east'],
-        occupy: data.occupy['c-east']
+        occupy: data.occupy['c-east'],
       },
       {
         key: '4',
         canku: __('common.noGoods_name9'),
         stock: data.stock['c-west'],
-        occupy: data.occupy['c-west']
+        occupy: data.occupy['c-west'],
       },
       {
         key: '5',
         canku: __('common.noGoods_name10'),
         stock: data.stock.d,
-        occupy: data.occupy.d
-      }
+        occupy: data.occupy.d,
+      },
     ];
     const columns_noGoods = [
       {
-        className:styles.verticalAlign,
+        className: styles.verticalAlign,
         title: (
           <Checkbox
-            onChange={e => {
+            onChange={(e) => {
               dispatch(changeAllSource('1', e.target.checked));
             }}
           >
@@ -144,26 +143,24 @@ class TabsHeader extends Component {
           </Checkbox>
         ),
         dataIndex: '1',
-        render: text => {
-          return Object.entries(text).map(([i, v]) => (
-            <div>
-              <Checkbox
-                checked={v.checked}
-                onChange={e => {
-                  dispatch(changeNoGoodsList('1', i, e.target.checked));
-                }}
-              >
-                {v.value}
-              </Checkbox>
-            </div>
-          ));
-        }
+        render: text => Object.entries(text).map(([i, v]) => (
+          <div>
+            <Checkbox
+              checked={v.checked}
+              onChange={(e) => {
+                dispatch(changeNoGoodsList('1', i, e.target.checked));
+              }}
+            >
+              {v.value}
+            </Checkbox>
+          </div>
+          )),
       },
       {
-        className:styles.verticalAlign,
+        className: styles.verticalAlign,
         title: (
           <Checkbox
-            onChange={e => {
+            onChange={(e) => {
               dispatch(changeAllSource('2', e.target.checked));
             }}
           >
@@ -171,26 +168,24 @@ class TabsHeader extends Component {
           </Checkbox>
         ),
         dataIndex: '2',
-        render: text => {
-          return Object.entries(text).map(([i, v]) => (
-            <div>
-              <Checkbox
-                checked={v.checked}
-                onChange={e => {
-                  dispatch(changeNoGoodsList('2', i, e.target.checked));
-                }}
-              >
-                {v.value}
-              </Checkbox>
-            </div>
-          ));
-        }
+        render: text => Object.entries(text).map(([i, v]) => (
+          <div>
+            <Checkbox
+              checked={v.checked}
+              onChange={(e) => {
+                dispatch(changeNoGoodsList('2', i, e.target.checked));
+              }}
+            >
+              {v.value}
+            </Checkbox>
+          </div>
+          )),
       },
       {
-        className:styles.verticalAlign,
+        className: styles.verticalAlign,
         title: (
           <Checkbox
-            onChange={e => {
+            onChange={(e) => {
               dispatch(changeAllSource('3', e.target.checked));
             }}
           >
@@ -198,21 +193,19 @@ class TabsHeader extends Component {
           </Checkbox>
         ),
         dataIndex: '3',
-        render: text => {
-          return Object.entries(text).map(([i, v]) => (
-            <div>
-              <Checkbox
-                checked={v.checked}
-                onChange={e => {
-                  dispatch(changeNoGoodsList('3', i, e.target.checked));
-                }}
-              >
-                {v.value}
-              </Checkbox>
-            </div>
-          ));
-        }
-      }
+        render: text => Object.entries(text).map(([i, v]) => (
+          <div>
+            <Checkbox
+              checked={v.checked}
+              onChange={(e) => {
+                dispatch(changeNoGoodsList('3', i, e.target.checked));
+              }}
+            >
+              {v.value}
+            </Checkbox>
+          </div>
+          )),
+      },
     ];
 
     return (
@@ -235,12 +228,12 @@ class TabsHeader extends Component {
         {/* 批量无货 */}
         <Button
           onClick={() => {
-            //if (_batchChooseGoods !== batchChooseGoods) {
+            // if (_batchChooseGoods !== batchChooseGoods) {
             dispatch(noStock(batchChooseGoods));
             //  _batchChooseGoods = batchChooseGoods;
-            //} else {
+            // } else {
             //  dispatch(change('showBatchNoGoods', true));
-            //}
+            // }
           }}
         >
           {' '}
@@ -263,7 +256,7 @@ class TabsHeader extends Component {
               <div style={{ marginTo: 10, marginBottom: 10 }}>
                 <RadioGroup
                   options={options}
-                  onChange={e => {
+                  onChange={(e) => {
                     dispatch(change('down', e.target.value));
                   }}
                   value={down}
@@ -280,7 +273,7 @@ class TabsHeader extends Component {
                   onClick={() => {
                     dispatch(change('showShelfNoGoods', false));
                     dispatch(change('down', ''));
-                    dispatch(changeAllSource(['1','2','3'], false));
+                    dispatch(changeAllSource(['1', '2', '3'], false));
                   }}
                   style={{ marginRight: 10 }}
                 >
@@ -326,7 +319,7 @@ class TabsHeader extends Component {
                 </Button>
               </div>
             </div>
-          ):null}
+          ) : null}
         </Modal>
       </div>
     );
@@ -335,14 +328,14 @@ class TabsHeader extends Component {
     const { dispatch, dataSource, batchChooseGoods } = this.props;
     const { selectAllStateStatus } = this.state;
     let arr;
-    if (!selectAllStateStatus||!batchChooseGoods.length) {
-      let checkboxChecked = {
+    if (!selectAllStateStatus || !batchChooseGoods.length) {
+      const checkboxChecked = {
         5: 1, // 需要退款
         20: 1, // 换货
         7: 1, // 已经退款
         74: 1, // 删除换货
         75: 1, // COD客服取消
-        82: 1 // COD用户取消"
+        82: 1, // COD用户取消"
       };
       arr = dataSource
         .map(v => v.order_goods)
@@ -356,11 +349,11 @@ class TabsHeader extends Component {
     this.setState({ selectAllStateStatus: !selectAllStateStatus });
   };
   handleCancel = () => {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     dispatch(change('showShelfNoGoods', false));
     dispatch(change('showBatchNoGoods', false));
     dispatch(change('down', ''));
-    dispatch(changeAllSource(['1','2','3'], false));
+    dispatch(changeAllSource(['1', '2', '3'], false));
   };
   submit = () => {
     const {
@@ -368,25 +361,25 @@ class TabsHeader extends Component {
       stockList: { sku, size },
       dataSource_noGoods,
       batchChooseGoods,
-      down
+      down,
     } = this.props;
-    let site = [];
+    const site = [];
     if (dataSource_noGoods.length) {
-      let data = dataSource_noGoods[0];
-      for (let v in data) {
-        for (let i in data[v]) {
+      const data = dataSource_noGoods[0];
+      for (const v in data) {
+        for (const i in data[v]) {
           if (data[v][i].checked) {
             site.push(data[v][i].value);
           }
         }
       }
     }
-    let param = {
+    const param = {
       sku,
       size,
       site: site.length ? site.join(',') : '',
-      down: down,
-      order_goods_id: batchChooseGoods.length ? batchChooseGoods.join(',') : ''
+      down,
+      order_goods_id: batchChooseGoods.length ? batchChooseGoods.join(',') : '',
     };
     dispatch(underCarriage(param));
   };
@@ -394,6 +387,6 @@ class TabsHeader extends Component {
 TabsHeader.propTypes = {
   dispatch: PropTypes.func,
   dataSource: PropTypes.arrayOf(PropTypes.shape()),
-  batchChooseGoods: PropTypes.arrayOf(PropTypes.shape()) // 商品状态 - 高
+  batchChooseGoods: PropTypes.arrayOf(PropTypes.shape()), // 商品状态 - 高
 };
 export default TabsHeader;

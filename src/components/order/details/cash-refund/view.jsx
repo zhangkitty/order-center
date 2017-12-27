@@ -32,7 +32,7 @@ class cashRefund extends Component {
     } = this.props;
     const {
       refundBillId, refundPaths, remark, refundType, orderId,
-      refundPathId, refundMethod, account, refundAmount, refundMethod1, refundAmount2
+      refundPathId, refundMethod, account, refundAmount, refundMethod1, refundCurrency,
     } = submitValue;
     return (
       ready ?
@@ -52,14 +52,15 @@ class cashRefund extends Component {
               refundPaths: [{
                 refundPathId: 3,  // 写死
                 refundAmount: Number(refundAmount).toFixed(2),
-                refundAmount2: Number(refundAmount2).toFixed(2),
-                refundMethod: refundMethod === '其他' || refundMethod === 'others' ?  refundMethod1 : refundMethod,
+                refundCurrency: Number(refundCurrency).toFixed(2),
+                refundMethod: refundMethod === '其他' || refundMethod === 'others' ? refundMethod1 : refundMethod,
                 account,
               }],
               canWithdrawAmount,   // 可提现金额
               notWithdrawAmount,   // 不提现金额
               remark,
             };
+            console.log(temp);
             return dispatch(submitForward(temp));
           }}
         >
@@ -84,7 +85,7 @@ class cashRefund extends Component {
             {/* 退款金额 */}
             <div className={style.mainContentB}>
               <Price {...this.props} />
-              {refundType!=3?null:(<div className={style.mark}>
+              {refundType != 3 ? null : (<div className={style.mark}>
                 <span className={style.descWidth}>{__('order.entry.cash_content6')}：</span>
                 <Select
                   style={{ width: '150px', marginRight: '10px' }}
@@ -114,7 +115,7 @@ class cashRefund extends Component {
                   onChange={e => dispatch(subchange('account', e.target.value))}
                 />
               </div>)}
-              
+
               <div className={style.mark}>
                 <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
                 <TextArea

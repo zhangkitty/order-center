@@ -18,6 +18,8 @@ export const EXAMINE_SUCCESS = `${prefix}examine_success`;
 export const PROFIT_SHOW = `${prefix}profit_show`;
 export const GEN_RL = `${prefix}gen_rl`;
 export const CANCEL_REFUND = `${prefix}cancel_refund`;
+export const FETCHRLFEE = `${prefix}fetchrlfee`;
+export const REBUILDRL = `${prefix}rebuildrl`;
 
 export const OPEN_MODAL = `${prefix}open_modal`;
 
@@ -32,3 +34,6 @@ export const REMARK_SUCCESS = `${prefix}remark_success`;
 // 备注更新
 export const REMARK_SAVE = `${prefix}remark_save`;
 export const REMARK_SAVE_SUCCESS = `${prefix}remark_save_success`;
+
+export const TRACK_TROUBLE = `${prefix}track_trouble`;
+export const TRACK_TROUBLE_SUBMIT = `${prefix}track_trouble_submit`;

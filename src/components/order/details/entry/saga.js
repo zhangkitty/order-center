@@ -1,17 +1,34 @@
 import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import { hashHistory } from 'react-router';
+import assign from 'object-assign';
 import * as TYPES from './types';
+
 import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
   remarkShowSuccess, remarkSaveSuccess,
 } from './action';
+
 import {
-  getInfoSer, updateEmailSer, backGoodsDatesSer, operateReturnSer, partSendSer,
-  preSendSer, examineSer, uploadtrack, profitShowSer, genRlSer, cancelRefundSer,
+  getInfoSer,
+  rebuildrlSer,
+  updateEmailSer,
+  backGoodsDatesSer,
+  operateReturnSer,
+  partSendSer,
+  preSendSer,
+  examineSer,
+  uploadtrack,
+  profitShowSer,
+  genRlSer,
+  cancelRefundSer,
+  fetchrlfeeSer,
   operationGoodsSer,
-  remarkSer, remarkSaveSer,
+  remarkSer,
+  remarkSaveSer,
+  getTroubleTypes,
+  trackTroublePublish,
 } from '../server';
 
 const lan = {
@@ -19,6 +36,7 @@ const lan = {
   osucess: __('order.entry.submit_info1'),
   fail: __('order.entry.submit_info6'),
   part: __('order.entry.submit_info7'),
+  dataFail: __('order.entry.submit_info2'),
 };
 /* eslint prefer-const: 0 */
 /* eslint consistent-return: 0 */
@@ -115,6 +133,31 @@ function* cancelRefundSaga(action) {
   }
   return message.success(lan.osucess);
 }
+// 获取RL费用
+function* fetchrlfeeSaga(action) {
+  const data = yield fetchrlfeeSer(action.id);
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.ofail}:${data.msg}`);
+  }
+  yield put(commit('rlFee', data.data));
+  if (data.data === null) {
+    yield put(commit('reFeeValue', 0));
+  }
+}
+
+// 提交RL费用
+function* rebuildrlSaga(action) {
+  const data = yield rebuildrlSer(action.d);
+  yield put(commit('confirmLoading', false));
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.ofail}:${data.msg}`);
+  }
+  yield put(commit('reFeeValue', 0));
+  yield message.success(`${data.msg}`);
+  yield put(commit('rlmodal', false));
+  yield put(getInfo(action.d.order_id, action.d.billno, 'orderReturn'));
+}
+
 
 // 商品操作查询
 function* operationGoodsSaga(action) {
@@ -151,7 +194,28 @@ function* remarkSaveSaga(action) {
   message.success(__('common.sagaTitle13'));
   return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
-
+// 获取物流反馈问题原因
+function* getTrackTroubleReason() {
+  const data = yield getTroubleTypes();
+  if (!data || data.code !== 0) {
+    message.error(`${lan.dataFail}: ${data.msg}`);
+    return yield put(commit('trackTroubleLoad', false));
+  }
+  yield put(commit('trackTroubleShow', true));
+  yield put(commit('trackTroubleLoad', false));
+  return yield put(commit('trackTroubleTypes', data.data));
+}
+// 获取物流反馈问题创建
+function* trackTroubleSubmit(action) {
+  const data = yield trackTroublePublish(action.form);
+  if (!data || data.code !== 0) {
+    message.error(`${lan.ofail}: ${data.msg}`);
+    return yield put(commit('trackTroubleForm', assign({}, action.form, { trackTroubleSubmitLoad: false })));
+  }
+  yield put(commit('trackTroubleForm', assign({}, action.form, { trackTroubleSubmitLoad: false })));
+  yield put(commit('trackTroubleShow', false));
+  return message.success(lan.osucess);
+}
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -164,7 +228,11 @@ export default function* () {
   yield takeLatest(TYPES.PROFIT_SHOW, profitShowSaga);
   yield takeLatest(TYPES.GEN_RL, genRlSaga);
   yield takeLatest(TYPES.CANCEL_REFUND, cancelRefundSaga);
+  yield takeLatest(TYPES.FETCHRLFEE, fetchrlfeeSaga);
+  yield takeLatest(TYPES.REBUILDRL, rebuildrlSaga);
   yield takeEvery(TYPES.OPERATION_GOODS, operationGoodsSaga);
   yield takeEvery(TYPES.REMARK, remarkSaga);
   yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
+  yield takeLatest(TYPES.TRACK_TROUBLE, getTrackTroubleReason);
+  yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
 }

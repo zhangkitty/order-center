@@ -16,4 +16,5 @@ module.exports = {
   returns_details: 'Returns details',
   failedaddrorder: 'failed address order',
   order_export: '订单信息导出',
+  tracktrouble: '物流问题列表',
 };

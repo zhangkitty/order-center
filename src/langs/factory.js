@@ -14,7 +14,7 @@ module.exports = function (cwd) {
   const langs = files.reduce((acc, cur) => {
     const current = require(path.join(cwd, cur)) || {};
     const arr = cur.split('/');
-    Object.keys(current).forEach(key => {
+    Object.keys(current).forEach((key) => {
       acc[[...arr, key].join('.')] = current[key];
     });
     return acc;

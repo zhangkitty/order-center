@@ -339,7 +339,9 @@ function* batchexchangeordergoodsSaga(action) {
   yield put(changedataSource(action.data[0].order_id, singleData.data[0]));
   yield put(change('ExchangeShow', false));
   yield put(change('confirmLoading', false));
-  yield put(changeBulkReturnInfo());
+  // yield put(changeBulkReturnInfo());
+  yield put(change('BulkReturnInfo', []));
+  yield put(change('batchChooseGoods', []));
   return null;
 }
 

@@ -86,6 +86,15 @@ export const cancelRefund = id => ({
   id,
 });
 
+export const fetchRlFee = id => ({
+  type: TYPES.FETCHRLFEE,
+  id,
+});
+
+export const rebuildRl = d => ({
+  type: TYPES.REBUILDRL,
+  d,
+});
 // 商品操作查询
 export const operationGoods = id => ({
   type: TYPES.OPERATION_GOODS,
@@ -125,3 +134,14 @@ export const remarkSaveSuccess = data => ({
   data,
 });
 
+// 物流问题反馈
+export const createQs = pkgNum => ({
+  pkgNum,
+  type: TYPES.TRACK_TROUBLE,
+});
+
+// 物流问题反馈 创建问题
+export const trackTroubleSubmit = form => ({
+  form,
+  type: TYPES.TRACK_TROUBLE_SUBMIT,
+});

@@ -1,4 +1,3 @@
-import merge from 'lodash.merge';
 import assign from 'object-assign';
 import * as TYPES from './types';
 
@@ -15,11 +14,12 @@ const defaultState = {
   warehouse: 0,
   partSendBtn: false,
   rlLoading: false,
+  rlmodal: false,
   preSend: 0,
   dataSource: {
     base: {}, // 基本
     pay: {}, // 支付信息
-    refund: {}, // 退款信息
+    refund: [], // 退款信息
     orderReturn: [],  // 退货信息
     exchange: [],  // 换货信息
     logs: {}, // 订单日志
@@ -39,6 +39,10 @@ const defaultState = {
     img: '',
   },
   returnEmail: '',
+  rlFee: null,
+  reFeeValue: 0,
+  modal_return_order_id: null,
+  confirmLoading: false,
   operationVisible: false,  // 操作查询
   clickVisible: false,
   visible: false,   // add
@@ -50,6 +54,12 @@ const defaultState = {
     remark: '',
   },
   changeDisabled: true,  // 换货按钮状态
+  trackTroubleLoad: false, // 物流问题反馈按钮
+  trackTroubleShow: false, // 物流问题反馈弹窗
+  trackTroubleTypes: [], // 物流问题记录 问题类型
+  trackTroubleForm: { // 物流问题记录 提交数据
+    trackTroubleSubmitLoad: false,
+  },
 };
 
 export default (state = defaultState, action) => {
@@ -168,6 +178,15 @@ export default (state = defaultState, action) => {
         fetchOperation: action.data.data || [],
         load: false,
         operationVisible: true,
+      });
+    case TYPES.TRACK_TROUBLE:
+      return assign({}, state, {
+        trackTroubleLoad: true,
+        trackTroubleForm: { reference_number: action.pkgNum },
+      });
+    case TYPES.TRACK_TROUBLE_SUBMIT:
+      return assign({}, state, {
+        trackTroubleForm: { trackTroubleSubmitLoad: true },
       });
     default:
       return state;
