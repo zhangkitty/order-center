@@ -122,6 +122,7 @@ const checkboxChecked = {
   20: true, // 被换
   // 54: true, // COD已签收
   91: true, // COD已报损
+  77: true, // 'COD已拒收',
 };
 // 操作查询
 const columns = [{
