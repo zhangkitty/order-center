@@ -71,6 +71,8 @@ export const CHANGEMYSKU = `${prefix}changemysku`;
 
 // 点击确定
 export const CHANGESUBMITVALUE = `${prefix}changesubmitvalue`;
+// 点击删除
+export const DELETESUBMITVALUE = `${prefix}deletesubmitvalue`;
 
 // 换货
 export const CHANGE_GOODS = `${prefix}change_goods`;

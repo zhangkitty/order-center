@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Select, Input, Button, message } from 'antd';
 import PropTypes from 'prop-types';
 
-import { change, goodSize, changeSize, changeMySku, changeSubmitValue, batchExchangeOrderGoods } from './action';
+import { change, goodSize, changeSize, changeMySku, changeSubmitValue, batchExchangeOrderGoods,deleteSubmitValue } from './action';
 
 const lan = {
   被换商品: __('order.list.ExchangeShowModal.被换商品'),
@@ -14,6 +14,7 @@ const lan = {
   提交: __('order.list.ExchangeShowModal.提交'),
   没有换货信息: __('order.list.ExchangeShowModal.没有换货信息'),
   信息不全: __('order.list.ExchangeShowModal.信息不全'),
+  删除: '删除',
 };
 const Option = Select.Option;
 const exchangeshowModal = (props) => {
@@ -48,10 +49,14 @@ const exchangeshowModal = (props) => {
             </div>
             <div style={{ flexGrow: '1' }}>
               <div>
-                {v.submitValue.map(value =>
+                {v.submitValue.map((value,idx) =>
                   (<div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div style={{ marginRight: 20 }}>{value.mysku}</div>
                     <div>{value.selectedValue}</div>
+                    <Button
+                      size="small"
+                      onClick={() => dispatch(deleteSubmitValue(v.order_goods_id, idx))}
+                    >{lan.删除}</Button>
                   </div>),
                 )}
               </div>
