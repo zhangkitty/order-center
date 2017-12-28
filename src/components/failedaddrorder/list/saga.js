@@ -15,9 +15,11 @@ import {
 import {
   searchSuccess, searchList_success, searchList_fail, deleteSuccess, deleteFail,
   recheckSuccess, recheckFail, processSuccess, processFail, auditSuccess, auditFail,
-  batchDeleteSuccess, batchDeleteFail, batchRecheckSuccess, batchRecheckFail,
+  batchDeleteSuccess, batchDeleteFail, batchRecheckSuccess, batchRecheckFail, commit, searchList,
 } from './action';
 import * as TYPES from './types';
+import moment from 'moment/moment';
+import assign from 'object-assign';
 
 const FileSaver = require('file-saver');
 
@@ -26,6 +28,24 @@ function* searchSaga(action) {
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle')}${data.msg}`);
   }
+  const {
+    dispatch, queryString, loadding1, initData, dataList, total,
+  } = action.props;
+  const {
+    billno, package_no, user_name, commitTime, current, page_size,
+    status, site_from, ship_method, payment_method, type, is_delete,
+  } = queryString;
+  put(commit('current', 1));
+  const temp1 = commitTime.length == 0 ? '' : moment(commitTime[0]).format('YYYY-MM-DD HH:mm:ss');
+  const temp2 = commitTime.length == 0 ? '' : moment(commitTime[1]).format('YYYY-MM-DD HH:mm:ss');
+  dispatch(searchList(assign({},
+    queryString,
+    {
+      commit_begin: temp1,
+      commit_end: temp2,
+      page_number: 1,
+      page_size,
+    })));
   return yield put(searchSuccess(data));
 }
 

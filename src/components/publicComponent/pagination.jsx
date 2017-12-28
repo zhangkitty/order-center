@@ -12,7 +12,7 @@ const style = {
   justifyContent: 'flex-end',
 };
 
-const pageSizes = ['10', '20', '30', '40'];
+const pageSizes = ['10', '20', '30', '40', '200'];
 
 const Page = ({ total, onChange, onShowSizeChange, current }) => (
   <Pagination

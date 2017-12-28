@@ -3,8 +3,9 @@
  */
 import * as TYPES from './types';
 
-export const initSearch = () => ({
+export const initSearch = props => ({
   type: TYPES.INITSEARCH,
+  props,
 });
 
 export const change = (key, val) => ({

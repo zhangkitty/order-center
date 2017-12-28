@@ -25,7 +25,7 @@ const Option = Select.Option;
 class Index extends Component {
   constructor(props) {
     super(props);
-    this.props.dispatch(initSearch());
+    this.props.dispatch(initSearch(this.props));
     this.state = {
       selectedRowKeys: [],
       selectedRows: [],
@@ -456,7 +456,7 @@ class Index extends Component {
             columns={this.columns}
            // size="small"
             pagination={false}
-            scroll={{ x: 1900 }}
+            scroll={{ y: 600 }}
           />
           <Pagination
             total={parseInt(total, 10)}
