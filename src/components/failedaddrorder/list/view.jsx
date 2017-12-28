@@ -34,61 +34,73 @@ class Index extends Component {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      width: 120,
     }, {
       title: __('failedaddrorder.list.billno'),
       dataIndex: 'billno',
       key: 'billno',
+      width: 120,
       render: (text, record) => <Link target="_blank" to={`order/list/${text}`}>{text}</Link>,
     }, {
       title: __('failedaddrorder.list.package_no'),
       dataIndex: 'package_no',
       key: 'package_no',
-    }, {
+      width: 120,
     }, {
       title: __('failedaddrorder.list.ship_method'),
       dataIndex: 'ship_method',
       key: 'ship_method',
+      width: 100,
     }, {
       title: __('failedaddrorder.list.reason'),
-      width: '20%',
+      width: 300,
       dataIndex: 'content',
       key: 'content',
     }, {
       title: __('failedaddrorder.list.country_name'),
       dataIndex: 'country_name',
       key: 'country_name',
+      width: 120,
     }, {
       title: __('failedaddrorder.list.commit_user'),
       dataIndex: 'commit_user',
       key: 'commit_user',
+      width: 120,
     }, {
       title: __('failedaddrorder.list.commitTime'),
       dataIndex: 'add_time',
       key: 'add_time',
+      width: 150,
     }, {
       title: __('failedaddrorder.list.site_from'),
       dataIndex: 'site_from',
       key: 'site_from',
+      width: 120,
     }, {
       title: __('failedaddrorder.list.user_name'),
       dataIndex: 'user_name',
       key: 'user_name',
+      width: 120,
     }, {
       title: __('failedaddrorder.list.last_update_time'),
       dataIndex: 'last_update_time',
       key: 'last_update_time',
+      width: 150,
     }, {
       title: __('failedaddrorder.list.type'),
       dataIndex: 'type',
       key: 'type',
+      width: 120,
     }, {
       title: __('failedaddrorder.list.status'),
       dataIndex: 'status',
       key: 'status',
+      width: 120,
     }, {
       title: __('failedaddrorder.list.operation'),
       dataIndex: 'operation',
       key: 'operation',
+      width: 400,
       render: (text, record, index) => (<div>
         <Link to={`/order/details/edit-address/${record.order_id}/${record.billno}`} target="_blank">{__('failedaddrorder.list.editAddr')}</Link>
         {record.button.recheck != 0 && (<Button style={{ marginLeft: '5px' }} onClick={() => this.showConfirm1({ id: record.order_id, myIndex: index })}>{__('failedaddrorder.list.recheck')}</Button>)}
@@ -456,7 +468,7 @@ class Index extends Component {
             columns={this.columns}
            // size="small"
             pagination={false}
-            scroll={{ y: 600, x: 1900 }}
+            scroll={{ y: 600, x: 2000 }}
           />
           <Pagination
             total={parseInt(total, 10)}
