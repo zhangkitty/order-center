@@ -91,9 +91,9 @@ module.exports = {
   payment_16: '商品总价',
   payment_17: '优惠券折扣',
   payment_18: '积分折扣',
-  payment_19: 'xxxx',
-  payment_20: 'xxxx',
-  payment_21: 'xxxx',  // 支付
+  payment_19: 'VAT费用',
+  payment_20: '关税费用',
+  payment_21: '税费类型',  // 支付
   refund_1: '退款记录',   // 退款
   refund_2: '退款单编号',
   refund_3: '退款单类型',

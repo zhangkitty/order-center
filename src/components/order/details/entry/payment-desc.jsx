@@ -23,6 +23,9 @@ const lan = {
   goodszongjia: __('order.entry.payment_16'),
   youhuijuanzhekoe: __('order.entry.payment_17'),
   jifenzhekoe: __('order.entry.payment_18'),
+  vat_fee: __('order.entry.payment_19'),
+  tariff_fee: __('order.entry.payment_20'),
+  taxpayer_type: __('order.entry.payment_21'),
 };
 const Payment = (
   {
@@ -31,6 +34,7 @@ const Payment = (
       pay_way, discount_total_price, wallet, favor_coupon, favor_discount,
       options, pay_voucher, insurance_fee, tran_fee, points, gift_discount,
       pay_total_price, log,
+      vat_fee, tariff_fee, taxpayer_type,
     } },
     profit,
     profitShow,
@@ -45,6 +49,9 @@ const Payment = (
     { name: lan.qianbao, value: wallet },
     { name: lan.youhuiquanba, value: favor_coupon },
     { name: lan.youhuidikou, value: favor_discount },
+    { name: lan.vat_fee, value: vat_fee },
+    { name: lan.tariff_fee, value: tariff_fee },
+    { name: lan.taxpayer_type, value: taxpayer_type },
     cod ? { name: lan.CODfuwu, value: options.cod_fee } : null,
   ].filter(res => res);
   const right = [

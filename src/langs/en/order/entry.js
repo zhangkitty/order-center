@@ -91,9 +91,9 @@ module.exports = {
   payment_16: 'Item total price',
   payment_17: 'Discount Price',
   payment_18: 'Points',
-  payment_19: 'xxxx',
-  payment_20: 'xxxx',
-  payment_21: 'xxxx',  // 支付
+  payment_19: 'VAT Charges',
+  payment_20: 'Customs Charges',
+  payment_21: '​Tax Type',  // 支付
   refund_1: 'Refund Record',   // 退款
   refund_2: 'Refund No.',
   refund_3: 'Refund Type',
