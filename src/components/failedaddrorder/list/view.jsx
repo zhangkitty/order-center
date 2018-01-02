@@ -468,7 +468,7 @@ class Index extends Component {
             columns={this.columns}
            // size="small"
             pagination={false}
-            scroll={{ y: 600, x: 2000 }}
+            scroll={{ y: 450, x: 2000 }}
           />
           <Pagination
             total={parseInt(total, 10)}
