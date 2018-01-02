@@ -122,6 +122,7 @@ const checkboxChecked = {
   20: true, // 被换
   // 54: true, // COD已签收
   91: true, // COD已报损
+  77: true, // 'COD已拒收',
 };
 // 操作查询
 const columns = [{
@@ -209,8 +210,8 @@ const SingleRow = (props) => {
                 }
               }
               dispatch(change('batchChooseGoods', arr));
-              if (bulkarr.length > 0) {
-                dispatch(change('BulkReturnInfo', bulkarr));
+              if (batchChooseGoods.length > 0) {
+                dispatch(change('BulkReturnInfo', []));
               } else {
                 dispatch(change('BulkReturnInfo', bulkarr));
               }
@@ -269,9 +270,10 @@ const SingleRow = (props) => {
                 val.size = [];
                 val.selectedDisabled = true;
                 val.selectedValue = null;
-                val.mysku = '';
+                val.mysku = val.goods_sn;
                 val.submitValue = [];
                 val.order_id = v.order_id;
+                val.billno = v.billno;
                 return val;
               })
             );

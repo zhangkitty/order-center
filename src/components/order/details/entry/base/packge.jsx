@@ -541,7 +541,6 @@ const Packge = ({
                     }
                     return f;
                   }).filter(v => !checkboxChecked[v.status_code]).map(v => v.id);
-                  console.log(arr, chooseGoods, 'arr');
                   if (arr.length === temp.length) {
                     return dispatch(commit('chooseGoods', chooseGoods));
                   }

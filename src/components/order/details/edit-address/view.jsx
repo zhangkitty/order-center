@@ -46,7 +46,6 @@ class EditAddress extends Component {
       cities, citySource, districtSource, orderId, billno, addressShow,
       show, submitValueCopy,
     } = this.props;
-    console.log(addressShow)
     const {
       site_from,
       country_id,

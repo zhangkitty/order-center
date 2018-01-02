@@ -171,6 +171,18 @@ function changeDataSource(dataSource, orderId, data) {
   ));
   return arr;
 }
+
+
+function deletesubmitvalue(BulkReturnInfo, order_goods_id, mysku) {
+  const arr = BulkReturnInfo.map(v => (
+    v.order_goods_id === order_goods_id ?
+    assign({}, v, {
+      submitValue: v.submitValue.filter((value, idx) => idx !== mysku),
+    })
+      : v
+  ));
+  return arr;
+}
 const cgsReducer = (dataSource, orderId, result) => {
   const index = dataSource.findIndex(v => Number(v.order_id) === Number(orderId));
   return [
@@ -597,6 +609,11 @@ const reducer = (state = defaultState, action) => {
     case TYPES.CHANGEDATASOURCE:
       return assign({}, state, {
         dataSource: changeDataSource(state.dataSource, action.orderId, action.data),
+      });
+
+    case TYPES.DELETESUBMITVALUE:
+      return assign({}, state, {
+        BulkReturnInfo: deletesubmitvalue(state.BulkReturnInfo, action.order_goods_id, action.mysku),
       });
     default:
       return state;

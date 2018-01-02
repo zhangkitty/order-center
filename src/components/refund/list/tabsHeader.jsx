@@ -52,7 +52,6 @@ class TabsHeader extends Component {
       const keys = ['refund_bill_id', 'billno', 'email', 'add_user', 'handle_user',
         'refund_bill_type', 'refund_bill_status', 'refund_path_id', 'refund_path_status', 'site_from', 'apply_start_time', 'apply_end_time',
         'country_id', 'member_level', 'refund_start_time', 'refund_end_time'];
-      console.log(parseParam(keys, queryString));
       return parseParam(keys, queryString);
     };
 
