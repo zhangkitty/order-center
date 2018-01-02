@@ -14,7 +14,7 @@ const lan = {
   提交: __('order.list.ExchangeShowModal.提交'),
   没有换货信息: __('order.list.ExchangeShowModal.没有换货信息'),
   信息不全: __('order.list.ExchangeShowModal.信息不全'),
-  删除: '删除',
+  删除: __('order.list.ExchangeShowModal.删除'),
 };
 const Option = Select.Option;
 const exchangeshowModal = (props) => {
