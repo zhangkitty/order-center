@@ -273,6 +273,7 @@ const SingleRow = (props) => {
                 val.mysku = val.goods_sn;
                 val.submitValue = [];
                 val.order_id = v.order_id;
+                val.billno = v.billno;
                 return val;
               })
             );

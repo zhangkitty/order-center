@@ -2,6 +2,7 @@
  * Create by liufeng on 2017/8/30
  */
 import { message } from 'antd';
+import { hashHistory } from 'react-router';
 import moment from 'moment';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 import assign from 'object-assign';
@@ -342,7 +343,7 @@ function* batchexchangeordergoodsSaga(action) {
   // yield put(changeBulkReturnInfo());
   yield put(change('BulkReturnInfo', []));
   yield put(change('batchChooseGoods', []));
-  return null;
+  return hashHistory.push(`order/details/edit-address/${action.data[0].order_id}/${action.data[0].billno}`);
 }
 
 export default function* () {

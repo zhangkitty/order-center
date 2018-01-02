@@ -309,7 +309,6 @@ export const batchexchangeordergoodsSer=(data)=>{
   }).filter(v=>v.length>0)
   const temp = []
   arr.map(v=>v.map(val=>temp.push(val)))
-  console.log(temp)
   return fetch('/Order/batchExchangeOrderGoods',{
     method:'POST',
     body:JSON.stringify({
