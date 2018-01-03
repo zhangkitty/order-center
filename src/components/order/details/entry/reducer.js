@@ -1,3 +1,4 @@
+import merge from 'lodash.merge';
 import assign from 'object-assign';
 import * as TYPES from './types';
 
