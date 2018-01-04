@@ -606,7 +606,7 @@ const Packge = ({
                 </Button>
                 {/* 物流问题反馈 等于1 显示 */}
                 {
-                  !!package_list.show_troubles_publish_button &&
+                  !!v.show_troubles_publish_button &&
                   <Button
                     className={style.btnSpace}
                     size="small"
@@ -625,7 +625,7 @@ const Packge = ({
 
                 {/* 查看物流问题  等于1 显示 */}
                 {
-                  !!package_list.show_troubles_list_link &&
+                  !!v.show_troubles_list_link &&
                   <Link to={`/trackTroubles/list/${v.package_number}`}>
                     {lan.fankuishow}
                   </Link>
