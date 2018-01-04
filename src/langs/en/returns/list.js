@@ -49,4 +49,7 @@ module.exports = {
   submitTitle3: '导出失败: ',
   submitTitle4: '导出成功！',
   content: '退金额($)',
+  申请退货时间: '申请退货时间',
+  退货拆包时间: '退货拆包时间',
+  办结时间: '办结时间',
 };

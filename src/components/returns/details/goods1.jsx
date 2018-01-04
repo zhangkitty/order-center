@@ -26,6 +26,7 @@ const Goods = ({ returnsInfoData: { returnOrderGoods } }) => (
           title: lan.退货ＱＣ状态,
           dataIndex: 'qcState',
           width: 150,
+          render: text => (text === '未退回或未QC' || text === '次品') ? <span style={{ color: 'red' }}>{text}</span> : <span>{text}</span>,
         },
         {
           title: lan.商品图片,
