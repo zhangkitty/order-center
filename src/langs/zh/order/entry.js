@@ -170,4 +170,7 @@ module.exports = {
   fankuishow: '查看物流问题',
   rl_fee_required: 'rl费用必填',
   rl_deducted_costs: 'RL扣除费用',
+  return_link: '退货链接',
+  return_copy: '一键复制',
+  return_copy_title: '复制成功！',
 };

@@ -40,14 +40,10 @@ const lan = {
 const reqImg = require.context('../../images');
 
 class OrderReturn extends Component {
-  state = {
-    value: 'www.baidu.com123456',
-    copied: false,
-  };
   render() {
     const {
       dataSource,
-      //dataSource: { orderReturn },
+      // dataSource: { orderReturn },
       uploadTrack,
       dispatch,
       orderId,
@@ -58,6 +54,7 @@ class OrderReturn extends Component {
       reFeeValue,
       modal_return_order_id,
       confirmLoading,
+      returnCopied,
     } = this.props;
     return (
       <div className={styles.contentPadding}>
@@ -65,13 +62,12 @@ class OrderReturn extends Component {
           title={lan.jilu}
           // style={{ maxWidth: '1200px' }}
         >
-          { console.log(dataSource, 'dataSource') }
           <Table
             size="small"
             rowKey="return_order_id"
             pagination={false}
             loading={rlLoading}
-            dataSource={dataSource.orderReturn}
+            dataSource={dataSource.orderReturn.list}
             columns={[
               {
                 title: lan.bianhao,
@@ -146,21 +142,6 @@ class OrderReturn extends Component {
               },
             ]}
           />
-          {/*  复制  */}
-          <div>
-            <input
-              value={this.state.value}
-             // onChange={({ target: { value } }) => this.setState({ value, copied: false })}
-            />
-            <CopyToClipboard
-              text={this.state.value}
-              onCopy={() => this.setState({ copied: true })}
-            >
-              <button>复制123</button>
-            </CopyToClipboard>
-
-            {this.state.copied ? <span style={{ color: 'red' }}>Copied.</span> : null}
-          </div>
           <Modal
             visible={rlmodal}
             confirmLoading={confirmLoading}
@@ -309,6 +290,31 @@ class OrderReturn extends Component {
             </form>
           </Modal>
         </Card>
+        <Card
+          style={{ marginTop: '20px' }}
+          title={__('order.entry.return_link')}
+        >
+          {/*  复制  */}
+          {
+            dataSource.orderReturn.return_link.code !== 0 ?
+              <div className={styles.returnLink} style={{ color: 'red' }}>
+                {__('order.entry.submit_info2')}: {dataSource.orderReturn.return_link.msg}
+              </div>
+              :
+              <div className={styles.returnLinkBg}>
+                <div className={styles.returnLink}>
+                  {dataSource.orderReturn.return_link.data}
+                </div>
+                <CopyToClipboard
+                  text={dataSource.orderReturn.return_link.data}
+                  onCopy={() => dispatch(commit('returnCopied', true))}
+                >
+                  <Button>{__('order.entry.return_copy')}</Button>
+                </CopyToClipboard>
+                {returnCopied ? <span className={styles.returnLinkTitle}>{__('order.entry.return_copy_title')}</span> : null}
+              </div>
+          }
+        </Card>
       </div>
     );
   }
@@ -321,5 +327,6 @@ OrderReturn.propTypes = {
   orderId: PropTypes.string,
   billno: PropTypes.string,
   rlLoading: PropTypes.bool,
+  returnCopied: PropTypes.bool,
 };
 export default OrderReturn;
