@@ -186,7 +186,14 @@
                                 </tr>
                                 <tr class="odd">
                                     <th class="light">amount</th>
-                                    <td><%=list.currency_code%> <%=list.currency_total%></td>
+                                    <td>
+                                        <%=list.currency_code%>
+                                        &nbsp
+                                        <%=currency_total%>  <!-- 输入的金额 || 支付金额-->
+                                        <%
+                                            // =list.currency_total
+                                        %>
+                                    </td>
                                     <td>&nbsp;</td>
                                     <th class="light">status</th>
                                     <td>CAPTURED</td>
@@ -304,7 +311,16 @@
                     <div class="headRight" data-reactid="50">
                         <div data-reactid="51"><span class="total-amount-msg" data-reactid="52">Gross amount</span>
                         </div>
-                        <div data-reactid="53"><span class="total-amount" data-reactid="54"><%=list.currency_total%>&nbsp;<%=list.currency_code%> </span></div> <!-- 支付金额，币种 -->
+                        <div data-reactid="53">
+                            <span class="total-amount" data-reactid="54">
+                                <%
+                                    // =list.currency_total
+                                %>
+                                <%=currency_total%>  <!-- 输入的金额 || 支付金额-->
+                                &nbsp
+                                <%=list.currency_code %>
+                            </span>
+                        </div> <!-- 支付金额，币种 -->
                     </div>
                 </div>
             </section>

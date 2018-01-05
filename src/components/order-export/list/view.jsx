@@ -24,7 +24,7 @@ class returnsList extends Component {
       dispatch, dataSource, queryString, exportLoad,
     } = this.props;
     const {
-      export_content, export_method, param,
+      export_content, export_method, param, enter_amount,
     } = queryString;
     return (
       <div className={styles.content}>
@@ -81,6 +81,21 @@ class returnsList extends Component {
                 onChange={e => dispatch(commit('param', e.target.value))}
               />
             </div>
+            <div className={styles.rowSpaceList}>
+              <span className={styles.filterName}>发票金额</span>
+              <Input
+                className={styles.colSpace}
+                style={{ width: '120px' }}
+                placeholder="请输入发票金额"
+                value={enter_amount}
+                onChange={e => {
+                  if (enter_amount && enter_amount.trim().length > 9) {
+                    return false;
+                  }
+                  return dispatch(commit('enter_amount', e.target.value));
+                }}
+              />
+            </div>
 
             <div className={styles.rowSpaceList}>
               <span className={styles.filterName} />
@@ -95,9 +110,6 @@ class returnsList extends Component {
             </div>
           </div>
         </form>
-        {
-          // console.log(dataSource, 'dataSource')
-        }
       </div>
     );
   }

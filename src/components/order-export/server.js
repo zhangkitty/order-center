@@ -23,7 +23,7 @@ export const initCountrySer = () => (
 
 // 导出
 export const exportSubmit = (page) => {
-  const keys = ['export_content', 'export_method', 'param'];
+  const keys = ['export_content', 'export_method', 'param', 'enter_amount'];
   return fetch(list.export, {
     method: 'POST',
     body: JSON.stringify(parseQuery(keys, page))
