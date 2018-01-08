@@ -43,7 +43,7 @@ const defaultState = {
     order_type: '', // 退货单类型，多选
     time_tag: 'apply',  //
     start_time: moment(Date.now()).subtract(1, 'M').format('YYYY-MM-DD'),
-    end_time: moment(Date.now()).format('YYYY-MM-DD'),
+    end_time: moment().add(1, 'days').format('YYYY-MM-DD'),
     sort_order: 0,
   },
   searchLoad: false,
