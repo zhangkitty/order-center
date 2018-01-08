@@ -58,7 +58,14 @@ class returnsList extends Component {
               this.setState({
                 sortedInfo: sorter,
               });
-              return null;
+              return dispatch(search(assign({},
+                queryString,
+                {
+                  start_time: moment(queryString.start_time).format('YYYY-MM-DD HH:mm:ss'),
+                  end_time: moment(queryString.end_time).format('YYYY-MM-DD HH:mm:ss'),
+                  sort_order: sorter.order==="descend"?0:1,
+                  sort_by:sorter.columnKey
+                })));
               // return dispatch(search(assign({},
               //   queryString,
               //   {
@@ -71,6 +78,9 @@ class returnsList extends Component {
               title: __('returns.list.refund_number'),
               dataIndex: 'return_order_id',
               width: '80px',
+              render: (text, record) => (
+                <Link to={`/returns/details/${record.return_order_id}`} target="_blank">{text}</Link>
+              ),
             }, {
               title: __('returns.list.order_number'),
               dataIndex: 'order_no',
@@ -148,12 +158,6 @@ class returnsList extends Component {
               title: __('returns.list.order_type'), // 退货单类型
               dataIndex: 'order_type',
               width: '130px',
-            }, {
-              title: __('refund.list.operate'),
-              width: '80px',
-              render: (text, record) => (
-                <Link to={`/returns/details/${record.return_order_id}`} target="_blank">{ __('refund.list.operate1') }</Link>
-                ),
             },
             {
               title: lan.申请退货时间,
