@@ -89,7 +89,7 @@ class returnsList extends Component {
                 placeholder="请输入发票金额"
                 value={enter_amount}
                 onChange={e => {
-                  if (enter_amount && enter_amount.trim().length > 9) {
+                  if (e.target.value && e.target.value.trim().length > 11) {
                     return false;
                   }
                   return dispatch(commit('enter_amount', e.target.value));
