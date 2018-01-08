@@ -82,11 +82,11 @@ class returnsList extends Component {
               />
             </div>
             <div className={styles.rowSpaceList}>
-              <span className={styles.filterName}>发票金额</span>
+              <span className={styles.filterName}>{__('order-export.exportContent3')}</span>
               <Input
                 className={styles.colSpace}
                 style={{ width: '120px' }}
-                placeholder="请输入发票金额"
+                placeholder={__('order-export.submitTitle5')}
                 value={enter_amount}
                 onChange={e => {
                   if (e.target.value && e.target.value.trim().length > 11) {
