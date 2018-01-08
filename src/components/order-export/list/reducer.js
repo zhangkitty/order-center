@@ -12,6 +12,7 @@ const defaultState = {
     export_content: '0', // 退货险
     export_method: '0',
     param: null, // XLP5236, LKH5236-ABCDEG
+    enter_amount: null,
   },
   // load: false,
   exportLoad: false,  // 导出load

@@ -604,25 +604,32 @@ const Packge = ({
                 >
                   {__('common.allChoose')}
                 </Button>
-                {/* 物流问题反馈 */}
-                <Button
-                  className={style.btnSpace}
-                  size="small"
-                  onClick={() => {
-                    if (trackTroubleTypes.length) {
-                      dispatch(commit('trackTroubleForm', { reference_number: v.package_number }));
-                      return dispatch(commit('trackTroubleShow', true));
-                    }
-                    return dispatch(createQs(v.package_number));
-                  }}
-                  loading={trackTroubleLoad}
-                >
-                  {lan.fankui}
-                </Button>
-                {/* 查看物流问题 */}
-                <Link to={`/trackTroubles/list/${v.package_number}`}>
-                  {lan.fankuishow}
-                </Link>
+                {/* 物流问题反馈 等于1 显示 */}
+                {
+                  !!v.show_troubles_publish_button &&
+                  <Button
+                    className={style.btnSpace}
+                    size="small"
+                    onClick={() => {
+                      if (trackTroubleTypes.length) {
+                        dispatch(commit('trackTroubleForm', { reference_number: v.package_number }));
+                        return dispatch(commit('trackTroubleShow', true));
+                      }
+                      return dispatch(createQs(v.package_number));
+                    }}
+                    loading={trackTroubleLoad}
+                  >
+                    {lan.fankui}
+                  </Button>
+                }
+
+                {/* 查看物流问题  等于1 显示 */}
+                {
+                  !!v.show_troubles_list_link &&
+                  <Link to={`/trackTroubles/list/${v.package_number}`}>
+                    {lan.fankuishow}
+                  </Link>
+                }
               </div>
             }
             key={v.package_number}
