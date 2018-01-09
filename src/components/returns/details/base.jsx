@@ -66,13 +66,19 @@ const Base = ({
           <div className={styles.baseSpace}>
             {info.left.map(({ name, key }) => (
               <div key={key}>
-                <span className={styles.spanWidthL}>{name}:</span>
+                {
+                  key === 'refundPath' ? <span style={{ color: 'red' }} className={styles.spanWidthL}>{name}:</span>
+                    : <span className={styles.spanWidthL}>{name}:</span>
+                }
                 {(function (key) {
                   if (key === 'refundStatus') {
                     if (returnsInfoData[key] === 0) { // old href={`${location.origin}${returnsInfoData.refundUrl}`}
                       return <span>{lan.未退款} <Link target="_blank" to={`order/details/entry/${returnsInfoData.orderId}/${returnsInfoData.orderNo}`}>{lan.去退款}</Link></span>;
                     }
                     return <span>{lan.已退款}</span>;
+                  }
+                  if (key === 'refundPath') {
+                    return <span style={{ color: 'red' }}>{returnsInfoData[key].toString()}</span>;
                   }
                   return <span>{returnsInfoData[key].toString()}</span>;
                 }(key))}
@@ -83,13 +89,18 @@ const Base = ({
             {
               info.middle.map(v => (
                 <div>
-                  <span className={styles.spanWidthL}>
-                    {v.name}:
-                  </span>
+                  {
+                    v.key === 'freeReturn' ?
+                      <span style={{ color: 'red' }} className={styles.spanWidthL}>{v.name}:</span> :
+                      <span className={styles.spanWidthL}>{v.name}:</span>
+                  }
                   {
                     (function (key) {
                       if (key === 'orderNo') {
                         return <Link target="_blank" to={`/order/list/${returnsInfoData.orderNo}`}>{returnsInfoData[key]}</Link>;
+                      }
+                      if (key === 'freeReturn') {
+                        return <span style={{ color: 'red' }}>{returnsInfoData[key]}</span>;
                       }
                       return <span>{returnsInfoData[key]}</span>;
                     }(v.key))
@@ -102,15 +113,19 @@ const Base = ({
             {
               info.right.map(v => (
                 <div>
-                  <span className={styles.spanWidthL}>
-                    {v.name}:
-                  </span>
+                  {
+                    v.key === 'shippingFee' ?
+                      <span style={{ color: 'red' }} className={styles.spanWidthL}>{v.name}:</span> :
+                      <span className={styles.spanWidthL}>{v.name}:</span>
+                  }
                   <span>
-
                     {
                       (function (key) {
                         if (key === 'trackingNo') {
                           return <a href={tracking_no_url} target="_blank">{returnsInfoData[key]}</a>;
+                        }
+                        if (key === 'shippingFee') {
+                          return <span style={{ color: 'red' }}>{returnsInfoData[key]}</span>;
                         }
                         return <span>{returnsInfoData[key]}</span>;
                       }(v.key))
