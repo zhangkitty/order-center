@@ -16,6 +16,8 @@ module.exports = {
   address_state: 'State/Province',
   address_post: 'Post/Zip Code',
   address_fax: 'Fax',
+  address_type: 'Address Type',
+  national_id: 'National Id',
   address_gender: 'Gender',
   address_first: 'First Name',
   address_last: 'Last Name',
@@ -170,4 +172,6 @@ module.exports = {
   fankuishow: '查看物流问题',
   rl_fee_required: 'rl费用必填',
   rl_deducted_costs: 'RL扣除费用',
+  chaifen: '已拆分',
+  yuanbaoguo: '原发货包裹号',
 };
