@@ -270,13 +270,17 @@ class OrderReturn extends Component {
                       showUploadList={false}
                       onChange={({ file }) => {
                         if (file.status === 'done') {
-                          message.success(`${file.name} ${__('order.entry.submit_info4')}.`);
-                          dispatch(commit('uploadTrack',
-                            assign({}, uploadTrack, {
-                              check_value: file.response.data[0], img: file.response.data[0],
-                            })));
+                          if (file.response.code === 0) {
+                            message.success(`${file.name} ${__('order.entry.submit_info4')}.`);
+                            dispatch(commit('uploadTrack',
+                              assign({}, uploadTrack, {
+                                check_value: file.response.data[0], img: file.response.data[0],
+                              })));
+                          } else {
+                            message.error(`${file.name} ${__('order.entry.submit_info5')}: ${file.response.msg}`);
+                          }
                         } else if (file.status === 'error') {
-                          message.error(`${file.name} ${__('order.entry.submit_info4')}.`);
+                          message.error(`${file.name} ${__('order.entry.submit_info5')}.`);
                         }
                       }}
                     >
