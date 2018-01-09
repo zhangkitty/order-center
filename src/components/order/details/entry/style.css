@@ -174,3 +174,15 @@
 .btnSpace {
     margin: 0 15px;
 }
+.returnLinkBg {
+    display: flex;
+    align-items: center;
+}
+.returnLink {
+    width: 80%;
+    font-size: 14px;
+}
+.returnLinkTitle {
+    color: red;
+    margin-left: 10px
+}

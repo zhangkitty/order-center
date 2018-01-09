@@ -174,4 +174,7 @@ module.exports = {
   rl_deducted_costs: 'RL扣除费用',
   chaifen: '已拆分',
   yuanbaoguo: '原发货包裹号',
+  return_link: '退货链接',
+  return_copy: '一键复制',
+  return_copy_title: '复制成功！',
 };
