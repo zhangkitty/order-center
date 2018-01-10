@@ -35,6 +35,7 @@ const lan = {
   need: __('order.entry.order_return_15'),
   RL扣除费用: __('order.entry.rl_deducted_costs'),
   rl费用必填: __('order.entry.rl_fee_required'),
+  上传图片过大: __('order.entry.上传图片过大'),
 };
 
 const reqImg = require.context('../../images');
@@ -268,6 +269,14 @@ class OrderReturn extends Component {
                       name="logistics_certificate"
                       data={{ type: 2, order_id: orderId }}
                       showUploadList={false}
+                      // 如果图片大于3M不上传
+                      beforeUpload={(file) => {
+                        if (file.size && file.size >= 3 * 1024 * 1024) {
+                          message.error(lan.上传图片过大, 5);
+                          return false;
+                        }
+                        return true;
+                      }}
                       onChange={({ file }) => {
                         if (file.status === 'done') {
                           if (file.response.code === 0) {
