@@ -28,6 +28,7 @@ const lan = {
   need: __('order.entry.submit_title5'),
   fileNeed: __('common.file_need_choose'),
   fileNumber: __('common.file_less_three'),
+  上传的图片大小不能超过8M: __('order.entry.上传的图片大小不能超过8M'),
 };
 const CG = Checkbox.Group;
 const RadioGroup = Radio.Group;
@@ -179,6 +180,14 @@ class ToReturnGoods extends Component {
                           name={`img_${rec.goods_id}`}
                           showUploadList={false}
                           data={{ type: 3, goods_id: rec.goods_id }}
+                          // 如果图片大于8M不上传
+                          beforeUpload={(file) => {
+                            if (file.size && file.size >= 8 * 1024 * 1024) {
+                              message.error(lan.上传的图片大小不能超过8M, 3);
+                              return false;
+                            }
+                            return true;
+                          }}
                           onChange={({ file }) => {
                             if (file.status === 'done') {
                               dispatch(infoCommit('return_info', return_info.map(v => (

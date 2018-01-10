@@ -26,6 +26,9 @@ const tabConfig = {
   defaultActiveKey: 'search',
   type: 'card',
 };
+const lan = {
+  上传的图片大小不能超过8M: __('returns.list.上传的图片大小不能超过8M'),
+};
 
 class TabsHeader extends Component {
   constructor(props) {
@@ -431,6 +434,13 @@ class TabsHeader extends Component {
                   <Upload
                     name={'file'}
                     action="/index_new.php/Order/OrderReturn/uploadReturnShip"
+                    beforeUpload={(file) => {
+                      if (file.size && file.size >= 8 * 1024 * 1024) {
+                        message.error(lan.上传的图片大小不能超过8M, 3);
+                        return false;
+                      }
+                      return true;
+                    }}
                     onChange={(info) => {
                       if (info.file.status === 'done') {
                         if (info.file.response.code !== 0) {
