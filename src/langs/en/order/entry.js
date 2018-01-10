@@ -177,5 +177,5 @@ module.exports = {
   return_link: '退货链接',
   return_copy: '一键复制',
   return_copy_title: '复制成功！',
-  上传图片过大: '上传图片过大',
+  上传的图片大小不能超过8M: '上传的图片大小不能超过8M',
 };
