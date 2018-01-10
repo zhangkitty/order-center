@@ -63,8 +63,8 @@ class returnsList extends Component {
                 {
                   start_time: moment(queryString.start_time).format('YYYY-MM-DD HH:mm:ss'),
                   end_time: moment(queryString.end_time).format('YYYY-MM-DD HH:mm:ss'),
-                  sort_order: sorter.order==="descend"?0:1,
-                  sort_by:sorter.columnKey
+                  sort_order: sorter.order === 'descend' ? 0 : 1,
+                  sort_by: sorter.columnKey,
                 })));
               // return dispatch(search(assign({},
               //   queryString,
