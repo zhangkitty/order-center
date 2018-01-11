@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import ReactDOM from 'react-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message } from 'antd';
+import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message, Tag } from 'antd';
 import { commit, uploadTrackAction, uploadTrackShow, genRl, fetchRlFee, rebuildRl } from './action';
 
 import styles from './style.css';
@@ -36,6 +36,8 @@ const lan = {
   RL扣除费用: __('order.entry.rl_deducted_costs'),
   rl费用必填: __('order.entry.rl_fee_required'),
   上传的图片大小不能超过8M: __('order.entry.上传的图片大小不能超过8M'),
+  只可上传: '只可上传jpg、jpeg、png，单张图片不可超过8M',
+  只可上传请确认: '只可上传jpg、jpeg、png，请确认！',
 };
 
 const reqImg = require.context('../../images');
@@ -271,6 +273,10 @@ class OrderReturn extends Component {
                       showUploadList={false}
                       // 如果图片大于8M不上传
                       beforeUpload={(file) => {
+                        if (file.type && (file.type !== 'image/jpeg' && file.type !== 'image/png')) {
+                          message.error(lan.只可上传请确认, 3);
+                          return false;
+                        }
                         if (file.size && file.size >= 8 * 1024 * 1024) {
                           message.error(lan.上传的图片大小不能超过8M, 3);
                           return false;
@@ -298,6 +304,9 @@ class OrderReturn extends Component {
                       </Button>
                     </Upload>
                   }
+                  <span style={{ color: 'red', lineHeight: '28px', marginLeft: '10px' }}>
+                    {lan.只可上传}
+                  </span>
                 </div>
               }
             </form>
