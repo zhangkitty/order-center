@@ -161,10 +161,10 @@ class returnsList extends Component {
             },
             {
               title: lan.申请退货时间,
-              dataIndex: 'create_time',
+              dataIndex: 'order_datetime',
               width: '130px',
-              sorter: (a, b) => moment(a.create_time) - moment(b.create_time),
-              sortOrder: sortedInfo.columnKey === 'create_time' && sortedInfo.order,
+              sorter: (a, b) => moment(a.order_datetime) - moment(b.order_datetime),
+              sortOrder: sortedInfo.columnKey === 'order_datetime' && sortedInfo.order,
             },
             {
               title: lan.退货拆包时间,
