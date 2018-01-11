@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Link } from 'react-router';
-import { Table, Card, Popconfirm, Button, Modal, Input, Select, Icon } from 'antd';
+import { Table, Card, Popconfirm, Button, Modal, Input, Select, Icon, message } from 'antd';
 import { cancelRefund, commit, commit2, refundAccount } from './action';
 import style from './style.css';
-import {message} from "antd/lib/index";
-import {submitForward} from "../../diffRefund/action";
+
 
 const Option = Select.Option;
 const star = (<span style={{ color: 'red' }}>*</span>);
@@ -72,7 +71,7 @@ class Refund extends Component {
                     dispatch(commit('RefundShow', true));
                   }}
                 >
-                填写退款账户
+                  {__('order.entry.refund_account')}
                 </Button>
                 {
                   // 已退并且有钱包
@@ -92,9 +91,7 @@ class Refund extends Component {
           }
         >
           <Table
-            // size="small"
             rowKey="id"
-            // pagination={false}
             dataSource={refund.refund_bill_list || []}
             columns={[
               {
@@ -128,10 +125,10 @@ class Refund extends Component {
                 width: '130px',
                 render: d => (
                   <span>
-                  {d.price_usd.amount_with_symbol}
+                    {d.price_usd.amount_with_symbol}
                     ---
                     {d.price_with_exchange_rate.amount_with_symbol}
-                </span>
+                  </span>
                 ),
               },
               {
@@ -244,13 +241,13 @@ class Refund extends Component {
             >
               <div style={{ margin: '10px 0' }}>
                 <div className={style.refund_list} style={{ display: 'none' }}>
-                  <span className={style.refund_name}>{star}订单id</span>{orderId}
+                  <span className={style.refund_name}>{star}{__('order.name.order_id')}</span>{orderId}
                 </div>
                 <div className={style.refund_list}>
-                  <span className={style.refund_name}>{star}订单号</span>{billno}
+                  <span className={style.refund_name}>{star}{__('order.name.order_number')}</span>{billno}
                 </div>
                 <div className={style.refund_list}>
-                  <span className={style.refund_name}>{star}账户</span>
+                  <span className={style.refund_name}>{star}{__('order.entry.cash_content6')}</span>
                   <Select
                     allowClear
                     placeholder={__('order.goodsRefund.please_select_a_refund_account')}
@@ -271,7 +268,7 @@ class Refund extends Component {
                     +refund_method === 3 &&
                     <div>
                       <div className={style.refund_list}>
-                        <span className={style.refund_name}>{star}银行代码</span>
+                        <span className={style.refund_name}>{star}{__('order.entry.refund_18')}</span>
                         <Input
                           placeholder={__('order.entry.cash_content10')} // 请输入银行代码
                           className={style.priceInput}
@@ -283,7 +280,7 @@ class Refund extends Component {
                         />
                       </div>
                       <div className={style.refund_list}>
-                        <span className={style.refund_name}>{star}银行卡号</span>
+                        <span className={style.refund_name}>{star}{__('order.entry.refund_19')}</span>
                         <Input
                           placeholder={__('order.entry.cash_content11')} // 请输入银行卡号-账户信息
                           className={style.priceInput}
@@ -295,7 +292,7 @@ class Refund extends Component {
                         />
                       </div>
                       <div className={style.refund_list}>
-                        <span className={style.refund_name}>{star}顾客姓名</span>
+                        <span className={style.refund_name}>{star}{__('order.entry.refund_20')}</span>
                         <Input
                           placeholder={__('order.entry.cash_content12')} // 请输入顾客姓名
                           className={style.priceInput}
@@ -307,7 +304,7 @@ class Refund extends Component {
                         />
                       </div>
                       <div className={style.refund_list}>
-                        <span className={style.refund_name}>{star}发卡城市</span>
+                        <span className={style.refund_name}>{star}{__('order.entry.refund_21')}</span>
                         <Input
                           placeholder={__('order.entry.cash_content13')} // 请输入发卡城市
                           className={style.priceInput}
@@ -321,11 +318,11 @@ class Refund extends Component {
                     </div>
                   }
 
-                  {/* 退款方式--其他 */}
+                  {/* 账户--其他 */}
                   {
                     +refund_method === 4 ?
                       <div className={style.refund_list}>
-                        <span className={style.refund_name}>{star}账户</span>
+                        <span className={style.refund_name}>{star}{__('order.entry.cash_content6')}</span>
                         <Input
                           placeholder={__('order.entry.cash_content8')} // 请输入正确的退款账户
                           className={style.priceInput}
@@ -345,7 +342,7 @@ class Refund extends Component {
                   {
                     +refund_method !== 3 &&
                     <div className={style.refund_list}>
-                      <span className={style.refund_name}>{star}账户信息</span>
+                      <span className={style.refund_name}>{star}{__('order.entry.refund_22')}</span>
                       <Input
                         placeholder={__('order.entry.cash_content7')} // 请输入正确的退款账户信息
                         required
@@ -356,8 +353,8 @@ class Refund extends Component {
                     </div>
                   }
                 </div>
-                <Button style={{ marginLeft: '50px' }} onClick={() => dispatch(commit('RefundShow', false))}>取消</Button>
-                <Button type="primary" style={{ marginLeft: '50px' }} htmlType={'submit'}>确定</Button>
+                <Button style={{ marginLeft: '50px' }} onClick={() => dispatch(commit('RefundShow', false))}>{__('order.entry.cancel')}</Button>
+                <Button type="primary" style={{ marginLeft: '50px' }} htmlType={'submit'}>{__('order.entry.confirm')}</Button>
               </div>
             </form>
           </Modal>
@@ -375,6 +372,5 @@ Refund.propTypes = {
   refund_account: PropTypes.shape(),
   dispatch: PropTypes.func,
   RefundShow: PropTypes.bool,
-//  total: PropTypes.number,
 };
 export default Refund;

@@ -61,7 +61,7 @@ const defaultState = {
   trackTroubleForm: { // 物流问题记录 提交数据
     trackTroubleSubmitLoad: false,
   },
-  refund_account: {
+  refund_account: { // 填写退款账户
     order_id: null,
     refund_method: null, // 退款账户
     account_info: null, // 账户信息
