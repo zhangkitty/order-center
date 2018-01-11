@@ -284,7 +284,6 @@ class OrderReturn extends Component {
                         return true;
                       }}
                       onChange={({ file }) => {
-                        console.log('mdzz')
                         if (file.status === 'done') {
                           if (file.response.code === 0) {
                             message.success(`${file.name} ${__('order.entry.submit_info4')}.`);
