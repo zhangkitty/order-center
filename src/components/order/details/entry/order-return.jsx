@@ -270,7 +270,7 @@ class OrderReturn extends Component {
                       action="/index_new.php/Order/OrderReturn/handleImg"
                       name="logistics_certificate"
                       data={{ type: 2, order_id: orderId }}
-                      showUploadList={false}
+                      // showUploadList={false}
                       // 如果图片大于8M不上传
                       beforeUpload={(file) => {
                         if (file.type && (file.type !== 'image/jpeg' && file.type !== 'image/png')) {
@@ -284,6 +284,7 @@ class OrderReturn extends Component {
                         return true;
                       }}
                       onChange={({ file }) => {
+                        console.log('mdzz')
                         if (file.status === 'done') {
                           if (file.response.code === 0) {
                             message.success(`${file.name} ${__('order.entry.submit_info4')}.`);

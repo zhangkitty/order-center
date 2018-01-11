@@ -180,7 +180,7 @@ class ToReturnGoods extends Component {
                         <Upload
                           action="/index_new.php/Order/OrderReturn/handleImg"
                           name={`img_${rec.goods_id}`}
-                          showUploadList={false}
+                          // showUploadList={false}
                           data={{ type: 3, goods_id: rec.goods_id }}
                           // 如果图片大于8M不上传
                           beforeUpload={(file) => {
