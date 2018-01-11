@@ -29,6 +29,7 @@ import {
   remarkSaveSer,
   getTroubleTypes,
   trackTroublePublish,
+  refundAccountSer,
 } from '../server';
 
 const lan = {
@@ -216,6 +217,17 @@ function* trackTroubleSubmit(action) {
   yield put(commit('trackTroubleShow', false));
   return message.success(lan.osucess);
 }
+
+// 填写退款账号
+function* refundAccountSaga(action) {
+  const data = yield refundAccountSer(action.data);
+  if (!data || data.code !== 0) {
+    message.error('填写退款账户失败。。。');
+    return message.error(`${lan.fail}:${data.msg}`);
+  }
+  return message.success('填写退款账户成功！！！！！');
+}
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -235,4 +247,5 @@ export default function* () {
   yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
   yield takeLatest(TYPES.TRACK_TROUBLE, getTrackTroubleReason);
   yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
+  yield takeLatest(TYPES.REFUND_ACCOUNT, refundAccountSaga);
 }

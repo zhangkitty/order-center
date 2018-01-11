@@ -48,8 +48,6 @@ const lan = {
   xibu: __('order.entry.west'),
   fankui: __('order.entry.fankui'),
   fankuishow: __('order.entry.fankuishow'),
-  chaifen: __('order.entry.chaifen'),
-  yuanbaoguo: __('order.entry.yuanbaoguo'),
 };
 
 // 商品状态
@@ -247,9 +245,6 @@ const Packge = ({
                   {rec.is_assessed ? lan.yipinkong : lan.pinkong}
                 </Link>
                 ) : null}
-              { // 原发货包裹号
-                rec.package_number && <span style={{ marginLeft: '10px' }}>{`${lan.yuanbaoguo}`}: <span style={{ fontWeight: 'bold', fontSize: '14px' }}>{rec.package_number}</span></span>
-              }
               {/*  回货日期 按钮 */}
               {Number(rec.status_code) === 11 && (
               <Button
@@ -358,12 +353,6 @@ const Packge = ({
       {
         title: lan.sku,
         dataIndex: 'sku',
-        render: (d, rec) => (
-          <span>
-            {d}
-            {!!rec.is_split && <span style={{ color: 'red', marginLeft: '10px' }}>{lan.chaifen}</span>}
-          </span>
-        ),
       },
       {
         title: lan.code,
@@ -579,23 +568,13 @@ const Packge = ({
 
       {/* 包裹 */}
       {package_list.length > 0 &&
-        package_list.map((v, index) => (
+        package_list.map(v => (
           <Card
             title={
               <div className={style.center}>
                 <span
                   style={{ marginRight: 10 }}
-                >
-                  {`${lan.packge}`}
-                  <span style={{ color: 'red' }}>
-                   ({ index + 1 }/{package_list.length })
-                  </span>
-                :{v.package_number}
-                </span>
-
-                <span style={{ color: 'red', marginRight: '10px' }}>
-                  ({v.package_goods_list.length}件)
-                </span>
+                >{`${lan.packge}:${v.package_number}`}</span>
                 {/* 全选按钮 */}
                 <Button
                   className={style.orderSelect}
