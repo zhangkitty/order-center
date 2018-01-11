@@ -61,6 +61,7 @@ const defaultState = {
   trackTroubleForm: { // 物流问题记录 提交数据
     trackTroubleSubmitLoad: false,
   },
+  returnCopied: false, // 复制状态
 };
 
 export default (state = defaultState, action) => {
