@@ -289,7 +289,8 @@ class OrderReturn extends Component {
                             message.success(`${file.name} ${__('order.entry.submit_info4')}.`);
                             dispatch(commit('uploadTrack',
                               assign({}, uploadTrack, {
-                                check_value: file.response.data[0], img: file.response.data[0],
+                                check_value: file.response.data[0],
+                                img: file.response.data[0],
                               })));
                           } else {
                             message.error(`${file.name} ${__('order.entry.submit_info5')}: ${file.response.msg}`);
