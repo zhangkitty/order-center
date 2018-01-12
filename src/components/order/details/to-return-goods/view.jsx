@@ -28,6 +28,9 @@ const lan = {
   need: __('order.entry.submit_title5'),
   fileNeed: __('common.file_need_choose'),
   fileNumber: __('common.file_less_three'),
+  上传的图片大小不能超过8M: __('order.entry.上传的图片大小不能超过8M'),
+  只可上传: __('order.entry.只可上传'),
+  只可上传请确认: __('order.entry.只可上传请确认'),
 };
 const CG = Checkbox.Group;
 const RadioGroup = Radio.Group;
@@ -179,6 +182,18 @@ class ToReturnGoods extends Component {
                           name={`img_${rec.goods_id}`}
                           showUploadList={false}
                           data={{ type: 3, goods_id: rec.goods_id }}
+                          // 如果图片大于8M不上传
+                          beforeUpload={(file) => {
+                            if (file.type && (file.type !== 'image/jpeg' && file.type !== 'image/png')) {
+                              message.error(lan.只可上传请确认, 3);
+                              return false;
+                            }
+                            if (file.size && file.size >= 8 * 1024 * 1024) {
+                              message.error(lan.上传的图片大小不能超过8M, 3);
+                              return false;
+                            }
+                            return true;
+                          }}
                           onChange={({ file }) => {
                             if (file.status === 'done') {
                               dispatch(infoCommit('return_info', return_info.map(v => (
@@ -203,6 +218,11 @@ class ToReturnGoods extends Component {
                           </span>
                         </Upload>
                         : null
+                    }
+                    {
+                      <span style={{ color: 'red', lineHeight: '28px', marginLeft: '10px' }}>
+                        {lan.只可上传}
+                      </span>
                     }
                   </div>
               ),
