@@ -373,10 +373,10 @@ class TabsHeader extends Component {
                     {__('returns.list.download')}
                   </a>
                   <br /><br />
-                  <p>更新退款记录</p>
+                  <p>更新线下打款退款交易号</p>
                   <Upload
                     name={'file'}
-                    action="/index_new.php/Order/OrderReturn/uploadReturnShip"   // TODO
+                    action="/index_new.php/Order/OrderRefund/uploadRefundRecords"
                     onChange={(info) => {
                       if (info.file.status === 'done') {
                         if (info.file.response.code !== 0) {
