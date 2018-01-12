@@ -178,4 +178,6 @@ module.exports = {
   return_copy: '一键复制',
   return_copy_title: '复制成功！',
   上传的图片大小不能超过8M: '上传的图片大小不能超过8M',
+  只可上传: '只可上传jpg、jpeg、png，单张图片不可超过8M',
+  只可上传请确认: '只可上传jpg、jpeg、png，请确认！',
 };

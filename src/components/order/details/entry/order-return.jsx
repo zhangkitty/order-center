@@ -36,8 +36,8 @@ const lan = {
   RL扣除费用: __('order.entry.rl_deducted_costs'),
   rl费用必填: __('order.entry.rl_fee_required'),
   上传的图片大小不能超过8M: __('order.entry.上传的图片大小不能超过8M'),
-  只可上传: '只可上传jpg、jpeg、png，单张图片不可超过8M',
-  只可上传请确认: '只可上传jpg、jpeg、png，请确认！',
+  只可上传: __('order.entry.只可上传'),
+  只可上传请确认: __('order.entry.只可上传请确认'),
 };
 
 const reqImg = require.context('../../images');

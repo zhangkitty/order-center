@@ -29,8 +29,8 @@ const lan = {
   fileNeed: __('common.file_need_choose'),
   fileNumber: __('common.file_less_three'),
   上传的图片大小不能超过8M: __('order.entry.上传的图片大小不能超过8M'),
-  只可上传: '只可上传jpg、jpeg、png，单张图片不可超过8M',
-  只可上传请确认: '只可上传jpg、jpeg、png，请确认！',
+  只可上传: __('order.entry.只可上传'),
+  只可上传请确认: __('order.entry.只可上传请确认'),
 };
 const CG = Checkbox.Group;
 const RadioGroup = Radio.Group;
@@ -180,7 +180,7 @@ class ToReturnGoods extends Component {
                         <Upload
                           action="/index_new.php/Order/OrderReturn/handleImg"
                           name={`img_${rec.goods_id}`}
-                          // showUploadList={false}
+                          showUploadList={false}
                           data={{ type: 3, goods_id: rec.goods_id }}
                           // 如果图片大于8M不上传
                           beforeUpload={(file) => {
