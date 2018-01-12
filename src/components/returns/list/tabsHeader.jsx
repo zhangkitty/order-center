@@ -57,8 +57,10 @@ class TabsHeader extends Component {
       fetchTimeTag,
     } = this.props;
     const {
-      return_order_id, order_no, email, tracking_no, good_sn, source_site, insurance_states, trouble_state,
-      return_order_status, refund_status, shipping_status, order_type, receiver_country, return_label_type, warehouse,
+      return_order_id, order_no, email, tracking_no, good_sn,
+      source_site, insurance_states, trouble_state,
+      return_order_status, refund_status, shipping_status,
+      order_type, receiver_country, return_label_type, warehouse,
       member_level, payment, time_tag, start_time, end_time,
     } = queryString;
     return (

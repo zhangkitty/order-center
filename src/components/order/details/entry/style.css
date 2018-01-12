@@ -96,7 +96,8 @@
     position: absolute;
     right: 10px;
     top: 0px;
-    display: block;
+    display: flex;
+    align-items: center;
 }
 .antUploadText {
     margin-top: 8px;

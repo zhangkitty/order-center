@@ -4,11 +4,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Tooltip, Icon } from 'antd';
+import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Tooltip, Icon, Upload } from 'antd';
 import moment from 'moment';
 import parseParam from '../../../lib/query-string';
 import {
-  search, commit, initCountry,
+  search, commit, initCountry, change,
 } from './action';
 
 import styles from './style.css';
@@ -46,8 +46,9 @@ class TabsHeader extends Component {
 
   render() {
     const {
-      dispatch, queryString, searchLoad, waitTotal, rejectTotal, total,
-      fetchType, fetchStatus, fetchPath, fetchPathStatus, fetchSite, fetchCountry, fetchMember, fetchRefund,
+      dispatch, queryString, searchLoad, waitTotal, rejectTotal, total, tracking_update,
+      fetchType, fetchStatus, fetchPath, fetchPathStatus, fetchSite,
+      fetchCountry, fetchMember, fetchRefund,
     } = this.props;
     const {
       refund_bill_id, billno, email, add_user, handle_user,
@@ -55,7 +56,7 @@ class TabsHeader extends Component {
       country_id, member_level, refund_start_time, refund_end_time, refund_method,
     } = queryString;
 
-    const exportSubmit = (param) => {
+    const exportSubmit = () => { // param
       const keys = ['refund_bill_id', 'billno', 'email', 'add_user', 'handle_user',
         'refund_bill_type', 'refund_bill_status', 'refund_path_id', 'refund_path_status', 'site_from', 'apply_start_time', 'apply_end_time',
         'country_id', 'member_level', 'refund_start_time', 'refund_end_time'];
@@ -363,7 +364,43 @@ class TabsHeader extends Component {
               </TabItem>
               {/* 批量操作 */}
               <TabItem tab={__('order.name.search3')} key="2">
-                批量操作
+                <div className={styles.downloadCon}>
+                  <a
+                    className={styles.buttonStyle} // （下载模板）
+                    href={`${location.origin}/Public/File/upload_excel/example.xls`}  // TODO
+                    target="_blank"
+                  >
+                    {__('returns.list.download')}
+                  </a>
+                  <br /><br />
+                  <p>更新退款记录</p>
+                  <Upload
+                    name={'file'}
+                    action="/index_new.php/Order/OrderReturn/uploadReturnShip"   // TODO
+                    onChange={(info) => {
+                      if (info.file.status === 'done') {
+                        if (info.file.response.code !== 0) {
+                          message.error(info.file.response.msg, 10);
+                        } else {
+                          message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
+                          dispatch(change('tracking_update', info.file.response.msg));
+                        }
+                      } else if (info.file.status === 'error') {
+                        message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
+                      }
+                    }}
+                  >
+                    <Button type="primary" className={styles.upload}>
+                      <Icon type="upload" />{__('returns.list.update')}
+                    </Button>
+                  </Upload>
+                  <br /><br />
+                  {/* 更新退款记录 返回信息 */}
+                  <span
+                    dangerouslySetInnerHTML={{ __html: tracking_update }}
+                  />
+
+                </div>
               </TabItem>
             </Tabs>
           </Panel>
@@ -373,6 +410,7 @@ class TabsHeader extends Component {
         {
           !!total &&
           <div className={styles.ButtonBg}>
+            {/* 全部 */}
             <Button
               style={refund_bill_status == null ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
               onClick={() => {
@@ -393,8 +431,9 @@ class TabsHeader extends Component {
             >
               {__('refund.list.submitName2')}
             </Button>
+            {/* 待退款 */}
             <Button
-              style={refund_bill_status == 1 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              style={+refund_bill_status === 1 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
               onClick={() => {
                 if (
                   moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
@@ -413,8 +452,9 @@ class TabsHeader extends Component {
             >
               {__('refund.list.submitName3')}({waitTotal})
             </Button>
+            {/* 驳回 */}
             <Button
-              style={refund_bill_status == 4 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              style={+refund_bill_status === 4 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
               onClick={() => {
                 if (
                   moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
@@ -454,5 +494,6 @@ TabsHeader.propTypes = {
   waitTotal: PropTypes.number,
   rejectTotal: PropTypes.number,
   total: PropTypes.number,
+  tracking_update: PropTypes.string,
 };
 export default TabsHeader;
