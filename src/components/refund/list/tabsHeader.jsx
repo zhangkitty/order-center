@@ -46,7 +46,8 @@ class TabsHeader extends Component {
 
   render() {
     const {
-      dispatch, queryString, searchLoad, waitTotal, rejectTotal, total, tracking_update,
+      dispatch, queryString, searchLoad, waitTotal, rejectTotal, total,
+      refund_update_err, refund_update,
       fetchType, fetchStatus, fetchPath, fetchPathStatus, fetchSite,
       fetchCountry, fetchMember, fetchRefund,
     } = this.props;
@@ -367,7 +368,7 @@ class TabsHeader extends Component {
                 <div className={styles.downloadCon}>
                   <a
                     className={styles.buttonStyle} // （下载模板）
-                    href={`${location.origin}/Public/File/upload_excel/example.xls`}  // TODO
+                    href={`${location.origin}/Public/File/upload_excel/upload_refund_records.xls`}
                     target="_blank"
                   >
                     {__('returns.list.download')}
@@ -381,9 +382,10 @@ class TabsHeader extends Component {
                       if (info.file.status === 'done') {
                         if (info.file.response.code !== 0) {
                           message.error(info.file.response.msg, 10);
+                          dispatch(change('refund_update_err', info.file.response.msg));
                         } else {
                           message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
-                          dispatch(change('tracking_update', info.file.response.msg));
+                          dispatch(change('refund_update', info.file.response.msg));
                         }
                       } else if (info.file.status === 'error') {
                         message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
@@ -397,7 +399,10 @@ class TabsHeader extends Component {
                   <br /><br />
                   {/* 更新退款记录 返回信息 */}
                   <span
-                    dangerouslySetInnerHTML={{ __html: tracking_update }}
+                    dangerouslySetInnerHTML={{ __html: refund_update_err }}
+                  />
+                  <span
+                    dangerouslySetInnerHTML={{ __html: refund_update }}
                   />
 
                 </div>
@@ -494,6 +499,7 @@ TabsHeader.propTypes = {
   waitTotal: PropTypes.number,
   rejectTotal: PropTypes.number,
   total: PropTypes.number,
-  tracking_update: PropTypes.string,
+  refund_update: PropTypes.string,
+  refund_update_err: PropTypes.string,
 };
 export default TabsHeader;

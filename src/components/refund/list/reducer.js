@@ -45,7 +45,8 @@ const defaultState = {
   total: 0,
   waitTotal: null,
   rejectTotal: null,
-  tracking_update: null, // 更新退款记录返回信息
+  refund_update: null, // 更新退款记录返回信息
+  refund_update_err: null, // 更新退款记录返回信息失败
 };
 
 const reducer = (state = defaultState, action) => {
