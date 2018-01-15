@@ -53,7 +53,7 @@ class cashRefund extends Component {
                 refundPathId: 3,  // 写死
                 refundAmount: Number(refundAmount).toFixed(2),
                 refundCurrency: Number(refundCurrency).toFixed(2),
-                refundMethod: refundMethod === '其他' || refundMethod === 'others' ? refundMethod1 : refundMethod,
+              //  refundMethod: refundMethod === '其他' || refundMethod === 'others' ? refundMethod1 : refundMethod,
                 account,
               }],
               canWithdrawAmount,   // 可提现金额
@@ -98,14 +98,14 @@ class cashRefund extends Component {
                   }
                 </Select>
                 {
-                  refundMethod === '其他' || refundMethod === 'others' ?
-                    <Input
-                      placeholder={__('order.entry.cash_content8')}
-                      style={{ width: '200px', marginRight: '15px' }}
-                      value={refundMethod1}
-                      onChange={e => dispatch(subchange('refundMethod1', e.target.value))}
-                    />
-                    : null
+                  // refundMethod === '其他' || refundMethod === 'others' ?
+                  //   <Input
+                  //     placeholder={__('order.entry.cash_content8')}
+                  //     style={{ width: '200px', marginRight: '15px' }}
+                  //     value={refundMethod1}
+                  //     onChange={e => dispatch(subchange('refundMethod1', e.target.value))}
+                  //   />
+                  //   : null
                 }
                 <Input
                   placeholder={__('order.entry.cash_content7')}

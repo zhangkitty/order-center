@@ -157,14 +157,14 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                       </Select>
                       {/* 退款方式--其他 */}
                       {
-                        +v.refund_method_id === 4 &&
-                        <Input
-                          placeholder={__('order.entry.cash_content8')}
-                          style={{ width: 150, marginLeft: '5px' }}
-                          value={v.refund_method2}
-                          onChange={e => onC(dispatch, submitValue, i, {
-                            refund_method2: e.target.value })}
-                        />
+                        // +v.refund_method_id === 4 &&
+                        // <Input
+                        //   placeholder={__('order.entry.cash_content8')}
+                        //   style={{ width: 150, marginLeft: '5px' }}
+                        //   value={v.refund_method2}
+                        //   onChange={e => onC(dispatch, submitValue, i, {
+                        //     refund_method2: e.target.value })}
+                        // />
                       }
                       {/* 退款方式 = yes bank， 银行代码/银行卡号/顾客姓名/发卡城市     */}
                       {

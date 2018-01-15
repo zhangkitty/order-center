@@ -193,19 +193,19 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
 
                 {/* 退款方式--其他 */}
                 {
-                  refund_method === '其他' || refund_method === 'others' ?
-                    <Input
-                      placeholder={__('order.entry.cash_content8')} // 请输入正确的退款账户
-                      className={style.priceInput}
-                      disabled={!checked}
-                      required
-                      value={refund_method1}
-                      onChange={(e) => {
-                        dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
-                      }}
-                    />
-                  :
-                  null
+                  // refund_method === '其他' || refund_method === 'others' ?
+                  //   <Input
+                  //     placeholder={__('order.entry.cash_content8')} // 请输入正确的退款账户
+                  //     className={style.priceInput}
+                  //     disabled={!checked}
+                  //     required
+                  //     value={refund_method1}
+                  //     onChange={(e) => {
+                  //       dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                  //     }}
+                  //   />
+                  // :
+                  // null
                 }
                 {/* 退款方式 = Paytm  */}
                 {/* 退款方式 = PayPal */}

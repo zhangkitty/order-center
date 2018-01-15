@@ -320,21 +320,23 @@ class Refund extends Component {
 
                   {/* 账户--其他 */}
                   {
-                    +refund_method === 4 ?
-                      <div className={style.refund_list}>
-                        <span className={style.refund_name}>{star}{__('order.entry.cash_content6')}</span>
-                        <Input
-                          placeholder={__('order.entry.cash_content8')} // 请输入正确的退款账户
-                          className={style.priceInput}
-                          required
-                          value={refund_method_account}
-                          onChange={(e) => {
-                            dispatch(commit2('refund_method_account', e.target.value));
-                          }}
-                        />
-                      </div>
-                      :
-                      null
+                    // +refund_method === 4 ?
+                    //   <div className={style.refund_list}>
+                    //     <span className={style.refund_name}>
+                    //      {star}{__('order.entry.cash_content6')}
+                    //     </span>
+                    //     <Input
+                    //       placeholder={__('order.entry.cash_content8')} // 请输入正确的退款账户
+                    //       className={style.priceInput}
+                    //       required
+                    //       value={refund_method_account}
+                    //       onChange={(e) => {
+                    //         dispatch(commit2('refund_method_account', e.target.value));
+                    //       }}
+                    //     />
+                    //   </div>
+                    //   :
+                    //   null
                   }
                   {/* 退款方式 = Paytm  */}
                   {/* 退款方式 = PayPal */}
