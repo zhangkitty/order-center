@@ -84,7 +84,7 @@ class cashRefund extends Component {
             {/* 退款金额 */}
             <div className={style.mainContentB}>
               <Price {...this.props} />
-              {refundType != 3 ? null : (<div className={style.mark}>
+              {+refundType !== 3 ? null : (<div className={style.mark}>
                 <span className={style.descWidth}>{__('order.entry.cash_content6')}：</span>
                 <Select
                   style={{ width: '150px', marginRight: '10px' }}
