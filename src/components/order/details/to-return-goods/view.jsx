@@ -250,7 +250,7 @@ class ToReturnGoods extends Component {
                   <Radio
                     value={v.id} key={v.id}
                     // disabled={RANChoose[submitValue.return_warehouse] && (!v.isAvailable)}
-                    disabled = {v.isAvailable}
+                    disabled = {!v.isAvailable}
                   >{v.name}</Radio>
                 ))
               }
