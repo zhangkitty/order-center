@@ -115,8 +115,13 @@ const reducer = (state = defaultState, action) => {
         ready: true,
         refundPaths: action.data.orderRefundPathList.map(item => assign({}, item, {
           channelType: chanelTypeTable[item.refundPathId],
-          refund_method: '',
-          refund_method1: '',
+          refund_method: action.data.orderRefundUnderlineAccount.refundMethod, // 退款账户
+          account: action.data.orderRefundUnderlineAccount.accountInfo, // 账户信息
+          bank_code: action.data.orderRefundUnderlineAccount.bankCode, // 银行代码
+          account1: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
+          customer: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
+          issuing_city: action.data.orderRefundUnderlineAccount.issuingCity, // 发卡城市
+        //  refund_method1: '',
           refundCurrency: 0,
           refundAmount: 0,
         })),

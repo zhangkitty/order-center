@@ -47,7 +47,7 @@ class Refund extends Component {
       account_info,
       bank_code,
       card_number,
-      customer_name,
+      customer,
       issuing_city,
       refund_method_account,
     } = refund_account;
@@ -65,7 +65,7 @@ class Refund extends Component {
                     dispatch(commit2('account_info', null));
                     dispatch(commit2('bank_code', null));
                     dispatch(commit2('card_number', null));
-                    dispatch(commit2('customer_name', null));
+                    dispatch(commit2('customer', null));
                     dispatch(commit2('issuing_city', null));
                     dispatch(commit2('refund_method_account', null));
                     dispatch(commit('RefundShow', true));
@@ -210,7 +210,16 @@ class Refund extends Component {
                     {refund.refund_underline_account.refund_method}
                   </span>
                   <span className={style.paymentInline}>
-                    {refund.refund_underline_account.account_info}
+                    {refund.refund_underline_account.refund_method_id === 3 ?
+                      <span>
+                        {refund.refund_underline_account.bank_code},&nbsp;
+                        {refund.refund_underline_account.card_number},&nbsp;
+                        {refund.refund_underline_account.customer_name},&nbsp;
+                        {refund.refund_underline_account.issuing_city}
+                      </span>
+                      :
+                      <span>{refund.refund_underline_account.account_info}</span>
+                    }
                   </span>
                 </div>
                 :
@@ -297,9 +306,9 @@ class Refund extends Component {
                           placeholder={__('order.entry.cash_content12')} // 请输入顾客姓名
                           className={style.priceInput}
                           required
-                          value={customer_name}
+                          value={customer}
                           onChange={(e) => {
-                            dispatch(commit2('customer_name', e.target.value));
+                            dispatch(commit2('customer', e.target.value));
                           }}
                         />
                       </div>

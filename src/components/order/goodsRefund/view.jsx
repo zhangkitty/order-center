@@ -64,13 +64,15 @@ class GoodsRefund extends Component {
                 refund_path_id: v.refundTypeId,
                 refund_amount: Number(v.refundAmount),
                 refund_currency: Number(v.refundCurrency),
-                refund_method: Number(v.refund_method_id) === 4
-                  ? v.refund_method2 : v.refund_method,
-                account: v.account || Symbol('noValue'),
-                bank_code: v.bank_code || Symbol('noValue'),
+                // refund_method: Number(v.refund_method_id) === 4
+                //   ? v.refund_method2 : v.refund_method,
+                refund_method: v.refundMethod,
+                account: v.refundMethod === 'yes bank'
+                  ? v.account1 || Symbol('noValue') : v.account || Symbol('noValue'),
+               // account: v.account || Symbol('noValue'),
+                bank_code: v.bankCode || Symbol('noValue'),
                 customer: v.customer || Symbol('noValue'),
-                issuing_city: v.issuing_city || Symbol('noValue'),
-
+                issuing_city: v.issuingCity || Symbol('noValue'),
               })),
             };
             return dispatch(submitForward(newRes));

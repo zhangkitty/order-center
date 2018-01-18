@@ -38,6 +38,9 @@ class DiffRefund extends Component {
                 // if (x.refund_method === '其他' || x.refund_method === 'others') {
                 //   x.refund_method = x.refund_method1;
                 // }
+                if (x.refund_method === 'yes bank') {
+                  x.account = x.account1;
+                }
                 return x;
               });
               if (!refund_paths.length || !reason) {
