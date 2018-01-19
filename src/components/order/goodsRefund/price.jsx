@@ -186,7 +186,7 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                       {
                         v.refund_method === 'yes bank' ?
                           <Input
-                            placeholder={__('order.entry.cash_content11')} // 银行卡号 || 输入正确的账户信息
+                            placeholder={__('order.entry.cash_content11')} // 银行卡号
                             style={{ width: 150, marginLeft: '5px' }}
                             value={v.account1}
                             onChange={e => onC(dispatch, submitValue, i, {
@@ -194,7 +194,7 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                           />
                           :
                           <Input
-                            placeholder={__('order.entry.cash_content7')} // 银行卡号 || 输入正确的账户信息
+                            placeholder={__('order.entry.cash_content7')} // 输入正确的账户信息
                             style={{ width: 150, marginLeft: '5px' }}
                             value={v.account}
                             onChange={e => onC(dispatch, submitValue, i, {

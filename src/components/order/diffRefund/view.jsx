@@ -26,7 +26,8 @@ class DiffRefund extends Component {
 
   render() {
     const {
-      ready, dispatch, ReasonList, reason, remark, order_id, refundPaths, orderPriceInfo, maxTips, submitLoad, submitdisabled,
+      ready, dispatch, ReasonList, reason, remark, order_id, refundPaths, orderPriceInfo,
+      maxTips, submitLoad, submitdisabled,
     } = this.props;
     return (
       ready ?
