@@ -242,15 +242,16 @@ class ToReturnGoods extends Component {
 
           <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{lan.type}{Star}:</span>
-            <RadioGroup 
-            value={submitValue.return_shipping_type}
-            onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}>
+            <RadioGroup
+              value={submitValue.return_shipping_type}
+              onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}
+            >
               {
                 shippingType.map(v => (
                   <Radio
                     value={v.id} key={v.id}
                     // disabled={RANChoose[submitValue.return_warehouse] && (!v.isAvailable)}
-                    disabled = {!v.isAvailable}
+                    disabled={!v.isAvailable}
                   >{v.name}</Radio>
                 ))
               }
