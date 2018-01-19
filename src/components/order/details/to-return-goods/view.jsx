@@ -106,7 +106,7 @@ class ToReturnGoods extends Component {
                     <span style={{ width: '40px', display: 'inline-block' }}>{rec.goods_sort}</span>
                     <img src={rec.img_url} width={80} alt="pic" />
                   </div>
-              ),
+                ),
               },
               {
                 title: lan.reason,
@@ -127,16 +127,16 @@ class ToReturnGoods extends Component {
                             <Checkbox value={v.id} >{Star}{v.name}</Checkbox>
                           </div>
 
-                            :
+                          :
                           <div key={v.id}>
                             <Checkbox value={v.id}>{v.name}</Checkbox>
                           </div>
 
-                        ))
-                      }
+                      ))
+                    }
                   </CG>
 
-              ),
+                ),
               },
               {
                 title: lan.num,
@@ -213,8 +213,8 @@ class ToReturnGoods extends Component {
                           <span style={{ marginLeft: '5px', color: 'red' }}>
                             {
                               !return_info
-                              .find(v => v.goods_id === rec.goods_id).img_thumb.length &&
-                            `${lan.fileNeed},`}{lan.fileNumber}
+                                .find(v => v.goods_id === rec.goods_id).img_thumb.length &&
+                              `${lan.fileNeed},`}{lan.fileNumber}
                           </span>
                         </Upload>
                         : null
@@ -225,7 +225,7 @@ class ToReturnGoods extends Component {
                       </span>
                     }
                   </div>
-              ),
+                ),
               },
             ]}
           />
@@ -242,12 +242,16 @@ class ToReturnGoods extends Component {
 
           <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{lan.type}{Star}:</span>
-            <RadioGroup value={submitValue.return_shipping_type} onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}>
+            <RadioGroup
+              value={submitValue.return_shipping_type}
+              onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}
+            >
               {
                 shippingType.map(v => (
                   <Radio
                     value={v.id} key={v.id}
-                    disabled={v.id === 1 && RANChoose[submitValue.return_warehouse]}
+                    // disabled={RANChoose[submitValue.return_warehouse] && (!v.isAvailable)}
+                    disabled={!v.isAvailable}
                   >{v.name}</Radio>
                 ))
               }
@@ -273,12 +277,12 @@ class ToReturnGoods extends Component {
               style={{ width: '45%' }}
               value={`${submitValue.return_warehouse}`}
               onChange={(value) => {
-                if (defaultRL[value]) {
-                  dispatch(infoCommit('return_shipping_type', 1));
-                }
-                if (RANChoose[value]) {
-                  dispatch(infoCommit('return_shipping_type', 2));
-                }
+                // if (defaultRL[value]) {
+                //   dispatch(infoCommit('return_shipping_type', 1));
+                // }
+                // if (RANChoose[value]) {
+                //   dispatch(infoCommit('return_shipping_type', 2));
+                // }
                 dispatch(infoCommit('return_warehouse', Number(value)));
               }}
             >

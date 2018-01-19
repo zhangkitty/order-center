@@ -63,7 +63,7 @@ class OrderReturn extends Component {
       <div className={styles.contentPadding}>
         <Card
           title={lan.jilu}
-          // style={{ maxWidth: '1200px' }}
+        // style={{ maxWidth: '1200px' }}
         >
           <Table
             size="small"
@@ -97,6 +97,10 @@ class OrderReturn extends Component {
                 dataIndex: 'return_tracking_no',
               },
               {
+                title: lan.RL扣除费用,
+                dataIndex: 'shipping_fee',
+              },
+              {
                 title: lan.zhaungtai,
                 dataIndex: 'return_refund_status',
               },
@@ -124,7 +128,7 @@ class OrderReturn extends Component {
                       </Popover>
                     }
                     {
-                      rec.return_label_type === 'RAN' &&
+                      rec.return_label_type === 'RAN' && rec.can_generate_rl === true &&
                       <Button
                         style={{ margin: '5px' }}
                         onClick={() => {
