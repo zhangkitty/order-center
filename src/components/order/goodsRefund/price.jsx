@@ -187,9 +187,9 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                           <Input
                             placeholder={__('order.entry.cash_content11')} // 银行卡号
                             style={{ width: 150, marginLeft: '5px' }}
-                            value={v.account1}
+                            value={v.card_number}
                             onChange={e => onC(dispatch, submitValue, i, {
-                              account1: e.target.value })}
+                              card_number: e.target.value })}
                           />
                           :
                           <Input

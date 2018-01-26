@@ -43,7 +43,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
         bank_code,
         customer,
         issuing_city,
-        account1,   // refund_method === 'yes bank', 银行卡号
+        card_number,   // refund_method === 'yes bank', 银行卡号
       }) => (
         <div key={refundPathId} style={{ display: !isShow ? 'none' : 'block' }}>
           <div className={style.spaceCon}>
@@ -164,9 +164,9 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                         className={style.priceInput}
                         disabled={!checked}
                         required
-                        value={account1}
+                        value={card_number}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'account1', e.target.value));
+                          dispatch(changeChannelValue(refundPathId, 'card_number', e.target.value));
                         }}
                       />
                       <Input
