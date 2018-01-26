@@ -162,8 +162,14 @@ const svInit = (source) => {
     check: priceObj[v.refundPathId] > 0,
     max: maxObj[v.refundPathId],
     refundAccountTypeList: v.refundAccountTypeList || [],
-    refund_method: '',
-    account: '',
+    // refund_method: '',
+    // account: '',
+    refund_method: source.orderRefundUnderlineAccount.refundMethod, // 退款账户
+    account: source.orderRefundUnderlineAccount.accountInfo, // 账户信息
+    bank_code: source.orderRefundUnderlineAccount.bankCode, // 银行代码
+    account1: source.orderRefundUnderlineAccount.cardNumber, // 银行卡号
+    customer: source.orderRefundUnderlineAccount.customerName, // 顾客姓名
+    issuing_city: source.orderRefundUnderlineAccount.issuingCity, // 发卡城市
   }));
   const checks = arr.filter(v => v.refundTypeId > 1 && v.refundTypeId < 4);
   const check = checks.find(v => v.check); // 获取用户，钱包路径是否有被选中
@@ -378,11 +384,15 @@ const reducer = (state = defaultState, action) => {
           rlFee: null,
           reason: { reasonId: null, goodsIds: [] },
           remark: '',
-          refundPaths: state.submitValue.refundPaths.map(v => assign({}, v, {
-            refundAmount: '',
-            refundCurrency: '',
-            refund_method: '',
-            account: '',
+          refundPaths: state.cachePaths.map(v => assign({}, v, {   // state.submitValue.refundPaths
+            refundAmount: v.refundAmount,
+            refundCurrency: v.refundCurrency,
+            refund_method: v.refund_method,
+            account: v.account,
+            bank_code: v.bank_code,
+            account1: v.account1,
+            customer: v.customer,
+            issuing_city: v.issuing_city,
             check: false,
           })),
         },

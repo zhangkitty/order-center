@@ -95,8 +95,10 @@
 .refundButton {
     position: absolute;
     right: 10px;
-    top: 10px;
-    display: block;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    height: 48px;
 }
 .antUploadText {
     margin-top: 8px;
@@ -185,4 +187,26 @@
 .returnLinkTitle {
     color: red;
     margin-left: 10px
+}
+.priceSelect {
+    width: 150px !important;
+}
+.priceInput {
+    width: 150px;
+}
+.refund_account_title {
+    font-size: 14px;
+    white-space: nowrap;
+    color: rgba(0,0,0,.85);
+    font-weight: 500;
+    height:48px;
+    line-height:48px;
+}
+.refund_list { margin: 10px 0; }
+.refund_name {
+    width: 130px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 20px;
+    vertical-align: middle;
 }

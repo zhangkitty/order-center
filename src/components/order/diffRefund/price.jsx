@@ -38,11 +38,12 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
         refundAccountTypeList,
         account,
         refund_method,
-        refund_method1,
+      //  refund_method1,
         isShow,
         bank_code,
         customer,
         issuing_city,
+        account1,   // refund_method === 'yes bank', 银行卡号
       }) => (
         <div key={refundPathId} style={{ display: !isShow ? 'none' : 'block' }}>
           <div className={style.spaceCon}>
@@ -130,7 +131,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                 placeholder={__('order.goodsRefund.please_select_a_refund_account')}
                 className={style.priceSelect}
                 disabled={!checked}
-              //  value={`${refund_method || ''}`}
+                value={refund_method}
                 onChange={(e) => {
                   dispatch(changeChannelValue(refundPathId, 'refund_method', e));
                 }}
@@ -163,9 +164,9 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                         className={style.priceInput}
                         disabled={!checked}
                         required
-                        value={account}
+                        value={account1}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'account', e.target.value));
+                          dispatch(changeChannelValue(refundPathId, 'account1', e.target.value));
                         }}
                       />
                       <Input
@@ -193,19 +194,19 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
 
                 {/* 退款方式--其他 */}
                 {
-                  refund_method === '其他' || refund_method === 'others' ?
-                    <Input
-                      placeholder={__('order.entry.cash_content8')} // 请输入正确的退款账户
-                      className={style.priceInput}
-                      disabled={!checked}
-                      required
-                      value={refund_method1}
-                      onChange={(e) => {
-                        dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
-                      }}
-                    />
-                  :
-                  null
+                  // refund_method === '其他' || refund_method === 'others' ?
+                  //   <Input
+                  //     placeholder={__('order.entry.cash_content8')} // 请输入正确的退款账户
+                  //     className={style.priceInput}
+                  //     disabled={!checked}
+                  //     required
+                  //     value={refund_method1}
+                  //     onChange={(e) => {
+                  //       dispatch(changeChannelValue(refundPathId, 'refund_method1', e.target.value));
+                  //     }}
+                  //   />
+                  // :
+                  // null
                 }
                 {/* 退款方式 = Paytm  */}
                 {/* 退款方式 = PayPal */}
@@ -251,7 +252,12 @@ const Price = ({ refundPaths, dispatch, maxTips, isUsd }) => {
       {
       result.map((item, idx) => ({ arr: item, key: idx })).map(item => (
         <RefundChannelGroup
-          channels={item.arr} type={item.key} key={item.key} dispatch={dispatch} maxTips={maxTips} isUsd={isUsd}
+          channels={item.arr}
+          type={item.key}
+          key={item.key}
+          dispatch={dispatch}
+          maxTips={maxTips}
+          isUsd={isUsd}
         />
       ))
     }

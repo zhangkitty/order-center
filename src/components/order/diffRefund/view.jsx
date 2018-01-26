@@ -26,7 +26,8 @@ class DiffRefund extends Component {
 
   render() {
     const {
-      ready, dispatch, ReasonList, reason, remark, order_id, refundPaths, orderPriceInfo, maxTips, submitLoad, submitdisabled,
+      ready, dispatch, ReasonList, reason, remark, order_id, refundPaths, orderPriceInfo,
+      maxTips, submitLoad, submitdisabled,
     } = this.props;
     return (
       ready ?
@@ -35,8 +36,11 @@ class DiffRefund extends Component {
             onSubmit={(e) => {
               e.preventDefault();
               const refund_paths = refundPaths.filter(v => v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0)).map((x) => {
-                if (x.refund_method === '其他' || x.refund_method === 'others') {
-                  x.refund_method = x.refund_method1;
+                // if (x.refund_method === '其他' || x.refund_method === 'others') {
+                //   x.refund_method = x.refund_method1;
+                // }
+                if (x.refund_method === 'yes bank') {
+                  x.account = x.account1;
                 }
                 return x;
               });

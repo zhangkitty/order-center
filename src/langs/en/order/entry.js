@@ -113,6 +113,12 @@ module.exports = {
   refund_15: 'Refund Canceled',
   refund_16: 'Confirm to cancel this refund order', // 退款
   refund_17: 'Refund Reasons',
+  refund_18: '银行代码',
+  refund_19: '银行卡号',
+  refund_20: '顾客姓名',
+  refund_21: '发卡城市',
+  refund_22: '账户信息',
+  refund_account: '填写退款账户',
   order_return_1: 'RAN',   // 退货
   order_return_2: 'Return Applied Type',
   order_return_3: 'Waybill Type',

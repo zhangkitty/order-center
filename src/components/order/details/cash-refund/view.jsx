@@ -33,6 +33,10 @@ class cashRefund extends Component {
     const {
       refundBillId, refundPaths, remark, refundType, orderId,
       refundPathId, refundMethod, account, refundAmount, refundMethod1, refundCurrency,
+      bankCode,
+      cardNumber,
+      customer,
+      issuingCity,
     } = submitValue;
     return (
       ready ?
@@ -53,8 +57,12 @@ class cashRefund extends Component {
                 refundPathId: 3,  // 写死
                 refundAmount: Number(refundAmount).toFixed(2),
                 refundCurrency: Number(refundCurrency).toFixed(2),
-                refundMethod: refundMethod === '其他' || refundMethod === 'others' ? refundMethod1 : refundMethod,
+              //  refundMethod: refundMethod === '其他' || refundMethod === 'others' ? refundMethod1 : refundMethod,
                 account,
+                bankCode: refundMethod === 'yes bank' ? bankCode : '',
+                cardNumber: refundMethod === 'yes bank' ? cardNumber : '',
+                customer: refundMethod === 'yes bank' ? customer : '',
+                issuingCity: refundMethod === 'yes bank' ? issuingCity : '',
               }],
               canWithdrawAmount,   // 可提现金额
               notWithdrawAmount,   // 不提现金额
@@ -84,36 +92,77 @@ class cashRefund extends Component {
             {/* 退款金额 */}
             <div className={style.mainContentB}>
               <Price {...this.props} />
-              {refundType != 3 ? null : (<div className={style.mark}>
-                <span className={style.descWidth}>{__('order.entry.cash_content6')}：</span>
-                <Select
-                  style={{ width: '150px', marginRight: '10px' }}
-                  value={refundMethod}
-                  onChange={val => dispatch(subchange('refundMethod', val))}
-                >
-                  {
-                    refundAccountTypeList.map(item => (
-                      <Option key={item.name} > {item.name}</Option>
-                    ))
-                  }
-                </Select>
-                {
-                  refundMethod === '其他' || refundMethod === 'others' ?
-                    <Input
-                      placeholder={__('order.entry.cash_content8')}
-                      style={{ width: '200px', marginRight: '15px' }}
-                      value={refundMethod1}
-                      onChange={e => dispatch(subchange('refundMethod1', e.target.value))}
-                    />
-                    : null
-                }
-                <Input
-                  placeholder={__('order.entry.cash_content7')}
-                  style={{ width: '200px' }}
-                  value={account}
-                  onChange={e => dispatch(subchange('account', e.target.value))}
-                />
-              </div>)}
+              {+refundType !== 3
+                ? null
+                : (
+                  <div className={style.mark}>
+                    <span className={style.descWidth}>{__('order.entry.cash_content6')}：</span>
+                    <Select
+                      style={{ width: '150px', marginRight: '10px' }}
+                      value={refundMethod}
+                      onChange={val => dispatch(subchange('refundMethod', val))}
+                    >
+                      {
+                        refundAccountTypeList.map(item => (
+                          <Option key={item.name} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                    {
+                      // refundMethod === '其他' || refundMethod === 'others' ?
+                      //   <Input
+                      //     placeholder={__('order.entry.cash_content8')}
+                      //     style={{ width: '200px', marginRight: '15px' }}
+                      //     value={refundMethod1}
+                      //     onChange={e => dispatch(subchange('refundMethod1', e.target.value))}
+                      //   />
+                      //   : null
+                    }
+                    {/* 退款账户信息 !== 'yes bank' 显示 */}
+                    {
+                      refundMethod !== 'yes bank' &&
+                      <Input
+                        placeholder={__('order.entry.cash_content7')}// 请输入正确的退款账户信息
+                        className={style.priceInput}
+                        value={account}
+                        onChange={e => dispatch(subchange('account', e.target.value))}
+                      />
+                    }
+
+                    {/* 退款方式 = yes bank， 银行代码/银行卡号/顾客姓名/发卡城市     */}
+                    {
+                      refundMethod === 'yes bank' &&
+                      <span>
+                        <Input
+                          placeholder={__('order.entry.cash_content10')} // 请输入银行代码
+                          className={style.priceInput}
+                          value={bankCode}
+                          onChange={e => dispatch(subchange('account', e.target.value))}
+                        />
+                        <Input
+                          placeholder={__('order.entry.cash_content11')} // 请输入银行卡号-账户信息
+                          className={style.priceInput}
+                          value={cardNumber}
+                          onChange={e => dispatch(subchange('cardNumber', e.target.value))}
+                        />
+                        <Input
+                          placeholder={__('order.entry.cash_content12')} // 请输入顾客姓名
+                          className={style.priceInput}
+                          value={customer}
+                          onChange={e => dispatch(subchange('customer', e.target.value))}
+                        />
+                        <Input
+                          placeholder={__('order.entry.cash_content13')} // 请输入发卡城市
+                          className={style.priceInput}
+                          value={issuingCity}
+                          onChange={e => dispatch(subchange('issuingCity', e.target.value))}
+                        />
+                      </span>
+                    }
+
+
+                  </div>
+                )}
 
               <div className={style.mark}>
                 <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>

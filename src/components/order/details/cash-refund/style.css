@@ -88,3 +88,12 @@
     padding: 0 10px;
     border-radius: 4px;
 }
+.priceSelect {
+    width: 150px !important;
+    flex: 0 0 150px;
+}
+.priceInput {
+    width: 150px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}

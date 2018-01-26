@@ -30,7 +30,11 @@ const defaultState = {
       refundAmount1: '',  // 非美金金额（下单时的币种）
       refundMethod: '',
       refundPathId: 3,
-      refundMethod1: '',
+      bankCode: '',
+      cardNumber: '',
+      customer: '',
+      issuingCity: '',
+    //  refundMethod1: '',
     }],
     canWithdrawAmount: '',   // 可提现金额（下单时的币种）
     notWithdrawAmount: '',   // 不可提现金额（下单时的币种）
@@ -84,7 +88,13 @@ const reducer = (state = defaultState, action) => {
           refundCurrency: max1 < max2 ? max1 : max2, // 金额（下单币种）
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
-          max, // 金额最大值（下单币种）
+          max, // 金额最大值（下单币种
+          refundMethod: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
+          account: under2Camal(action.res).orderRefundUnderlineAccount.accountInfo,
+          bankCode: under2Camal(action.res).orderRefundUnderlineAccount.bankCode,
+          cardNumber: under2Camal(action.res).orderRefundUnderlineAccount.cardNumber,
+          customer: under2Camal(action.res).orderRefundUnderlineAccount.customerName,
+          issuingCity: under2Camal(action.res).orderRefundUnderlineAccount.issuingCity,
         }),
       });
     case TYPES.GET_REASON_SUCCESS:
