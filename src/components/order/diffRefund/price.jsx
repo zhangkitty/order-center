@@ -214,7 +214,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                   refund_method !== 'yes bank' &&
                     <Input
                       placeholder={__('order.entry.cash_content7')} // 请输入正确的退款账户信息
-                      required={!(refundPathId == 4 && refundAmount == 0)}
+                      required={!(+refundAmount === 0)}
                       className={style.priceInput}
                       disabled={!checked}
                       value={account}
