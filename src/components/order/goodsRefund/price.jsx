@@ -140,7 +140,6 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                         allowClear
                         placeholder={__('order.goodsRefund.please_select_a_refund_account')}
                         style={{ width: 150 }}
-                       // value={`${v.refund_method || ''}`}
                         value={v.refund_method}
                         onChange={(va) => {
                           onC(dispatch, submitValue, i, {

@@ -118,6 +118,9 @@ module.exports = {
   refund_20: '顾客姓名',
   refund_21: '发卡城市',
   refund_22: '账户信息',
+  refund_23: '线下打款账户信息展示',
+  refund_24: '订单号',
+  refund_25: '账户',
   refund_account: '填写退款账户',
   order_return_1: '退货单号',   // 退货
   order_return_2: '退货单类型',

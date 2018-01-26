@@ -49,7 +49,7 @@ class Refund extends Component {
       card_number,
       customer,
       issuing_city,
-      refund_method_account,
+    //  refund_method_account,
     } = refund_account;
     return (
       <div className={style.contentPadding}>
@@ -67,7 +67,6 @@ class Refund extends Component {
                     dispatch(commit2('card_number', null));
                     dispatch(commit2('customer', null));
                     dispatch(commit2('issuing_city', null));
-                    dispatch(commit2('refund_method_account', null));
                     dispatch(commit('RefundShow', true));
                   }}
                 >
@@ -194,12 +193,12 @@ class Refund extends Component {
             ]}
           />
           <div>
-            <div className={style.refund_account_title}>线下打款账户信息展示</div>
+            <div className={style.refund_account_title}>{__('order.entry.refund_23')}</div>
             <div style={{ color: '#333' }}>
               <div className={style.payLog}>
-                <span className={style.paymentInline}>订单号</span>
-                <span className={style.paymentInline}>账户</span>
-                <span className={style.paymentInline}>账户信息</span>
+                <span className={style.paymentInline}>{__('order.entry.refund_24')}</span>
+                <span className={style.paymentInline}>{__('order.entry.refund_25')}</span>
+                <span className={style.paymentInline}>{__('order.entry.refund_22')}</span>
               </div>
               {refund.refund_underline_account ?
                 <div className={style.payLog}>
@@ -239,13 +238,39 @@ class Refund extends Component {
                 e.preventDefault();
                 if (!refund_method) {
                   return message.warning(__('common.submitTitle3'));
+                } else if (
+                  +refund_method !== 3 && (!!account_info && account_info.trim().length === 0)
+                ) {
+                  return message.warning(__('common.submitTitle3'));
+                } else if (
+                  +refund_method === 3 && (!!bank_code && bank_code.trim().length === 0)
+                ) {
+                  return message.warning(__('common.submitTitle3'));
+                } else if (
+                  +refund_method === 3 && (!!card_number && card_number.trim().length === 0)
+                ) {
+                  return message.warning(__('common.submitTitle3'));
+                } else if (
+                  +refund_method === 3 && (!!customer && customer.trim().length === 0)
+                ) {
+                  return message.warning(__('common.submitTitle3'));
+                } else if (
+                  +refund_method === 3 && (!!issuing_city && issuing_city.trim().length === 0)
+                ) {
+                  return message.warning(__('common.submitTitle3'));
                 }
-                dispatch(refundAccount(assign({},
+                return dispatch(refundAccount(assign({},
                   refund_account,
                   {
                     order_id: orderId,
+                    refund_method: refund_method ? refund_method.trim() : null,
+                    account_info: account_info ? account_info.trim() : null,
+                    bank_code: bank_code ? bank_code.trim() : null,
+                    card_number: card_number ? card_number.trim() : null,
+                    customer: customer ? customer.trim() : null,
+                    issuing_city: issuing_city ? issuing_city.trim() : null,
                   })));
-                return dispatch(commit('RefundShow', false));
+              //  return dispatch(commit('RefundShow', false));
               }}
             >
               <div style={{ margin: '10px 0' }}>

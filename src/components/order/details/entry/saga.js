@@ -224,6 +224,7 @@ function* refundAccountSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${lan.ofail}:${data.msg}`);
   }
+  yield put(commit('RefundShow', false));
   return message.success(lan.osucess);
 }
 
