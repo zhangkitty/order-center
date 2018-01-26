@@ -137,7 +137,7 @@ class cashRefund extends Component {
                           placeholder={__('order.entry.cash_content10')} // 请输入银行代码
                           className={style.priceInput}
                           value={bankCode}
-                          onChange={e => dispatch(subchange('account', e.target.value))}
+                          onChange={e => dispatch(subchange('bankCode', e.target.value))}
                         />
                         <Input
                           placeholder={__('order.entry.cash_content11')} // 请输入银行卡号-账户信息

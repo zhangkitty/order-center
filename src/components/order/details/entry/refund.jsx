@@ -309,7 +309,8 @@ class Refund extends Component {
                           required
                           value={bank_code}
                           onChange={(e) => {
-                            dispatch(commit2('bank_code', e.target.value));
+                            if (/\s/.test(e.target.value)) { return false; } // 不允许空格
+                            return dispatch(commit2('bank_code', e.target.value));
                           }}
                         />
                       </div>
@@ -321,7 +322,8 @@ class Refund extends Component {
                           required
                           value={card_number}
                           onChange={(e) => {
-                            dispatch(commit2('card_number', e.target.value));
+                            if (/\s/.test(e.target.value)) { return false; } // 不允许空格
+                            return dispatch(commit2('card_number', e.target.value));
                           }}
                         />
                       </div>
@@ -333,7 +335,8 @@ class Refund extends Component {
                           required
                           value={customer}
                           onChange={(e) => {
-                            dispatch(commit2('customer', e.target.value));
+                            if (/\s/.test(e.target.value)) { return false; }  // 不允许空格
+                            return dispatch(commit2('customer', e.target.value));
                           }}
                         />
                       </div>
@@ -345,7 +348,8 @@ class Refund extends Component {
                           required
                           value={issuing_city}
                           onChange={(e) => {
-                            dispatch(commit2('issuing_city', e.target.value));
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(commit2('issuing_city', e.target.value));
                           }}
                         />
                       </div>
@@ -384,7 +388,10 @@ class Refund extends Component {
                         required
                         className={style.priceInput}
                         value={account_info}
-                        onChange={e => dispatch(commit2('account_info', e.target.value))}
+                        onChange={(e) => {
+                          if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                          return dispatch(commit2('account_info', e.target.value));
+                        }}
                       />
                     </div>
                   }
