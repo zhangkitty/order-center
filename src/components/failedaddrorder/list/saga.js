@@ -11,11 +11,13 @@ import {
   processOrder,
   recheckOrder,
   exportOrder,
+  batchrReviewedSer,
+  batchProcessSer,
 } from '../server';
 import {
   searchSuccess, searchList_success, searchList_fail, deleteSuccess, deleteFail,
   recheckSuccess, recheckFail, processSuccess, processFail, auditSuccess, auditFail,
-  batchDeleteSuccess, batchDeleteFail, batchRecheckSuccess, batchRecheckFail, commit, searchList,
+  batchDeleteSuccess, batchDeleteFail, batchRecheckSuccess, batchRecheckFail, commit, searchList, change, batchrReviewedSuccess, batchProcessSuccess,
 } from './action';
 import * as TYPES from './types';
 import moment from 'moment/moment';
@@ -117,6 +119,28 @@ function* exportOrderSaga(action) {
   FileSaver.saveAs(data, `${name}.xls`);
 }
 
+function* batchrReviewedSaga(action) {
+  yield put(change('loadding1', true));
+  const data = yield batchrReviewedSer(action.data);
+  yield put(change('loadding1', false));
+  if (!data || data.code !== 0) {
+    return message.error(`${__('common.sagaTitle')}${data.msg}`);
+  }
+  message.success(`${data.msg}`);
+  return yield put(batchrReviewedSuccess(data));
+}
+
+function* batchProcessSaga(action) {
+  yield put(change('loadding1', true));
+  const data = yield batchProcessSer(action.data);
+  yield put(change('loadding1', false));
+  if (!data || data.code !== 0) {
+    return message.error(`${__('common.sagaTitle')}${data.msg}`);
+  }
+  yield put(batchProcessSuccess(data));
+  return message.success(`${data.msg}`);
+}
+
 export default function* () {
   yield takeLatest(TYPES.INITSEARCH, searchSaga);
   yield takeLatest(TYPES.SEARCHLIST, searchFailedAddrListSaga);
@@ -127,4 +151,6 @@ export default function* () {
   yield takeLatest(TYPES.RECHECKORDER, recheckOrderSaga);
   yield takeLatest(TYPES.BATCHDELETE, batchDeleteSaga);
   yield takeLatest(TYPES.BATCHRECHECK, batchRecheckSaga);
+  yield takeLatest(TYPES.BATCHRREVIEWED, batchrReviewedSaga);
+  yield takeLatest(TYPES.BATCHPROCESS, batchProcessSaga);
 }

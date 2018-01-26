@@ -13,7 +13,7 @@ import moment from 'moment';
 import Pagination from '../../publicComponent/pagination';
 import {
   commit, initSearch, searchList, deleteOrder, auditOrder,
-  exportOrder, processOrder, recheckOrder, batchDelete, batchRecheck,
+  exportOrder, processOrder, recheckOrder, batchDelete, batchRecheck, batchrReviewed, batchProcess,
 } from './action';
 
 import styles from './style.css';
@@ -100,7 +100,7 @@ class Index extends Component {
       title: __('failedaddrorder.list.operation'),
       dataIndex: 'operation',
       key: 'operation',
-      width: 400,
+      // width: 400,
       render: (text, record, index) => (<div>
         <Link to={`/order/details/edit-address/${record.order_id}/${record.billno}`} target="_blank">{__('failedaddrorder.list.editAddr')}</Link>
         {record.button.recheck != 0 && (<Button style={{ marginLeft: '5px' }} onClick={() => this.showConfirm1({ id: record.order_id, myIndex: index })}>{__('failedaddrorder.list.recheck')}</Button>)}
@@ -162,6 +162,58 @@ class Index extends Component {
       });
     }
   }
+
+  doBatchReviewed() {
+    const that = this;
+    if (this.state.selectedRowKeys.length == 0) {
+      message.warning(`${__('failedaddrorder.list.text1')}`);
+    } else {
+      const temp = [];
+      that.state.selectedRows.map((item) => {
+        temp.push(item.id);
+      });
+      confirm({
+        title: __('failedaddrorder.list.text5'),
+        okText: __('failedaddrorder.list.text3'),
+        okType: 'danger',
+        cancelText: __('failedaddrorder.list.text4'),
+        onOk() {
+          that.props.dispatch(batchrReviewed(temp));
+          that.setState({
+            selectedRowKeys: [],
+            selectedRows: [],
+          });
+        },
+      });
+    }
+  }
+
+
+  doBatchProcess() {
+    const that = this;
+    if (this.state.selectedRowKeys.length == 0) {
+      message.warning(`${__('failedaddrorder.list.text1')}`);
+    } else {
+      const temp = [];
+      that.state.selectedRows.map((item) => {
+        temp.push(item.id);
+      });
+      confirm({
+        title: __('failedaddrorder.list.text5'),
+        okText: __('failedaddrorder.list.text3'),
+        okType: 'danger',
+        cancelText: __('failedaddrorder.list.text4'),
+        onOk() {
+          that.props.dispatch(batchProcess(temp));
+          that.setState({
+            selectedRowKeys: [],
+            selectedRows: [],
+          });
+        },
+      });
+    }
+  }
+
   do3() {
     const that = this;
     if (this.state.selectedRowKeys.length == 0) {
@@ -250,7 +302,7 @@ class Index extends Component {
     } = this.props;
     const {
       billno, package_no, user_name, commitTime, current, page_size,
-      status, site_from, ship_method, payment_method, type, is_delete,
+      status, site_from, ship_method, payment_method, type, is_delete, countries,
     } = queryString;
     const selectedRowKeys = this.state.selectedRowKeys;
     const rowSelection = {
@@ -335,10 +387,17 @@ class Index extends Component {
             <div className={styles.rowSpaceList}>
               <span className={styles.filterName}>{__('failedaddrorder.list.site_from')}:</span>
               <Select
-                allowClear
                 className={styles.colSpace}
+                mode="multiple"
+                placeholder="Please select"
                 style={{ width: '150px', marginRight: '10px' }}
                 value={site_from}
+                filterOption={(inputValue, option) => {
+                  if (option.props.children[1].indexOf(inputValue.toString()) > -1) {
+                    return true;
+                  }
+                  return false;
+                }}
                 onChange={val => dispatch(commit('site_from', val))}
               >
                 {
@@ -408,6 +467,24 @@ class Index extends Component {
                 }
               </Select>
             </div>
+            {/* 国家 */}
+            <div className={styles.rowSpaceList}>
+              <span className={styles.filterName}>{__('failedaddrorder.list.country')}:</span>
+              <Select
+                mode="multiple"
+                placeholder="Please select"
+                className={styles.colSpace}
+                style={{ width: '150px', marginRight: '10px' }}
+                value={countries}
+                onChange={val => dispatch(commit('countries', val))}
+              >
+                {
+                  initData.country.map(item => (
+                    <Option key={item.id} value={item.id} > {item.name}</Option>
+                  ))
+                }
+              </Select>
+            </div>
             {/* 提交时间 */}
             <div className={styles.rowSpaceList}>
               <span className={styles.filterName}>{__('failedaddrorder.list.commitTime')}:</span>
@@ -442,12 +519,30 @@ class Index extends Component {
               <Button
                 size="small"
                 style={{ marginLeft: '5px' }}
+                onClick={() => {
+                  this.doBatchReviewed();
+                }}
+              >
+                {__('failedaddrorder.list.BatchReviewed')}
+              </Button>
+              <Button
+                size="small"
+                style={{ marginLeft: '5px' }}
+                onClick={() => {
+                  this.doBatchProcess();
+                }}
+              >
+                {__('failedaddrorder.list.BatchProcessed')}
+              </Button>
+              <Button
+                size="small"
+                style={{ marginLeft: '5px' }}
                 onClick={() => this.do3()}
               >
                 {__('failedaddrorder.list.piliangdaochu')}
               </Button>
               <Button
-                style={{ marginLeft: '60px' }}
+                style={{ marginLeft: '30px' }}
                 type="primary"
                 icon="search"
                 loading={loadding1}
@@ -466,9 +561,9 @@ class Index extends Component {
             dataSource={dataList}
             loading={loadding1}
             columns={this.columns}
-           // size="small"
             pagination={false}
-            scroll={{ y: 450, x: 2000 }}
+            scroll={{ y: 450, x: 2200 }}
+            bordered
           />
           <Pagination
             total={parseInt(total, 10)}

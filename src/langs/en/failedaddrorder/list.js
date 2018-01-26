@@ -35,4 +35,7 @@ module.exports = {
   text6: 'Are you sure export this task?',
   text7: 'Are you sure audit this task?',
   text8: 'Are you sure process this task?',
+  country: 'country',
+  BatchReviewed: 'BatchReviewed',
+  BatchProcessed: 'BatchProcessed',
 };
