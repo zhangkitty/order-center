@@ -178,8 +178,11 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                           placeholder={__('order.entry.cash_content10')} // 银行代码
                           style={{ width: 150, marginLeft: '5px' }}
                           value={v.bank_code}
-                          onChange={e => onC(dispatch, submitValue, i, {
-                            bank_code: e.target.value })}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return onC(dispatch, submitValue, i, {
+                              bank_code: e.target.value });
+                          }}
                         />
                       }
                       {
@@ -188,16 +191,22 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                             placeholder={__('order.entry.cash_content11')} // 银行卡号
                             style={{ width: 150, marginLeft: '5px' }}
                             value={v.card_number}
-                            onChange={e => onC(dispatch, submitValue, i, {
-                              card_number: e.target.value })}
+                            onChange={(e) => {
+                              if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                              return onC(dispatch, submitValue, i, {
+                                card_number: e.target.value });
+                            }}
                           />
                           :
                           <Input
                             placeholder={__('order.entry.cash_content7')} // 输入正确的账户信息
                             style={{ width: 150, marginLeft: '5px' }}
                             value={v.account}
-                            onChange={e => onC(dispatch, submitValue, i, {
-                              account: e.target.value })}
+                            onChange={(e) => {
+                              if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                              return onC(dispatch, submitValue, i, {
+                                account: e.target.value });
+                            }}
                           />
                       }
                       {
@@ -206,8 +215,11 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                           placeholder={__('order.entry.cash_content12')} // 顾客姓名
                           style={{ width: 150, marginLeft: '5px' }}
                           value={v.customer}
-                          onChange={e => onC(dispatch, submitValue, i, {
-                            customer: e.target.value })}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return onC(dispatch, submitValue, i, {
+                              customer: e.target.value });
+                          }}
                         />
                       }
                       {
@@ -216,11 +228,13 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                           placeholder={__('order.entry.cash_content13')} // 发卡城市
                           style={{ width: 150, marginLeft: '5px' }}
                           value={v.issuing_city}
-                          onChange={e => onC(dispatch, submitValue, i, {
-                            issuing_city: e.target.value })}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return onC(dispatch, submitValue, i, {
+                              issuing_city: e.target.value });
+                          }}
                         />
                       }
-
                     </div>
                   }
                 </div>

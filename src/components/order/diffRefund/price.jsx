@@ -156,7 +156,8 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                         required
                         value={bank_code}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'bank_code', e.target.value));
+                          if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                          return dispatch(changeChannelValue(refundPathId, 'bank_code', e.target.value));
                         }}
                       />
                       <Input
@@ -166,7 +167,8 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                         required
                         value={card_number}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'card_number', e.target.value));
+                          if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                          return dispatch(changeChannelValue(refundPathId, 'card_number', e.target.value));
                         }}
                       />
                       <Input
@@ -176,7 +178,8 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                         required
                         value={customer}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'customer', e.target.value));
+                          if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                          return dispatch(changeChannelValue(refundPathId, 'customer', e.target.value));
                         }}
                       />
                       <Input
@@ -186,7 +189,8 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                         required
                         value={issuing_city}
                         onChange={(e) => {
-                          dispatch(changeChannelValue(refundPathId, 'issuing_city', e.target.value));
+                          if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                          return dispatch(changeChannelValue(refundPathId, 'issuing_city', e.target.value));
                         }}
                       />
                     </span>
@@ -219,7 +223,10 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                       className={style.priceInput}
                       disabled={!checked}
                       value={account}
-                      onChange={e => dispatch(changeChannelValue(refundPathId, 'account', e.target.value))}
+                      onChange={(e) => {
+                        if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                        return dispatch(changeChannelValue(refundPathId, 'account', e.target.value));
+                      }}
                     />
                 }
               </div>

@@ -238,26 +238,6 @@ class Refund extends Component {
                 e.preventDefault();
                 if (!refund_method) {
                   return message.warning(__('common.submitTitle3'));
-                } else if (
-                  +refund_method !== 3 && (!!account_info && account_info.trim().length === 0)
-                ) {
-                  return message.warning(__('common.submitTitle3'));
-                } else if (
-                  +refund_method === 3 && (!!bank_code && bank_code.trim().length === 0)
-                ) {
-                  return message.warning(__('common.submitTitle3'));
-                } else if (
-                  +refund_method === 3 && (!!card_number && card_number.trim().length === 0)
-                ) {
-                  return message.warning(__('common.submitTitle3'));
-                } else if (
-                  +refund_method === 3 && (!!customer && customer.trim().length === 0)
-                ) {
-                  return message.warning(__('common.submitTitle3'));
-                } else if (
-                  +refund_method === 3 && (!!issuing_city && issuing_city.trim().length === 0)
-                ) {
-                  return message.warning(__('common.submitTitle3'));
                 }
                 return dispatch(refundAccount(assign({},
                   refund_account,

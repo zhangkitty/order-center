@@ -125,7 +125,10 @@ class cashRefund extends Component {
                         placeholder={__('order.entry.cash_content7')}// 请输入正确的退款账户信息
                         className={style.priceInput}
                         value={account}
-                        onChange={e => dispatch(subchange('account', e.target.value))}
+                        onChange={(e) => {
+                          if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                          return dispatch(subchange('account', e.target.value));
+                        }}
                       />
                     }
 
@@ -137,30 +140,40 @@ class cashRefund extends Component {
                           placeholder={__('order.entry.cash_content10')} // 请输入银行代码
                           className={style.priceInput}
                           value={bankCode}
-                          onChange={e => dispatch(subchange('bankCode', e.target.value))}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(subchange('bankCode', e.target.value));
+                          }}
                         />
                         <Input
                           placeholder={__('order.entry.cash_content11')} // 请输入银行卡号-账户信息
                           className={style.priceInput}
                           value={cardNumber}
-                          onChange={e => dispatch(subchange('cardNumber', e.target.value))}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(subchange('cardNumber', e.target.value));
+                          }}
                         />
                         <Input
                           placeholder={__('order.entry.cash_content12')} // 请输入顾客姓名
                           className={style.priceInput}
                           value={customer}
-                          onChange={e => dispatch(subchange('customer', e.target.value))}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(subchange('customer', e.target.value));
+                          }}
                         />
                         <Input
                           placeholder={__('order.entry.cash_content13')} // 请输入发卡城市
                           className={style.priceInput}
                           value={issuingCity}
-                          onChange={e => dispatch(subchange('issuingCity', e.target.value))}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(subchange('issuingCity', e.target.value));
+                          }}
                         />
                       </span>
                     }
-
-
                   </div>
                 )}
 
