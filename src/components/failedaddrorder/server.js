@@ -23,7 +23,10 @@ export const initSearch = (page) => {
 export const searchFailedAddrList = (data) => {
   return fetch(`${list.searchList}`, {
     method: 'post',
-    body: JSON.stringify(data),
+    body: JSON.stringify(assign({},data,{
+      countries:data.countries.join(','),
+      site_from:data.site_from.join(',')
+    })),
   })
 };
 
@@ -61,3 +64,16 @@ export const exportOrder = (data) => {
     body: JSON.stringify(data),
   })
 };
+
+export const batchrReviewedSer=(data)=>{
+  console.log(data)
+  return fetch(`/OrderCheckAddress/auditAddress?ids=${data}`,{
+    method:'get',
+  })
+}
+
+export const batchProcessSer=(data)=>{
+  return fetch(`/OrderCheckAddress/process?id=${data}`,{
+    method:'get'
+  })
+}

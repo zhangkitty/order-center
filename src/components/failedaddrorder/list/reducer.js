@@ -13,13 +13,14 @@ const defaultState = {
     user_name: '',
     commitTime: [],
     status: 0,
-    site_from: '',
+    site_from: [],
     ship_method: '',
     payment_method: '',
     is_delete: 0,
     type: '',
     current: 1,
     page_size: 10,
+    countries: [],
   },
   loadding1: false,
   loadding2: false,
@@ -29,6 +30,7 @@ const defaultState = {
     payment_method: [],
     is_delete: [],
     type: [],
+    country: [],
   },
   total: 0,
   dataList: [],
@@ -37,6 +39,10 @@ const defaultState = {
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
+    case TYPES.CHANGE:
+      return assign({}, state, {
+        [action.key]: action.val,
+      });
     case TYPES.COMMIT:
       return assign({}, state, {
         queryString: assign({}, state.queryString, {
@@ -48,6 +54,7 @@ const reducer = (state = defaultState, action) => {
         initData: {
           status: action.data.data.status || [],
           site_from: action.data.data.site_from || [],
+          country: action.data.data.countries || [],
           payment_method: action.data.data.payment_method || [],
           is_delete: action.data.data.is_delete || [],
           type: action.data.data.type || [],
@@ -149,7 +156,7 @@ const reducer = (state = defaultState, action) => {
         loadding1: true,
       });
     case TYPES.BATCHRECHECKSUCCESS:
-      const temp5 = state.dataList;
+      const temp5 = assign([], state.dataList, []);
       action.data.data.map((k) => {
         temp5.map((m, index) => {
           if (m.id == k.id) {
@@ -160,6 +167,30 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         loadding1: false,
         dataList: temp5,
+      });
+    case TYPES.BATCHRREVIEWEDSUCCESS:
+      const temp6 = assign([], state.dataList, []);
+      action.data.data.map((k) => {
+        temp6.map((m, index) => {
+          if (m.id == k.id) {
+            temp6[index] = k;
+          }
+        });
+      });
+      return assign({}, state, {
+        dataList: temp6,
+      });
+    case TYPES.BATCHPROCESSSUCCESS:
+      const temp7 = assign([], state.dataList, []);
+      action.data.data.map((k) => {
+        temp7.map((m, index) => {
+          if (m.id == k.id) {
+            temp7[index] = k;
+          }
+        });
+      });
+      return assign({}, state, {
+        dataList: temp7,
       });
     case TYPES.BATCHRECHECKFAIL:
       return assign({}, state, {
