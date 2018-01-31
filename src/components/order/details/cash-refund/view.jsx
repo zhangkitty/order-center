@@ -189,7 +189,8 @@ class cashRefund extends Component {
                           <span>账户：{refundMethodTitle}, 账户信息：{accountTitle}</span>
                           :
                           <span>
-                            银行代码：{bankCodeTitle}, 银行卡号：{cardNumberTitle},&nbsp;
+                            账户：{refundMethodTitle}, 银行代码：{bankCodeTitle},&nbsp;
+                            银行卡号：{cardNumberTitle},&nbsp;
                             顾客姓名：{customerTitle}, 发卡城市：{issuingCityTitle}
                           </span>
                       }
