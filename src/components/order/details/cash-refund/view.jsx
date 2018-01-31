@@ -29,6 +29,7 @@ class cashRefund extends Component {
     const {
       ready, submitLoad, submitValue, dispatch, submitDisabled,
       refundTypeList, refundAccountTypeList, canWithdrawAmount, notWithdrawAmount,
+      valueTitle,
     } = this.props;
     const {
       refundBillId, refundPaths, remark, refundType, orderId,
@@ -38,6 +39,14 @@ class cashRefund extends Component {
       customer,
       issuingCity,
     } = submitValue;
+    const {
+      refundMethodTitle,
+      accountTitle,
+      bankCodeTitle,
+      cardNumberTitle,
+      customerTitle,
+      issuingCityTitle,
+    } = valueTitle;
     return (
       ready ?
         <form
@@ -174,6 +183,17 @@ class cashRefund extends Component {
                         />
                       </span>
                     }
+                    <div className={style.tipStyle} style={{ margin: '0 0 5px 15px' }}>
+                      {
+                        refundMethodTitle !== 'yes bank' ?
+                          <span>账户：{refundMethodTitle}, 账户信息：{accountTitle}</span>
+                          :
+                          <span>
+                            银行代码：{bankCodeTitle}, 银行卡号：{cardNumberTitle},&nbsp;
+                            顾客姓名：{customerTitle}, 发卡城市：{issuingCityTitle}
+                          </span>
+                      }
+                    </div>
                   </div>
                 )}
 
@@ -213,6 +233,7 @@ cashRefund.propTypes = {
   params: PropTypes.shape(),
   orderId: PropTypes.string,
   submitValue: PropTypes.shape(),
+  valueTitle: PropTypes.shape(),
   refundTypeList: PropTypes.arrayOf(PropTypes.shape()),
   refundAccountTypeList: PropTypes.arrayOf(PropTypes.shape()),
   canWithdrawAmount: PropTypes.string,

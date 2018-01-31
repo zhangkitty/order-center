@@ -40,6 +40,14 @@ const defaultState = {
     notWithdrawAmount: '',   // 不可提现金额（下单时的币种）
     remark: '',
   },
+  valueTitle: { // 提示
+    refundMethodTitle: '',
+    accountTitle: null,
+    bankCodeTitle: '',
+    cardNumberTitle: '',
+    customerTitle: '',
+    issuingCityTitle: '',
+  },
 };
 // 取最小值
 function min(a, b) {
@@ -89,12 +97,20 @@ const reducer = (state = defaultState, action) => {
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
           max, // 金额最大值（下单币种
-          refundMethod: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
-          account: under2Camal(action.res).orderRefundUnderlineAccount.accountInfo,
-          bankCode: under2Camal(action.res).orderRefundUnderlineAccount.bankCode,
-          cardNumber: under2Camal(action.res).orderRefundUnderlineAccount.cardNumber,
-          customer: under2Camal(action.res).orderRefundUnderlineAccount.customerName,
-          issuingCity: under2Camal(action.res).orderRefundUnderlineAccount.issuingCity,
+          // refundMethod: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
+          // account: under2Camal(action.res).orderRefundUnderlineAccount.accountInfo,
+          // bankCode: under2Camal(action.res).orderRefundUnderlineAccount.bankCode,
+          // cardNumber: under2Camal(action.res).orderRefundUnderlineAccount.cardNumber,
+          // customer: under2Camal(action.res).orderRefundUnderlineAccount.customerName,
+          // issuingCity: under2Camal(action.res).orderRefundUnderlineAccount.issuingCity,
+        }),
+        valueTitle: assign({}, state.valueTitle, {  // 提示
+          refundMethodTitle: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
+          accountTitle: under2Camal(action.res).orderRefundUnderlineAccount.accountInfo,
+          bankCodeTitle: under2Camal(action.res).orderRefundUnderlineAccount.bankCode,
+          cardNumberTitle: under2Camal(action.res).orderRefundUnderlineAccount.cardNumber,
+          customerTitle: under2Camal(action.res).orderRefundUnderlineAccount.customerName,
+          issuingCityTitle: under2Camal(action.res).orderRefundUnderlineAccount.issuingCity,
         }),
       });
     case TYPES.GET_REASON_SUCCESS:
