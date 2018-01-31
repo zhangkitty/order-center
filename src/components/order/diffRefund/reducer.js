@@ -139,6 +139,7 @@ const reducer = (state = defaultState, action) => {
         })),
         maxTips: getMax(action.data),
         orderPriceInfo: action.data.orderPriceInfo,
+        isCod: action.data.orderPriceInfo.isCod,
         loading: false,
         isUsd: action.data.isUsd,
       });

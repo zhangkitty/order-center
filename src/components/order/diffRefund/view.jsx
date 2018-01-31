@@ -1,6 +1,9 @@
 /**
  *  Create by zhangcaochao on 2017/9/10
  *  差价退款
+ *  提交时：
+ *  refundPathId < 3  ,不需要退款账号信息，退款账号信息置空
+ *  refundPathId =3 && 不是cod,不需要退款账号信息，退款账号信息置空
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -28,6 +31,7 @@ class DiffRefund extends Component {
     const {
       ready, dispatch, ReasonList, reason, remark, order_id, refundPaths, orderPriceInfo,
       maxTips, submitLoad, submitdisabled,
+      isCod,   // 是否cod
     } = this.props;
     return (
       ready ?
@@ -39,6 +43,23 @@ class DiffRefund extends Component {
                 // if (x.refund_method === '其他' || x.refund_method === 'others') {
                 //   x.refund_method = x.refund_method1;
                 // }
+                // refundPathId < 3  ,不需要退款账号信息
+                // refundPathId =3 && 不是cod,不需要退款账号信息
+                if (x.refundPathId < 3) {
+                  x.refund_method = null;
+                  x.account = null;
+                  x.bank_code = null;
+                  x.customer = null;
+                  x.issuing_city = null;
+                  x.card_number = null;
+                } else if (x.refundPathId === 3 && !isCod) {
+                  x.refund_method = null;
+                  x.account = null;
+                  x.bank_code = null;
+                  x.customer = null;
+                  x.issuing_city = null;
+                  x.card_number = null;
+                }
                 return x;
               });
               if (!refund_paths.length || !reason) {
@@ -114,6 +135,7 @@ DiffRefund.propTypes = {
   maxTips: PropTypes.shape(),
   submitLoad: PropTypes.bool,
   submitdisabled: PropTypes.bool,
+  isCod: PropTypes.bool,
 };
 
 const mapStateToProps = state => state['order/diffRefund'];
