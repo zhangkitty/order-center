@@ -30,4 +30,9 @@ export const BATCHDELETEFAIL = `${prefix}batch_del_fail`;
 export const BATCHRECHECK = `${prefix}batch_recheck`;
 export const BATCHRECHECKSUCCESS = `${prefix}batch_recheck_suc`;
 export const BATCHRECHECKFAIL = `${prefix}batch_recheck_fail`;
+export const BATCHRREVIEWED = `${prefix}batchrreviewed`;
+export const BATCHRREVIEWEDSUCCESS = `${prefix}batchrreviewedsuccess`;
+
+export const BATCHPROCESS = `${prefix}batchprocess`;
+export const BATCHPROCESSSUCCESS = `${prefix}batchprocesssuccess`;
 
