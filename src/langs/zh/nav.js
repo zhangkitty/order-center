@@ -17,5 +17,5 @@ module.exports = {
   failedaddrorder: '地址校验失败列表',
   tracktrouble: '物流问题列表',
   order_export: '订单信息导出',
-  GrabOrder:'手工抓取订单',
+  GrabOrder: '手工抓取订单',
 };
