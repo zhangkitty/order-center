@@ -191,7 +191,7 @@ const SingleRow = (props) => {
                 dispatch(change('batchChooseOrder', batchChooseOrder.filter(v => v !== data.order_id)));
               }
             }}
-          >{ data.billno }</Checkbox>
+          >{data.billno}</Checkbox>
           {/*  全选 */}
           <Button
             className={Styles.orderSelect}
@@ -202,8 +202,8 @@ const SingleRow = (props) => {
                 return value;
               });
               let arr = data.order_goods
-                              .filter(v => checkboxChecked[v.goods_status])
-                              .map(v => v.order_goods_id);
+                .filter(v => checkboxChecked[v.goods_status])
+                .map(v => v.order_goods_id);
               if (arr.length) {
                 if (batchChooseGoods.length === arr.length) {
                   arr = [];
@@ -218,7 +218,7 @@ const SingleRow = (props) => {
             }}
           >{__('common.allChoose')}</Button>
 
-          <span>{__('common.Qty')} { data.goods_quantity }</span>
+          <span>{__('common.Qty')} {data.goods_quantity}</span>
           <span>
             {data.email}
             {/*  history */}
@@ -233,7 +233,7 @@ const SingleRow = (props) => {
               }
             >{data.buy_cnt}</a>)
           </span>
-          <span>{ data.member_level }</span> <span>{data.pay_time}</span>
+          <span>{data.member_level}</span> <span>{data.pay_time}</span>
           <span> {data.site_from}</span> <span>{data.country_name}</span>
         </div>
         <div className={Styles.orderTitleR}>
@@ -254,7 +254,12 @@ const SingleRow = (props) => {
             type: 'checkbox',
             selectedRowKeys: batchChooseGoods,
             getCheckboxProps: rec => ({
-              disabled: checkboxChecked[rec.goods_status] === undefined || rec.is_replace === '2',
+              disabled: (function () {
+                if (rec.goods_status === '57' && rec.payment_method!== 'cod') {
+                  return false;
+                }
+                return checkboxChecked[rec.goods_status] === undefined || rec.is_replace === '2';
+              }(rec)),
             }),
             onChange: (selectedRowKeys, selectedRows) => {
               dispatch(change('BulkReturnInfo', selectedRows));
@@ -274,6 +279,7 @@ const SingleRow = (props) => {
                 val.submitValue = [];
                 val.order_id = v.order_id;
                 val.billno = v.billno;
+                val.payment_method = v.payment_method;
                 return val;
               })
             );
@@ -375,7 +381,8 @@ const SingleRow = (props) => {
 
                 {/* 换货 */}
                 {
-                  changshow[rec.goods_status] && Number(rec.is_replace) !== 2 ?
+                  (rec.goods_status === '57' && rec.payment_method !== 'cod')
+                  || (changshow[rec.goods_status] && Number(rec.is_replace) !== 2) ?
                     <span
                       onClick={() => {
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
@@ -409,7 +416,7 @@ const SingleRow = (props) => {
       <div className={Styles.orderOperateBg}>
 
         <div className={Styles.orderOperate}>
-          { data.goods_quantity > 1 ?
+          {data.goods_quantity > 1 ?
             <div style={{ height: '30px' }} />
             : null
           }
@@ -573,19 +580,19 @@ const SingleRow = (props) => {
 
               }
             >{lan.积分补偿}</Button> :
-              null
+            null
           }
           {/* 批量换货 */}
           <Button
             onClick={
-                () => {
-                  if (BulkReturnInfo.length > 0) {
-                    dispatch(change('ExchangeShow', true));
-                  } else {
-                    return message.info(lan.没有选择换货商品);
-                  }
+              () => {
+                if (BulkReturnInfo.length > 0) {
+                  dispatch(change('ExchangeShow', true));
+                } else {
+                  return message.info(lan.没有选择换货商品);
                 }
               }
+            }
           >
             {lan.换货}
           </Button>
