@@ -44,4 +44,3 @@ export const initCountrySuccess = data => ({
   type: TYPES.INIT_COUNTRY_SUCCESS,
   data,
 });
-

@@ -16,7 +16,7 @@ import * as TYPES from './types';
 
 function* searchSaga(action) {
   const {
-    return_order_id, order_no, email, tracking_no, good_sn, sort_by,
+    return_order_id, order_no, email, tracking_no, good_sn, sort_by, LogisticsChannels,
   } = action.data;
   const data = yield searchSubmit(assign({}, action.data, {
     return_order_id: return_order_id ? encodeURIComponent(return_order_id.trim()) : null,
@@ -25,6 +25,7 @@ function* searchSaga(action) {
     tracking_no: tracking_no ? encodeURIComponent(tracking_no.trim()) : null,
     good_sn: good_sn ? encodeURIComponent(good_sn.trim()) : null,
     sort_by,
+    shipping_type: LogisticsChannels,
   }));
   if (!data || data.code !== 0) {
     yield put(change('searchLoad', false));

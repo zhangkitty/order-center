@@ -20,6 +20,7 @@ const defaultState = {
   fetchOrderType: [],   // 退货单类型
   fetchPayment: [],   // 是否COD
   fetchTimeTag: [],   // 时间标识
+  LogisticsChannelsArray: [], // 物流渠道
   exportData: null,
   queryString: {
     page_size: 10,
@@ -29,6 +30,7 @@ const defaultState = {
     email: null,
     tracking_no: null,
     good_sn: null,
+    LogisticsChannels: '全部', // 物流渠道
     source_site: '', // 站点，多选
     receiver_country: '', // 国家，多选
     insurance_states: '0', // 退货险
@@ -103,6 +105,7 @@ const reducer = (state = defaultState, action) => {
         fetchOrderType: action.data.data.order_type,   // 退货单类型
         fetchPayment: action.data.data.payment,   // 是否COD
         fetchTimeTag: action.data.data.time_tag,  // 时间标识
+        LogisticsChannelsArray: action.data.data.shipping_method,
         load: false,
       });
     default:
