@@ -35,4 +35,7 @@ module.exports = {
   text6: '确定要导出该选择项？',
   text7: '确定要审核该选择项？',
   text8: '确定要处理该选择项？',
+  country: '国家',
+  BatchReviewed: '批量已审核',
+  BatchProcessed: '批量已处理',
 };

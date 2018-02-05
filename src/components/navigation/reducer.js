@@ -120,6 +120,12 @@ const menus = [
         crumbName: __('nav.tracktrouble'),
         nav: true,
       },
+      {
+        link: '/manually-grab-the-order',  // 手工抓取订单
+        name: __('nav.GrabOrder'),
+        crumbName: __('nav.GrabOrder'),
+        nav: true,
+      },
     ],
   },
 ];
@@ -142,8 +148,8 @@ const defaultState = {
 };
 
 const routerMatch = current => linkList
-    .filter(({ link }) => (link === '/' || `${current}/`.startsWith(`${link}/`)))
-    .sort((item1, item2) => item1.link.length > item2.link.length);
+  .filter(({ link }) => (link === '/' || `${current}/`.startsWith(`${link}/`)))
+  .sort((item1, item2) => item1.link.length > item2.link.length);
 
 
 export default (state = defaultState, action) => {

@@ -106,10 +106,32 @@ export const batchRecheck = data => ({
   type: TYPES.BATCHRECHECK,
   data,
 });
+
+export const batchrReviewed = data => ({
+  type: TYPES.BATCHRREVIEWED,
+  data,
+});
+
 export const batchRecheckSuccess = data => ({
   type: TYPES.BATCHRECHECKSUCCESS,
   data,
 });
 export const batchRecheckFail = () => ({
   type: TYPES.BATCHRECHECKFAIL,
+});
+
+export const batchrReviewedSuccess = data => ({
+  type: TYPES.BATCHRREVIEWEDSUCCESS,
+  data,
+});
+
+
+export const batchProcess = data => ({
+  type: TYPES.BATCHPROCESS,
+  data,
+});
+
+export const batchProcessSuccess = data => ({
+  type: TYPES.BATCHPROCESSSUCCESS,
+  data,
 });

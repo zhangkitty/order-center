@@ -216,6 +216,7 @@ function* batchCheckSaga(action) {
     return message.error(`${__('common.sagaTitle22')}${data.msg}`);
   }
   message.success(__('common.sagaTitle27'));
+  yield put(change('batchChooseOrder', []));
   return yield put(batchCheckSuccess(action.data));
 }
 
