@@ -189,16 +189,16 @@ const SingleRow = (props) => {
             onClick={() => {
               const bulkarr = (data.order_goods.filter(v =>
                   checkboxChecked[v.goods_status]
-                  || (v.goods_status === '57' && v.payment_method !== 'cod')
-                  || (v.goods_status === '54' && v.country_name === 'India'),
+                  || (v.goods_status == 57 && v.payment_method !== 'cod')
+                  || (v.goods_status == 54 && v.country_name === 'India'),
               )).map((value) => {
                 value.site_from = data.site_from;
                 return value;
               });
               let arr = data.order_goods
                 .filter(v => checkboxChecked[v.goods_status]
-                  || (v.goods_status === '57' && v.payment_method !== 'cod')
-                  || (v.goods_status === '54' && v.country_name === 'India'),
+                  || (v.goods_status == 57 && v.payment_method !== 'cod')
+                  || (v.goods_status == 54 && v.country_name === 'India'),
                 )
                 .map(v => v.order_goods_id);
               if (arr.length) {
@@ -255,10 +255,10 @@ const SingleRow = (props) => {
             selectedRowKeys: batchChooseGoods,
             getCheckboxProps: rec => ({
               disabled: (function () {
-                if (rec.goods_status === '57' && rec.payment_method !== 'cod') {
+                if (rec.goods_status === 57 && rec.payment_method !== 'cod') {
                   return false;
                 }
-                if (rec.goods_status === '54' && rec.country_name === 'India') {
+                if (rec.goods_status === 54 && rec.country_name === 'India') {
                   return false;
                 }
                 return checkboxChecked[rec.goods_status] === undefined || rec.is_replace === '2';
@@ -395,8 +395,8 @@ const SingleRow = (props) => {
 
                 {/* 换货 */}
                 {
-                  (rec.goods_status === '57' && rec.payment_method !== 'cod')
-                  || (rec.goods_status === '54' && rec.country_name === 'India')
+                  (rec.goods_status == 57 && rec.payment_method !== 'cod')
+                  || (rec.goods_status == 54 && rec.country_name === 'India')
                   || (changshow[rec.goods_status] && Number(rec.is_replace) !== 2) ?
                     <span
                       onClick={() => {
