@@ -13,22 +13,6 @@ import {
 
 import Styles from './style.css';
 
-// 订单状态
-// '1' => '已付款',
-//  '2' => '已审核',
-//  '3' => '进行中'
-// '4' => '部分发货',
-//  '5' => '全部发货',
-//  '6' => '已签收',
-//  '7' => '已完成',
-//  '8' =>'已拒收',
-//  '9' => '已报损',
-//  '10' => '待自提',
-//  '11' => '派件异常',
-//  '12' => '派件中',
-//  '13' => '已经退款',
-//  '14' => '已取消',
-
 // 语言包
 const lan = {
   积分补偿: __('common.Integral_compensation'),
@@ -103,7 +87,7 @@ const changshow = {
   127: true, // 已退货
   130: true, // 有货南沙仓
 };
-// 不能选择商品的条件（商品状态=需要退款、已经退款、 COD客服取消、COD客户取消， 换货，删除换货）
+// 复选框可选入口（商品状态）
 const checkboxChecked = {
   1: true, // 已付款
   11: true, // 已审核
@@ -120,7 +104,6 @@ const checkboxChecked = {
   16: true, // 发货
   7: true, // 已经退款
   20: true, // 被换
-  // 54: true, // COD已签收
   91: true, // COD已报损
   77: true, // 'COD已拒收',
 };
@@ -197,12 +180,19 @@ const SingleRow = (props) => {
             className={Styles.orderSelect}
             size="small"
             onClick={() => {
-              const bulkarr = (data.order_goods.filter(v => checkboxChecked[v.goods_status])).map((value) => {
+              const bulkarr = (data.order_goods.filter(v =>
+                  checkboxChecked[v.goods_status]
+                  || (v.goods_status === '57' && v.payment_method !== 'cod')
+                  || (v.goods_status === '54' && v.country_name === 'India'),
+              )).map((value) => {
                 value.site_from = data.site_from;
                 return value;
               });
               let arr = data.order_goods
-                .filter(v => checkboxChecked[v.goods_status])
+                .filter(v => checkboxChecked[v.goods_status]
+                  || (v.goods_status === '57' && v.payment_method !== 'cod')
+                  || (v.goods_status === '54' && v.country_name === 'India'),
+                )
                 .map(v => v.order_goods_id);
               if (arr.length) {
                 if (batchChooseGoods.length === arr.length) {
@@ -255,7 +245,10 @@ const SingleRow = (props) => {
             selectedRowKeys: batchChooseGoods,
             getCheckboxProps: rec => ({
               disabled: (function () {
-                if (rec.goods_status === '57' && rec.payment_method!== 'cod') {
+                if (rec.goods_status === '57' && rec.payment_method !== 'cod') {
+                  return false;
+                }
+                if (rec.goods_status === '54' && rec.country_name === 'India') {
                   return false;
                 }
                 return checkboxChecked[rec.goods_status] === undefined || rec.is_replace === '2';
@@ -280,6 +273,7 @@ const SingleRow = (props) => {
                 val.order_id = v.order_id;
                 val.billno = v.billno;
                 val.payment_method = v.payment_method;
+                val.country_name = v.country_name;
                 return val;
               })
             );
@@ -382,6 +376,7 @@ const SingleRow = (props) => {
                 {/* 换货 */}
                 {
                   (rec.goods_status === '57' && rec.payment_method !== 'cod')
+                  || (rec.goods_status === '54' && rec.country_name === 'India')
                   || (changshow[rec.goods_status] && Number(rec.is_replace) !== 2) ?
                     <span
                       onClick={() => {
