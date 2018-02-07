@@ -147,7 +147,7 @@ form .colSpace2{
 }
 .tableFloat {
     background-color: #fff;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
     width: 600px;
     color: #333;
 }

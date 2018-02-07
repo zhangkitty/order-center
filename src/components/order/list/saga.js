@@ -28,7 +28,7 @@ import {
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
   delChangeFail, delChangeSuccess,
   batchCheckSuccess, batchDeleteSuccess, batchPartSuccess, getStockList,
-  getStockListSuccess, change, changeAllSource, changeBulkReturnInfo, changedataSource,
+  getStockListSuccess, change, changeAllSource, changeBulkReturnInfo, changedataSource, remarkShow,myCommit
 } from './action';
 
 import * as TYPES from './types';
@@ -121,6 +121,8 @@ function* remarkSaveSaga(action) {
     return yield put(remarkSaveFail());
   }
   message.success(__('common.sagaTitle13'));
+  yield put(remarkShow(action.orderId));
+  yield put(myCommit('remark', ''));
   return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
 

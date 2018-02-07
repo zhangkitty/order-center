@@ -206,12 +206,12 @@ export const changeSubmitValue = order_goods_id => ({
   order_goods_id,
 });
 
-//点击删除
-export const deleteSubmitValue = (order_goods_id,mysku)=>({
+// 点击删除
+export const deleteSubmitValue = (order_goods_id, mysku) => ({
   type: TYPES.DELETESUBMITVALUE,
   order_goods_id,
   mysku,
-})
+});
 export const goodSizeFail = () => ({
   type: TYPES.GOODS_SIZE_FAIL,
 });
@@ -403,5 +403,16 @@ export const changedataSource = (orderId, data) => ({
   type: TYPES.CHANGEDATASOURCE,
   orderId,
   data,
+});
+
+export const changeArray = id => ({
+  type: TYPES.CHANGEARRAY,
+  id,
+});
+
+export const myCommit = (key, val) => ({
+  type: TYPES.MYCOMMIT,
+  key,
+  val,
 });
 

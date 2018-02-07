@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin } from 'antd';
+import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin, Affix } from 'antd';
 import { Link } from 'react-router';
 import assign from 'object-assign';
 
@@ -8,7 +8,7 @@ import {
   change, remarkShow, openModal, searchHistory,
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange, commit,
-  getOrderRewardPointInfo,
+  getOrderRewardPointInfo, remarkSave, changeArray,
 } from './action';
 
 import Styles from './style.css';
@@ -18,6 +18,13 @@ const lan = {
   积分补偿: __('common.Integral_compensation'),
   换货: '换货',
   没有选择换货商品: '没有选择换货商品',
+  运费: '运费',
+  运费险: '运费险',
+  商品状态: '商品状态',
+  运单号: '运单号',
+  物流渠道: '物流渠道',
+  关闭备注: '关闭备注',
+  供应商: 'SKU供应商',
 };
 
 // 订单状态的标记
@@ -156,7 +163,7 @@ const SingleRow = (props) => {
     record, fetchOperation, operationVisible,
     logisticsVisible, remark, fetchLogisticsRemark, dataSource,
     batchChooseOrder, batchChooseGoods, cancelRiskDesc,
-    queryString3, selectAllStateStatus, BulkReturnInfo,
+    queryString3, selectAllStateStatus, BulkReturnInfo, remarkModal, loadUpdata, visible,
   } = props;
   const { siteFrom, memberId } = queryString3;
   const batchGoods = batchChooseGoods.join(',');
@@ -182,16 +189,16 @@ const SingleRow = (props) => {
             onClick={() => {
               const bulkarr = (data.order_goods.filter(v =>
                   checkboxChecked[v.goods_status]
-                  || (v.goods_status === '57' && v.payment_method !== 'cod')
-                  || (v.goods_status === '54' && v.country_name === 'India'),
+                  || (v.goods_status == 57 && v.payment_method !== 'cod')
+                  || (v.goods_status == 54 && v.country_name === 'India'),
               )).map((value) => {
                 value.site_from = data.site_from;
                 return value;
               });
               let arr = data.order_goods
                 .filter(v => checkboxChecked[v.goods_status]
-                  || (v.goods_status === '57' && v.payment_method !== 'cod')
-                  || (v.goods_status === '54' && v.country_name === 'India'),
+                  || (v.goods_status == 57 && v.payment_method !== 'cod')
+                  || (v.goods_status == 54 && v.country_name === 'India'),
                 )
                 .map(v => v.order_goods_id);
               if (arr.length) {
@@ -233,6 +240,9 @@ const SingleRow = (props) => {
           <span> {data.payment_method}</span>
           <span>{__('common.total')} {data.usd_price} </span>
           <span> {data.currency_price}</span>
+
+          <span>{lan.运费}:{data.shipping_price}</span>
+          <span>{lan.运费险}:{data.shipping_insurance}</span>
         </div>
       </div>
 
@@ -245,10 +255,10 @@ const SingleRow = (props) => {
             selectedRowKeys: batchChooseGoods,
             getCheckboxProps: rec => ({
               disabled: (function () {
-                if (rec.goods_status === '57' && rec.payment_method !== 'cod') {
+                if (rec.goods_status === 57 && rec.payment_method !== 'cod') {
                   return false;
                 }
-                if (rec.goods_status === '54' && rec.country_name === 'India') {
+                if (rec.goods_status === 54 && rec.country_name === 'India') {
                   return false;
                 }
                 return checkboxChecked[rec.goods_status] === undefined || rec.is_replace === '2';
@@ -299,8 +309,18 @@ const SingleRow = (props) => {
                     replaceGoods(res.is_replace, res.replace_goods_sort) // res.goods_status
                   }
                 </span>
-                <p>{__('order.name.goods_id')}: {res.goods_id}</p>
-                <p> {res.goods_attr}</p>
+                <p>
+                  <span style={{ display: 'inline-block', width: 150 }}>{__('order.name.goods_id')}: {res.goods_id}</span>
+                  <span>{lan.商品状态}:{res.goods_status_title}</span>
+                </p>
+                <p>
+                  <span style={{ display: 'inline-block', width: 150 }}>{res.goods_attr}</span>
+                  <span>{lan.运单号}:{res.shipping_no}</span>
+                </p>
+                <p>
+                  <span style={{ display: 'inline-block', width: 150 }}>{lan.供应商}:{/* res.supplier_id */}</span>
+                  <span>{lan.物流渠道}:{res.delivery_channel}</span>
+                </p>
               </div>
             ),
           }, {
@@ -375,8 +395,8 @@ const SingleRow = (props) => {
 
                 {/* 换货 */}
                 {
-                  (rec.goods_status === '57' && rec.payment_method !== 'cod')
-                  || (rec.goods_status === '54' && rec.country_name === 'India')
+                  (rec.goods_status == 57 && rec.payment_method !== 'cod')
+                  || (rec.goods_status == 54 && rec.country_name === 'India')
                   || (changshow[rec.goods_status] && Number(rec.is_replace) !== 2) ?
                     <span
                       onClick={() => {
@@ -489,39 +509,124 @@ const SingleRow = (props) => {
           {/*  差价退款 */}
           <Link to={`/order/diffRefund/${data.order_id}/2`} target="_blank">{__('common.order_operation3')}</Link>
 
-          {/*  备注 */}
-          <Popover
+          {/*  备注
+                    <Popover
             placement="bottomRight"
             trigger="click"
             arrowPointAtCenter
+            visible={data.popOvervisible}
+            autoAdjustOverflow={false}
             content={
-              <div className={Styles.tableFloat}>
-                <Table
-                  dataSource={fetchRemark}
-                  columns={columnsRemark} size="small"
-                  pagination={false}
-                  style={{ width: '600px', maxHeight: '400px', overflow: 'auto' }}
-                />
-                <Button
-                  style={{ margin: '10px' }}
-                  type="primary"
-                  onClick={() => dispatch(openModal(data.order_id))}
-                >
-                  {__('common.order_operation6')}
-                </Button>
-              </div>
+
             }
           >
             {
               Number(data.have_remark) === 1 ?
                 <Button
                   className={Styles.haveRemark}
-                  onClick={() => dispatch(remarkShow(data.order_id))}
+                  onClick={() => {
+                    // dispatch(change('popOvervisible', true));
+                    dispatch(remarkShow(data.order_id));
+                  }}
                 >{__('common.order_operation4')}</Button>
                 :
                 <Button onClick={() => dispatch(remarkShow(data.order_id))}>{__('common.order_operation4')}</Button>
             }
           </Popover>
+
+
+          */}
+          {
+            Number(data.have_remark) === 1 ?
+              <Button
+                className={Styles.haveRemark}
+                onClick={() => {
+                      // dispatch(change('popOvervisible', true));
+                  dispatch(remarkShow(data.order_id));
+                }}
+              >{__('common.order_operation4')}</Button>
+                :
+              <Button onClick={() => dispatch(remarkShow(data.order_id))}>{__('common.order_operation4')}</Button>
+          }
+          {
+            data.popOvervisible ?
+              <div style={{
+                position: 'fixed',
+                top: '200',
+                zIndex: 1000,
+                right: '20',
+                border: '1px solid #e9e9e9',
+                background: 'white',
+              }}
+              >
+                <div className={Styles.tableFloat}>
+                  <Table
+                    bordered={false}
+                    dataSource={fetchRemark}
+                    columns={columnsRemark}
+                      // size="small"
+                    pagination={false}
+                    style={{ width: '600px', maxHeight: '400px', overflow: 'auto' }}
+                  />
+                  <div style={{ display: 'flex' }}>
+                    {
+                      !visible ?
+                        <Button
+                          style={{ margin: '10px' }}
+                          type="primary"
+                          onClick={() => dispatch(change('visible', true))}
+                        >
+                          {__('common.order_operation6')}
+                        </Button>
+                          : null
+                    }
+                    {
+                      <Button
+                        style={{ margin: '10px' }}
+                        onClick={() => dispatch(changeArray(data.order_id))}
+                      >
+                        {lan.关闭备注}
+                      </Button>
+                    }
+                  </div>
+                  {
+                    visible ?
+                      <div style={{ margin: '30px 50px 15px' }}>
+                        <div>
+                          <div style={{ textAlign: 'left' }}>
+                            {__('common.order_operation6')}
+                          </div>
+                          <Input.TextArea
+                            style={{ margin: '10px auto' }}
+                            rows={3}
+                            value={remarkModal.remark}
+                            onChange={e => dispatch(change('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
+                          />
+                        </div>
+                        <Button
+                          key="submit"
+                          type="primary"
+                          loading={loadUpdata}
+                          onClick={() => {
+                            if (remarkModal.remark.trim().length === 0) {
+                              return message.warning(__('common.order_operation9'));
+                            }
+                            return dispatch(remarkSave(data.order_id, remarkModal.remark));
+                          }}
+                          style={{ marginRight: '20px' }}
+                        >
+                          {__('common.order_operation7')}
+                        </Button>
+                        <Button key="back" onClick={() => dispatch(change('visible', false))}>
+                          {__('common.order_operation8')}
+                        </Button>
+                      </div>
+                        : null
+                  }
+                </div>
+              </div> : null
+          }
+
 
           {/*  物流备注 */}
           <Popover
