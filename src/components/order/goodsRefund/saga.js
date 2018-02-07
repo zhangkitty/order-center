@@ -38,8 +38,8 @@ function* submitSaga(action) {
     message.error(`${__('order.goodsRefund.submit_fail')}: ${data.msg}`);
     return yield put(change('submitLoad', false));
   }
-  return message.success(__('common.sagaTitle23')); // TODO
-  // return setTimeout(window.close, 3000); // 关闭窗口
+  message.success(__('common.sagaTitle23'));
+  return setTimeout(window.close, 3000); // 关闭窗口
 }
 
 export default function* () {

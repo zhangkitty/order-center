@@ -66,7 +66,7 @@ class cashRefund extends Component {
                 refundPathId: 3,  // 写死
                 refundAmount: Number(refundAmount).toFixed(2),
                 refundCurrency: Number(refundCurrency).toFixed(2),
-              //  refundMethod: refundMethod === '其他' || refundMethod === 'others' ? refundMethod1 : refundMethod,
+                refundMethod,
                 account,
                 bankCode: refundMethod === 'yes bank' ? bankCode : '',
                 cardNumber: refundMethod === 'yes bank' ? cardNumber : '',
