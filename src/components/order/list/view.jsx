@@ -81,41 +81,6 @@ class orderList extends Component {
         <MyModal {...this.props} />
         {/* 换货modal */}
         <ExchangeshowModal {...this.props} />
-        {/* 备注提交 */}
-
-        <Modal
-          visible={visible}
-          onCancel={() => dispatch(change('visible', false))}
-          footer={null}
-        >
-          <div style={{ margin: '30px 50px 15px' }}>
-            <div>{__('common.order_operation6')}
-              <Input.TextArea
-                style={{ margin: '10px auto' }}
-                rows={3}
-                value={remarkModal.remark}
-                onChange={e => dispatch(change('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
-              />
-            </div>
-            <Button
-              key="submit"
-              type="primary"
-              loading={loadUpdata}
-              onClick={() => {
-                if (remarkModal.remark.trim().length === 0) {
-                  return message.warning(__('common.order_operation9'));
-                }
-                return dispatch(remarkSave(remarkModal.order_id, remarkModal.remark));
-              }}
-              style={{ marginRight: '20px' }}
-            >
-              {__('common.order_operation7')}
-            </Button>
-            <Button key="back" onClick={() => dispatch(change('visible', false))}>
-              {__('common.order_operation8')}
-            </Button>
-          </div>
-        </Modal>
         {/* 换货 */}
         <ChnageGoods {...this.props} />
         {/* 订单标记 */}

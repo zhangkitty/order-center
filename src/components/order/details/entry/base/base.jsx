@@ -12,6 +12,7 @@ const lan = {
   付款日期: __('order.entry.pay_date'),
   来源国家: __('order.entry.source_country'),
   基本信息: __('order.entry.base_desc'),
+  支付地址信息: '支付地址信息',
 };
 const info = {
   left: [
@@ -31,7 +32,7 @@ const info = {
 
 const Base = ({ dataSource: { base: { order_info: { basic_info } } } }) => (
   <Card
-    title={lan.基本信息}
+    title={lan.支付地址信息}
     bodyStyle={{ padding: '24px 10px' }}
    // bodyStyle={{ display: 'flex', maxWidth: '1200px' }}
     className={style.baseBg}

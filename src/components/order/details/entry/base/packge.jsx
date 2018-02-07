@@ -50,6 +50,7 @@ const lan = {
   fankuishow: __('order.entry.fankuishow'),
   chaifen: __('order.entry.chaifen'),
   yuanbaoguo: __('order.entry.yuanbaoguo'),
+  运单号: '运单号',
 };
 
 // 商品状态
@@ -267,6 +268,8 @@ const Packge = ({
                 {lan.huihuo}
               </Button>
                 )}
+              <span style={{ marginLeft: 5 }}>{lan.运单号}:</span>
+              <span>{rec.shipping_no}</span>
             </div>
             ),
         },
