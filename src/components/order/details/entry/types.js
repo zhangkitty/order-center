@@ -1,6 +1,7 @@
 const prefix = 'order_details_entry_';
 
 export const COMMIT = `${prefix}commit`;
+export const COMMIT_REFUND = `${prefix}commit_refund`;
 export const GET_INFO = `${prefix}get_info`;
 export const GET_INFO_SUCCESS = `${prefix}get_info_success`;
 export const UPLOAD_TRACK = `${prefix}upload_track`;
@@ -37,3 +38,7 @@ export const REMARK_SAVE_SUCCESS = `${prefix}remark_save_success`;
 
 export const TRACK_TROUBLE = `${prefix}track_trouble`;
 export const TRACK_TROUBLE_SUBMIT = `${prefix}track_trouble_submit`;
+
+// 填写退款账户
+export const REFUND_ACCOUNT = `${prefix}refund_account`;
+export const REFUND_ACCOUNT_SUCCESS = `${prefix}refund_account_success`;

@@ -29,11 +29,24 @@ class cashRefund extends Component {
     const {
       ready, submitLoad, submitValue, dispatch, submitDisabled,
       refundTypeList, refundAccountTypeList, canWithdrawAmount, notWithdrawAmount,
+      valueTitle,
     } = this.props;
     const {
       refundBillId, refundPaths, remark, refundType, orderId,
       refundPathId, refundMethod, account, refundAmount, refundMethod1, refundCurrency,
+      bankCode,
+      cardNumber,
+      customer,
+      issuingCity,
     } = submitValue;
+    const {
+      refundMethodTitle,
+      accountTitle,
+      bankCodeTitle,
+      cardNumberTitle,
+      customerTitle,
+      issuingCityTitle,
+    } = valueTitle;
     return (
       ready ?
         <form
@@ -53,8 +66,12 @@ class cashRefund extends Component {
                 refundPathId: 3,  // 写死
                 refundAmount: Number(refundAmount).toFixed(2),
                 refundCurrency: Number(refundCurrency).toFixed(2),
-                refundMethod: refundMethod === '其他' || refundMethod === 'others' ? refundMethod1 : refundMethod,
+              //  refundMethod: refundMethod === '其他' || refundMethod === 'others' ? refundMethod1 : refundMethod,
                 account,
+                bankCode: refundMethod === 'yes bank' ? bankCode : '',
+                cardNumber: refundMethod === 'yes bank' ? cardNumber : '',
+                customer: refundMethod === 'yes bank' ? customer : '',
+                issuingCity: refundMethod === 'yes bank' ? issuingCity : '',
               }],
               canWithdrawAmount,   // 可提现金额
               notWithdrawAmount,   // 不提现金额
@@ -84,36 +101,102 @@ class cashRefund extends Component {
             {/* 退款金额 */}
             <div className={style.mainContentB}>
               <Price {...this.props} />
-              {refundType != 3 ? null : (<div className={style.mark}>
-                <span className={style.descWidth}>{__('order.entry.cash_content6')}：</span>
-                <Select
-                  style={{ width: '150px', marginRight: '10px' }}
-                  value={refundMethod}
-                  onChange={val => dispatch(subchange('refundMethod', val))}
-                >
-                  {
-                    refundAccountTypeList.map(item => (
-                      <Option key={item.name} > {item.name}</Option>
-                    ))
-                  }
-                </Select>
-                {
-                  refundMethod === '其他' || refundMethod === 'others' ?
-                    <Input
-                      placeholder={__('order.entry.cash_content8')}
-                      style={{ width: '200px', marginRight: '15px' }}
-                      value={refundMethod1}
-                      onChange={e => dispatch(subchange('refundMethod1', e.target.value))}
-                    />
-                    : null
-                }
-                <Input
-                  placeholder={__('order.entry.cash_content7')}
-                  style={{ width: '200px' }}
-                  value={account}
-                  onChange={e => dispatch(subchange('account', e.target.value))}
-                />
-              </div>)}
+              {+refundType !== 3
+                ? null
+                : (
+                  <div className={style.mark}>
+                    <span className={style.descWidth}>{__('order.entry.cash_content6')}：</span>
+                    <Select
+                      style={{ width: '150px', marginRight: '10px' }}
+                      value={refundMethod}
+                      onChange={val => dispatch(subchange('refundMethod', val))}
+                    >
+                      {
+                        refundAccountTypeList.map(item => (
+                          <Option key={item.name} > {item.name}</Option>
+                        ))
+                      }
+                    </Select>
+                    {
+                      // refundMethod === '其他' || refundMethod === 'others' ?
+                      //   <Input
+                      //     placeholder={__('order.entry.cash_content8')}
+                      //     style={{ width: '200px', marginRight: '15px' }}
+                      //     value={refundMethod1}
+                      //     onChange={e => dispatch(subchange('refundMethod1', e.target.value))}
+                      //   />
+                      //   : null
+                    }
+                    {/* 退款账户信息 !== 'yes bank' 显示 */}
+                    {
+                      refundMethod !== 'yes bank' &&
+                      <Input
+                        placeholder={__('order.entry.cash_content7')}// 请输入正确的退款账户信息
+                        className={style.priceInput}
+                        value={account}
+                        onChange={(e) => {
+                          if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                          return dispatch(subchange('account', e.target.value));
+                        }}
+                      />
+                    }
+
+                    {/* 退款方式 = yes bank， 银行代码/银行卡号/顾客姓名/发卡城市     */}
+                    {
+                      refundMethod === 'yes bank' &&
+                      <span>
+                        <Input
+                          placeholder={__('order.entry.cash_content10')} // 请输入银行代码
+                          className={style.priceInput}
+                          value={bankCode}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(subchange('bankCode', e.target.value));
+                          }}
+                        />
+                        <Input
+                          placeholder={__('order.entry.cash_content11')} // 请输入银行卡号-账户信息
+                          className={style.priceInput}
+                          value={cardNumber}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(subchange('cardNumber', e.target.value));
+                          }}
+                        />
+                        <Input
+                          placeholder={__('order.entry.cash_content12')} // 请输入顾客姓名
+                          className={style.priceInput}
+                          value={customer}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(subchange('customer', e.target.value));
+                          }}
+                        />
+                        <Input
+                          placeholder={__('order.entry.cash_content13')} // 请输入发卡城市
+                          className={style.priceInput}
+                          value={issuingCity}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(subchange('issuingCity', e.target.value));
+                          }}
+                        />
+                      </span>
+                    }
+                    <div className={style.tipStyle} style={{ margin: '0 0 5px 15px' }}>
+                      {
+                        refundMethodTitle !== 'yes bank' ?
+                          <span>账户：{refundMethodTitle}, 账户信息：{accountTitle}</span>
+                          :
+                          <span>
+                            账户：{refundMethodTitle}, 银行代码：{bankCodeTitle},&nbsp;
+                            银行卡号：{cardNumberTitle},&nbsp;
+                            顾客姓名：{customerTitle}, 发卡城市：{issuingCityTitle}
+                          </span>
+                      }
+                    </div>
+                  </div>
+                )}
 
               <div className={style.mark}>
                 <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
@@ -151,6 +234,7 @@ cashRefund.propTypes = {
   params: PropTypes.shape(),
   orderId: PropTypes.string,
   submitValue: PropTypes.shape(),
+  valueTitle: PropTypes.shape(),
   refundTypeList: PropTypes.arrayOf(PropTypes.shape()),
   refundAccountTypeList: PropTypes.arrayOf(PropTypes.shape()),
   canWithdrawAmount: PropTypes.string,

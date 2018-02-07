@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import assign from "object-assign";
-import {Modal, Input, Button, message, Select} from "antd";
+import React from 'react';
+import PropTypes from 'prop-types';
+import assign from 'object-assign';
+import { Modal, Input, Button, message, Select } from 'antd';
 import {
   commit,
   addRemark,
@@ -94,7 +94,7 @@ const Modals = ({
         }}
       >
         <div className={styles.addRemarkArea}>
-          <span className={styles.addRemarkSpan}>{lan.备注}</span>
+          <span className={styles.addRemarkSpan}>{lan.备注}{star}</span>
           <TA
             autosize={{ minRows: 4 }}
             required
@@ -130,7 +130,7 @@ const Modals = ({
         }}
       >
         <div className={styles.addRemarkArea}>
-          <span className={styles.addRemarkSpan}>{lan.驳回理由}</span>
+          <span className={styles.addRemarkSpan}>{lan.驳回理由}{star}</span>
           <TA
             autosize={{ minRows: 4 }}
             required
@@ -241,7 +241,7 @@ const Modals = ({
         }}
       >
         <div className={styles.addRemarkArea}>
-          <span className={styles.addRemarkSpan}>{lan.退款交易号}</span>
+          <span className={styles.addRemarkSpan}>{lan.退款交易号}{star}</span>
           <TA
             autosize={{ minRows: 4 }}
             required
@@ -290,7 +290,10 @@ const Modals = ({
             <Option key={__('common.refund_details5')} >{__('common.refund_details5')}</Option>
             <Option key={__('common.refund_details6')} >{__('common.refund_details6')}</Option>
             <Option key={__('common.refund_details7')} >{__('common.refund_details7')}</Option>
+            {/* 注释 其他 */}
+            {/*
             <Option key={__('common.refund_details8')} >{__('common.refund_details8')}</Option>
+            */}
           </Select>
           {/*
           <Input
@@ -303,6 +306,7 @@ const Modals = ({
         <div className={styles.addRemarkArea} style={{ marginTop: '10px' }}>
           <span className={styles.addRemarkSpan}>{lan.退款交易号}{star}</span>
           <Input
+            required
             value={reverseRefund.data.refund_txn_id}
             onChange={e => dispatch(reverseRefundAction('refund_txn_id', e.target.value))}
           />

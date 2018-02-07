@@ -268,8 +268,6 @@ const Packge = ({
                 {lan.huihuo}
               </Button>
                 )}
-              <span style={{ marginLeft: 5 }}>{lan.运单号}:</span>
-              <span>{rec.shipping_no}</span>
             </div>
             ),
         },

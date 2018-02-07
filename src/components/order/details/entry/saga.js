@@ -29,14 +29,15 @@ import {
   remarkSaveSer,
   getTroubleTypes,
   trackTroublePublish,
+  refundAccountSer,
 } from '../server';
 
 const lan = {
-  ofail: __('order.entry.submit_info'),
-  osucess: __('order.entry.submit_info1'),
-  fail: __('order.entry.submit_info6'),
-  part: __('order.entry.submit_info7'),
-  dataFail: __('order.entry.submit_info2'),
+  ofail: __('order.entry.submit_info'),   // 操作失败
+  osucess: __('order.entry.submit_info1'),  // 操作成功
+  fail: __('order.entry.submit_info6'), // 获取数据失败
+  part: __('order.entry.submit_info7'), // 加入部分发队列成功
+  dataFail: __('order.entry.submit_info2'), // 获取数据失败
 };
 /* eslint prefer-const: 0 */
 /* eslint consistent-return: 0 */
@@ -216,6 +217,17 @@ function* trackTroubleSubmit(action) {
   yield put(commit('trackTroubleShow', false));
   return message.success(lan.osucess);
 }
+
+// 填写退款账号
+function* refundAccountSaga(action) {
+  const data = yield refundAccountSer(action.data);
+  if (!data || data.code !== 0) {
+    return message.error(`${lan.ofail}:${data.msg}`);
+  }
+  yield put(commit('RefundShow', false));
+  return message.success(lan.osucess);
+}
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -235,4 +247,5 @@ export default function* () {
   yield takeEvery(TYPES.REMARK_SAVE, remarkSaveSaga);
   yield takeLatest(TYPES.TRACK_TROUBLE, getTrackTroubleReason);
   yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
+  yield takeLatest(TYPES.REFUND_ACCOUNT, refundAccountSaga);
 }
