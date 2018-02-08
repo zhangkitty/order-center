@@ -525,7 +525,7 @@ const SingleRow = (props) => {
                 }}
                 style={{
                   position: 'fixed',
-                  top: '200',
+                  top: '150',
                   zIndex: 1000,
                   right: '20',
                   border: '1px solid #e9e9e9',
