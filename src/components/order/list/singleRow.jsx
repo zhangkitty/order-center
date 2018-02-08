@@ -530,6 +530,7 @@ const SingleRow = (props) => {
                   right: '20',
                   border: '1px solid #e9e9e9',
                   background: 'white',
+
                 }}
               >
                 <div className={Styles.tableFloat}>
@@ -538,7 +539,7 @@ const SingleRow = (props) => {
                     dataSource={fetchRemark}
                     columns={columnsRemark}
                     pagination={false}
-                    style={{ width: '600px', maxHeight: '400px', overflow: 'auto' }}
+                    style={{ width: '600px', maxHeight: '200px', overflow: 'auto' }}
                   />
                   <div style={{ margin: '30px 50px 15px' }}>
                     <div>
