@@ -416,3 +416,7 @@ export const myCommit = (key, val) => ({
   val,
 });
 
+export const closeAllRemark = ()=>({
+  type:TYPES.CLOSEALLREMARK
+})
+

@@ -141,5 +141,6 @@ export const CHANGEDATASOURCE = `${prefix}changedatasource`;
 
 export const CHANGEARRAY = `${prefix}changeArray`;
 
-export const MYCOMMIT  = `${prefix}myCommit`;
+export const MYCOMMIT = `${prefix}myCommit`;
+export const CLOSEALLREMARK = `${prefix}closeAllRemark`;
 
