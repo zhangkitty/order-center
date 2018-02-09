@@ -22,10 +22,8 @@ import MyModal from './modal';
 // 换货modal
 import ExchangeshowModal from './ExchangeShowModal';
 
-import $ from 'jquery';
-
 import { subscribe, publish } from '../../../lib/Event';
-import {closeAllRemark} from './action'
+import { closeAllRemark } from './action';
 
 
 import styles from './style.css';
@@ -58,7 +56,7 @@ class orderList extends Component {
     });
     subscribe('sb', (e) => {
       console.log(e);
-      this.props.dispatch(closeAllRemark())
+      this.props.dispatch(closeAllRemark());
     });
   }
   render() {
