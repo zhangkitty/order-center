@@ -28,43 +28,6 @@ const defaultState = {
   cachePaths: [],
 };
 
-const getMax = (d) => {
-  if (d.isUsd === 0) {
-    return {
-      1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
-      2: ((Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
-      Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount)) > 0 ?
-        ((Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
-          Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount))
-      : 0,
-      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount > 0 ? d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount : 0,
-      4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
-      disabled: 0,
-    };
-  }
-  if (d.isUsd === 1) {
-    return {
-      1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-      2: ((Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5) +
-      Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount)) > 0 ?
-        ((Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5) +
-          Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount))
-      : 0,
-      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount > 0 ? d.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount : 0,
-      4: (Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5),
-      disabled: 0,
-    };
-  }
-  return {
-    1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
-    2: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
-    Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount),
-    3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
-    4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
-    disabled: 0,
-  };
-};
-
 // 改变refundPaths里面的内容
 function changeChannelProp(refundPaths, { channel, key, val }) {
   const type = refundPaths.find(item => item.refundPathId === channel) || {}.channelType;
@@ -112,6 +75,7 @@ const reducer = (state = defaultState, action) => {
       });
     }
     case TYPES.INIT_PRICEINFO_SUCCESS:
+      console.log(action);
       return assign({}, state, {
         ready: true,
         refundPaths: action.data.orderRefundPathList.map(item => assign({}, item, {
@@ -137,7 +101,12 @@ const reducer = (state = defaultState, action) => {
           refundCurrency: 0,
           refundAmount: 0,
         })),
-        maxTips: getMax(action.data),
+        maxTips: {
+          1: action.data.orderPriceInfo.giftCardCanRefundPrice,
+          2: action.data.orderPriceInfo.walletCanRefundPrice,
+          3: action.data.orderPriceInfo.cardCanRefundPrice,
+          4: action.data.orderPriceInfo.overflowCanRefundPrice,
+        },
         orderPriceInfo: action.data.orderPriceInfo,
         isCod: action.data.orderPriceInfo.isCod,
         loading: false,

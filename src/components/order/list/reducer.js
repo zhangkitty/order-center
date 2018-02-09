@@ -371,7 +371,6 @@ const reducer = (state = defaultState, action) => {
         operationVisible: true,
       });
     case TYPES.REMARK:
-      console.log(action.id);
       return assign({}, state, {
         load: true,
         dataSource: changePopOverVisible(state.dataSource, action.id, true),

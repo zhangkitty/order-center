@@ -119,7 +119,14 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                 }}
               />
               {
-                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd === 1 ? '$' : priceWithExchangeRate.symbol}{Number(maxTips[refundPathId]).toFixed(2) || ''}</span>
+                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd === 1 ?
+                    maxTips[refundPathId].priceUsd.amountWithSymbol
+                    : maxTips[refundPathId].priceWithExchangeRate.amountWithSymbol
+                }
+                </span>
+              }
+              {
+                console.log(maxTips)
               }
             </div>
           </div>

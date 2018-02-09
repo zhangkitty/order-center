@@ -497,7 +497,20 @@ const SingleRow = (props) => {
           }
 
           {/*  差价退款 */}
-          <Link to={`/order/diffRefund/${data.order_id}/2`} target="_blank">{__('common.order_operation3')}</Link>
+          {
+            (function () {
+              // 展示退款差价的表
+              const isShowDiffButton = {
+                0: 0, // 红人订单，
+                1: 0, // 平台订单，
+                7: 1, // SHEIN订单，
+                9: 1, // ROMWE订单，
+                10: 1, // MMC订单，
+                11: 1, // EMC订单
+              };
+              return !!isShowDiffButton[data.order_site_id] && <Link to={`/order/diffRefund/${data.order_id}/2`} target="_blank">{__('common.order_operation3')}</Link>;
+            }())
+          }
 
           {/* 备注 */}
           {
