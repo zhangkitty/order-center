@@ -1,6 +1,7 @@
 /**
  * Created by fed on 2017/8/28.
  */
+const  ParallelUglifyPlugin =require('webpack-parallel-uglify-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const i18n = require('i18n-webpack-plugin');
@@ -96,6 +97,15 @@ module.exports = Object.keys(languages).map((lang) => ({
     new HtmlWebpackPlugin({
       template: `./${lang=='en'?'en':'index'}-template.html`,
       filename:`../../${lang=='en'?'en':'index'}.html`
-    })
+    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   minimize: true,
+    // }),
+
+    new ParallelUglifyPlugin({
+      cacheDir: './dist/cache_dir/',
+      uglifyES: {
+      },
+    }),
   ],
 }));
