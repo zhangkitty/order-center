@@ -75,7 +75,6 @@ const reducer = (state = defaultState, action) => {
       });
     }
     case TYPES.INIT_PRICEINFO_SUCCESS:
-      console.log(action);
       return assign({}, state, {
         ready: true,
         refundPaths: action.data.orderRefundPathList.map(item => assign({}, item, {
