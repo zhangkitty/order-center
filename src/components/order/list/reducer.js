@@ -160,6 +160,13 @@ function changePopOverVisible(list, id, bool) {
   return arr;
 }
 
+function closeAllRemark(list, bool) {
+  const arr = list.map(v => (
+      assign({}, v, { popOvervisible: bool }) : v
+  ));
+  return arr;
+}
+
 function changeBulkReturnInfo(data) {
   const arr = data.map(v => (
     assign({}, v, {
@@ -633,9 +640,12 @@ const reducer = (state = defaultState, action) => {
       });
 
     case TYPES.CHANGEARRAY:
-      console.log(action);
       return assign({}, state, {
         dataSource: changePopOverVisible(state.dataSource, action.id, false),
+      });
+    case TYPES.CLOSEALLREMARK:
+      return assign({}, state, {
+        dataSource: closeAllRemark(state.dataSource, false),
       });
     default:
       return state;

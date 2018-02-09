@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin, Affix } from 'antd';
 import { Link } from 'react-router';
 import assign from 'object-assign';
+import { publish } from '../../../lib/Event';
 
 import {
   change, remarkShow, openModal, searchHistory,
@@ -16,15 +17,24 @@ import Styles from './style.css';
 // 语言包
 const lan = {
   积分补偿: __('common.Integral_compensation'),
-  换货: '换货',
+  换货: __('order.list.list.换货'),
   没有选择换货商品: '没有选择换货商品',
-  运费: '运费',
-  运费险: '运费险',
-  商品状态: '商品状态',
-  运单号: '运单号',
-  物流渠道: '物流渠道',
+  运费: __('order.list.list.运费'),
+  运费险: __('order.list.list.运费险'),
+  商品状态: __('order.list.list.商品状态'),
+  运单号: __('order.list.list.运单号'),
+  物流渠道: __('order.list.list.物流渠道'),
   关闭备注: '关闭备注',
-  供应商: 'SKU供应商',
+  供应商: __('order.list.list.Sku供应商'),
+
+    //
+    // 换货: 'Exchange Item',
+    // Sku供应商: 'Sku_supplier',
+    // 商品状态: 'Item Status',
+    // 运单号: 'Shipping_no',
+    // 物流渠道: 'Shipping Channel',
+    // 运费: 'Shipping Fee',
+    // 运费险: 'Shipping Insurance',
 };
 
 // 订单状态的标记
@@ -485,144 +495,79 @@ const SingleRow = (props) => {
                 onClick={() => dispatch(markTag(data.order_id))}
               >{orderTagName[data.is_trouble]}</Button>
           }
-          {/*  退款/取消 */}
-          {/* {
-            (data.payment_method === 'cod' && Number(data.order_status) === 5)
-            ||
-            data.order_status > 7
-              ?
-              null
-              : <Button
-                onClick={() => {
-                  const result = data.order_goods.map(v => v.order_goods_id);
-                  const arr = batchGoods.split(',');
-                  const res = arr.filter(v => !!result.filter(d => d === v).length);
-                  if (res.length < 1) {
-                    return message.warning(__('common.sagaTitle24'));
-                  }
-                  // return hashHistory.push(`/order/goodsRefund/${data.order_id}/${batchGoods}`);
-                  return window.open(`${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${res.join(',')}`);
-                }}
-              >{__('common.order_operation2')}</Button>
-          } */}
 
           {/*  差价退款 */}
           <Link to={`/order/diffRefund/${data.order_id}/2`} target="_blank">{__('common.order_operation3')}</Link>
 
-          {/*  备注
-                    <Popover
-            placement="bottomRight"
-            trigger="click"
-            arrowPointAtCenter
-            visible={data.popOvervisible}
-            autoAdjustOverflow={false}
-            content={
-
-            }
-          >
-            {
-              Number(data.have_remark) === 1 ?
-                <Button
-                  className={Styles.haveRemark}
-                  onClick={() => {
-                    // dispatch(change('popOvervisible', true));
-                    dispatch(remarkShow(data.order_id));
-                  }}
-                >{__('common.order_operation4')}</Button>
-                :
-                <Button onClick={() => dispatch(remarkShow(data.order_id))}>{__('common.order_operation4')}</Button>
-            }
-          </Popover>
-
-
-          */}
+          {/* 备注 */}
           {
             Number(data.have_remark) === 1 ?
               <Button
                 className={Styles.haveRemark}
-                onClick={() => {
-                      // dispatch(change('popOvervisible', true));
+                onClick={(e) => {
+                  e.stopPropagation();
                   dispatch(remarkShow(data.order_id));
                 }}
               >{__('common.order_operation4')}</Button>
                 :
-              <Button onClick={() => dispatch(remarkShow(data.order_id))}>{__('common.order_operation4')}</Button>
+              <Button onClick={(e) => {
+                e.stopPropagation();
+                dispatch(remarkShow(data.order_id));
+              }}
+              >{__('common.order_operation4')}</Button>
           }
           {
             data.popOvervisible ?
-              <div style={{
-                position: 'fixed',
-                top: '200',
-                zIndex: 1000,
-                right: '20',
-                border: '1px solid #e9e9e9',
-                background: 'white',
-              }}
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  publish('mdzz', 1, data.order_id);
+                }}
+                style={{
+                  position: 'fixed',
+                  top: '150',
+                  zIndex: 1000,
+                  right: '20',
+                  border: '1px solid #e9e9e9',
+                  background: 'white',
+
+                }}
               >
                 <div className={Styles.tableFloat}>
                   <Table
                     bordered={false}
                     dataSource={fetchRemark}
                     columns={columnsRemark}
-                      // size="small"
                     pagination={false}
-                    style={{ width: '600px', maxHeight: '400px', overflow: 'auto' }}
+                    style={{ width: '600px', maxHeight: '200px', overflow: 'auto' }}
                   />
-                  <div style={{ display: 'flex' }}>
-                    {
-                      !visible ?
-                        <Button
-                          style={{ margin: '10px' }}
-                          type="primary"
-                          onClick={() => dispatch(change('visible', true))}
-                        >
-                          {__('common.order_operation6')}
-                        </Button>
-                          : null
-                    }
-                    {
-                      <Button
-                        style={{ margin: '10px' }}
-                        onClick={() => dispatch(changeArray(data.order_id))}
-                      >
-                        {lan.关闭备注}
-                      </Button>
-                    }
-                  </div>
-                  {
-                    visible ?
-                      <div style={{ margin: '30px 50px 15px' }}>
-                        <div>
-                          <div style={{ textAlign: 'left' }}>
-                            {__('common.order_operation6')}
-                          </div>
-                          <Input.TextArea
-                            style={{ margin: '10px auto' }}
-                            rows={3}
-                            value={remarkModal.remark}
-                            onChange={e => dispatch(change('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
-                          />
-                        </div>
-                        <Button
-                          key="submit"
-                          type="primary"
-                          loading={loadUpdata}
-                          onClick={() => {
-                            if (remarkModal.remark.trim().length === 0) {
-                              return message.warning(__('common.order_operation9'));
-                            }
-                            return dispatch(remarkSave(data.order_id, remarkModal.remark));
-                          }}
-                          style={{ marginRight: '20px' }}
-                        >
-                          {__('common.order_operation7')}
-                        </Button>
-                        <Button key="back" onClick={() => dispatch(change('visible', false))}>
-                          {__('common.order_operation8')}
-                        </Button>
+                  <div style={{ margin: '30px 50px 15px' }}>
+                    <div>
+                      <div style={{ textAlign: 'left' }}>
+                        {__('common.order_operation6')}
                       </div>
-                        : null
-                  }
+                      <Input.TextArea
+                        style={{ margin: '10px auto' }}
+                        rows={3}
+                        value={remarkModal.remark}
+                        onChange={e => dispatch(change('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
+                      />
+                    </div>
+                    <Button
+                      key="submit"
+                      type="primary"
+                      loading={loadUpdata}
+                      onClick={() => {
+                        if (remarkModal.remark.trim().length === 0) {
+                          return message.warning(__('common.order_operation9'));
+                        }
+                        return dispatch(remarkSave(data.order_id, remarkModal.remark));
+                      }}
+                      style={{ marginRight: '20px' }}
+                    >
+                      {__('common.order_operation7')}
+                    </Button>
+                  </div>
                 </div>
               </div> : null
           }

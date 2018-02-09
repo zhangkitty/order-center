@@ -7,7 +7,7 @@ import * as TYPES from './types';
 import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
-  remarkShowSuccess, remarkSaveSuccess,
+  remarkShowSuccess, remarkSaveSuccess, remarkShow,
 } from './action';
 
 import {
@@ -193,6 +193,7 @@ function* remarkSaveSaga(action) {
     // return yield put(remarkSaveFail());
   }
   message.success(__('common.sagaTitle13'));
+  yield put(remarkShow(action.orderId));
   return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
 // 获取物流反馈问题原因

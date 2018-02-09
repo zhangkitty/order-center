@@ -14,7 +14,10 @@ const lan = {
 
 export default props => (
   <div className={styles.contentPadding}>
-    <Collapse style={{ marginBottom: 20 }}>
+    <Collapse
+      style={{ marginBottom: 20 }}
+      // defaultActiveKey={['1']}
+    >
       <Panel header={lan.基本信息} key="1">
         <Base {...props} />
         <Address {...props} />

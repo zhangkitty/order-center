@@ -17,6 +17,7 @@ import {
   remarkShow, remarkSave,
   createQs,
 } from '../action';
+import { change } from '../../../list/action';
 
 const BG = Button.Group;
 const RG = Radio.Group;
@@ -51,6 +52,7 @@ const lan = {
   chaifen: __('order.entry.chaifen'),
   yuanbaoguo: __('order.entry.yuanbaoguo'),
   运单号: '运单号',
+  保存: '保存',
 };
 
 // 商品状态
@@ -504,13 +506,32 @@ const Packge = ({
                 pagination={false}
                 style={{ width: '500px', maxHeight: '400px', overflow: 'auto' }}
               />
-              <Button // 新增备注
-                style={{ margin: '10px' }}
-                type="primary"
-                onClick={() => dispatch(openModal(orderId))}
-              >
-                {__('common.order_operation6')}
-              </Button>
+              <div style={{ margin: '30px 50px 15px' }}>
+                <div>
+                  <div style={{ textAlign: 'left' }}>
+                    {__('common.order_operation6')}
+                  </div>
+                  <Input.TextArea
+                    style={{ margin: '10px auto' }}
+                    rows={3}
+                    value={remarkModal.remark}
+                    onChange={e => dispatch(commit('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
+                  />
+                </div>
+                <Button
+                  key="submit"
+                  type="primary"
+                  onClick={() => {
+                    if (remarkModal.remark.trim().length === 0) {
+                      return message.warning(__('common.order_operation9'));
+                    }
+                    return dispatch(remarkSave(orderId, remarkModal.remark));
+                  }}
+                  style={{ marginRight: '20px' }}
+                >
+                  {lan.保存}
+                </Button>
+              </div>
             </div>
           }
         >
