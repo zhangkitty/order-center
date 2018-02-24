@@ -102,10 +102,10 @@ module.exports = Object.keys(languages).map((lang) => ({
     //   minimize: true,
     // }),
 
-    new ParallelUglifyPlugin({
-      cacheDir: './dist/cache_dir/',
-      uglifyES: {
-      },
-    }),
+    // new ParallelUglifyPlugin({
+    //   cacheDir: './dist/cache_dir/',
+    //   uglifyES: {
+    //   },
+    // }),
   ],
 }));
