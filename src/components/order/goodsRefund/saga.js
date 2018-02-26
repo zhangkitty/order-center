@@ -15,8 +15,8 @@ import * as types from './types';
 
 
 const lan = {
-  退款成功:'退款成功'
-}
+  退款成功: '退款成功',
+};
 
 
 function* initSaga(action) {
@@ -55,7 +55,7 @@ function* submitSaga({ val }) {
   if (temp.code !== 0) {
     return message.error(`${temp.msg}`);
   }
-  message.success({lan.退款成功});
+  message.success(`${lan.退款成功}`);
   return setTimeout(window.close, 3000); // 关闭窗口
 }
 export default function* () {
