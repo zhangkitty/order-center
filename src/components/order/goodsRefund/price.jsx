@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio, Input, Checkbox } from 'antd';
+import { Radio, Input, Checkbox, Select } from 'antd';
 import style from './style.css';
 import assign from 'object-assign';
 import { change } from './action';
@@ -12,6 +12,8 @@ const chanelTypeTable = {
   3: 1,
   4: 2,
 };
+
+const Option = Select.Option;
 
 const tipStyle = {
   background: '#ffe9a7',
@@ -84,6 +86,89 @@ const price = ({ dataSource, maxTips, dispatch, radioValue, refundPaths }) => {
                   : maxTips[v.refundPathId].priceWithExchangeRate.amountWithSymbol
                 }
                 </span>
+              }
+
+              {
+                !!v.refundAccountTypeList.length &&
+                <div className={style.priceR}>
+                  <Select
+                    allowClear
+                    placeholder={__('order.goodsRefund.please_select_a_refund_account')}
+                    className={style.priceSelect}
+                    value={v.refundMethod}
+                    onChange={(e) => {
+                      dispatch(changeChannelValue(v.refundPathId, 'refundMethod', e));
+                    }}
+
+                  >
+                    {
+                      v.refundAccountTypeList.map(v => (
+                        <Option key={v.id} value={v.name}>{v.name}</Option>
+                      ))
+                    }
+                  </Select>
+                  {
+                    v.refundMethod === 'yes bank' &&
+                      <span>
+                        {
+                          console.log(1, 'mmdzz')
+                        }
+                        <Input
+                          placeholder={__('order.entry.cash_content10')} // 请输入银行代码
+                          className={style.priceInput}
+                          required
+                          value={v.bankCode}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(changeChannelValue(v.refundPathId, 'bankCode', e.target.value));
+                          }}
+                        />
+                        <Input
+                          placeholder={__('order.entry.cash_content11')} // 请输入银行卡号-账户信息
+                          className={style.priceInput}
+                          required
+                          value={v.cardNumber}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(changeChannelValue(v.refundPathId, 'cardNumber', e.target.value));
+                          }}
+                        />
+                        <Input
+                          placeholder={__('order.entry.cash_content12')} // 请输入顾客姓名
+                          className={style.priceInput}
+                          required
+                          value={v.customer}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(changeChannelValue(v.refundPathId, 'customer', e.target.value));
+                          }}
+                        />
+                        <Input
+                          placeholder={__('order.entry.cash_content13')} // 请输入发卡城市
+                          className={style.priceInput}
+                          required
+                          value={v.issuingCity}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return dispatch(changeChannelValue(v.refundPathId, 'issuingCity', e.target.value));
+                          }}
+                        />
+                      </span>
+                  }
+                  {
+                    v.refundMethod !== 'yes bank' &&
+                    <Input
+                      placeholder={__('order.entry.cash_content7')} // 请输入正确的退款账户信息
+                      // required={!(+refundAmount === 0)}
+                      className={style.priceInput}
+                      value={v.account}
+                      onChange={(e) => {
+                        if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                        return dispatch(changeChannelValue(v.refundPathId, 'account', e.target.value));
+                      }}
+                    />
+                  }
+                </div>
               }
             </div>
           ))

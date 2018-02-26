@@ -112,7 +112,9 @@ class DiffRefund extends Component {
                 }}
                 type="default"
               >{__('order.diffRefund.cancel')}</Button>
-              <Button disabled={submitdisabled} type="primary" loading={submitLoad} style={{ marginLeft: '50px' }} htmlType={'submit'}>{__('order.diffRefund.commit')}</Button>
+              <Button
+                disabled={submitdisabled} type="primary" loading={submitLoad} style={{ marginLeft: '50px' }} htmlType={'submit'}
+              >{__('order.diffRefund.commit')}</Button>
             </div>
           </form>
         </div>

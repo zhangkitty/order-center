@@ -73,7 +73,7 @@ const reducer = (state = defaultState, action) => {
         [action.key]: action.val,
       });
     case types.initSerSuccess:
-      const { orderPriceInfo } = action.data;
+      const { orderPriceInfo, orderRefundUnderlineAccount } = action.data;
       isUsd = action.data.isUsd;
       rate = +orderPriceInfo.totalPrice.priceWithExchangeRate.rate;
       shippingAmount = orderPriceInfo.shippingPrice.priceUsd.amount;
@@ -100,13 +100,17 @@ const reducer = (state = defaultState, action) => {
       };
       totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount;
       totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
-      // totalCurrency = totalAmount;
       let resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       let resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
       let refundPaths = action.data.orderRefundPathList.map(v => assign({}, v, {
         channelType: chanelTypeTable[v.refundPathId],
         refundAmount: resultAmount[v.refundPathId],
         refundCurrency: resultCurrency[v.refundPathId],
+        refundMethod: orderRefundUnderlineAccount.refundMethod,
+        bankCode: orderRefundUnderlineAccount.bankCode,
+        cardNumber: orderRefundUnderlineAccount.cardNumber,
+        customer: orderRefundUnderlineAccount.customer,
+        issuingCity: orderRefundUnderlineAccount.issuingCity,
       }));
       return assign({}, state, {
         maxTips,

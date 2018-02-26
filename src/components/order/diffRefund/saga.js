@@ -38,13 +38,13 @@ function* initPriceInfoSaga(action) {
 
 function* submitSaga(action) {
   const data = yield submitOrder(action.data);
+  yield put(change('submitLoad', false));
   if (data.code !== 0) {
     message.error(`${__('order.diffRefund.submit_fail')}: ${data.msg}`);
     return yield put(change('submitLoad', false));
   }
   message.success(lan.commit_success);
   yield put(change('submitdisabled', true));
-  yield put(change('submitLoad', false));
   return setTimeout(window.close, 3000); // 关闭窗口
 }
 

@@ -9,8 +9,14 @@ import { initSer, submitSer } from './server';
 import {
   change, initSerSuccess,
 } from './action';
+import { camel2Under } from '../../../lib/camal';
 
 import * as types from './types';
+
+
+const lan = {
+  退款成功:'退款成功'
+}
 
 
 function* initSaga(action) {
@@ -28,14 +34,13 @@ function* initSaga(action) {
 
 function* submitSaga({ val }) {
   const arr = val.refundPaths.filter(v => v.isShow === 1 && v.refundPathId === (val.radioValue || 1)).map(v => assign({}, v, {
-    refund_path_id: v.refundPathId,
-    refund_amount: v.refundAmount,
-    refund_currency: v.refundCurrency,
   }));
+  const tempArr = camel2Under(arr);
+  debugger;
   const data = {
     order_id: +val.routeParams.orderId,
     order_goods_ids: val.routeParams.goodsId,
-    refund_paths: arr,
+    refund_paths: tempArr,
     reason: val.reasonId,
     remark: val.remark,
     rl_amount: val.rlFee,
@@ -50,6 +55,7 @@ function* submitSaga({ val }) {
   if (temp.code !== 0) {
     return message.error(`${temp.msg}`);
   }
+  message.success({lan.退款成功});
   return setTimeout(window.close, 3000); // 关闭窗口
 }
 export default function* () {
