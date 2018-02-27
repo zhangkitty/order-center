@@ -190,11 +190,11 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                           <Input
                             placeholder={__('order.entry.cash_content11')} // 银行卡号
                             style={{ width: 150, marginLeft: '5px' }}
-                            value={v.card_number}
+                            value={v.account}
                             onChange={(e) => {
                               if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
                               return onC(dispatch, submitValue, i, {
-                                card_number: e.target.value });
+                                account: e.target.value });
                             }}
                           />
                           :
