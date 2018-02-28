@@ -38,7 +38,6 @@ function* submitSaga({ val }) {
       .filter(v => (v.refundPathId === val.radioValue) || (v.refundPathId === 1))
       .map(v => assign({}, v, {
       }));
-  debugger;
   const tempArr = camel2Under(arr);
   const data = {
     order_id: +val.routeParams.orderId,
