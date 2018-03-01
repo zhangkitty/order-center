@@ -47,7 +47,7 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       priceWithExchangeRate: { amountWithSymbol: coupon2, symbol: couponSymbol },
     },
 
-    giftCardCanBeRefundedPrice: {
+    giftCardCanRefundPrice: {
       priceUsd: { amount: giftRefund },
       priceWithExchangeRate: { amountWithSymbol: giftRefund2, symbol: giftRefundSymbol },
     },
@@ -63,7 +63,7 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       priceUsd: { amount: overflowRefund },
       priceWithExchangeRate: { amountWithSymbol: overflowRRefund2, symbol: overflowRRefundSymbol },
     },
-    orderCanRefundPrice: {
+    orderBalancePrice: {        // 订单剩余可退金额
       priceUsd: { amount: canBeRefunded },
       priceWithExchangeRate: { amountWithSymbol: canBeRefunded2, symbol: canBeRefundedSymbol },
     },

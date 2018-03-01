@@ -28,31 +28,31 @@ const defaultState = {
 };
 const maxTypes = data => ({
   1: {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
-    2: data.orderPriceInfo.walletCanBeRefundedPrice.priceWithExchangeRate.amount,
-    3: data.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    1: data.orderPriceInfo.giftCardCanRefundPrice.priceWithExchangeRate.amount,
+    2: data.orderPriceInfo.walletCanRefundPrice.priceWithExchangeRate.amount,
+    3: data.orderPriceInfo.cardCanRefundPrice.priceWithExchangeRate.amount,
   },
   2: {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
-    2: Number(Number(data.orderPriceInfo.walletCanBeRefundedPrice.priceWithExchangeRate.amount)
+    1: data.orderPriceInfo.giftCardCanRefundPrice.priceWithExchangeRate.amount,
+    2: Number(Number(data.orderPriceInfo.walletCanRefundPrice.priceWithExchangeRate.amount)
       +
       (Number(data.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5))
       .toFixed(2), // 钱包(实付金额*150%+钱包可退金额)
-    3: data.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    3: data.orderPriceInfo.cardCanRefundPrice.priceWithExchangeRate.amount,
     4: data.orderPriceInfo.totalPrice.priceWithExchangeRate.amount * 1.5,  // 溢出（实付金额*150%）
   },
   3: {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: data.orderPriceInfo.walletCanBeRefundedPrice.priceUsd.amount,
-    3: data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount,
+    1: data.orderPriceInfo.giftCardCanRefundPrice.priceUsd.amount,
+    2: data.orderPriceInfo.walletCanRefundPrice.priceUsd.amount,
+    3: data.orderPriceInfo.cardCanRefundPrice.priceUsd.amount,
   },
   4: {
-    1: data.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
-    2: Number(Number(data.orderPriceInfo.walletCanBeRefundedPrice.priceUsd.amount)
+    1: data.orderPriceInfo.giftCardCanRefundPrice.priceUsd.amount,
+    2: Number(Number(data.orderPriceInfo.walletCanRefundPrice.priceUsd.amount)
         +
         (Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5))
         .toFixed(2), // 钱包(实付金额*150%+钱包可退金额)
-    3: data.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount,
+    3: data.orderPriceInfo.cardCanRefundPrice.priceUsd.amount,
     4: data.orderPriceInfo.totalPrice.priceUsd.amount * 1.5,  // 溢出（实付金额*150%）
   },
 }
