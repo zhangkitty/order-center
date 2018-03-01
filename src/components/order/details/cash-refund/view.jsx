@@ -68,7 +68,7 @@ class cashRefund extends Component {
                 refundCurrency: Number(refundCurrency).toFixed(2),
                 refundMethod,
                 bankCode: refundMethod === 'yes bank' ? bankCode : '',
-                account: refundMethod === 'yes bank' ? cardNumber : '',
+                account: refundMethod === 'yes bank' ? cardNumber : account,
                 customer: refundMethod === 'yes bank' ? customer : '',
                 issuingCity: refundMethod === 'yes bank' ? issuingCity : '',
               }],
