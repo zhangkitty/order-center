@@ -16,6 +16,9 @@ import TabsHeader from './tabsHeader';
 import styles from './style.css';
 
 
+const lan = {
+  付款日期: '付款日期',
+};
 class refundList extends Component {
   constructor(props) {
     super(props);
@@ -58,7 +61,7 @@ class refundList extends Component {
               width: '60px',
               render: (text, record) => {
                 const obj = {
-                  children: text,
+                  children: <Link to={`/refund/details/${record.refund_bill_id}/${record.billno}`} target="_blank">{ text }</Link>,
                   props: {
                     rowSpan: record.rowSpan,
                   },
@@ -70,6 +73,11 @@ class refundList extends Component {
               dataIndex: 'billno',
               width: '100px',
             }, {
+              title: lan.付款日期,
+              dataIndex: 'pay_time',
+              width: '100px',
+            },
+            {
               title: __('refund.list.site'),
               dataIndex: 'site_from',
               width: '60px',
@@ -132,19 +140,8 @@ class refundList extends Component {
               title: __('refund.list.refund_time'), // 退款日期
               dataIndex: 'refund_time',
               width: '130px',
-            }, {
-              title: __('refund.list.operate'),
-              width: '80px',
-              render: (text, record) => {
-                const obj = {
-                  children: <Link to={`/refund/details/${record.refund_bill_id}/${record.billno}`} target="_blank">{ __('refund.list.operate1') }</Link>,
-                  props: {
-                    rowSpan: record.rowSpan,
-                  },
-                };
-                return obj;
-              },
-            }]}
+            },
+            ]}
           />
         </div>
         <Pagination

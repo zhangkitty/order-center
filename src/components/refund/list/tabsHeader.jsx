@@ -54,7 +54,7 @@ class TabsHeader extends Component {
     const {
       refund_bill_id, billno, email, add_user, handle_user,
       refund_bill_type, refund_bill_status, refund_path_id, refund_path_status, site_from, apply_start_time, apply_end_time,
-      country_id, member_level, refund_start_time, refund_end_time, refund_method,
+      country_id, member_level, refund_start_time, refund_end_time, refund_method, payment_start_time, payment_end_time,
     } = queryString;
 
     const exportSubmit = () => { // param
@@ -327,8 +327,33 @@ class TabsHeader extends Component {
                         />
                       </div>
                     </div>
+                    {/* 付款日期 */}
+                    <div className={styles.rowSpaceList}>
+                      <span className={styles.filterName}>
+                          付款日期
+                      </span>
+                      <div className={styles.colSpace2}>
+                        <DatePicker
+                          style={{ width: 150 }}
+                          allowClear={false}
+                          format="YYYY-MM-DD HH:mm:ss"
+                          showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                          value={payment_start_time ? moment(payment_start_time) : null}
+                          onChange={(value, str) => dispatch(commit('payment_start_time'), str)}
+                        />
+                        &nbsp; - &nbsp;
+                        <DatePicker
+                          style={{ width: 150 }}
+                          allowClear={false}
+                          format="YYYY-MM-DD HH:mm:ss"
+                          disabledDate={cur => this.disabledRefundDate(cur)}
+                          showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+                          value={payment_end_time ? moment(payment_start_time) : null}
+                          onChange={(value, str) => dispatch(commit('payment_end_time'), str)}
+                        />
+                      </div>
+                    </div>
                   </div>
-
                   <Button
                     className={styles.filterButton}
                     type="primary"

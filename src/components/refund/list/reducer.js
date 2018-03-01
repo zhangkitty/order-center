@@ -37,6 +37,8 @@ const defaultState = {
     member_level: null,
     refund_start_time: null,
     refund_end_time: null,
+    payment_start_time: null,
+    payment_end_time: null,
     sorting_rule: 0,
   },
   searchLoad: false,
