@@ -75,7 +75,7 @@ class refundList extends Component {
             }, {
               title: lan.付款日期,
               dataIndex: 'pay_time',
-              width: '100px',
+              width: '140px',
             },
             {
               title: __('refund.list.site'),
