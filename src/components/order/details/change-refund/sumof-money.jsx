@@ -51,11 +51,11 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       priceUsd: { amount: giftRefund },
       priceWithExchangeRate: { amountWithSymbol: giftRefund2, symbol: giftRefundSymbol },
     },
-    cardCanBeRefundedPrice: {
+    cardCanRefundPrice: {
       priceUsd: { amount: userRefund },
       priceWithExchangeRate: { amountWithSymbol: userRefund2, symbol: userRefundSymbol },
     },
-    walletCanBeRefundedPrice: {
+    walletCanRefundPrice: {
       priceUsd: { amount: walletRefund },
       priceWithExchangeRate: { amountWithSymbol: walletRefund2, symbol: walletRefundSymbol },
     },
@@ -63,7 +63,7 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       priceUsd: { amount: overflowRefund },
       priceWithExchangeRate: { amountWithSymbol: overflowRRefund2, symbol: overflowRRefundSymbol },
     },
-    orderCanBeRefundedPrice: {
+    orderCanRefundPrice: {
       priceUsd: { amount: canBeRefunded },
       priceWithExchangeRate: { amountWithSymbol: canBeRefunded2, symbol: canBeRefundedSymbol },
     },
