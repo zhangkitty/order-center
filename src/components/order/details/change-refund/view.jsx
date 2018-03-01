@@ -8,7 +8,7 @@ import assign from 'object-assign';
 import { connect } from 'react-redux';
 import { Spin, Input, Button, message } from 'antd';
 import { subchange, getData, submitForward, reset } from './action';
-import SumOfMoney from './sumOfMoney';
+import SumOfMoney from './sumof-money';
 import Price from './price';
 import Info from './info';
 import style from './style.css';
