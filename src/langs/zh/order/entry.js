@@ -148,6 +148,7 @@ module.exports = {
   return_goods8: '退货运单类型',
   return_goods9: '退货商品入仓',
   return_goods10: '提交',
+  return_goods11: '预计退款金额',
   submit_title: '缺少州省',
   submit_title1: '缺少城市',
   submit_title2: '缺少区',

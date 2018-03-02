@@ -294,7 +294,7 @@ class ToReturnGoods extends Component {
             </Select>
           </div>
           <div style={{ margin: '20px 0' }}>
-            <span style={spanWidth}>预计退款金额:</span>
+            <span style={spanWidth}>{__('order.entry.return_goods11')}:</span>
             {refundCurrency.amount} &nbsp;
             {return_shipping_type === 1 ? `- ${submitValue.rl_fee}` : ''}
             &nbsp;({refundCurrency.symbol})
