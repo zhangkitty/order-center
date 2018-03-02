@@ -515,6 +515,12 @@ const reducer = (state = defaultState, action) => {
           v.order_id === action.id ? assign({}, v, { cancelRiskDesc: action.data }) : v
         )),
       });
+    case TYPES.GETPAYMENTCOMPLAINSUCCESS:
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.id ? assign({}, v, { PaymentComplainDesc: action.data }) : v
+        )),
+      });
     case TYPES.CANCEL_TROUBLE_TAG_SUCCESS:
       return assign({}, state, {
         dataSource: state.dataSource.map(v => (
