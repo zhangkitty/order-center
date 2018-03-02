@@ -259,6 +259,17 @@ export const cancelRisk = id => ({
   type: TYPES.CANCEL_RISK,
   id,
 });
+// 获取支付平台投诉订单原因，只有支付平台投诉订单才有；
+export const getPaymentComplain = id => ({
+  type: TYPES.GETPAYMENTCOMPLAIN,
+  id,
+});
+
+export const getPaymentComplainSuccess = (data, id) => ({
+  type: TYPES.GETPAYMENTCOMPLAINSUCCESS,
+  data,
+  id,
+});
 export const cancelRiskSuccess = (data, id) => ({
   type: TYPES.CANCEL_RISK_SUCCESS,
   data,
@@ -416,7 +427,7 @@ export const myCommit = (key, val) => ({
   val,
 });
 
-export const closeAllRemark = ()=>({
-  type:TYPES.CLOSEALLREMARK
-})
+export const closeAllRemark = () => ({
+  type: TYPES.CLOSEALLREMARK,
+});
 

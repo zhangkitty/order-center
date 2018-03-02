@@ -104,6 +104,8 @@ export const BATCH_PART_SUCCESS = `${prefix}batch_part_success`;
 export const CANCEL_RISK = `${prefix}cancel_risk`;
 export const CANCEL_RISK_SUCCESS = `${prefix}cancel_risk_success`;
 
+export const GETPAYMENTCOMPLAIN = `${prefix}getpaymentcomplain`;
+export const GETPAYMENTCOMPLAINSUCCESS = `${prefix}GETPAYMENTCOMPLAINSUCCESS`;
 // 取消问题订单标签
 export const CANCEL_TROUBLE_TAG = `${prefix}cancel_trouble_tag`;
 export const CANCEL_TROUBLE_TAG_SUCCESS = `${prefix}cancel_trouble_tag_success`;
