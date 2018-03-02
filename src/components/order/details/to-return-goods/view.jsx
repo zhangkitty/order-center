@@ -295,9 +295,11 @@ class ToReturnGoods extends Component {
           </div>
           <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{__('order.entry.return_goods11')}:</span>
-            {refundCurrency.amount} &nbsp;
+            {refundCurrency.amount}&nbsp;
             {return_shipping_type === 1 ? `- ${submitValue.rl_fee}` : ''}
-            &nbsp;({refundCurrency.symbol})
+            &nbsp;{return_shipping_type === 1 ? `= ${+refundCurrency.amount - submitValue.rl_fee}` : ''}
+
+            &nbsp; ({refundCurrency.symbol})
           </div>
           <Button type="primary" disabled={load} htmlType="submit">{lan.save}</Button>
           <Modal
