@@ -297,6 +297,7 @@ class ToReturnGoods extends Component {
             <span style={spanWidth}>预计退款金额:</span>
             {refundCurrency.amount} &nbsp;
             {return_shipping_type === 1 ? `- ${submitValue.rl_fee}` : ''}
+            &nbsp;({refundCurrency.symbol})
           </div>
           <Button type="primary" disabled={load} htmlType="submit">{lan.save}</Button>
           <Modal
