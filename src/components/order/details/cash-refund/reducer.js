@@ -107,7 +107,7 @@ const reducer = (state = defaultState, action) => {
           refundMethodTitle: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
           accountTitle: under2Camal(action.res).orderRefundUnderlineAccount.accountInfo,
           bankCodeTitle: under2Camal(action.res).orderRefundUnderlineAccount.bankCode,
-          cardNumberTitle: under2Camal(action.res).orderRefundUnderlineAccount.account,
+          cardNumberTitle: under2Camal(action.res).orderRefundUnderlineAccount.cardNumber,
           customerTitle: under2Camal(action.res).orderRefundUnderlineAccount.customerName,
           issuingCityTitle: under2Camal(action.res).orderRefundUnderlineAccount.issuingCity,
         }),
