@@ -148,6 +148,7 @@ module.exports = {
   return_goods8: 'Return Request Type',
   return_goods9: 'Return Warehouses',
   return_goods10: 'Submit',
+  return_goods11: '预计退款金额',
   submit_title: 'Lack of state province',
   submit_title1: 'Lack of city name',
   submit_title2: 'lack of division',
