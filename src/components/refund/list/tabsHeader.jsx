@@ -44,6 +44,13 @@ class TabsHeader extends Component {
     return (current && current.valueOf() < moment(refund_start_time).valueOf());
   }
 
+  disabledEndDate = (endValue, startValue) => {
+    if (!endValue || !startValue) {
+      return false;
+    }
+    return endValue.valueOf() <= startValue.valueOf();
+  }
+
   render() {
     const {
       dispatch, queryString, searchLoad, waitTotal, rejectTotal, total,
@@ -319,7 +326,17 @@ class TabsHeader extends Component {
                         <DatePicker
                           style={{ width: '150px' }}
                           allowClear={false}
-                          disabledDate={cur => this.disabledRefundDate(cur)}
+                          disabledDate={
+                            (cru) => {
+                              if (!refund_start_time) {
+                                return false;
+                              }
+                              if (moment(cru).valueOf() >= moment(refund_start_time).add(31, 'days').valueOf()) {
+                                return true;
+                              }
+                              return moment(cru).valueOf() <= moment(refund_start_time).valueOf();
+                            }
+                          }
                           format="YYYY-MM-DD HH:mm:ss"
                           showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                           value={refund_end_time ? moment(refund_end_time) : null}
@@ -346,9 +363,19 @@ class TabsHeader extends Component {
                           style={{ width: 150 }}
                           allowClear={false}
                           format="YYYY-MM-DD HH:mm:ss"
-                          disabledDate={cur => this.disabledRefundDate(cur)}
+                          disabledDate={
+                            (cru) => {
+                              if (!payment_start_time) {
+                                return false;
+                              }
+                              if (moment(cru).valueOf() >= moment(payment_start_time).add(31, 'days').valueOf()) {
+                                return true;
+                              }
+                              return moment(cru).valueOf() <= moment(payment_start_time).valueOf();
+                            }
+                          }
                           showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-                          value={payment_end_time ? moment(payment_start_time) : null}
+                          value={payment_end_time ? moment(payment_end_time) : null}
                           onChange={(value, str) => dispatch(commit('payment_end_time', str))}
                         />
                       </div>
