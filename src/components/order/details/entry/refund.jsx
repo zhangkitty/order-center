@@ -48,6 +48,7 @@ class Refund extends Component {
       bank_code,
       account,
       customer,
+      card_number,
       issuing_city,
     //  refund_method_account,
     } = refund_account;
@@ -246,7 +247,7 @@ class Refund extends Component {
                     refund_method: refund_method ? refund_method.trim() : null,
                     account_info: account_info ? account_info.trim() : null,
                     bank_code: bank_code ? bank_code.trim() : null,
-                    account: account ? account.trim() : null,
+                    card_number: card_number ? card_number.trim() : null,
                     customer: customer ? customer.trim() : null,
                     issuing_city: issuing_city ? issuing_city.trim() : null,
                   })));
@@ -300,10 +301,10 @@ class Refund extends Component {
                           placeholder={__('order.entry.cash_content11')} // 请输入银行卡号-账户信息
                           className={style.priceInput}
                           required
-                          value={account}
+                          value={card_number}
                           onChange={(e) => {
                             if (/\s/.test(e.target.value)) { return false; } // 不允许空格
-                            return dispatch(commit2('account', e.target.value));
+                            return dispatch(commit2('card_number', e.target.value));
                           }}
                         />
                       </div>
