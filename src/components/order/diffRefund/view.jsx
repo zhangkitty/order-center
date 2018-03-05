@@ -51,14 +51,14 @@ class DiffRefund extends Component {
                   x.bank_code = null;
                   x.customer = null;
                   x.issuing_city = null;
-                  x.card_number = null;
+                  x.account = null;
                 } else if (x.refundPathId === 3 && !isCod) {
                   x.refund_method = null;
                   x.account = null;
                   x.bank_code = null;
                   x.customer = null;
                   x.issuing_city = null;
-                  x.card_number = null;
+                  x.account = null;
                 }
                 return x;
               });

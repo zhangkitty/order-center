@@ -66,7 +66,7 @@ const defaultState = {
     refund_method: null, // 退款账户
     account_info: null, // 账户信息
     bank_code: null, // 银行代码
-    card_number: null, // 银行卡号
+    account: null, // 银行卡号
     customer_name: null, // 顾客姓名
     issuing_city: null, // 发卡城市
   },

@@ -66,7 +66,7 @@ class GoodsRefund extends Component {
                   refund_currency: Number(v.refundCurrency),
                   refund_method: v.refund_method,
                   account: v.account || Symbol('noValue'),
-                  card_number: v.card_number || Symbol('noValue'),
+                  account: v.account || Symbol('noValue'),
                   bank_code: v.bank_code || Symbol('noValue'),
                   customer: v.customer || Symbol('noValue'),
                   issuing_city: v.issuing_city || Symbol('noValue'),

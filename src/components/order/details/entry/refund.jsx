@@ -46,7 +46,7 @@ class Refund extends Component {
       refund_method,
       account_info,
       bank_code,
-      card_number,
+      account,
       customer,
       issuing_city,
     //  refund_method_account,
@@ -64,7 +64,7 @@ class Refund extends Component {
                     dispatch(commit2('refund_method', null));
                     dispatch(commit2('account_info', null));
                     dispatch(commit2('bank_code', null));
-                    dispatch(commit2('card_number', null));
+                    dispatch(commit2('account', null));
                     dispatch(commit2('customer', null));
                     dispatch(commit2('issuing_city', null));
                     dispatch(commit('RefundShow', true));
@@ -212,7 +212,7 @@ class Refund extends Component {
                     {refund.refund_underline_account.refund_method_id === 3 ?
                       <span>
                         {refund.refund_underline_account.bank_code},&nbsp;
-                        {refund.refund_underline_account.card_number},&nbsp;
+                        {refund.refund_underline_account.account},&nbsp;
                         {refund.refund_underline_account.customer_name},&nbsp;
                         {refund.refund_underline_account.issuing_city}
                       </span>
@@ -246,7 +246,7 @@ class Refund extends Component {
                     refund_method: refund_method ? refund_method.trim() : null,
                     account_info: account_info ? account_info.trim() : null,
                     bank_code: bank_code ? bank_code.trim() : null,
-                    card_number: card_number ? card_number.trim() : null,
+                    account: account ? account.trim() : null,
                     customer: customer ? customer.trim() : null,
                     issuing_city: issuing_city ? issuing_city.trim() : null,
                   })));
@@ -300,10 +300,10 @@ class Refund extends Component {
                           placeholder={__('order.entry.cash_content11')} // 请输入银行卡号-账户信息
                           className={style.priceInput}
                           required
-                          value={card_number}
+                          value={account}
                           onChange={(e) => {
                             if (/\s/.test(e.target.value)) { return false; } // 不允许空格
-                            return dispatch(commit2('card_number', e.target.value));
+                            return dispatch(commit2('account', e.target.value));
                           }}
                         />
                       </div>

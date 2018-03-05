@@ -167,7 +167,7 @@ const svInit = (source) => {
     refund_method: source.orderRefundUnderlineAccount.refundMethod, // 退款账户
     account: source.orderRefundUnderlineAccount.accountInfo, // 账户信息
     bank_code: source.orderRefundUnderlineAccount.bankCode, // 银行代码
-    card_number: source.orderRefundUnderlineAccount.cardNumber, // 银行卡号
+    account: source.orderRefundUnderlineAccount.cardNumber, // 银行卡号
     customer: source.orderRefundUnderlineAccount.customerName, // 顾客姓名
     issuing_city: source.orderRefundUnderlineAccount.issuingCity, // 发卡城市
   }));
@@ -390,7 +390,7 @@ const reducer = (state = defaultState, action) => {
             refund_method: v.refund_method,
             account: v.account,
             bank_code: v.bank_code,
-            card_number: v.card_number,
+            account: v.account,
             customer: v.customer,
             issuing_city: v.issuing_city,
             check: false,
