@@ -339,7 +339,7 @@ class TabsHeader extends Component {
                           format="YYYY-MM-DD HH:mm:ss"
                           showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                           value={payment_start_time ? moment(payment_start_time) : null}
-                          onChange={(value, str) => dispatch(commit('payment_start_time'), str)}
+                          onChange={(value, str) => dispatch(commit('payment_start_time', str))}
                         />
                         &nbsp; - &nbsp;
                         <DatePicker
@@ -349,7 +349,7 @@ class TabsHeader extends Component {
                           disabledDate={cur => this.disabledRefundDate(cur)}
                           showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                           value={payment_end_time ? moment(payment_start_time) : null}
-                          onChange={(value, str) => dispatch(commit('payment_end_time'), str)}
+                          onChange={(value, str) => dispatch(commit('payment_end_time', str))}
                         />
                       </div>
                     </div>
