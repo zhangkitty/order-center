@@ -33,7 +33,7 @@ export const initCountrySer = () => (
 export const searchSubmit = (page) => {
   const keys = ['pageSize', 'pageNumber', 'refund_bill_id', 'billno', 'email', 'add_user', 'handle_user',
     'refund_bill_type', 'refund_bill_status', 'refund_path_id', 'refund_path_status', 'site_from', 'apply_start_time', 'apply_end_time',
-    'country_id', 'member_level', 'refund_method', 'refund_start_time', 'refund_end_time', 'sorting_rule'];
+    'country_id', 'member_level', 'refund_method', 'refund_start_time', 'refund_end_time', 'sorting_rule','payment_start_time','payment_end_time'];
   return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })

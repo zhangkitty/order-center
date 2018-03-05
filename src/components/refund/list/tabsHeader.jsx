@@ -67,7 +67,7 @@ class TabsHeader extends Component {
     const exportSubmit = () => { // param
       const keys = ['refund_bill_id', 'billno', 'email', 'add_user', 'handle_user',
         'refund_bill_type', 'refund_bill_status', 'refund_path_id', 'refund_path_status', 'site_from', 'apply_start_time', 'apply_end_time',
-        'country_id', 'member_level', 'refund_start_time', 'refund_end_time'];
+        'country_id', 'member_level', 'refund_start_time', 'refund_end_time', 'payment_start_time', 'payment_end_time'];
       return parseParam(keys, queryString);
     };
 
@@ -326,17 +326,17 @@ class TabsHeader extends Component {
                         <DatePicker
                           style={{ width: '150px' }}
                           allowClear={false}
-                          disabledDate={
-                            (cru) => {
-                              if (!refund_start_time) {
-                                return false;
-                              }
-                              if (moment(cru).valueOf() >= moment(refund_start_time).add(31, 'days').valueOf()) {
-                                return true;
-                              }
-                              return moment(cru).valueOf() <= moment(refund_start_time).valueOf();
-                            }
-                          }
+                          // disabledDate={
+                          //   (cru) => {
+                          //     if (!refund_start_time) {
+                          //       return false;
+                          //     }
+                          //     if (moment(cru).valueOf() >= moment(refund_start_time).add(31, 'days').valueOf()) {
+                          //       return true;
+                          //     }
+                          //     return moment(cru).valueOf() <= moment(refund_start_time).valueOf();
+                          //   }
+                          // }
                           format="YYYY-MM-DD HH:mm:ss"
                           showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                           value={refund_end_time ? moment(refund_end_time) : null}
@@ -363,17 +363,17 @@ class TabsHeader extends Component {
                           style={{ width: 150 }}
                           allowClear={false}
                           format="YYYY-MM-DD HH:mm:ss"
-                          disabledDate={
-                            (cru) => {
-                              if (!payment_start_time) {
-                                return false;
-                              }
-                              if (moment(cru).valueOf() >= moment(payment_start_time).add(31, 'days').valueOf()) {
-                                return true;
-                              }
-                              return moment(cru).valueOf() <= moment(payment_start_time).valueOf();
-                            }
-                          }
+                          // disabledDate={
+                          //   (cru) => {
+                          //     if (!payment_start_time) {
+                          //       return false;
+                          //     }
+                          //     if (moment(cru).valueOf() >= moment(payment_start_time).add(31, 'days').valueOf()) {
+                          //       return true;
+                          //     }
+                          //     return moment(cru).valueOf() <= moment(payment_start_time).valueOf();
+                          //   }
+                          // }
                           showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
                           value={payment_end_time ? moment(payment_end_time) : null}
                           onChange={(value, str) => dispatch(commit('payment_end_time', str))}
