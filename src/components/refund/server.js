@@ -1,9 +1,11 @@
 /**
  * Create by liufeng on 2017/9/28
  */
+import assign from 'object-assign'
 import fetch from "../../lib/fetch";
 import {camel2Under} from "../../lib/camal";
 import queryString from "../../lib/query-string";
+
 
 const list = {
   initCountry: '/OrderDiffRefund/refundBillSearch',   // 获取所有搜索数据
@@ -31,10 +33,14 @@ export const initCountrySer = () => (
 
 // 搜索
 export const searchSubmit = (page) => {
+  const  temp  =assign({},page,{
+    pay_time_from:page.payment_start_time,
+    pay_time_to:page.payment_end_time,
+  })
   const keys = ['pageSize', 'pageNumber', 'refund_bill_id', 'billno', 'email', 'add_user', 'handle_user',
     'refund_bill_type', 'refund_bill_status', 'refund_path_id', 'refund_path_status', 'site_from', 'apply_start_time', 'apply_end_time',
-    'country_id', 'member_level', 'refund_method', 'refund_start_time', 'refund_end_time', 'sorting_rule'];
-  return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(page))}`, {
+    'country_id', 'member_level', 'refund_method', 'refund_start_time', 'refund_end_time', 'sorting_rule','pay_time_from','pay_time_to'];
+  return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(temp))}`, {
     method: 'GET',
   })
 };
