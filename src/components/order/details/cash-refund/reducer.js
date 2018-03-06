@@ -31,7 +31,6 @@ const defaultState = {
       refundMethod: '',
       refundPathId: 3,
       bankCode: '',
-      cardNumber: '',
       customer: '',
       issuingCity: '',
     //  refundMethod1: '',

@@ -345,7 +345,7 @@ export const rebuildrlSer = (d)=>(
 
 //填写账户信息
 export const refundAccountSer = (data)=> {
-  const keys = ['order_id', 'refund_method', 'account_info', 'bank_code', 'card_number', 'customer', 'issuing_city', 'refund_method_account'];
+  const keys = ['order_id', 'refund_method', 'account_info', 'bank_code', 'account', 'customer', 'issuing_city', 'refund_method_account','card_number'];
   return fetch(entry.refundAccount, {
     method: 'POST',
     body: JSON.stringify(parseQuery(keys, data)),

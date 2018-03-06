@@ -201,6 +201,11 @@ export const getRisk = (order_id) => (
     method: 'get',
   })
 );
+export const getPaymentComplainSer = (order_id)=>(
+    fetch(`/order/getPaymentComplain?order_id=${order_id}`,{
+      method:'get',
+    })
+)
 export const cancelTroubleTag = (tid, oid) => (
   fetch(list.cancelTroubleTag, {
     method: 'POST',
@@ -246,7 +251,7 @@ export const noStockApplySer = (data) => (
   })
 );
 
-//无货审核 
+//无货审核
 export const noStockSer = (data) => (
   fetch('/NoStock/stockList', {
     method: 'POST',
@@ -254,7 +259,7 @@ export const noStockSer = (data) => (
   })
 );
 
-//返回已审核 
+//返回已审核
 export const returnAlreadyAuditSer = (data) => (
   fetch('/NoStock/returnAlreadyAudit', {
     method: 'POST',

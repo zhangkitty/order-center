@@ -46,8 +46,9 @@ class Refund extends Component {
       refund_method,
       account_info,
       bank_code,
-      card_number,
+      account,
       customer,
+      card_number,
       issuing_city,
     //  refund_method_account,
     } = refund_account;
@@ -64,7 +65,7 @@ class Refund extends Component {
                     dispatch(commit2('refund_method', null));
                     dispatch(commit2('account_info', null));
                     dispatch(commit2('bank_code', null));
-                    dispatch(commit2('card_number', null));
+                    dispatch(commit2('account', null));
                     dispatch(commit2('customer', null));
                     dispatch(commit2('issuing_city', null));
                     dispatch(commit('RefundShow', true));
