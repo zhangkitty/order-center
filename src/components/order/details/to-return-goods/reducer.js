@@ -34,14 +34,13 @@ const defaultRL = {
   2: '美东仓', 3: '比利时仓',
 };
 const getShippingType = (value) => {
-  let val = 0
-  value.map(v => {
+  let val = 0;
+  value.map((v) => {
     if (v.isDefault === 1) {
-      val  = v.id
+      val = v.id;
     }
-  })
-  console.log(val)
-  return val
+  });
+  return val;
 };
 export default (state = defaultState, action) => {
   switch (action.type) {

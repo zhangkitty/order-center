@@ -109,7 +109,7 @@ const reducer = (state = defaultState, action) => {
         refundMethod: orderRefundUnderlineAccount.refundMethod,
         bankCode: orderRefundUnderlineAccount.bankCode,
         cardNumber: orderRefundUnderlineAccount.cardNumber,
-        customer: orderRefundUnderlineAccount.customer,
+        customer: orderRefundUnderlineAccount.customerName,
         issuingCity: orderRefundUnderlineAccount.issuingCity,
       }));
       return assign({}, state, {

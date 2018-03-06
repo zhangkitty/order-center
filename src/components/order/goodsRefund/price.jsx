@@ -110,9 +110,6 @@ const price = ({ dataSource, maxTips, dispatch, radioValue, refundPaths }) => {
                   {
                     v.refundMethod === 'yes bank' &&
                       <span>
-                        {
-                          console.log(1, 'mmdzz')
-                        }
                         <Input
                           placeholder={__('order.entry.cash_content10')} // 请输入银行代码
                           className={style.priceInput}
