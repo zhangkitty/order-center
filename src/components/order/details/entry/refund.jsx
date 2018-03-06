@@ -213,7 +213,7 @@ class Refund extends Component {
                     {refund.refund_underline_account.refund_method_id === 3 ?
                       <span>
                         {refund.refund_underline_account.bank_code},&nbsp;
-                        {refund.refund_underline_account.account},&nbsp;
+                        {refund.refund_underline_account.card_number},&nbsp;
                         {refund.refund_underline_account.customer_name},&nbsp;
                         {refund.refund_underline_account.issuing_city}
                       </span>
