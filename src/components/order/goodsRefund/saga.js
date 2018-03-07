@@ -64,7 +64,7 @@ function* submitSaga({ val }) {
     return message.error(`${temp.msg}`);
   }
   message.success(`${lan.退款成功}`);
-  return setTimeout(window.close, 3000); // 关闭窗口
+  // return setTimeout(window.close, 3000); // 关闭窗口
 }
 export default function* () {
   yield takeLatest(types.init, initSaga);
