@@ -4,6 +4,7 @@
  */
 import { message } from 'antd';
 import assign from 'object-assign';
+import { hashHistory } from 'react-router';
 import { put, takeLatest } from 'redux-saga/effects';
 import { initSer, submitSer } from './server';
 import {
@@ -20,6 +21,7 @@ const lan = {
 
 
 function* initSaga(action) {
+  const { orderId, goodsId } = action;
   const data = yield initSer(action);
   data.map((v) => {
     if (v.code !== 0) {
@@ -27,9 +29,13 @@ function* initSaga(action) {
     }
     return null;
   });
+  if (data[1].data.pageTo === 'cod') {
+    return hashHistory.push(`/order/cancelGoods/${orderId}/${goodsId}`);
+  }
   yield put(change('reasons', data[0].data));
   yield put(initSerSuccess(data[1].data));
   yield put(change('ready', true));
+  return null;
 }
 
 function* submitSaga({ val }) {
