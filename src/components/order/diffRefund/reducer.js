@@ -109,6 +109,7 @@ const reducer = (state = defaultState, action) => {
         isCod: action.data.orderPriceInfo.isCod,
         loading: false,
         isUsd: action.data.isUsd,
+        rate: action.data.orderPriceInfo.totalPrice.priceWithExchangeRate.rate,
       });
     case TYPES.CHANGE_CHANNEL_VALUE:
       return assign({}, state, {

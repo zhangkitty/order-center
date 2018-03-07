@@ -4,8 +4,6 @@ import React from 'react';
 import style from './style.css';
 import { changeChannelValue } from './action';
 
-import { isaNumberInRange } from '../../../lib/is';
-
 
 const Option = Select.Option;
 const tipStyle = {
@@ -26,10 +24,11 @@ const lan = {
 const star = (<span style={{ color: 'red' }}>*</span>);
 
 const price = ({
-                 refundPaths,
-                 dispatch,
-                 maxTips,
-                 isUsd,
+               refundPaths,
+               dispatch,
+               maxTips,
+               isUsd,
+               rate,
                }) => (
                  <div className={style.spaceBg} >
                    <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}</span>
@@ -39,7 +38,11 @@ const price = ({
            <div style={{ marginBottom: 5 }}>
              <span style={{ width: 120, display: 'inline-block' }}>
                <Checkbox
-                 value={v.refundPathId}
+                 onChange={
+                     (e) => {
+                       dispatch(changeChannelValue(v.refundPathId, 'checked', e.target.checked));
+                     }
+                   }
                >
                  {v.refundPathName}
                </Checkbox>
@@ -48,10 +51,24 @@ const price = ({
              <span style={{ display: 'inline-block', width: 20, textAlign: 'center' }}>{v.priceUsd.symbol}</span>
              <Input
                style={{ width: '150px' }}
+               disabled={isUsd !== 1}
+               value={v.refundAmount}
+               onChange={
+                 (e) => {
+                   dispatch(changeChannelValue(v.refundPathId, 'refundAmount', e.target.value));
+                   dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', e.target.value * rate));
+                 }
+               }
              />
              <span style={{ display: 'inline-block', width: 30, textAlign: 'center' }}>{v.priceWithExchangeRate.symbol}</span>
              <Input
                style={{ width: '150px' }}
+               disabled={isUsd !== 0}
+               value={v.refundCurrency}
+               onChange={(e) => {
+                 dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', e.target.value));
+                 dispatch(changeChannelValue(v.refundPathId, 'refundAmount', +Number(e.target.value / rate).toFixed(2)));
+               }}
              />
 
              <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd === 1 ?
@@ -135,7 +152,7 @@ const price = ({
                          if (/[^(\d)]+/.test(val)) {
                            return false;
                          } // 只允许数字
-                         if (val.length >= 11) {
+                         if (val.length >= 12) {
                            return false;
                          }
                          return dispatch(changeChannelValue(v.refundPathId, 'account', e.target.value));
