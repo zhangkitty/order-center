@@ -78,7 +78,6 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo }, remainingPriceTotalUnder50
     },
     isCod,
   } = orderPriceInfo;
-  debugger;
   let codFee;
   let codFee2;
   let codFeeSymbol;
