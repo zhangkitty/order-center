@@ -13,6 +13,7 @@ import { Radio, Button, Input, Tag, message, Spin } from 'antd';
 import { initPriceInfo, initReasonList, submitForward, change, reset } from './action';
 import SumOfMoney from './sumof-money';
 import Price from './price';
+import Price1 from './price1';
 
 import styles from './style.css';
 
@@ -76,7 +77,8 @@ class DiffRefund extends Component {
             }}
           >
             <SumOfMoney orderPriceInfo={orderPriceInfo} dispatch={dispatch} />
-            <Price {...this.props} />
+            {/* <Price {...this.props} /> */}
+            <Price1 {...this.props} />
             <div className={styles.row}>
               <span className={styles.rowSpan}>{__('common.content_name')}{Star}:</span>
               <Radio.Group

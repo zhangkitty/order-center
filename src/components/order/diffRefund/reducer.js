@@ -83,9 +83,8 @@ const reducer = (state = defaultState, action) => {
           account: action.data.orderRefundUnderlineAccount.accountInfo, // 账户信息
           bank_code: action.data.orderRefundUnderlineAccount.bankCode, // 银行代码
           card_number: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
-          customer: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
+          customer_name: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
           issuing_city: action.data.orderRefundUnderlineAccount.issuingCity, // 发卡城市
-        //  refund_method1: '',
           refundCurrency: 0,
           refundAmount: 0,
         })),
@@ -95,7 +94,7 @@ const reducer = (state = defaultState, action) => {
           account: action.data.orderRefundUnderlineAccount.accountInfo, // 账户信息
           bank_code: action.data.orderRefundUnderlineAccount.bankCode, // 银行代码
           card_number: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
-          customer: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
+          customer_name: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
           issuing_city: action.data.orderRefundUnderlineAccount.issuingCity, // 发卡城市
           refundCurrency: 0,
           refundAmount: 0,
