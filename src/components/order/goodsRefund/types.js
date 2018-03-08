@@ -7,8 +7,8 @@ export const init = `${prefix}init`;
 export const change = `${prefix}change`;
 export const initSerSuccess = `${prefix}initSerSuccess`;
 export const changeChannelValue = `${prefix}changeChannelValue`;
-export const changeShiping = `${prefix}changeShiping`;
+export const changeShipping = `${prefix}changeShipping`;
 export const changeRlFee = `${prefix}changeRlFee`;
 export const submit = `${prefix}submit`;
-// export const subChange = `${prefix}subChange`;
+export const changeShippingInsurance = `${prefix}changeShippingInsurance`;
 

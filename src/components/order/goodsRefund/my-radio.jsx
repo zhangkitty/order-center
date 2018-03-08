@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Radio, Input, Checkbox, Select, message } from 'antd';
-import { change, changeShiping, changeRlFee } from './action';
+import { change, changeShipping, changeRlFee,changeShippingInsurance } from './action';
 import style from './style.css';
 
 const lan = {
@@ -21,7 +21,7 @@ const myRadio = ({ shipping, dispatch, dataSource, rlFee, shippingInsurance }) =
       onChange={(e) => {
         dispatch(change('shipping', e.target.value));
         // 改变运费
-        dispatch(changeShiping(e.target.value));
+        dispatch(changeShipping(e.target.value));
       }}
     >
       <Radio value={0}>{lan.不退}</Radio>
@@ -35,6 +35,8 @@ const myRadio = ({ shipping, dispatch, dataSource, rlFee, shippingInsurance }) =
       onChange={
           (e) => {
             dispatch(change('shippingInsurance', e.target.value));
+            // 改变运费险
+            dispatch(changeShippingInsurance(e.target.value));
           }
         }
     >

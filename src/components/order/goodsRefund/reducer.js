@@ -17,6 +17,7 @@ const defaultState = {
   rlFee: 0, // 选中的RL费用的的值，此时需要退款的金额需要减去RL费用
   radioValue: 2, // 用户和钱包之间的选择
   refundPaths: [],
+  rate: null,
 
 };
 
@@ -57,7 +58,6 @@ let insuranceAmount;// 运费险(美元)
 let insuranceCurrency;// 运费险
 const rlFeeAmount = 0;// rl费用(美元)
 let rlFeeCurrency = 0;// rl费用
-let rate;// 汇率
 let isUsd;
 
 
@@ -69,11 +69,7 @@ const reducer = (state = defaultState, action) => {
       });
     case types.initSerSuccess:
       const { orderPriceInfo, orderRefundUnderlineAccount } = action.data;
-
-      console.log(orderRefundUnderlineAccount);
-
       isUsd = action.data.isUsd;
-      rate = +orderPriceInfo.totalPrice.priceWithExchangeRate.rate;
       shippingAmount = orderPriceInfo.shippingPrice.priceUsd.amount;
       shippingCurrency = orderPriceInfo.shippingPrice.priceWithExchangeRate.amount;
       insuranceAmount = orderPriceInfo.shippingInsurePrice.priceUsd.amount;
@@ -114,12 +110,13 @@ const reducer = (state = defaultState, action) => {
         maxTips,
         dataSource: action.data,
         refundPaths,
+        rate: +orderPriceInfo.totalPrice.priceWithExchangeRate.rate,
       });
     case types.changeChannelValue:
       return assign({}, state, {
         refundPaths: changeChannelProp(state.refundPaths, action),
       });
-    case types.changeShipingAndInsurance:
+    case types.changeShipping:
       if (action.val === 1) {
         totalAmount += shippingAmount;
         totalCurrency += shippingCurrency;
@@ -128,7 +125,7 @@ const reducer = (state = defaultState, action) => {
         totalCurrency -= shippingCurrency;
       }
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
-      resultCurrency = evaluate(totalCurrency, maxTipsAmount, state.radioValue);
+      resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
       refundPaths = state.refundPaths.map(v => assign({}, v, {
         refundAmount: resultAmount[v.refundPathId],
         refundCurrency: resultCurrency[v.refundPathId],
@@ -136,6 +133,26 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         refundPaths,
       });
+
+
+    case types.changeShippingInsurance:
+      if (action.val === 1) {
+        totalAmount += insuranceAmount;
+        totalCurrency += insuranceCurrency;
+      } else {
+        totalAmount -= insuranceAmount;
+        totalCurrency -= insuranceCurrency;
+      }
+      resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
+      resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
+      refundPaths = state.refundPaths.map(v => assign({}, v, {
+        refundAmount: resultAmount[v.refundPathId],
+        refundCurrency: resultCurrency[v.refundPathId],
+      }));
+      return assign({}, state, {
+        refundPaths,
+      });
+
     case types.changeRlFee:
       if (+isUsd === 0) {
         totalCurrency = totalCurrency + rlFeeCurrency - action.val;

@@ -22,7 +22,7 @@ const lan = {
   请输入发卡城市: '请输入发卡城市',
 };
 
-const price = ({ refundPaths, dispatch, maxTips, isUsd }) => (
+const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
   <div className={style.space}>
     <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}</span>
     <div>
@@ -42,12 +42,26 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd }) => (
               disabled={!isUsd}
               style={{ width: 150 }}
               value={v.refundAmount}
+              onChange={
+                (e) => {
+                  const temp = Number(e.target.value * rate).toFixed(2);
+                  dispatch(changeChannelValue(v.refundPathId, 'refundAmount', e.target.value));
+                  dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', +temp));
+                }
+              }
             />
             <span style={{ display: 'inline-block', width: 50, textAlign: 'center' }}>{v.priceWithExchangeRate.symbol}</span>
             <Input
               disabled={isUsd}
               style={{ width: 150 }}
               value={v.refundCurrency}
+              onChange={
+                (e) => {
+                  const temp = Number(e.target.value / rate).toFixed(2);
+                  dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', e.target.value));
+                  dispatch(changeChannelValue(v.refundPathId, 'refundAmount', e.target.value));
+                }
+              }
             />
 
             <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd === 1 ?
