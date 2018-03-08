@@ -25,7 +25,7 @@ function* searchSaga(action) {
     tracking_no: tracking_no ? encodeURIComponent(tracking_no.trim()) : null,
     good_sn: good_sn ? encodeURIComponent(good_sn.trim()) : null,
     sort_by,
-    shipping_type: LogisticsChannels,
+    shipping_method: LogisticsChannels,
   }));
   if (!data || data.code !== 0) {
     yield put(change('searchLoad', false));

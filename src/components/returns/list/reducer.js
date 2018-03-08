@@ -30,7 +30,7 @@ const defaultState = {
     email: null,
     tracking_no: null,
     good_sn: null,
-    LogisticsChannels: '全部', // 物流渠道
+    LogisticsChannels: 'ALL', // 物流渠道
     source_site: '', // 站点，多选
     receiver_country: '', // 国家，多选
     insurance_states: '0', // 退货险
