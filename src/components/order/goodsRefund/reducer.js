@@ -157,11 +157,11 @@ const reducer = (state = defaultState, action) => {
       if (+isUsd === 0) {
         totalCurrency = totalCurrency + rlFeeCurrency - action.val;
         rlFeeCurrency = action.val;
-        totalAmount = totalCurrency / rate;
+        totalAmount = totalCurrency / state.rate;
       } else {
         totalAmount = totalAmount + rlFeeAmount - action.val;
         totalAmount = action.val;
-        totalCurrency = totalAmount * rate;
+        totalCurrency = totalAmount * state.rate;
       }
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);

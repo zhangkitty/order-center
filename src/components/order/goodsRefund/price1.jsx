@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Input, Select } from 'antd';
+import { Checkbox, Input, Select, Button } from 'antd';
 import style from './style.css';
 
 import { changeChannelValue } from './action';
@@ -41,7 +41,7 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
             <Input
               disabled={!isUsd}
               style={{ width: 150 }}
-              value={v.refundAmount}
+              value={+Number(v.refundAmount).toFixed(2)}
               onChange={
                 (e) => {
                   const temp = Number(e.target.value * rate).toFixed(2);
@@ -54,21 +54,30 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
             <Input
               disabled={isUsd}
               style={{ width: 150 }}
-              value={v.refundCurrency}
+              value={+Number(v.refundCurrency).toFixed(2)}
               onChange={
                 (e) => {
                   const temp = Number(e.target.value / rate).toFixed(2);
                   dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', e.target.value));
-                  dispatch(changeChannelValue(v.refundPathId, 'refundAmount', e.target.value));
+                  dispatch(changeChannelValue(v.refundPathId, 'refundAmount', +temp));
                 }
               }
             />
-
             <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd === 1 ?
                 maxTips[v.refundPathId].priceUsd.amountWithSymbol
                 : maxTips[v.refundPathId].priceWithExchangeRate.amountWithSymbol
             }
             </span>
+
+            {
+              !!(v.refundPathId === 2) &&
+              <div>
+                <Button>
+                  交换钱包和用户支付的金额
+                </Button>
+              </div>
+            }
+
             <div style={{ marginTop: 5 }}>
               {
                 !!v.refundAccountTypeList.length &&
