@@ -28,6 +28,7 @@ const lan = {
   去退款: __('returns.details.去退款'),
   已办结: __('returns.details.已办结'),
   退款路径: __('returns.details.退款路径'),
+  退货单类型: '退货单类型',
 };
 const Base = ({
                 dispatch, returnsInfoData, remarkInfo, params, tracking_no_url, buttonIsDone, buttonIsRefund,
@@ -47,6 +48,7 @@ const Base = ({
       { name: lan.包裹状态, key: 'shippingStatus' },
       { name: lan.物流渠道, key: 'shippingType' },
       { name: lan.是否付费, key: 'freeReturn' },
+      { name: lan.退货单类型, key: 'orderType' },
     ],
     right: [
       { name: lan.退货申请时间, key: 'createTime' },
@@ -97,7 +99,7 @@ const Base = ({
                   {
                     (function (key) {
                       if (key === 'orderNo') {
-                        return <Link target="_blank" to={`/order/list/${returnsInfoData.orderNo}`}>{returnsInfoData[key]}</Link>;
+                        return <Link target="_blank" to={`/order/details/entry/${returnsInfoData.orderId}/${returnsInfoData.orderNo}`}>{returnsInfoData[key]}</Link>;
                       }
                       if (key === 'freeReturn') {
                         return <span style={{ color: 'red' }}>{returnsInfoData[key]}</span>;
@@ -168,9 +170,13 @@ const Base = ({
               {lan.已退款}
             </Button>
           }
+          {
+            <Button style={{ marginLeft: 20 }}>
+              <a href={`${returnsInfoData.returnLabel}`}>查看RL附件</a>
+            </Button>
+          }
         </div>
       </div>
-
     </div>
   );
 };

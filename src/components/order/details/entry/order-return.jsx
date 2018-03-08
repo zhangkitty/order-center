@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message, Tag } from 'antd';
 import { commit, uploadTrackAction, uploadTrackShow, genRl, fetchRlFee, rebuildRl } from './action';
+import {Link} from 'react-router'
 
 import styles from './style.css';
 
@@ -112,7 +113,7 @@ class OrderReturn extends Component {
                 title: lan.caozuo,
                 render: rec => (
                   <div>
-                    <a style={{ marginRight: '10px' }} href={rec.return_order_details} target="blank">{lan.chankan}</a>
+                    <Link target="blank" style={{ marginRight: '10px' }} to={`returns/details/${rec.return_order_id}`}>{lan.chankan}</Link>
                     {
                       !!rec.return_rl_download &&
                       <a href={rec.return_rl_download} target="blank" style={{ marginRight: '10px' }}>{lan.xiazai}</a>
