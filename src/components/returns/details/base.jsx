@@ -171,7 +171,7 @@ const Base = ({
             </Button>
           }
           {
-            !!(returnsInfoData.returnLabelType && (
+            !!(returnsInfoData.returnLabelType === 'RL' && (
                 returnsInfoData.shippingType === 'bpost' ||
                 returnsInfoData.shippingType === 'usps' ||
                 returnsInfoData.shippingType === 'delivery'
