@@ -41,7 +41,7 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
             <Input
               disabled={!isUsd}
               style={{ width: 150 }}
-              value={+Number(v.refundAmount).toFixed(2)}
+              value={!isNaN(Number(v.refundAmount)) ? +Number(v.refundAmount).toFixed(2) : 0}
               onChange={
                 (e) => {
                   const temp = Number(e.target.value * rate).toFixed(2);
@@ -54,7 +54,7 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
             <Input
               disabled={isUsd}
               style={{ width: 150 }}
-              value={+Number(v.refundCurrency).toFixed(2)}
+              value={!isNaN(Number(v.refundCurrency)) ? +Number(v.refundCurrency).toFixed(2) : 0}
               onChange={
                 (e) => {
                   const temp = Number(e.target.value / rate).toFixed(2);
@@ -68,7 +68,6 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
                 : maxTips[v.refundPathId].priceWithExchangeRate.amountWithSymbol
             }
             </span>
-
             {
               !!(v.refundPathId === 2) &&
               <div>
@@ -77,7 +76,6 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
                 </Button>
               </div>
             }
-
             <div style={{ marginTop: 5 }}>
               {
                 !!v.refundAccountTypeList.length &&
@@ -179,8 +177,6 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
               }
             </div>
           </div>
-
-
         ))
       }
     </div>

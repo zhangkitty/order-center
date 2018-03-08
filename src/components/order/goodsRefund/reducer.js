@@ -70,6 +70,7 @@ const reducer = (state = defaultState, action) => {
     case types.initSerSuccess:
       const { orderPriceInfo, orderRefundUnderlineAccount } = action.data;
       isUsd = action.data.isUsd;
+      const { isAllCancel } = orderPriceInfo;
       shippingAmount = orderPriceInfo.shippingPrice.priceUsd.amount;
       shippingCurrency = orderPriceInfo.shippingPrice.priceWithExchangeRate.amount;
       insuranceAmount = orderPriceInfo.shippingInsurePrice.priceUsd.amount;
@@ -94,6 +95,7 @@ const reducer = (state = defaultState, action) => {
       };
       totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount;
       totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
+
       let resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       let resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
       let refundPaths = action.data.orderRefundPathList.map(v => assign({}, v, {
