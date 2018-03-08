@@ -171,6 +171,11 @@ const Base = ({
             </Button>
           }
           {
+            !!(returnsInfoData.returnLabelType === 'RL' && (
+                returnsInfoData.shippingType === 'bpost' ||
+                returnsInfoData.shippingType === 'usps' ||
+                returnsInfoData.shippingType === 'dhl-germany'
+            )) &&
             <Button style={{ marginLeft: 20 }}>
               <a href={`${returnsInfoData.returnLabel}`}>查看RL附件</a>
             </Button>
