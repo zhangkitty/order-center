@@ -37,6 +37,8 @@ const defaultState = {
     member_level: null,
     refund_start_time: null,
     refund_end_time: null,
+    payment_start_time: null,
+    payment_end_time: null,
     sorting_rule: 0,
   },
   searchLoad: false,
@@ -45,6 +47,8 @@ const defaultState = {
   total: 0,
   waitTotal: null,
   rejectTotal: null,
+  refund_update: null, // 更新退款记录返回信息
+  refund_update_err: null, // 更新退款记录返回信息失败
 };
 
 const reducer = (state = defaultState, action) => {

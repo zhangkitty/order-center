@@ -113,6 +113,15 @@ module.exports = {
   refund_15: '取消退款',
   refund_16: '确认取消此退款单', // 退款
   refund_17: '退款原因',
+  refund_18: '银行代码',
+  refund_19: '银行卡号',
+  refund_20: '顾客姓名',
+  refund_21: '发卡城市',
+  refund_22: '账户信息',
+  refund_23: '线下打款账户信息展示',
+  refund_24: '订单号',
+  refund_25: '账户',
+  refund_account: '填写退款账户',
   order_return_1: '退货单号',   // 退货
   order_return_2: '退货单类型',
   order_return_3: '运单类型',
@@ -139,6 +148,7 @@ module.exports = {
   return_goods8: '退货运单类型',
   return_goods9: '退货商品入仓',
   return_goods10: '提交',
+  return_goods11: '预计退款金额',
   submit_title: '缺少州省',
   submit_title1: '缺少城市',
   submit_title2: '缺少区',

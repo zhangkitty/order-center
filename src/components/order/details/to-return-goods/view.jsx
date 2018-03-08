@@ -57,7 +57,7 @@ class ToReturnGoods extends Component {
     const {
       dispatch, batchShow, chooses, reasons,
       ready, dataSource, paths, load, sucModal,
-      shippingType, warehouse, submitValue, sucModalHtml, rlFee, spinloading,
+      shippingType, warehouse, submitValue, sucModalHtml, rlFee, spinloading, refundCurrency,
     } = this.props;
     const { return_info, refund_path, return_shipping_type, return_warehouse } = submitValue;
     if (ready) {
@@ -293,6 +293,14 @@ class ToReturnGoods extends Component {
               }
             </Select>
           </div>
+          <div style={{ margin: '20px 0' }}>
+            <span style={spanWidth}>{__('order.entry.return_goods11')}:</span>
+            {refundCurrency.amount}&nbsp;
+            {return_shipping_type === 1 ? `- ${submitValue.rl_fee}` : ''}
+            &nbsp;{return_shipping_type === 1 ? `= ${+refundCurrency.amount - submitValue.rl_fee}` : ''}
+
+            &nbsp; ({refundCurrency.symbol})
+          </div>
           <Button type="primary" disabled={load} htmlType="submit">{lan.save}</Button>
           <Modal
             visible={batchShow}
@@ -351,6 +359,7 @@ ToReturnGoods.propTypes = {
   reasons: PropTypes.arrayOf(PropTypes.shape),
   warehouse: PropTypes.arrayOf(PropTypes.shape),
   rlFee: PropTypes.arrayOf(PropTypes.shape),
+  refundCurrency: PropTypes.shape(),
   spinloading: PropTypes.bool,
 };
 const mapStateToProps = state => state['order/details/to-return-goods'];

@@ -61,7 +61,17 @@ const defaultState = {
   trackTroubleForm: { // 物流问题记录 提交数据
     trackTroubleSubmitLoad: false,
   },
+  refund_account: { // 填写退款账户
+    order_id: null,
+    refund_method: null, // 退款账户
+    account_info: null, // 账户信息
+    bank_code: null, // 银行代码
+    card_number: null, // 银行卡号
+    customer_name: null, // 顾客姓名
+    issuing_city: null, // 发卡城市
+  },
   returnCopied: false, // 复制状态
+  RefundShow: false,
 };
 
 export default (state = defaultState, action) => {
@@ -139,6 +149,12 @@ export default (state = defaultState, action) => {
       return assign({}, state, {
         [action.key]: action.value,
       });
+    case TYPES.COMMIT_REFUND:
+      return assign({}, state, {
+        refund_account: assign({}, state.refund_account, {
+          [action.key]: action.value,
+        }),
+      });
     case TYPES.OPEN_MODAL:  // add remark
       return assign({}, state, {
         // clickVisible: false,
@@ -189,6 +205,10 @@ export default (state = defaultState, action) => {
     case TYPES.TRACK_TROUBLE_SUBMIT:
       return assign({}, state, {
         trackTroubleForm: { trackTroubleSubmitLoad: true },
+      });
+    case TYPES.REFUND_ACCOUNT:
+      return assign({}, state, {
+        refund_account: action.data,
       });
     default:
       return state;

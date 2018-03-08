@@ -1,6 +1,7 @@
 import assign from 'object-assign';
 import fetch from '../../../lib/fetch';
-import {camel2Under,under2Camal} from  '../../../lib/camal';
+import { camel2Under,under2Camal } from  '../../../lib/camal';
+import { parseQuery } from '../../../lib/query-string';
 
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
@@ -20,6 +21,7 @@ const entry = {
   cancelTheRefundBill: '/OrderDiffRefund/cancelTheRefundBill',
   getTroubleTypes: '/OrderLogisticsTroubles/getTroubleTypes',
   trackTroublePublish: '/OrderLogisticsTroubles/publish',
+  refundAccount: '/OrderRefund/addUnderlineRefund',    // 填写账户信息
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
@@ -340,4 +342,15 @@ export const rebuildrlSer = (d)=>(
       body:JSON.stringify(camel2Under(d))
     })
 )
+
+//填写账户信息
+export const refundAccountSer = (data)=> {
+  const keys = ['order_id', 'refund_method', 'account_info', 'bank_code', 'account', 'customer', 'issuing_city', 'refund_method_account','card_number'];
+  return fetch(entry.refundAccount, {
+    method: 'POST',
+    body: JSON.stringify(parseQuery(keys, data)),
+  })
+};
+
+
 

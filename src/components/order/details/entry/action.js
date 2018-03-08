@@ -5,6 +5,11 @@ export const commit = (key, value) => ({
   key,
   value,
 });
+export const commit2 = (key, value) => ({
+  type: TYPES.COMMIT_REFUND,
+  key,
+  value,
+});
 export const getInfo = (id, bill, key) => ({
   type: TYPES.GET_INFO,
   id,
@@ -144,4 +149,15 @@ export const createQs = pkgNum => ({
 export const trackTroubleSubmit = form => ({
   form,
   type: TYPES.TRACK_TROUBLE_SUBMIT,
+});
+
+
+// 填写退款账号
+export const refundAccount = data => ({
+  type: TYPES.REFUND_ACCOUNT,
+  data,
+});
+export const refundAccountSuccess = data => ({
+  type: TYPES.REFUND_ACCOUNT_SUCCESS,
+  data,
 });

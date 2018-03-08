@@ -152,6 +152,21 @@ function changeSubmitValue(BulkReturnInfo, order_goods_id) {
   return arr;
 }
 
+function changePopOverVisible(list, id, bool) {
+  const arr = list.map(v => (
+      v.order_id == id ?
+          assign({}, v, { popOvervisible: bool }) : v
+  ));
+  return arr;
+}
+
+function closeAllRemark(list, bool) {
+  const arr = list.map(v => (
+      assign({}, v, { popOvervisible: bool }) : v
+  ));
+  return arr;
+}
+
 function changeBulkReturnInfo(data) {
   const arr = data.map(v => (
     assign({}, v, {
@@ -224,6 +239,12 @@ const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT:
       return defaultState;
+    case TYPES.MYCOMMIT:
+      return assign({}, state, {
+        remarkModal: assign({}, state.remarkModal, {
+          [action.key]: action.val,
+        }),
+      });
     case TYPES.COMMIT:
       return assign({}, state, {
         queryString: assign({}, state.queryString, {
@@ -274,7 +295,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.SEARCH_SUCCESS:
       return assign({}, state, {
         // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
-        dataSource: action.data.data || [],
+        dataSource: (action.data.data || []).map((v) => { v.popOvervisible = false; return v; }),
         batchChooseGoods: [], // 置空
         total: action.data.total,
         searchLoad: false,
@@ -350,8 +371,10 @@ const reducer = (state = defaultState, action) => {
         operationVisible: true,
       });
     case TYPES.REMARK:
+      console.log(action.id);
       return assign({}, state, {
         load: true,
+        dataSource: changePopOverVisible(state.dataSource, action.id, true),
       });
     case TYPES.REMARK_FAIL:
       return assign({}, state, {
@@ -492,6 +515,12 @@ const reducer = (state = defaultState, action) => {
           v.order_id === action.id ? assign({}, v, { cancelRiskDesc: action.data }) : v
         )),
       });
+    case TYPES.GETPAYMENTCOMPLAINSUCCESS:
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.id ? assign({}, v, { PaymentComplainDesc: action.data }) : v
+        )),
+      });
     case TYPES.CANCEL_TROUBLE_TAG_SUCCESS:
       return assign({}, state, {
         dataSource: state.dataSource.map(v => (
@@ -614,6 +643,15 @@ const reducer = (state = defaultState, action) => {
     case TYPES.DELETESUBMITVALUE:
       return assign({}, state, {
         BulkReturnInfo: deletesubmitvalue(state.BulkReturnInfo, action.order_goods_id, action.mysku),
+      });
+
+    case TYPES.CHANGEARRAY:
+      return assign({}, state, {
+        dataSource: changePopOverVisible(state.dataSource, action.id, false),
+      });
+    case TYPES.CLOSEALLREMARK:
+      return assign({}, state, {
+        dataSource: closeAllRemark(state.dataSource, false),
       });
     default:
       return state;

@@ -17,6 +17,7 @@ import {
   updateOrderTagSer, delChangeSer,
   batchCheckSer, batchDeleteSer, batchPartSer, noStockApplySer, noStockSer, returnAlreadyAuditSer,
   getNoGoodsListSer, underCarriageSer, getorderrewardpointinfoSer, addpointSer, batchexchangeordergoodsSer,
+  getPaymentComplainSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
@@ -28,7 +29,8 @@ import {
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
   delChangeFail, delChangeSuccess,
   batchCheckSuccess, batchDeleteSuccess, batchPartSuccess, getStockList,
-  getStockListSuccess, change, changeAllSource, changeBulkReturnInfo, changedataSource,
+  getStockListSuccess, change, changeAllSource, changeBulkReturnInfo, changedataSource, remarkShow,
+  myCommit, getPaymentComplain, getPaymentComplainSuccess,
 } from './action';
 
 import * as TYPES from './types';
@@ -121,6 +123,8 @@ function* remarkSaveSaga(action) {
     return yield put(remarkSaveFail());
   }
   message.success(__('common.sagaTitle13'));
+  yield put(remarkShow(action.orderId));
+  yield put(myCommit('remark', ''));
   return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
 
@@ -347,6 +351,17 @@ function* batchexchangeordergoodsSaga(action) {
   return hashHistory.push(`order/details/edit-address/${action.data[0].order_id}/${action.data[0].billno}`);
 }
 
+// 8、 获取支付平台投诉订单原因，只有支付平台投诉订单才有；
+function* getPaymentComplainSaga(action) {
+  const data = yield getPaymentComplainSer(action.id);
+  if (!data || data.code !== 0) {
+    return message.error(`${data.msg}`);
+  }
+
+  yield put(getPaymentComplainSuccess(data.data, action.id));
+}
+
+
 export default function* () {
   yield takeEvery(TYPES.SEARCH, searchSaga);
   yield takeEvery(TYPES.SEARCH_HIGH, searchHighSaga);
@@ -375,6 +390,7 @@ export default function* () {
   yield takeLatest(TYPES.GETORDERREWARDPOINTINFO, getorderrewardpointinfoSaga);
   yield takeLatest(TYPES.ADDPOINT, addpointSaga);
   yield takeLatest(TYPES.BATCHEXCHANGEORDERGOODS, batchexchangeordergoodsSaga);
+  yield takeLatest(TYPES.GETPAYMENTCOMPLAIN, getPaymentComplainSaga);
 }
 
 // 刷新订单
