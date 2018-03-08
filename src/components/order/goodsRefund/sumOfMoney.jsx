@@ -10,6 +10,7 @@ const lan = {
   溢出金额: '溢出金额',
   钱包退款已溢出: '钱包退款已溢出',
   用户退款已溢出: '用户退款已溢出',
+  待退金额: '待退金额',
 };
 const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
   const {
@@ -73,6 +74,10 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
     overflow2cardPrice: {
       priceUsd: { amount: overflow2cardPriceRefunded },
       priceWithExchangeRate: { amountWithSymbol: overflow2cardPriceRefunded2, symbol: overflow2cardPriceRefundedSymbol },
+    },
+    waitRefundPrice: {
+      priceUsd: { amount: waitRefundPrice },
+      priceWithExchangeRate: { amountWithSymbol: waitRefundPrice2, symbol: waitRefundPriceSymbol },
     },
     isCod,
   } = orderPriceInfo;
@@ -172,9 +177,16 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       type: walletRefundSymbol,
     },
     {
+      name: lan.待退金额,
+      us: waitRefundPrice,
+      key: 5,
+      currency: waitRefundPrice2,
+      type: waitRefundPriceSymbol,
+    },
+    {
       name: lan.溢出可退金额,
       us: overflowRefund,
-      key: 5,
+      key: 6,
       currency: overflowRRefund2,
       type: overflowRRefundSymbol,
     },

@@ -12,17 +12,12 @@ const defaultState = {
   reasonId: null,
   remark: '',
   submitLoad: false,
-  shipping: 0, // （运费与运费险） 均退1，均不退0，
+  shipping: 0, // 运费 退:1，不退:0,
+  shippingInsurance: 0, // 运费险 退：1,不退:0,
   rlFee: 0, // 选中的RL费用的的值，此时需要退款的金额需要减去RL费用
   radioValue: 2, // 用户和钱包之间的选择
   refundPaths: [],
-};
 
-const chanelTypeTable = {
-  1: 0,
-  2: 1,
-  3: 1,
-  4: 2,
 };
 
 
@@ -74,6 +69,9 @@ const reducer = (state = defaultState, action) => {
       });
     case types.initSerSuccess:
       const { orderPriceInfo, orderRefundUnderlineAccount } = action.data;
+
+      console.log(orderRefundUnderlineAccount);
+
       isUsd = action.data.isUsd;
       rate = +orderPriceInfo.totalPrice.priceWithExchangeRate.rate;
       shippingAmount = orderPriceInfo.shippingPrice.priceUsd.amount;
@@ -103,14 +101,14 @@ const reducer = (state = defaultState, action) => {
       let resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       let resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
       let refundPaths = action.data.orderRefundPathList.map(v => assign({}, v, {
-        channelType: chanelTypeTable[v.refundPathId],
         refundAmount: resultAmount[v.refundPathId],
         refundCurrency: resultCurrency[v.refundPathId],
-        refundMethod: orderRefundUnderlineAccount.refundMethod,
-        bankCode: orderRefundUnderlineAccount.bankCode,
-        cardNumber: orderRefundUnderlineAccount.cardNumber,
-        customer: orderRefundUnderlineAccount.customerName,
-        issuingCity: orderRefundUnderlineAccount.issuingCity,
+        refund_method: orderRefundUnderlineAccount.refundMethod,
+        bank_code: orderRefundUnderlineAccount.bankCode,
+        card_number: orderRefundUnderlineAccount.cardNumber,
+        customer_name: orderRefundUnderlineAccount.customerName,
+        issuing_city: orderRefundUnderlineAccount.issuingCity,
+        account: orderRefundUnderlineAccount.accountInfo,
       }));
       return assign({}, state, {
         maxTips,
@@ -123,11 +121,11 @@ const reducer = (state = defaultState, action) => {
       });
     case types.changeShipingAndInsurance:
       if (action.val === 1) {
-        totalAmount = totalAmount + shippingAmount + insuranceAmount;
-        totalCurrency = totalCurrency + shippingCurrency + insuranceCurrency;
+        totalAmount += shippingAmount;
+        totalCurrency += shippingCurrency;
       } else {
-        totalAmount = totalAmount - shippingAmount - insuranceAmount;
-        totalCurrency = totalCurrency - shippingCurrency - insuranceCurrency;
+        totalAmount -= shippingAmount;
+        totalCurrency -= shippingCurrency;
       }
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       resultCurrency = evaluate(totalCurrency, maxTipsAmount, state.radioValue);
@@ -157,8 +155,6 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         refundPaths,
       });
-
-    // case types.submit:
     default:
       return state;
   }

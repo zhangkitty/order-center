@@ -14,6 +14,7 @@ import Reason from './resason';
 import Remark from './remark';
 import MyRadio from './my-radio';
 import Price from './price';
+import Price1 from './price1';
 
 
 class GoodsRefund extends Component {
@@ -31,7 +32,8 @@ class GoodsRefund extends Component {
         <SumOfMoney {...this.props} />
         <RefundGoods {...this.props} />
         <MyRadio {...this.props} />
-        <Price {...this.props} />
+        {/* <Price {...this.props} /> */}
+        <Price1 {...this.props} />
         <Reason {...this.props} />
         <Remark {...this.props} />
       </div>

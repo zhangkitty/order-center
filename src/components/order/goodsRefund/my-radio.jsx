@@ -2,24 +2,44 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Radio, Input, Checkbox, Select, message } from 'antd';
-import { change, changeShipingAndInsurance,changeRlFee } from './action';
+import { change, changeShiping, changeRlFee } from './action';
 import style from './style.css';
 
+const lan = {
+  运费险: '运费险',
+  运费: '运费',
+  不退: '不退',
+  退: '退',
+};
 const Rg = Radio.Group;
 const star = (<span style={{ color: 'red' }}>*</span>);
-const myRadio = ({ shipping, dispatch, dataSource, rlFee }) => (<div>
+const myRadio = ({ shipping, dispatch, dataSource, rlFee, shippingInsurance }) => (<div>
   <div className={style.flex}>
-    <span className={style.descWidth}>{__('order.goodsRefund.freight_price')}{star}</span>
+    <span className={style.descWidth}>{lan.运费}{star}</span>
     <Rg
       value={shipping}
       onChange={(e) => {
         dispatch(change('shipping', e.target.value));
-        // 运费和运费险的行为
-        dispatch(changeShipingAndInsurance(e.target.value));
+        // 改变运费
+        dispatch(changeShiping(e.target.value));
       }}
     >
-      <Radio value={0}>{__('order.goodsRefund.no_no_back')}</Radio>
-      <Radio value={1}>{__('order.goodsRefund.no_back')}</Radio>
+      <Radio value={0}>{lan.不退}</Radio>
+      <Radio value={1}>{lan.退}</Radio>
+    </Rg>
+  </div>
+  <div className={style.flex} style={{ marginTop: 5 }}>
+    <span className={style.descWidth}>{lan.运费险}{star}</span>
+    <Rg
+      value={shippingInsurance}
+      onChange={
+          (e) => {
+            dispatch(change('shippingInsurance', e.target.value));
+          }
+        }
+    >
+      <Radio value={0}>{lan.不退}</Radio>
+      <Radio value={1}>{lan.退}</Radio>
     </Rg>
   </div>
   <div className={style.space}>

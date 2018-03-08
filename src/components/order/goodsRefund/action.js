@@ -8,6 +8,6 @@ export const init = makeActionCreator(types.init, 'orderId', 'goodsId');
 export const change = makeActionCreator(types.change, 'key', 'val');
 export const initSerSuccess = makeActionCreator(types.initSerSuccess, 'data');
 export const changeChannelValue = makeActionCreator(types.changeChannelValue, 'channel', 'key', 'val');
-export const changeShipingAndInsurance = makeActionCreator(types.changeShipingAndInsurance, 'val');
+export const changeShiping = makeActionCreator(types.changeShiping, 'val');
 export const changeRlFee = makeActionCreator(types.changeRlFee, 'val');
 export const submit = makeActionCreator(types.submit, 'val');

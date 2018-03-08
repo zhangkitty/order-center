@@ -86,6 +86,9 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo }, remainingPriceTotalUnder50
     codFee2 = orderPriceInfo.codFee.priceWithExchangeRate.amountWithSymbol;
     codFeeSymbol = orderPriceInfo.codFee.priceWithExchangeRate.symbol;
   }
+
+  console.log(codFee, 'sb');
+  console.log(codFee2, 'sb');
   const orderPrice = [
     {
       name: __('order.goodsRefund.total_price'),

@@ -152,7 +152,7 @@ const price = ({
                          if (/[^(\d)]+/.test(val)) {
                            return false;
                          } // 只允许数字
-                         if (val.length >= 12) {
+                         if (val.length >= 11) {
                            return false;
                          }
                          return dispatch(changeChannelValue(v.refundPathId, 'account', e.target.value));
