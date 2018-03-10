@@ -477,7 +477,7 @@ const Packge = ({
           </BG>
         )}
         {/* 退款/取消  */}
-        {status_code && status_code <= 7 ? (
+        {status_code && status_code <= 9 ? (
           <Button
             onClick={() => {
               if (!chooseGoods.length) { return message.warning(__('common.sagaTitle24')); }

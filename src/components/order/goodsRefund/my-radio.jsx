@@ -30,7 +30,7 @@ const myRadio =
         <Rg
           value={shipping}
           onChange={(e) => {
-            if (hasShippingPriceRefunded) {
+            if (hasShippingPriceRefunded && shipping === 0) {
               return message.warning(lan.运费已退);
             }
             dispatch(change('shipping', e.target.value));
@@ -48,7 +48,7 @@ const myRadio =
           value={shippingInsurance}
           onChange={
           (e) => {
-            if (hasShippingInsurancePriceRefunded) {
+            if (hasShippingInsurancePriceRefunded && shippingInsurance === 0) {
               return message.warning(lan.运费险已退);
             }
             dispatch(change('shippingInsurance', e.target.value));
