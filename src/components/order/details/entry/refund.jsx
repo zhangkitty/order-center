@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Link } from 'react-router';
 import { Table, Card, Popconfirm, Button, Modal, Input, Select, Icon, message } from 'antd';
-import { cancelRefund, commit, commit2, refundAccount } from './action';
+import { cancelRefund, commit, commit2, refundAccount, getRefundBillListByOrderIdSer } from './action';
 import style from './style.css';
 
 
@@ -28,6 +28,7 @@ const lan = {
   xiugaishenqing: __('order.entry.refund_14'),
   quxiaotuikuai: __('order.entry.refund_15'),
   cancelRefund: __('order.entry.refund_16'),
+  展示更多: '展示更多',
 };
 
 class Refund extends Component {
@@ -91,7 +92,7 @@ class Refund extends Component {
         >
           <Table
             rowKey="id"
-            dataSource={refund.refund_bill_list || []}
+            dataSource={[...refund.refund_bill_list] || []}
             columns={[
               {
                 title: lan.bianhao,
@@ -192,6 +193,13 @@ class Refund extends Component {
               },
             ]}
           />
+          <div>
+            <Button
+              onClick={e => dispatch(getRefundBillListByOrderIdSer(orderId))}
+            >
+              {lan.展示更多}
+            </Button>
+          </div>
           <div>
             <div className={style.refund_account_title}>{__('order.entry.refund_23')}</div>
             <div style={{ color: '#333' }}>

@@ -21,6 +21,14 @@ export const getInfoSuccess = (data, key) => ({
   data,
   key,
 });
+export const getRefundBillListByOrderIdSer = orderId => ({
+  type: TYPES.GETREFUNDBILLLISTBYORDERIDSER,
+  orderId,
+});
+export const addOrderRefundInfo = val => ({
+  type: TYPES.ADDORDERREFUNDINFO,
+  val,
+});
 export const uploadTrackAction = data => ({
   type: TYPES.UPLOAD_TRACK,
   data,

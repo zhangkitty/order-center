@@ -94,6 +94,14 @@ export const getInfoSer = (id, bill) => {
   });
   return {base, pay, refund, orderReturn, logs};
 }
+
+export const getefundbBillistbyorderidSer = (orderId)=>(
+  fetch(`/OrderDiffRefund/getRefundBillListByOrderId?order_id=${orderId}`,{
+    method:'get'
+  })
+)
+
+
 export const updateEmailSer = (order_id, email) => (
   fetch(entry.refundEmail, {
     method: 'POST',

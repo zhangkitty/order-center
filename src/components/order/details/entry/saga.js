@@ -7,7 +7,7 @@ import * as TYPES from './types';
 import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
-  remarkShowSuccess, remarkSaveSuccess, remarkShow,
+  remarkShowSuccess, remarkSaveSuccess, remarkShow,addOrderRefundInfo
 } from './action';
 
 import {
@@ -30,6 +30,7 @@ import {
   getTroubleTypes,
   trackTroublePublish,
   refundAccountSer,
+  getefundbBillistbyorderidSer,
 } from '../server';
 
 const lan = {
@@ -229,6 +230,14 @@ function* refundAccountSaga(action) {
   return message.success(lan.osucess);
 }
 
+function* getefundbBillistbyorderidSaga(action) {
+  const data = yield getefundbBillistbyorderidSer(action.orderId);
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.fail}:${data.msg}`);
+  }
+  yield put(addOrderRefundInfo(data.data));
+}
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -249,4 +258,5 @@ export default function* () {
   yield takeLatest(TYPES.TRACK_TROUBLE, getTrackTroubleReason);
   yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
   yield takeLatest(TYPES.REFUND_ACCOUNT, refundAccountSaga);
+  yield takeLatest(TYPES.GETREFUNDBILLLISTBYORDERIDSER, getefundbBillistbyorderidSaga);
 }

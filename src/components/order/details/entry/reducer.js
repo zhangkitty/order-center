@@ -90,6 +90,14 @@ export default (state = defaultState, action) => {
         profit: '',
         profitShow: false,
       });
+    case TYPES.ADDORDERREFUNDINFO:
+      return assign({}, state, {
+        dataSource: assign({}, state.dataSource, {
+          refund: assign({}, state.dataSource.refund, {
+            refund_bill_list: [...state.dataSource.refund.refund_bill_list, ...action.val.refund_bill_list],
+          }),
+        }),
+      });
     case TYPES.UPDATE_EAMIL_SUCCESS:
       return assign({}, state, {
         emailShow: false,
