@@ -17,6 +17,8 @@ import * as types from './types';
 
 const lan = {
   退款成功: '退款成功',
+  请至少选择一个退款路径: '请至少选择一个退款路径',
+  请选择取消商品的原因: '请选择取消商品的原因',
 };
 
 
@@ -39,11 +41,12 @@ function* initSaga(action) {
 }
 
 function* submitSaga({ val }) {
-  const arr = val.refundPaths
-      .filter(v => v.isShow === 1)
-      .filter(v => (v.refundPathId === val.radioValue) || (v.refundPathId === 1))
-      .map(v => assign({}, v, {
-      }));
+  const arr = val.refundPaths.filter(v => v.checked === true).map(v => assign({}, v, {
+    account: v.card_number ? v.card_number : v.account,
+  }));
+  if (arr.length === 0) {
+    return message.warning(lan.请至少选择一个退款路径);
+  }
   const tempArr = camel2Under(arr);
   const data = {
     order_id: +val.routeParams.orderId,
@@ -55,7 +58,7 @@ function* submitSaga({ val }) {
     is_return_freight_insurance: val.shipping,
   };
   if (!val.reasonId) {
-    return message.warning('信息不全');
+    return message.warning(lan.请选择取消商品的原因);
   }
   yield put(change('submitLoad', true));
   const temp = yield submitSer(data);

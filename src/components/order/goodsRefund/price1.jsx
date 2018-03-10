@@ -20,6 +20,7 @@ const lan = {
   请输入银行卡号: '请输入银行卡号',
   请输入顾客姓名: '请输入顾客姓名',
   请输入发卡城市: '请输入发卡城市',
+  交换钱包和用户支付的金额: '交换钱包和用户支付的金额',
 };
 
 const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
@@ -30,7 +31,14 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
         refundPaths.map(v => (
           <div style={{ marginBottom: 5 }}>
             <span style={{ width: 120, display: 'inline-block' }}>
-              <Checkbox>
+              <Checkbox
+                onChange={
+                (e) => {
+                  const val = e.target.checked;
+                  dispatch(changeChannelValue(v.refundPathId, 'checked', val));
+                }
+              }
+              >
                 {
                   v.refundPathName
                 }
@@ -71,8 +79,17 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
             {
               !!(v.refundPathId === 2) &&
               <div>
-                <Button>
-                  交换钱包和用户支付的金额
+                <Button
+                  onChange={
+                  (e) => {
+                    // 交换钱包和用户的支付金额待定
+                    // dispatch(exchangeCardAndWallet());
+                  }
+                }
+                >
+                  {
+                    lan.交换钱包和用户支付的金额
+                  }
                 </Button>
               </div>
             }

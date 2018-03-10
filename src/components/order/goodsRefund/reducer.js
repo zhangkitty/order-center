@@ -18,6 +18,8 @@ const defaultState = {
   radioValue: 2, // 用户和钱包之间的选择
   refundPaths: [],
   rate: null,
+  hasShippingInsurancePriceRefunded: 0, // 运费险是否已经退过
+  hasShippingPriceRefunded: 0, // 运费是否已经退过
 
 };
 
@@ -61,6 +63,23 @@ let rlFeeCurrency = 0;// rl费用
 let isUsd;
 
 
+const orderStatusTable = {
+  1: '已付款',
+  2: '已审核',
+  3: '进行中',
+  4: '部分发货',
+  5: '全部发货',
+  6: '已签收',
+  7: '已完成',
+  8: '已拒收',
+  9: '已报损',
+  10: '待自提',
+  11: '派件异常',
+  12: '派件中',
+  13: '已经退款',
+  14: '已取消',
+};
+
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case types.change:
@@ -68,9 +87,22 @@ const reducer = (state = defaultState, action) => {
         [action.key]: action.val,
       });
     case types.initSerSuccess:
-      const { orderPriceInfo, orderRefundUnderlineAccount } = action.data;
+      const {
+        orderPriceInfo,
+        orderRefundUnderlineAccount,
+      } = action.data;
+      const {
+        hasShippingInsurancePriceRefunded,
+        hasShippingPriceRefunded,
+      } = orderPriceInfo;
       isUsd = action.data.isUsd;
-      const { isAllCancel } = orderPriceInfo;
+      const { isAllCancel, orderStatus } = orderPriceInfo;
+      // 订单状态为已付款、已审核、进行中、已拒收、已报损
+      const orderStatusArray = [1, 2, 3, 8, 9];
+      const isOrderStatMeets = orderStatusArray.filter(v => v === (+orderStatus)).length;
+      // 订单状态为已付款、已审核、进行中、已拒收、已报损，且整单退款且时默认退；
+      // 判断默认情况是退还是不退
+      const DefaultValue = isAllCancel * isOrderStatMeets ? 1 : 0;
       shippingAmount = orderPriceInfo.shippingPrice.priceUsd.amount;
       shippingCurrency = orderPriceInfo.shippingPrice.priceWithExchangeRate.amount;
       insuranceAmount = orderPriceInfo.shippingInsurePrice.priceUsd.amount;
@@ -113,6 +145,10 @@ const reducer = (state = defaultState, action) => {
         dataSource: action.data,
         refundPaths,
         rate: +orderPriceInfo.totalPrice.priceWithExchangeRate.rate,
+        hasShippingInsurancePriceRefunded,
+        hasShippingPriceRefunded,
+        shipping: DefaultValue ? 1 : 0,
+        shippingInsurance: DefaultValue ? 1 : 0,
       });
     case types.changeChannelValue:
       return assign({}, state, {
