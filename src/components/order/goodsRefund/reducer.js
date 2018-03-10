@@ -149,6 +149,7 @@ const reducer = (state = defaultState, action) => {
         hasShippingPriceRefunded,
         shipping: DefaultValue ? 1 : 0,
         shippingInsurance: DefaultValue ? 1 : 0,
+        radioValue: resultCurrency[2] > 0 ? 2 : 0,
       });
     case types.changeChannelValue:
       return assign({}, state, {

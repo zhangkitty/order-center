@@ -30,23 +30,20 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
     <div>
       {
         refundPaths.map(v => (
-          <div style={{ marginBottom: 5 }}>
-            <span style={{ width: 120, display: 'inline-block' }}>
-              <Rg
-                value={radioValue}
-                onChange={
+            !!v.isShow &&
+            <div style={{ marginBottom: 5 }}>
+              <span style={{ width: 120, display: 'inline-block' }}>
+                <Rg
+                  value={radioValue}
+                  onChange={
                   (e) => {
+                    const val = e.target.value;
                     // 取出refundPathId===2的值&&取出refundPathId===3的值
                     const tempAmount2 = refundPaths.filter(v => v.refundPathId === 2);
                     const tempCurrency2 = refundPaths.filter(v => v.refundPathId === 2);
                     const tempAmount3 = refundPaths.filter(v => v.refundPathId === 3);
                     const tempCurrency3 = refundPaths.filter(v => v.refundPathId === 3);
-                    if (radioValue === 2) {
-                      dispatch(change('radioValue', 3));
-                    }
-                    if (radioValue === 3) {
-                      dispatch(change('radioValue', 2));
-                    }
+                    dispatch(change('radioValue', val));
                     // 交换钱包和用户支付的值
                     dispatch(changeChannelValue(3, 'refundAmount', tempAmount2[0].refundAmount));
                     dispatch(changeChannelValue(3, 'refundCurrency', tempCurrency2[0].refundCurrency));
@@ -54,8 +51,8 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                     dispatch(changeChannelValue(2, 'refundCurrency', tempCurrency3[0].refundCurrency));
                   }
                 }
-              >
-                {
+                >
+                  {
                    v.refundPathId === 1 ?
                      <Checkbox
                        checked={v.checked}
@@ -80,60 +77,60 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                      </Radio>
 
                  }
-              </Rg>
+                </Rg>
 
-            </span>
+              </span>
 
-            <span style={{ display: 'inline-block', width: 50, textAlign: 'center' }}>{v.priceUsd.symbol}</span>
-            <Input
-              disabled={!isUsd}
-              style={{ width: 150 }}
-              value={!isNaN(Number(v.refundAmount)) ? +Number(v.refundAmount).toFixed(2) : 0}
-              onChange={
+              <span style={{ display: 'inline-block', width: 50, textAlign: 'center' }}>{v.priceUsd.symbol}</span>
+              <Input
+                disabled={!isUsd}
+                style={{ width: 150 }}
+                value={!isNaN(Number(v.refundAmount)) ? +Number(v.refundAmount).toFixed(2) : 0}
+                onChange={
                 (e) => {
                   const temp = Number(e.target.value * rate).toFixed(2);
                   dispatch(changeChannelValue(v.refundPathId, 'refundAmount', e.target.value));
                   dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', +temp));
                 }
               }
-            />
-            <span style={{ display: 'inline-block', width: 50, textAlign: 'center' }}>{v.priceWithExchangeRate.symbol}</span>
-            <Input
-              disabled={isUsd}
-              style={{ width: 150 }}
-              value={!isNaN(Number(v.refundCurrency)) ? +Number(v.refundCurrency).toFixed(2) : 0}
-              onChange={
+              />
+              <span style={{ display: 'inline-block', width: 50, textAlign: 'center' }}>{v.priceWithExchangeRate.symbol}</span>
+              <Input
+                disabled={isUsd}
+                style={{ width: 150 }}
+                value={!isNaN(Number(v.refundCurrency)) ? +Number(v.refundCurrency).toFixed(2) : 0}
+                onChange={
                 (e) => {
                   const temp = Number(e.target.value / rate).toFixed(2);
                   dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', e.target.value));
                   dispatch(changeChannelValue(v.refundPathId, 'refundAmount', +temp));
                 }
               }
-            />
-            <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd === 1 ?
+              />
+              <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd === 1 ?
                 maxTips[v.refundPathId].priceUsd.amountWithSymbol
                 : maxTips[v.refundPathId].priceWithExchangeRate.amountWithSymbol
             }
-            </span>
-            {/* { */}
-            {/*! !(v.refundPathId === 2) && */}
-            {/* <div> */}
-            {/* <Button */}
-            {/* onChange={ */}
-            {/* (e) => { */}
-            {/* // 交换钱包和用户的支付金额待定 */}
-            {/* // dispatch(exchangeCardAndWallet()); */}
-            {/* } */}
-            {/* } */}
-            {/* > */}
-            {/* { */}
-            {/* lan.交换钱包和用户支付的金额 */}
-            {/* } */}
-            {/* </Button> */}
-            {/* </div> */}
-            {/* } */}
-            <div style={{ marginTop: 5 }}>
-              {
+              </span>
+              {/* { */}
+              {/*! !(v.refundPathId === 2) && */}
+              {/* <div> */}
+              {/* <Button */}
+              {/* onChange={ */}
+              {/* (e) => { */}
+              {/* // 交换钱包和用户的支付金额待定 */}
+              {/* // dispatch(exchangeCardAndWallet()); */}
+              {/* } */}
+              {/* } */}
+              {/* > */}
+              {/* { */}
+              {/* lan.交换钱包和用户支付的金额 */}
+              {/* } */}
+              {/* </Button> */}
+              {/* </div> */}
+              {/* } */}
+              <div style={{ marginTop: 5 }}>
+                {
                 !!v.refundAccountTypeList.length &&
                 <div>
                   <Select
@@ -232,8 +229,8 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                   }
                 </div>
               }
+              </div>
             </div>
-          </div>
         ))
       }
     </div>

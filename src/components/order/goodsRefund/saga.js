@@ -50,6 +50,7 @@ function* submitSaga({ val }) {
     return message.warning(lan.请至少选择一个退款路径);
   }
   const tempArr = camel2Under(arr);
+  // 0都不退，1都退，2退运费，3退运险费
   let temp_is_return_freight_insurance;
   if (val.shipping === 0 && val.shippingInsurance === 0) {
     temp_is_return_freight_insurance = 0;
