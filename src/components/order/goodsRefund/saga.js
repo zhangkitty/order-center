@@ -41,9 +41,13 @@ function* initSaga(action) {
 }
 
 function* submitSaga({ val }) {
-  const arr = val.refundPaths.filter(v => v.checked === true).map(v => assign({}, v, {
-    account: v.card_number ? v.card_number : v.account,
-  }));
+  debugger;
+  const arr = val.refundPaths.filter(v => v.checked === true)
+      .filter(v => v.refundPathId === 1 || v.refundPathId === val.radioValue)
+      .map(v => assign({}, v, {
+        account: v.card_number ? v.card_number : v.account,
+      }));
+  debugger;
   if (arr.length === 0) {
     return message.warning(lan.请至少选择一个退款路径);
   }

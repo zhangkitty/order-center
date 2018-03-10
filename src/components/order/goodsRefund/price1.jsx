@@ -1,10 +1,11 @@
 import React from 'react';
-import { Checkbox, Input, Select, Button } from 'antd';
+import { Checkbox, Input, Select, Button, Radio } from 'antd';
 import style from './style.css';
 
-import { changeChannelValue } from './action';
+import { changeChannelValue, change } from './action';
 
 const star = (<span style={{ color: 'red' }}>*</span>);
+const Rg = Radio.Group;
 const Option = Select.Option;
 
 const tipStyle = {
@@ -23,7 +24,7 @@ const lan = {
   交换钱包和用户支付的金额: '交换钱包和用户支付的金额',
 };
 
-const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
+const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
   <div className={style.space}>
     <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}</span>
     <div>
@@ -31,18 +32,56 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
         refundPaths.map(v => (
           <div style={{ marginBottom: 5 }}>
             <span style={{ width: 120, display: 'inline-block' }}>
-              <Checkbox
+              <Rg
+                value={radioValue}
                 onChange={
-                (e) => {
-                  const val = e.target.checked;
-                  dispatch(changeChannelValue(v.refundPathId, 'checked', val));
+                  (e) => {
+                    // 取出refundPathId===2的值&&取出refundPathId===3的值
+                    const tempAmount2 = refundPaths.filter(v => v.refundPathId === 2);
+                    const tempCurrency2 = refundPaths.filter(v => v.refundPathId === 2);
+                    const tempAmount3 = refundPaths.filter(v => v.refundPathId === 3);
+                    const tempCurrency3 = refundPaths.filter(v => v.refundPathId === 3);
+                    if (radioValue === 2) {
+                      dispatch(change('radioValue', 3));
+                    }
+                    if (radioValue === 3) {
+                      dispatch(change('radioValue', 2));
+                    }
+                    // 交换钱包和用户支付的值
+                    dispatch(changeChannelValue(3, 'refundAmount', tempAmount2[0].refundAmount));
+                    dispatch(changeChannelValue(3, 'refundCurrency', tempCurrency2[0].refundCurrency));
+                    dispatch(changeChannelValue(2, 'refundAmount', tempAmount3[0].refundAmount));
+                    dispatch(changeChannelValue(2, 'refundCurrency', tempCurrency3[0].refundCurrency));
+                  }
                 }
-              }
               >
                 {
-                  v.refundPathName
-                }
-              </Checkbox>
+                   v.refundPathId === 1 ?
+                     <Checkbox
+                       checked={v.checked}
+                       onChange={
+                             (e) => {
+                               const val = e.target.checked;
+                               dispatch(changeChannelValue(v.refundPathId, 'checked', val));
+                             }
+                           }
+                     >
+                       {
+                           v.refundPathName
+                         }
+                     </Checkbox>
+                       :
+                     <Radio
+                       value={v.refundPathId}
+                     >
+                       {
+                           v.refundPathName
+                         }
+                     </Radio>
+
+                 }
+              </Rg>
+
             </span>
 
             <span style={{ display: 'inline-block', width: 50, textAlign: 'center' }}>{v.priceUsd.symbol}</span>
@@ -76,23 +115,23 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
                 : maxTips[v.refundPathId].priceWithExchangeRate.amountWithSymbol
             }
             </span>
-            {
-              !!(v.refundPathId === 2) &&
-              <div>
-                <Button
-                  onChange={
-                  (e) => {
-                    // 交换钱包和用户的支付金额待定
-                    // dispatch(exchangeCardAndWallet());
-                  }
-                }
-                >
-                  {
-                    lan.交换钱包和用户支付的金额
-                  }
-                </Button>
-              </div>
-            }
+            {/* { */}
+            {/*! !(v.refundPathId === 2) && */}
+            {/* <div> */}
+            {/* <Button */}
+            {/* onChange={ */}
+            {/* (e) => { */}
+            {/* // 交换钱包和用户的支付金额待定 */}
+            {/* // dispatch(exchangeCardAndWallet()); */}
+            {/* } */}
+            {/* } */}
+            {/* > */}
+            {/* { */}
+            {/* lan.交换钱包和用户支付的金额 */}
+            {/* } */}
+            {/* </Button> */}
+            {/* </div> */}
+            {/* } */}
             <div style={{ marginTop: 5 }}>
               {
                 !!v.refundAccountTypeList.length &&
@@ -104,6 +143,7 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate }) => (
                     className={style.priceSelect}
                     value={v.refund_method}
                     onChange={(e) => {
+                      dispatch(changeChannelValue(v.refundPathId, 'account', ''));
                       dispatch(changeChannelValue(v.refundPathId, 'refund_method', e));
                     }}
                   >
