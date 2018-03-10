@@ -127,7 +127,6 @@ const reducer = (state = defaultState, action) => {
       };
       totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount;
       totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
-
       let resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       let resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
       let refundPaths = action.data.orderRefundPathList.map(v => assign({}, v, {

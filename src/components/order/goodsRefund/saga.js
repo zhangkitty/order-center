@@ -41,17 +41,27 @@ function* initSaga(action) {
 }
 
 function* submitSaga({ val }) {
-  debugger;
   const arr = val.refundPaths.filter(v => v.checked === true)
       .filter(v => v.refundPathId === 1 || v.refundPathId === val.radioValue)
       .map(v => assign({}, v, {
         account: v.card_number ? v.card_number : v.account,
       }));
-  debugger;
   if (arr.length === 0) {
     return message.warning(lan.请至少选择一个退款路径);
   }
   const tempArr = camel2Under(arr);
+  let temp_is_return_freight_insurance;
+  if (val.shipping === 0 && val.shippingInsurance === 0) {
+    temp_is_return_freight_insurance = 0;
+  } else if (val.shipping === 1 && val.shippingInsurance === 1) {
+    temp_is_return_freight_insurance = 1;
+  } else if (val.shipping === 1 && val.shippingInsurance === 0) {
+    temp_is_return_freight_insurance = 2;
+  } else if (val.shipping === 0 && val.shippingInsurance === 1) {
+    temp_is_return_freight_insurance = 3;
+  } else {
+    temp_is_return_freight_insurance = null;
+  }
   const data = {
     order_id: +val.routeParams.orderId,
     order_goods_ids: val.routeParams.goodsId,
@@ -59,7 +69,7 @@ function* submitSaga({ val }) {
     reason: val.reasonId,
     remark: val.remark,
     rl_amount: val.rlFee,
-    is_return_freight_insurance: val.shipping,
+    is_return_freight_insurance: temp_is_return_freight_insurance,
   };
   if (!val.reasonId) {
     return message.warning(lan.请选择取消商品的原因);
