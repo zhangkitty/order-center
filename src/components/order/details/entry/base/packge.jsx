@@ -53,6 +53,7 @@ const lan = {
   yuanbaoguo: __('order.entry.yuanbaoguo'),
   运单号: '运单号',
   保存: '保存',
+  必须勾选整个订单的全部商品: '必须勾选整个订单的全部商品',
 };
 
 // 商品状态
@@ -481,6 +482,11 @@ const Packge = ({
           <Button
             onClick={() => {
               if (!chooseGoods.length) { return message.warning(__('common.sagaTitle24')); }
+              if (status_code === 8 || status_code === 9) {
+                if (returned_goods_list.length !== chooseGoods.length) {
+                  return message.warning(lan.必须勾选整个订单的全部商品);
+                }
+              }
               return window.open(
                 `${location.origin}${location.pathname}#/order/goodsRefund/${orderId}/${chooseGoods.join(
                   ',',

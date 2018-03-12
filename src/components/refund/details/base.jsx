@@ -75,8 +75,8 @@ const Base = ({
       { name: language.支付交易号, key: 'txn_id' },
       { name: language.剩余可退金额, key: 'REST' },
       // { name: language.运费和运费险, key: 'shipping' },
-      { name: language.运费, key: 'hasShippingPriceRefunded' },
-      { name: language.运费险, key: 'hasShippingInsurancePriceRefunded' },
+      { name: language.运费, key: 'shipping_price' },
+      { name: language.运费险, key: 'shipping_insure_price' },
       { name: language.RL扣除费用, key: 'rl_fee' },
       { name: language.待退款金额, key: 'WAIT' },
       isCod && { name: __('order.goodsRefund.codFee'), key: 'CODFEE' },
@@ -106,7 +106,7 @@ const Base = ({
                   </span>
                 }
                 {
-                  (key === 'hasShippingPriceRefunded' || key === 'hasShippingInsurancePriceRefunded') &&
+                  (key === 'shipping_insure_price' || key === 'shipping_insure_price') &&
                   <span>
                     {refund_detail[key] === 1 ? language.退 : language.不退}
                   </span>
@@ -162,8 +162,8 @@ const Base = ({
                   (key !== 'REST'
                       && key !== 'TOTAL'
                       && key !== 'WAIT'
-                      && key !== 'hasShippingPriceRefunded'
-                      && key !== 'hasShippingInsurancePriceRefunded'
+                      && key !== 'shipping_insure_price'
+                      && key !== 'shipping_insure_price'
                   ) &&
                   <span>{refund_detail[key]}</span>
                 }
