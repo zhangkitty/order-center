@@ -167,7 +167,7 @@ const svInit = (source) => {
     refund_method: source.orderRefundUnderlineAccount.refundMethod, // 退款账户
     account: source.orderRefundUnderlineAccount.accountInfo, // 账户信息
     bank_code: source.orderRefundUnderlineAccount.bankCode, // 银行代码
-    account: source.orderRefundUnderlineAccount.cardNumber, // 银行卡号
+    account1: source.orderRefundUnderlineAccount.cardNumber, // 银行卡号
     customer: source.orderRefundUnderlineAccount.customerName, // 顾客姓名
     issuing_city: source.orderRefundUnderlineAccount.issuingCity, // 发卡城市
   }));
