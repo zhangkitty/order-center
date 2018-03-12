@@ -36,6 +36,10 @@ const language = {
   确认: __('refund.details.submit'),
   取消: __('common.cancel'),
   取消提现: __('refund.details.Cancel_withdrawal'),
+  运费: '运费',
+  运费险: '运费险',
+  退: '退',
+  不退: '不退',
 };
 
 const Base = ({
@@ -70,7 +74,9 @@ const Base = ({
       { name: language.用户钱包总额, key: 'WALLET_TOTAL' },
       { name: language.支付交易号, key: 'txn_id' },
       { name: language.剩余可退金额, key: 'REST' },
-      { name: language.运费和运费险, key: 'shipping' },
+      // { name: language.运费和运费险, key: 'shipping' },
+      { name: language.运费, key: 'hasShippingPriceRefunded' },
+      { name: language.运费险, key: 'hasShippingInsurancePriceRefunded' },
       { name: language.RL扣除费用, key: 'rl_fee' },
       { name: language.待退款金额, key: 'WAIT' },
       isCod && { name: __('order.goodsRefund.codFee'), key: 'CODFEE' },
@@ -97,6 +103,12 @@ const Base = ({
                   <span style={{ color: 'red' }}>
                       {wallet_balance.price_usd.amount_with_symbol}, {wallet_balance
                     .price_with_exchange_rate.amount_with_symbol}
+                  </span>
+                }
+                {
+                  (key === 'hasShippingPriceRefunded' || key === 'hasShippingInsurancePriceRefunded') &&
+                  <span>
+                    {refund_detail[key] === 1 ? language.退 : language.不退}
                   </span>
                 }
                 {
@@ -147,7 +159,12 @@ const Base = ({
                       </span>
                 }
                 {
-                  (key !== 'REST' || key !== 'TOTAL' || key !== 'WAIT') &&
+                  (key !== 'REST'
+                      && key !== 'TOTAL'
+                      && key !== 'WAIT'
+                      && key !== 'hasShippingPriceRefunded'
+                      && key !== 'hasShippingInsurancePriceRefunded'
+                  ) &&
                   <span>{refund_detail[key]}</span>
                 }
               </div>
