@@ -97,7 +97,6 @@ const reducer = (state = defaultState, action) => {
       } = orderPriceInfo;
       isUsd = action.data.isUsd;
       const { isAllCancel, orderStatus, isPlatformOrder } = orderPriceInfo;
-      console.log(isPlatformOrder);
       // 订单状态为已付款、已审核、进行中、已拒收、已报损
       const orderStatusArray = [1, 2, 3, 8, 9];
       const isOrderStatMeets = orderStatusArray.filter(v => v === (+orderStatus)).length;
@@ -126,8 +125,14 @@ const reducer = (state = defaultState, action) => {
         3: orderPriceInfo.cardCanRefundPrice,
         4: orderPriceInfo.overflowCanRefundPrice,
       };
-      totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount;
-      totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
+      if (DefaultValue) {
+        totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount + shippingAmount + insuranceAmount;
+        totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount + shippingCurrency + insuranceCurrency;
+      } else {
+        totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount;
+        totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
+      }
+
       let resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       let resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
       let refundPaths = action.data.orderRefundPathList.map(v => assign({}, v, {
