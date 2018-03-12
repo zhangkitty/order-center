@@ -43,12 +43,14 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                     const tempCurrency2 = refundPaths.filter(v => v.refundPathId === 2);
                     const tempAmount3 = refundPaths.filter(v => v.refundPathId === 3);
                     const tempCurrency3 = refundPaths.filter(v => v.refundPathId === 3);
-                    dispatch(change('radioValue', val));
                     // 交换钱包和用户支付的值
-                    dispatch(changeChannelValue(3, 'refundAmount', tempAmount2[0].refundAmount));
-                    dispatch(changeChannelValue(3, 'refundCurrency', tempCurrency2[0].refundCurrency));
-                    dispatch(changeChannelValue(2, 'refundAmount', tempAmount3[0].refundAmount));
-                    dispatch(changeChannelValue(2, 'refundCurrency', tempCurrency3[0].refundCurrency));
+                    if (radioValue === 2 || radioValue === 3) {
+                      dispatch(changeChannelValue(3, 'refundAmount', tempAmount2[0].refundAmount));
+                      dispatch(changeChannelValue(3, 'refundCurrency', tempCurrency2[0].refundCurrency));
+                      dispatch(changeChannelValue(2, 'refundAmount', tempAmount3[0].refundAmount));
+                      dispatch(changeChannelValue(2, 'refundCurrency', tempCurrency3[0].refundCurrency));
+                    }
+                    dispatch(change('radioValue', val));
                   }
                 }
                 >

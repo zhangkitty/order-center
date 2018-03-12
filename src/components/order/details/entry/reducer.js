@@ -15,6 +15,7 @@ const defaultState = {
   warehouse: 0,
   partSendBtn: false,
   rlLoading: false,
+  moreLoading: false,
   rlmodal: false,
   preSend: 0,
   dataSource: {
@@ -94,7 +95,7 @@ export default (state = defaultState, action) => {
       return assign({}, state, {
         dataSource: assign({}, state.dataSource, {
           refund: assign({}, state.dataSource.refund, {
-            refund_bill_list: [...state.dataSource.refund.refund_bill_list, ...action.val.refund_bill_list],
+            add_refund_bill_list: action.val.refund_bill_list,
           }),
         }),
       });

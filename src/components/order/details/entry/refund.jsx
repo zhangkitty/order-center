@@ -36,6 +36,7 @@ class Refund extends Component {
     const {
       // dataSource: { refund: { refund_bill_list } },
       dataSource: { refund },
+        moreLoading,
       billno,
       orderId,
       refund_account,
@@ -193,13 +194,126 @@ class Refund extends Component {
               },
             ]}
           />
-          <div>
-            <Button
-              onClick={e => dispatch(getRefundBillListByOrderIdSer(orderId))}
+          {
+            !!(refund.isPlatformOrders === 0) &&
+            <div
+              style={{ marginBottom: 5 }}
             >
-              {lan.展示更多}
-            </Button>
-          </div>
+              <Button
+                onClick={e => dispatch(getRefundBillListByOrderIdSer(orderId))}
+                loading={moreLoading}
+              >
+                {lan.展示更多}
+              </Button>
+            </div>
+          }
+          {
+            Array.isArray(refund.add_refund_bill_list) &&
+            <Table
+              rowKey="id"
+              dataSource={[...refund.add_refund_bill_list] || []}
+              columns={[
+                {
+                  title: lan.bianhao,
+                  dataIndex: 'id',
+                  width: '60px',
+                },
+                {
+                  title: __('order.name.order_number'),
+                  dataIndex: 'billno',
+                  width: '80px',
+                },
+                {
+                  title: lan.leixing,
+                  dataIndex: 'type',
+                  width: '80px',
+                },
+                {
+                  title: lan.shijian,
+                  dataIndex: 'date_of_application',
+                  width: '130px',
+                },
+                {
+                  title: lan.ren,
+                  dataIndex: 'applicant',
+                  width: '60px',
+                },
+                {
+                  title: lan.jine,
+                  dataIndex: 'apply_for_refund_amount',
+                  width: '130px',
+                  render: d => (
+                    <span>
+                      {d.price_usd.amount_with_symbol}
+                          ---
+                          {d.price_with_exchange_rate.amount_with_symbol}
+                    </span>
+                    ),
+                },
+                {
+                  title: lan.shangpin,
+                  dataIndex: 'refund_goods_list',
+                    // width: '180px',
+                  render: d => (<span>{d.join('、')}</span>),
+                },
+                {
+                  title: lan.lujin,
+                  dataIndex: 'refund_record_list',
+                  width: '70px',
+                  render: d => (<span>{d.map(v => v.refund_path_name).join('、')}</span>),
+                },
+                {
+                  title: lan.yuanyin,
+                  dataIndex: 'refund_reason',
+                  width: '70px',
+                },
+                {
+                  title: lan.zhaungtai,
+                  dataIndex: 'status',
+                  width: '80px',
+                },
+                {
+                  title: lan.bohuiyuanyin,
+                  dataIndex: 'reject_reason',
+                  width: '100px',
+                },
+                {
+                  title: lan.pingzhenghao,
+                  dataIndex: 'refund_txn_id',
+                  width: '100px',
+                },
+                {
+                  title: lan.caozuo,
+                  width: '100px',
+                  render: rec => (
+                    <div>
+                      {
+                            Number(rec.type_id) < 3 &&
+                            (Number(rec.status_code) === 4 || Number(rec.status_code) === 1) ?
+                              <Link
+                                to={`order/details/change-refund/${rec.id}`}
+                                style={{ marginRight: '5px' }}
+                              >
+                                {lan.xiugaishenqing}
+                              </Link> : null
+                          }
+                      {
+                            rec.status_code === 4 || rec.status_code === 1 ?
+                              <Popconfirm
+                                title={lan.cancelRefund}
+                                onConfirm={() => dispatch(cancelRefund(rec.id))}
+                              >
+                                <Button>{lan.quxiaotuikuai}</Button>
+                              </Popconfirm>
+                                : null
+                          }
+                    </div>
+                    ),
+                },
+              ]}
+            />
+          }
+
           <div>
             <div className={style.refund_account_title}>{__('order.entry.refund_23')}</div>
             <div style={{ color: '#333' }}>

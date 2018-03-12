@@ -42,6 +42,7 @@ function* initSaga(action) {
 
 function* submitSaga({ val }) {
   const arr = val.refundPaths.filter(v => v.checked === true)
+      .filter(v => v.isShow === 1)
       .filter(v => v.refundPathId === 1 || v.refundPathId === val.radioValue)
       .map(v => assign({}, v, {
         account: v.card_number ? v.card_number : v.account,

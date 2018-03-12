@@ -7,7 +7,7 @@ import * as TYPES from './types';
 import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
-  remarkShowSuccess, remarkSaveSuccess, remarkShow,addOrderRefundInfo
+  remarkShowSuccess, remarkSaveSuccess, remarkShow, addOrderRefundInfo,
 } from './action';
 
 import {
@@ -231,7 +231,9 @@ function* refundAccountSaga(action) {
 }
 
 function* getefundbBillistbyorderidSaga(action) {
+  yield put(commit('moreLoading', true));
   const data = yield getefundbBillistbyorderidSer(action.orderId);
+  yield put(commit('moreLoading', false));
   if (!data || data.code !== 0) {
     return message.warning(`${lan.fail}:${data.msg}`);
   }
