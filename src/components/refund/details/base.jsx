@@ -106,7 +106,7 @@ const Base = ({
                   </span>
                 }
                 {
-                  (key === 'shipping_insure_price' || key === 'shipping_insure_price') &&
+                  (key === 'shipping_price' || key === 'shipping_insure_price') &&
                   <span>
                     {refund_detail[key] === 1 ? language.退 : language.不退}
                   </span>
@@ -162,7 +162,7 @@ const Base = ({
                   (key !== 'REST'
                       && key !== 'TOTAL'
                       && key !== 'WAIT'
-                      && key !== 'shipping_insure_price'
+                      && key !== 'shipping_price'
                       && key !== 'shipping_insure_price'
                   ) &&
                   <span>{refund_detail[key]}</span>
