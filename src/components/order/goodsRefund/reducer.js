@@ -96,7 +96,8 @@ const reducer = (state = defaultState, action) => {
         hasShippingPriceRefunded,
       } = orderPriceInfo;
       isUsd = action.data.isUsd;
-      const { isAllCancel, orderStatus } = orderPriceInfo;
+      const { isAllCancel, orderStatus, isPlatformOrder } = orderPriceInfo;
+      console.log(isPlatformOrder);
       // 订单状态为已付款、已审核、进行中、已拒收、已报损
       const orderStatusArray = [1, 2, 3, 8, 9];
       const isOrderStatMeets = orderStatusArray.filter(v => v === (+orderStatus)).length;
@@ -149,7 +150,7 @@ const reducer = (state = defaultState, action) => {
         hasShippingPriceRefunded,
         shipping: DefaultValue ? 1 : 0,
         shippingInsurance: DefaultValue ? 1 : 0,
-        radioValue: resultCurrency[2] > 0 ? 2 : 0,
+        radioValue: isPlatformOrder === 1 ? 3 : (resultCurrency[2] > 0 ? 2 : 0),
       });
     case types.changeChannelValue:
       return assign({}, state, {
