@@ -44,8 +44,8 @@ function* submitSaga(action) {
   }
   message.success(lan.commit_success);
   yield put(change('submitdisabled', true));
-  return yield put(change('submitLoad', false));
-  // return setTimeout(window.close, 3000); // 关闭窗口
+  yield put(change('submitLoad', false));
+  return setTimeout(window.close, 3000); // 关闭窗口
 }
 
 export default function* () {
