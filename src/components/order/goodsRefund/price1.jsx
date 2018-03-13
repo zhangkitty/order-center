@@ -84,6 +84,9 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
               </span>
 
               <span style={{ display: 'inline-block', width: 50, textAlign: 'center' }}>{v.priceUsd.symbol}</span>
+              {
+                console.log(isUsd)
+              }
               <Input
                 disabled={!isUsd}
                 style={{ width: 150 }}
