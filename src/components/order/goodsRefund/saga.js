@@ -42,9 +42,10 @@ function* initSaga(action) {
 }
 
 function* submitSaga({ val }) {
+  const cod = val.dataSource.orderPriceInfo.isCod;
   function filterAccount(path) {
     if (path.refundPathId <= 2) return true;
-    if (path.refundPathId === 3 && !this.props.isCod) return true;
+    if (path.refundPathId === 3 && !cod) return true;
     switch (path.refund_method) {
       case 'Paytm':
         return path.account;
