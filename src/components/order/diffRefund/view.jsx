@@ -76,11 +76,10 @@ class DiffRefund extends Component {
                           x.card_number = null;
                         }
                         return assign({}, x, {
-                          account: x.card_number,
+                          account: x.account ? x.account : x.card_number,
                           customer: x.customer_name,
                         });
                       });
-              console.log(refund_paths)
               if (!refund_paths.length || !reason) {
                 return message.warning(__('common.submitTitle3'));
               }
