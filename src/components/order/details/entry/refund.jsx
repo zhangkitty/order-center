@@ -180,13 +180,14 @@ class Refund extends Component {
                         </Link> : null
                     }
                     {
-                      rec.status_code === 4 || rec.status_code === 1 ?
-                        <Popconfirm
-                          title={lan.cancelRefund}
-                          onConfirm={() => dispatch(cancelRefund(rec.id))}
-                        >
-                          <Button>{lan.quxiaotuikuai}</Button>
-                        </Popconfirm>
+                        (rec.type_id !== 5) &&
+                        (rec.status_code === 4 || rec.status_code === 1) ?
+                          <Popconfirm
+                            title={lan.cancelRefund}
+                            onConfirm={() => dispatch(cancelRefund(rec.id))}
+                          >
+                            <Button>{lan.quxiaotuikuai}</Button>
+                          </Popconfirm>
                         : null
                     }
                   </div>
