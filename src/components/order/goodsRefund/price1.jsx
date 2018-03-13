@@ -87,7 +87,14 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
               <Input
                 disabled={!isUsd}
                 style={{ width: 150 }}
-                value={!isNaN(Number(v.refundAmount)) ? +Number(v.refundAmount).toFixed(2) : 0}
+                value={
+                  (function () {
+                    if (v.refundAmount === '') {
+                      return '';
+                    }
+                    return !isNaN(Number(v.refundAmount)) ? +Number(v.refundAmount).toFixed(2) : 0;
+                  }())
+                }
                 onChange={
                 (e) => {
                   const temp = Number(e.target.value * rate).toFixed(2);
@@ -100,7 +107,14 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
               <Input
                 disabled={isUsd}
                 style={{ width: 150 }}
-                value={!isNaN(Number(v.refundCurrency)) ? +Number(v.refundCurrency).toFixed(2) : 0}
+                value={
+                  (function () {
+                    if (v.refundCurrency === '') {
+                      return '';
+                    }
+                    return !isNaN(Number(v.refundCurrency)) ? +Number(v.refundCurrency).toFixed(2) : 0;
+                  }())
+                }
                 onChange={
                 (e) => {
                   const temp = Number(e.target.value / rate).toFixed(2);
