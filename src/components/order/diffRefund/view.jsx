@@ -7,6 +7,7 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import assign from 'object-assign';
 import { connect } from 'react-redux';
 // import assign from 'object-assign';
 import { Radio, Button, Input, Tag, message, Spin } from 'antd';
@@ -43,11 +44,6 @@ class DiffRefund extends Component {
               const refund_paths = refundPaths.filter(v => v.isShow === 1)
                   .filter(v => v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0))
                       .map((x) => {
-                // if (x.refund_method === '其他' || x.refund_method === 'others') {
-                //   x.refund_method = x.refund_method1;
-                // }
-                // refundPathId < 3  ,不需要退款账号信息
-                // refundPathId =3 && 不是cod,不需要退款账号信息
                         if (x.refundPathId < 3) {
                           x.refund_method = null;
                           x.account = null;
@@ -63,7 +59,10 @@ class DiffRefund extends Component {
                           x.issuing_city = null;
                           x.card_number = null;
                         }
-                        return x;
+                        return assign({}, x, {
+                          account: x.card_number,
+                          customer: x.customer_name,
+                        });
                       });
               if (!refund_paths.length || !reason) {
                 return message.warning(__('common.submitTitle3'));

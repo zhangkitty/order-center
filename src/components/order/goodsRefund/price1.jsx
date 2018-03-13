@@ -230,6 +230,10 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                     />
                   }
                   {
+                    v.refund_method === 'Paytm' &&
+                    <span style={tipStyle}>10 digits are needed</span>
+                  }
+                  {
                     v.refund_method === 'PayPal' &&
                     <Input
                       style={{ width: 150 }}
