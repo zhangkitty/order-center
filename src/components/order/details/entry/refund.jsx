@@ -457,32 +457,8 @@ class Refund extends Component {
                       </div>
                     </div>
                   }
-
-                  {/* 账户--其他 */}
                   {
-                    // +refund_method === 4 ?
-                    //   <div className={style.refund_list}>
-                    //     <span className={style.refund_name}>
-                    //      {star}{__('order.entry.cash_content6')}
-                    //     </span>
-                    //     <Input
-                    //       placeholder={__('order.entry.cash_content8')} // 请输入正确的退款账户
-                    //       className={style.priceInput}
-                    //       required
-                    //       value={refund_method_account}
-                    //       onChange={(e) => {
-                    //         dispatch(commit2('refund_method_account', e.target.value));
-                    //       }}
-                    //     />
-                    //   </div>
-                    //   :
-                    //   null
-                  }
-                  {/* 退款方式 = Paytm  */}
-                  {/* 退款方式 = PayPal */}
-                  {/* 退款账户信息 !== 'yes bank' 显示 */}
-                  {
-                    +refund_method !== 3 &&
+                    +refund_method === 2 &&
                     <div className={style.refund_list}>
                       <span className={style.refund_name}>{star}{__('order.entry.refund_22')}</span>
                       <Input
@@ -495,6 +471,29 @@ class Refund extends Component {
                           return dispatch(commit2('account_info', e.target.value));
                         }}
                       />
+                    </div>
+                  }
+                  {
+                    +refund_method === 1 &&
+                    <div className={style.refund_list}>
+                      <span className={style.refund_name}>{star}{__('order.entry.refund_22')}</span>
+                      <Input
+                        placeholder={__('order.entry.cash_content7')} // 请输入正确的退款账户信息
+                        required
+                        className={style.priceInput}
+                        value={account_info}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (/[^(\d)]+/.test(val)) {
+                            return false;
+                          } // 只允许数字
+                          if (val.length >= 11) {
+                            return false;
+                          }
+                          return dispatch(commit2('account_info', e.target.value));
+                        }}
+                      />
+                      <span style={{ marginLeft: 10, background: 'yellow' }}>10 digits are needed</span>
                     </div>
                   }
                 </div>

@@ -20,6 +20,7 @@ const defaultState = {
   rate: null,
   hasShippingInsurancePriceRefunded: 0, // 运费险是否已经退过
   hasShippingPriceRefunded: 0, // 运费是否已经退过
+  isUsd: null,
 
 };
 
@@ -58,9 +59,8 @@ let shippingAmount;// 运费(美元)
 let shippingCurrency;// 运费
 let insuranceAmount;// 运费险(美元)
 let insuranceCurrency;// 运费险
-const rlFeeAmount = 0;// rl费用(美元)
+let rlFeeAmount = 0;// rl费用(美元)
 let rlFeeCurrency = 0;// rl费用
-let isUsd;
 
 
 const orderStatusTable = {
@@ -95,7 +95,7 @@ const reducer = (state = defaultState, action) => {
         hasShippingInsurancePriceRefunded,
         hasShippingPriceRefunded,
       } = orderPriceInfo;
-      isUsd = action.data.isUsd;
+      const isUsd = action.data.isUsd;
       const { isAllCancel, orderStatus, isPlatformOrder } = orderPriceInfo;
       // 订单状态为已付款、已审核、进行中、已拒收、已报损
       const orderStatusArray = [1, 2, 3, 8, 9];
@@ -156,6 +156,7 @@ const reducer = (state = defaultState, action) => {
         shipping: DefaultValue ? 1 : 0,
         shippingInsurance: DefaultValue ? 1 : 0,
         radioValue: isPlatformOrder === 1 ? 3 : (resultCurrency[2] > 0 ? 2 : 0),
+        isUsd,
       });
     case types.changeChannelValue:
       return assign({}, state, {
@@ -205,7 +206,7 @@ const reducer = (state = defaultState, action) => {
         totalAmount = totalCurrency / state.rate;
       } else {
         totalAmount = totalAmount + rlFeeAmount - action.val;
-        totalAmount = action.val;
+        rlFeeAmount = action.val;
         totalCurrency = totalAmount * state.rate;
       }
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);

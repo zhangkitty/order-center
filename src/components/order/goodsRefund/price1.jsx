@@ -84,6 +84,9 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
               </span>
 
               <span style={{ display: 'inline-block', width: 50, textAlign: 'center' }}>{v.priceUsd.symbol}</span>
+              {
+                console.log(isUsd)
+              }
               <Input
                 disabled={!isUsd}
                 style={{ width: 150 }}
@@ -228,6 +231,10 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                         return dispatch(changeChannelValue(v.refundPathId, 'account', e.target.value));
                       }}
                     />
+                  }
+                  {
+                    v.refund_method === 'Paytm' &&
+                    <span style={tipStyle}>10 digits are needed</span>
                   }
                   {
                     v.refund_method === 'PayPal' &&
