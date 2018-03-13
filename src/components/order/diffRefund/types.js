@@ -23,3 +23,4 @@ export const CHANGE = `${prefix}change`;
 export const RESET = `${prefix}reset`;
 export const PATHCHANGE = `${prefix}pathchange`;
 export const CHANGE_CHANNEL_VALUE = `${prefix}CHANGE_CHANNEL_VALUE`;
+export const CHANGE_INPUT_DISABLE = `${prefix}CHANGE_INPUT_DISABLE`;

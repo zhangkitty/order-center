@@ -2,7 +2,7 @@ import { Checkbox, Input, Select } from 'antd';
 import React from 'react';
 
 import style from './style.css';
-import { changeChannelValue } from './action';
+import { changeChannelValue, changeInputDisable } from './action';
 
 
 const Option = Select.Option;
@@ -30,6 +30,7 @@ const price = ({
                maxTips,
                isUsd,
                rate,
+               otherInputDisable
                }) => (
                  <div className={style.spaceBg} >
                    <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}</span>
@@ -40,9 +41,12 @@ const price = ({
              <div style={{ marginBottom: 5 }}>
                <span style={{ width: 120, display: 'inline-block' }}>
                  <Checkbox
+                   disabled={otherInputDisable && (v.refundPathId !== 2)}
+                   checked={v.checked}
                    onChange={
                      (e) => {
                        dispatch(changeChannelValue(v.refundPathId, 'checked', e.target.checked));
+                       if (v.refundPathId === 2) dispatch(changeInputDisable(e.target.checked));
                      }
                    }
                  >
@@ -145,21 +149,24 @@ const price = ({
                      }
                      {
                        v.refund_method === 'Paytm' &&
-                       <Input
-                         style={{ width: 150 }}
-                         placeholder={lan.请输入账户信息}
-                         value={v.account}
-                         onChange={(e) => {
-                           const val = e.target.value;
-                           if (/[^(\d)]+/.test(val)) {
-                             return false;
-                           } // 只允许数字
-                           if (val.length >= 11) {
-                             return false;
-                           }
-                           return dispatch(changeChannelValue(v.refundPathId, 'account', e.target.value));
-                         }}
-                       />
+                       <span>
+                         <Input
+                           style={{ width: 150 }}
+                           placeholder={lan.请输入账户信息}
+                           value={v.account}
+                           onChange={(e) => {
+                             const val = e.target.value;
+                             if (/[^(\d)]+/.test(val)) {
+                               return false;
+                             } // 只允许数字
+                             if (val.length >= 11) {
+                               return false;
+                             }
+                             return dispatch(changeChannelValue(v.refundPathId, 'account', e.target.value));
+                           }}
+                         />
+                         <span style={tipStyle}>{__('order.goodsRefund.digits_are_needed')}</span>
+                       </span>
                      }
                      {
                        v.refund_method === 'PayPal' &&

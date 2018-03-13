@@ -67,3 +67,8 @@ export const changeChannelValue = (channel, key, val) => ({
   key,
   val,
 });
+
+export const changeInputDisable = isDisable => ({
+  type: TYPES.CHANGE_INPUT_DISABLE,
+  isDisable,
+});

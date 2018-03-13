@@ -26,6 +26,7 @@ const defaultState = {
   submitdisabled: false,
   isUsd: null,
   cachePaths: [],
+  otherInputDisable: false,
 };
 
 // 改变refundPaths里面的内容
@@ -45,6 +46,15 @@ function changeChannelProp(refundPaths, { channel, key, val }) {
     return chan;
   });
   return res;
+}
+
+function resetOtherInput(refundPaths) {
+  return refundPaths.map((path) => {
+    if (path.refundPathId === 1 || path.refundPathId === 2 || !path.checked) return path;
+    return assign({}, path, {
+      checked: false,
+    });
+  });
 }
 
 const reducer = (state = defaultState, action) => {
@@ -151,6 +161,11 @@ const reducer = (state = defaultState, action) => {
           customer: v.customer,
           issuing_city: v.issuing_city,
         })),
+      });
+    case TYPES.CHANGE_INPUT_DISABLE:
+      return assign({}, state, {
+        otherInputDisable: action.isDisable,
+        refundPaths: resetOtherInput(state.refundPaths),
       });
 
     default:
