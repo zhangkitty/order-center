@@ -23,9 +23,24 @@ class DiffRefund extends Component {
   constructor(props) {
     super(props);
     const { params: { orderId, type } } = props;
+    this.filterAccount = this.filterAccount.bind(this);
     props.dispatch(initPriceInfo({ order_id: orderId }));
     props.dispatch(initReasonList({ type }));
     props.dispatch(change('order_id', Number(orderId)));
+  }
+  filterAccount(path) {
+    if (path.refundPathId < 2) return true;
+    if (path.refundPathId === 3 && !this.props.isCod) return true;
+    switch (path.refund_method) {
+      case 'Paytm':
+        return path.account;
+      case 'PayPal':
+        return path.account;
+      case 'yes bank':
+        return path.bank_code && path.card_number && path.customer_name && path.issuing_city;
+      default:
+        return false;
+    }
   }
 
   render() {
@@ -42,6 +57,7 @@ class DiffRefund extends Component {
               e.preventDefault();
               const refund_paths = refundPaths.filter(v => v.isShow === 1)
                   .filter(v => v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0))
+                .filter(this.filterAccount)
                       .map((x) => {
                 // if (x.refund_method === '其他' || x.refund_method === 'others') {
                 //   x.refund_method = x.refund_method1;
@@ -65,6 +81,7 @@ class DiffRefund extends Component {
                         }
                         return x;
                       });
+              console.log(refund_paths)
               if (!refund_paths.length || !reason) {
                 return message.warning(__('common.submitTitle3'));
               }
