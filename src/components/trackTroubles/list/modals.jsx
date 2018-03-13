@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Button, Modal, Spin, Table, Input, Select, message } from 'antd';
-import { commit, addRemark, handled, getData, uploadImg } from './action';
+import { Button, Modal, Spin, Table, Input, Select, message, Radio } from 'antd';
+import { commit, addRemark, handled, getData, uploadImg, followTrouble } from './action';
 import UploadWrap from './uploadWrap';
 import style from './style.css';
 
@@ -14,11 +14,12 @@ const lan = {
   uploadImg: '上传图片',
 };
 const OP = Select.Option;
+const RG = Radio.Group;
 const Modals = ({
   dispatch,
   remarkShow, remarkLoad, remarkData, remark, troubleId,
   handledShow, filters, handleType, filter, load,
-  uploadShow, imgList, previewVisible, previewImage,
+  uploadShow, imgList, previewVisible, previewImage, followShow, handleStatus, handleStatusList
 }) => (
   <div>
     {/* 备注 */}
@@ -107,6 +108,24 @@ const Modals = ({
         </Button>
       </div>
     </Modal>
+    {/* 跟进中 */}
+    <Modal
+      visible={followShow}
+      onCancel={() => dispatch(commit('followShow', false))}
+      onOk={() => dispatch(followTrouble(troubleId, handleStatus, filter))}
+    >
+      <RG
+        required
+        value={handleStatus}
+        onChange={e => dispatch(commit('handleStatus', e.target.value))}
+      >
+        {
+          handleStatusList.map(v => (
+            <Radio value={v.id} style={{ width: '40%' }}>{v.name}</Radio>
+          ))
+        }
+      </RG>
+    </Modal>
     {/* 上传图片 */}
     <Modal
       footer={null}
@@ -145,6 +164,9 @@ Modals.propTypes = {
   filters: PropTypes.shape(),
   filter: PropTypes.shape(),
   handleType: PropTypes.string,
+  followShow: PropTypes.bool,
+  handleStatusList: PropTypes.arrayOf(PropTypes.shape()),
+  handleStatus: PropTypes.string,
 };
 
 export default Modals;

@@ -10,13 +10,16 @@ const list = {
   followTrouble: '/OrderLogisticsTroubles/follow',
   handledSer: '/OrderLogisticsTroubles/handle',
   uploadImgSer: '/OrderLogisticsTroubles/upload',
+  getStatusInfo: '/OrderLogisticsTroubles/getStatistics',
+  exportId: '/OrderLogisticsTroubles/export',
+  getFollowShow: '/OrderLogisticsTroubles/getFollowConfig',
 };
 
 export const getDataSer = (filter) => {
   const keys = [
     'pageSize', 'pageNumber',
     'reference_number', 'shipping_method_real', 'shipping_no', 'trouble_type', 'handle_status', 'handle_result', 'handle_user_name',
-    'shipping_country_name', 'site_from', 'add_time_from', 'add_time_to', 'delivery_time_from', 'delivery_time_to',
+    'shipping_country_name', 'site_from', 'add_time_from', 'add_time_to', 'delivery_time_from', 'delivery_time_to', 'add_user_name',
   ];
   return fetch(`${list.getData}?${queryString(camel2Under(keys), camel2Under(filter))}`, {
     method: 'GET',
@@ -40,10 +43,10 @@ export const addRemark = (id, note) => (
   })
 );
 
-export const followTroubleSer = id => (
+export const followTroubleSer = (id, status) => (
   fetch(list.followTrouble, {
     method: 'post',
-    body: JSON.stringify({ trouble_id: +id }),
+    body: JSON.stringify({ trouble_id: +id, handle_status: +status }),
   })
 );
 export const handledSer = (id, res) => (
@@ -61,4 +64,26 @@ export const uploadImgSer = (id, files) => {
     method: 'post',
     body: formData,
   }, {});
+};
+
+//获取不同处理状态汇总信息
+export const getStatusAllSer = () => (
+  fetch(list.getStatusInfo, {
+    method: 'GET',
+  })
+);
+
+// 批量导出
+export const exportId = (data) => {
+  return fetch(`${list.exportId}`, {
+    method: 'post',
+    body: JSON.stringify(data),
+  })
+};
+
+//获取问题认领对应的选项配置
+export const followShow = () => {
+  return fetch(list.getFollowShow, {
+    method: 'GET',
+  })
 };

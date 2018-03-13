@@ -72,6 +72,7 @@ const defaultState = {
   },
   returnCopied: false, // 复制状态
   RefundShow: false,
+  trackImages: [],   //  图片
 };
 
 export default (state = defaultState, action) => {
