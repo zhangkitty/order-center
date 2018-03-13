@@ -41,7 +41,7 @@ const price = ({
              <div style={{ marginBottom: 5 }}>
                <span style={{ width: 120, display: 'inline-block' }}>
                  <Checkbox
-                   disabled={otherInputDisable && (v.refundPathId !== 2)}
+                   disabled={otherInputDisable && (v.refundPathId !== 2 && v.refundPathId !== 1)}
                    checked={v.checked}
                    onChange={
                      (e) => {
