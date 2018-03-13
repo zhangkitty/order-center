@@ -30,7 +30,7 @@ class DiffRefund extends Component {
     props.dispatch(change('order_id', Number(orderId)));
   }
   filterAccount(path) {
-    if (path.refundPathId < 2) return true;
+    if (path.refundPathId <= 2) return true;
     if (path.refundPathId === 3 && !this.props.isCod) return true;
     switch (path.refund_method) {
       case 'Paytm':
@@ -57,8 +57,8 @@ class DiffRefund extends Component {
             onSubmit={(e) => {
               e.preventDefault();
               const refund_paths = refundPaths.filter(v => v.isShow === 1)
-                  .filter(v => v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0))
-                .filter(this.filterAccount)
+                  .filter(v => v.checked)
+                  .filter(this.filterAccount)
                       .map((x) => {
                         if (x.refundPathId < 3) {
                           x.refund_method = null;

@@ -19,6 +19,7 @@ const lan = {
   退款成功: '退款成功',
   请至少选择一个退款路径: '请至少选择一个退款路径',
   请选择取消商品的原因: '请选择取消商品的原因',
+  缺少必填项: '缺少必填项',
 };
 
 
@@ -41,14 +42,29 @@ function* initSaga(action) {
 }
 
 function* submitSaga({ val }) {
+  function filterAccount(path) {
+    if (path.refundPathId <= 2) return true;
+    if (path.refundPathId === 3 && !this.props.isCod) return true;
+    switch (path.refund_method) {
+      case 'Paytm':
+        return path.account;
+      case 'PayPal':
+        return path.account;
+      case 'yes bank':
+        return path.bank_code && path.card_number && path.customer_name && path.issuing_city;
+      default:
+        return false;
+    }
+  }
   const arr = val.refundPaths.filter(v => v.checked === true)
+      .filter(filterAccount)
       .filter(v => v.isShow === 1)
       .filter(v => v.refundPathId === 1 || v.refundPathId === val.radioValue)
       .map(v => assign({}, v, {
         account: v.card_number ? v.card_number : v.account,
       }));
   if (arr.length === 0) {
-    return message.warning(lan.请至少选择一个退款路径);
+    return message.warning(lan.缺少必填项);
   }
   const tempArr = camel2Under(arr);
   // 0都不退，1都退，2退运费，3退运险费

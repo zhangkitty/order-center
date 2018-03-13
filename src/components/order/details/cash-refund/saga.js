@@ -11,6 +11,23 @@ import {
 
 import * as TYPES from './types';
 
+const lan = {
+  缺少必填项: '缺少必填项',
+};
+
+function filterAccount(path) {
+  switch (path.refund_method) {
+    case 'Paytm':
+      return path.account;
+    case 'PayPal':
+      return path.account;
+    case 'yes bank':
+      return path.bank_code && path.card_number && path.customer_name && path.issuing_city;
+    default:
+      return false;
+  }
+}
+
 function* getDataSaga(action) {
   const { orderId } = action;
   const data = yield cashDataSer(orderId);
@@ -22,6 +39,9 @@ function* getDataSaga(action) {
 }
 
 function* submitSaga(action) {
+  if (action.data.refundPaths.filter(filterAccount).length < 1) {
+    return message.warning(lan.缺少必填项);
+  }
   const data = yield cashRefundSubmit(action.data);
   if (!data || data.code !== 0) {
     message.error(`${__('order.goodsRefund.submit_fail')}: ${data.msg}`);
