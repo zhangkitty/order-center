@@ -194,7 +194,7 @@ const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
                             onChange={(e) => {
                               if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
                               return onC(dispatch, submitValue, i, {
-                                account: e.target.value });
+                                account1: e.target.value });
                             }}
                           />
                           :
