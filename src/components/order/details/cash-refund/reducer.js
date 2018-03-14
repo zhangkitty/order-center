@@ -117,10 +117,6 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         reasons: under2Camal(action.res),
       });
-    case TYPES.SUBMIT:
-      return assign({}, state, {
-        submitLoad: true,
-      });
     case TYPES.CHANGE:
       return assign({}, state, {
         [action.key]: action.val,

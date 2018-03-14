@@ -16,15 +16,15 @@ const lan = {
 };
 
 function filterAccount(path) {
-  switch (path.refund_method) {
+  switch (path.refundMethod) {
     case 'Paytm':
       return path.account;
     case 'PayPal':
       return path.account;
     case 'yes bank':
-      return path.bank_code && path.card_number && path.customer_name && path.issuing_city;
+      return path.bankCode && path.cardNumber && path.customer && path.issuingCity;
     default:
-      return false;
+      return true;
   }
 }
 
@@ -42,6 +42,7 @@ function* submitSaga(action) {
   if (action.data.refundPaths.filter(filterAccount).length < 1) {
     return message.warning(lan.缺少必填项);
   }
+  yield put(change('submitLoad', true));
   const data = yield cashRefundSubmit(action.data);
   if (!data || data.code !== 0) {
     message.error(`${__('order.goodsRefund.submit_fail')}: ${data.msg}`);
