@@ -7,7 +7,7 @@ import * as TYPES from './types';
 import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
-  remarkShowSuccess, remarkSaveSuccess, remarkShow,
+  remarkShowSuccess, remarkSaveSuccess, remarkShow, switchRemarkSet, switchRemark, questionRemarkSaveSet
 } from './action';
 
 import {
@@ -30,6 +30,8 @@ import {
   getTroubleTypes,
   trackTroublePublish,
   refundAccountSer,
+  switchRemarkSer,
+  questionRemarkSer,
 } from '../server';
 
 const lan = {
@@ -228,7 +230,26 @@ function* refundAccountSaga(action) {
   yield put(commit('RefundShow', false));
   return message.success(lan.osucess);
 }
+// 物流问题反馈备注查看
+function* switchRemarkSaga(action) {
+  const data = yield switchRemarkSer(action.types, action.numbers);
+  if (!data || data.code !== 0) {
+    message.error(`${__('common.sagaTitle11')} ${data.msg}`);
+  }
+  return yield put(switchRemarkSet(data.data));
+}
 
+// 物流问题反馈备注保存
+function* questionRemarkSaga(action) {
+  console.log(action.numbers);
+  const data = yield questionRemarkSer(action.types, action.note, action.numbers);
+  if (!data || data.code !== 0) {
+    message.error(`${__('common.sagaTitle12')}${data.msg}`);
+  }
+  message.success(__('common.sagaTitle13'));
+  yield put(questionRemarkSaveSet());
+  yield put(switchRemark(action.types, action.numbers));
+}
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -249,4 +270,6 @@ export default function* () {
   yield takeLatest(TYPES.TRACK_TROUBLE, getTrackTroubleReason);
   yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
   yield takeLatest(TYPES.REFUND_ACCOUNT, refundAccountSaga);
+  yield takeLatest(TYPES.SWITCH_REMARK, switchRemarkSaga);
+  yield takeLatest(TYPES.QUESTION_REMARK_SAVE, questionRemarkSaga);
 }

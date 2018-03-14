@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import { Modal, Radio, Input, Button, message, Upload, Icon, Tag } from 'antd';
+import { Modal, Radio, Input, Button, message, Upload, Icon, Tag, Table } from 'antd';
 import assign from 'object-assign';
-import { commit, trackTroubleSubmit } from './action';
+import { commit, trackTroubleSubmit, switchRemark, closeRemark, questionRemarkSave, questionRemarkSaveSet } from './action';
 import Styles from './style.css';
 // TODO: lan
 const lan = {
@@ -9,6 +9,11 @@ const lan = {
   qsDesc: '问题描述',
   save: __('order.entry.confirm'),
   need: __('order.entry.order_return_15'),
+  goutongjilu: '沟通记录',
+  xinzengbeizhu: '新增备注',
+  guanbibeizhu: '关闭沟通记录',
+  baochun: '保存备注',
+  quxiao: '取消',
 };
 const RG = Radio.Group;
 const TA = Input.TextArea;
@@ -24,8 +29,22 @@ const checkImage = (file) => {
   }
   return true;
 };
+// 备注
+const columnsRemark = [{
+  title: __('common.operationCheck'),
+  dataIndex: 'handle_admin_user_name',
+  width: '80px',
+}, {
+  title: __('common.operationCheck1'),
+  dataIndex: 'handle_time',
+  width: '150px',
+}, {
+  title: __('common.order_operation4'),
+  dataIndex: 'note',
+}];
+
 const TrackTrouble = ({
-  dispatch, trackTroubleTypes, trackTroubleForm, trackTroubleShow, trackImages,
+  dispatch, trackTroubleTypes, trackTroubleForm, trackTroubleShow, trackImages, switchRemarkOpen, switchRemarkList, addRemarkOpen, note
 }) => (
   <Modal
     footer={null}
@@ -35,7 +54,7 @@ const TrackTrouble = ({
   >
     <form style={{ padding: '15px' }}>
       <div style={{ marginBottom: '20px' }}>
-        <span>{lan.qsType}</span>
+        <span>{lan.qsType}</span><span style={{ color: 'red' }}>*</span>
         <RG
           required
           value={trackTroubleForm.trouble_type}
@@ -61,7 +80,7 @@ const TrackTrouble = ({
       <div className={Styles.reason}>
         <div>
           <span className={Styles.descWidth}>
-            {__('order.goods-control.control_img')}
+            {__('order.goods-control.control_img')} ：
           </span>
           {
             trackImages.map(v => (
@@ -107,22 +126,79 @@ const TrackTrouble = ({
           </Tag>
         </div>
       </div>
-      <Button
-        size={'large'}
-        style={{ transform: 'translate(100%)', width: '150px' }}
-        loading={trackTroubleForm.trackTroubleSubmitLoad}
-        htmlType={'submit'}
-        onClick={(e) => {
-          e.preventDefault();
-          if (trackTroubleForm.trouble_type) {
-            dispatch(trackTroubleSubmit(assign({}, trackTroubleForm, { images: trackImages })));
-          } else {
-            message.warning(lan.need);
-          }
-        }}
-      >
-        {lan.save}
-      </Button>
+      <div style={{ margin: '20px 0' }}>
+        <Button
+          disabled={!trackTroubleForm.trouble_type}
+          onClick={() => dispatch(switchRemark(trackTroubleForm.trouble_type, trackTroubleForm.reference_number))}
+        >
+          {lan.goutongjilu}
+        </Button>
+      </div>
+      <div style={{ display: !switchRemarkOpen ? 'none' : 'block' }}>
+        <Table
+          bordered={true}
+          dataSource={switchRemarkList}
+          columns={columnsRemark}
+          pagination={false}
+          style={{ width: '600px', maxHeight: '200px', overflow: 'auto' }}
+        />
+        <div style={{ margin: '10px 0 5px 0' }}>
+          <Button
+            style={{ marginRight: '10px' }}
+            type="primary"
+            onClick={() => dispatch(commit('addRemarkOpen', true))}
+          >
+            {lan.xinzengbeizhu}
+          </Button>
+          <Button
+            onClick={() => dispatch(closeRemark())}
+          >
+            {lan.guanbibeizhu}
+          </Button>
+        </div>
+        <div
+          style={{ display: !addRemarkOpen ? 'none' : 'block' }}
+        >
+          <Input.TextArea
+            style={{ margin: '10px auto' }}
+            rows={3}
+            value={note}
+            onChange={e => dispatch(commit('note', e.target.value))}
+          />
+          <div>
+            <Button
+              type="primary"
+              style={{ marginRight: '10px' }}
+              onClick={() => dispatch(questionRemarkSave(trackTroubleForm.trouble_type, note, trackTroubleForm.reference_number))}
+            >
+              {lan.baochun}
+            </Button>
+            <Button
+              onClick={() => dispatch(questionRemarkSaveSet())}
+            >
+              {lan.quxiao}
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div style={{ textAlign: 'center' }}>
+        <Button
+          size={'large'}
+          style={{ width: '150px' }}
+          loading={trackTroubleForm.trackTroubleSubmitLoad}
+          htmlType={'submit'}
+          onClick={(e) => {
+            e.preventDefault();
+            if (trackTroubleForm.trouble_type) {
+              dispatch(trackTroubleSubmit(assign({}, trackTroubleForm, { images: trackImages })));
+            } else {
+              message.warning(lan.need);
+            }
+          }}
+        >
+          {lan.save}
+        </Button>
+      </div>
     </form>
   </Modal>
 );

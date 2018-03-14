@@ -73,6 +73,10 @@ const defaultState = {
   returnCopied: false, // 复制状态
   RefundShow: false,
   trackImages: [],   //  图片
+  switchRemarkOpen: false, // 物流问题备注显示
+  switchRemarkList: [], // 物流问题备注列表
+  addRemarkOpen: false, // 新增备注
+  note: '', // 物流问题备注
 };
 
 export default (state = defaultState, action) => {
@@ -210,6 +214,24 @@ export default (state = defaultState, action) => {
     case TYPES.REFUND_ACCOUNT:
       return assign({}, state, {
         refund_account: action.data,
+      });
+    case TYPES.SWITCH_REMARK:
+      return assign({}, state, {
+        switchRemarkOpen: true,
+      });
+    case TYPES.SWITCH_REMARK_SET:
+      return assign({}, state, {
+        switchRemarkList: action.data,
+      });
+    case TYPES.QUESTION_REMARK_SAVE_SET:
+      return assign({}, state, {
+        note: '',
+        addRemarkOpen: false,
+      });
+    case TYPES.CLOSE_REMARK:
+      return assign({}, state, {
+        note: '',
+        switchRemarkOpen: false,
       });
     default:
       return state;
