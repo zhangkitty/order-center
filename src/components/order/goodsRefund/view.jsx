@@ -76,7 +76,6 @@ class GoodsRefund extends Component {
                         v.issuing_city || Symbol('noValue') : null,
                 })),
             };
-            debugger;
             return dispatch(submitForward(newRes));
           }}
         >
