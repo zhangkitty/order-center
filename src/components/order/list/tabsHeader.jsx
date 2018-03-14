@@ -675,6 +675,8 @@ class TabsHeader extends Component {
                   <Option key="1"> {__('common.guangzhou')}</Option>
                   <Option key="10">{__('common.west')}</Option>
                   <Option key="20">{__('common.nansha')}</Option>
+                  <Option key="8">{__('common.america')}</Option>
+                  <Option key="9">{__('common.europe')}</Option>
                 </Select>
                 <Button
                   onClick={() => {

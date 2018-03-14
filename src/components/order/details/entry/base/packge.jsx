@@ -409,6 +409,7 @@ const Packge = ({
             )}
             {!!show_part_shipped_button && ( // 部分发货按钮
               <Popover
+                placement="topLeft"
                 content={
                   <form
                     onSubmit={(e) => {
@@ -426,6 +427,8 @@ const Packge = ({
                       <Radio value={1}>{lan.guangzhou}</Radio>
                       <Radio value={10}>{lan.xibu}</Radio>
                       <Radio value={20}>{__('common.nansha')}</Radio>
+                      <Radio value={8}>{__('common.america')}</Radio>
+                      <Radio value={9}>{__('common.europe')}</Radio>
                     </RG>
                     <Button htmlType="submit" type="primary">
                       {lan.save}

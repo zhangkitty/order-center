@@ -42,6 +42,8 @@ module.exports = {
   guangzhou: '广州',
   west: '西部',
   nansha: '南沙仓',
+  america: '美国东部仓',
+  europe: '欧洲仓',
   platform: '平台订单取消',
   review: '批量审核',
   customerCancel: '客服取消',
