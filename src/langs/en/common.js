@@ -42,7 +42,7 @@ module.exports = {
   guangzhou: 'Guangzhou warehouse',
   west: 'Western warehouse',
   nansha: 'nansha warehouse',
-  america: 'Eastern America warehouse',
+  america: 'Eastern USA warehouse',
   europe: 'Europe warehouse',
   platform: 'Platform Order cancelled',
   review: 'Bulk confirmation',
