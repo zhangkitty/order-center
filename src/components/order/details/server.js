@@ -78,6 +78,11 @@ const list = {
   orderSaveRemark: '/order/saveRemark',  // 添加备注
 };
 
+const question = {
+  switchRemark: '/OrderLogisticsTroubles/getNotes', //查看物流问题备注
+  addRemarkSave: '/OrderLogisticsTroubles/addNote', //保存物流感喟问题备注
+};
+
 
 export const getInfoSer = (id, bill) => {
   const base = () => fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
@@ -371,6 +376,21 @@ export const confirmReceivedServer = (deliveryNumber) => {
   })
 }
 
+
+// 物流问题反馈备注查看
+export const switchRemarkSer = (types, numbers) => {
+  return fetch(`${question.switchRemark}?trouble_type=${types}&reference_number=${numbers}`, {
+    method: 'GET',
+  })
+};
+
+// 物流问题反馈备注保存
+export const questionRemarkSer = (trouble_type, note, reference_number) => (
+  fetch(question.addRemarkSave, {
+    method: 'post',
+    body: JSON.stringify({ trouble_type, note, reference_number }),
+  })
+);
 
 
 

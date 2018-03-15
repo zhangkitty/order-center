@@ -2,9 +2,10 @@
 import { message } from 'antd';
 import { takeLatest, takeEvery, put } from 'redux-saga/effects';
 import * as types from './types';
-import { commit, getDataSuccess, remarkShow, getData } from './action';
-import { getFilters, getDataSer, getRemarks, addRemark, followTroubleSer, handledSer, uploadImgSer } from '../server';
+import { commit, getDataSuccess, remarkShow, getData, getStatusAllSet, followShowSet } from './action';
+import { getFilters, getDataSer, getRemarks, addRemark, followTroubleSer, handledSer, uploadImgSer, getStatusAllSer, exportId, followShow } from '../server';
 
+const FileSaver = require('file-saver');
 const lan = {
   ofail: __('order.entry.submit_info'),
   osucess: __('order.entry.submit_info1'),
@@ -51,7 +52,7 @@ function* addRemarkSaga(action) {
   return yield put(remarkShow(action.id));
 }
 function* followTroubleSaga(action) {
-  const data = yield followTroubleSer(action.id);
+  const data = yield followTroubleSer(action.id, action.handleStatus);
   if (!data || data.code !== 0) {
     message.error(`${lan.fail}: ${data.msg}`);
     return yield put(commit('load', false));
@@ -82,13 +83,42 @@ function* uploadImgSaga(action) {
   message.success(lan.osucess);
   return yield put(getData(action.filter));
 }
+
+// 获取不同处理状态汇总信息
+function* getStatusAllSage() {
+  const data = yield getStatusAllSer();
+  if (!data || data.code !== 0) {
+    message.error(`${lan.fail}: ${data.msg}`);
+    return yield put(commit('load', false));
+  }
+  yield put(getStatusAllSet(data.data));
+  return yield put(commit('load', false));
+}
+// 批量导出
+function* exportIdSer(action) {
+  const data = yield exportId({ ids: action.data });
+  const name = (new Date()).toLocaleString();
+  FileSaver.saveAs(data, `${name}.xls`);
+}
+// 获取问题认领对应的选项配置列表
+function* handleStatusSer() {
+  const data = yield followShow();
+  if (!data || data.code !== 0) {
+    message.error(`${lan.fail}: ${data.msg}`);
+  }
+  return yield put(followShowSet(data.data));
+}
 function* saga() {
   yield takeEvery(types.getFilters, getFiltersSaga);
   yield takeEvery(types.getData, getDataSaga);
+  yield takeLatest(types.getStatusAll, getStatusAllSage);
   yield takeLatest(types.remarkShow, getRemarksSaga);
   yield takeLatest(types.addRemark, addRemarkSaga);
   yield takeLatest(types.followTrouble, followTroubleSaga);
   yield takeLatest(types.handled, handledSaga);
   yield takeLatest(types.uploadImg, uploadImgSaga);
+  yield takeLatest(types.exportOrder, exportIdSer);
+  yield takeLatest(types.followShow, handleStatusSer);
+
 }
 export default saga;

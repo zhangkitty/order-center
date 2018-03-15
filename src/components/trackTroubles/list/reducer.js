@@ -30,6 +30,7 @@ export const defaultState = {
     add_time_to: '',
     delivery_time_from: '',
     delivery_time_to: '',
+    add_user_name: '',
   },
   remarkShow: false, // 备注弹窗开关
   remarkLoad: false, // 备注弹窗数据loading
@@ -40,14 +41,22 @@ export const defaultState = {
   handledShow: false, // 已处理弹窗开关
   uploadShow: false, // 上传图片弹窗开关
   imgList: [], // 上传图片文件列表
+  pendingNum: '', // 待处理
+  followingNum: '', // 跟进中
+  processedNum: '', // 已处理
+  invalidFollowingNum: '', // 无效跟进
+  idList: [],
+  followShow: false, // 跟进中弹窗开关
+  handleStatusList: [],
+  handleStatus: '',
 };
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case types.getData:
-    case types.followTrouble:
     case types.handled:
     case types.uploadImg:
+    case types.getStatusAll:
       return assign({}, state, {
         load: true,
       });
@@ -90,6 +99,35 @@ const reducer = (state = defaultState, action) => {
     case types.commit:
       return assign({}, state, {
         [action.key]: action.value,
+      });
+    case types.getStatusAllSet:
+      return assign({}, state, {
+        pendingNum: action.data.pending_num,
+        followingNum: action.data.following_num,
+        processedNum: action.data.processed_num,
+        invalidFollowingNum: action.data.invalid_following_num,
+      });
+    case types.doSelect:
+      return assign({}, state, {
+        idList: action.idList,
+      });
+    case types.exportIdSet:
+      return assign({}, state, {
+        idList: [],
+      });
+    case types.followShow:
+      return assign({}, state, {
+        followShow: true,
+        troubleId: action.id,
+      });
+    case types.followShowSet:
+      return assign({}, state, {
+        handleStatusList: action.data,
+      });
+    case types.followTrouble:
+      return assign({}, state, {
+        load: true,
+        followShow: false,
       });
     default:
       return state;
