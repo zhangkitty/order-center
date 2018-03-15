@@ -161,3 +161,11 @@ export const refundAccountSuccess = data => ({
   type: TYPES.REFUND_ACCOUNT_SUCCESS,
   data,
 });
+
+export const confirmReceived = (deliveryNumber, id, bill, base) => ({
+  type: TYPES.CONFIRM_RECEIVED,
+  deliveryNumber,
+  id,
+  bill,
+  base,
+});

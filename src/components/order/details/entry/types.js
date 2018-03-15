@@ -42,3 +42,6 @@ export const TRACK_TROUBLE_SUBMIT = `${prefix}track_trouble_submit`;
 // 填写退款账户
 export const REFUND_ACCOUNT = `${prefix}refund_account`;
 export const REFUND_ACCOUNT_SUCCESS = `${prefix}refund_account_success`;
+
+//  确认收货
+export const CONFIRM_RECEIVED = `${prefix}confirm_received`;
