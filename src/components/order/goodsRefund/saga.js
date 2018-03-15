@@ -67,6 +67,11 @@ function* submitSaga({ val }) {
   if (arr.length === 0) {
     return message.warning(lan.缺少必填项);
   }
+  const tempArray = val.refundPaths.filter(v => v.checked === true)
+      .filter(v => v.refundPathId === 1 || v.refundPathId === val.radioValue);
+  if (tempArray.length !== arr.length) {
+    return message.warning(lan.缺少必填项);
+  }
   const tempArr = camel2Under(arr);
   // 0都不退，1都退，2退运费，3退运险费
   let temp_is_return_freight_insurance;

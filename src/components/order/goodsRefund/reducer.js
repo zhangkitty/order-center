@@ -137,7 +137,7 @@ const reducer = (state = defaultState, action) => {
       let resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       let resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
       let refundPaths = action.data.orderRefundPathList.map(v => assign({}, v, {
-        checked: true,
+        checked: !!v.isShow,
         refundAmount: resultAmount[v.refundPathId],
         refundCurrency: resultCurrency[v.refundPathId],
         refund_method: orderRefundUnderlineAccount.refundMethod,
