@@ -121,7 +121,7 @@ const Modals = ({
       >
         {
           handleStatusList.map(v => (
-            <Radio value={v.id} style={{ width: '40%' }}>{v.name}</Radio>
+            <Radio value={v.id} style={{ width: '40%', display: 'block', fontSize: '15px', marginBottom: '5px' }}>{v.name}</Radio>
           ))
         }
       </RG>
