@@ -80,7 +80,7 @@ class DiffRefund extends Component {
                           customer: x.customer_name,
                         });
                       });
-              if (refund_paths.length !== refundPaths.filter(v => v.checked).length() || !reason) {
+              if (refund_paths.length !== refundPaths.filter(v => v.checked).length || !reason) {
                 return message.warning(__('common.submitTitle3'));
               }
               const temp = {
