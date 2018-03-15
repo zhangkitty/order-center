@@ -162,7 +162,10 @@ export const refundAccountSuccess = data => ({
   data,
 });
 
-export const confirmReceived = deliveryNumber => ({
+export const confirmReceived = (deliveryNumber, id, bill, base) => ({
   type: TYPES.CONFIRM_RECEIVED,
   deliveryNumber,
+  id,
+  bill,
+  base,
 });

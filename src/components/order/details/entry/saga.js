@@ -230,7 +230,7 @@ function* refundAccountSaga(action) {
   return message.success(lan.osucess);
 }
 // 确认收货
-function* confirmReceivedSaga({ deliveryNumber }) {
+function* confirmReceivedSaga({ deliveryNumber, id, bill, base }) {
   if (!deliveryNumber) {
     message.error('缺少发货号,无法确认收货');
     return;
@@ -238,9 +238,7 @@ function* confirmReceivedSaga({ deliveryNumber }) {
   const result = yield confirmReceivedServer(deliveryNumber);
   if (result.code === 0) {
     message.success(lan.osucess);
-    setTimeout(() => {
-      window.reload();
-    }, 1500);
+    yield put(getInfo(id, bill, base));
   } else {
     message.error(`${lan.ofail}:${result.msg}`);
   }

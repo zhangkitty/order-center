@@ -503,7 +503,7 @@ const Packge = ({
           !!show_confirm_received_button && (
             <Button
               style={btnStyle}
-              onClick={() => dispatch(confirmReceived(package_list[0].delivery_number))}
+              onClick={() => dispatch(confirmReceived(package_list[0].delivery_number, Number(orderId), billno, activeKey))}
             >
               {lan.querenshouhuo}
             </Button>
