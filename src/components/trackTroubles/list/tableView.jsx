@@ -168,6 +168,7 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
   );
 };
 
+
 TableView.propTypes = {
   dataSource: PropTypes.arrayOf(PropTypes.shape()),
   load: PropTypes.bool,
