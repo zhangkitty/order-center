@@ -43,6 +43,9 @@ export const TRACK_TROUBLE_SUBMIT = `${prefix}track_trouble_submit`;
 export const REFUND_ACCOUNT = `${prefix}refund_account`;
 export const REFUND_ACCOUNT_SUCCESS = `${prefix}refund_account_success`;
 
+//  确认收货
+export const CONFIRM_RECEIVED = `${prefix}confirm_received`;
+
 // 物流问题反馈备注
 export const SWITCH_REMARK = `${prefix}switch_remark`;
 export const SWITCH_REMARK_SET = `${prefix}switch_remark_set`;

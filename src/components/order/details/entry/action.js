@@ -162,6 +162,14 @@ export const refundAccountSuccess = data => ({
   data,
 });
 
+export const confirmReceived = (deliveryNumber, id, bill, base) => ({
+  type: TYPES.CONFIRM_RECEIVED,
+  deliveryNumber,
+  id,
+  bill,
+  base,
+});
+
 // 物流反馈问题备注
 export const switchRemark = (types, numbers) => ({
   type: TYPES.SWITCH_REMARK,
