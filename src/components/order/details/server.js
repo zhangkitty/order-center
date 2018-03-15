@@ -66,11 +66,15 @@ const RL = {
     postRlFeeSer:'/OrderReturn/rebuildRl'
 }
 
-
+//查看物流信息
+const track = {
+  details: '/Order/getTrackDetail',
+}
 
 const list = {
   operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
   orderRemark: '/order/remark',  // 备注查询
+  confirmReceived: '/Order/confirmReceived',
   orderSaveRemark: '/order/saveRemark',  // 添加备注
 };
 
@@ -351,6 +355,22 @@ export const refundAccountSer = (data)=> {
     body: JSON.stringify(parseQuery(keys, data)),
   })
 };
+
+//获取物流信息
+
+export const getInitDataServer = (id) => {
+  return fetch(`${track.details}?shipping_no=${id}`, {
+    method: 'GET',
+  })
+}
+
+//确认收货
+export const confirmReceivedServer = (deliveryNumber) => {
+  return fetch(`${list.confirmReceived}?shipping_no=${deliveryNumber}`, {
+    method: 'GET',
+  })
+}
+
 
 
 

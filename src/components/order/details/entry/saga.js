@@ -30,6 +30,7 @@ import {
   getTroubleTypes,
   trackTroublePublish,
   refundAccountSer,
+  confirmReceivedServer,
 } from '../server';
 
 const lan = {
@@ -228,6 +229,22 @@ function* refundAccountSaga(action) {
   yield put(commit('RefundShow', false));
   return message.success(lan.osucess);
 }
+// 确认收货
+function* confirmReceivedSaga({ deliveryNumber }) {
+  if (!deliveryNumber) {
+    message.error('缺少发货号,无法确认收货');
+    return;
+  }
+  const result = yield confirmReceivedServer(deliveryNumber);
+  if (result.code === 0) {
+    message.success(lan.osucess);
+    setTimeout(() => {
+      window.reload();
+    }, 1500);
+  } else {
+    message.error(`${lan.ofail}:${result.msg}`);
+  }
+}
 
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
@@ -249,4 +266,5 @@ export default function* () {
   yield takeLatest(TYPES.TRACK_TROUBLE, getTrackTroubleReason);
   yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
   yield takeLatest(TYPES.REFUND_ACCOUNT, refundAccountSaga);
+  yield takeLatest(TYPES.CONFIRM_RECEIVED, confirmReceivedSaga);
 }

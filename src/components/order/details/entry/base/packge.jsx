@@ -15,7 +15,7 @@ import {
   backGoodsDates, commit, operateReturn, partSend, preSendAction, examine,
   openModal, operationGoods,
   remarkShow, remarkSave,
-  createQs,
+  createQs, confirmReceived,
 } from '../action';
 import { change } from '../../../list/action';
 
@@ -51,6 +51,7 @@ const lan = {
   fankuishow: __('order.entry.fankuishow'),
   chaifen: __('order.entry.chaifen'),
   yuanbaoguo: __('order.entry.yuanbaoguo'),
+  querenshouhuo: __('order.entry.querenshouhuo'),
   运单号: '运单号',
   保存: '保存',
 };
@@ -185,6 +186,7 @@ const colorCirle = (circle = {}) => (
     }}
   />
 );
+const btnStyle = { 'margin-left': '20px' };
 const Packge = ({
   dataSource: { base: { order_goods_info, button_list, order_info } },
   orderId,
@@ -214,6 +216,7 @@ const Packge = ({
     show_cancel_priority_shipped_button,
     show_part_shipped_button,
     show_review_order_button,
+    show_confirm_received_button,
   } = button_list;
   const { basic_info: { status_code } } = order_info;
   const { basic_info } = order_info;
@@ -490,12 +493,22 @@ const Packge = ({
                 )}`,
               );
             }}
-            style={{ margin: '0 20px' }}
+            style={btnStyle}
           >
             {__('common.order_operation2')}
           </Button>
         ) : null}
-
+        {/* 确认收货 */}
+        {
+          !!show_confirm_received_button && (
+            <Button
+              style={btnStyle}
+              onClick={() => dispatch(confirmReceived(package_list[0].delivery_number))}
+            >
+              {lan.querenshouhuo}
+            </Button>
+         )
+        }
         {/*  备注 */}
         <Popover
           placement="bottom"
@@ -530,7 +543,7 @@ const Packge = ({
                     }
                     return dispatch(remarkSave(orderId, remarkModal.remark));
                   }}
-                  style={{ marginRight: '20px' }}
+                  style={btnStyle}
                 >
                   {lan.保存}
                 </Button>
@@ -541,11 +554,12 @@ const Packge = ({
           {
             +basic_info.have_remark === 1 ?
               <Button
+                style={btnStyle}
                 className={style.haveRemark}
                 onClick={() => dispatch(remarkShow(orderId))}
               >{__('common.order_operation4')}</Button>
              :
-              <Button onClick={() => dispatch(remarkShow(orderId))}>{__('common.order_operation4')}</Button>
+              <Button style={btnStyle} onClick={() => dispatch(remarkShow(orderId))}>{__('common.order_operation4')}</Button>
           }
         </Popover>
 
@@ -699,7 +713,7 @@ const Packge = ({
                 </div>
                 <div>
                   <span className={style.packgeWidth}>{lan.huohao}: </span>
-                  <span>{v.delivery_number}</span>
+                  <span><Link to={`/order/details/track-details/${v.delivery_number}?p=${v.package_number}`} target="_blank">{v.delivery_number}</Link></span>
                 </div>
               </div>
               <Table
