@@ -61,6 +61,7 @@ let insuranceAmount;// 运费险(美元)
 let insuranceCurrency;// 运费险
 let rlFeeAmount = 0;// rl费用(美元)
 let rlFeeCurrency = 0;// rl费用
+let isUsd = null;
 
 
 const orderStatusTable = {
@@ -95,7 +96,7 @@ const reducer = (state = defaultState, action) => {
         hasShippingInsurancePriceRefunded,
         hasShippingPriceRefunded,
       } = orderPriceInfo;
-      const isUsd = action.data.isUsd;
+      isUsd = action.data.isUsd;
       const { isAllCancel, orderStatus, isPlatformOrder } = orderPriceInfo;
       // 订单状态为已付款、已审核、进行中、已拒收、已报损
       const orderStatusArray = [1, 2, 3, 8, 9];
@@ -200,6 +201,7 @@ const reducer = (state = defaultState, action) => {
       });
 
     case types.changeRlFee:
+      debugger;
       if (+isUsd === 0) {
         totalCurrency = totalCurrency + rlFeeCurrency - action.val;
         rlFeeCurrency = action.val;
