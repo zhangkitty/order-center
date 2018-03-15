@@ -18,7 +18,7 @@ function* getInitDataSaga({ id }) {
     }
     window.location = `https://track.trackingmore.com/choose-cn-${id}.html`;
   } else {
-    message.error(`${lan.dataFail}:${result.msg}`);
+    message.error(`${lan.dataFail}`);
   }
 }
 
