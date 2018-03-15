@@ -6,4 +6,6 @@ module.exports = {
   time: 'time',
   address: 'address',
   description: 'description',
+  shipping_no: 'shipping NO.',
+  package_no: 'package NO.',
 };

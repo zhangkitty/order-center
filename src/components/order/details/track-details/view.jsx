@@ -12,6 +12,8 @@ const lang = {
   time: __('order.details.track-details.time'),
   address: __('order.details.track-details.address'),
   description: __('order.details.track-details.description'),
+  shipping: __('order.details.track-details.shipping_no'),
+  package: __('order.details.track-details.package_no'),
 };
 
 const column = [{
@@ -46,7 +48,7 @@ class TrackDetails extends Component {
     const { data, params: { id } } = this.props;
     const p = this.props.location.query.p;
     return (<div style={style}>
-      <h3><span>包裹号: {p}</span><span style={{ marginLeft: '20px' }}>运单号:{id}</span></h3>
+      <h3><span>{lang.package}: {p}</span><span style={{ marginLeft: '20px' }}>{lang.shipping}:{id}</span></h3>
       <Table
         style={{ marginTop: '20px' }}
         bordered

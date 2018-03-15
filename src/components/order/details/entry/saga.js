@@ -39,6 +39,7 @@ const lan = {
   fail: __('order.entry.submit_info6'), // 获取数据失败
   part: __('order.entry.submit_info7'), // 加入部分发队列成功
   dataFail: __('order.entry.submit_info2'), // 获取数据失败
+  shipping_error: __('order.entry.confirm_received_error'),
 };
 /* eslint prefer-const: 0 */
 /* eslint consistent-return: 0 */
@@ -232,7 +233,7 @@ function* refundAccountSaga(action) {
 // 确认收货
 function* confirmReceivedSaga({ deliveryNumber, id, bill, base }) {
   if (!deliveryNumber) {
-    message.error('缺少发货号,无法确认收货');
+    message.error(lan.shipping_error);
     return;
   }
   const result = yield confirmReceivedServer(deliveryNumber);

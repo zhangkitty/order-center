@@ -6,4 +6,6 @@ module.exports = {
   time: '时间',
   address: '地点',
   description: '描述',
+  shipping_no: '运单号',
+  package_no: '包裹号',
 };
