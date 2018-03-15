@@ -124,7 +124,7 @@ const Info = (
                       `${rec.refund_amount.price_usd.amount_with_symbol}, ${rec.refund_amount.price_with_exchange_rate.amount_with_symbol}`,
                     ))
                   )}
-                  loading={refundInfo.load}
+                  // loading={refundInfo.load}
                 >
                   {lan.退款}
                 </Button>
