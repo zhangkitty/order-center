@@ -153,7 +153,7 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
                 <Button onClick={() => dispatch(followShow(rec.id))}>{lan.genjinzhong}</Button>
               }
               {
-                +rec.handle_status === 1 && (rec.attachments || []).length < 2 &&
+                +rec.handle_status === 1 && (rec.attachments || []).length < 4 &&
                 <Button
                   onClick={() => dispatch(uploadShow(rec.id, rec.attachments || []))}
                 >
