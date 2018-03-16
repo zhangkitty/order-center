@@ -8,6 +8,7 @@ import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
   remarkShowSuccess, remarkSaveSuccess, remarkShow,
+  switchRemarkSet, questionRemarkSaveSet, switchRemark,
 } from './action';
 
 import {
