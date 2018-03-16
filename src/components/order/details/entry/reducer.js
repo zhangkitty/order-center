@@ -17,6 +17,7 @@ const defaultState = {
   rlLoading: false,
   rlmodal: false,
   preSend: 0,
+  RlModal: false,
   dataSource: {
     base: {}, // 基本
     pay: {}, // 支付信息
@@ -232,6 +233,10 @@ export default (state = defaultState, action) => {
       return assign({}, state, {
         note: '',
         switchRemarkOpen: false,
+      });
+    case TYPES.SHOW_RL_MODAL:
+      return assign({}, state, {
+        RlModal: true,
       });
     default:
       return state;

@@ -13,6 +13,7 @@ import Refund from './refund';
 import OrderReturn from './order-return';
 import Logs from './logs';
 import TrackTrouble from './trackTrouble';
+import RLModal from './rlmodal';
 
 import styles from './style.css';
 
@@ -29,7 +30,7 @@ class DetailsEntry extends Component {
     dispatch(commit('activeKey', active || 'base'));
   }
   render() {
-    const { ready, activeKey, dispatch, orderId, billno, tabsLoad } = this.props;
+    const { ready, activeKey, dispatch, orderId, billno, tabsLoad, rlModal } = this.props;
     const info = props => [{
       name: `${billno}`, // order.entry.basic
       key: 'base',
@@ -77,6 +78,7 @@ class DetailsEntry extends Component {
             }
           </Tabs>
           <TrackTrouble {...this.props} />
+          <RLModal visible={rlModal} />
         </div>
       );
     }

@@ -198,3 +198,8 @@ export const questionRemarkSaveSet = () => ({
 export const closeRemark = () => ({
   type: TYPES.CLOSE_REMARK,
 });
+
+// 显示修改rl的弹出层
+export const showRLModal = () => ({
+  type: TYPES.SHOW_RL_MODAL,
+});

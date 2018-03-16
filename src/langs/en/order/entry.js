@@ -189,6 +189,7 @@ module.exports = {
   return_copy: '一键复制',
   return_copy_title: '复制成功！',
   confirm_received_error: 'Missing shipment number, unable to confirm received',
+  changeRL: 'change RL fee',
   上传的图片大小不能超过8M: '上传的图片大小不能超过8M',
   只可上传: 'Only jpg、jpeg、png allowed,single image size not exceed 8M',
   只可上传请确认: 'Only jpg、jpeg、png allowed！',

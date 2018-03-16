@@ -4,7 +4,7 @@ import assign from 'object-assign';
 import ReactDOM from 'react-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message, Tag } from 'antd';
-import { commit, uploadTrackAction, uploadTrackShow, genRl, fetchRlFee, rebuildRl } from './action';
+import { commit, uploadTrackAction, uploadTrackShow, genRl, fetchRlFee, rebuildRl, showRLModal } from './action';
 import {Link} from 'react-router'
 
 import styles from './style.css';
@@ -39,6 +39,7 @@ const lan = {
   上传的图片大小不能超过8M: __('order.entry.上传的图片大小不能超过8M'),
   只可上传: __('order.entry.只可上传'),
   只可上传请确认: __('order.entry.只可上传请确认'),
+  changeRL: __('order.entry.changeRL'),
 };
 
 const reqImg = require.context('../../images');
@@ -144,8 +145,12 @@ class OrderReturn extends Component {
                     <Button onClick={() => dispatch(uploadTrackShow(orderId, rec.return_order_id))} style={{ margin: '5px' }}>
                       {lan.sahngchuan}
                     </Button>
+                    {/* {rec.return_label_type === 'RL' && !rec.return_refund_status ? */}
+                    { 1 ?
+                      <Button
+                        onClick={() => dispatch(showRLModal())}
+                      >{lan.changeRL}</Button> : null }
                   </div>
-
                 ),
               },
             ]}
