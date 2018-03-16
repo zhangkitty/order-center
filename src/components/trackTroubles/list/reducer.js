@@ -123,7 +123,7 @@ const reducer = (state = defaultState, action) => {
     case types.followShowSet:
       return assign({}, state, {
         handleStatusList: action.data,
-        handleStatus: action.data[0].id,
+        handleStatus: action.data[0] ? action.data[0].id : 1,
       });
     case types.followTrouble:
       return assign({}, state, {
