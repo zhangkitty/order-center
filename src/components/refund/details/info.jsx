@@ -135,11 +135,13 @@ const Info = (
                 <Button
                   type="primary"
                   style={{ marginLeft: '5px' }}
+                  disabled={+rec.refund_path_id === 5}
                   onClick={() => (
                     dispatch(showReverseRefund(rec.record_id))
                   )}
                 >
-                  {lan.重新退款}
+                  {(+rec.refund_path_id === 5 && +rec.refund_status_code === 2)
+                      ? lan.退款 : lan.重新退款}
                 </Button>
               }
               </div>

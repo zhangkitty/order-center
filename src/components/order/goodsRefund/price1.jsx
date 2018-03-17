@@ -58,6 +58,7 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                    v.refundPathId === 1 ?
                      <Checkbox
                        checked={v.checked}
+                       disabled={v.checked}
                        onChange={
                              (e) => {
                                const val = e.target.checked;
