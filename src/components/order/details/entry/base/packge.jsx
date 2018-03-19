@@ -482,7 +482,15 @@ const Packge = ({
           <Button
             onClick={() => {
               if (!chooseGoods.length) { return message.warning(__('common.sagaTitle24')); }
-              if (status_code === 8 || status_code === 9) {
+              let isAll = false;
+              returned_goods_list.forEach((list) => {
+                if (list.status_code !== 77 && list.status_code !== 91) {
+                  isAll = false;
+                  return;
+                }
+                isAll = true;
+              });
+              if ((status_code === 8 || status_code === 9) && isAll) {
                 if (returned_goods_list.length !== chooseGoods.length) {
                   return message.warning(lan.必须勾选整个订单的全部商品);
                 }
