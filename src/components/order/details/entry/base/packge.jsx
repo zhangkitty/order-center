@@ -55,7 +55,7 @@ const lan = {
   保存: '保存',
   必须勾选整个订单的全部商品: '必须勾选整个订单的全部商品',
 };
-
+const disableArr = [5, 7, 75, 82, 20, 74];
 // 商品状态
 //  '1' => '已付款',
 //  '5' => '需要退款',
@@ -173,6 +173,54 @@ const columns = [{
   dataIndex: 'status',
 }];
 
+//  改变状态,如果有非报损或者拒收,对应的不需要全选
+function changeObj(list, obj) {
+  const obj1 = assign({}, obj);
+  for (let [i, len] = [0, list.length]; i < len; i += 1) {
+    if (disableArr.indexOf(list[i].status_code) > -1) continue;
+    if (list[i].status_code !== 77 && list[i].status_code !== 91) {
+      obj1.isAll = false;
+      break;
+    }
+    obj1.len += 1;
+    if (!obj1.isAll) return obj1;
+  }
+  return obj1;
+}
+//  获取是否需要全选
+function getAllObj(goodInfo) {
+  const {
+    not_packaged_goods_list,
+    package_list,
+    returned_goods_list,
+    refund_goods_list,
+  } = goodInfo;
+  let obj = {
+    isAll: true,
+    len: 0,
+  };
+  if (not_packaged_goods_list.length > 0) {
+    obj = changeObj(not_packaged_goods_list, obj);
+    if (!obj.isAll) return obj;
+  }
+  if (package_list.length > 0) {
+    for (let [i, len] = [0, package_list.length]; i < len; i += 1) {
+      obj = changeObj(package_list[i].package_goods_list, obj);
+      if (!obj.isAll) return obj;
+    }
+  }
+  if (returned_goods_list.length > 0) {
+    obj = changeObj(returned_goods_list, obj);
+    if (!obj.isAll) return obj;
+  }
+  if (refund_goods_list.length > 0) {
+    obj = changeObj(refund_goods_list, obj);
+    if (!obj.isAll) return obj;
+  }
+  if (obj.len === 0) obj.isAll = false;
+  return obj;
+}
+
 const colorCirle = (circle = {}) => (
   <span
     style={{
@@ -186,6 +234,7 @@ const colorCirle = (circle = {}) => (
     }}
   />
 );
+
 const Packge = ({
   dataSource: { base: { order_goods_info, button_list, order_info } },
   orderId,
@@ -280,7 +329,7 @@ const Packge = ({
         render: (d, rec) => (
           <span className={style.packeFlex}>
             <Checkbox
-              disabled={[5, 7, 75, 82, 20, 74].indexOf(rec.status_code) > -1}
+              disabled={disableArr.indexOf(rec.status_code) > -1}
               checked={chooseGoods.indexOf(rec.id) > -1}
               onChange={(e) => {
                 const value = e.target.checked;
@@ -482,16 +531,9 @@ const Packge = ({
           <Button
             onClick={() => {
               if (!chooseGoods.length) { return message.warning(__('common.sagaTitle24')); }
-              let isAll = false;
-              returned_goods_list.forEach((list) => {
-                if (list.status_code !== 77 && list.status_code !== 91) {
-                  isAll = false;
-                  return;
-                }
-                isAll = true;
-              });
-              if ((status_code === 8 || status_code === 9) && isAll) {
-                if (returned_goods_list.length !== chooseGoods.length) {
+              if ((status_code === 8 || status_code === 9)) {
+                const allObj = getAllObj(order_goods_info);
+                if (allObj.isAll && allObj.len !== chooseGoods.length) {
                   return message.warning(lan.必须勾选整个订单的全部商品);
                 }
               }
