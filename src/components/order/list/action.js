@@ -431,3 +431,8 @@ export const closeAllRemark = () => ({
   type: TYPES.CLOSEALLREMARK,
 });
 
+// 清空换货原因, 各输入框
+
+export const initExchange = () => ({
+  type: TYPES.INIT_EXCHANGE,
+});

@@ -663,6 +663,14 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         dataSource: closeAllRemark(state.dataSource, false),
       });
+    case TYPES.INIT_EXCHANGE:
+      return assign({}, state, {
+        selectReason: '',
+        payment_txn_id: '',
+        payment_account: '',
+        currency_code: '',
+        payment_amount: '',
+      });
     default:
       return state;
   }

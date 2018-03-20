@@ -9,7 +9,7 @@ import {
   change, remarkShow, openModal, searchHistory,
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange, commit,
-  getOrderRewardPointInfo, remarkSave, changeArray, getPaymentComplain,
+  getOrderRewardPointInfo, remarkSave, changeArray, getPaymentComplain, initExchange
 } from './action';
 
 import Styles from './style.css';
@@ -422,6 +422,7 @@ const SingleRow = (props) => {
                     <span
                       onClick={() => {
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
+                        dispatch(initExchange());
                       }
                       }
                       role="button" tabIndex={0}
@@ -665,6 +666,7 @@ const SingleRow = (props) => {
               () => {
                 if (BulkReturnInfo.length > 0) {
                   dispatch(change('ExchangeShow', true));
+                  dispatch(initExchange());
                 } else {
                   return message.info(lan.没有选择换货商品);
                 }

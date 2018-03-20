@@ -146,3 +146,7 @@ export const CHANGEARRAY = `${prefix}changeArray`;
 export const MYCOMMIT = `${prefix}myCommit`;
 export const CLOSEALLREMARK = `${prefix}closeAllRemark`;
 
+// 重置换货各信息
+
+export const INIT_EXCHANGE = `${prefix}initExchange`;
+

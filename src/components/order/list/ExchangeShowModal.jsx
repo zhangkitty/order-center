@@ -54,7 +54,6 @@ const exchangeshowModal = (props) => {
   } = props;
   return (
     <Modal
-      confirmLoading={confirmLoading}
       visible={ExchangeShow}
       footer={null}
       onCancel={() => cancelClick(dispatch, change)}
@@ -159,22 +158,22 @@ const exchangeshowModal = (props) => {
           <Form style={{ marginTop: '20px' }}>
             <Col span={8}>
               <Form.Item {...formItemLayout} label={lan.paymentOrder}>
-                <Input onChange={e => dispatch(change('payment_txn_id', e.target.value))} />
+                <Input value={payment_txn_id} onChange={e => dispatch(change('payment_txn_id', e.target.value))} />
               </Form.Item>
             </Col>
             <Col span={8} offset={2}>
               <Form.Item {...formItemLayout} label={lan.paymentAccount}>
-                <Input onChange={e => dispatch(change('payment_account', e.target.value))} />
+                <Input value={payment_account} onChange={e => dispatch(change('payment_account', e.target.value))} />
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item {...formItemLayout} label={lan.paymentBill}>
-                <Input onChange={e => dispatch(change('currency_code', e.target.value))} />
+                <Input value={currency_code} onChange={e => dispatch(change('currency_code', e.target.value))} />
               </Form.Item>
             </Col>
             <Col span={8} offset={2}>
               <Form.Item {...formItemLayout} label={lan.paymentAmount}>
-                <Input onChange={e => dispatch(change('payment_amount', e.target.value))} />
+                <Input value={payment_amount} onChange={e => dispatch(change('payment_amount', e.target.value))} />
               </Form.Item>
             </Col>
           </Form>
@@ -185,6 +184,7 @@ const exchangeshowModal = (props) => {
             <Button
               style={{ marginRight: '20px' }}
               disabled={submitDis}
+              loading={confirmLoading}
               type="primary"
               onClick={() => {
                 const temp = BulkReturnInfo.reduce((sum, value) => sum + value.submitValue.length, 0);
