@@ -17,7 +17,7 @@ import {
   updateOrderTagSer, delChangeSer,
   batchCheckSer, batchDeleteSer, batchPartSer, noStockApplySer, noStockSer, returnAlreadyAuditSer,
   getNoGoodsListSer, underCarriageSer, getorderrewardpointinfoSer, addpointSer, batchexchangeordergoodsSer,
-  getPaymentComplainSer,
+  getPaymentComplainSer, getReasonServer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
@@ -88,11 +88,15 @@ function* searchHistorySaga(action) {
 // 初始化数据
 function* initDataSaga() {
   const data = yield initDataSer();
+  const reason = yield getReasonServer();
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle31')} ${data.msg}`);
     return yield put(initDataFail());
   }
-  return yield put(initDataSuccess(data));
+  if (!reason || reason.code !== 0) {
+    message.error(`${__('common.sagaTitle31')} ${data.msg}`);
+  }
+  return yield put(initDataSuccess({ list: data, reason }));
 }
 
 // 商品操作查询

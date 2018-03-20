@@ -1,8 +1,9 @@
 import React from 'react';
-import { Modal, Select, Input, Button, message } from 'antd';
+import { Modal, Select, Input, Button, message, Tag, Radio, Row, Col, Form } from 'antd';
 import PropTypes from 'prop-types';
+import styles from './style.css';
 
-import { change, goodSize, changeSize, changeMySku, changeSubmitValue, batchExchangeOrderGoods,deleteSubmitValue } from './action';
+import { change, goodSize, changeSize, changeMySku, changeSubmitValue, batchExchangeOrderGoods, deleteSubmitValue } from './action';
 
 const lan = {
   被换商品: __('order.list.ExchangeShowModal.被换商品'),
@@ -15,10 +16,23 @@ const lan = {
   没有换货信息: __('order.list.ExchangeShowModal.没有换货信息'),
   信息不全: __('order.list.ExchangeShowModal.信息不全'),
   删除: __('order.list.ExchangeShowModal.删除'),
+  exchangeReason: __('order.list.ExchangeShowModal.exchangeReason'),
+  paymentOrder: __('order.list.ExchangeShowModal.paymentOrder'),
+  paymentAccount: __('order.list.ExchangeShowModal.paymentAccount'),
+  paymentBill: __('order.list.ExchangeShowModal.paymentBill'),
+  paymentAmount: __('order.list.ExchangeShowModal.paymentAmount'),
+};
+const formItemLayout = {
+  labelCol: {
+    md: 11,
+  },
+  wrapperCol: {
+    md: 13,
+  },
 };
 const Option = Select.Option;
 const exchangeshowModal = (props) => {
-  const { dispatch, ExchangeShow, BulkReturnInfo, confirmLoading } = props;
+  const { dispatch, ExchangeShow, BulkReturnInfo, confirmLoading, reason, selectReason } = props;
   return (
     <Modal
       confirmLoading={confirmLoading}
@@ -49,7 +63,7 @@ const exchangeshowModal = (props) => {
             </div>
             <div style={{ flexGrow: '1' }}>
               <div>
-                {v.submitValue.map((value,idx) =>
+                {v.submitValue.map((value, idx) =>
                   (<div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div style={{ marginRight: 20 }}>{value.mysku}</div>
                     <div>{value.selectedValue}</div>
@@ -107,6 +121,53 @@ const exchangeshowModal = (props) => {
             </div>
           </div>
         ))}
+        <div>
+          <span className={styles.labelspan}>{lan.exchangeReason}:</span>
+          <div className={styles.row}>
+            {
+              reason.map((re) => {
+                return (
+                  <Radio.Group
+                    value={selectReason}
+                    className={styles.group}
+                    onChange={e => dispatch(change('selectReason', e.target.value))}
+                  >
+                    <Tag color="#919191" className={styles.rowTag}>{re.name}</Tag>
+                    {
+                      re.children.map(value =>
+                        <Radio value={value.id} key={value.name}>{value.name}</Radio>,
+                      )
+                    }
+                  </Radio.Group>
+                );
+              })
+            }
+          </div>
+        </div>
+        <Row>
+          <Form style={{ marginTop: '20px' }}>
+            <Col span={8}>
+              <Form.Item {...formItemLayout} label={lan.paymentOrder}>
+                <Input onChange={e => dispatch(change('payment_txn_id'), e.target.value)} />
+              </Form.Item>
+            </Col>
+            <Col span={8} offset={2}>
+              <Form.Item {...formItemLayout} label={lan.paymentAccount}>
+                <Input onChange={e => dispatch(change('payment_account'), e.target.value)} />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item {...formItemLayout} label={lan.paymentBill}>
+                <Input onChange={e => dispatch(change('currency_code'), e.target.value)} />
+              </Form.Item>
+            </Col>
+            <Col span={8} offset={2}>
+              <Form.Item {...formItemLayout} label={lan.paymentAmount}>
+                <Input onChange={e => dispatch(change('payment_amount'), e.target.value)} />
+              </Form.Item>
+            </Col>
+          </Form>
+        </Row>
       </div>
     </Modal>
   );
@@ -117,6 +178,6 @@ exchangeshowModal.propTypes = {
   ExchangeShow: PropTypes.Boolean,
   BulkReturnInfo: PropTypes.arrayOf(PropTypes.shape()),
   confirmLoading: PropTypes.Boolean,
-
+  reason: PropTypes.arrayOf(PropTypes.shape()),
 };
 export default exchangeshowModal;

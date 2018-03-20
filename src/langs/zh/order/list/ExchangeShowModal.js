@@ -9,4 +9,9 @@ module.exports = {
   没有换货信息: '没有换货信息',
   信息不全: '信息不全',
   删除: '删除',
+  exchangeReason: '换货原因',
+  paymentOrder: '打款交易凭证号',
+  paymentAccount: '打款账户',
+  paymentBill: '打款币种',
+  paymentAmount: '打款金额',
 };
