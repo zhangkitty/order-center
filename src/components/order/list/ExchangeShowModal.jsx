@@ -78,6 +78,7 @@ const exchangeshowModal = (props) => {
                     <div style={{ marginRight: 20 }}>{value.mysku}</div>
                     <div>{value.selectedValue}</div>
                     <Button
+                      style={{ marginLeft: '10px' }}
                       size="small"
                       onClick={() => dispatch(deleteSubmitValue(v.order_goods_id, idx))}
                     >{lan.删除}</Button>
