@@ -325,7 +325,7 @@ export const batchexchangeordergoodsSer=(data)=>{
 // 获取用户退款原因
 
 export const getReasonServer = () => {
-  return fetch('/OrderRefund/getRefundReason?type=1',{
+  return fetch('/order/getExchangeReason',{
     method: 'GET',
   })
 }
