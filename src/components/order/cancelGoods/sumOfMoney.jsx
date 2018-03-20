@@ -8,12 +8,13 @@ const lan = {
   溢出金额: '溢出金额',
   钱包退款已溢出: '钱包退款已溢出',
   用户退款已溢出: '用户退款已溢出',
+  under50: __('order.diffRefund.under50'),
 };
 const priceTypes = data => (
   <p key={data.key || data.name}>{`${data.name} : $${data.us}`} <span>{`${data.currency ? ` , ${data.currency}` : ''}`}</span></p>
 );
 
-const SumOfMoney = ({ dataSource: { orderPriceInfo }, remainingPriceTotalUnder50 }) => {
+const SumOfMoney = ({ dataSource: { orderPriceInfo, paymentMethod: payment, remainingPriceCountry }, remainingPriceTotalUnder50 }) => {
   const {
     totalPrice: {
       priceUsd: { amount: totalPrice },
@@ -87,8 +88,6 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo }, remainingPriceTotalUnder50
     codFeeSymbol = orderPriceInfo.codFee.priceWithExchangeRate.symbol;
   }
 
-  console.log(codFee, 'sb');
-  console.log(codFee2, 'sb');
   const orderPrice = [
     {
       name: __('order.goodsRefund.total_price'),
@@ -205,12 +204,15 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo }, remainingPriceTotalUnder50
         {
             refundPrice.map(v => priceTypes(v))
           }
+        {
+          payment === 'cod' && remainingPriceCountry === 'Kuwait' && remainingPriceTotalUnder50 ? <p style={{ marginTop: 'auto', fontSize: '16px' }}>{lan.under50}</p> : null
+        }
       </div>
       <span className={style.descWidth}>{lan.溢出金额}:</span>
       <div style={{ color: 'red' }}>
         {
-            overflowPrice.map(v => priceTypes(v))
-          }
+          overflowPrice.map(v => priceTypes(v))
+        }
       </div>
     </div>
   );
