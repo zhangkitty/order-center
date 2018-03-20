@@ -49,19 +49,19 @@ const ChnageGoods = (props) => {
               ))
             }
           </Select>
+          <br />
+          <Button
+            className={styles.changeButton}
+            disabled={changeDisabled}
+            type="primary"
+            onClick={() => {
+              if (fetchgoodSize.length > 0 && !goods_size) {
+                return message.warning(__('common.choose1')); // size 有值，必填
+              }
+              return dispatch(changeGoods(exchange));
+            }}
+          >{__('common.submit')}</Button>
         </Spin>
-
-        <Button
-          className={styles.changeButton}
-          disabled={changeDisabled}
-          type="primary"
-          onClick={() => {
-            if (fetchgoodSize.length > 0 && !goods_size) {
-              return message.warning(__('common.choose1')); // size 有值，必填
-            }
-            return dispatch(changeGoods(exchange));
-          }}
-        >{__('common.submit')}</Button>
       </div>
     </Modal>
   );

@@ -341,6 +341,7 @@ function* batchexchangeordergoodsSaga(action) {
       paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD'),   // 付款时间
       paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD'),          // 付款时间
     };
+  yield put(change('submitDis', true));
   const singleData = yield searchSubmit(queryString);
   if (!singleData || singleData.code !== 0) {
     yield put(change('confirmLoading', false));

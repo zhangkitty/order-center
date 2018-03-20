@@ -14,4 +14,6 @@ module.exports = {
   paymentAccount: '打款账户',
   paymentBill: '打款币种',
   paymentAmount: '打款金额',
+  noReason: '未选择原因',
+  cancel: '取消',
 };

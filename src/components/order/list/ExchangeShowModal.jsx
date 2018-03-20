@@ -21,6 +21,8 @@ const lan = {
   paymentAccount: __('order.list.ExchangeShowModal.paymentAccount'),
   paymentBill: __('order.list.ExchangeShowModal.paymentBill'),
   paymentAmount: __('order.list.ExchangeShowModal.paymentAmount'),
+  noReason: __('order.list.ExchangeShowModal.noReason'),
+  cancel: __('order.list.ExchangeShowModal.cancel'),
 };
 const formItemLayout = {
   labelCol: {
@@ -30,23 +32,32 @@ const formItemLayout = {
     md: 13,
   },
 };
+// 取消时间
+function cancelClick(dispatch, changeFunc) {
+  dispatch(changeFunc('submitDis'), false);
+  dispatch(changeFunc('ExchangeShow', false));
+}
 const Option = Select.Option;
 const exchangeshowModal = (props) => {
-  const { dispatch, ExchangeShow, BulkReturnInfo, confirmLoading, reason, selectReason } = props;
+  const {
+    dispatch,
+    ExchangeShow,
+    BulkReturnInfo,
+    confirmLoading,
+    reason,
+    selectReason,
+    payment_txn_id,
+    payment_account,
+    currency_code,
+    payment_amount,
+    submitDis,
+  } = props;
   return (
     <Modal
       confirmLoading={confirmLoading}
       visible={ExchangeShow}
-      onCancel={() => dispatch(change('ExchangeShow', false))}
-      okText={lan.提交}
-      onOk={() => {
-        const temp = BulkReturnInfo.reduce((sum, value) => sum + value.submitValue.length, 0);
-        if (temp === 0) {
-          return message.info(lan.没有换货信息);
-        }
-        dispatch(change('confirmLoading', true));
-        dispatch(batchExchangeOrderGoods(BulkReturnInfo));
-      }}
+      footer={null}
+      onCancel={() => cancelClick(dispatch, change)}
       width={800}
     >
       <div style={{ marginTop: 20 }}>
@@ -148,26 +159,55 @@ const exchangeshowModal = (props) => {
           <Form style={{ marginTop: '20px' }}>
             <Col span={8}>
               <Form.Item {...formItemLayout} label={lan.paymentOrder}>
-                <Input onChange={e => dispatch(change('payment_txn_id'), e.target.value)} />
+                <Input onChange={e => dispatch(change('payment_txn_id', e.target.value))} />
               </Form.Item>
             </Col>
             <Col span={8} offset={2}>
               <Form.Item {...formItemLayout} label={lan.paymentAccount}>
-                <Input onChange={e => dispatch(change('payment_account'), e.target.value)} />
+                <Input onChange={e => dispatch(change('payment_account', e.target.value))} />
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item {...formItemLayout} label={lan.paymentBill}>
-                <Input onChange={e => dispatch(change('currency_code'), e.target.value)} />
+                <Input onChange={e => dispatch(change('currency_code', e.target.value))} />
               </Form.Item>
             </Col>
             <Col span={8} offset={2}>
               <Form.Item {...formItemLayout} label={lan.paymentAmount}>
-                <Input onChange={e => dispatch(change('payment_amount'), e.target.value)} />
+                <Input onChange={e => dispatch(change('payment_amount', e.target.value))} />
               </Form.Item>
             </Col>
           </Form>
         </Row>
+        <div style={{ display: 'flex' }}>
+          <div style={{ marginLeft: 'auto' }}>
+            <Button style={{ marginRight: '20px' }} onClick={() => cancelClick(dispatch, change)}>{lan.cancel}</Button>
+            <Button
+              style={{ marginRight: '20px' }}
+              disabled={submitDis}
+              type="primary"
+              onClick={() => {
+                const temp = BulkReturnInfo.reduce((sum, value) => sum + value.submitValue.length, 0);
+                if (temp === 0) {
+                  return message.info(lan.没有换货信息);
+                }
+                if (!selectReason) {
+                  return message.info(lan.noReason);
+                }
+                dispatch(change('confirmLoading', true));
+                dispatch(batchExchangeOrderGoods({
+                  goods_list: BulkReturnInfo,
+                  reason: selectReason,
+                  payment_txn_id,
+                  payment_account,
+                  currency_code,
+                  payment_amount,
+                }));
+                return true;
+              }}
+            >{lan.提交}</Button>
+          </div>
+        </div>
       </div>
     </Modal>
   );
@@ -179,5 +219,10 @@ exchangeshowModal.propTypes = {
   BulkReturnInfo: PropTypes.arrayOf(PropTypes.shape()),
   confirmLoading: PropTypes.Boolean,
   reason: PropTypes.arrayOf(PropTypes.shape()),
+  selectReason: PropTypes.string,
+  payment_txn_id: PropTypes.string,
+  payment_account: PropTypes.string,
+  currency_code: PropTypes.string,
+  payment_amount: PropTypes.string,
 };
 export default exchangeshowModal;

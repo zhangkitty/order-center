@@ -14,4 +14,6 @@ module.exports = {
   paymentAccount: 'payment account',
   paymentBill: 'payment currency',
   paymentAmount: 'payment amount',
+  noReason: 'you must select a reason',
+  cancel: 'cancel',
 };

@@ -24,6 +24,11 @@ const defaultState = {
   fetchLogisticsRemark: '', // 物流备注
   reason: [],
   selectReason: '',
+  payment_txn_id: '',
+  payment_account: '',
+  currency_code: '',
+  payment_amount: '',
+  submitDis: false,
   queryString: {
     pageSize: 10,
     pageNumber: 1,
