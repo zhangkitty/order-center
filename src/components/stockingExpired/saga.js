@@ -10,7 +10,7 @@ const lan = {
   时间必填: '时间必填',
   选择的时间不能超过一个月: '选择的时间不能超过一个月',
 };
-function* getoverstocksearchconditionsSaga() {
+function* getOverStockSearchConditionsSaga() {
   const data = yield getoverstocksearchconditionsSer();
   if (!data || data.code !== 0) {
     return message.error(`${data.msg}`);
@@ -19,7 +19,7 @@ function* getoverstocksearchconditionsSaga() {
   return null;
 }
 
-function* getoverstocklistSaga(action) {
+function* getOverStockListSaga(action) {
   const val = action.val;
   if (!Array.isArray(val.dataRange)) {
     return message.info(lan.时间必填);
@@ -27,6 +27,7 @@ function* getoverstocklistSaga(action) {
   if ((moment(val.dataRange[1]).unix() - moment(val.dataRange[0]).unix()) / 3600 / 24 > 31) {
     return message.info(lan.选择的时间不能超过一个月);
   }
+  yield put(change('tableLoading', true));
   const temp = {
     page_number: val.pageNumber,
     page_size: val.pageSize,
@@ -38,6 +39,7 @@ function* getoverstocklistSaga(action) {
     end_time: moment(val.dataRange[1]).format('YYYY-MM-DD'),
   };
   const data = yield getoverstocklistSer(temp);
+  yield put(change('tableLoading', false));
   if (!data || data.code !== 0) {
     return message.error(`${data.msg}`);
   }
@@ -47,6 +49,6 @@ function* getoverstocklistSaga(action) {
 }
 
 export default function* () {
-  yield takeLatest(TYPES.GETOVERSTOCKSEARCHCONDITIONS, getoverstocksearchconditionsSaga);
-  yield takeLatest(TYPES.GETOVERSTOCKLIST, getoverstocklistSaga);
+  yield takeLatest(TYPES.GETOVERSTOCKSEARCHCONDITIONS, getOverStockSearchConditionsSaga);
+  yield takeLatest(TYPES.GETOVERSTOCKLIST, getOverStockListSaga);
 }

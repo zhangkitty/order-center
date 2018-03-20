@@ -18,9 +18,9 @@ const Head = (props) => {
   const { InitInfo: { overStockDate } } = props;
   const { chooseSite, chooseDays, dispatch } = props;
 
-  return (<div style={{ marginLeft: 100, marginTop: 20, marginBottom: 20 }}>
+  return (<div style={{ marginLeft: 40, marginTop: 20, marginBottom: 20 }}>
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div style={{ flexBasis: 50 }}>{lan.站点}</div>
+      <div style={{ flexBasis: 50, padding: '5px 10px', textAlign: 'right' }}>{lan.站点}:</div>
       <Select
         style={{ flexBasis: 150 }}
         value={chooseSite}
@@ -31,11 +31,11 @@ const Head = (props) => {
       >
         {
           site.map(v => (
-            <Option value={v.name} key={v.id}>{v.name}</Option>
+            <Option value={v.name} key={v.id}>{v.name}:</Option>
           ))
         }
       </Select>
-      <div style={{ flexBasis: 100, marginLeft: 30 }}>{lan.超过审核天数}</div>
+      <div style={{ flexBasis: 100, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.超过审核天数}:</div>
       <Select
         style={{ flexBasis: 100 }}
         value={chooseDays}
@@ -47,7 +47,7 @@ const Head = (props) => {
           ))
         }
       </Select>
-      <div style={{ marginLeft: 30 }}>SKU</div>
+      <div style={{ marginLeft: 30, padding: '5px 10px 5px 0', textAlign: 'right' }}>SKU:</div>
       <Input
         style={{ flexBasis: 100 }}
         onChange={e => dispatch(change('SKU', e.target.value))}
@@ -55,16 +55,17 @@ const Head = (props) => {
     </div>
 
     <div style={{ display: 'flex', flexDirection: 'row', marginTop: 10 }}>
-      <div style={{ flexBasis: 50 }}>{lan.订单号}</div>
+      <div style={{ flexBasis: 50, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.订单号}:</div>
       <Input
         style={{ flexBasis: 150, display: 'block' }}
         onChange={e => dispatch(change('billno', e.target.value))}
       />
-      <div style={{ flexBasis: 100, marginLeft: 30 }}>{lan.审核时间}</div>
+      <div style={{ flexBasis: 100, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.审核时间}:</div>
       <RangePicker
         onChange={data => dispatch(change('dataRange', data))}
       />
       <Button
+        style={{ marginLeft: '10px' }}
         onClick={() => dispatch(getOverStockList(props))}
       >{lan.搜索}</Button>
     </div>

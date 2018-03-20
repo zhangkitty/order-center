@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Table, Pagination } from 'antd';
 import Head from './head';
@@ -25,9 +26,7 @@ const style = {
   justifyContent: 'flex-end',
 };
 
-class stockingExpired extends React.Component {
-
-
+class StockingExpired extends React.Component {
   componentWillMount() {
     const { dispatch } = this.props;
 
@@ -84,11 +83,11 @@ class stockingExpired extends React.Component {
       dataIndex: 'returnTime',
       key: 'returnTime',
     }];
-    const { TableData, total, dispatch, pageNumber } = this.props;
+    const { TableData, total, dispatch, pageNumber, tableLoading } = this.props;
     return (
       <div>
         <Head {...this.props} />
-        <Table columns={columns} dataSource={TableData} pagination={false} />
+        <Table style={{ margin: '10px 20px' }} bordered columns={columns} dataSource={TableData} pagination={false} loading={tableLoading} />
         <Pagination
           style={style}
           showSizeChanger
@@ -116,5 +115,13 @@ class stockingExpired extends React.Component {
   }
 }
 
+StockingExpired.propTypes = {
+  TableData: PropTypes.object,
+  total: PropTypes.number,
+  dispatch: PropTypes.func,
+  pageNumber: PropTypes.number,
+  tableLoading: PropTypes.bool,
+};
+
 const mapStateToProps = state => state.stockingExpired;
-export default connect(mapStateToProps)(stockingExpired);
+export default connect(mapStateToProps)(StockingExpired);

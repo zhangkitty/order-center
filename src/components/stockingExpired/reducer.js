@@ -24,6 +24,7 @@ const defaultState = {
   TableData: [],
   // 分页信息
   total: 0,
+  tableLoading: false,
   pageNumber: 1,
   pageSize: 10,
 };
