@@ -57,7 +57,7 @@ const exchangeshowModal = (props) => {
       visible={ExchangeShow}
       footer={null}
       onCancel={() => cancelClick(dispatch, change)}
-      width={800}
+      width={950}
     >
       <div style={{ marginTop: 20 }}>
         <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 20 }}>

@@ -239,6 +239,7 @@ form .colSpace2{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-around;
 }
 .group {
     display: flex;

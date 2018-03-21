@@ -49,7 +49,7 @@ const ChnageGoods = (props) => {
   return (
     <Modal
       visible={exchange.visible}
-      width={800}
+      width={950}
       footer={null}
       onCancel={() => dispatch(commit3('visible', false))}
     >
