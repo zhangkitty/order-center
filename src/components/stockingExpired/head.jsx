@@ -72,7 +72,7 @@ const Head = (props) => {
       />
       <div style={{ flexBasis: 150, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.verifyDate}:</div>
       <RangePicker
-        defaultValue={[moment().subtract(30, 'days'), moment()]}
+        defaultValue={[moment().subtract(29, 'days'), moment()]}
         onChange={data => dispatch(change('dataRange', data))}
       />
       <Button

@@ -19,7 +19,7 @@ const defaultState = {
   // 订单号
   billno: null,
   // 时间范围
-  dataRange: [moment().subtract(30, 'days'), moment()],
+  dataRange: [moment().subtract(29, 'days'), moment()],
 
   // 列表数据
   TableData: [],
