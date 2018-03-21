@@ -337,7 +337,7 @@ function* batchexchangeordergoodsSaga(action) {
   const queryString =
     {
       pageNumber: 1,
-      orderId: action.data[0].order_id,
+      orderId: action.data.goods_list[0].order_id,
       paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD'),   // 付款时间
       paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD'),          // 付款时间
     };
@@ -347,13 +347,13 @@ function* batchexchangeordergoodsSaga(action) {
     yield put(change('confirmLoading', false));
     return message.error(`${singleData.msg}`);
   }
-  yield put(changedataSource(action.data[0].order_id, singleData.data[0]));
+  yield put(changedataSource(action.data.goods_list[0].order_id, singleData.data[0]));
   yield put(change('ExchangeShow', false));
   yield put(change('confirmLoading', false));
   // yield put(changeBulkReturnInfo());
   yield put(change('BulkReturnInfo', []));
   yield put(change('batchChooseGoods', []));
-  return hashHistory.push(`order/details/edit-address/${action.data[0].order_id}/${action.data[0].billno}`);
+  return hashHistory.push(`order/details/edit-address/${action.data.goods_list[0].order_id}/${action.data.goods_list[0].billno}`);
 }
 
 // 8、 获取支付平台投诉订单原因，只有支付平台投诉订单才有；
