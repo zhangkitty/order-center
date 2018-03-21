@@ -1,5 +1,6 @@
 import assign from 'object-assign';
 import * as TYPES from './types';
+import moment from 'moment';
 
 const defaultState = {
   // 初始化信息
@@ -18,7 +19,7 @@ const defaultState = {
   // 订单号
   billno: null,
   // 时间范围
-  dataRange: null,
+  dataRange: [moment().subtract(30, 'days'), moment()],
 
   // 列表数据
   TableData: [],

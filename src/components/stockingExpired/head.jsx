@@ -1,26 +1,36 @@
 import React from 'react';
 import { Input, Button, Select, DatePicker } from 'antd';
+import moment from 'moment';
 
 import { change, getOverStockList } from './action';
 
+const lan = {
+  order: __('stockExpired.order'),
+  site: __('stockExpired.site'),
+  verifyDate: __('stockExpired.verify_date'),
+  overDate: __('stockExpired.overdue_date'),
+  size: __('stockExpired.size'),
+  orderAmount: __('stockExpired.orderAmount'),
+  guangzhou: __('stockExpired.gzInventory'),
+  meidong: __('stockExpired.esInventory'),
+  meixi: __('stockExpired.wsInventory'),
+  wait: __('stockExpired.waitLaunched'),
+  return: __('stockExpired.returnDate'),
+  nsStock: __('stockExpired.nsInventory'),
+  blStock: __('stockExpired.euInventory'),
+  search: __('stockExpired.search'),
+};
 
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const Head = (props) => {
-  const lan = {
-    站点: '站点',
-    订单号: '订单号',
-    超过审核天数: '超过审核天数',
-    审核时间: '审核时间',
-    搜索: '搜索',
-  };
   const { InitInfo: { site } } = props;
   const { InitInfo: { overStockDate } } = props;
   const { chooseSite, chooseDays, dispatch } = props;
 
   return (<div style={{ marginLeft: 40, marginTop: 20, marginBottom: 20 }}>
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div style={{ flexBasis: 50, padding: '5px 10px', textAlign: 'right' }}>{lan.站点}:</div>
+      <div style={{ flexBasis: 70, padding: '5px 10px', textAlign: 'right' }}>{lan.site}:</div>
       <Select
         style={{ flexBasis: 150 }}
         value={chooseSite}
@@ -35,7 +45,7 @@ const Head = (props) => {
           ))
         }
       </Select>
-      <div style={{ flexBasis: 100, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.超过审核天数}:</div>
+      <div style={{ flexBasis: 150, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.overDate}:</div>
       <Select
         style={{ flexBasis: 100 }}
         value={chooseDays}
@@ -55,19 +65,20 @@ const Head = (props) => {
     </div>
 
     <div style={{ display: 'flex', flexDirection: 'row', marginTop: 10 }}>
-      <div style={{ flexBasis: 50, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.订单号}:</div>
+      <div style={{ flexBasis: 70, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.order}:</div>
       <Input
         style={{ flexBasis: 150, display: 'block' }}
         onChange={e => dispatch(change('billno', e.target.value))}
       />
-      <div style={{ flexBasis: 100, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.审核时间}:</div>
+      <div style={{ flexBasis: 150, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.verifyDate}:</div>
       <RangePicker
+        defaultValue={[moment().subtract(30, 'days'), moment()]}
         onChange={data => dispatch(change('dataRange', data))}
       />
       <Button
         style={{ marginLeft: '10px' }}
         onClick={() => dispatch(getOverStockList(props))}
-      >{lan.搜索}</Button>
+      >{lan.search}</Button>
     </div>
   </div>);
 };
