@@ -32,9 +32,9 @@ function* getOverStockListSaga(action) {
     page_number: val.pageNumber,
     page_size: val.pageSize,
     billno: val.billno,
-    site_from: val.chooseSite,
+    site_from: val.chooseSite === '__ALL__' ? '' : val.chooseSite,
     goods_sn: val.SKU,
-    over_date: val.chooseDays,
+    over_date: val.chooseDays === '__ALL__' ? '' : val.chooseDays,
     start_time: moment(val.dataRange[0]).format('YYYY-MM-DD'),
     end_time: moment(val.dataRange[1]).format('YYYY-MM-DD'),
   };

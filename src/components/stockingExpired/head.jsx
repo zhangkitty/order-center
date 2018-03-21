@@ -39,6 +39,7 @@ const Head = (props) => {
         }
         }
       >
+        <Option value="__ALL__">不限</Option>
         {
           site.map(v => (
             <Option value={v.id}>{v.name}:</Option>
@@ -51,6 +52,7 @@ const Head = (props) => {
         value={chooseDays}
         onChange={value => dispatch(change('chooseDays', value))}
       >
+        <Option value="__ALL__">不限</Option>
         {
           overStockDate.map(v => (
             <Option value={v.name}>{v.name}</Option>
