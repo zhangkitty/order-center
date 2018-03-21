@@ -75,6 +75,14 @@ class StockingExpired extends React.Component {
       dataIndex: 'uwStock',
       key: 'uwStock',
     }, {
+      title: '南沙库存',
+      dataIndex: 'nsStock',
+      key: 'nsStock',
+    }, {
+      title: '欧洲库存',
+      dataIndex: 'blStock',
+      key: 'blStock',
+    }, {
       title: lan.待上架数量,
       dataIndex: 'toBeShelved',
       key: 'toBeShelved',
