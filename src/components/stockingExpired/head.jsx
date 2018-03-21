@@ -41,7 +41,7 @@ const Head = (props) => {
       >
         {
           site.map(v => (
-            <Option value={v.name} key={v.id}>{v.name}:</Option>
+            <Option value={v.id}>{v.name}:</Option>
           ))
         }
       </Select>
@@ -53,7 +53,7 @@ const Head = (props) => {
       >
         {
           overStockDate.map(v => (
-            <Option key={v.id} value={v.name}>{v.name}</Option>
+            <Option value={v.name}>{v.name}</Option>
           ))
         }
       </Select>
