@@ -162,4 +162,6 @@ module.exports = {
   noGoods_name19: 'Warehouse B - assigned sku+size, item status = confirmed or items in processing',
   noGoods_name20: 'Eastern/Western warehouse C - assigned sku+size, item status = confirmed or items in processing, country = United States',
   noGoods_name21: 'Warehouse C - assigned sku+size, item status = comfirmed or items in processing, country=European countries',
+  nsStock: '南沙库存',
+  blStock: '欧洲库存',
 };

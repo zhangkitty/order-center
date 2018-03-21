@@ -19,6 +19,8 @@ const lan = {
   美西库存: '美西库存',
   待上架数量: '待上架数量',
   回货日期: '回货日期',
+  nsStock: '',
+  blStock: '',
 };
 const style = {
   marginTop: '15px',
