@@ -203,3 +203,8 @@ export const closeRemark = () => ({
 export const showRLModal = () => ({
   type: TYPES.SHOW_RL_MODAL,
 });
+
+
+export const getRlRadio = () => ({
+  type: TYPES.GET_RL_RADIO,
+});

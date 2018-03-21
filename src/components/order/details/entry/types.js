@@ -55,3 +55,4 @@ export const CLOSE_REMARK = `${prefix}close_remark`;
 
 // 修改RL
 export const SHOW_RL_MODAL = `${prefix}show_rl_modal`;
+export const GET_RL_RADIO = `${prefix}get_rl_radio`;
