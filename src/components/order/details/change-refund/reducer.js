@@ -34,10 +34,7 @@ const maxTypes = data => ({
   },
   2: {
     1: data.orderPriceInfo.giftCardCanRefundPrice.priceWithExchangeRate.amount,
-    2: Number(Number(data.orderPriceInfo.walletCanRefundPrice.priceWithExchangeRate.amount)
-      +
-      (Number(data.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5))
-      .toFixed(2), // 钱包(实付金额*150%+钱包可退金额)
+    2: Number(Number(data.orderPriceInfo.walletCanRefundPrice.priceWithExchangeRate.amount)), // 钱包(实付金额*150%+钱包可退金额)
     3: data.orderPriceInfo.cardCanRefundPrice.priceWithExchangeRate.amount,
     4: data.orderPriceInfo.totalPrice.priceWithExchangeRate.amount * 1.5,  // 溢出（实付金额*150%）
   },

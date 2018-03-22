@@ -127,8 +127,8 @@ const reducer = (state = defaultState, action) => {
         4: orderPriceInfo.overflowCanRefundPrice,
       };
       if (DefaultValue) {
-        totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount + shippingAmount + insuranceAmount;
-        totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount + shippingCurrency + insuranceCurrency;
+        totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount + shippingAmount;
+        totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount + shippingCurrency;
       } else {
         totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount;
         totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;

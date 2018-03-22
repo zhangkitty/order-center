@@ -205,7 +205,7 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo, paymentMethod: payment, rema
             refundPrice.map(v => priceTypes(v))
           }
         {
-          payment === 'cod' && remainingPriceCountry === 'Kuwait' && remainingPriceTotalUnder50 ? <p style={{ marginTop: 'auto', fontSize: '16px' }}>{lan.under50}</p> : null
+          // payment === 'cod' && remainingPriceCountry === 'Kuwait' && remainingPriceTotalUnder50 ? <p style={{ marginTop: 'auto', fontSize: '16px' }}>{lan.under50}</p> : null
         }
       </div>
       <span className={style.descWidth}>{lan.溢出金额}:</span>
