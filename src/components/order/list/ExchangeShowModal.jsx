@@ -1,8 +1,9 @@
 import React from 'react';
-import { Modal, Select, Input, Button, message } from 'antd';
+import { Modal, Select, Input, Button, message, Tag, Radio, Row, Col, Form } from 'antd';
 import PropTypes from 'prop-types';
+import styles from './style.css';
 
-import { change, goodSize, changeSize, changeMySku, changeSubmitValue, batchExchangeOrderGoods,deleteSubmitValue } from './action';
+import { change, goodSize, changeSize, changeMySku, changeSubmitValue, batchExchangeOrderGoods, deleteSubmitValue } from './action';
 
 const lan = {
   被换商品: __('order.list.ExchangeShowModal.被换商品'),
@@ -15,25 +16,48 @@ const lan = {
   没有换货信息: __('order.list.ExchangeShowModal.没有换货信息'),
   信息不全: __('order.list.ExchangeShowModal.信息不全'),
   删除: __('order.list.ExchangeShowModal.删除'),
+  exchangeReason: __('order.list.ExchangeShowModal.exchangeReason'),
+  paymentOrder: __('order.list.ExchangeShowModal.paymentOrder'),
+  paymentAccount: __('order.list.ExchangeShowModal.paymentAccount'),
+  paymentBill: __('order.list.ExchangeShowModal.paymentBill'),
+  paymentAmount: __('order.list.ExchangeShowModal.paymentAmount'),
+  noReason: __('order.list.ExchangeShowModal.noReason'),
+  cancel: __('order.list.ExchangeShowModal.cancel'),
 };
+const formItemLayout = {
+  labelCol: {
+    md: 11,
+  },
+  wrapperCol: {
+    md: 13,
+  },
+};
+// 取消时间
+function cancelClick(dispatch, changeFunc) {
+  dispatch(changeFunc('submitDis'), false);
+  dispatch(changeFunc('ExchangeShow', false));
+}
 const Option = Select.Option;
 const exchangeshowModal = (props) => {
-  const { dispatch, ExchangeShow, BulkReturnInfo, confirmLoading } = props;
+  const {
+    dispatch,
+    ExchangeShow,
+    BulkReturnInfo,
+    confirmLoading,
+    reason,
+    selectReason,
+    payment_txn_id,
+    payment_account,
+    currency_code,
+    payment_amount,
+    submitDis,
+  } = props;
   return (
     <Modal
-      confirmLoading={confirmLoading}
       visible={ExchangeShow}
-      onCancel={() => dispatch(change('ExchangeShow', false))}
-      okText={lan.提交}
-      onOk={() => {
-        const temp = BulkReturnInfo.reduce((sum, value) => sum + value.submitValue.length, 0);
-        if (temp === 0) {
-          return message.info(lan.没有换货信息);
-        }
-        dispatch(change('confirmLoading', true));
-        dispatch(batchExchangeOrderGoods(BulkReturnInfo));
-      }}
-      width={800}
+      footer={null}
+      onCancel={() => cancelClick(dispatch, change)}
+      width={950}
     >
       <div style={{ marginTop: 20 }}>
         <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 20 }}>
@@ -49,11 +73,12 @@ const exchangeshowModal = (props) => {
             </div>
             <div style={{ flexGrow: '1' }}>
               <div>
-                {v.submitValue.map((value,idx) =>
+                {v.submitValue.map((value, idx) =>
                   (<div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div style={{ marginRight: 20 }}>{value.mysku}</div>
                     <div>{value.selectedValue}</div>
                     <Button
+                      style={{ marginLeft: '10px' }}
                       size="small"
                       onClick={() => dispatch(deleteSubmitValue(v.order_goods_id, idx))}
                     >{lan.删除}</Button>
@@ -107,6 +132,83 @@ const exchangeshowModal = (props) => {
             </div>
           </div>
         ))}
+        <div>
+          <span className={styles.labelspan}>{lan.exchangeReason}:</span>
+          <div className={styles.row}>
+            {
+              reason.map((re) => {
+                return (
+                  <Radio.Group
+                    value={selectReason}
+                    className={styles.group}
+                    onChange={e => dispatch(change('selectReason', e.target.value))}
+                  >
+                    <Tag color="#919191" className={styles.rowTag}>{re.name}</Tag>
+                    {
+                      re.children.map(value =>
+                        <Radio value={value.id} key={value.name}>{value.name}</Radio>,
+                      )
+                    }
+                  </Radio.Group>
+                );
+              })
+            }
+          </div>
+        </div>
+        <Row>
+          <Form style={{ marginTop: '20px' }}>
+            <Col span={8}>
+              <Form.Item {...formItemLayout} label={lan.paymentOrder}>
+                <Input value={payment_txn_id} onChange={e => dispatch(change('payment_txn_id', e.target.value))} />
+              </Form.Item>
+            </Col>
+            <Col span={8} offset={2}>
+              <Form.Item {...formItemLayout} label={lan.paymentAccount}>
+                <Input value={payment_account} onChange={e => dispatch(change('payment_account', e.target.value))} />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item {...formItemLayout} label={lan.paymentBill}>
+                <Input value={currency_code} onChange={e => dispatch(change('currency_code', e.target.value))} />
+              </Form.Item>
+            </Col>
+            <Col span={8} offset={2}>
+              <Form.Item {...formItemLayout} label={lan.paymentAmount}>
+                <Input value={payment_amount} onChange={e => dispatch(change('payment_amount', e.target.value))} />
+              </Form.Item>
+            </Col>
+          </Form>
+        </Row>
+        <div style={{ display: 'flex' }}>
+          <div style={{ marginLeft: 'auto' }}>
+            <Button style={{ marginRight: '20px' }} onClick={() => cancelClick(dispatch, change)}>{lan.cancel}</Button>
+            <Button
+              style={{ marginRight: '20px' }}
+              disabled={submitDis}
+              loading={confirmLoading}
+              type="primary"
+              onClick={() => {
+                const temp = BulkReturnInfo.reduce((sum, value) => sum + value.submitValue.length, 0);
+                if (temp === 0) {
+                  return message.info(lan.没有换货信息);
+                }
+                if (!selectReason) {
+                  return message.info(lan.noReason);
+                }
+                dispatch(change('confirmLoading', true));
+                dispatch(batchExchangeOrderGoods({
+                  goods_list: BulkReturnInfo,
+                  reason: selectReason,
+                  payment_txn_id,
+                  payment_account,
+                  currency_code,
+                  payment_amount,
+                }));
+                return true;
+              }}
+            >{lan.提交}</Button>
+          </div>
+        </div>
       </div>
     </Modal>
   );
@@ -117,6 +219,11 @@ exchangeshowModal.propTypes = {
   ExchangeShow: PropTypes.Boolean,
   BulkReturnInfo: PropTypes.arrayOf(PropTypes.shape()),
   confirmLoading: PropTypes.Boolean,
-
+  reason: PropTypes.arrayOf(PropTypes.shape()),
+  selectReason: PropTypes.string,
+  payment_txn_id: PropTypes.string,
+  payment_account: PropTypes.string,
+  currency_code: PropTypes.string,
+  payment_amount: PropTypes.string,
 };
 export default exchangeshowModal;
