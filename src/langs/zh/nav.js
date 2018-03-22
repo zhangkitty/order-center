@@ -16,4 +16,7 @@ module.exports = {
   returns_details: '退货详情',
   failedaddrorder: '地址校验失败列表',
   stockingExpired: '备货超期订单监控',
+  tracktrouble: '物流问题列表',
+  order_export: '订单信息导出',
+  GrabOrder: '手工抓取订单',
 };

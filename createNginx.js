@@ -14,7 +14,7 @@ const port = args[1] || 8888;
 
 const str = `
 worker_processes  2;
-#error_log  logs/error.log;
+error_log  ${staticFilePath}/nginx/logs/error.log;
 #error_log  logs/error.log  notice;
 #error_log  logs/error.log  info;
 pid        ${staticFilePath}/nginx/nginx.pid;
@@ -56,7 +56,8 @@ http {
   
   # http_proxy 设置
     client_max_body_size   10m;
-    client_body_buffer_size   128k;
+    client_body_buffer_size   64k;
+    client_body_temp_path ${staticFilePath}/nginx/temp 1 2;
     proxy_connect_timeout   75;
     proxy_send_timeout   75;
     proxy_read_timeout   75;
@@ -64,7 +65,7 @@ http {
     proxy_buffers   4 32k;
     proxy_busy_buffers_size   64k;
     #proxy_temp_file_write_size  64k;
-    #proxy_temp_path   /usr/local/nginx/proxy_temp 1 2;
+    proxy_temp_path    ${staticFilePath}/nginx/temp 1 2;
 
   # 很重要的虚拟主机配置
     server {

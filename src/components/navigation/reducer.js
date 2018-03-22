@@ -115,6 +115,24 @@ const menus = [
         nav: true,
 
       },
+      {
+        link: '/order-export',  // 订单信息导出
+        name: __('nav.order_export'),
+        crumbName: __('nav.order_export'),
+        nav: true,
+      },
+      {
+        link: '/trackTroubles',  // 物流问题列表
+        name: __('nav.tracktrouble'),
+        crumbName: __('nav.tracktrouble'),
+        nav: true,
+      },
+      {
+        link: '/manually-grab-the-order',  // 手工抓取订单
+        name: __('nav.GrabOrder'),
+        crumbName: __('nav.GrabOrder'),
+        nav: true,
+      },
     ],
   },
 ];
@@ -137,8 +155,8 @@ const defaultState = {
 };
 
 const routerMatch = current => linkList
-    .filter(({ link }) => (link === '/' || `${current}/`.startsWith(`${link}/`)))
-    .sort((item1, item2) => item1.link.length > item2.link.length);
+  .filter(({ link }) => (link === '/' || `${current}/`.startsWith(`${link}/`)))
+  .sort((item1, item2) => item1.link.length > item2.link.length);
 
 
 export default (state = defaultState, action) => {

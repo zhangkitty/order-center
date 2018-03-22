@@ -183,9 +183,34 @@ export const goodSize = data => ({
   type: TYPES.GOODS_SIZE,
   data,
 });
-export const goodSizeSuccess = data => ({
+export const goodSizeSuccess = (data, order_goods_id) => ({
   type: TYPES.GOODS_SIZE_SUCCESS,
   data,
+  order_goods_id,
+});
+
+export const changeSize = (order_goods_id, value) => ({
+  type: TYPES.CHANGESIZE,
+  order_goods_id,
+  value,
+});
+
+export const changeMySku = (order_goods_id, sku) => ({
+  type: TYPES.CHANGEMYSKU,
+  order_goods_id,
+  sku,
+});
+// 点击确定
+export const changeSubmitValue = order_goods_id => ({
+  type: TYPES.CHANGESUBMITVALUE,
+  order_goods_id,
+});
+
+// 点击删除
+export const deleteSubmitValue = (order_goods_id, mysku) => ({
+  type: TYPES.DELETESUBMITVALUE,
+  order_goods_id,
+  mysku,
 });
 export const goodSizeFail = () => ({
   type: TYPES.GOODS_SIZE_FAIL,
@@ -232,6 +257,17 @@ export const batchOperate = (url, data) => ({
 // 取消风控订单
 export const cancelRisk = id => ({
   type: TYPES.CANCEL_RISK,
+  id,
+});
+// 获取支付平台投诉订单原因，只有支付平台投诉订单才有；
+export const getPaymentComplain = id => ({
+  type: TYPES.GETPAYMENTCOMPLAIN,
+  id,
+});
+
+export const getPaymentComplainSuccess = (data, id) => ({
+  type: TYPES.GETPAYMENTCOMPLAINSUCCESS,
+  data,
   id,
 });
 export const cancelRiskSuccess = (data, id) => ({
@@ -361,5 +397,37 @@ export const addPoint = (mymodaldata, addPointReason) => ({
   type: TYPES.ADDPOINT,
   mymodaldata,
   addPointReason,
+});
+
+// 提交批量换货信息
+export const batchExchangeOrderGoods = data => ({
+  type: TYPES.BATCHEXCHANGEORDERGOODS,
+  data,
+});
+// 提交成功后改变BulkReturnInfo数组
+export const changeBulkReturnInfo = () => ({
+  type: TYPES.CHANGEBULKRETURNINFO,
+});
+
+// 提交成功后改变dataSource
+export const changedataSource = (orderId, data) => ({
+  type: TYPES.CHANGEDATASOURCE,
+  orderId,
+  data,
+});
+
+export const changeArray = id => ({
+  type: TYPES.CHANGEARRAY,
+  id,
+});
+
+export const myCommit = (key, val) => ({
+  type: TYPES.MYCOMMIT,
+  key,
+  val,
+});
+
+export const closeAllRemark = () => ({
+  type: TYPES.CLOSEALLREMARK,
 });
 

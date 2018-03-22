@@ -29,6 +29,8 @@ const info = {
       { name: __('order.entry.address_state'), key: 'state' },
       { name: __('order.entry.address_post'), key: 'post' },
       { name: __('order.entry.address_fax'), key: 'fax' },
+      { name: __('order.entry.address_type'), key: 'address_type' },
+      { name: __('order.entry.national_id'), key: 'national_id' },
     ],
   },
   badrr: {

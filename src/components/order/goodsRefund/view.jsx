@@ -50,25 +50,31 @@ class GoodsRefund extends Component {
               submitValue,
               { refundPaths: refundPaths.filter(v => v.check).map(v => (assign({}, v, {
                 refundAmount: Number(v.refundAmount).toFixed(2),
-                refundAmount2: Number(v.refundAmount2).toFixed(2),
+                refundCurrency: Number(v.refundCurrency).toFixed(2),
               }))) });
             const newRes = {
+              is_return_freight_insurance: submitValue.shipping, // lemonlone，2017-12-27，运费和运费险，0均不退，1均退
+              rl_amount: submitValue.rlFee, // lemonlone，2017-12-27，RL 费用
               order_id: Number(res.orderId),
               order_goods_ids: res.goodsIds.join(','),
               reason: Number(res.reason.reasonId),
               remark: res.remark,
               refund_paths: res.refundPaths
-              .map(v => ({
-                refund_path_id: v.refundTypeId,
-                refund_amount: Number(v.refundAmount),
-                refund_method: Number(v.refund_method_id) === 4
-                  ? v.refund_method2 : v.refund_method,
-                account: v.account || Symbol('noValue'),
-                bank_code: v.bank_code || Symbol('noValue'),
-                customer: v.customer || Symbol('noValue'),
-                issuing_city: v.issuing_city || Symbol('noValue'),
-
-              })),
+                .map(v => ({
+                  refund_path_id: v.refundTypeId,
+                  refund_amount: Number(v.refundAmount),
+                  refund_currency: Number(v.refundCurrency),
+                  refund_method: v.refundAccountTypeList.length ?
+                         v.refund_method : null,
+                  account: v.refundAccountTypeList.length ?
+                      (v.refund_method === 'yes bank' ? (v.account1 || Symbol('noValue')) : (v.account || Symbol('noValue'))) : null,
+                  bank_code: v.refundAccountTypeList.length ?
+                        v.bank_code || Symbol('noValue') : null,
+                  customer: v.refundAccountTypeList.length ?
+                        v.customer || Symbol('noValue') : null,
+                  issuing_city: v.refundAccountTypeList.length ?
+                        v.issuing_city || Symbol('noValue') : null,
+                })),
             };
             return dispatch(submitForward(newRes));
           }}

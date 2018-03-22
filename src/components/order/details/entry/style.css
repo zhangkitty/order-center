@@ -95,8 +95,10 @@
 .refundButton {
     position: absolute;
     right: 10px;
-    top: 10px;
-    display: block;
+    top: 0px;
+    display: flex;
+    align-items: center;
+    height: 48px;
 }
 .antUploadText {
     margin-top: 8px;
@@ -170,4 +172,91 @@
 .buttonBorderBg > span {
     cursor: pointer;
     outline: 0;
+}
+.btnSpace {
+    margin: 0 15px;
+}
+.returnLinkBg {
+    display: flex;
+    align-items: center;
+}
+.returnLink {
+    width: 80%;
+    font-size: 14px;
+}
+.returnLinkTitle {
+    color: red;
+    margin-left: 10px
+}
+.priceSelect {
+    width: 150px !important;
+}
+.priceInput {
+    width: 150px;
+}
+.refund_account_title {
+    font-size: 14px;
+    white-space: nowrap;
+    color: rgba(0,0,0,.85);
+    font-weight: 500;
+    height:48px;
+    line-height:48px;
+}
+.refund_list { margin: 10px 0; }
+.refund_name {
+    width: 130px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 20px;
+    vertical-align: middle;
+}
+
+.descWidth {
+    display: inline-block;
+}
+.uploader {
+    display: inline-block;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 150px;
+    height: 150px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.uploaderTrigger {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 28px;
+    color: #999;
+    width: 150px;
+    height: 150px;
+}
+.uploaderImg {
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+    vertical-align: middle;
+}
+.checkbox{
+    display: flex;
+    flex-direction: column;
+}
+.uploaderImgBg {
+    display: inline-block;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+    vertical-align: middle;
+    position: relative;
+}
+.delete {
+    position: absolute;
+    right: -13px;
+    top: -13px;
+    cursor: pointer;
+    padding: 0 10px;
+    border-radius: 20px;
 }

@@ -5,6 +5,11 @@ export const commit = (key, value) => ({
   key,
   value,
 });
+export const commit2 = (key, value) => ({
+  type: TYPES.COMMIT_REFUND,
+  key,
+  value,
+});
 export const getInfo = (id, bill, key) => ({
   type: TYPES.GET_INFO,
   id,
@@ -86,6 +91,15 @@ export const cancelRefund = id => ({
   id,
 });
 
+export const fetchRlFee = id => ({
+  type: TYPES.FETCHRLFEE,
+  id,
+});
+
+export const rebuildRl = d => ({
+  type: TYPES.REBUILDRL,
+  d,
+});
 // 商品操作查询
 export const operationGoods = id => ({
   type: TYPES.OPERATION_GOODS,
@@ -125,3 +139,62 @@ export const remarkSaveSuccess = data => ({
   data,
 });
 
+// 物流问题反馈
+export const createQs = pkgNum => ({
+  pkgNum,
+  type: TYPES.TRACK_TROUBLE,
+});
+
+// 物流问题反馈 创建问题
+export const trackTroubleSubmit = form => ({
+  form,
+  type: TYPES.TRACK_TROUBLE_SUBMIT,
+});
+
+
+// 填写退款账号
+export const refundAccount = data => ({
+  type: TYPES.REFUND_ACCOUNT,
+  data,
+});
+export const refundAccountSuccess = data => ({
+  type: TYPES.REFUND_ACCOUNT_SUCCESS,
+  data,
+});
+
+export const confirmReceived = (deliveryNumber, id, bill, base) => ({
+  type: TYPES.CONFIRM_RECEIVED,
+  deliveryNumber,
+  id,
+  bill,
+  base,
+});
+
+// 物流反馈问题备注
+export const switchRemark = (types, numbers) => ({
+  type: TYPES.SWITCH_REMARK,
+  types,
+  numbers,
+});
+
+export const switchRemarkSet = data => ({
+  type: TYPES.SWITCH_REMARK_SET,
+  data,
+});
+
+// 物流反馈问题备注保存
+export const questionRemarkSave = (types, note, numbers) => ({
+  type: TYPES.QUESTION_REMARK_SAVE,
+  types,
+  note,
+  numbers,
+});
+
+export const questionRemarkSaveSet = () => ({
+  type: TYPES.QUESTION_REMARK_SAVE_SET,
+});
+
+// 关闭沟通记录
+export const closeRemark = () => ({
+  type: TYPES.CLOSE_REMARK,
+});

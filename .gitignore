@@ -1,7 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
-logs
+logs/*
 *.log
 npm-debug.log*
 
@@ -57,3 +57,5 @@ nginx.pid
 en.html
 index.html
 
+temp/*
+.DS_Store

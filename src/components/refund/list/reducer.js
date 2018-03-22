@@ -37,6 +37,8 @@ const defaultState = {
     member_level: null,
     refund_start_time: null,
     refund_end_time: null,
+    payment_start_time: null,
+    payment_end_time: null,
     sorting_rule: 0,
   },
   searchLoad: false,
@@ -45,6 +47,8 @@ const defaultState = {
   total: 0,
   waitTotal: null,
   rejectTotal: null,
+  refund_update: null, // 更新退款记录返回信息
+  refund_update_err: null, // 更新退款记录返回信息失败
 };
 
 const reducer = (state = defaultState, action) => {
@@ -72,7 +76,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.SEARCH_SUCCESS:
       const wantedList = [];
-      action.data.data.refund_bill_list.map(k => {
+      action.data.data.refund_bill_list.map((k) => {
         k.refund_record_list.map((m, index) => {
           const temp = m;
           temp.refund_bill_id = k.refund_bill_id;

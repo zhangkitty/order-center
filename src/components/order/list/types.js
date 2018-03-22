@@ -64,6 +64,16 @@ export const GOODS_SIZE = `${prefix}goods_size`;
 export const GOODS_SIZE_SUCCESS = `${prefix}goods_size_success`;
 export const GOODS_SIZE_FAIL = `${prefix}goods_size_fail`;
 
+// 改变size
+export const CHANGESIZE = `${prefix}changesize`;
+// 改变SKU
+export const CHANGEMYSKU = `${prefix}changemysku`;
+
+// 点击确定
+export const CHANGESUBMITVALUE = `${prefix}changesubmitvalue`;
+// 点击删除
+export const DELETESUBMITVALUE = `${prefix}deletesubmitvalue`;
+
 // 换货
 export const CHANGE_GOODS = `${prefix}change_goods`;
 export const CHANGE_GOODS_SUCCESS = `${prefix}change_goods_success`;
@@ -94,6 +104,8 @@ export const BATCH_PART_SUCCESS = `${prefix}batch_part_success`;
 export const CANCEL_RISK = `${prefix}cancel_risk`;
 export const CANCEL_RISK_SUCCESS = `${prefix}cancel_risk_success`;
 
+export const GETPAYMENTCOMPLAIN = `${prefix}getpaymentcomplain`;
+export const GETPAYMENTCOMPLAINSUCCESS = `${prefix}GETPAYMENTCOMPLAINSUCCESS`;
 // 取消问题订单标签
 export const CANCEL_TROUBLE_TAG = `${prefix}cancel_trouble_tag`;
 export const CANCEL_TROUBLE_TAG_SUCCESS = `${prefix}cancel_trouble_tag_success`;
@@ -121,4 +133,16 @@ export const GETORDERREWARDPOINTINFO = `${prefix}getorderrewardpointinfo`;
 
 // 积分补偿提交
 export const ADDPOINT = `${prefix}addpoint`;
+
+// 提交批量换货
+export const BATCHEXCHANGEORDERGOODS = `${prefix}batchexchangeordergoods`;
+
+export const CHANGEBULKRETURNINFO = `${prefix}changebulkreturninfo`;
+
+export const CHANGEDATASOURCE = `${prefix}changedatasource`;
+
+export const CHANGEARRAY = `${prefix}changeArray`;
+
+export const MYCOMMIT = `${prefix}myCommit`;
+export const CLOSEALLREMARK = `${prefix}closeAllRemark`;
 

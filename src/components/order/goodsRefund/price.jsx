@@ -35,8 +35,10 @@ const onC = (dispatch, submitValue, i, data) => (
       ...submitValue.refundPaths.slice(i + 1),
     ],
 )));
-const Price = ({ dataSource, submitValue, dispatch }) => {
+const Price = ({ dataSource, submitValue, dispatch, isUsd }) => {
   const RLPrice = dataSource.rlFee || [];
+  const { orderPriceInfo: { shippingPrice: { priceWithExchangeRate: { amount: SP } } } } = dataSource;
+  const { orderPriceInfo: { shippingInsurePrice: { priceWithExchangeRate: { amount: SIP } } } } = dataSource;
   return (
     <div style={{ marginBottom: '20px' }}>
       <div className={style.flex}>
@@ -75,7 +77,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
             return dispatch(allback(Number(submitValue.shipping), value, check.refundTypeId));
           }}
         >
-          {RLPrice.map(v => (<Radio value={Number(v)} key={v}>${v}</Radio>))}
+          {RLPrice.map(v => (<Radio value={v.amount} key={v.amount}>{v.amountWithSymbol}</Radio>))}
         </Rg>
       </div>
       <div className={style.space}>
@@ -113,6 +115,7 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                       <Input
                         style={{ width: '150px' }}
                         value={v.refundAmount}
+                        disabled={!isUsd}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(usPriceChange(e.target.value, i, v.rate))}
@@ -120,12 +123,14 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                       <span style={spanWidth}>{v.currency}</span>
                       <Input
                         style={{ width: '150px' }}
-                        value={v.refundAmount2}
+                        value={v.refundCurrency}
+                        disabled={!!isUsd}
+                        // max={v.max}
                         type={'number'}
                         step={0.1}
                         onChange={e => dispatch(otherPriceChange(e.target.value, i, v.rate2))}
                       />
-                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}${v.max}</span>
+                      <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd ? '$' : v.currency}{v.max}</span>
                     </div>
                   </div>
                   {
@@ -135,71 +140,101 @@ const Price = ({ dataSource, submitValue, dispatch }) => {
                         allowClear
                         placeholder={__('order.goodsRefund.please_select_a_refund_account')}
                         style={{ width: 150 }}
-                       // value={`${v.refund_method || ''}`}
+                        value={v.refund_method}
                         onChange={(va) => {
                           onC(dispatch, submitValue, i, {
                             refund_method: va,
-                            refund_method_id: v.refundAccountTypeList.find(d => d.name === va).id,
                           });
-                        }
-                        }
+                        }}
+                        // onChange={(va) => {
+                        //   onC(dispatch, submitValue, i, {
+                        //     refund_method: va,
+                        //     refund_method_id: v.refundAccountTypeList.find(d => d.name === va).id,
+                        //   });
+                        // }}
                       >
                         {
                           v.refundAccountTypeList.map(d => (
-                            <Option key={d.id} value={d.name}>{d.name}</Option>
+                            <Option key={d.name}>{d.name}</Option>
+                          //  <Option key={d.id} value={d.name}>{d.name}</Option>
                           ))
                         }
                       </Select>
                       {/* 退款方式--其他 */}
                       {
-                        +v.refund_method_id === 4 &&
-                        <Input
-                          placeholder={__('order.entry.cash_content8')}
-                          style={{ width: 150, marginLeft: '5px' }}
-                          value={v.refund_method2}
-                          onChange={e => onC(dispatch, submitValue, i, {
-                            refund_method2: e.target.value })}
-                        />
+                        // +v.refund_method_id === 4 &&
+                        // <Input
+                        //   placeholder={__('order.entry.cash_content8')}
+                        //   style={{ width: 150, marginLeft: '5px' }}
+                        //   value={v.refund_method2}
+                        //   onChange={e => onC(dispatch, submitValue, i, {
+                        //     refund_method2: e.target.value })}
+                        // />
                       }
                       {/* 退款方式 = yes bank， 银行代码/银行卡号/顾客姓名/发卡城市     */}
                       {
-                        +v.refund_method_id === 3 &&
+                        v.refund_method === 'yes bank' &&
                         <Input
                           placeholder={__('order.entry.cash_content10')} // 银行代码
                           style={{ width: 150, marginLeft: '5px' }}
                           value={v.bank_code}
-                          onChange={e => onC(dispatch, submitValue, i, {
-                            bank_code: e.target.value })}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return onC(dispatch, submitValue, i, {
+                              bank_code: e.target.value });
+                          }}
                         />
                       }
-                      <Input
-                        placeholder={+v.refund_method_id === 3 ? __('order.entry.cash_content11') : __('order.entry.cash_content7')} // 银行卡号 || 输入正确的账户信息
-                        style={{ width: 150, marginLeft: '5px' }}
-                        value={v.account}
-                        onChange={e => onC(dispatch, submitValue, i, {
-                          account: e.target.value })}
-                      />
                       {
-                        +v.refund_method_id === 3 &&
+                        v.refund_method === 'yes bank' ?
+                          <Input
+                            placeholder={__('order.entry.cash_content11')} // 银行卡号
+                            style={{ width: 150, marginLeft: '5px' }}
+                            value={v.account1}
+                            onChange={(e) => {
+                              if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                              return onC(dispatch, submitValue, i, {
+                                account1: e.target.value });
+                            }}
+                          />
+                          :
+                          <Input
+                            placeholder={__('order.entry.cash_content7')} // 输入正确的账户信息
+                            style={{ width: 150, marginLeft: '5px' }}
+                            value={v.account}
+                            onChange={(e) => {
+                              if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                              return onC(dispatch, submitValue, i, {
+                                account: e.target.value });
+                            }}
+                          />
+                      }
+                      {
+                        v.refund_method === 'yes bank' &&
                         <Input
                           placeholder={__('order.entry.cash_content12')} // 顾客姓名
                           style={{ width: 150, marginLeft: '5px' }}
                           value={v.customer}
-                          onChange={e => onC(dispatch, submitValue, i, {
-                            customer: e.target.value })}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return onC(dispatch, submitValue, i, {
+                              customer: e.target.value });
+                          }}
                         />
                       }
                       {
-                        +v.refund_method_id === 3 &&
+                        v.refund_method === 'yes bank' &&
                         <Input
                           placeholder={__('order.entry.cash_content13')} // 发卡城市
                           style={{ width: 150, marginLeft: '5px' }}
                           value={v.issuing_city}
-                          onChange={e => onC(dispatch, submitValue, i, {
-                            issuing_city: e.target.value })}
+                          onChange={(e) => {
+                            if (/\s/.test(e.target.value)) { return false; }   // 不允许空格
+                            return onC(dispatch, submitValue, i, {
+                              issuing_city: e.target.value });
+                          }}
                         />
                       }
-
                     </div>
                   }
                 </div>

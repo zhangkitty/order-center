@@ -15,7 +15,9 @@ import {
   backGoodsDates, commit, operateReturn, partSend, preSendAction, examine,
   openModal, operationGoods,
   remarkShow, remarkSave,
+  createQs, confirmReceived,
 } from '../action';
+import { change } from '../../../list/action';
 
 const BG = Button.Group;
 const RG = Radio.Group;
@@ -45,6 +47,13 @@ const lan = {
   cancel: __('order.entry.cancel'),
   guangzhou: __('order.entry.Guangzhou'),
   xibu: __('order.entry.west'),
+  fankui: __('order.entry.fankui'),
+  fankuishow: __('order.entry.fankuishow'),
+  chaifen: __('order.entry.chaifen'),
+  yuanbaoguo: __('order.entry.yuanbaoguo'),
+  querenshouhuo: __('order.entry.querenshouhuo'),
+  运单号: '运单号',
+  保存: '保存',
 };
 
 // 商品状态
@@ -177,6 +186,7 @@ const colorCirle = (circle = {}) => (
     }}
   />
 );
+const btnStyle = { 'margin-left': '20px' };
 const Packge = ({
   dataSource: { base: { order_goods_info, button_list, order_info } },
   orderId,
@@ -192,6 +202,7 @@ const Packge = ({
   fetchRemark,
   fetchOperation,
   visible, remarkModal, loadUpdata,
+  trackTroubleLoad, trackTroubleTypes, trackTroubleForm,
 }) => {
   const {
     not_packaged_goods_list,
@@ -205,6 +216,7 @@ const Packge = ({
     show_cancel_priority_shipped_button,
     show_part_shipped_button,
     show_review_order_button,
+    show_confirm_received_button,
   } = button_list;
   const { basic_info: { status_code } } = order_info;
   const { basic_info } = order_info;
@@ -241,6 +253,9 @@ const Packge = ({
                   {rec.is_assessed ? lan.yipinkong : lan.pinkong}
                 </Link>
                 ) : null}
+              { // 原发货包裹号
+                rec.package_number && <span style={{ marginLeft: '10px' }}>{`${lan.yuanbaoguo}`}: <span style={{ fontWeight: 'bold', fontSize: '14px' }}>{rec.package_number}</span></span>
+              }
               {/*  回货日期 按钮 */}
               {Number(rec.status_code) === 11 && (
               <Button
@@ -349,6 +364,12 @@ const Packge = ({
       {
         title: lan.sku,
         dataIndex: 'sku',
+        render: (d, rec) => (
+          <span>
+            {d}
+            {!!rec.is_split && <span style={{ color: 'red', marginLeft: '10px' }}>{lan.chaifen}</span>}
+          </span>
+        ),
       },
       {
         title: lan.code,
@@ -391,6 +412,7 @@ const Packge = ({
             )}
             {!!show_part_shipped_button && ( // 部分发货按钮
               <Popover
+                placement="topLeft"
                 content={
                   <form
                     onSubmit={(e) => {
@@ -408,6 +430,8 @@ const Packge = ({
                       <Radio value={1}>{lan.guangzhou}</Radio>
                       <Radio value={10}>{lan.xibu}</Radio>
                       <Radio value={20}>{__('common.nansha')}</Radio>
+                      <Radio value={8}>{__('common.america')}</Radio>
+                      <Radio value={9}>{__('common.europe')}</Radio>
                     </RG>
                     <Button htmlType="submit" type="primary">
                       {lan.save}
@@ -469,12 +493,22 @@ const Packge = ({
                 )}`,
               );
             }}
-            style={{ margin: '0 20px' }}
+            style={btnStyle}
           >
             {__('common.order_operation2')}
           </Button>
         ) : null}
-
+        {/* 确认收货 */}
+        {
+          !!show_confirm_received_button && (
+            <Button
+              style={btnStyle}
+              onClick={() => dispatch(confirmReceived(package_list[0].delivery_number, Number(orderId), billno, activeKey))}
+            >
+              {lan.querenshouhuo}
+            </Button>
+         )
+        }
         {/*  备注 */}
         <Popover
           placement="bottom"
@@ -488,24 +522,44 @@ const Packge = ({
                 pagination={false}
                 style={{ width: '500px', maxHeight: '400px', overflow: 'auto' }}
               />
-              <Button // 新增备注
-                style={{ margin: '10px' }}
-                type="primary"
-                onClick={() => dispatch(openModal(orderId))}
-              >
-                {__('common.order_operation6')}
-              </Button>
+              <div style={{ margin: '30px 50px 15px' }}>
+                <div>
+                  <div style={{ textAlign: 'left' }}>
+                    {__('common.order_operation6')}
+                  </div>
+                  <Input.TextArea
+                    style={{ margin: '10px auto' }}
+                    rows={3}
+                    value={remarkModal.remark}
+                    onChange={e => dispatch(commit('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
+                  />
+                </div>
+                <Button
+                  key="submit"
+                  type="primary"
+                  onClick={() => {
+                    if (remarkModal.remark.trim().length === 0) {
+                      return message.warning(__('common.order_operation9'));
+                    }
+                    return dispatch(remarkSave(orderId, remarkModal.remark));
+                  }}
+                  style={btnStyle}
+                >
+                  {lan.保存}
+                </Button>
+              </div>
             </div>
           }
         >
           {
             +basic_info.have_remark === 1 ?
               <Button
+                style={btnStyle}
                 className={style.haveRemark}
                 onClick={() => dispatch(remarkShow(orderId))}
               >{__('common.order_operation4')}</Button>
              :
-              <Button onClick={() => dispatch(remarkShow(orderId))}>{__('common.order_operation4')}</Button>
+              <Button style={btnStyle} onClick={() => dispatch(remarkShow(orderId))}>{__('common.order_operation4')}</Button>
           }
         </Popover>
 
@@ -537,7 +591,6 @@ const Packge = ({
                     }
                     return f;
                   }).filter(v => !checkboxChecked[v.status_code]).map(v => v.id);
-                  console.log(arr, chooseGoods, 'arr');
                   if (arr.length === temp.length) {
                     return dispatch(commit('chooseGoods', chooseGoods));
                   }
@@ -565,13 +618,24 @@ const Packge = ({
 
       {/* 包裹 */}
       {package_list.length > 0 &&
-        package_list.map(v => (
+        package_list.map((v, index) => (
           <Card
             title={
               <div className={style.center}>
                 <span
                   style={{ marginRight: 10 }}
-                >{`${lan.packge}:${v.package_number}`}</span>
+                >
+                  {`${lan.packge}`}
+                  <span style={{ color: 'red' }}>
+                   ({ index + 1 }/{package_list.length })
+                  </span>
+                :{v.package_number}
+                </span>
+
+                <span style={{ color: 'red', marginRight: '10px' }}>
+                  ({v.package_goods_list.length}件)
+                </span>
+                {/* 全选按钮 */}
                 <Button
                   className={style.orderSelect}
                   size="small"
@@ -600,6 +664,32 @@ const Packge = ({
                 >
                   {__('common.allChoose')}
                 </Button>
+                {/* 物流问题反馈 等于1 显示 */}
+                {
+                  !!v.show_troubles_publish_button &&
+                  <Button
+                    className={style.btnSpace}
+                    size="small"
+                    onClick={() => {
+                      if (trackTroubleTypes.length) {
+                        dispatch(commit('trackTroubleForm', { reference_number: v.package_number }));
+                        return dispatch(commit('trackTroubleShow', true));
+                      }
+                      return dispatch(createQs(v.package_number));
+                    }}
+                    loading={trackTroubleLoad}
+                  >
+                    {lan.fankui}
+                  </Button>
+                }
+
+                {/* 查看物流问题  等于1 显示 */}
+                {
+                  !!v.show_troubles_list_link &&
+                  <Link to={`/trackTroubles/list/${v.package_number}`}>
+                    {lan.fankuishow}
+                  </Link>
+                }
               </div>
             }
             key={v.package_number}
@@ -623,7 +713,7 @@ const Packge = ({
                 </div>
                 <div>
                   <span className={style.packgeWidth}>{lan.huohao}: </span>
-                  <span>{v.delivery_number}</span>
+                  <span><Link to={`/order/details/track-details/${v.delivery_number}?p=${v.package_number}`} target="_blank">{v.delivery_number}</Link></span>
                 </div>
               </div>
               <Table
@@ -794,5 +884,8 @@ Packge.propTypes = {
   visible: PropTypes.bool,
   remarkModal: PropTypes.shape(),
   loadUpdata: PropTypes.bool,
+  trackTroubleLoad: PropTypes.bool,
+  trackTroubleTypes: PropTypes.arrayOf(PropTypes.shape()),
+  trackTroubleForm: PropTypes.shape(),
 };
 export default Packge;

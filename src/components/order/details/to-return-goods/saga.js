@@ -22,9 +22,11 @@ function* saveSaga(action) {
   const data = yield toReturnGoodsSave(action.data);
   if (!data || data.code !== 0) {
     yield put(commit('load', false));
+    yield put(commit('spinloading', true));
     return message.error(`${lan.ofail}:${data.msg}`);
   }
   yield put(commit('sucModal', true));
+  yield put(commit('spinloading', true));
   return yield put(commit('sucModalHtml', data.data.return_label_message));
 //  return message.success(lan.osucess);
 }

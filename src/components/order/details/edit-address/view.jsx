@@ -7,13 +7,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Input, Select, Spin, Button, message, DatePicker, Alert } from 'antd';
+import { Input, Select, Spin, Button, message, DatePicker, Alert, Radio } from 'antd';
 import moment from 'moment';
 import { commit, getInfo, infoCommit, getCity, save, getInfoShow } from './action';
 import style from './style.css';
 
 const TA = Input.TextArea;
 const Op = Select.Option;
+const RadioGroup = Radio.Group;
 const Star = (<span style={{ color: 'red' }}>*</span>);
 const lan = {
   save: __('order.entry.save'),
@@ -32,9 +33,9 @@ class EditAddress extends Component {
   constructor(props) {
     super(props);
     const { ready, dispatch, params: { id, bid }, orderId } = props;
-    if (!ready || id !== orderId) {
-      dispatch(getInfo(id));
-    }
+  //  if (!ready || id !== orderId) {
+    dispatch(getInfo(id));
+  //  }
     dispatch(commit('orderId', id));
     dispatch(commit('billno', bid));
   }
@@ -55,6 +56,7 @@ class EditAddress extends Component {
       country_value,
       issue_date,
       issue_date2,
+      cancel_stock_occupy,
     } = submitValue;
     if (ready) {
       // 时间校验
@@ -100,7 +102,7 @@ class EditAddress extends Component {
               <div key={key}>
                 {/* 不是下拉框，输入框 */}
                 {
-                  key !== 'country_id' && key !== 'state' && key !== 'city' && key !== 'district' && key !== 'address_line_1' && key !== 'address_line_2' && key !== 'issue_date' && key !== 'issue_date2' &&
+                  key !== 'country_id' && key !== 'state' && key !== 'city' && key !== 'district' && key !== 'address_line_1' && key !== 'address_line_2' && key !== 'issue_date' && key !== 'issue_date2' && key !== 'cancel_stock_occupy' &&
                   <div className={style.space}>
                     <span className={style.spanWidth}>{validate && Star}{name}:</span>
                     <Input
@@ -278,6 +280,21 @@ class EditAddress extends Component {
                      // <span className={style.spanL}>{issue_date2}</span>
                     }
 
+                  </div>
+                }
+                {/* cancel_stock_occupy  取消库存占用 */}
+                {
+                  key === 'cancel_stock_occupy' &&
+                  <div className={style.space}>
+                    <span className={style.spanWidth}>{validate && Star}{__('order.entry.address_cancel_stock')}</span>
+                    <RadioGroup
+                      style={{ marginTop: '5px' }}
+                      onChange={v => dispatch(infoCommit('cancel_stock_occupy', v.target.value))}
+                      value={cancel_stock_occupy}
+                    >
+                      <Radio value={0}>{__('order.entry.address_cancel_stock1')}</Radio>
+                      <Radio value={1}>{__('order.entry.address_cancel_stock2')}</Radio>
+                    </RadioGroup>
                   </div>
                 }
               </div>

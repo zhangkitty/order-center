@@ -1,37 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin } from 'antd';
+import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin, Affix } from 'antd';
 import { Link } from 'react-router';
 import assign from 'object-assign';
+import { publish } from '../../../lib/Event';
 
 import {
   change, remarkShow, openModal, searchHistory,
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange, commit,
-  getOrderRewardPointInfo,
+  getOrderRewardPointInfo, remarkSave, changeArray, getPaymentComplain,
 } from './action';
 
 import Styles from './style.css';
 
-// 订单状态
-// '1' => '已付款',
-//  '2' => '已审核',
-//  '3' => '进行中'
-// '4' => '部分发货',
-//  '5' => '全部发货',
-//  '6' => '已签收',
-//  '7' => '已完成',
-//  '8' =>'已拒收',
-//  '9' => '已报损',
-//  '10' => '待自提',
-//  '11' => '派件异常',
-//  '12' => '派件中',
-//  '13' => '已经退款',
-//  '14' => '已取消',
-
 // 语言包
 const lan = {
   积分补偿: __('common.Integral_compensation'),
+  换货: __('order.list.list.换货'),
+  没有选择换货商品: '没有选择换货商品',
+  运费: __('order.list.list.运费'),
+  运费险: __('order.list.list.运费险'),
+  商品状态: __('order.list.list.商品状态'),
+  运单号: __('order.list.list.运单号'),
+  物流渠道: __('order.list.list.物流渠道'),
+  关闭备注: '关闭备注',
+  供应商: __('order.list.list.Sku供应商'),
+  支付平台投诉订单: '支付平台投诉订单',
+  投诉平台: '投诉平台',
+  投诉类型: '投诉类型',
+
+
+  //
+    // 换货: 'Exchange Item',
+    // Sku供应商: 'Sku_supplier',
+    // 商品状态: 'Item Status',
+    // 运单号: 'Shipping_no',
+    // 物流渠道: 'Shipping Channel',
+    // 运费: 'Shipping Fee',
+    // 运费险: 'Shipping Insurance',
 };
 
 // 订单状态的标记
@@ -80,6 +87,10 @@ const showRisk = (a, b) => {
   }
   return null;
 };
+
+
+const PaymentComplain = (data) => {
+};
 // 显示换货入口（商品状态）
 const changshow = {
   1: true,  // 已付款
@@ -101,14 +112,25 @@ const changshow = {
   127: true, // 已退货
   130: true, // 有货南沙仓
 };
-// 不能选择商品的条件（商品状态=需要退款、已经退款、 COD客服取消、COD客户取消， 换货，删除换货）
+// 复选框可选入口（商品状态）
 const checkboxChecked = {
-  5: true, // 需要退款
-  20: true, // 换货
+  1: true, // 已付款
+  11: true, // 已审核
+  13: true, // 备货中
+  84: true, // 有货B区
+  85: true, // 有货C东区
+  86: true, // 有货C西区
+  87: true, // 有货D区
+  130: true, // 有货南沙仓
+  28: true, // 无货审核
+  12: true, // 无货
+  23: true, // 等待出仓
+  49: true, // 等待发货
+  16: true, // 发货
   7: true, // 已经退款
-  74: true, // 删除换货
-  75: true, // COD客服取消
-  82: true, // COD用户取消"
+  20: true, // 被换
+  91: true, // COD已报损
+  77: true, // 'COD已拒收',
 };
 // 操作查询
 const columns = [{
@@ -136,7 +158,9 @@ const columnsRemark = [{
   title: __('common.order_operation4'),
   dataIndex: 'remark',
 }];
+
 // 标记订单名
+
 const orderTagName = {
   0: __('common.orderTrouble'),
   1: __('common.orderTrouble1'),
@@ -144,6 +168,7 @@ const orderTagName = {
   3: __('common.orderTrouble3'),
   4: __('common.orderTrouble4'),
   5: __('common.orderTrouble5'),
+  6: lan.支付平台投诉订单,
 };
 // 商品对应的退款单状态名称
 const refundBillStatus = {
@@ -159,7 +184,7 @@ const SingleRow = (props) => {
     record, fetchOperation, operationVisible,
     logisticsVisible, remark, fetchLogisticsRemark, dataSource,
     batchChooseOrder, batchChooseGoods, cancelRiskDesc,
-    queryString3, selectAllStateStatus,
+    queryString3, selectAllStateStatus, BulkReturnInfo, remarkModal, loadUpdata, visible,
   } = props;
   const { siteFrom, memberId } = queryString3;
   const batchGoods = batchChooseGoods.join(',');
@@ -177,25 +202,41 @@ const SingleRow = (props) => {
                 dispatch(change('batchChooseOrder', batchChooseOrder.filter(v => v !== data.order_id)));
               }
             }}
-          >{ data.billno }</Checkbox>
+          >{data.billno}</Checkbox>
           {/*  全选 */}
           <Button
             className={Styles.orderSelect}
             size="small"
             onClick={() => {
+              const bulkarr = (data.order_goods.filter(v =>
+                  checkboxChecked[v.goods_status]
+                  || (v.goods_status == 57 && v.payment_method !== 'cod')
+                  || (v.goods_status == 54 && v.country_name === 'India'),
+              )).map((value) => {
+                value.site_from = data.site_from;
+                return value;
+              });
               let arr = data.order_goods
-                              .filter(v => !checkboxChecked[v.goods_status])
-                              .map(v => v.order_goods_id);
+                .filter(v => checkboxChecked[v.goods_status]
+                  || (v.goods_status == 57 && v.payment_method !== 'cod')
+                  || (v.goods_status == 54 && v.country_name === 'India'),
+                )
+                .map(v => v.order_goods_id);
               if (arr.length) {
                 if (batchChooseGoods.length === arr.length) {
                   arr = [];
                 }
               }
               dispatch(change('batchChooseGoods', arr));
+              if (batchChooseGoods.length > 0) {
+                dispatch(change('BulkReturnInfo', []));
+              } else {
+                dispatch(change('BulkReturnInfo', bulkarr));
+              }
             }}
           >{__('common.allChoose')}</Button>
 
-          <span>{__('common.Qty')} { data.goods_quantity }</span>
+          <span>{__('common.Qty')} {data.goods_quantity}</span>
           <span>
             {data.email}
             {/*  history */}
@@ -210,7 +251,7 @@ const SingleRow = (props) => {
               }
             >{data.buy_cnt}</a>)
           </span>
-          <span>{ data.member_level }</span> <span>{data.pay_time}</span>
+          <span>{data.member_level}</span> <span>{data.pay_time}</span>
           <span> {data.site_from}</span> <span>{data.country_name}</span>
         </div>
         <div className={Styles.orderTitleR}>
@@ -220,6 +261,9 @@ const SingleRow = (props) => {
           <span> {data.payment_method}</span>
           <span>{__('common.total')} {data.usd_price} </span>
           <span> {data.currency_price}</span>
+
+          <span>{lan.运费}:{data.shipping_price}</span>
+          <span>{lan.运费险}:{data.shipping_insurance}</span>
         </div>
       </div>
 
@@ -231,13 +275,40 @@ const SingleRow = (props) => {
             type: 'checkbox',
             selectedRowKeys: batchChooseGoods,
             getCheckboxProps: rec => ({
-              disabled: !!checkboxChecked[rec.goods_status],
+              disabled: (function () {
+                if (rec.goods_status === 57 && rec.payment_method !== 'cod') {
+                  return false;
+                }
+                if (rec.goods_status === 54 && rec.country_name === 'India') {
+                  return false;
+                }
+                return checkboxChecked[rec.goods_status] === undefined || rec.is_replace === '2';
+              }(rec)),
             }),
-            onChange: t => dispatch(change('batchChooseGoods', t)),
+            onChange: (selectedRowKeys, selectedRows) => {
+              dispatch(change('BulkReturnInfo', selectedRows));
+              dispatch(change('batchChooseGoods', selectedRowKeys));
+            },
           }}
           pagination={false}
           showHeader={false}
-          dataSource={data.order_goods}
+          dataSource={(function (v) {
+            return (
+              v.order_goods.map((val) => {
+                val.site_from = v.site_from;
+                val.size = [];
+                val.selectedDisabled = true;
+                val.selectedValue = null;
+                val.mysku = val.goods_sn;
+                val.submitValue = [];
+                val.order_id = v.order_id;
+                val.billno = v.billno;
+                val.payment_method = v.payment_method;
+                val.country_name = v.country_name;
+                return val;
+              })
+            );
+          }(data))}
           columns={[{
             title: '订单商品编号',
             dataIndex: 'order_goods_sort',
@@ -259,8 +330,18 @@ const SingleRow = (props) => {
                     replaceGoods(res.is_replace, res.replace_goods_sort) // res.goods_status
                   }
                 </span>
-                <p>{__('order.name.goods_id')}: {res.goods_id}</p>
-                <p> {res.goods_attr}</p>
+                <p>
+                  <span style={{ display: 'inline-block', width: 150 }}>{__('order.name.goods_id')}: {res.goods_id}</span>
+                  <span>{lan.商品状态}:{res.goods_status_title}</span>
+                </p>
+                <p>
+                  <span style={{ display: 'inline-block', width: 150 }}>{res.goods_attr}</span>
+                  <span>{lan.运单号}:{res.shipping_no}</span>
+                </p>
+                <p>
+                  <span style={{ display: 'inline-block', width: 150 }}>{lan.供应商}:{/* res.supplier_id */}</span>
+                  <span>{lan.物流渠道}:{res.delivery_channel}</span>
+                </p>
               </div>
             ),
           }, {
@@ -335,7 +416,9 @@ const SingleRow = (props) => {
 
                 {/* 换货 */}
                 {
-                  changshow[rec.goods_status] && Number(rec.is_replace) !== 2 ?
+                  (rec.goods_status == 57 && rec.payment_method !== 'cod')
+                  || (rec.goods_status == 54 && rec.country_name === 'India')
+                  || (changshow[rec.goods_status] && Number(rec.is_replace) !== 2) ?
                     <span
                       onClick={() => {
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
@@ -369,7 +452,7 @@ const SingleRow = (props) => {
       <div className={Styles.orderOperateBg}>
 
         <div className={Styles.orderOperate}>
-          { data.goods_quantity > 1 ?
+          {data.goods_quantity > 1 ?
             <div style={{ height: '30px' }} />
             : null
           }
@@ -400,7 +483,20 @@ const SingleRow = (props) => {
                   <div className={Styles.fontColor}>
                     <p>{__('common.TroubleCancel')}</p>
                     {
-                      showRisk(data.is_trouble, data.cancelRiskDesc)
+                     !!(+data.is_trouble === 3) && showRisk(data.is_trouble, data.cancelRiskDesc)
+                    }
+
+                    {
+                      (function (data) {
+                        if (+data.is_trouble === 6) {
+                          if (data.PaymentComplainDesc) {
+                            return (<div>
+                              <p>{lan.投诉平台}:{data.PaymentComplainDesc.complaint_platform}</p>
+                              <p>{lan.投诉类型}:{data.PaymentComplainDesc.complaint_type}</p>
+                            </div>);
+                          }
+                        }
+                      }(data))
                     }
                   </div>
                 }
@@ -414,8 +510,15 @@ const SingleRow = (props) => {
               >
                 <Button  // 取消风控订单
                   className={Styles.haveRemark}
-                  onClick={() =>
-                    (Number(data.is_trouble) === 3 && dispatch(cancelRisk(data.order_id)))}
+                  onClick={() => {
+                    if (+data.is_trouble === 3) {
+                      dispatch(cancelRisk(data.order_id));
+                    }
+                    if (+data.is_trouble === 6) {
+                      dispatch(getPaymentComplain(data.order_id));
+                    }
+                  }
+                  }
                 >{orderTagName[data.is_trouble]}</Button>
               </Popconfirm>
               :
@@ -423,63 +526,84 @@ const SingleRow = (props) => {
                 onClick={() => dispatch(markTag(data.order_id))}
               >{orderTagName[data.is_trouble]}</Button>
           }
-          {/*  退款/取消 */}
-          {/* {
-            (data.payment_method === 'cod' && Number(data.order_status) === 5)
-            ||
-            data.order_status > 7
-              ?
-              null
-              : <Button
-                onClick={() => {
-                  const result = data.order_goods.map(v => v.order_goods_id);
-                  const arr = batchGoods.split(',');
-                  const res = arr.filter(v => !!result.filter(d => d === v).length);
-                  if (res.length < 1) {
-                    return message.warning(__('common.sagaTitle24'));
-                  }
-                  // return hashHistory.push(`/order/goodsRefund/${data.order_id}/${batchGoods}`);
-                  return window.open(`${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${res.join(',')}`);
-                }}
-              >{__('common.order_operation2')}</Button>
-          } */}
+
 
           {/*  差价退款 */}
           <Link to={`/order/diffRefund/${data.order_id}/2`} target="_blank">{__('common.order_operation3')}</Link>
 
-          {/*  备注 */}
-          <Popover
-            placement="bottomRight"
-            trigger="click"
-            arrowPointAtCenter
-            content={
-              <div className={Styles.tableFloat}>
-                <Table
-                  dataSource={fetchRemark}
-                  columns={columnsRemark} size="small"
-                  pagination={false}
-                  style={{ width: '600px', maxHeight: '400px', overflow: 'auto' }}
-                />
-                <Button
-                  style={{ margin: '10px' }}
-                  type="primary"
-                  onClick={() => dispatch(openModal(data.order_id))}
-                >
-                  {__('common.order_operation6')}
-                </Button>
-              </div>
-            }
-          >
-            {
-              Number(data.have_remark) === 1 ?
-                <Button
-                  className={Styles.haveRemark}
-                  onClick={() => dispatch(remarkShow(data.order_id))}
-                >{__('common.order_operation4')}</Button>
+          {/* 备注 */}
+          {
+            Number(data.have_remark) === 1 ?
+              <Button
+                className={Styles.haveRemark}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(remarkShow(data.order_id));
+                }}
+              >{__('common.order_operation4')}</Button>
                 :
-                <Button onClick={() => dispatch(remarkShow(data.order_id))}>{__('common.order_operation4')}</Button>
-            }
-          </Popover>
+              <Button onClick={(e) => {
+                e.stopPropagation();
+                dispatch(remarkShow(data.order_id));
+              }}
+              >{__('common.order_operation4')}</Button>
+          }
+          {
+            data.popOvervisible ?
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  publish('mdzz', 1, data.order_id);
+                }}
+                style={{
+                  position: 'fixed',
+                  top: '150',
+                  zIndex: 1000,
+                  right: '20',
+                  border: '1px solid #e9e9e9',
+                  background: 'white',
+
+                }}
+              >
+                <div className={Styles.tableFloat}>
+                  <Table
+                    bordered={false}
+                    dataSource={fetchRemark}
+                    columns={columnsRemark}
+                    pagination={false}
+                    style={{ width: '600px', maxHeight: '200px', overflow: 'auto' }}
+                  />
+                  <div style={{ margin: '30px 50px 15px' }}>
+                    <div>
+                      <div style={{ textAlign: 'left' }}>
+                        {__('common.order_operation6')}
+                      </div>
+                      <Input.TextArea
+                        style={{ margin: '10px auto' }}
+                        rows={3}
+                        value={remarkModal.remark}
+                        onChange={e => dispatch(change('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
+                      />
+                    </div>
+                    <Button
+                      key="submit"
+                      type="primary"
+                      loading={loadUpdata}
+                      onClick={() => {
+                        if (remarkModal.remark.trim().length === 0) {
+                          return message.warning(__('common.order_operation9'));
+                        }
+                        return dispatch(remarkSave(data.order_id, remarkModal.remark));
+                      }}
+                      style={{ marginRight: '20px' }}
+                    >
+                      {__('common.order_operation7')}
+                    </Button>
+                  </div>
+                </div>
+              </div> : null
+          }
+
 
           {/*  物流备注 */}
           <Popover
@@ -529,13 +653,26 @@ const SingleRow = (props) => {
               onClick={
                 (e) => {
                   dispatch(getOrderRewardPointInfo(data.order_id));
-
                 }
 
               }
             >{lan.积分补偿}</Button> :
-              null
+            null
           }
+          {/* 批量换货 */}
+          <Button
+            onClick={
+              () => {
+                if (BulkReturnInfo.length > 0) {
+                  dispatch(change('ExchangeShow', true));
+                } else {
+                  return message.info(lan.没有选择换货商品);
+                }
+              }
+            }
+          >
+            {lan.换货}
+          </Button>
 
 
         </div>

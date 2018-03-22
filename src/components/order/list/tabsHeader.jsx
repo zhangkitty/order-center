@@ -9,7 +9,7 @@ import moment from 'moment';
 import {
   search, searchHigh, commit, commit2,
   initData,
-  change, batchOperate, batchCheck, batchDelete, batchPart,batchPartSuccess, noStockApply
+  change, batchOperate, batchCheck, batchDelete, batchPart, batchPartSuccess, noStockApply,
 } from './action';
 
 import styles from './style.css';
@@ -39,14 +39,14 @@ class TabsHeader extends Component {
     props.dispatch(initData());  // 初始化数据（封装接口）w
   }
 
-  componentDidMount(){
-    const {dispatch} = this.props;
-    window.refreshListData=()=>{
-      if(sessionStorage.getItem('search')){
-        let s = JSON.parse(sessionStorage.getItem('search'));
-        if(s.type=='1'){
+  componentDidMount() {
+    const { dispatch } = this.props;
+    window.refreshListData = () => {
+      if (sessionStorage.getItem('search')) {
+        const s = JSON.parse(sessionStorage.getItem('search'));
+        if (s.type == '1') {
           dispatch(search(s.data));
-        }else if(s.type=='2'){
+        } else if (s.type == '2') {
           dispatch(searchHigh(s.data));
         }
       }
@@ -675,6 +675,8 @@ class TabsHeader extends Component {
                   <Option key="1"> {__('common.guangzhou')}</Option>
                   <Option key="10">{__('common.west')}</Option>
                   <Option key="20">{__('common.nansha')}</Option>
+                  <Option key="8">{__('common.america')}</Option>
+                  <Option key="9">{__('common.europe')}</Option>
                 </Select>
                 <Button
                   onClick={() => {
@@ -710,7 +712,7 @@ class TabsHeader extends Component {
                   }}
                 > {__('common.review')}</Button>
               </div>
-              <NoStock {...this.props}/>
+              <NoStock {...this.props} />
             </TabItem>
           </Tabs>
         </Panel>

@@ -11,16 +11,20 @@ const defaultState = {
   chooses: [],
   modalChooses: [],
   reasons: [],
+  rlFee: [],
+  refundCurrency: {},
   dataSource: [],
   paths: [],
   shippingType: [],
   warehouse: [],
+  spinloading: true,
   submitValue: {
     order_id: null,
     return_info: [],
     refund_path: null,
     return_shipping_type: '',
     return_warehouse: null,
+    rl_fee: 0,
   },
 };
 
@@ -31,13 +35,14 @@ const defaultRL = {
   2: '美东仓', 3: '比利时仓',
 };
 const getShippingType = (value) => {
-  if (RANChoose[value]) {
-    return 2;
-  }
-  if (defaultRL[value]) {
-    return 1;
-  }
-  return 1;
+  let val = 0;
+  value.map((v) => {
+    if (v.isDefault === 1) {
+      val = v.id;
+    }
+  });
+  console.log(val);
+  return val;
 };
 export default (state = defaultState, action) => {
   switch (action.type) {
@@ -62,10 +67,12 @@ export default (state = defaultState, action) => {
               img_thumb: [],
               reason_ids: [],
             }
-            )),
+          )),
           refund_path: action.data.refund_path.find(v => Number(v.id) === 1) ? action.data.refund_path.find(v => Number(v.id) === 1).id : '',
-          return_shipping_type: getShippingType(action.data.default_warehouse),
+          return_shipping_type: getShippingType(action.data.return_shipping_type),
         }),
+        rlFee: action.data.rl_fee,
+        refundCurrency: action.data.refund_currency,
       });
     case TYPES.SAVE:
       return assign({}, state, {

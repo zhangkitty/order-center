@@ -1,6 +1,7 @@
 import assign from 'object-assign';
 import fetch from '../../../lib/fetch';
-import {camel2Under} from '../../../lib/camal';
+import { camel2Under,under2Camal } from  '../../../lib/camal';
+import { parseQuery } from '../../../lib/query-string';
 
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
@@ -18,6 +19,9 @@ const entry = {
   orderProfit: '/OrderDetail/orderProfit',
   rebuildRl: '/orderReturn/rebuildRl',
   cancelTheRefundBill: '/OrderDiffRefund/cancelTheRefundBill',
+  getTroubleTypes: '/OrderLogisticsTroubles/getTroubleTypes',
+  trackTroublePublish: '/OrderLogisticsTroubles/publish',
+  refundAccount: '/OrderRefund/addUnderlineRefund',    // 填写账户信息
 };
 const editAddress = {
   info: '/Order/getAddressInfo',
@@ -56,10 +60,27 @@ const cashRefund = {
   submit: '/OrderRefund/applyWithDrawAndCancelWalletRefund'
 }
 
+//查看RL费用
+const RL = {
+    fetchrlfee :'/OrderReturn/fetchRlFee',
+    postRlFeeSer:'/OrderReturn/rebuildRl'
+}
+
+//查看物流信息
+const track = {
+  details: '/Order/getTrackDetail',
+}
+
 const list = {
   operationGoods: '/Order/getOrderGoodsOperate',  // 商品操作查询
   orderRemark: '/order/remark',  // 备注查询
+  confirmReceived: '/Order/confirmReceived',
   orderSaveRemark: '/order/saveRemark',  // 添加备注
+};
+
+const question = {
+  switchRemark: '/OrderLogisticsTroubles/getNotes', //查看物流问题备注
+  addRemarkSave: '/OrderLogisticsTroubles/addNote', //保存物流感喟问题备注
 };
 
 
@@ -301,3 +322,75 @@ export const remarkSaveSer = (orderId, remark) => (
     })),
   })
 );
+
+// 物流问题记录 问题类型
+export const getTroubleTypes = () => {
+  return fetch(entry.getTroubleTypes, {
+    method: 'GET',
+  })
+};
+// 物流问题记录 创建问题
+export const trackTroublePublish = d => {
+  return fetch(entry.trackTroublePublish, {
+    method: 'POST',
+    body: JSON.stringify(camel2Under(d)),
+  })
+};
+
+//查看RL费用
+export const fetchrlfeeSer = (orderId)=>(
+    fetch(`${RL.fetchrlfee}?order_id=${orderId}`,{
+        method:'GET',
+    }).then(res=>under2Camal(res))
+)
+
+//提交RL费用
+export const rebuildrlSer = (d)=>(
+    fetch((`${RL.postRlFeeSer}`),{
+      method:'POST',
+      body:JSON.stringify(camel2Under(d))
+    })
+)
+
+//填写账户信息
+export const refundAccountSer = (data)=> {
+  const keys = ['order_id', 'refund_method', 'account_info', 'bank_code', 'account', 'customer', 'issuing_city', 'refund_method_account','card_number'];
+  return fetch(entry.refundAccount, {
+    method: 'POST',
+    body: JSON.stringify(parseQuery(keys, data)),
+  })
+};
+
+//获取物流信息
+
+export const getInitDataServer = (id) => {
+  return fetch(`${track.details}?shipping_no=${id}`, {
+    method: 'GET',
+  })
+}
+
+//确认收货
+export const confirmReceivedServer = (deliveryNumber) => {
+  return fetch(`${list.confirmReceived}?shipping_no=${deliveryNumber}`, {
+    method: 'GET',
+  })
+}
+
+
+// 物流问题反馈备注查看
+export const switchRemarkSer = (types, numbers) => {
+  return fetch(`${question.switchRemark}?trouble_type=${types}&reference_number=${numbers}`, {
+    method: 'GET',
+  })
+};
+
+// 物流问题反馈备注保存
+export const questionRemarkSer = (trouble_type, note, reference_number) => (
+  fetch(question.addRemarkSave, {
+    method: 'post',
+    body: JSON.stringify({ trouble_type, note, reference_number }),
+  })
+);
+
+
+

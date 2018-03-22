@@ -31,7 +31,7 @@ function* waitingAwakeSaga(saga) {
   }
 }
 
-export function *rootSaga() {
-  const sagas = __ROOT_SAGA__.map((saga) => fork(waitingAwakeSaga, saga));
+export function* rootSaga() {
+  const sagas = __ROOT_SAGA__.map(saga => fork(waitingAwakeSaga, saga));
   yield all(sagas);
 }

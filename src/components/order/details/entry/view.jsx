@@ -12,6 +12,7 @@ import Payment from './payment-desc';
 import Refund from './refund';
 import OrderReturn from './order-return';
 import Logs from './logs';
+import TrackTrouble from './trackTrouble';
 
 import styles from './style.css';
 
@@ -75,6 +76,7 @@ class DetailsEntry extends Component {
               ))
             }
           </Tabs>
+          <TrackTrouble {...this.props} />
         </div>
       );
     }

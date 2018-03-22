@@ -20,7 +20,7 @@ const Goods2 = ({ returnsInfoData: { yishenqingWeituihui } }) => (
       size="small"
       pagination={false}
       dataSource={yishenqingWeituihui}
-      rowKey={'goodsId'}
+      rowKey={'orderGoodsId'}
     //  bordered
       columns={[
         {

@@ -32,8 +32,8 @@ export const initCountrySer = () => (
 
 // 搜索
 export const searchSubmit = (page) => {
-  const keys = ['page_size', 'page_number',
-    'return_order_id', 'order_no', 'email', 'tracking_no', 'good_sn', 'source_site', 'insurance_states', 'trouble_state',
+  const keys = ['page_size', 'page_number','shipping_type','shipping_method',
+    'return_order_id', 'order_no', 'email', 'tracking_no', 'good_sn', 'source_site', 'insurance_states', 'trouble_state','sort_by',
     'return_order_status', 'refund_status', 'shipping_status', 'order_type', 'receiver_country', 'return_label_type', 'warehouse',
     'member_level', 'payment', 'time_tag', 'start_time', 'end_time', 'sort_order'];
   return fetch(`${list.init}?${queryString(keys, page)}`, {

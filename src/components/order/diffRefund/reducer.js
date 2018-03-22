@@ -24,16 +24,46 @@ const defaultState = {
   maxTips: {},
   submitLoad: false,
   submitdisabled: false,
+  isUsd: null,
+  cachePaths: [],
 };
 
-const getMax = d => ({
-  1: d.giftCardCanBeRefundedPrice.priceUsd.amount,
-  2: (Number(d.totalPrice.priceUsd.amount) * 1.5) +
-  Number(d.walletOrCardCanBeRefundedPrice.priceUsd.amount),
-  3: d.cardCanBeRefundedPrice.priceUsd.amount,
-  4: (Number(d.totalPrice.priceUsd.amount) * 1.5),
-  disabled: 0,
-});
+const getMax = (d) => {
+  if (d.isUsd === 0) {
+    return {
+      1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      2: ((Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
+      Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount)) > 0 ?
+        ((Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
+          Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount))
+      : 0,
+      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount > 0 ? d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount : 0,
+      4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
+      disabled: 0,
+    };
+  }
+  if (d.isUsd === 1) {
+    return {
+      1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
+      2: ((Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5) +
+      Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount)) > 0 ?
+        ((Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5) +
+          Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount))
+      : 0,
+      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount > 0 ? d.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount : 0,
+      4: (Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5),
+      disabled: 0,
+    };
+  }
+  return {
+    1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    2: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
+    Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount),
+    3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
+    disabled: 0,
+  };
+};
 
 // 改变refundPaths里面的内容
 function changeChannelProp(refundPaths, { channel, key, val }) {
@@ -86,14 +116,32 @@ const reducer = (state = defaultState, action) => {
         ready: true,
         refundPaths: action.data.orderRefundPathList.map(item => assign({}, item, {
           channelType: chanelTypeTable[item.refundPathId],
-          refund_method: '',
-          refund_method1: '',
-          refundAmount1: 0,
+          refund_method: action.data.orderRefundUnderlineAccount.refundMethod, // 退款账户
+          account: action.data.orderRefundUnderlineAccount.accountInfo, // 账户信息
+          bank_code: action.data.orderRefundUnderlineAccount.bankCode, // 银行代码
+          account1: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
+          customer: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
+          issuing_city: action.data.orderRefundUnderlineAccount.issuingCity, // 发卡城市
+        //  refund_method1: '',
+          refundCurrency: 0,
           refundAmount: 0,
         })),
-        maxTips: getMax(action.data.orderPriceInfo),
+        cachePaths: action.data.orderRefundPathList.map(item => assign({}, item, {
+          channelType: chanelTypeTable[item.refundPathId],
+          refund_method: action.data.orderRefundUnderlineAccount.refundMethod, // 退款账户
+          account: action.data.orderRefundUnderlineAccount.accountInfo, // 账户信息
+          bank_code: action.data.orderRefundUnderlineAccount.bankCode, // 银行代码
+          account1: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
+          customer: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
+          issuing_city: action.data.orderRefundUnderlineAccount.issuingCity, // 发卡城市
+          refundCurrency: 0,
+          refundAmount: 0,
+        })),
+        maxTips: getMax(action.data),
         orderPriceInfo: action.data.orderPriceInfo,
+        isCod: action.data.orderPriceInfo.isCod,
         loading: false,
+        isUsd: action.data.isUsd,
       });
     case TYPES.CHANGE_CHANNEL_VALUE:
       return assign({}, state, {
@@ -123,11 +171,17 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         reason: null,
         remark: '',
-        refundPaths: state.refundPaths.map(v => assign({}, v, {
+        refundPaths: state.cachePaths.map(v => assign({}, v, {
           checked: false,
           refundValue: '',
-          refund_method: null,
-          account: '',
+          refundCurrency: 0,
+          refundAmount: 0,
+          refund_method: v.refund_method,
+          account: v.account,
+          bank_code: v.bank_code,
+          account1: v.account1,
+          customer: v.customer,
+          issuing_city: v.issuing_city,
         })),
       });
 

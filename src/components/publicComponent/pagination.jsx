@@ -12,7 +12,7 @@ const style = {
   justifyContent: 'flex-end',
 };
 
-const pageSizes = ['10', '20', '30', '40'];
+const pageSizes = ['10', '20', '30', '40', '100', '200', '400'];
 
 const Page = ({ total, onChange, onShowSizeChange, current }) => (
   <Pagination
@@ -24,9 +24,7 @@ const Page = ({ total, onChange, onShowSizeChange, current }) => (
     onChange={onChange}
     showTotal={records => `${records} ${__('common.content_name2')}`}
     defaultPageSize={10}
-    onShowSizeChange={(cur, size) => {
-      return onShowSizeChange(cur, size);
-    }}
+    onShowSizeChange={(cur, size) => onShowSizeChange(cur, size)}
   />
 );
 

@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Spin, Table, Checkbox, Upload, Button, Radio, Select, Modal, message } from 'antd';
 import { commit, getInfo, batchChoose, infoCommit, save } from './action';
+import styles from './style.css';
 
 const reqImg = require.context('../../images');
 
@@ -27,9 +28,12 @@ const lan = {
   need: __('order.entry.submit_title5'),
   fileNeed: __('common.file_need_choose'),
   fileNumber: __('common.file_less_three'),
+  上传的图片大小不能超过8M: __('order.entry.上传的图片大小不能超过8M'),
+  只可上传: __('order.entry.只可上传'),
+  只可上传请确认: __('order.entry.只可上传请确认'),
 };
 const CG = Checkbox.Group;
-const RG = Radio.Group;
+const RadioGroup = Radio.Group;
 const Op = Select.Option;
 const Star = (<span style={{ color: 'red' }}>*</span>);
 const spanWidth = { width: '120px', display: 'inline-block' };
@@ -53,7 +57,7 @@ class ToReturnGoods extends Component {
     const {
       dispatch, batchShow, chooses, reasons,
       ready, dataSource, paths, load, sucModal,
-      shippingType, warehouse, submitValue, sucModalHtml,
+      shippingType, warehouse, submitValue, sucModalHtml, rlFee, spinloading, refundCurrency,
     } = this.props;
     const { return_info, refund_path, return_shipping_type, return_warehouse } = submitValue;
     if (ready) {
@@ -76,6 +80,7 @@ class ToReturnGoods extends Component {
             if (!refund_path || !return_shipping_type || !return_warehouse) {
               return message.warning(lan.need);
             }
+            dispatch(commit('spinloading', false));
             return dispatch(save(submitValue));
           }}
         >
@@ -101,7 +106,7 @@ class ToReturnGoods extends Component {
                     <span style={{ width: '40px', display: 'inline-block' }}>{rec.goods_sort}</span>
                     <img src={rec.img_url} width={80} alt="pic" />
                   </div>
-              ),
+                ),
               },
               {
                 title: lan.reason,
@@ -118,20 +123,20 @@ class ToReturnGoods extends Component {
                     {
                       (d || []).map(v => (
                         Number(v.id) < 6 && Number(v.id) !== 1 ?
-                            <div key={v.id}>
-                              <Checkbox value={v.id} >{Star}{v.name}</Checkbox>
-                            </div>
+                          <div key={v.id}>
+                            <Checkbox value={v.id} >{Star}{v.name}</Checkbox>
+                          </div>
 
-                            :
-                            <div key={v.id}>
-                              <Checkbox value={v.id}>{v.name}</Checkbox>
-                            </div>
+                          :
+                          <div key={v.id}>
+                            <Checkbox value={v.id}>{v.name}</Checkbox>
+                          </div>
 
-                        ))
-                      }
+                      ))
+                    }
                   </CG>
 
-              ),
+                ),
               },
               {
                 title: lan.num,
@@ -177,6 +182,18 @@ class ToReturnGoods extends Component {
                           name={`img_${rec.goods_id}`}
                           showUploadList={false}
                           data={{ type: 3, goods_id: rec.goods_id }}
+                          // 如果图片大于8M不上传
+                          beforeUpload={(file) => {
+                            if (file.type && (file.type !== 'image/jpeg' && file.type !== 'image/png')) {
+                              message.error(lan.只可上传请确认, 3);
+                              return false;
+                            }
+                            if (file.size && file.size >= 8 * 1024 * 1024) {
+                              message.error(lan.上传的图片大小不能超过8M, 3);
+                              return false;
+                            }
+                            return true;
+                          }}
                           onChange={({ file }) => {
                             if (file.status === 'done') {
                               dispatch(infoCommit('return_info', return_info.map(v => (
@@ -196,39 +213,76 @@ class ToReturnGoods extends Component {
                           <span style={{ marginLeft: '5px', color: 'red' }}>
                             {
                               !return_info
-                              .find(v => v.goods_id === rec.goods_id).img_thumb.length &&
-                            `${lan.fileNeed},`}{lan.fileNumber}
+                                .find(v => v.goods_id === rec.goods_id).img_thumb.length &&
+                              `${lan.fileNeed},`}{lan.fileNumber}
                           </span>
                         </Upload>
                         : null
                     }
+                    {
+                      <span style={{ color: 'red', lineHeight: '28px', marginLeft: '10px' }}>
+                        {lan.只可上传}
+                      </span>
+                    }
                   </div>
-              ),
+                ),
               },
             ]}
           />
           <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{lan.path}{Star}:</span>
-            <RG value={submitValue.refund_path} onChange={e => dispatch(infoCommit('refund_path', e.target.value))}>
+            <RadioGroup value={submitValue.refund_path} onChange={e => dispatch(infoCommit('refund_path', e.target.value))}>
               {
                 paths.map(v => (
                   <Radio value={v.id} key={v.id}>{v.name}</Radio>
                 ))
               }
-            </RG>
+            </RadioGroup>
           </div>
+
+          <div style={{ margin: '20px 0' }}>
+            <span style={spanWidth}>{lan.type}{Star}:</span>
+            <RadioGroup
+              value={submitValue.return_shipping_type}
+              onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}
+            >
+              {
+                shippingType.map(v => (
+                  <Radio
+                    value={v.id} key={v.id}
+                    // disabled={RANChoose[submitValue.return_warehouse] && (!v.isAvailable)}
+                    disabled={!v.isAvailable}
+                  >{v.name}</Radio>
+                ))
+              }
+            </RadioGroup>
+          </div>
+
+          <div style={{ margin: '20px 0', display: submitValue.return_shipping_type === 1 ? '' : 'none' }}>
+            <span style={spanWidth} />
+            <RadioGroup value={submitValue.rl_fee || 0} onChange={e => dispatch(infoCommit('rl_fee', e.target.value))}>
+              {
+                (rlFee || []).map(v => (
+                  <Radio
+                    value={v.amount} key={v.amount}
+                  >{v.amount_with_symbol}</Radio>
+                ))
+              }
+            </RadioGroup>
+          </div>
+
           <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{lan.warehouse}{Star}:</span>
             <Select
               style={{ width: '45%' }}
               value={`${submitValue.return_warehouse}`}
               onChange={(value) => {
-                if (defaultRL[value]) {
-                  dispatch(infoCommit('return_shipping_type', 1));
-                }
-                if (RANChoose[value]) {
-                  dispatch(infoCommit('return_shipping_type', 2));
-                }
+                // if (defaultRL[value]) {
+                //   dispatch(infoCommit('return_shipping_type', 1));
+                // }
+                // if (RANChoose[value]) {
+                //   dispatch(infoCommit('return_shipping_type', 2));
+                // }
                 dispatch(infoCommit('return_warehouse', Number(value)));
               }}
             >
@@ -240,17 +294,12 @@ class ToReturnGoods extends Component {
             </Select>
           </div>
           <div style={{ margin: '20px 0' }}>
-            <span style={spanWidth}>{lan.type}{Star}:</span>
-            <RG value={submitValue.return_shipping_type} onChange={e => dispatch(infoCommit('return_shipping_type', e.target.value))}>
-              {
-                shippingType.map(v => (
-                  <Radio
-                    value={v.id} key={v.id}
-                    disabled={v.id === 1 && RANChoose[submitValue.return_warehouse]}
-                  >{v.name}</Radio>
-                ))
-              }
-            </RG>
+            <span style={spanWidth}>{__('order.entry.return_goods11')}:</span>
+            {refundCurrency.amount}&nbsp;
+            {return_shipping_type === 1 ? `- ${submitValue.rl_fee}` : ''}
+            &nbsp;{return_shipping_type === 1 ? `= ${+refundCurrency.amount - submitValue.rl_fee}` : ''}
+
+            &nbsp; ({refundCurrency.symbol})
           </div>
           <Button type="primary" disabled={load} htmlType="submit">{lan.save}</Button>
           <Modal
@@ -284,6 +333,9 @@ class ToReturnGoods extends Component {
             </p>
             <div dangerouslySetInnerHTML={{ __html: sucModalHtml }} />
           </Modal>
+          <div className={styles.spin} style={{ display: spinloading ? 'none' : '' }}>
+            <Spin size="large" className={styles.location} />
+          </div>
         </form>
       );
     }
@@ -306,6 +358,9 @@ ToReturnGoods.propTypes = {
   shippingType: PropTypes.arrayOf(PropTypes.shape),
   reasons: PropTypes.arrayOf(PropTypes.shape),
   warehouse: PropTypes.arrayOf(PropTypes.shape),
+  rlFee: PropTypes.arrayOf(PropTypes.shape),
+  refundCurrency: PropTypes.shape(),
+  spinloading: PropTypes.bool,
 };
 const mapStateToProps = state => state['order/details/to-return-goods'];
 export default connect(mapStateToProps)(ToReturnGoods);

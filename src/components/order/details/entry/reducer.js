@@ -15,11 +15,12 @@ const defaultState = {
   warehouse: 0,
   partSendBtn: false,
   rlLoading: false,
+  rlmodal: false,
   preSend: 0,
   dataSource: {
     base: {}, // 基本
     pay: {}, // 支付信息
-    refund: {}, // 退款信息
+    refund: [], // 退款信息
     orderReturn: [],  // 退货信息
     exchange: [],  // 换货信息
     logs: {}, // 订单日志
@@ -39,6 +40,10 @@ const defaultState = {
     img: '',
   },
   returnEmail: '',
+  rlFee: null,
+  reFeeValue: 0,
+  modal_return_order_id: null,
+  confirmLoading: false,
   operationVisible: false,  // 操作查询
   clickVisible: false,
   visible: false,   // add
@@ -50,6 +55,28 @@ const defaultState = {
     remark: '',
   },
   changeDisabled: true,  // 换货按钮状态
+  trackTroubleLoad: false, // 物流问题反馈按钮
+  trackTroubleShow: false, // 物流问题反馈弹窗
+  trackTroubleTypes: [], // 物流问题记录 问题类型
+  trackTroubleForm: { // 物流问题记录 提交数据
+    trackTroubleSubmitLoad: false,
+  },
+  refund_account: { // 填写退款账户
+    order_id: null,
+    refund_method: null, // 退款账户
+    account_info: null, // 账户信息
+    bank_code: null, // 银行代码
+    card_number: null, // 银行卡号
+    customer_name: null, // 顾客姓名
+    issuing_city: null, // 发卡城市
+  },
+  returnCopied: false, // 复制状态
+  RefundShow: false,
+  trackImages: [],   //  图片
+  switchRemarkOpen: false, // 物流问题备注显示
+  switchRemarkList: [], // 物流问题备注列表
+  addRemarkOpen: false, // 新增备注
+  note: '', // 物流问题备注
 };
 
 export default (state = defaultState, action) => {
@@ -127,6 +154,12 @@ export default (state = defaultState, action) => {
       return assign({}, state, {
         [action.key]: action.value,
       });
+    case TYPES.COMMIT_REFUND:
+      return assign({}, state, {
+        refund_account: assign({}, state.refund_account, {
+          [action.key]: action.value,
+        }),
+      });
     case TYPES.OPEN_MODAL:  // add remark
       return assign({}, state, {
         // clickVisible: false,
@@ -168,6 +201,37 @@ export default (state = defaultState, action) => {
         fetchOperation: action.data.data || [],
         load: false,
         operationVisible: true,
+      });
+    case TYPES.TRACK_TROUBLE:
+      return assign({}, state, {
+        trackTroubleLoad: true,
+        trackTroubleForm: { reference_number: action.pkgNum },
+      });
+    case TYPES.TRACK_TROUBLE_SUBMIT:
+      return assign({}, state, {
+        trackTroubleForm: { trackTroubleSubmitLoad: true },
+      });
+    case TYPES.REFUND_ACCOUNT:
+      return assign({}, state, {
+        refund_account: action.data,
+      });
+    case TYPES.SWITCH_REMARK:
+      return assign({}, state, {
+        switchRemarkOpen: true,
+      });
+    case TYPES.SWITCH_REMARK_SET:
+      return assign({}, state, {
+        switchRemarkList: action.data,
+      });
+    case TYPES.QUESTION_REMARK_SAVE_SET:
+      return assign({}, state, {
+        note: '',
+        addRemarkOpen: false,
+      });
+    case TYPES.CLOSE_REMARK:
+      return assign({}, state, {
+        note: '',
+        switchRemarkOpen: false,
       });
     default:
       return state;

@@ -30,13 +30,31 @@ const defaultState = {
       refundAmount1: '',  // 非美金金额（下单时的币种）
       refundMethod: '',
       refundPathId: 3,
-      refundMethod1: '',
+      bankCode: '',
+      customer: '',
+      issuingCity: '',
+    //  refundMethod1: '',
     }],
     canWithdrawAmount: '',   // 可提现金额（下单时的币种）
     notWithdrawAmount: '',   // 不可提现金额（下单时的币种）
     remark: '',
   },
+  valueTitle: { // 提示
+    refundMethodTitle: '',
+    accountTitle: null,
+    bankCodeTitle: '',
+    cardNumberTitle: '',
+    customerTitle: '',
+    issuingCityTitle: '',
+  },
 };
+// 取最小值
+function min(a, b) {
+  if (a > b) {
+    return b;
+  }
+  return a;
+}
 
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -51,6 +69,19 @@ const reducer = (state = defaultState, action) => {
       const max2 = Number(Number(
         under2Camal(action.res).remainingWithdrawAmount.priceWithExchangeRate.amount,
       ).toFixed(2)); // 订单剩余可提现金额（下单币种）
+
+
+      const max3 = Number(Number(
+        Number(under2Camal(action.res).walletExtractable.priceUsd.amount)
+        +
+        Number(under2Camal(action.res).walletNotExtractable.priceUsd.amount),
+      ).toFixed(2)); // 钱包总金额（下单币种，提现+不可提现）
+      const max4 = Number(Number(
+        under2Camal(action.res).remainingWithdrawAmount.priceUsd.amount,
+      ).toFixed(2)); // 订单剩余可提现金额（下单币种）
+
+      const max = under2Camal(action.res).isUsd ? min(max3, max4) : min(max1, max2);
+
       const rate2 = Number(under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate);   // 下单币种汇率
       return assign({}, state, {
         ready: true,
@@ -60,11 +91,25 @@ const reducer = (state = defaultState, action) => {
         canWithdrawAmount: under2Camal(action.res).walletExtractable.priceWithExchangeRate.amount, // 钱包可提现金额（下单币种）
         notWithdrawAmount: under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount, // 钱包不提现（下单币种）
         submitValue: assign({}, state.submitValue, {
-          refundAmount: max1 < max2 ? Number(max1 / rate2).toFixed(2) : Number(max2 / rate2).toFixed(2), // 美元金额
-          refundAmount2: max1 < max2 ? max1 : max2, // 金额（下单币种）
+          refundAmount: max3 < max4 ? max3 : max4, // 美元金额
+          refundCurrency: max1 < max2 ? max1 : max2, // 金额（下单币种）
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
-          max: max1 < max2 ? max1 : max2, // 金额最大值（下单币种）
+          max, // 金额最大值（下单币种
+          // refundMethod: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
+          // account: under2Camal(action.res).orderRefundUnderlineAccount.accountInfo,
+          // bankCode: under2Camal(action.res).orderRefundUnderlineAccount.bankCode,
+          // cardNumber: under2Camal(action.res).orderRefundUnderlineAccount.cardNumber,
+          // customer: under2Camal(action.res).orderRefundUnderlineAccount.customerName,
+          // issuingCity: under2Camal(action.res).orderRefundUnderlineAccount.issuingCity,
+        }),
+        valueTitle: assign({}, state.valueTitle, {  // 提示
+          refundMethodTitle: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
+          accountTitle: under2Camal(action.res).orderRefundUnderlineAccount.accountInfo,
+          bankCodeTitle: under2Camal(action.res).orderRefundUnderlineAccount.bankCode,
+          cardNumberTitle: under2Camal(action.res).orderRefundUnderlineAccount.cardNumber,
+          customerTitle: under2Camal(action.res).orderRefundUnderlineAccount.customerName,
+          issuingCityTitle: under2Camal(action.res).orderRefundUnderlineAccount.issuingCity,
         }),
       });
     case TYPES.GET_REASON_SUCCESS:
