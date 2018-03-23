@@ -7,7 +7,7 @@ class RLModal extends Component {
     this.props.dispatch(getRlRadio());
   }
   render() {
-    return (<Modal visible={false}>
+    return (<Modal visible={this.props.RlModal}>
       <div>666</div>
     </Modal>);
   }

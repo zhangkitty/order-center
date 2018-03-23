@@ -78,7 +78,7 @@ class DetailsEntry extends Component {
             }
           </Tabs>
           <TrackTrouble {...this.props} />
-          <RLModal visible={rlModal} dispatch={dispatch} />
+          <RLModal RlModal={rlModal} dispatch={dispatch} />
         </div>
       );
     }
