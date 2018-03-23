@@ -58,7 +58,9 @@ class cashRefund extends Component {
             ) {
               return message.warning(__('order.goodsRefund.missing_something'));
             }
-
+            if (refundMethod === 'Paytm' && account.length !== 10) {
+              return message.warning(__('common.errorPaytm'));
+            }
             const temp = {
               orderId,
               refundType,

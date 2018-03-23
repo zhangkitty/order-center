@@ -67,6 +67,11 @@ function* submitSaga({ val }) {
   if (arr.length === 0) {
     return message.warning(lan.缺少必填项);
   }
+  for (let [i, len] = [0, arr.length]; i < len; i += 1) {
+    if (arr[i].refund_method === 'Paytm' && (arr[i].account.length !== 10)) {
+      return message.warning(__('common.errorPaytm'));
+    }
+  }
   const tempArray = val.refundPaths.filter(v => v.checked === true)
       .filter(v => v.refundPathId === 1 || v.refundPathId === val.radioValue);
   if (tempArray.length !== arr.length) {

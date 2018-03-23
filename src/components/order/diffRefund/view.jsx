@@ -83,6 +83,11 @@ class DiffRefund extends Component {
               if (refund_paths.length !== refundPaths.filter(v => v.checked).length || !reason) {
                 return message.warning(__('common.submitTitle3'));
               }
+              for (let [i, len] = [0, refund_paths.length]; i < len; i += 1) {
+                if (refund_paths[i].refund_method === 'Paytm' && (refund_paths[i].account.length !== 10)) {
+                  return message.warning(__('common.errorPaytm'));
+                }
+              }
               const temp = {
                 order_id: Number(order_id),
                 refund_type: 2,

@@ -362,6 +362,9 @@ class Refund extends Component {
                 if (!refund_method) {
                   return message.warning(__('common.submitTitle3'));
                 }
+                if (refund_method === '1' && account_info.length !== 10) {
+                  return message.warning(__('common.errorPaytm'));
+                }
                 return dispatch(refundAccount(assign({},
                   refund_account,
                   {
