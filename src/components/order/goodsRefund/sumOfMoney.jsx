@@ -183,13 +183,13 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       currency: waitRefundPrice2,
       type: waitRefundPriceSymbol,
     },
-    {
-      name: lan.溢出可退金额,
-      us: overflowRefund,
-      key: 6,
-      currency: overflowRRefund2,
-      type: overflowRRefundSymbol,
-    },
+    // {
+    //   name: lan.溢出可退金额,
+    //   us: overflowRefund,
+    //   key: 6,
+    //   currency: overflowRRefund2,
+    //   type: overflowRRefundSymbol,
+    // },
   ];
   const overflowPrice = [
     {

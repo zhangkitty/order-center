@@ -183,13 +183,13 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo, paymentMethod: payment, rema
       currency: overflow2walletPriceRefunded2,
       type: overflow2walletPriceRefundedSymbol,
     },
-    {
-      name: lan.用户退款已溢出,
-      us: overflow2cardPriceRefunded,
-      key: 1,
-      currency: overflow2cardPriceRefunded2,
-      type: overflow2cardPriceRefundedSymbol,
-    },
+    // {
+    //   name: lan.用户退款已溢出,
+    //   us: overflow2cardPriceRefunded,
+    //   key: 1,
+    //   currency: overflow2cardPriceRefunded2,
+    //   type: overflow2cardPriceRefundedSymbol,
+    // },
   ];
   return (
     <div className={style.alertBg}>
@@ -205,7 +205,7 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo, paymentMethod: payment, rema
             refundPrice.map(v => priceTypes(v))
           }
         {
-          // payment === 'cod' && remainingPriceCountry === 'Kuwait' && remainingPriceTotalUnder50 ? <p style={{ marginTop: 'auto', fontSize: '16px' }}>{lan.under50}</p> : null
+          remainingPriceTotalUnder50 ? <p style={{ marginTop: 'auto', fontSize: '16px' }}>{lan.under50}</p> : null
         }
       </div>
       <span className={style.descWidth}>{lan.溢出金额}:</span>
