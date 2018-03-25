@@ -400,7 +400,7 @@ export const showRLModalServer = (code) => (
 )
 // 修改rl金额
 export const changeRlSerer = (id, rl) => (
-  fetch(`OrderReturn/changeRL?return_order_id=${id}&rl_charge=${rl}`, {
+  fetch(`/OrderReturn/changeRL?return_order_id=${id}&rl_charge=${rl}`, {
     method: 'GET',
   })
 )

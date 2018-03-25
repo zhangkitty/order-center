@@ -15,9 +15,9 @@ class RLModal extends Component {
       onOk={() => this.props.dispatch(changeRl({
         rl_charge: this.props.rl_charge,
         code: this.props.code,
-        orderId,
-        billno,
-        activeKey,
+        orderId: this.props.orderId,
+        billno: this.props.billno,
+        activeKey: this.props.activeKey,
       }))}
     >
       <Radio.Group onChange={e => this.props.dispatch(commit('rl_charge', e.target.value))}>

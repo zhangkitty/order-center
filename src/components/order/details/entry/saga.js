@@ -277,13 +277,16 @@ function* showRLModalSaga({ code, id }) {
       orderID: id,
     }));
   }
+  return message.error(`${lan.ofail}:${result.msg}`);
 }
 
 function* changeRlSaga(action) {
   const result = yield changeRlSerer(action.rl.code, action.rl.rl_charge);
   if (result.code === 0) {
     yield put(getInfo(action.rl.orderId, action.rl.billno, action.rl.activeKey));
+    return;
   }
+  return message.error(`${lan.ofail}:${result.msg}`);
 }
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
