@@ -176,13 +176,13 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       currency: walletRefund2,
       type: walletRefundSymbol,
     },
-    {
-      name: lan.待退金额,
-      us: waitRefundPrice,
-      key: 5,
-      currency: waitRefundPrice2,
-      type: waitRefundPriceSymbol,
-    },
+    // {
+    //   name: lan.待退金额,
+    //   us: waitRefundPrice,
+    //   key: 5,
+    //   currency: waitRefundPrice2,
+    //   type: waitRefundPriceSymbol,
+    // },
     // {
     //   name: lan.溢出可退金额,
     //   us: overflowRefund,
