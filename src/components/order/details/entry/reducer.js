@@ -18,7 +18,9 @@ const defaultState = {
   rlmodal: false,
   preSend: 0,
   RlModal: false,
+  rl_charge: '',
   RlList: [],
+  orderID: '',
   dataSource: {
     base: {}, // 基本
     pay: {}, // 支付信息
@@ -237,8 +239,15 @@ export default (state = defaultState, action) => {
       });
     case TYPES.PUT_RL_LIST:
       return assign({}, state, {
-        RlList: action.data,
+        RlList: action.data.list,
+        orderID: action.data.orderID,
         RlModal: true,
+      });
+    case TYPES.CLEAR_RL:
+      return assign({}, state, {
+        RlList: [],
+        orderID: '',
+        RlModal: false,
       });
     default:
       return state;

@@ -35,6 +35,7 @@ import {
   switchRemarkSer,
   questionRemarkSer,
   showRLModalServer,
+  changeRlSerer
 } from '../server';
 
 const lan = {
@@ -259,7 +260,6 @@ function* switchRemarkSaga(action) {
 
 // 物流问题反馈备注保存
 function* questionRemarkSaga(action) {
-  console.log(action.numbers);
   const data = yield questionRemarkSer(action.types, action.note, action.numbers);
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle12')}${data.msg}`);
@@ -269,10 +269,20 @@ function* questionRemarkSaga(action) {
   yield put(switchRemark(action.types, action.numbers));
 }
 
-function* showRLModalSaga({ code }) {
+function* showRLModalSaga({ code, id }) {
   const result = yield showRLModalServer(code);
   if (result.code === 0) {
-    yield putRLList(result.data);
+    yield put(putRLList({
+      list: result.data,
+      orderID: id,
+    }));
+  }
+}
+
+function* changeRlSaga(action) {
+  const result = yield changeRlSerer(action.rl.code, action.rl.rl_charge);
+  if (result.code === 0) {
+    yield put(getInfo(action.rl.orderId, action.rl.billno, action.rl.activeKey));
   }
 }
 export default function* () {
@@ -299,4 +309,5 @@ export default function* () {
   yield takeLatest(TYPES.SWITCH_REMARK, switchRemarkSaga);
   yield takeLatest(TYPES.QUESTION_REMARK_SAVE, questionRemarkSaga);
   yield takeLatest(TYPES.SHOW_RL_MODAL, showRLModalSaga);
+  yield takeLatest(TYPES.CHANGE_RL, changeRlSaga);
 }

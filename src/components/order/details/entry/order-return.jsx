@@ -112,7 +112,7 @@ class OrderReturn extends Component {
             </Button>
             {(rec.return_label_type === 'RL' && !rec.return_refund_status) || 1 ?
               <Button
-                onClick={() => this.props.dispatch(showRLModal(rec.currency_code))}
+                onClick={() => this.props.dispatch(showRLModal(rec.currency_code, rec.return_order_id))}
               >{lan.changeRL}</Button> : null}
           </div>
         ),

@@ -56,3 +56,5 @@ export const CLOSE_REMARK = `${prefix}close_remark`;
 // 修改RL
 export const SHOW_RL_MODAL = `${prefix}show_rl_modal`;
 export const PUT_RL_LIST = `${prefix}put_rl_list`;
+export const CHANGE_RL = `${prefix}change_rl`;
+export const CLEAR_RL = `${prefix}clear_rl`;
