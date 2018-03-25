@@ -4,7 +4,7 @@ import { getRlRadio } from './action';
 
 class RLModal extends Component {
   componentDidMount() {
-    this.props.dispatch(getRlRadio());
+    // this.props.dispatch(getRlRadio());
   }
   render() {
     return (<Modal visible={this.props.RlModal}>

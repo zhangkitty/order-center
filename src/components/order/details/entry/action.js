@@ -200,11 +200,12 @@ export const closeRemark = () => ({
 });
 
 // 显示修改rl的弹出层
-export const showRLModal = () => ({
+export const showRLModal = code => ({
   type: TYPES.SHOW_RL_MODAL,
+  code,
 });
 
 
-export const getRlRadio = () => ({
-  type: TYPES.GET_RL_RADIO,
+export const putRLList = () => ({
+  type: TYPES.PUT_RL_LIST,
 });

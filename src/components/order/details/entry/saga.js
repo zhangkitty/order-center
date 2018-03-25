@@ -8,7 +8,7 @@ import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
   remarkShowSuccess, remarkSaveSuccess, remarkShow,
-  switchRemarkSet, questionRemarkSaveSet, switchRemark,
+  switchRemarkSet, questionRemarkSaveSet, switchRemark, putRLList,
 } from './action';
 
 import {
@@ -34,6 +34,7 @@ import {
   confirmReceivedServer,
   switchRemarkSer,
   questionRemarkSer,
+  showRLModalServer,
 } from '../server';
 
 const lan = {
@@ -267,6 +268,13 @@ function* questionRemarkSaga(action) {
   yield put(questionRemarkSaveSet());
   yield put(switchRemark(action.types, action.numbers));
 }
+
+function* showRLModalSaga({ code }) {
+  const result = yield showRLModalServer(code);
+  if (result.code === 0) {
+    yield putRLList(result.data);
+  }
+}
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -290,4 +298,5 @@ export default function* () {
   yield takeLatest(TYPES.CONFIRM_RECEIVED, confirmReceivedSaga);
   yield takeLatest(TYPES.SWITCH_REMARK, switchRemarkSaga);
   yield takeLatest(TYPES.QUESTION_REMARK_SAVE, questionRemarkSaga);
+  yield takeLatest(TYPES.SHOW_RL_MODAL, showRLModalSaga);
 }
