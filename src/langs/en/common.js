@@ -166,6 +166,4 @@ module.exports = {
   noGoods_name21: 'Warehouse C - assigned sku+size, item status = comfirmed or items in processing, country=European countries',
   change_rl: 'change RL fee',
   not_RL: 'no RL fee selected',
-  nsStock: '南沙库存',
-  blStock: '欧洲库存',
 };

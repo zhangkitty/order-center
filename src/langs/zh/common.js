@@ -166,6 +166,4 @@ module.exports = {
   noGoods_name21: 'D区待占：查询该sku+尺码，商品状态=已审核 或 备货中，国家=欧洲国家，的商品数之和',
   change_rl: '修改RL费用',
   not_RL: '未选择RL费用',
-  nsStock: '南沙库存',
-  blStock: '欧洲库存',
 };
