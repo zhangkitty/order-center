@@ -52,7 +52,7 @@ function* getInfoSaga(action) {
   if (!data || data.code !== 0) {
     return message.warning(`${lan.fail}:${data.msg}`);
   }
-
+  console.log(data.data);
   return yield put(getInfoSuccess(data.data, action.key));
 }
 

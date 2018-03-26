@@ -209,6 +209,7 @@ const Packge = ({
     package_list,
     returned_goods_list,
     refund_goods_list,
+    new_not_packaged_goods_list,
   } = order_goods_info;
   const {
     show_refund_button,
@@ -615,7 +616,86 @@ const Packge = ({
           />
         </Card>
       )}
-
+      {/* 已备货 */}
+      {new_not_packaged_goods_list.length > 0 &&
+      new_not_packaged_goods_list.map((v, index) => (
+        <Card
+          title={
+            <div className={style.center}>
+              <span
+                style={{ marginRight: 10 }}
+              >
+                {`${lan.packge}`}
+              </span>
+          {/*//     <span style={{ color: 'red', marginRight: '10px' }}>*/}
+          {/*//         ({v.package_goods_list.length}件)*/}
+          {/*//       </span>*/}
+          {/*//     /!* 全选按钮 *!/*/}
+          {/*//     <Button*/}
+          {/*//       className={style.orderSelect}*/}
+          {/*//       size="small"*/}
+          {/*//       onClick={() => {*/}
+          {/*//         const temp = [];*/}
+          {/*//         const arr = v.package_goods_list.map((f) => {*/}
+          {/*//           const index = chooseGoods.findIndex(d => d === f.id);*/}
+          {/*//           if (index > -1) {*/}
+          {/*//             temp.push(chooseGoods[index]);*/}
+          {/*//             chooseGoods = [*/}
+          {/*//               ...chooseGoods.slice(0, index),*/}
+          {/*//               ...chooseGoods.slice(index + 1),*/}
+          {/*//             ];*/}
+          {/*//           }*/}
+          {/*//           return f;*/}
+          {/*//         }).filter(d => !checkboxChecked[d.status_code]).map(d => d.id);*/}
+          {/*//         if (arr.length === temp.length) {*/}
+          {/*//           return dispatch(commit('chooseGoods', chooseGoods));*/}
+          {/*//         }*/}
+          {/*//         return dispatch(*/}
+          {/*//           commit('chooseGoods', [*/}
+          {/*//             ...new Set(chooseGoods.concat(arr)),*/}
+          {/*//           ]),*/}
+          {/*//         );*/}
+          {/*//       }}*/}
+          {/*//     >*/}
+          {/*//       {__('common.allChoose')}*/}
+          {/*</Button>*/}
+            </div>
+          }
+          // key={v.package_number}
+          // className={style.cardBottom}
+        >
+          {/*<div className={style.packgeContent}>*/}
+            {/*<div className={style.packgeL}>*/}
+              {/*<div>*/}
+                {/*{colorCirle(colors[v.package_goods_list[0].status_code])}*/}
+                {/*<span>{v.package_status}</span>*/}
+              {/*</div>*/}
+              {/*{*/}
+                {/*v.delivery_time && <div>*/}
+                  {/*<span className={style.packgeWidth}>{__('order.entry.delivery_time')}: </span>*/}
+                  {/*<span>{v.delivery_time}</span>*/}
+                {/*</div>*/}
+              {/*}*/}
+              {/*<div>*/}
+                {/*<span className={style.packgeWidth}>{lan.qudao}: </span>*/}
+                {/*<span>{v.delivery_channel}</span>*/}
+              {/*</div>*/}
+              {/*<div>*/}
+                {/*<span className={style.packgeWidth}>{lan.huohao}: </span>*/}
+                {/*<span><Link to={`/order/details/track-details/${v.delivery_number}?p=${v.package_number}`} target="_blank">{v.delivery_number}</Link></span>*/}
+              {/*</div>*/}
+            {/*</div>*/}
+            {/*<Table*/}
+              {/*style={{ width: '100%' }}*/}
+              {/*size="small"*/}
+              {/*pagination={false}*/}
+              {/*dataSource={v.package_goods_list}*/}
+              {/*rowKey={'id'}*/}
+              {/*columns={col('show')}*/}
+            {/*/>*/}
+          {/*</div>*/}
+        </Card>
+      ))}
       {/* 包裹 */}
       {package_list.length > 0 &&
         package_list.map((v, index) => (
