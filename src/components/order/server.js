@@ -302,7 +302,7 @@ export const addpointSer  = (mymodaldata,addPointReason)=>{
 
 //提交批量换货
 export const batchexchangeordergoodsSer=(data)=>{
-  const arr  = data.map(v=>{
+  const arr  = data.goods_list.map(v=>{
     return v.submitValue.map(value=>{
       return assign({},value,{
         order_id:v.order_id,
@@ -316,9 +316,16 @@ export const batchexchangeordergoodsSer=(data)=>{
   arr.map(v=>v.map(val=>temp.push(val)))
   return fetch('/Order/batchExchangeOrderGoods',{
     method:'POST',
-    body:JSON.stringify({
-      goods_list:temp
-    })
+    body:JSON.stringify(assign({}, data, {
+      goods_list: temp,
+    }))
   })
 }
 
+// 获取用户退款原因
+
+export const getReasonServer = () => {
+  return fetch('/order/getExchangeReason',{
+    method: 'GET',
+  })
+}

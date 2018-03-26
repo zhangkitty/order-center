@@ -194,7 +194,7 @@ form .colSpace2{
     margin: 0 15px 15px 0;
 }
 .changeButton {
-    margin: 15px 0 0 100px;
+    margin: 0 auto;
 }
 .changeSpan {
     width: 100px;
@@ -232,4 +232,23 @@ form .colSpace2{
     /*width: 150px;*/
     text-align: center;
     margin-bottom: 10px;
+}
+
+.row {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.labelspan {
+    display: block;
+    float: left;
+    margin-right: 20px;
 }
