@@ -23,7 +23,7 @@ class RLModal extends Component {
       <Radio.Group onChange={e => this.props.dispatch(commit('rl_charge', e.target.value))} value={this.props.rl_charge}>
         {
           this.props.list.map(li => (
-            <Radio value={li.amount}>{li.amount_with_symbol}</Radio>
+            <Radio value={li.amount_with_symbol}>{li.amount_with_symbol}</Radio>
           ))
         }
       </Radio.Group>
