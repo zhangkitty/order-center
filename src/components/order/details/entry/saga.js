@@ -8,7 +8,7 @@ import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
   remarkShowSuccess, remarkSaveSuccess, remarkShow,
-  switchRemarkSet, questionRemarkSaveSet, switchRemark, putRLList,
+  switchRemarkSet, questionRemarkSaveSet, switchRemark, putRLList, clearRL,
 } from './action';
 
 import {
@@ -35,7 +35,7 @@ import {
   switchRemarkSer,
   questionRemarkSer,
   showRLModalServer,
-  changeRlSerer
+  changeRlSerer,
 } from '../server';
 
 const lan = {
@@ -276,13 +276,17 @@ function* showRLModalSaga({ code, id }) {
       list: result.data,
       orderID: id,
     }));
+    return;
   }
   return message.error(`${lan.ofail}:${result.msg}`);
 }
 
 function* changeRlSaga(action) {
+  if (!action.rl.rl_charge) return message.error(__('common.not_RL'));
   const result = yield changeRlSerer(action.rl.code, action.rl.rl_charge);
   if (result.code === 0) {
+    message.success(__('common.sagaTitle23'));
+    yield put(clearRL());
     yield put(getInfo(action.rl.orderId, action.rl.billno, action.rl.activeKey));
     return;
   }

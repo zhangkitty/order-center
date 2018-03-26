@@ -10,7 +10,7 @@ class RLModal extends Component {
   render() {
     return (<Modal
       visible={this.props.RlModal}
-      title={'修改RL费用'}
+      title={__('common.change_rl')}
       onCancel={() => this.props.dispatch(clearRL())}
       onOk={() => this.props.dispatch(changeRl({
         rl_charge: this.props.rl_charge,
@@ -20,7 +20,7 @@ class RLModal extends Component {
         activeKey: this.props.activeKey,
       }))}
     >
-      <Radio.Group onChange={e => this.props.dispatch(commit('rl_charge', e.target.value))}>
+      <Radio.Group onChange={e => this.props.dispatch(commit('rl_charge', e.target.value))} value={this.props.rl_charge}>
         {
           this.props.list.map(li => (
             <Radio value={li.amount}>{li.amount_with_symbol}</Radio>

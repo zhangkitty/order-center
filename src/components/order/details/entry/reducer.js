@@ -83,6 +83,7 @@ const defaultState = {
   note: '', // 物流问题备注
 };
 
+
 export default (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.GET_INFO:
@@ -248,6 +249,7 @@ export default (state = defaultState, action) => {
         RlList: [],
         orderID: '',
         RlModal: false,
+        rl_charge: '',
       });
     default:
       return state;

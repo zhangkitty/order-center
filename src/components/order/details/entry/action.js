@@ -200,10 +200,11 @@ export const closeRemark = () => ({
 });
 
 // 显示修改rl的弹出层
-export const showRLModal = (code, id) => ({
+export const showRLModal = (code, id, defaultRl) => ({
   type: TYPES.SHOW_RL_MODAL,
   code,
   id,
+  defaultRl,
 });
 
 
