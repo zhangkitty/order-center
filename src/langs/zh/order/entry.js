@@ -188,6 +188,7 @@ module.exports = {
   return_copy: '一键复制',
   return_copy_title: '复制成功！',
   querenshouhuo: '确认收货',
+  changeRL: '修改RL费用',
   confirm_received_error: '缺少运单号, 无法确认收货',
   上传的图片大小不能超过8M: '上传的图片大小不能超过8M',
   只可上传: '只可上传jpg、jpeg、png，单张图片不可超过8M',

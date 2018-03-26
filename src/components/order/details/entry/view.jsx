@@ -13,6 +13,7 @@ import Refund from './refund';
 import OrderReturn from './order-return';
 import Logs from './logs';
 import TrackTrouble from './trackTrouble';
+import RLModal from './rlmodal';
 
 import styles from './style.css';
 
@@ -29,7 +30,7 @@ class DetailsEntry extends Component {
     dispatch(commit('activeKey', active || 'base'));
   }
   render() {
-    const { ready, activeKey, dispatch, orderId, billno, tabsLoad } = this.props;
+    const { ready, activeKey, dispatch, orderId, billno, tabsLoad, RlModal, RlList, rl_charge, orderID } = this.props;
     const info = props => [{
       name: `${billno}`, // order.entry.basic
       key: 'base',
@@ -77,6 +78,7 @@ class DetailsEntry extends Component {
             }
           </Tabs>
           <TrackTrouble {...this.props} />
+          <RLModal RlModal={RlModal} list={RlList} dispatch={dispatch} rl_charge={rl_charge} code={orderID} orderId={orderId} billno={billno} activeKey={activeKey} />
         </div>
       );
     }
@@ -91,6 +93,8 @@ DetailsEntry.propTypes = {
   activeKey: PropTypes.string,
   orderId: PropTypes.string,
   billno: PropTypes.string,
+  RlList: PropTypes.array,
+  RLModal: PropTypes.bool,
 };
 const mapStateToProps = state => state['order/details/entry'];
 export default connect(mapStateToProps)(DetailsEntry);
