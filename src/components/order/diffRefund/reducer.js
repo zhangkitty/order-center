@@ -30,15 +30,16 @@ const defaultState = {
 };
 
 const getMax = (d) => {
+  console.log(d.orderPriceInfo);
   if (d.isUsd === 0) {
     return {
-      1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      1: d.orderPriceInfo.giftCardCanRefundPrice.priceWithExchangeRate.amount,
       2: ((Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
-      Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount)) > 0 ?
+      Number(d.orderPriceInfo.walletOrCardCanRefundPrice.priceWithExchangeRate.amount)) > 0 ?
         ((Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
-          Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount))
+          Number(d.orderPriceInfo.walletOrCardCanRefundPrice.priceWithExchangeRate.amount))
       : 0,
-      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount > 0 ? d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount : 0,
+      3: d.orderPriceInfo.cardCanRefundPrice.priceWithExchangeRate.amount > 0 ? d.orderPriceInfo.cardCanRefundPrice.priceWithExchangeRate.amount : 0,
       4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
       disabled: 0,
     };
@@ -151,13 +152,13 @@ const reducer = (state = defaultState, action) => {
           refundCurrency: 0,
           refundAmount: 0,
         })),
-        // maxTips: {
-        //   1: action.data.orderPriceInfo.giftCardCanRefundPrice,
-        //   2: action.data.orderPriceInfo.walletCanRefundPrice,
-        //   3: action.data.orderPriceInfo.cardCanRefundPrice,
-        //   4: action.data.orderPriceInfo.overflowCanRefundPrice,
-        // },
-        maxTips: getMax(action.data),
+        maxTips: {
+          1: action.data.orderPriceInfo.giftCardCanRefundPrice,
+          2: action.data.orderPriceInfo.walletCanRefundPrice,
+          3: action.data.orderPriceInfo.cardCanRefundPrice,
+          4: action.data.orderPriceInfo.overflowCanRefundPrice,
+        },
+        // maxTips: getMax(action.data),
         orderPriceInfo: action.data.orderPriceInfo,
         isCod: action.data.orderPriceInfo.isCod,
         loading: false,

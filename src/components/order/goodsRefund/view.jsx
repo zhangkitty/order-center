@@ -15,6 +15,7 @@ import Remark from './remark';
 import MyRadio from './my-radio';
 import Price from './price';
 import Price1 from './price1';
+import style from './style.css';
 
 const TextArea = Input.TextArea;
 
@@ -82,30 +83,15 @@ class GoodsRefund extends Component {
             return dispatch(submitForward(newRes));
           }}
         >
-          !! ready && <div>
-          <SumOfMoney {...this.props} />
-          <RefundGoods {...this.props} />
-          <MyRadio {...this.props} />
-          <Price1 {...this.props} />
-          <Resason {...this.props} />
-          <Remark {...this.props} />
-        </div>
-          <div className={style.mark}>
-            <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
-            <TextArea
-              placeholder={__('common.content_name1')}
-              autosize={{ minRows: 2, maxRows: 6 }}
-              style={{ width: '65%' }}
-              value={submitValue.remark}
-              onChange={e => dispatch(subchange('remark', e.target.value))}
-            />
+          {!!ready && <div>
+            <SumOfMoney {...this.props} />
+            <RefundGoods {...this.props} />
+            <MyRadio {...this.props} />
+            <Price1 {...this.props} />
+            <Reason {...this.props} />
+            <Remark {...this.props} />
           </div>
-          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>{__('common.cancel')}</Button>
-          <Button
-            style={{ margin: '15px 80px 80px 0', left: '20%' }}
-            type="primary" htmlType="submit"
-            disabled={submitLoad}
-          >{__('common.submit')}</Button>
+          }
         </form>
         :
         <Spin spinning />
