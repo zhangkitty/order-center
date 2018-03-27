@@ -44,3 +44,13 @@ export const TRACK_TROUBLE_SUBMIT = `${prefix}track_trouble_submit`;
 // 填写退款账户
 export const REFUND_ACCOUNT = `${prefix}refund_account`;
 export const REFUND_ACCOUNT_SUCCESS = `${prefix}refund_account_success`;
+
+//  确认收货
+export const CONFIRM_RECEIVED = `${prefix}confirm_received`;
+
+// 物流问题反馈备注
+export const SWITCH_REMARK = `${prefix}switch_remark`;
+export const SWITCH_REMARK_SET = `${prefix}switch_remark_set`;
+export const QUESTION_REMARK_SAVE = `${prefix}question_remark_save`;
+export const QUESTION_REMARK_SAVE_SET = `${prefix}question_remark_save_set`;
+export const CLOSE_REMARK = `${prefix}close_remark`;

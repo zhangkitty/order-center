@@ -22,6 +22,13 @@ const defaultState = {
   fetchOperation: [],  // 操作状态
   fetchRemark: [], // 备注
   fetchLogisticsRemark: '', // 物流备注
+  reason: [],
+  selectReason: '',
+  payment_txn_id: '',
+  payment_account: '',
+  currency_code: '',
+  payment_amount: '',
+  submitDis: false,
   queryString: {
     pageSize: 10,
     pageNumber: 1,
@@ -342,18 +349,21 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         load: false,
       });
-    case TYPES.INIT_DATA_SUCCESS:
+    case TYPES.INIT_DATA_SUCCESS: {
+      const { list: data, reason } = action.data;
       return assign({}, state, {
-        fetchCountry: action.data.data.country || [], // 国家
-        fetchSite: action.data.data.site || [],   // 站点
-        fetchPayment: action.data.data.payment_method || [],  // 支付方式
-        fetchTrouble: action.data.data.trouble_type || [],  // 问题件类型
-        fetchMemberLevel: action.data.data.member_level || [],  // 会员等级
-        fetchOrderStatus: action.data.data.order_status || [], // 订单状态
-        fetchCancelReason: action.data.data.cancel_type || [], // 取消类型
-        fetchGoodsStatus: action.data.data.order_goods_status || [],   // 商品状态
+        fetchCountry: data.data.country || [], // 国家
+        fetchSite: data.data.site || [],   // 站点
+        fetchPayment: data.data.payment_method || [],  // 支付方式
+        fetchTrouble: data.data.trouble_type || [],  // 问题件类型
+        fetchMemberLevel: data.data.member_level || [],  // 会员等级
+        fetchOrderStatus: data.data.order_status || [], // 订单状态
+        fetchCancelReason: data.data.cancel_type || [], // 取消类型
+        fetchGoodsStatus: data.data.order_goods_status || [],   // 商品状态
+        reason: reason.data, // 用户取消原因
         load: false,
       });
+    }
     case TYPES.OPERATION_GOODS:
       return assign({}, state, {
         load: true,
@@ -514,6 +524,12 @@ const reducer = (state = defaultState, action) => {
           v.order_id === action.id ? assign({}, v, { cancelRiskDesc: action.data }) : v
         )),
       });
+    case TYPES.GETPAYMENTCOMPLAINSUCCESS:
+      return assign({}, state, {
+        dataSource: state.dataSource.map(v => (
+          v.order_id === action.id ? assign({}, v, { PaymentComplainDesc: action.data }) : v
+        )),
+      });
     case TYPES.CANCEL_TROUBLE_TAG_SUCCESS:
       return assign({}, state, {
         dataSource: state.dataSource.map(v => (
@@ -645,6 +661,14 @@ const reducer = (state = defaultState, action) => {
     case TYPES.CLOSEALLREMARK:
       return assign({}, state, {
         dataSource: closeAllRemark(state.dataSource, false),
+      });
+    case TYPES.INIT_EXCHANGE:
+      return assign({}, state, {
+        selectReason: '',
+        payment_txn_id: '',
+        payment_account: '',
+        currency_code: '',
+        payment_amount: '',
       });
     default:
       return state;

@@ -6,6 +6,10 @@ import { change, updateOrderTag } from './action';
 
 import styles from './style.css';
 
+
+const lan = {
+  支付平台投诉订单: '支付平台投诉订单',
+};
 const star = (<span style={{ color: 'red' }}>*</span>);
 const RG = Radio.Group;
 const RadioGroup = Radio.Group;
@@ -51,6 +55,7 @@ const MarkTag = ({ markTag, dispatch }) => (
               <span>{__('common.orderTypeTitle2')}</span>
               <Radio value={1}>{__('common.orderTrouble1')}</Radio>
               <Radio value={3}>{__('common.orderTrouble3')}</Radio>
+              <Radio value={6}>{lan.支付平台投诉订单}</Radio>
             </div>
             <div className={styles.troubleList}>
               <span>{__('common.orderTypeTitle3')}</span>

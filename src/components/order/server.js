@@ -201,6 +201,11 @@ export const getRisk = (order_id) => (
     method: 'get',
   })
 );
+export const getPaymentComplainSer = (order_id)=>(
+    fetch(`/order/getPaymentComplain?order_id=${order_id}`,{
+      method:'get',
+    })
+)
 export const cancelTroubleTag = (tid, oid) => (
   fetch(list.cancelTroubleTag, {
     method: 'POST',
@@ -246,7 +251,7 @@ export const noStockApplySer = (data) => (
   })
 );
 
-//无货审核 
+//无货审核
 export const noStockSer = (data) => (
   fetch('/NoStock/stockList', {
     method: 'POST',
@@ -254,7 +259,7 @@ export const noStockSer = (data) => (
   })
 );
 
-//返回已审核 
+//返回已审核
 export const returnAlreadyAuditSer = (data) => (
   fetch('/NoStock/returnAlreadyAudit', {
     method: 'POST',
@@ -297,7 +302,7 @@ export const addpointSer  = (mymodaldata,addPointReason)=>{
 
 //提交批量换货
 export const batchexchangeordergoodsSer=(data)=>{
-  const arr  = data.map(v=>{
+  const arr  = data.goods_list.map(v=>{
     return v.submitValue.map(value=>{
       return assign({},value,{
         order_id:v.order_id,
@@ -311,9 +316,16 @@ export const batchexchangeordergoodsSer=(data)=>{
   arr.map(v=>v.map(val=>temp.push(val)))
   return fetch('/Order/batchExchangeOrderGoods',{
     method:'POST',
-    body:JSON.stringify({
-      goods_list:temp
-    })
+    body:JSON.stringify(assign({}, data, {
+      goods_list: temp,
+    }))
   })
 }
 
+// 获取用户退款原因
+
+export const getReasonServer = () => {
+  return fetch('/order/getExchangeReason',{
+    method: 'GET',
+  })
+}

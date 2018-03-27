@@ -37,7 +37,7 @@ class orderList extends Component {
       this.props.dispatch(commit('billno', billno));
     }
   }
-  componentDidMount(props) {
+  componentDidMount() {
     if (this.props.params.billno) {
       this.props.dispatch(search(assign({},
         this.props.queryString,

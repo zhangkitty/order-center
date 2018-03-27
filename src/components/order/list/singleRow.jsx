@@ -9,7 +9,7 @@ import {
   change, remarkShow, openModal, searchHistory,
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange, commit,
-  getOrderRewardPointInfo, remarkSave, changeArray,
+  getOrderRewardPointInfo, remarkSave, changeArray, getPaymentComplain, initExchange
 } from './action';
 
 import Styles from './style.css';
@@ -26,8 +26,12 @@ const lan = {
   物流渠道: __('order.list.list.物流渠道'),
   关闭备注: '关闭备注',
   供应商: __('order.list.list.Sku供应商'),
+  支付平台投诉订单: '支付平台投诉订单',
+  投诉平台: '投诉平台',
+  投诉类型: '投诉类型',
 
-    //
+
+  //
     // 换货: 'Exchange Item',
     // Sku供应商: 'Sku_supplier',
     // 商品状态: 'Item Status',
@@ -82,6 +86,10 @@ const showRisk = (a, b) => {
     return b ? b.map(v => (<p>{v}</p>)) : <Spin />;
   }
   return null;
+};
+
+
+const PaymentComplain = (data) => {
 };
 // 显示换货入口（商品状态）
 const changshow = {
@@ -150,7 +158,9 @@ const columnsRemark = [{
   title: __('common.order_operation4'),
   dataIndex: 'remark',
 }];
+
 // 标记订单名
+
 const orderTagName = {
   0: __('common.orderTrouble'),
   1: __('common.orderTrouble1'),
@@ -158,6 +168,7 @@ const orderTagName = {
   3: __('common.orderTrouble3'),
   4: __('common.orderTrouble4'),
   5: __('common.orderTrouble5'),
+  6: lan.支付平台投诉订单,
 };
 // 商品对应的退款单状态名称
 const refundBillStatus = {
@@ -411,6 +422,7 @@ const SingleRow = (props) => {
                     <span
                       onClick={() => {
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
+                        dispatch(initExchange());
                       }
                       }
                       role="button" tabIndex={0}
@@ -472,7 +484,20 @@ const SingleRow = (props) => {
                   <div className={Styles.fontColor}>
                     <p>{__('common.TroubleCancel')}</p>
                     {
-                      showRisk(data.is_trouble, data.cancelRiskDesc)
+                     !!(+data.is_trouble === 3) && showRisk(data.is_trouble, data.cancelRiskDesc)
+                    }
+
+                    {
+                      (function (data) {
+                        if (+data.is_trouble === 6) {
+                          if (data.PaymentComplainDesc) {
+                            return (<div>
+                              <p>{lan.投诉平台}:{data.PaymentComplainDesc.complaint_platform}</p>
+                              <p>{lan.投诉类型}:{data.PaymentComplainDesc.complaint_type}</p>
+                            </div>);
+                          }
+                        }
+                      }(data))
                     }
                   </div>
                 }
@@ -486,8 +511,15 @@ const SingleRow = (props) => {
               >
                 <Button  // 取消风控订单
                   className={Styles.haveRemark}
-                  onClick={() =>
-                    (Number(data.is_trouble) === 3 && dispatch(cancelRisk(data.order_id)))}
+                  onClick={() => {
+                    if (+data.is_trouble === 3) {
+                      dispatch(cancelRisk(data.order_id));
+                    }
+                    if (+data.is_trouble === 6) {
+                      dispatch(getPaymentComplain(data.order_id));
+                    }
+                  }
+                  }
                 >{orderTagName[data.is_trouble]}</Button>
               </Popconfirm>
               :
@@ -495,6 +527,7 @@ const SingleRow = (props) => {
                 onClick={() => dispatch(markTag(data.order_id))}
               >{orderTagName[data.is_trouble]}</Button>
           }
+
 
           {/*  差价退款 */}
           {
@@ -646,6 +679,7 @@ const SingleRow = (props) => {
               () => {
                 if (BulkReturnInfo.length > 0) {
                   dispatch(change('ExchangeShow', true));
+                  dispatch(initExchange());
                 } else {
                   return message.info(lan.没有选择换货商品);
                 }

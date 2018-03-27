@@ -8,6 +8,7 @@ import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
   remarkShowSuccess, remarkSaveSuccess, remarkShow, addOrderRefundInfo,
+  switchRemarkSet, questionRemarkSaveSet, switchRemark,
 } from './action';
 
 import {
@@ -31,6 +32,9 @@ import {
   trackTroublePublish,
   refundAccountSer,
   getefundbBillistbyorderidSer,
+  confirmReceivedServer,
+  switchRemarkSer,
+  questionRemarkSer,
 } from '../server';
 
 const lan = {
@@ -39,6 +43,7 @@ const lan = {
   fail: __('order.entry.submit_info6'), // 获取数据失败
   part: __('order.entry.submit_info7'), // 加入部分发队列成功
   dataFail: __('order.entry.submit_info2'), // 获取数据失败
+  shipping_error: __('order.entry.confirm_received_error'),
 };
 /* eslint prefer-const: 0 */
 /* eslint consistent-return: 0 */
@@ -229,7 +234,28 @@ function* refundAccountSaga(action) {
   yield put(commit('RefundShow', false));
   return message.success(lan.osucess);
 }
-
+// 确认收货
+function* confirmReceivedSaga({ deliveryNumber, id, bill, base }) {
+  if (!deliveryNumber) {
+    message.error(lan.shipping_error);
+    return;
+  }
+  const result = yield confirmReceivedServer(deliveryNumber);
+  if (result.code === 0) {
+    message.success(lan.osucess);
+    yield put(getInfo(id, bill, base));
+  } else {
+    message.error(`${lan.ofail}:${result.msg}`);
+  }
+}
+// 物流问题反馈备注查看
+function* switchRemarkSaga(action) {
+  const data = yield switchRemarkSer(action.types, action.numbers);
+  if (!data || data.code !== 0) {
+    message.error(`${__('common.sagaTitle11')} ${data.msg}`);
+  }
+  return yield put(switchRemarkSet(data.data));
+}
 function* getefundbBillistbyorderidSaga(action) {
   yield put(commit('moreLoading', true));
   const data = yield getefundbBillistbyorderidSer(action.orderId);
@@ -239,7 +265,17 @@ function* getefundbBillistbyorderidSaga(action) {
   }
   yield put(addOrderRefundInfo(data.data));
 }
-
+// 物流问题反馈备注保存
+function* questionRemarkSaga(action) {
+  console.log(action.numbers);
+  const data = yield questionRemarkSer(action.types, action.note, action.numbers);
+  if (!data || data.code !== 0) {
+    message.error(`${__('common.sagaTitle12')}${data.msg}`);
+  }
+  message.success(__('common.sagaTitle13'));
+  yield put(questionRemarkSaveSet());
+  yield put(switchRemark(action.types, action.numbers));
+}
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -261,4 +297,7 @@ export default function* () {
   yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
   yield takeLatest(TYPES.REFUND_ACCOUNT, refundAccountSaga);
   yield takeLatest(TYPES.GETREFUNDBILLLISTBYORDERIDSER, getefundbBillistbyorderidSaga);
+  yield takeLatest(TYPES.CONFIRM_RECEIVED, confirmReceivedSaga);
+  yield takeLatest(TYPES.SWITCH_REMARK, switchRemarkSaga);
+  yield takeLatest(TYPES.QUESTION_REMARK_SAVE, questionRemarkSaga);
 }

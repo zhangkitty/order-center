@@ -9,4 +9,11 @@ module.exports = {
   没有换货信息: '没有换货信息',
   信息不全: '信息不全',
   删除: 'Delete',
+  exchangeReason: 'exchange reason',
+  paymentOrder: 'payment order no.',
+  paymentAccount: 'payment account',
+  paymentBill: 'payment currency',
+  paymentAmount: 'payment amount',
+  noReason: 'you must select a reason',
+  cancel: 'cancel',
 };

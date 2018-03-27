@@ -56,30 +56,35 @@ class DiffRefund extends Component {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              const refund_paths = refundPaths.filter(v => v.isShow === 1)
-                  .filter(v => v.checked)
-                  .filter(this.filterAccount)
-                      .map((x) => {
-                        if (x.refundPathId < 3) {
-                          x.refund_method = null;
-                          x.account = null;
-                          x.bank_code = null;
-                          x.customer = null;
-                          x.issuing_city = null;
-                          x.card_number = null;
-                        } else if (x.refundPathId === 3 && !isCod) {
-                          x.refund_method = null;
-                          x.account = null;
-                          x.bank_code = null;
-                          x.customer = null;
-                          x.issuing_city = null;
-                          x.card_number = null;
-                        }
-                        return assign({}, x, {
-                          account: x.account ? x.account : x.card_number,
-                          customer: x.customer_name,
-                        });
-                      });
+              const refund_paths = refundPaths.filter(v => v.isShow === 1 && v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0)).map((x) => {
+                // if (x.refund_method === '其他' || x.refund_method === 'others') {
+                //   x.refund_method = x.refund_method1;
+                // }
+                // refundPathId < 3  ,不需要退款账号信息
+                // refundPathId =3 && 不是cod,不需要退款账号信息
+                if (x.refund_method === 'yes bank') {
+                  x.account = x.account1;
+                }
+                if (x.refundPathId < 3) {
+                  x.refund_method = null;
+                  x.account = null;
+                  x.bank_code = null;
+                  x.customer = null;
+                  x.issuing_city = null;
+                  x.card_number = null;
+                } else if (x.refundPathId === 3 && !isCod) {
+                  x.refund_method = null;
+                  x.account = null;
+                  x.bank_code = null;
+                  x.customer = null;
+                  x.issuing_city = null;
+                  x.card_number = null;
+                }
+                return assign({}, x, {
+                  account: x.account ? x.account : x.card_number,
+                  customer: x.customer_name,
+                });
+              });
               if (refund_paths.length !== refundPaths.filter(v => v.checked).length || !reason) {
                 return message.warning(__('common.submitTitle3'));
               }

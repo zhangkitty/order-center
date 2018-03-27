@@ -17,6 +17,7 @@ import {
   updateOrderTagSer, delChangeSer,
   batchCheckSer, batchDeleteSer, batchPartSer, noStockApplySer, noStockSer, returnAlreadyAuditSer,
   getNoGoodsListSer, underCarriageSer, getorderrewardpointinfoSer, addpointSer, batchexchangeordergoodsSer,
+  getPaymentComplainSer, getReasonServer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
@@ -28,7 +29,8 @@ import {
   cancelRiskSuccess, cancelTroubleTagSuccess, updateOrderTagSuccess,
   delChangeFail, delChangeSuccess,
   batchCheckSuccess, batchDeleteSuccess, batchPartSuccess, getStockList,
-  getStockListSuccess, change, changeAllSource, changeBulkReturnInfo, changedataSource, remarkShow,myCommit
+  getStockListSuccess, change, changeAllSource, changeBulkReturnInfo, changedataSource, remarkShow,
+  myCommit, getPaymentComplain, getPaymentComplainSuccess,
 } from './action';
 
 import * as TYPES from './types';
@@ -86,11 +88,15 @@ function* searchHistorySaga(action) {
 // 初始化数据
 function* initDataSaga() {
   const data = yield initDataSer();
+  const reason = yield getReasonServer();
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle31')} ${data.msg}`);
     return yield put(initDataFail());
   }
-  return yield put(initDataSuccess(data));
+  if (!reason || reason.code !== 0) {
+    message.error(`${__('common.sagaTitle31')} ${data.msg}`);
+  }
+  return yield put(initDataSuccess({ list: data, reason }));
 }
 
 // 商品操作查询
@@ -331,23 +337,35 @@ function* batchexchangeordergoodsSaga(action) {
   const queryString =
     {
       pageNumber: 1,
-      orderId: action.data[0].order_id,
+      orderId: action.data.goods_list[0].order_id,
       paytimeStart: moment(Date.now()).subtract(7, 'd').format('YYYY-MM-DD'),   // 付款时间
       paytimeEnd: moment(Date.now()).add(1, 'd').format('YYYY-MM-DD'),          // 付款时间
     };
+  yield put(change('submitDis', true));
   const singleData = yield searchSubmit(queryString);
   if (!singleData || singleData.code !== 0) {
     yield put(change('confirmLoading', false));
     return message.error(`${singleData.msg}`);
   }
-  yield put(changedataSource(action.data[0].order_id, singleData.data[0]));
+  yield put(changedataSource(action.data.goods_list[0].order_id, singleData.data[0]));
   yield put(change('ExchangeShow', false));
   yield put(change('confirmLoading', false));
   // yield put(changeBulkReturnInfo());
   yield put(change('BulkReturnInfo', []));
   yield put(change('batchChooseGoods', []));
-  return hashHistory.push(`order/details/edit-address/${action.data[0].order_id}/${action.data[0].billno}`);
+  return hashHistory.push(`order/details/edit-address/${action.data.goods_list[0].order_id}/${action.data.goods_list[0].billno}`);
 }
+
+// 8、 获取支付平台投诉订单原因，只有支付平台投诉订单才有；
+function* getPaymentComplainSaga(action) {
+  const data = yield getPaymentComplainSer(action.id);
+  if (!data || data.code !== 0) {
+    return message.error(`${data.msg}`);
+  }
+
+  yield put(getPaymentComplainSuccess(data.data, action.id));
+}
+
 
 export default function* () {
   yield takeEvery(TYPES.SEARCH, searchSaga);
@@ -377,6 +395,7 @@ export default function* () {
   yield takeLatest(TYPES.GETORDERREWARDPOINTINFO, getorderrewardpointinfoSaga);
   yield takeLatest(TYPES.ADDPOINT, addpointSaga);
   yield takeLatest(TYPES.BATCHEXCHANGEORDERGOODS, batchexchangeordergoodsSaga);
+  yield takeLatest(TYPES.GETPAYMENTCOMPLAIN, getPaymentComplainSaga);
 }
 
 // 刷新订单

@@ -12,6 +12,7 @@ const defaultState = {
   modalChooses: [],
   reasons: [],
   rlFee: [],
+  refundCurrency: {},
   dataSource: [],
   paths: [],
   shippingType: [],
@@ -70,6 +71,7 @@ export default (state = defaultState, action) => {
           return_shipping_type: getShippingType(action.data.return_shipping_type),
         }),
         rlFee: action.data.rl_fee,
+        refundCurrency: action.data.refund_currency,
       });
     case TYPES.SAVE:
       return assign({}, state, {

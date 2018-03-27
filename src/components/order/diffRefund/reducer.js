@@ -29,6 +29,43 @@ const defaultState = {
   otherInputDisable: false,
 };
 
+const getMax = (d) => {
+  if (d.isUsd === 0) {
+    return {
+      1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      2: ((Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
+      Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount)) > 0 ?
+        ((Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
+          Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount))
+      : 0,
+      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount > 0 ? d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount : 0,
+      4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
+      disabled: 0,
+    };
+  }
+  if (d.isUsd === 1) {
+    return {
+      1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceUsd.amount,
+      2: ((Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5) +
+      Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount)) > 0 ?
+        ((Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5) +
+          Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceUsd.amount))
+      : 0,
+      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount > 0 ? d.orderPriceInfo.cardCanBeRefundedPrice.priceUsd.amount : 0,
+      4: (Number(d.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5),
+      disabled: 0,
+    };
+  }
+  return {
+    1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    2: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
+    Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount),
+    3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount,
+    4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
+    disabled: 0,
+  };
+};
+
 // 改变refundPaths里面的内容
 function changeChannelProp(refundPaths, { channel, key, val }) {
   const type = refundPaths.find(item => item.refundPathId === channel) || {}.channelType;
@@ -93,8 +130,11 @@ const reducer = (state = defaultState, action) => {
           account: action.data.orderRefundUnderlineAccount.accountInfo, // 账户信息
           bank_code: action.data.orderRefundUnderlineAccount.bankCode, // 银行代码
           card_number: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
+          account1: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
           customer_name: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
+          customer: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
           issuing_city: action.data.orderRefundUnderlineAccount.issuingCity, // 发卡城市
+        //  refund_method1: '',
           refundCurrency: 0,
           refundAmount: 0,
         })),
@@ -104,17 +144,20 @@ const reducer = (state = defaultState, action) => {
           account: action.data.orderRefundUnderlineAccount.accountInfo, // 账户信息
           bank_code: action.data.orderRefundUnderlineAccount.bankCode, // 银行代码
           card_number: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
+          account1: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
+          customer: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
           customer_name: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
           issuing_city: action.data.orderRefundUnderlineAccount.issuingCity, // 发卡城市
           refundCurrency: 0,
           refundAmount: 0,
         })),
-        maxTips: {
-          1: action.data.orderPriceInfo.giftCardCanRefundPrice,
-          2: action.data.orderPriceInfo.walletCanRefundPrice,
-          3: action.data.orderPriceInfo.cardCanRefundPrice,
-          4: action.data.orderPriceInfo.overflowCanRefundPrice,
-        },
+        // maxTips: {
+        //   1: action.data.orderPriceInfo.giftCardCanRefundPrice,
+        //   2: action.data.orderPriceInfo.walletCanRefundPrice,
+        //   3: action.data.orderPriceInfo.cardCanRefundPrice,
+        //   4: action.data.orderPriceInfo.overflowCanRefundPrice,
+        // },
+        maxTips: getMax(action.data),
         orderPriceInfo: action.data.orderPriceInfo,
         isCod: action.data.orderPriceInfo.isCod,
         loading: false,
@@ -158,6 +201,7 @@ const reducer = (state = defaultState, action) => {
           account: v.account,
           bank_code: v.bank_code,
           card_number: v.card_number,
+          account1: v.account1,
           customer: v.customer,
           issuing_city: v.issuing_city,
         })),

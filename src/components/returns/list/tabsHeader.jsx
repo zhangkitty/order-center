@@ -7,7 +7,7 @@ import assign from 'object-assign';
 import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Upload, Icon } from 'antd';
 import moment from 'moment';
 import {
-  search, commit, change, initCountry, exportSubmit,
+  search, commit, change, initCountry, exportSubmit, initLogisticsChannelsArray,
 } from './action';
 
 import styles from './style.css';
@@ -25,6 +25,10 @@ const tabConfig = {
   renderTabContent: 'disable',
   defaultActiveKey: 'search',
   type: 'card',
+};
+
+const lan = {
+  物流渠道: '物流渠道',
 };
 
 class TabsHeader extends Component {
@@ -55,13 +59,12 @@ class TabsHeader extends Component {
       fetchOrderType,
       fetchPayment,
       fetchTimeTag,
+      LogisticsChannelsArray,
     } = this.props;
     const {
-      return_order_id, order_no, email, tracking_no, good_sn,
-      source_site, insurance_states, trouble_state,
-      return_order_status, refund_status, shipping_status,
-      order_type, receiver_country, return_label_type, warehouse,
-      member_level, payment, time_tag, start_time, end_time,
+      return_order_id, order_no, email, tracking_no, good_sn, source_site, insurance_states, trouble_state,
+      return_order_status, refund_status, shipping_status, order_type, receiver_country, return_label_type, warehouse,
+      member_level, payment, time_tag, start_time, end_time, LogisticsChannels,
     } = queryString;
     return (
       <div className={styles.tabsHeader}>
@@ -305,6 +308,22 @@ class TabsHeader extends Component {
                         {
                           fetchMember.map(item => (
                             <Option key={item.id} > {item.name}</Option>
+                          ))
+                        }
+                      </Select>
+                    </div>
+                    {/* 物流渠道 */}
+                    <div>
+                      <span className={styles.filterName}>{lan.物流渠道}</span>
+                      <Select
+                        allowClear
+                        className={styles.colSpace}
+                        value={LogisticsChannels}
+                        onChange={val => dispatch(commit('LogisticsChannels', val))}
+                      >
+                        {
+                          LogisticsChannelsArray.map(item => (
+                            <Option key={item.id} value={item.id}>{item.name}</Option>
                           ))
                         }
                       </Select>

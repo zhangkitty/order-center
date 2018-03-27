@@ -169,3 +169,40 @@ export const refundAccountSuccess = data => ({
   type: TYPES.REFUND_ACCOUNT_SUCCESS,
   data,
 });
+
+export const confirmReceived = (deliveryNumber, id, bill, base) => ({
+  type: TYPES.CONFIRM_RECEIVED,
+  deliveryNumber,
+  id,
+  bill,
+  base,
+});
+
+// 物流反馈问题备注
+export const switchRemark = (types, numbers) => ({
+  type: TYPES.SWITCH_REMARK,
+  types,
+  numbers,
+});
+
+export const switchRemarkSet = data => ({
+  type: TYPES.SWITCH_REMARK_SET,
+  data,
+});
+
+// 物流反馈问题备注保存
+export const questionRemarkSave = (types, note, numbers) => ({
+  type: TYPES.QUESTION_REMARK_SAVE,
+  types,
+  note,
+  numbers,
+});
+
+export const questionRemarkSaveSet = () => ({
+  type: TYPES.QUESTION_REMARK_SAVE_SET,
+});
+
+// 关闭沟通记录
+export const closeRemark = () => ({
+  type: TYPES.CLOSE_REMARK,
+});

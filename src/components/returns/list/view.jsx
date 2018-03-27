@@ -121,9 +121,26 @@ class returnsList extends Component {
               title: __('returns.list.tracking'), // 运单号
               dataIndex: 'tracking_no',
               width: '100px',
-              render: (text, record) => (
-                <a href={record.tracking_no_url} target="_blank">{text}</a>
-              ),
+              render: (text, record) => <a href={record.tracking_no_url} target="_blank">{text}</a>,
+              // {
+              //   if (record.shipping_type === 'dhl-germany') {
+              //     return <a href={`https://nolp.dhl.de/nextt-online-public/de/search?piececode=${text}`} target="_blank">{text}</a>;
+              //   }
+              //   if (record.shipping_type === 'usps') {
+              //     return <a href={`https://tools.usps.com/go/TrackConfirmAction.action?tRef=fullpage&tLc=1&text28777=&tLabels=${text}`} target="_blank">{text}</a>;
+              //   }
+              //   if (record.shipping_type === 'delhivery') {
+              //     return <a href={`https://www.delhivery.com/track/package/${text}`} target="_blank">{text}</a>;
+              //   }
+              //   if (record.shipping_type === 'Mondial Relay'
+              //       || record.shipping_type === 'MR'
+              //       || record.shipping_type === 'mr'
+              //       || record.shipping_type === 'mondial relay'
+              //       || text === 'corres') {
+              //     return <a href="https://www.mondialrelay.fr/suivi-de-colis/" target="_blank">{text}</a>;
+              //   }
+              //   return <a href={`https://tools.usps.com/go/TrackConfirmAction.action?tRef=fullpage&tLc=1&text28777=&tLabels=${text}`} target="_blank">{text}</a>;
+              // },
             }, {
               title: __('returns.list.warehouse'),
               dataIndex: 'warehouse',
