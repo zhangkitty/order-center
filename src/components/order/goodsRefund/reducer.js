@@ -420,8 +420,10 @@ const reducer = (state = defaultState, action) => {
         4: orderPriceInfo.overflowCanRefundPrice,
       };
       if (DefaultValue) {
-        totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount + shippingAmount + insuranceAmount;
-        totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount + shippingCurrency + insuranceCurrency;
+        // totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount + shippingAmount + insuranceAmount;
+        // totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount + shippingCurrency + insuranceCurrency;
+        totalAmount = orderPriceInfo.totalPrice.priceUsd.amount;
+        totalCurrency = orderPriceInfo.totalPrice.priceWithExchangeRate.amount;
       } else {
         totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount;
         totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
