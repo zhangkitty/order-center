@@ -193,4 +193,6 @@ module.exports = {
   上传的图片大小不能超过8M: '上传的图片大小不能超过8M',
   只可上传: '只可上传jpg、jpeg、png，单张图片不可超过8M',
   只可上传请确认: '只可上传jpg、jpeg、png，请确认！',
+  prepared_goods: '已备货商品',
+  shipping_warehouse: '发货仓',
 };
