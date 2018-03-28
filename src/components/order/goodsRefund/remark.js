@@ -28,7 +28,8 @@ const Remark = (props) => {
     </Button>
     <Button
       style={{ margin: '15px 80px 80px 0', left: '20%' }}
-      type="primary" htmlType="submit"
+      type="primary"
+      // htmlType="submit"
       disabled={submitLoad}
       onClick={(e) => {
         dispatch(submit(props));

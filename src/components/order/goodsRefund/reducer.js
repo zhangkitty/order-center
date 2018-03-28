@@ -567,7 +567,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.SUBMIT:
       return assign({}, state, {
-        submitLoad: true,
+        //  submitLoad: true,
       });
     case TYPES.CHANGE:
       return assign({}, state, {
