@@ -105,8 +105,8 @@ function* submitSaga({ val }) {
   }
   yield put(change('submitLoad', true));
   const temp = yield submitSer(data);
-  yield put(change('submitLoad', false));
   if (temp.code !== 0) {
+    yield put(change('submitLoad', false));
     return message.error(`${temp.msg}`);
   }
   message.success(`${lan.退款成功}`);
