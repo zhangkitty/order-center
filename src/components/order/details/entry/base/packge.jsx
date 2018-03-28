@@ -782,7 +782,7 @@ const Packge = ({
                 </div>
                 <div>
                   <span className={style.packgeWidth}>{lan.shipping_warehouse}: </span>
-                  <span>{}</span>
+                  <span>{v.inventory_name}</span>
                 </div>
               </div>
               <Table
