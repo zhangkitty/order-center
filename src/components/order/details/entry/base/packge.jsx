@@ -55,6 +55,7 @@ const lan = {
   运单号: '运单号',
   保存: '保存',
   prepared_goods: __('order.entry.prepared_goods'),
+  shipping_warehouse: __('order.entry.shipping_warehouse'),
 };
 
 const warehouseStyle = { marginLeft: '10px' };
@@ -778,6 +779,10 @@ const Packge = ({
                 <div>
                   <span className={style.packgeWidth}>{lan.huohao}: </span>
                   <span><Link to={`/order/details/track-details/${v.delivery_number}?p=${v.package_number}`} target="_blank">{v.delivery_number}</Link></span>
+                </div>
+                <div>
+                  <span className={style.packgeWidth}>{lan.shipping_warehouse}: </span>
+                  <span>{}</span>
                 </div>
               </div>
               <Table
