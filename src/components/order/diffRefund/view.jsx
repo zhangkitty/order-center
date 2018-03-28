@@ -85,7 +85,7 @@ class DiffRefund extends Component {
                   customer: x.customer_name,
                 });
               });
-              if ((!refund_paths.length || refund_paths.length !== refundPaths.filter(v => v.checked).length) || !reason) {
+              if (!refund_paths.length || !reason) {
                 return message.warning(__('common.submitTitle3'));
               }
               for (let [i, len] = [0, refund_paths.length]; i < len; i += 1) {
