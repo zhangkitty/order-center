@@ -56,41 +56,51 @@ class DiffRefund extends Component {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              const refund_paths = refundPaths.filter(v => v.isShow === 1 && v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0)).map((x) => {
-                // if (x.refund_method === '其他' || x.refund_method === 'others') {
-                //   x.refund_method = x.refund_method1;
-                // }
-                // refundPathId < 3  ,不需要退款账号信息
-                // refundPathId =3 && 不是cod,不需要退款账号信息
-                if (x.refund_method === 'yes bank') {
-                  x.account = x.account1;
-                }
-                if (x.refundPathId < 3) {
-                  x.refund_method = null;
-                  x.account = null;
-                  x.bank_code = null;
-                  x.customer = null;
-                  x.issuing_city = null;
-                  x.card_number = null;
-                } else if (x.refundPathId === 3 && !isCod) {
-                  x.refund_method = null;
-                  x.account = null;
-                  x.bank_code = null;
-                  x.customer = null;
-                  x.issuing_city = null;
-                  x.card_number = null;
-                }
-                return assign({}, x, {
-                  account: x.account ? x.account : x.card_number,
-                  customer: x.customer_name,
+              const refund_paths = refundPaths.filter(v => v.isShow === 1 && v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0))
+                .filter((v) => {
+                  return ((v.refundPathId === 3 && isCod) || v.refundPathId > 3) && v.refund_method;
+                }).map((x) => {
+                  // if (x.refund_method === '其他' || x.refund_method === 'others') {
+                  //   x.refund_method = x.refund_method1;
+                  // }
+                  // refundPathId < 3  ,不需要退款账号信息
+                  // refundPathId =3 && 不是cod,不需要退款账号信息
+                  if (x.refund_method === 'yes bank') {
+                    x.account = x.account1;
+                  }
+                  if (x.refundPathId < 3) {
+                    x.refund_method = null;
+                    x.account = null;
+                    x.bank_code = null;
+                    x.customer = null;
+                    x.issuing_city = null;
+                    x.card_number = null;
+                  } else if (x.refundPathId === 3 && !isCod) {
+                    x.refund_method = null;
+                    x.account = null;
+                    x.bank_code = null;
+                    x.customer = null;
+                    x.issuing_city = null;
+                    x.card_number = null;
+                  }
+                  return assign({}, x, {
+                    account: x.account ? x.account : x.card_number,
+                    customer: x.customer_name,
+                  });
                 });
-              });
               if (!refund_paths.length || !reason) {
                 return message.warning(__('common.submitTitle3'));
               }
               for (let [i, len] = [0, refund_paths.length]; i < len; i += 1) {
-                if (refund_paths[i].refund_method === 'Paytm' && (refund_paths[i].account.length !== 10)) {
+                if (refund_paths[i].refund_method === 'PayPal' && !refund_paths[i].account) return message.warning(__('common.submitTitle3'));
+                if (refund_paths[i].refund_method === 'Paytm' && (!refund_paths[i].account || refund_paths[i].account.length !== 10)) {
                   return message.warning(__('common.errorPaytm'));
+                }
+                if (refund_paths[i].refund_method === 'yes bank') {
+                  const x = refund_paths[i];
+                  if (!x.bank_code || !x.card_number || !x.customer_name || !x.issuing_city) {
+                    return message.warning(__('common.submitTitle3'));
+                  }
                 }
               }
               const temp = {
