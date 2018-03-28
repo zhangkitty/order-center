@@ -422,16 +422,16 @@ const reducer = (state = defaultState, action) => {
       if (DefaultValue && isAllCancel) {
         // totalAmount = canRefund.priceUsd.amount + shippingAmount + insuranceAmount;
         // totalCurrency = canRefund.priceWithExchangeRate.amount + shippingCurrency + insuranceCurrency;
-        totalAmount = orderPriceInfo.totalPrice.priceUsd.amount;
-        totalCurrency = orderPriceInfo.totalPrice.priceWithExchangeRate.amount;
+        totalAmount = orderPriceInfo.orderBalancePrice.priceUsd.amount;
+        totalCurrency = orderPriceInfo.orderBalancePrice.priceWithExchangeRate.amount;
       } else if (DefaultValue && !isAllCancel) {
         totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount + shippingAmount + insuranceAmount;
         totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount + shippingCurrency + insuranceCurrency;
         // totalAmount = canRefund.priceUsd.amount;
         // totalCurrency = canRefund.priceWithExchangeRate.amount;
       } else if (!DefaultValue && isAllCancel) {
-        totalAmount = orderPriceInfo.totalPrice.priceUsd.amount - shippingAmount - insuranceAmount;
-        totalCurrency = orderPriceInfo.totalPrice.priceWithExchangeRate.amount - shippingCurrency - insuranceCurrency;
+        totalAmount = orderPriceInfo.orderBalancePrice.priceUsd.amount - shippingAmount - insuranceAmount;
+        totalCurrency = orderPriceInfo.orderBalancePrice.priceWithExchangeRate.amount - shippingCurrency - insuranceCurrency;
       } else {
         totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount;
         totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
