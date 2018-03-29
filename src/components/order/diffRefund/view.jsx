@@ -90,7 +90,6 @@ class DiffRefund extends Component {
                     customer: x.customer_name,
                   });
                 });
-              console.log(refund_paths);
               if (!refund_paths.length || !reason) {
                 return message.warning(__('common.submitTitle3'));
               }

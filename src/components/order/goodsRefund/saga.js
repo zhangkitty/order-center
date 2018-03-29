@@ -63,6 +63,7 @@ function* submitSaga({ val }) {
       .filter(v => v.refundPathId === 1 || v.refundPathId === val.radioValue)
       .map(v => assign({}, v, {
         account: v.card_number ? v.card_number : v.account,
+        customer: v.customer_name,
       }));
   if (arr.length === 0) {
     return message.warning(lan.缺少必填项);
