@@ -432,6 +432,14 @@ const reducer = (state = defaultState, action) => {
       } else if (!DefaultValue && isAllCancel) {
         totalAmount = orderPriceInfo.orderBalancePrice.priceUsd.amount - shippingAmount - insuranceAmount;
         totalCurrency = orderPriceInfo.orderBalancePrice.priceWithExchangeRate.amount - shippingCurrency - insuranceCurrency;
+        if (orderPriceInfo.hasShippingInsurancePriceRefunded) {
+          totalAmount += insuranceAmount;
+          totalCurrency += insuranceCurrency;
+        }
+        if (orderPriceInfo.hasShippingPriceRefunded) {
+          totalAmount += shippingAmount;
+          totalCurrency += shippingCurrency;
+        }
       } else {
         totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount;
         totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount;
