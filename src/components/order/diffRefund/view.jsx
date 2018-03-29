@@ -58,6 +58,8 @@ class DiffRefund extends Component {
               e.preventDefault();
               const refund_paths = refundPaths.filter(v => v.isShow === 1 && v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0))
                 .filter((v) => {
+                  if (v.refundPathId < 3) return true;
+                  if (v.refundPathId === 3 && !isCod) return true;
                   return ((v.refundPathId === 3 && isCod) || v.refundPathId > 3) && v.refund_method;
                 }).map((x) => {
                   // if (x.refund_method === '其他' || x.refund_method === 'others') {
@@ -88,6 +90,7 @@ class DiffRefund extends Component {
                     customer: x.customer_name,
                   });
                 });
+              console.log(refund_paths);
               if (!refund_paths.length || !reason) {
                 return message.warning(__('common.submitTitle3'));
               }
