@@ -22,7 +22,7 @@ function filterAccount(path) {
     case 'PayPal':
       return path.account;
     case 'yes bank':
-      return path.bankCode && path.cardNumber && path.customer && path.issuingCity;
+      return path.bankCode && path.account && path.customer && path.issuingCity;
     default:
       return true;
   }

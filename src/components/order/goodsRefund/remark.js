@@ -15,7 +15,7 @@ const Remark = (props) => {
       <TextArea
         placeholder={__('common.content_name1')}
         autosize={{ minRows: 2, maxRows: 6 }}
-        style={{ width: '65%' }}
+        style={{ width: '60%' }}
         value={remark}
         onChange={e => dispatch(change('remark', e.target.value))}
       />
