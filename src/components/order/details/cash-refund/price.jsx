@@ -47,7 +47,7 @@ const Price = ({ submitValue, dispatch, dataSource }) => (
         <span className={style.tipStyle}>
           {__('order.goodsRefund.no_over_price')}
           {
-            submitValue.isUsd ? `$${Number(submitValue.max).toFixed(2)}` : `${submitValue.currency}${Number(submitValue.max).toFixed(2)}`
+            dataSource.isUsd ? `$${Number(submitValue.max).toFixed(2)}` : `${submitValue.currency}${Number(submitValue.max).toFixed(2)}`
           }
         </span>
       </div>
