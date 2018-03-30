@@ -57,11 +57,7 @@ class DiffRefund extends Component {
             onSubmit={(e) => {
               e.preventDefault();
               const refund_paths = refundPaths.filter(v => v.isShow === 1 && v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0))
-                .filter((v) => {
-                  if (v.refundPathId < 3) return true;
-                  if (v.refundPathId === 3 && !isCod) return true;
-                  return ((v.refundPathId === 3 && isCod) || v.refundPathId > 3) && v.refund_method;
-                }).map((x) => {
+                .map((x) => {
                   // if (x.refund_method === '其他' || x.refund_method === 'others') {
                   //   x.refund_method = x.refund_method1;
                   // }
@@ -94,6 +90,8 @@ class DiffRefund extends Component {
                 return message.warning(__('common.submitTitle3'));
               }
               for (let [i, len] = [0, refund_paths.length]; i < len; i += 1) {
+                if (((refund_paths[i].refundPathId === 3 && isCod) || refund_paths[i].refundPathId > 3) && !refund_paths[i].refund_method)
+                  return message.warning(__('common.submitTitle3'));
                 if (refund_paths[i].refund_method === 'PayPal' && !refund_paths[i].account) return message.warning(__('common.submitTitle3'));
                 if (refund_paths[i].refund_method === 'Paytm' && (!refund_paths[i].account || refund_paths[i].account.length !== 10)) {
                   return message.warning(__('common.errorPaytm'));
