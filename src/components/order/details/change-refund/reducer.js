@@ -45,10 +45,10 @@ const maxTypes = data => ({
   },
   4: {
     1: data.orderPriceInfo.giftCardCanRefundPrice.priceUsd.amount,
-    2: Number(Number(data.orderPriceInfo.walletCanRefundPrice.priceUsd.amount)
-        +
-        (Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5))
-        .toFixed(2), // 钱包(实付金额*150%+钱包可退金额)
+    2: Number(Number(data.orderPriceInfo.walletCanRefundPrice.priceUsd.amount)),
+        // +
+        // (Number(data.orderPriceInfo.totalPrice.priceUsd.amount) * 1.5))
+        // .toFixed(2), // 钱包(实付金额*150%+钱包可退金额)
     3: data.orderPriceInfo.cardCanRefundPrice.priceUsd.amount,
     4: data.orderPriceInfo.overflowCanRefundPrice.priceWithExchangeRate.amount,  // 溢出（实付金额*150%）
   },
@@ -57,7 +57,6 @@ const maxTypes = data => ({
 const maxv = (res, refundPathId) => {
   const ss = under2Camal(res); // 驼峰
   const temp = maxTypes(ss); // 最大值
-  console.log(ss.orderPriceInfo);
   let temp2;
   if (Number(ss.refundBillInfo.refundTypeId) !== 2) {
     temp2 = res.is_usd ? temp[3] : temp[1];
