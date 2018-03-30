@@ -109,6 +109,13 @@ const menus = [
         nav: true,
       },
       {
+        link: '/stockingExpired', // 备货超期
+        name: __('nav.stockingExpired'),
+        crumbName: __('nav.stockingExpired'),
+        nav: true,
+
+      },
+      {
         link: '/order-export',  // 订单信息导出
         name: __('nav.order_export'),
         crumbName: __('nav.order_export'),

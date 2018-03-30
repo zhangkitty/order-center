@@ -41,7 +41,6 @@ export default (url, args = {}, header) => {
     if (res.headers.get('content-type') === 'application/download') {
       return res.blob();
     }
-
     return res.json();
   }).then((data) => {  // body
     const { error_code, msg } = data;

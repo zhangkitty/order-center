@@ -15,6 +15,7 @@ module.exports = {
   returns: 'Returns lists',
   returns_details: 'Returns details',
   failedaddrorder: 'failed address order',
+  stockingExpired: 'Stocking Expired',
   order_export: '订单信息导出',
   tracktrouble: '物流问题列表',
   GrabOrder: 'GrabOrder',
