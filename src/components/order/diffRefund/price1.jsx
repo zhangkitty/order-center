@@ -62,7 +62,7 @@ const price = ({
                  onChange={
                      (e) => {
                        dispatch(changeChannelValue(v.refundPathId, 'refundAmount', e.target.value));
-                       dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', e.target.value * rate));
+                       dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', +Number(e.target.value * rate).toFixed(2)));
                      }
                    }
                />
