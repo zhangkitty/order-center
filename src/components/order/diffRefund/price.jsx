@@ -62,13 +62,14 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                     if (refundPathId === 3) {
                       dispatch(changeChannelValue(2, 'checked', false));
                     }
-                    if (refundPathId === 3 && (isUsd ? refundAmount : refundCurrency) == Number(maxTips[3])) {
+                    if (refundPathId === 3 &&
+                        (isUsd ? maxTips[3].priceUsd.amount === +refundAmount :
+                        maxTips[3].priceWithExchangeRate.amount === +refundCurrency)) {
                       dispatch(changeChannelValue(4, 'checked', true));
                     }
                   }}
                 /> :
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-
               }
               <span style={inline}>{name}</span>
               $
@@ -79,17 +80,16 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                 type="number"
                 required
                 disabled={checked ? (isUsd !== 1) : true}
-                value={Number(refundAmount).toFixed(2)}
+                value={+Number(refundAmount).toFixed(2)}
                 onChange={(e) => {
                   const value = e.target.value;
-                  dispatch(change('maxTips', assign({}, maxTips, { disabled: Number(value) })));
-                  dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(value).toFixed(2)));
-                  dispatch(changeChannelValue(refundPathId, 'refundCurrency', Number(value * priceWithExchangeRate.rate).toFixed(2)));
-                  if (refundPathId === 3 && Number(value).toFixed(2) === Number(maxTips[3]).toFixed(2)) {
-                    dispatch(changeChannelValue(4, 'checked', true));
-                  }
-                  if (refundPathId === 3 && Number(value).toFixed(2) !== Number(maxTips[3]).toFixed(2)) {
+                  dispatch(changeChannelValue(refundPathId, 'refundAmount', +Number(value).toFixed(2)));
+                  dispatch(changeChannelValue(refundPathId, 'refundCurrency', +Number(value * priceWithExchangeRate.rate).toFixed(2)));
+                  if (refundPathId === 3) {
                     dispatch(changeChannelValue(4, 'checked', false));
+                    if (+Number(value).toFixed(2) === maxTips[refundPathId].priceUsd.amount) {
+                      dispatch(changeChannelValue(4, 'checked', true));
+                    }
                   }
                   if (value < 0) {
                     dispatch(changeChannelValue(refundPathId, 'refundAmount', 0));
@@ -104,13 +104,14 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                 disabled={checked ? (isUsd !== 0) : true}
                 value={Number(refundCurrency).toFixed(2)}
                 onChange={(e) => {
+                  const value = e.target.value;
                   dispatch(changeChannelValue(refundPathId, 'refundCurrency', Number(e.target.value).toFixed(2)));
                   dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(e.target.value / priceWithExchangeRate.rate).toFixed(2)));
-                  if (refundPathId === 3 && Number(e.target.value).toFixed(2) === Number(maxTips[3]).toFixed(2)) {
-                    dispatch(changeChannelValue(4, 'checked', true));
-                  }
-                  if (refundPathId === 3 && Number(e.target.value).toFixed(2) !== Number(maxTips[3]).toFixed(2)) {
+                  if (refundPathId === 3) {
                     dispatch(changeChannelValue(4, 'checked', false));
+                    if (+Number(value).toFixed(2) === maxTips[refundPathId].priceWithExchangeRate.amount) {
+                      dispatch(changeChannelValue(4, 'checked', true));
+                    }
                   }
                   if (e.target.value < 0) {
                     dispatch(changeChannelValue(refundPathId, 'refundCurrency', 0));
@@ -119,7 +120,11 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                 }}
               />
               {
-                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd === 1 ? '$' : priceWithExchangeRate.symbol}{Number(maxTips[refundPathId]).toFixed(2) || ''}</span>
+                <span style={tipStyle}>{__('order.goodsRefund.no_over_price')}{isUsd === 1 ?
+                    maxTips[refundPathId].priceUsd.amountWithSymbol
+                    : maxTips[refundPathId].priceWithExchangeRate.amountWithSymbol
+                }
+                </span>
               }
             </div>
           </div>

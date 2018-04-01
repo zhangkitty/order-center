@@ -15,6 +15,7 @@ const defaultState = {
   warehouse: 0,
   partSendBtn: false,
   rlLoading: false,
+  moreLoading: false,
   rlmodal: false,
   preSend: 0,
   RlModal: false,
@@ -99,6 +100,14 @@ export default (state = defaultState, action) => {
         }),
         profit: '',
         profitShow: false,
+      });
+    case TYPES.ADDORDERREFUNDINFO:
+      return assign({}, state, {
+        dataSource: assign({}, state.dataSource, {
+          refund: assign({}, state.dataSource.refund, {
+            add_refund_bill_list: action.val.refund_bill_list,
+          }),
+        }),
       });
     case TYPES.UPDATE_EAMIL_SUCCESS:
       return assign({}, state, {

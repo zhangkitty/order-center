@@ -7,12 +7,14 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import assign from 'object-assign';
 import { connect } from 'react-redux';
 // import assign from 'object-assign';
 import { Radio, Button, Input, Tag, message, Spin } from 'antd';
 import { initPriceInfo, initReasonList, submitForward, change, reset } from './action';
 import SumOfMoney from './sumof-money';
 import Price from './price';
+import Price1 from './price1';
 
 import styles from './style.css';
 
@@ -22,9 +24,24 @@ class DiffRefund extends Component {
   constructor(props) {
     super(props);
     const { params: { orderId, type } } = props;
+    this.filterAccount = this.filterAccount.bind(this);
     props.dispatch(initPriceInfo({ order_id: orderId }));
     props.dispatch(initReasonList({ type }));
     props.dispatch(change('order_id', Number(orderId)));
+  }
+  filterAccount(path) {
+    if (path.refundPathId <= 2) return true;
+    if (path.refundPathId === 3 && !this.props.isCod) return true;
+    switch (path.refund_method) {
+      case 'Paytm':
+        return path.account;
+      case 'PayPal':
+        return path.account;
+      case 'yes bank':
+        return path.bank_code && path.card_number && path.customer_name && path.issuing_city;
+      default:
+        return false;
+    }
   }
 
   render() {
@@ -39,31 +56,52 @@ class DiffRefund extends Component {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              const refund_paths = refundPaths.filter(v => v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0)).map((x) => {
-                if (x.refund_method === 'yes bank') {
-                  x.account = x.account1;
-                }
-                // refundPathId < 3  ,不需要退款账号信息
-                // refundPathId =3 && 不是cod,不需要退款账号信息
-                if (x.refundPathId < 3) {
-                  x.refund_method = null;
-                  x.account = null;
-                  x.bank_code = null;
-                  x.customer = null;
-                  x.issuing_city = null;
-                  x.account = null;
-                } else if (x.refundPathId === 3 && !isCod) {
-                  x.refund_method = null;
-                  x.account = null;
-                  x.bank_code = null;
-                  x.customer = null;
-                  x.issuing_city = null;
-                  x.account = null;
-                }
-                return x;
-              });
+              const refund_paths = refundPaths.filter(v => v.isShow === 1 && v.checked && (Number(v.refundAmount) !== 0 || Number(v.refundCurrency) !== 0))
+                .map((x) => {
+                  // if (x.refund_method === '其他' || x.refund_method === 'others') {
+                  //   x.refund_method = x.refund_method1;
+                  // }
+                  // refundPathId < 3  ,不需要退款账号信息
+                  // refundPathId =3 && 不是cod,不需要退款账号信息
+                  if (x.refund_method === 'yes bank') {
+                    x.account = x.account1;
+                  }
+                  if (x.refundPathId < 3) {
+                    x.refund_method = null;
+                    x.account = null;
+                    x.bank_code = null;
+                    x.customer = null;
+                    x.issuing_city = null;
+                    x.card_number = null;
+                  } else if (x.refundPathId === 3 && !isCod) {
+                    x.refund_method = null;
+                    x.account = null;
+                    x.bank_code = null;
+                    x.customer = null;
+                    x.issuing_city = null;
+                    x.card_number = null;
+                  }
+                  return assign({}, x, {
+                    account: x.account ? x.account : x.card_number,
+                    customer: x.customer_name,
+                  });
+                });
               if (!refund_paths.length || !reason) {
                 return message.warning(__('common.submitTitle3'));
+              }
+              for (let [i, len] = [0, refund_paths.length]; i < len; i += 1) {
+                if (((refund_paths[i].refundPathId === 3 && isCod) || refund_paths[i].refundPathId > 3) && !refund_paths[i].refund_method)
+                  return message.warning(__('common.submitTitle3'));
+                if (refund_paths[i].refund_method === 'PayPal' && !refund_paths[i].account) return message.warning(__('common.submitTitle3'));
+                if (refund_paths[i].refund_method === 'Paytm' && (!refund_paths[i].account || refund_paths[i].account.length !== 10)) {
+                  return message.warning(__('common.errorPaytm'));
+                }
+                if (refund_paths[i].refund_method === 'yes bank') {
+                  const x = refund_paths[i];
+                  if (!x.bank_code || !x.card_number || !x.customer_name || !x.issuing_city) {
+                    return message.warning(__('common.submitTitle3'));
+                  }
+                }
               }
               const temp = {
                 order_id: Number(order_id),
@@ -76,7 +114,8 @@ class DiffRefund extends Component {
             }}
           >
             <SumOfMoney orderPriceInfo={orderPriceInfo} dispatch={dispatch} />
-            <Price {...this.props} />
+            {/* <Price {...this.props} /> */}
+            <Price1 {...this.props} />
             <div className={styles.row}>
               <span className={styles.rowSpan}>{__('common.content_name')}{Star}:</span>
               <Radio.Group
@@ -112,7 +151,9 @@ class DiffRefund extends Component {
                 }}
                 type="default"
               >{__('order.diffRefund.cancel')}</Button>
-              <Button disabled={submitdisabled} type="primary" loading={submitLoad} style={{ marginLeft: '50px' }} htmlType={'submit'}>{__('order.diffRefund.commit')}</Button>
+              <Button
+                disabled={submitdisabled} type="primary" loading={submitLoad} style={{ marginLeft: '50px' }} htmlType={'submit'}
+              >{__('order.diffRefund.commit')}</Button>
             </div>
           </form>
         </div>

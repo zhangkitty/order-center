@@ -31,4 +31,5 @@ module.exports = {
   Please_enter_a_user_refund_account: '请输入用户退款账户',
   Please_choose_pay_method: '请先选择退款路径',
   cancel_goods_title: '剩余商品应付金额低于$50;请确认是否取消',
+  digits_are_needed: '10 digits are needed',
 };

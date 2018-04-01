@@ -6,7 +6,7 @@ import { parseQuery } from '../../../lib/query-string';
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
   payShow: '/orderDetail/payShow', // 支付信息
-  refund: '/OrderDiffRefund/getRefundBillListByOrderId', // 退款信息
+  refund: '/OrderDiffRefund/getRefundBillListOfOrder', // 退款信息
   orderReturn: '/orderReturn/getReturnOrder', // 退货信息
   orderRecord: '/Order/getOrderRecord', // 订单日志
   refundEmail: '/orderDetail/refundEmail', // 更新邮箱
@@ -103,6 +103,14 @@ export const getInfoSer = (id, bill) => {
   });
   return {base, pay, refund, orderReturn, logs};
 }
+
+export const getefundbBillistbyorderidSer = (orderId)=>(
+  fetch(`/OrderDiffRefund/getRefundBillListByOrderId?order_id=${orderId}`,{
+    method:'get'
+  })
+)
+
+
 export const updateEmailSer = (order_id, email) => (
   fetch(entry.refundEmail, {
     method: 'POST',

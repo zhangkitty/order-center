@@ -52,3 +52,19 @@
     display: flex;
     margin-top: 15px;
 }
+.priceR {
+    margin-left: 128px;
+    margin-top:3px;
+    margin-bottom: 5px;
+    display: flex;
+}
+
+.priceSelect {
+    width: 150px !important;
+    flex: 0 0 150px;
+}
+.priceInput {
+    width: 170px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}

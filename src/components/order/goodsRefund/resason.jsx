@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Radio, Tag } from 'antd';
-import { subchange } from './action';
+import { change } from './action';
 import style from './style.css';
 
 const RG = Radio.Group;
 const star = (<span style={{ color: 'red' }}>*</span>);
-const Reason = ({ reasons, submitValue, dispatch }) => (
+const Reason = ({ reasons, reasonId, dispatch }) => (
   <div className={style.reason}>
     <span className={style.descWidth}>{__('order.goodsRefund.cancel_goods_reason')}{star}</span>
     <div>
       <RG
         style={{ display: 'flex' }}
-        value={submitValue.reason.reasonId}
-        onChange={e => dispatch(subchange('reason', { reasonId: e.target.value, goodsIds: [] }))}
+        value={reasonId}
+        onChange={e => dispatch(change('reasonId', e.target.value))}
       >
         {
           reasons.map(v => (
@@ -33,8 +33,8 @@ const Reason = ({ reasons, submitValue, dispatch }) => (
 );
 Reason.propTypes = {
   reasons: PropTypes.arrayOf(PropTypes.shape()),
-  submitValue: PropTypes.shape(),
   dispatch: PropTypes.func,
+  reasonId: PropTypes.Number,
 };
 export default Reason;
 

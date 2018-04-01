@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Link } from 'react-router';
 import { Table, Card, Popconfirm, Button, Modal, Input, Select, Icon, message } from 'antd';
-import { cancelRefund, commit, commit2, refundAccount } from './action';
+import { cancelRefund, commit, commit2, refundAccount, getRefundBillListByOrderIdSer } from './action';
 import style from './style.css';
 
 
@@ -28,6 +28,7 @@ const lan = {
   xiugaishenqing: __('order.entry.refund_14'),
   quxiaotuikuai: __('order.entry.refund_15'),
   cancelRefund: __('order.entry.refund_16'),
+  展示更多: '展示更多',
 };
 
 class Refund extends Component {
@@ -35,6 +36,7 @@ class Refund extends Component {
     const {
       // dataSource: { refund: { refund_bill_list } },
       dataSource: { refund },
+        moreLoading,
       billno,
       orderId,
       refund_account,
@@ -92,7 +94,7 @@ class Refund extends Component {
         >
           <Table
             rowKey="id"
-            dataSource={refund.refund_bill_list || []}
+            dataSource={[...refund.refund_bill_list] || []}
             columns={[
               {
                 title: lan.bianhao,
@@ -179,13 +181,14 @@ class Refund extends Component {
                         </Link> : null
                     }
                     {
-                      rec.status_code === 4 || rec.status_code === 1 ?
-                        <Popconfirm
-                          title={lan.cancelRefund}
-                          onConfirm={() => dispatch(cancelRefund(rec.id))}
-                        >
-                          <Button>{lan.quxiaotuikuai}</Button>
-                        </Popconfirm>
+                        (rec.type_id !== 5) &&
+                        (rec.status_code === 4 || rec.status_code === 1) ?
+                          <Popconfirm
+                            title={lan.cancelRefund}
+                            onConfirm={() => dispatch(cancelRefund(rec.id))}
+                          >
+                            <Button>{lan.quxiaotuikuai}</Button>
+                          </Popconfirm>
                         : null
                     }
                   </div>
@@ -193,6 +196,126 @@ class Refund extends Component {
               },
             ]}
           />
+          {
+            !!(refund.isPlatformOrders === 0) &&
+            <div
+              style={{ marginBottom: 5 }}
+            >
+              <Button
+                onClick={e => dispatch(getRefundBillListByOrderIdSer(orderId))}
+                loading={moreLoading}
+              >
+                {lan.展示更多}
+              </Button>
+            </div>
+          }
+          {
+            Array.isArray(refund.add_refund_bill_list) &&
+            <Table
+              rowKey="id"
+              dataSource={[...refund.add_refund_bill_list] || []}
+              columns={[
+                {
+                  title: lan.bianhao,
+                  dataIndex: 'id',
+                  width: '60px',
+                },
+                {
+                  title: __('order.name.order_number'),
+                  dataIndex: 'billno',
+                  width: '80px',
+                },
+                {
+                  title: lan.leixing,
+                  dataIndex: 'type',
+                  width: '80px',
+                },
+                {
+                  title: lan.shijian,
+                  dataIndex: 'date_of_application',
+                  width: '130px',
+                },
+                {
+                  title: lan.ren,
+                  dataIndex: 'applicant',
+                  width: '60px',
+                },
+                {
+                  title: lan.jine,
+                  dataIndex: 'apply_for_refund_amount',
+                  width: '130px',
+                  render: d => (
+                    <span>
+                      {d.price_usd.amount_with_symbol}
+                          ---
+                          {d.price_with_exchange_rate.amount_with_symbol}
+                    </span>
+                    ),
+                },
+                {
+                  title: lan.shangpin,
+                  dataIndex: 'refund_goods_list',
+                    // width: '180px',
+                  render: d => (<span>{d.join('、')}</span>),
+                },
+                {
+                  title: lan.lujin,
+                  dataIndex: 'refund_record_list',
+                  width: '70px',
+                  render: d => (<span>{d.map(v => v.refund_path_name).join('、')}</span>),
+                },
+                {
+                  title: lan.yuanyin,
+                  dataIndex: 'refund_reason',
+                  width: '70px',
+                },
+                {
+                  title: lan.zhaungtai,
+                  dataIndex: 'status',
+                  width: '80px',
+                },
+                {
+                  title: lan.bohuiyuanyin,
+                  dataIndex: 'reject_reason',
+                  width: '100px',
+                },
+                {
+                  title: lan.pingzhenghao,
+                  dataIndex: 'refund_txn_id',
+                  width: '100px',
+                },
+                {
+                  title: lan.caozuo,
+                  width: '100px',
+                  render: rec => (
+                    <div>
+                      {
+                            Number(rec.type_id) < 3 &&
+                            (Number(rec.status_code) === 4 || Number(rec.status_code) === 1) ?
+                              <Link
+                                to={`order/details/change-refund/${rec.id}`}
+                                style={{ marginRight: '5px' }}
+                              >
+                                {lan.xiugaishenqing}
+                              </Link> : null
+                          }
+                      {
+                            rec.status_code === 4 || rec.status_code === 1 ?
+                              <Popconfirm
+                                title={lan.cancelRefund}
+                                onConfirm={() => dispatch(cancelRefund(rec.id))}
+                              >
+                                <Button>{lan.quxiaotuikuai}</Button>
+                              </Popconfirm>
+                                : null
+                          }
+                    </div>
+                    ),
+                },
+              ]}
+            />
+          }
+
           <div>
             <div className={style.refund_account_title}>{__('order.entry.refund_23')}</div>
             <div style={{ color: '#333' }}>
@@ -239,6 +362,9 @@ class Refund extends Component {
                 e.preventDefault();
                 if (!refund_method) {
                   return message.warning(__('common.submitTitle3'));
+                }
+                if (refund_method === '1' && account_info.length !== 10) {
+                  return message.warning(__('common.errorPaytm'));
                 }
                 return dispatch(refundAccount(assign({},
                   refund_account,
@@ -336,32 +462,8 @@ class Refund extends Component {
                       </div>
                     </div>
                   }
-
-                  {/* 账户--其他 */}
                   {
-                    // +refund_method === 4 ?
-                    //   <div className={style.refund_list}>
-                    //     <span className={style.refund_name}>
-                    //      {star}{__('order.entry.cash_content6')}
-                    //     </span>
-                    //     <Input
-                    //       placeholder={__('order.entry.cash_content8')} // 请输入正确的退款账户
-                    //       className={style.priceInput}
-                    //       required
-                    //       value={refund_method_account}
-                    //       onChange={(e) => {
-                    //         dispatch(commit2('refund_method_account', e.target.value));
-                    //       }}
-                    //     />
-                    //   </div>
-                    //   :
-                    //   null
-                  }
-                  {/* 退款方式 = Paytm  */}
-                  {/* 退款方式 = PayPal */}
-                  {/* 退款账户信息 !== 'yes bank' 显示 */}
-                  {
-                    +refund_method !== 3 &&
+                    +refund_method === 2 &&
                     <div className={style.refund_list}>
                       <span className={style.refund_name}>{star}{__('order.entry.refund_22')}</span>
                       <Input
@@ -374,6 +476,29 @@ class Refund extends Component {
                           return dispatch(commit2('account_info', e.target.value));
                         }}
                       />
+                    </div>
+                  }
+                  {
+                    +refund_method === 1 &&
+                    <div className={style.refund_list}>
+                      <span className={style.refund_name}>{star}{__('order.entry.refund_22')}</span>
+                      <Input
+                        placeholder={__('order.entry.cash_content7')} // 请输入正确的退款账户信息
+                        required
+                        className={style.priceInput}
+                        value={account_info}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (/[^(\d)]+/.test(val)) {
+                            return false;
+                          } // 只允许数字
+                          if (val.length >= 11) {
+                            return false;
+                          }
+                          return dispatch(commit2('account_info', e.target.value));
+                        }}
+                      />
+                      <span style={{ marginLeft: 10, background: 'yellow' }}>10 digits are needed</span>
                     </div>
                   }
                 </div>

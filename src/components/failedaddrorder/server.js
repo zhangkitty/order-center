@@ -66,7 +66,6 @@ export const exportOrder = (data) => {
 };
 
 export const batchrReviewedSer=(data)=>{
-  console.log(data)
   return fetch(`/OrderCheckAddress/auditAddress?ids=${data}`,{
     method:'get',
   })

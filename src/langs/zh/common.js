@@ -164,6 +164,8 @@ module.exports = {
   noGoods_name19: 'B区待占：查询该sku+尺码，且 商品状态=已审核 或 备货中，的商品数之和',
   noGoods_name20: 'C区东部／西部待占：查询该sku+尺码， 商品状态=已审核 或 备货中，国家=美国，的商品数之和',
   noGoods_name21: 'D区待占：查询该sku+尺码，商品状态=已审核 或 备货中，国家=欧洲国家，的商品数之和',
+  errorPaytm: 'paytm账号有误',
   change_rl: '修改RL费用',
   not_RL: '未选择RL费用',
+  stocking: '备货中',
 };

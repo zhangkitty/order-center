@@ -26,18 +26,20 @@ const defaultState = {
   submitdisabled: false,
   isUsd: null,
   cachePaths: [],
+  otherInputDisable: false,
 };
 
 const getMax = (d) => {
+  console.log(d.orderPriceInfo);
   if (d.isUsd === 0) {
     return {
-      1: d.orderPriceInfo.giftCardCanBeRefundedPrice.priceWithExchangeRate.amount,
+      1: d.orderPriceInfo.giftCardCanRefundPrice.priceWithExchangeRate.amount,
       2: ((Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
-      Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount)) > 0 ?
+      Number(d.orderPriceInfo.walletOrCardCanRefundPrice.priceWithExchangeRate.amount)) > 0 ?
         ((Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5) +
-          Number(d.orderPriceInfo.walletOrCardCanBeRefundedPrice.priceWithExchangeRate.amount))
+          Number(d.orderPriceInfo.walletOrCardCanRefundPrice.priceWithExchangeRate.amount))
       : 0,
-      3: d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount > 0 ? d.orderPriceInfo.cardCanBeRefundedPrice.priceWithExchangeRate.amount : 0,
+      3: d.orderPriceInfo.cardCanRefundPrice.priceWithExchangeRate.amount > 0 ? d.orderPriceInfo.cardCanRefundPrice.priceWithExchangeRate.amount : 0,
       4: (Number(d.orderPriceInfo.totalPrice.priceWithExchangeRate.amount) * 1.5),
       disabled: 0,
     };
@@ -84,6 +86,15 @@ function changeChannelProp(refundPaths, { channel, key, val }) {
   return res;
 }
 
+function resetOtherInput(refundPaths) {
+  return refundPaths.map((path) => {
+    if (path.refundPathId === 1 || path.refundPathId === 2 || !path.checked) return path;
+    return assign({}, path, {
+      checked: false,
+    });
+  });
+}
+
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT_REASONLIST:
@@ -119,7 +130,9 @@ const reducer = (state = defaultState, action) => {
           refund_method: action.data.orderRefundUnderlineAccount.refundMethod, // 退款账户
           account: action.data.orderRefundUnderlineAccount.accountInfo, // 账户信息
           bank_code: action.data.orderRefundUnderlineAccount.bankCode, // 银行代码
+          card_number: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
           account1: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
+          customer_name: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
           customer: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
           issuing_city: action.data.orderRefundUnderlineAccount.issuingCity, // 发卡城市
         //  refund_method1: '',
@@ -131,17 +144,26 @@ const reducer = (state = defaultState, action) => {
           refund_method: action.data.orderRefundUnderlineAccount.refundMethod, // 退款账户
           account: action.data.orderRefundUnderlineAccount.accountInfo, // 账户信息
           bank_code: action.data.orderRefundUnderlineAccount.bankCode, // 银行代码
+          card_number: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
           account1: action.data.orderRefundUnderlineAccount.cardNumber, // 银行卡号
           customer: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
+          customer_name: action.data.orderRefundUnderlineAccount.customerName, // 顾客姓名
           issuing_city: action.data.orderRefundUnderlineAccount.issuingCity, // 发卡城市
           refundCurrency: 0,
           refundAmount: 0,
         })),
-        maxTips: getMax(action.data),
+        maxTips: {
+          1: action.data.orderPriceInfo.giftCardCanRefundPrice,
+          2: action.data.orderPriceInfo.walletCanRefundPrice,
+          3: action.data.orderPriceInfo.cardCanRefundPrice,
+          4: action.data.orderPriceInfo.overflowCanRefundPrice,
+        },
+        // maxTips: getMax(action.data),
         orderPriceInfo: action.data.orderPriceInfo,
         isCod: action.data.orderPriceInfo.isCod,
         loading: false,
         isUsd: action.data.isUsd,
+        rate: action.data.orderPriceInfo.totalPrice.priceWithExchangeRate.rate,
       });
     case TYPES.CHANGE_CHANNEL_VALUE:
       return assign({}, state, {
@@ -179,10 +201,16 @@ const reducer = (state = defaultState, action) => {
           refund_method: v.refund_method,
           account: v.account,
           bank_code: v.bank_code,
+          card_number: v.card_number,
           account1: v.account1,
           customer: v.customer,
           issuing_city: v.issuing_city,
         })),
+      });
+    case TYPES.CHANGE_INPUT_DISABLE:
+      return assign({}, state, {
+        otherInputDisable: action.isDisable,
+        refundPaths: resetOtherInput(state.refundPaths),
       });
 
     default:

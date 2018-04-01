@@ -1,73 +1,77 @@
 /**
  * Create by liufeng on 2017/6/28
  */
-import * as TYPES from './types';
+import * as types from './types';
+import { makeActionCreator } from '../../../lib/deal-func';
 
-export const change = (key, val) => ({
-  type: TYPES.CHANGE,
-  key,
-  val,
-});
-
-// 订单列表-商品退款申请获取的返回信息
-export const getData = (orderId, goodsId) => ({
-  type: TYPES.GET_DATA,
-  orderId,
-  goodsId,
-});
-
-export const getDataSuccess = res => ({
-  type: TYPES.GET_DATA_SUCCESS,
-  res,
-});
-
-// 获取普通商品退款或COD取消商品原因、差价退款原因
-export const getReason = () => ({
-  type: TYPES.GET_REASON,
-});
-export const getReasonSuccess = res => ({
-  type: TYPES.GET_REASON_SUCCESS,
-  res,
-});
-
+export const init = makeActionCreator(types.init, 'orderId', 'goodsId');
+export const change = makeActionCreator(types.change, 'key', 'val');
+export const initSerSuccess = makeActionCreator(types.initSerSuccess, 'data');
+export const changeChannelValue = makeActionCreator(types.changeChannelValue, 'channel', 'key', 'val');
+export const changeShipping = makeActionCreator(types.changeShipping, 'val');
+export const changeRlFee = makeActionCreator(types.changeRlFee, 'val');
+export const submit = makeActionCreator(types.submit, 'val');
+export const changeShippingInsurance = makeActionCreator(types.changeShippingInsurance, 'val');
 export const subchange = (key, value) => ({
-  type: TYPES.SUBMIT_CHANGE,
+  type: types.SUBMIT_CHANGE,
   key,
   value,
 });
 
 export const submitForward = data => ({
-  type: TYPES.SUBMIT,
+  type: types.SUBMIT,
   data,
 });
 
 export const reset = () => ({
-  type: TYPES.RESET,
+  type: types.RESET,
 });
+
+
+// 订单列表-商品退款申请获取的返回信息
+export const getData = (orderId, goodsId) => ({
+  type: types.GET_DATA,
+  orderId,
+  goodsId,
+});
+
+export const getDataSuccess = res => ({
+  type: types.GET_DATA_SUCCESS,
+  res,
+});
+
+// 获取普通商品退款或COD取消商品原因、差价退款原因
+export const getReason = () => ({
+  type: types.GET_REASON,
+});
+export const getReasonSuccess = res => ({
+  type: types.GET_REASON_SUCCESS,
+  res,
+});
+
 export const checkPath = value => ({
   value,
-  type: TYPES.CHECK_PATH,
+  type: types.CHECK_PATH,
 });
 export const usPriceChange = (value, i, rate) => ({
   value,
   i,
   rate,
-  type: TYPES.US_PRICE_CHANGE,
+  type: types.US_PRICE_CHANGE,
 });
 export const otherPriceChange = (value, i, rate2) => ({
   value,
   i,
   rate2,
-  type: TYPES.OTHER_PRICE_CHANGE,
+  type: types.OTHER_PRICE_CHANGE,
 });
 
 export const allback = (back, rl, typeId) => ({
-  type: TYPES.ALL_BACK,
+  type: types.ALL_BACK,
   back,
   rl,
   typeId,
 });
 export const copyPaymentMethod = () => ({
-  type: TYPES.COPY_PAYMENT_METHOD,
+  type: types.COPY_PAYMENT_METHOD,
 });
-

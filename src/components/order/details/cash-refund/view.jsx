@@ -58,7 +58,9 @@ class cashRefund extends Component {
             ) {
               return message.warning(__('order.goodsRefund.missing_something'));
             }
-
+            if (refundMethod === 'Paytm' && account.length !== 10) {
+              return message.warning(__('common.errorPaytm'));
+            }
             const temp = {
               orderId,
               refundType,
@@ -108,7 +110,11 @@ class cashRefund extends Component {
                     <Select
                       style={{ width: '150px', marginRight: '10px' }}
                       value={refundMethod}
-                      onChange={val => dispatch(subchange('refundMethod', val))}
+                      onChange={(val) => {
+                        dispatch(subchange('refundMethod', val));
+                        dispatch(subchange('account', ''));
+                      }
+                      }
                     >
                       {
                         refundAccountTypeList.map(item => (
@@ -116,19 +122,9 @@ class cashRefund extends Component {
                         ))
                       }
                     </Select>
+
                     {
-                      // refundMethod === '其他' || refundMethod === 'others' ?
-                      //   <Input
-                      //     placeholder={__('order.entry.cash_content8')}
-                      //     style={{ width: '200px', marginRight: '15px' }}
-                      //     value={refundMethod1}
-                      //     onChange={e => dispatch(subchange('refundMethod1', e.target.value))}
-                      //   />
-                      //   : null
-                    }
-                    {/* 退款账户信息 !== 'yes bank' 显示 */}
-                    {
-                      refundMethod !== 'yes bank' &&
+                      refundMethod === 'PayPal' &&
                       <Input
                         placeholder={__('order.entry.cash_content7')}// 请输入正确的退款账户信息
                         className={style.priceInput}
@@ -140,6 +136,27 @@ class cashRefund extends Component {
                       />
                     }
 
+                    {
+                      refundMethod === 'Paytm' &&
+                      <span>
+                        <Input
+                          placeholder={__('order.entry.cash_content7')}// 请输入正确的退款账户信息
+                          className={style.priceInput}
+                          value={account}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            if (/[^(\d)]+/.test(val)) {
+                              return false;
+                            } // 只允许数字
+                            if (val.length >= 11) {
+                              return false;
+                            }
+                            return dispatch(subchange('account', val));
+                          }}
+                        />
+                        <span className={style.tipStyle} style={{ marginLeft: 10 }}>10 digits are needed</span>
+                      </span>
+                    }
                     {/* 退款方式 = yes bank， 银行代码/银行卡号/顾客姓名/发卡城市     */}
                     {
                       refundMethod === 'yes bank' &&
@@ -182,18 +199,6 @@ class cashRefund extends Component {
                         />
                       </span>
                     }
-                    <div className={style.tipStyle} style={{ margin: '0 0 5px 15px' }}>
-                      {
-                        refundMethodTitle !== 'yes bank' ?
-                          <span>账户：{refundMethodTitle}, 账户信息：{accountTitle}</span>
-                          :
-                          <span>
-                            账户：{refundMethodTitle}, 银行代码：{bankCodeTitle},&nbsp;
-                            银行卡号：{cardNumberTitle},&nbsp;
-                            顾客姓名：{customerTitle}, 发卡城市：{issuingCityTitle}
-                          </span>
-                      }
-                    </div>
                   </div>
                 )}
 

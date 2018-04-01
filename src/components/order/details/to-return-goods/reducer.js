@@ -41,7 +41,6 @@ const getShippingType = (value) => {
       val = v.id;
     }
   });
-  console.log(val);
   return val;
 };
 export default (state = defaultState, action) => {

@@ -50,12 +50,9 @@ class orderList extends Component {
     }
     const a = [];
     subscribe('mdzz', (e, order_id) => {
-      console.log(e);
-      console.log(order_id);
       // this.props.dispatch()
     });
     subscribe('sb', (e) => {
-      console.log(e);
       this.props.dispatch(closeAllRemark());
     });
   }

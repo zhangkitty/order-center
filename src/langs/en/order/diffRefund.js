@@ -25,5 +25,6 @@ module.exports = {
   reason_list_failed: 'Failed to acquire lists of refund reasons',
   refund_priceinfo_failed: 'Failed to acquire lists of refund info',
   submit_fail: 'Submit Failed',
+  under50: 'Amount paypable of the remaining items is less than $50: Please confirm cancel or not',
 };
 

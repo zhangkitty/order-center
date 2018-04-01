@@ -260,6 +260,39 @@ const Modals = ({
         </div>
       </form>
     </Modal>
+    {/* 确认退款 */}
+    <Modal
+      title={lan.确认退款}
+      visible={refundInfo.data.type === 5}
+      footer={null}
+      onCancel={() => dispatch(commit('refundInfo', assign({}, refundInfo, { data: {} })))}
+    >
+      <form
+        className={styles.addRemarkForm}
+        onSubmit={(e) => {
+          e.preventDefault();
+          return dispatch(doRefund(refundInfo.data));
+        }}
+      >
+        <div className={styles.addRemarkArea}>
+          <span className={styles.addRemarkSpan}>{ lan.退款金额} : </span>
+          <span>{refundInfo.data.price}</span>
+        </div>
+        <div>
+          <span className={styles.addRemarkSpan}>{ lan.退款路径} : </span>
+          <span>{refundInfo.data.refund_path_title}</span>
+        </div>
+        <div className={styles.addRemarkBts}>
+          <Button onClick={() => dispatch(commit('refundInfo', assign({}, refundInfo, { data: {} })))}>
+            {lan.取消}
+          </Button>
+          <Button type={'primary'} htmlType={'submit'} loading={refundInfo.saveLoad} >
+            {lan.确认}
+          </Button>
+        </div>
+      </form>
+
+    </Modal>
     {/* 重新退款 */}
     <Modal
       title={lan.重新退款}

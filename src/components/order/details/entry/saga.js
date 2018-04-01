@@ -7,7 +7,7 @@ import * as TYPES from './types';
 import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
-  remarkShowSuccess, remarkSaveSuccess, remarkShow,
+  remarkShowSuccess, remarkSaveSuccess, remarkShow, addOrderRefundInfo,
   switchRemarkSet, questionRemarkSaveSet, switchRemark, putRLList, clearRL,
 } from './action';
 
@@ -31,6 +31,7 @@ import {
   getTroubleTypes,
   trackTroublePublish,
   refundAccountSer,
+  getefundbBillistbyorderidSer,
   confirmReceivedServer,
   switchRemarkSer,
   questionRemarkSer,
@@ -54,7 +55,7 @@ function* getInfoSaga(action) {
   if (!data || data.code !== 0) {
     return message.warning(`${lan.fail}:${data.msg}`);
   }
-  console.log(data.data);
+
   return yield put(getInfoSuccess(data.data, action.key));
 }
 
@@ -257,9 +258,18 @@ function* switchRemarkSaga(action) {
   }
   return yield put(switchRemarkSet(data.data));
 }
-
+function* getefundbBillistbyorderidSaga(action) {
+  yield put(commit('moreLoading', true));
+  const data = yield getefundbBillistbyorderidSer(action.orderId);
+  yield put(commit('moreLoading', false));
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.fail}:${data.msg}`);
+  }
+  yield put(addOrderRefundInfo(data.data));
+}
 // 物流问题反馈备注保存
 function* questionRemarkSaga(action) {
+  console.log(action.numbers);
   const data = yield questionRemarkSer(action.types, action.note, action.numbers);
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle12')}${data.msg}`);
@@ -312,6 +322,7 @@ export default function* () {
   yield takeLatest(TYPES.TRACK_TROUBLE, getTrackTroubleReason);
   yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
   yield takeLatest(TYPES.REFUND_ACCOUNT, refundAccountSaga);
+  yield takeLatest(TYPES.GETREFUNDBILLLISTBYORDERIDSER, getefundbBillistbyorderidSaga);
   yield takeLatest(TYPES.CONFIRM_RECEIVED, confirmReceivedSaga);
   yield takeLatest(TYPES.SWITCH_REMARK, switchRemarkSaga);
   yield takeLatest(TYPES.QUESTION_REMARK_SAVE, questionRemarkSaga);

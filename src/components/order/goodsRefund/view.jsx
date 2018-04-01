@@ -7,11 +7,14 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { connect } from 'react-redux';
 import { Spin, Input, Button, message } from 'antd';
-import { subchange, getData, getReason, submitForward, reset } from './action';
+import { subchange, getData, getReason, submitForward, reset, init } from './action';
 import SumOfMoney from './sumOfMoney';
 import RefundGoods from './refundGoods';
+import Reason from './resason';
+import Remark from './remark';
+import MyRadio from './my-radio';
 import Price from './price';
-import Resason from './resason';
+import Price1 from './price1';
 import style from './style.css';
 
 const TextArea = Input.TextArea;
@@ -22,6 +25,7 @@ class GoodsRefund extends Component {
       dispatch, params: { orderId, goodsId },
       ready, submitValue: { orderId: pid, goodsId: pgid },
     } = this.props;
+    dispatch(init(orderId, goodsId));
     if (!ready || Number(orderId) !== pid || goodsId !== pgid.join(',')) {
       dispatch(subchange('orderId', Number(orderId)));
       dispatch(subchange('goodsIds', goodsId.split(',').map(v => Number(v))));
@@ -65,40 +69,29 @@ class GoodsRefund extends Component {
                   refund_amount: Number(v.refundAmount),
                   refund_currency: Number(v.refundCurrency),
                   refund_method: v.refundAccountTypeList.length ?
-                         v.refund_method : null,
+                    v.refund_method : null,
                   account: v.refundAccountTypeList.length ?
-                      (v.refund_method === 'yes bank' ? (v.account1 || Symbol('noValue')) : (v.account || Symbol('noValue'))) : null,
+                    (v.refund_method === 'yes bank' ? (v.account1 || Symbol('noValue')) : (v.account || Symbol('noValue'))) : null,
                   bank_code: v.refundAccountTypeList.length ?
-                        v.bank_code || Symbol('noValue') : null,
+                    v.bank_code || Symbol('noValue') : null,
                   customer: v.refundAccountTypeList.length ?
-                        v.customer || Symbol('noValue') : null,
+                    v.customer || Symbol('noValue') : null,
                   issuing_city: v.refundAccountTypeList.length ?
-                        v.issuing_city || Symbol('noValue') : null,
+                    v.issuing_city || Symbol('noValue') : null,
                 })),
             };
             return dispatch(submitForward(newRes));
           }}
         >
-          <SumOfMoney {...this.props} />
-          <RefundGoods {...this.props} />
-          <Price {...this.props} />
-          <Resason {...this.props} />
-          <div className={style.mark}>
-            <span className={style.descWidth}>{__('order.goodsRefund.mark')}：</span>
-            <TextArea
-              placeholder={__('common.content_name1')}
-              autosize={{ minRows: 2, maxRows: 6 }}
-              style={{ width: '65%' }}
-              value={submitValue.remark}
-              onChange={e => dispatch(subchange('remark', e.target.value))}
-            />
+          {!!ready && <div>
+            <SumOfMoney {...this.props} />
+            <RefundGoods {...this.props} />
+            <MyRadio {...this.props} />
+            <Price1 {...this.props} />
+            <Reason {...this.props} />
+            <Remark {...this.props} />
           </div>
-          <Button style={{ margin: '15px 80px 80px 0', left: '20%' }} onClick={() => dispatch(reset())}>{__('common.cancel')}</Button>
-          <Button
-            style={{ margin: '15px 80px 80px 0', left: '20%' }}
-            type="primary" htmlType="submit"
-            disabled={submitLoad}
-          >{__('common.submit')}</Button>
+          }
         </form>
         :
         <Spin spinning />

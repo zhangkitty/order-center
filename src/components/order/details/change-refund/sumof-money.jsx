@@ -5,62 +5,77 @@ import style from './style.css';
 const priceTypes = data => (
   <p key={data.key || data.name}>{`${data.name} : $${data.us}`} <span>{`${data.currency ? ` , ${data.currency}` : ''}`}</span></p>
 );
-
+const lan = {
+  溢出可退金额: '溢出可退金额',
+  溢出金额: '溢出金额',
+  钱包退款已溢出: '钱包退款已溢出',
+  用户退款已溢出: '用户退款已溢出',
+};
 const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
   const {
-    totalPrice: { // 订单最终支付总额-- 实付
+    totalPrice: {
       priceUsd: { amount: totalPrice },
       priceWithExchangeRate: { amountWithSymbol: totalPrice2, symbol: totalPriceSymbol },
     },
-    giftCardPaymentPrice: {  // 礼品卡支付金额
+    giftCardPaymentPrice: {
       priceUsd: { amount: gift },
       priceWithExchangeRate: { amountWithSymbol: gift2, symbol: giftSymbol },
     },
-    walletPaymentPrice: {  // 钱包支付金额
+    walletPaymentPrice: {
       priceUsd: { amount: wallet },
       priceWithExchangeRate: { amountWithSymbol: wallet2, symbol: walletSymbol },
     },
-    cardPaymentPrice: { // 卡支付金额
+    cardPaymentPrice: {
       paymentMethod,
       priceUsd: { amount: payType },
       priceWithExchangeRate: { amountWithSymbol: payType2, symbol: payTypeSymbol },
     },
-    shippingPrice: { // 运费金额
+    shippingPrice: {
       priceUsd: { amount: shipping },
       priceWithExchangeRate: { amountWithSymbol: shipping2, symbol: shippingSymbol },
     },
-    shippingInsurePrice: { // 运费险金额
+    shippingInsurePrice: {
       priceUsd: { amount: insure },
       priceWithExchangeRate: { amountWithSymbol: insure2, symbol: insureSymbol },
     },
-    pointPaymentPrice: { // 积分支付金额
+    pointPaymentPrice: {
       priceUsd: { amount: point },
       priceWithExchangeRate: { amountWithSymbol: point2, symbol: pointSymbol },
     },
-    couponPaymentPrice: {  // 优惠券支付金额
+    couponPaymentPrice: {
       priceUsd: { amount: coupon },
       priceWithExchangeRate: { amountWithSymbol: coupon2, symbol: couponSymbol },
     },
-    orderCanBeRefundedPrice: { // 订单剩余可退金额
-      priceUsd: { amount: canBeRefunded },
-      priceWithExchangeRate: { amountWithSymbol: canBeRefunded2, symbol: canBeRefundedSymbol },
-    },
-    giftCardCanBeRefundedPrice: { // 礼品卡可退金额
+
+    giftCardCanRefundPrice: {
       priceUsd: { amount: giftRefund },
       priceWithExchangeRate: { amountWithSymbol: giftRefund2, symbol: giftRefundSymbol },
     },
-    cardCanBeRefundedPrice: {
-      priceUsd: { amount: cardCanBeRefunded },
-      priceWithExchangeRate: { amountWithSymbol: cardCanBeRefunded2, symbol: cardCanBeRefundedSymbol  },
+    cardCanRefundPrice: {
+      priceUsd: { amount: userRefund },
+      priceWithExchangeRate: { amountWithSymbol: userRefund2, symbol: userRefundSymbol },
     },
-    walletOrCardCanBeRefundedPrice: { // 钱包或用户可退金额
+    walletCanRefundPrice: {
       priceUsd: { amount: walletRefund },
       priceWithExchangeRate: { amountWithSymbol: walletRefund2, symbol: walletRefundSymbol },
     },
-    // waitRefundPrice: {   // 待退金额(修改商品退款--有， 差价--没有)
-    //   priceUsd: { amount: waitRefund },
-    //   priceWithExchangeRate: { amountWithSymbol: waitRefund2, symbol: waitRefundSymbol },
-    // },
+    overflowCanRefundPrice: {
+      priceUsd: { amount: overflowRefund },
+      priceWithExchangeRate: { amountWithSymbol: overflowRRefund2, symbol: overflowRRefundSymbol },
+    },
+    orderBalancePrice: {        // 订单剩余可退金额
+      priceUsd: { amount: canBeRefunded },
+      priceWithExchangeRate: { amountWithSymbol: canBeRefunded2, symbol: canBeRefundedSymbol },
+    },
+    overflow2walletPrice: {
+      priceUsd: { amount: overflow2walletPriceRefunded },
+      priceWithExchangeRate: { amountWithSymbol: overflow2walletPriceRefunded2, symbol: overflow2walletPriceRefundedSymbol },
+    },
+    overflow2cardPrice: {
+      priceUsd: { amount: overflow2cardPriceRefunded },
+      priceWithExchangeRate: { amountWithSymbol: overflow2cardPriceRefunded2, symbol: overflow2cardPriceRefundedSymbol },
+    },
+
     isCod,
   } = orderPriceInfo;
   let codFee;
@@ -71,13 +86,6 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
     codFee2 = orderPriceInfo.codFee.priceWithExchangeRate.amountWithSymbol;
     codFeeSymbol = orderPriceInfo.codFee.priceWithExchangeRate.symbol;
   }
-  const waitRefundPrice = orderPriceInfo.waitRefundPrice ?
-  { // 待退金额(修改商品退款--有， 差价--没有)
-    name: __('order.goodsRefund.wait_refund'),
-    us: orderPriceInfo.waitRefundPrice.priceUsd.amount,
-    currency: orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amountWithSymbol,
-    type: orderPriceInfo.waitRefundPrice.priceWithExchangeRate.symbol,
-  } : {};
   const orderPrice = [
     {
       name: __('order.goodsRefund.total_price'),
@@ -134,39 +142,62 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       currency: coupon2,
       type: couponSymbol,
     },
+
   ].filter(res => res);
   const refundPrice = [
     {
       name: __('order.goodsRefund.can_be_refunded'),
       us: canBeRefunded,
+      key: 1,
       currency: canBeRefunded2,
       type: canBeRefundedSymbol,
     },
     {
       name: __('order.goodsRefund.gift_refunded'),
       us: giftRefund,
+      key: 2,
       currency: giftRefund2,
       type: giftRefundSymbol,
     },
     {
       name: __('order.goodsRefund.user_refunded'),
-      us: cardCanBeRefunded,
-      currency: cardCanBeRefunded2,
-      type: cardCanBeRefundedSymbol,
+      us: userRefund,
+      key: 3,
+      currency: userRefund2,
+      type: userRefundSymbol,
     },
     {
       name: __('order.goodsRefund.wallet_refunded'),
       us: walletRefund,
+      key: 4,
       currency: walletRefund2,
       type: walletRefundSymbol,
     },
-    // {
-    //   name: __('order.goodsRefund.wait_refund'),
-    //   us: waitRefundPrice.waitRefund,
-    //   currency: waitRefundPrice.waitRefund2,
-    //   type: waitRefundPrice.waitRefundSymbol,
-    // },
+    {
+      name: lan.溢出可退金额,
+      us: overflowRefund,
+      key: 5,
+      currency: overflowRRefund2,
+      type: overflowRRefundSymbol,
+    },
   ];
+  const overflowPrice = [
+    {
+      name: lan.钱包退款已溢出,
+      us: overflow2walletPriceRefunded,
+      key: 0,
+      currency: overflow2walletPriceRefunded2,
+      type: overflow2walletPriceRefundedSymbol,
+    },
+    {
+      name: lan.用户退款已溢出,
+      us: overflow2cardPriceRefunded,
+      key: 1,
+      currency: overflow2cardPriceRefunded2,
+      type: overflow2cardPriceRefundedSymbol,
+    },
+  ];
+
   return (
     <div className={style.alertBg}>
       <span className={style.descWidth}>{__('order.diffRefund.order_amount')}:</span>
@@ -178,12 +209,13 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
       <span className={style.descWidth}>{__('order.diffRefund.refund_amount')}:</span>
       <div className={style.sumofmoney_left} style={{ color: 'red' }}>
         {
-          refundPrice.map(v => priceTypes(v, 'error'))
+          refundPrice.map(v => priceTypes(v))
         }
-        {/* 商品退款显示，差价退款 不显示 */}
+      </div>
+      <span className={style.descWidth}>{lan.溢出金额}:</span>
+      <div>
         {
-          !!waitRefundPrice.name &&
-          <p key={waitRefundPrice.key || waitRefundPrice.name}>{`${waitRefundPrice.name} : $${waitRefundPrice.us}`} <span>{`${waitRefundPrice.currency ? ` , ${waitRefundPrice.currency}` : ''}`}</span></p>
+          overflowPrice.map(v => priceTypes(v))
         }
       </div>
     </div>

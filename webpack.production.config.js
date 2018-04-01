@@ -1,6 +1,7 @@
 /**
  * Created by fed on 2017/8/28.
  */
+const  ParallelUglifyPlugin =require('webpack-parallel-uglify-plugin');
 const webpack = require('webpack');
 const path = require('path');
 const i18n = require('i18n-webpack-plugin');
@@ -37,7 +38,7 @@ module.exports = Object.keys(languages).map((lang) => ({
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loaders: [
-          'babel-loader', {
+          'babel-loader?cacheDirectory', {
             loader: 'react-redux-component-loader',
             options: {
               externals: ['navigation', 'login'],
@@ -95,8 +96,14 @@ module.exports = Object.keys(languages).map((lang) => ({
       template: `./${lang=='en'?'en':'index'}-template.html`,
       filename:`../../${lang=='en'?'en':'index'}.html`
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
+    // new webpack.optimize.UglifyJsPlugin({
+    //   minimize: true,
+    // }),
+
+    new ParallelUglifyPlugin({
+      cacheDir: './dist/cache_dir/',
+      uglifyES: {
+      },
     }),
-  ],
+  ]
 }));

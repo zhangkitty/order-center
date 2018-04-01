@@ -25,5 +25,6 @@ module.exports = {
   reason_list_failed: '获取退款原因列表失败',
   refund_priceinfo_failed: '获取退款信息列表失败',
   submit_fail: '提交失败',
+  under50: '剩余商品应付金额低于$50;请确认是否取消',
 };
 
