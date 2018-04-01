@@ -4,7 +4,7 @@ import assign from 'object-assign';
 import ReactDOM from 'react-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message, Tag } from 'antd';
-import { commit, uploadTrackAction, uploadTrackShow, genRl, fetchRlFee, rebuildRl } from './action';
+import { commit, uploadTrackAction, uploadTrackShow, genRl, fetchRlFee, rebuildRl, showRLModal } from './action';
 import {Link} from 'react-router'
 
 import styles from './style.css';
@@ -39,11 +39,87 @@ const lan = {
   上传的图片大小不能超过8M: __('order.entry.上传的图片大小不能超过8M'),
   只可上传: __('order.entry.只可上传'),
   只可上传请确认: __('order.entry.只可上传请确认'),
+  changeRL: __('order.entry.changeRL'),
 };
 
 const reqImg = require.context('../../images');
 
 class OrderReturn extends Component {
+  constructor(props) {
+    super(props);
+    this.columns = [
+      {
+        title: lan.bianhao,
+        dataIndex: 'return_order_id',
+      }, {
+        title: lan.leixing,
+        dataIndex: 'return_order_type',
+      }, {
+        title: lan.yundan,
+        dataIndex: 'return_label_type',
+      }, {
+        title: lan.shijian,
+        dataIndex: 'return_apply_time',
+      }, {
+        title: lan.shangpin,
+        dataIndex: 'return_goods',
+      }, {
+        title: lan.lujin,
+        dataIndex: 'return_tracking_no',
+      }, {
+        title: lan.RL扣除费用,
+        dataIndex: 'shipping_fee',
+      }, {
+        title: lan.zhaungtai,
+        dataIndex: 'return_refund_status',
+      }, {
+        title: lan.pingzhenghao,
+        dataIndex: 'return_order_status',
+      }, {
+        title: lan.caozuo,
+        render: rec => (
+          <div>
+            <Link target="blank" style={{ marginRight: '10px' }} to={`returns/details/${rec.return_order_id}`}>{lan.chankan}</Link>
+            {
+            !!rec.return_rl_download &&
+            <a href={rec.return_rl_download} target="blank" style={{ marginRight: '10px' }}>{lan.xiazai}</a>
+            }
+            {
+            rec.return_label_type === 'RAN' &&
+            <Popover
+              content={
+                <div dangerouslySetInnerHTML={{ __html: rec.return_ran_info }} />
+            }
+            >
+              <a style={{ margin: '5px' }}>{lan.chankan}RAN</a>
+            </Popover>
+            }
+            {
+            rec.return_label_type === 'RAN' && rec.can_generate_rl === true &&
+            <Button
+              style={{ margin: '5px' }}
+              onClick={() => {
+            // dispatch(commit('rlLoading', true));
+            // dispatch(genRl(rec.return_order_id, orderId, billno));
+                this.props.dispatch(commit('modal_return_order_id', rec.return_order_id));
+                this.props.dispatch(fetchRlFee(this.props.orderId));
+                this.props.dispatch(commit('rlmodal', true));
+              }}
+            >{lan.rl}</Button>
+            }
+            <Button onClick={() => this.props.dispatch(uploadTrackShow(this.props.orderId, rec.return_order_id))} style={{ margin: '5px' }}>
+              {lan.sahngchuan}
+            </Button>
+            {(rec.return_label_type === 'RL' && rec.return_refund_status === '未退款') ?
+              <Button
+                onClick={() => this.props.dispatch(showRLModal(rec.currency_code, rec.return_order_id))}
+              >{lan.changeRL}</Button> : null}
+          </div>
+        ),
+      },
+    ];
+  }
+
   render() {
     const {
       dataSource,
@@ -72,83 +148,7 @@ class OrderReturn extends Component {
             pagination={false}
             loading={rlLoading}
             dataSource={dataSource.orderReturn.list}
-            columns={[
-              {
-                title: lan.bianhao,
-                dataIndex: 'return_order_id',
-              },
-              {
-                title: lan.leixing,
-                dataIndex: 'return_order_type',
-              },
-              {
-                title: lan.yundan,
-                dataIndex: 'return_label_type',
-              },
-              {
-                title: lan.shijian,
-                dataIndex: 'return_apply_time',
-              },
-              {
-                title: lan.shangpin,
-                dataIndex: 'return_goods',
-              },
-              {
-                title: lan.lujin,
-                dataIndex: 'return_tracking_no',
-              },
-              {
-                title: lan.RL扣除费用,
-                dataIndex: 'shipping_fee',
-              },
-              {
-                title: lan.zhaungtai,
-                dataIndex: 'return_refund_status',
-              },
-              {
-                title: lan.pingzhenghao,
-                dataIndex: 'return_order_status',
-              },
-              {
-                title: lan.caozuo,
-                render: rec => (
-                  <div>
-                    <Link target="blank" style={{ marginRight: '10px' }} to={`returns/details/${rec.return_order_id}`}>{lan.chankan}</Link>
-                    {
-                      !!rec.return_rl_download &&
-                      <a href={rec.return_rl_download} target="blank" style={{ marginRight: '10px' }}>{lan.xiazai}</a>
-                    }
-                    {
-                      rec.return_label_type === 'RAN' &&
-                      <Popover
-                        content={
-                          <div dangerouslySetInnerHTML={{ __html: rec.return_ran_info }} />
-                        }
-                      >
-                        <a style={{ margin: '5px' }}>{lan.chankan}RAN</a>
-                      </Popover>
-                    }
-                    {
-                      rec.return_label_type === 'RAN' && rec.can_generate_rl === true &&
-                      <Button
-                        style={{ margin: '5px' }}
-                        onClick={() => {
-                          // dispatch(commit('rlLoading', true));
-                          // dispatch(genRl(rec.return_order_id, orderId, billno));
-                          dispatch(commit('modal_return_order_id', rec.return_order_id));
-                          dispatch(fetchRlFee(orderId));
-                          dispatch(commit('rlmodal', true));
-                        }}
-                      >{lan.rl}</Button>
-                    }
-                    <Button onClick={() => dispatch(uploadTrackShow(orderId, rec.return_order_id))} style={{ margin: '5px' }}>
-                      {lan.sahngchuan}
-                    </Button>
-                  </div>
-
-                ),
-              },
-            ]}
+            columns={this.columns}
           />
           <Modal
             visible={rlmodal}

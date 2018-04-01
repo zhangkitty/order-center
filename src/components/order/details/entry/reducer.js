@@ -18,6 +18,10 @@ const defaultState = {
   moreLoading: false,
   rlmodal: false,
   preSend: 0,
+  RlModal: false,
+  rl_charge: '',
+  RlList: [],
+  orderID: '',
   dataSource: {
     base: {}, // 基本
     pay: {}, // 支付信息
@@ -79,6 +83,7 @@ const defaultState = {
   addRemarkOpen: false, // 新增备注
   note: '', // 物流问题备注
 };
+
 
 export default (state = defaultState, action) => {
   switch (action.type) {
@@ -241,6 +246,19 @@ export default (state = defaultState, action) => {
       return assign({}, state, {
         note: '',
         switchRemarkOpen: false,
+      });
+    case TYPES.PUT_RL_LIST:
+      return assign({}, state, {
+        RlList: action.data.list,
+        orderID: action.data.orderID,
+        RlModal: true,
+      });
+    case TYPES.CLEAR_RL:
+      return assign({}, state, {
+        RlList: [],
+        orderID: '',
+        RlModal: false,
+        rl_charge: '',
       });
     default:
       return state;

@@ -8,7 +8,7 @@ import {
   commit, getInfo, getInfoSuccess, updateEmailSuccess, backGoodsDatesSuccess, examineSuccess,
   operationGoodsSuccess,
   remarkShowSuccess, remarkSaveSuccess, remarkShow, addOrderRefundInfo,
-  switchRemarkSet, questionRemarkSaveSet, switchRemark,
+  switchRemarkSet, questionRemarkSaveSet, switchRemark, putRLList, clearRL,
 } from './action';
 
 import {
@@ -35,6 +35,8 @@ import {
   confirmReceivedServer,
   switchRemarkSer,
   questionRemarkSer,
+  showRLModalServer,
+  changeRlSerer,
 } from '../server';
 
 const lan = {
@@ -276,6 +278,30 @@ function* questionRemarkSaga(action) {
   yield put(questionRemarkSaveSet());
   yield put(switchRemark(action.types, action.numbers));
 }
+
+function* showRLModalSaga({ code, id }) {
+  const result = yield showRLModalServer(code);
+  if (result.code === 0) {
+    yield put(putRLList({
+      list: result.data,
+      orderID: id,
+    }));
+    return;
+  }
+  return message.error(`${lan.ofail}:${result.msg}`);
+}
+
+function* changeRlSaga(action) {
+  if (!action.rl.rl_charge) return message.error(__('common.not_RL'));
+  const result = yield changeRlSerer(action.rl.code, action.rl.rl_charge);
+  if (result.code === 0) {
+    message.success(__('common.sagaTitle23'));
+    yield put(clearRL());
+    yield put(getInfo(action.rl.orderId, action.rl.billno, action.rl.activeKey));
+    return;
+  }
+  return message.error(`${lan.ofail}:${result.msg}`);
+}
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);
@@ -300,4 +326,6 @@ export default function* () {
   yield takeLatest(TYPES.CONFIRM_RECEIVED, confirmReceivedSaga);
   yield takeLatest(TYPES.SWITCH_REMARK, switchRemarkSaga);
   yield takeLatest(TYPES.QUESTION_REMARK_SAVE, questionRemarkSaga);
+  yield takeLatest(TYPES.SHOW_RL_MODAL, showRLModalSaga);
+  yield takeLatest(TYPES.CHANGE_RL, changeRlSaga);
 }

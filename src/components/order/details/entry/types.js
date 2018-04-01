@@ -54,3 +54,9 @@ export const SWITCH_REMARK_SET = `${prefix}switch_remark_set`;
 export const QUESTION_REMARK_SAVE = `${prefix}question_remark_save`;
 export const QUESTION_REMARK_SAVE_SET = `${prefix}question_remark_save_set`;
 export const CLOSE_REMARK = `${prefix}close_remark`;
+
+// 修改RL
+export const SHOW_RL_MODAL = `${prefix}show_rl_modal`;
+export const PUT_RL_LIST = `${prefix}put_rl_list`;
+export const CHANGE_RL = `${prefix}change_rl`;
+export const CLEAR_RL = `${prefix}clear_rl`;

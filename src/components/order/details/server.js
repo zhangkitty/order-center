@@ -400,5 +400,15 @@ export const questionRemarkSer = (trouble_type, note, reference_number) => (
   })
 );
 
-
-
+// 获取修改rl金额
+export const showRLModalServer = (code) => (
+  fetch(`/OrderReturn/getRlFeeByCurrencyCode?currency_code=${code}`, {
+    method: 'GET',
+  })
+)
+// 修改rl金额
+export const changeRlSerer = (id, rl) => (
+  fetch(`/OrderReturn/changeRL?return_order_id=${id}&rl_charge=${rl}`, {
+    method: 'GET',
+  })
+)

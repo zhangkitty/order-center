@@ -167,4 +167,6 @@ module.exports = {
   errorPaytm: 'error Paytm number',
   nsStock: '南沙库存',
   blStock: '欧洲库存',
+  change_rl: 'change RL fee',
+  not_RL: 'no RL fee selected',
 };

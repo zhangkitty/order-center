@@ -206,3 +206,27 @@ export const questionRemarkSaveSet = () => ({
 export const closeRemark = () => ({
   type: TYPES.CLOSE_REMARK,
 });
+
+// 显示修改rl的弹出层
+export const showRLModal = (code, id, defaultRl) => ({
+  type: TYPES.SHOW_RL_MODAL,
+  code,
+  id,
+  defaultRl,
+});
+
+
+export const putRLList = data => ({
+  type: TYPES.PUT_RL_LIST,
+  data,
+});
+
+// 更改 RL
+export const changeRl = rl => ({
+  type: TYPES.CHANGE_RL,
+  rl,
+});
+
+export const clearRL = () => ({
+  type: TYPES.CLEAR_RL,
+});
