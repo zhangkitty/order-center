@@ -35,7 +35,7 @@ function* submitSaga(action) {
     return yield put(change('submitLoad', false));
   }
   message.success(`${__('common.sagaTitle23')}:${data.msg}`);
-  // return setTimeout(window.close, 3000); // 关闭窗口
+  return setTimeout(window.close, 3000); // 关闭窗口
 }
 
 export default function* () {
