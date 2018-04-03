@@ -29,7 +29,7 @@ function* submitSaga(action) {
     return yield put(change('submitLoad', false));
   }
   message.success(__('common.sagaTitle25'));
-  // return setTimeout(window.close, 3000); // 关闭窗口
+  return setTimeout(window.close, 3000); // 关闭窗口
 }
 
 export default function* () {
