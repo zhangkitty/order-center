@@ -49,7 +49,7 @@ const ChnageGoods = (props) => {
   return (
     <Modal
       visible={exchange.visible}
-      width={950}
+      width={1340}
       footer={null}
       onCancel={() => dispatch(commit3('visible', false))}
     >
@@ -63,7 +63,7 @@ const ChnageGoods = (props) => {
             return dispatch(goodSize(exchange));
           }}
         >
-          <span className={styles.changeSpan}>{__('common.submitName4')}</span>
+          <span className={styles.changeSpan}>{__('common.submitName4')}:</span>
           <Input
             className={styles.changeMargin}
             value={goods_sn}
@@ -72,7 +72,7 @@ const ChnageGoods = (props) => {
           <Button htmlType="submit">{__('common.checkSize')}</Button>
         </form>
         {/*<Spin spinning={exchange.load}>*/}
-          <span className={styles.changeSpan}>{__('common.submitName5')}</span>
+          <span className={styles.changeSpan}>{__('common.submitName5')}:</span>
           <Select
             disabled={fetchgoodSize.length < 1}
            // allowClear
@@ -87,7 +87,7 @@ const ChnageGoods = (props) => {
             }
           </Select>
           <div>
-            <span className={styles.labelspan}>{lan.exchangeReason}</span>
+            <span className={styles.labelspan}>{lan.exchangeReason}:</span>
             <div className={styles.row}>
               {
                 reason.map((re) => {
