@@ -54,7 +54,11 @@ const lan = {
   querenshouhuo: __('order.entry.querenshouhuo'),
   运单号: '运单号',
   保存: '保存',
+  prepared_goods: __('order.entry.prepared_goods'),
+  shipping_warehouse: __('order.entry.shipping_warehouse'),
 };
+
+const warehouseStyle = { marginLeft: '10px' };
 
 // 商品状态
 //  '1' => '已付款',
@@ -209,6 +213,7 @@ const Packge = ({
     package_list,
     returned_goods_list,
     refund_goods_list,
+    new_not_packaged_goods_list,
   } = order_goods_info;
   const {
     show_refund_button,
@@ -615,7 +620,67 @@ const Packge = ({
           />
         </Card>
       )}
-
+      {/* 已备货 */}
+      {new_not_packaged_goods_list.length > 0 &&
+      new_not_packaged_goods_list.map(v => (
+        <Card
+          title={
+            <div className={style.center}>
+              <span
+                style={{ marginRight: 10 }}
+              >
+                {`${lan.prepared_goods}`}
+              </span>
+              <Button
+                className={style.orderSelect}
+                size="small"
+                onClick={() => {
+                  const temp = [];
+                  const arr = v.good_list.map((f) => {
+                    const index = chooseGoods.findIndex(d => d === f.id);
+                    if (index > -1) {
+                      temp.push(chooseGoods[index]);
+                      chooseGoods = [...chooseGoods.slice(0, index),
+                        ...chooseGoods.slice(index + 1),
+                      ];
+                    }
+                    return f;
+                  }).filter(d => !checkboxChecked[d.status_code]).map(d => d.id);
+                  if (arr.length === temp.length) {
+                    return dispatch(commit('chooseGoods', chooseGoods));
+                  }
+                  return dispatch(
+                    commit('chooseGoods', [
+                      ...new Set(chooseGoods.concat(arr)),
+                    ]),
+                  );
+                }}
+              >{__('common.allChoose')}
+              </Button>
+            </div>
+          }
+          key={v.inventory_lock}
+          className={style.cardBottom}
+        >
+          <div className={style.packgeContent}>
+            <div className={style.packgeL}>
+              <div>
+                {colorCirle(colors[13])}
+                <span>备货中:</span>
+                <span style={warehouseStyle}>{v.inventory_name}</span>
+              </div>
+            </div>
+            <Table
+              style={{ width: '100%' }}
+              size="small"
+              pagination={false}
+              dataSource={v.good_list}
+              rowKey={'id'}
+              columns={col('show')}
+            />
+          </div>
+        </Card>
+      ))}
       {/* 包裹 */}
       {package_list.length > 0 &&
         package_list.map((v, index) => (
@@ -714,6 +779,10 @@ const Packge = ({
                 <div>
                   <span className={style.packgeWidth}>{lan.huohao}: </span>
                   <span><Link to={`/order/details/track-details/${v.delivery_number}?p=${v.package_number}`} target="_blank">{v.delivery_number}</Link></span>
+                </div>
+                <div>
+                  <span className={style.packgeWidth}>{lan.shipping_warehouse}: </span>
+                  <span>{v.inventory_name}</span>
                 </div>
               </div>
               <Table
