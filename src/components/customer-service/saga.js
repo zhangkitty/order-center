@@ -57,7 +57,7 @@ function* addOrEditSaga(action) {
 
 function* addAdminUserManageSaga(action) {
   const { props } = action.val;
-  const { AllUserList, selectedName, Countrys, checkedCountrys, dispatch, pageNumber, pageSize } = props;
+  const { AllUserList, selectedName, Countrys, checkedCountrys, dispatch, pageNumber, pageSize, addOrEdit } = props;
   const user_id = (+selectedName);
   const user_name = AllUserList.filter(v => v.user_id === selectedName)[0].user_name;
   const country = [];
@@ -72,7 +72,7 @@ function* addAdminUserManageSaga(action) {
   const temp = assign({}, {
     user_id,
     user_name,
-    type: 1,
+    type: addOrEdit,
     status: '1',
     country: country.join(','),
     country_id: country_id.join(','),

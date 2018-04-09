@@ -22,10 +22,12 @@ const MyModal = (props) => {
           {lan.请选择物流客服}
         </span>
         <Select
+          showSearch
           style={{ width: 150, marginLeft: 20 }}
           allowClear
           onChange={value => dispatch(changeValue('selectedName', value))}
           value={selectedName}
+          filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
           {
             AllUserList.map(v => (

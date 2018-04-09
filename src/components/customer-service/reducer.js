@@ -11,6 +11,7 @@ const defaultState = {
   Countrys: [],
   selectedName: null,
   checkedCountrys: null,
+  addOrEdit: null, // edit为1,add为2
 };
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -43,12 +44,16 @@ const reducer = (state = defaultState, action) => {
           Countrys: arr[1].data,
           selectedName: action.action.val.user_id,
           checkedCountrys: action.action.val.country_id.split(','),
+          addOrEdit: 1,
         });
       }
       return assign({}, state, {
         ModalVisiable: true,
         AllUserList: arr[0].data,
         Countrys: arr[1].data,
+        selectedName: null,
+        checkedCountrys: null,
+        addOrEdit: 2,
       });
 
 
