@@ -12,6 +12,7 @@ const defaultState = {
   selectedName: null,
   checkedCountrys: null,
   addOrEdit: null, // edit为1,add为2
+  selectedNameDisabled: false,
 };
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -45,6 +46,7 @@ const reducer = (state = defaultState, action) => {
           selectedName: action.action.val.user_id,
           checkedCountrys: action.action.val.country_id.split(','),
           addOrEdit: 1,
+          selectedNameDisabled: true,
         });
       }
       return assign({}, state, {
@@ -54,6 +56,7 @@ const reducer = (state = defaultState, action) => {
         selectedName: null,
         checkedCountrys: null,
         addOrEdit: 2,
+        selectedNameDisabled: false,
       });
 
 

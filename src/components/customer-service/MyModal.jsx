@@ -9,7 +9,7 @@ const lan = {
   分配国家: '分配国家',
 };
 const MyModal = (props) => {
-  const { dispatch, AllUserList, Countrys, selectedName, checkedCountrys } = props;
+  const { dispatch, AllUserList, Countrys, selectedName, checkedCountrys, selectedNameDisabled } = props;
   return (<div>
     <Modal
       visible={props.ModalVisiable}
@@ -27,6 +27,7 @@ const MyModal = (props) => {
           allowClear
           onChange={value => dispatch(changeValue('selectedName', value))}
           value={selectedName}
+          disabled={selectedNameDisabled}
           filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
           {
@@ -82,6 +83,9 @@ MyModal.propTypes = {
   dispatch: PropTypes.func,
   AllUserList: PropTypes.arrayOf(PropTypes.object),
   Countrys: PropTypes.arrayOf(PropTypes.object),
+  selectedName: PropTypes.arrayOf(PropTypes.string),
+  checkedCountrys: PropTypes.arrayOf(PropTypes.string),
+  selectedNameDisabled: PropTypes.Boolean,
 
 };
 
