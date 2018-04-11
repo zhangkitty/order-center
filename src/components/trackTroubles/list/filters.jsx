@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
+
 import { Input, Select, DatePicker, Button, message, Modal } from 'antd';
 import moment from 'moment';
 import { filterCommit, getData, exportOrder, exportIdSet } from './action';
@@ -19,13 +21,14 @@ const lan = {
   fahuoDate: '发货日期',
   search: __('common.search'),
   tijiaoren: '提交人',
+  跟进客服管理: '跟进客服管理',
 };
 
 const OP = Select.Option;
 const RP = DatePicker.RangePicker;
 const confirm = Modal.confirm;
 const Filters = ({
-  dispatch, filters, filter, load, idList
+  dispatch, filters, filter, load, idList,
 }) => {
   const exportId = () => {
     if (idList.length === 0) {
@@ -45,7 +48,6 @@ const Filters = ({
         },
       });
     }
-
   };
   return (
     <form
@@ -56,6 +58,11 @@ const Filters = ({
       }}
     >
       {/* row 1 */}
+      <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+        <Link to={'/customer-service'}>
+          {lan.跟进客服管理}
+        </Link>
+      </div>
       <div>
         <div>
           <span>{ lan.pkgNum }</span>
