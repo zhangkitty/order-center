@@ -1,6 +1,7 @@
 import { takeLatest, put } from 'redux-saga/effects';
 import assign from 'object-assign';
 import { message } from 'antd';
+import { hashHistory } from 'react-router';
 import * as types from './types';
 import { initSer, editAdminInfoSer, addOrEditSer } from './server';
 import {
@@ -11,7 +12,11 @@ import {
 function* initSaga(action) {
   const data = yield initSer(action);
   if (!data || data.code !== 0) {
-    return message.error(`${data.msg}`);
+    message.error(`${data.msg}`);
+    if (data.msg === 'no access') {
+      hashHistory.push('/trackTroubles');
+    }
+    return null;
   }
   return yield put(initSuccess(data.data));
 }
