@@ -37,7 +37,7 @@ export const searchSubmit = (page) => {
     pay_time_from:page.payment_start_time,
     pay_time_to:page.payment_end_time,
   })
-  const keys = ['pageSize', 'pageNumber', 'refund_bill_id', 'billno', 'email', 'add_user', 'handle_user',
+  const keys = ['pageSize', 'pageNumber', 'refund_bill_id', 'billno', 'email', 'add_user', 'handle_user','trouble_type',
     'refund_bill_type', 'refund_bill_status', 'refund_path_id', 'refund_path_status', 'site_from', 'apply_start_time', 'apply_end_time',
     'country_id', 'member_level', 'refund_method', 'refund_start_time', 'refund_end_time', 'sorting_rule','pay_time_from','pay_time_to'];
   return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(temp))}`, {

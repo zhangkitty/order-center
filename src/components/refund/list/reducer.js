@@ -40,6 +40,7 @@ const defaultState = {
     payment_start_time: null,
     payment_end_time: null,
     sorting_rule: 0,
+    trouble_type: null,
   },
   searchLoad: false,
   load: false,
@@ -47,6 +48,7 @@ const defaultState = {
   total: 0,
   waitTotal: null,
   rejectTotal: null,
+  complain_refund_bill_number: null,
   refund_update: null, // 更新退款记录返回信息
   refund_update_err: null, // 更新退款记录返回信息失败
 };
@@ -94,6 +96,7 @@ const reducer = (state = defaultState, action) => {
         total: action.data.data.total_refund_bill_number,  // 总退款单数
         waitTotal: action.data.data.wait_refund_bill_number, // 等待退款单数
         rejectTotal: action.data.data.reject_refund_bill_number, // 驳回退款单数
+        complain_refund_bill_number: action.data.data.complain_refund_bill_number,
         searchLoad: false,
       });
     case TYPES.INIT_COUNTRY:
