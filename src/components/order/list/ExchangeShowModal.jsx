@@ -57,12 +57,12 @@ const exchangeshowModal = (props) => {
       visible={ExchangeShow}
       footer={null}
       onCancel={() => cancelClick(dispatch, change)}
-      width={950}
+      width={1320}
     >
       <div style={{ marginTop: 20 }}>
         <div style={{ display: 'flex', flexDirection: 'row', marginBottom: 20 }}>
-          <div style={{ flexBasis: 300 }}>{lan.被换商品}</div>
-          <div>{lan.换货商品}</div>
+          <div style={{ flexBasis: 300 }}>{lan.被换商品}:</div>
+          <div>{lan.换货商品}:</div>
         </div>
         {BulkReturnInfo.map(v => (
           <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -86,7 +86,7 @@ const exchangeshowModal = (props) => {
                 )}
               </div>
               <div style={{ display: 'flex', flexDirection: 'row', flexGrow: '1' }}>
-                <div style={{ flexBasis: 110 }}>{lan.自定义SKU}</div>
+                <div style={{ flexBasis: 110 }}>{lan.自定义SKU}:</div>
                 <div style={{ flexBasis: 200 }}>
                   <Input
                     type="text"

@@ -722,7 +722,7 @@ const Packge = ({
             <div className={style.packgeL}>
               <div>
                 {colorCirle(colors[13])}
-                <span>{__('common.stocking')}</span>
+                <span>{__('common.stocking')}:</span>
                 <span style={warehouseStyle}>{v.inventory_name}</span>
               </div>
             </div>
