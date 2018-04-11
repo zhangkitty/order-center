@@ -1,0 +1,14 @@
+const prefix = 'customer-service_';
+export const init = `${prefix}init`;
+export const initSuccess = `${prefix}initSuccess`;
+export const initFailed = `${prefix}initFailed`;
+export const changePage = `${prefix}changePage`;
+export const changePageSuccess = `${prefix}changePageSuccess`;
+export const changePageSize = `${prefix}changePageSize`;
+export const changePageSizeSuccess = `${prefix}changePageSizeSuccess`;
+export const deleteItem = `${prefix}deleteItem`;
+export const deleteItemSuccess = `${prefix}deleteItemSuccess`;
+export const addOrEdit = `${prefix}addOrEdit`;
+export const addOrEditSerSuccess = `${prefix}addOrEditSerSuccess`;
+export const changeValue = `${prefix}changeValue`;
+export const addAdminUserManage = `${prefix}addAdminUserManage`;
