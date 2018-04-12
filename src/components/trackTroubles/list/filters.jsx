@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import { Input, Select, DatePicker, Button, message, Modal } from 'antd';
 import moment from 'moment';
-import { filterCommit, getData, exportOrder, exportIdSet } from './action';
+import { filterCommit, getData, exportOrder, exportIdSet, followUp } from './action';
 import style from './style.css';
 
 // TODO: lan
@@ -59,9 +59,13 @@ const Filters = ({
     >
       {/* row 1 */}
       <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-        <Link to={'/customer-service'}>
+        <Button
+          onClick={
+            () => dispatch(followUp())
+          }
+        >
           {lan.跟进客服管理}
-        </Link>
+        </Button>
       </div>
       <div>
         <div>

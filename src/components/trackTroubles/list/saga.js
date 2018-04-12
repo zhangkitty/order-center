@@ -1,11 +1,14 @@
 
 import { message } from 'antd';
 import { takeLatest, takeEvery, put } from 'redux-saga/effects';
+import { hashHistory } from 'react-router';
 import * as types from './types';
 import { commit, getDataSuccess, remarkShow, getData, getStatusAllSet, followShowSet } from './action';
-import { getFilters, getDataSer, getRemarks, addRemark, followTroubleSer, handledSer, uploadImgSer, getStatusAllSer, exportId, followShow } from '../server';
+import { getFilters, getDataSer, getRemarks, addRemark, followTroubleSer, followUpSer,
+  handledSer, uploadImgSer, getStatusAllSer, exportId, followShow } from '../server';
 
 const FileSaver = require('file-saver');
+
 const lan = {
   ofail: __('order.entry.submit_info'),
   osucess: __('order.entry.submit_info1'),
@@ -108,6 +111,14 @@ function* handleStatusSer() {
   }
   return yield put(followShowSet(data.data));
 }
+// 跟进客服管理
+function* followUpSaga() {
+  const data = yield followUpSer();
+  if (data && data.msg === 'no access') {
+    return message.error(`${data.msg}`);
+  }
+  return hashHistory.push('customer-service');
+}
 function* saga() {
   yield takeEvery(types.getFilters, getFiltersSaga);
   yield takeEvery(types.getData, getDataSaga);
@@ -119,6 +130,6 @@ function* saga() {
   yield takeLatest(types.uploadImg, uploadImgSaga);
   yield takeLatest(types.exportOrder, exportIdSer);
   yield takeLatest(types.followShow, handleStatusSer);
-
+  yield takeLatest(types.followUp, followUpSaga);
 }
 export default saga;

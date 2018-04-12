@@ -12,11 +12,7 @@ import {
 function* initSaga(action) {
   const data = yield initSer(action);
   if (!data || data.code !== 0) {
-    message.error(`${data.msg}`);
-    if (data.msg === 'no access') {
-      hashHistory.push('/trackTroubles');
-    }
-    return null;
+    return message.error(`${data.msg}`);
   }
   return yield put(initSuccess(data.data));
 }
@@ -88,7 +84,6 @@ function* addAdminUserManageSaga(action) {
   }
   yield dispatch(changeValue('ModalVisiable', false));
   return yield dispatch(init(pageNumber, pageSize));
-  debugger;
 }
 
 export default function* () {
