@@ -19,3 +19,4 @@ export const exportOrder = data => ({ type: types.exportOrder, data });
 export const exportIdSet = () => ({ type: types.exportIdSet });
 export const followShow = id => ({ type: types.followShow, id });
 export const followShowSet = data => ({ type: types.followShowSet, data });
+export const followUp = () => ({ type: types.followUp });

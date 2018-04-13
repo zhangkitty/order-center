@@ -87,3 +87,9 @@ export const followShow = () => {
     method: 'GET',
   })
 };
+
+export const followUpSer =()=>{
+  return fetch(`/AdminUserManage/getAdminUserList?page_number=${1}&page_size=${10}`,{
+    method:'get'
+  })
+}
