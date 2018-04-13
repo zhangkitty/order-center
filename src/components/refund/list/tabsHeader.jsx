@@ -28,6 +28,10 @@ const tabConfig = {
   type: 'card',
 };
 
+const lan = {
+  投诉订单: '投诉订单',
+};
+
 class TabsHeader extends Component {
   constructor(props) {
     super(props);
@@ -53,13 +57,13 @@ class TabsHeader extends Component {
 
   render() {
     const {
-      dispatch, queryString, searchLoad, waitTotal, rejectTotal, total,
+      dispatch, queryString, searchLoad, waitTotal, rejectTotal, total, complain_refund_bill_number,
       refund_update_err, refund_update,
       fetchType, fetchStatus, fetchPath, fetchPathStatus, fetchSite,
       fetchCountry, fetchMember, fetchRefund,
     } = this.props;
     const {
-      refund_bill_id, billno, email, add_user, handle_user,
+      refund_bill_id, billno, email, add_user, handle_user, trouble_type,
       refund_bill_type, refund_bill_status, refund_path_id, refund_path_status, site_from, apply_start_time, apply_end_time,
       country_id, member_level, refund_start_time, refund_end_time, refund_method, payment_start_time, payment_end_time,
     } = queryString;
@@ -469,7 +473,7 @@ class TabsHeader extends Component {
           <div className={styles.ButtonBg}>
             {/* 全部 */}
             <Button
-              style={refund_bill_status == null ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              style={(refund_bill_status == null && trouble_type !== 6) ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
               onClick={() => {
                 if (
                   moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
@@ -483,6 +487,7 @@ class TabsHeader extends Component {
                   {
                     pageNumber: 1,
                     refund_bill_status: null,
+                    trouble_type: null,
                   })));
               }}
             >
@@ -504,6 +509,7 @@ class TabsHeader extends Component {
                   {
                     pageNumber: 1,
                     refund_bill_status: '1',
+                    trouble_type: null,
                   })));
               }}
             >
@@ -525,10 +531,33 @@ class TabsHeader extends Component {
                   {
                     pageNumber: 1,
                     refund_bill_status: '4',
+                    trouble_type: null,
                   })));
               }}
             >
               {__('refund.list.submitName4')}({rejectTotal})
+            </Button>
+            {/* 投诉订单 */}
+            <Button
+              style={+trouble_type === 6 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              onClick={() => {
+                if (
+                      moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
+                      ||
+                      moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
+                  ) {
+                  return message.warning(__('refund.list.submitTitle'));
+                }
+                return dispatch(search(assign({},
+                      queryString,
+                  {
+                    pageNumber: 1,
+                    trouble_type: 6,
+                    refund_bill_status: null,
+                  })));
+              }}
+            >
+              {lan.投诉订单}({complain_refund_bill_number})
             </Button>
           </div>
         }
