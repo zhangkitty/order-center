@@ -71,68 +71,92 @@ const ChnageGoods = (props) => {
           />
           <Button htmlType="submit">{__('common.checkSize')}</Button>
         </form>
-        {/*<Spin spinning={exchange.load}>*/}
-          <span className={styles.changeSpan}>{__('common.submitName5')}:</span>
-          <Select
-            disabled={fetchgoodSize.length < 1}
+        {/* <Spin spinning={exchange.load}> */}
+        <span className={styles.changeSpan}>{__('common.submitName5')}:</span>
+        <Select
+          disabled={fetchgoodSize.length < 1}
            // allowClear
-            className={styles.colSpace}
-            value={goods_size}
-            onChange={val => dispatch(commit3('goods_size', val))}
-          >
-            {
+          className={styles.colSpace}
+          value={goods_size}
+          onChange={val => dispatch(commit3('goods_size', val))}
+        >
+          {
               fetchgoodSize.map(item => (
-                <Option key={item} > {item}</Option>
+                <Option key={item.size} > {item.size}</Option>
               ))
             }
-          </Select>
-          <div>
-            <span className={styles.labelspan}>{lan.exchangeReason}:</span>
-            <div className={styles.row}>
-              {
-                reason.map((re) => {
-                  return (
-                    <Radio.Group
-                      value={selectReason}
-                      className={styles.group}
-                      onChange={e => dispatch(change('selectReason', e.target.value))}
-                    >
-                      <Tag color="#919191" className={styles.rowTag}>{re.name}</Tag>
-                      {
+        </Select>
+        <span style={{ marginLeft: 20 }}>
+          {
+            (function () {
+              if (fetchgoodSize.length === 0) {
+                return null;
+              }
+              if (!goods_size) {
+                return null;
+              }
+              return `库存数:${fetchgoodSize.filter(v => v.size === goods_size)[0].stock}`;
+            }())
+          }
+        </span>
+        <span style={{ marginLeft: 20 }}>
+          {
+            (function () {
+              if (fetchgoodSize.length === 0) {
+                return null;
+              }
+              if (!goods_size) {
+                return null;
+              }
+              return `库存状态:${fetchgoodSize.filter(v => v.size === goods_size)[0].is_virtual_stock}`;
+            }())
+          }
+        </span>
+        <div>
+          <span className={styles.labelspan}>{lan.exchangeReason}:</span>
+          <div className={styles.row}>
+            {
+                reason.map(re => (
+                  <Radio.Group
+                    value={selectReason}
+                    className={styles.group}
+                    onChange={e => dispatch(change('selectReason', e.target.value))}
+                  >
+                    <Tag color="#919191" className={styles.rowTag}>{re.name}</Tag>
+                    {
                         re.children.map(value =>
                           <Radio value={value.id} key={value.name}>{value.name}</Radio>,
                         )
                       }
-                    </Radio.Group>
-                  );
-                })
+                  </Radio.Group>
+                  ))
               }
-            </div>
           </div>
-          <Row>
-            <Form style={{ marginTop: '20px' }}>
-              <Col span={8}>
-                <Form.Item {...formItemLayout} label={lan.paymentOrder}>
-                  <Input value={payment_txn_id} onChange={e => dispatch(change('payment_txn_id', e.target.value))} />
-                </Form.Item>
-              </Col>
-              <Col span={8} offset={2}>
-                <Form.Item {...formItemLayout} label={lan.paymentAccount}>
-                  <Input value={payment_account} onChange={e => dispatch(change('payment_account', e.target.value))} />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item {...formItemLayout} label={lan.paymentBill}>
-                  <Input value={currency_code} onChange={e => dispatch(change('currency_code', e.target.value))} />
-                </Form.Item>
-              </Col>
-              <Col span={8} offset={2}>
-                <Form.Item {...formItemLayout} label={lan.paymentAmount}>
-                  <Input value={payment_amount} onChange={e => dispatch(change('payment_amount', e.target.value))} />
-                </Form.Item>
-              </Col>
-            </Form>
-          </Row>
+        </div>
+        <Row>
+          <Form style={{ marginTop: '20px' }}>
+            <Col span={8}>
+              <Form.Item {...formItemLayout} label={lan.paymentOrder}>
+                <Input value={payment_txn_id} onChange={e => dispatch(change('payment_txn_id', e.target.value))} />
+              </Form.Item>
+            </Col>
+            <Col span={8} offset={2}>
+              <Form.Item {...formItemLayout} label={lan.paymentAccount}>
+                <Input value={payment_account} onChange={e => dispatch(change('payment_account', e.target.value))} />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item {...formItemLayout} label={lan.paymentBill}>
+                <Input value={currency_code} onChange={e => dispatch(change('currency_code', e.target.value))} />
+              </Form.Item>
+            </Col>
+            <Col span={8} offset={2}>
+              <Form.Item {...formItemLayout} label={lan.paymentAmount}>
+                <Input value={payment_amount} onChange={e => dispatch(change('payment_amount', e.target.value))} />
+              </Form.Item>
+            </Col>
+          </Form>
+        </Row>
         <div style={{ display: 'flex' }}>
           <div style={{ marginLeft: 'auto' }}>
             <Button style={{ marginRight: '20px' }} onClick={() => cancelClick(dispatch, change)}>{lan.cancel}</Button>
@@ -159,17 +183,17 @@ const ChnageGoods = (props) => {
             >{lan.提交}</Button>
           </div>
         </div>
-          {/*<Button*/}
-            {/*className={styles.changeButton}*/}
-            {/*disabled={changeDisabled}*/}
-            {/*type="primary"*/}
-            {/*onClick={() => {*/}
-              {/*if (fetchgoodSize.length > 0 && !goods_size) {*/}
-                {/*return message.warning(__('common.choose1')); // size 有值，必填*/}
-              {/*}*/}
-              {/*return dispatch(changeGoods(exchange));*/}
-            {/*}}*/}
-          {/*>{__('common.submit')}</Button>*/}
+        {/* <Button */}
+        {/* className={styles.changeButton} */}
+        {/* disabled={changeDisabled} */}
+        {/* type="primary" */}
+        {/* onClick={() => { */}
+        {/* if (fetchgoodSize.length > 0 && !goods_size) { */}
+        {/* return message.warning(__('common.choose1')); // size 有值，必填 */}
+        {/* } */}
+        {/* return dispatch(changeGoods(exchange)); */}
+        {/* }} */}
+        {/* >{__('common.submit')}</Button> */}
       </div>
     </Modal>
   );
