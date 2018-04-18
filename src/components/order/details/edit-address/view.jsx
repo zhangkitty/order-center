@@ -130,6 +130,8 @@ class EditAddress extends Component {
                         const cv = country_list.find(v => v.id === e).value;
                         dispatch(infoCommit('country_id', e));
                         dispatch(infoCommit('country_value', cv));
+                        dispatch(infoCommit('state', ''));
+                        dispatch(infoCommit('city', ''));
                         dispatch(getCity(cv));
                         dispatch(getInfoShow(site_from, e));
                       }}
@@ -150,7 +152,6 @@ class EditAddress extends Component {
                     <Select
                       value={state}
                       style={{ width: '25em' }}
-                      mode="combobox"
                       showSearch
                       filterOption={(ip, { props }) => (
                         props.children.toLowerCase().startsWith(ip.toLowerCase())
@@ -181,7 +182,6 @@ class EditAddress extends Component {
                     <Select
                       value={city}
                       style={{ width: '25em' }}
-                      mode="combobox"
                       showSearch
                       filterOption={(ip, { props }) => (
                         props.children.toLowerCase().startsWith(ip.toLowerCase())
