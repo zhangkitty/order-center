@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input } from 'antd';
 import PropTypes from 'prop-types';
 import style from './style.css';
 
@@ -221,6 +222,11 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
         {
             refundPrice.map(v => priceTypes(v))
           }
+        <div>
+          <Input style={{ width: 100 }} />
+          <span>*</span>
+          <Input style={{ width: 100 }} />
+        </div>
       </div>
       <span className={style.descWidth}>{lan.溢出金额}:</span>
       <div>

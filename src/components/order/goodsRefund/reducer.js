@@ -419,7 +419,6 @@ const reducer = (state = defaultState, action) => {
         3: orderPriceInfo.cardCanRefundPrice,
         4: orderPriceInfo.overflowCanRefundPrice,
       };
-      debugger;
       if (DefaultValue && isAllCancel) {
         // totalAmount = canRefund.priceUsd.amount + shippingAmount + insuranceAmount;
         // totalCurrency = canRefund.priceWithExchangeRate.amount + shippingCurrency + insuranceCurrency;
@@ -448,7 +447,6 @@ const reducer = (state = defaultState, action) => {
 
       let resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       let resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
-      debugger;
       let refundPaths = action.data.orderRefundPathList.map(v => assign({}, v, {
         checked: !!v.isShow,
         refundAmount: resultAmount[v.refundPathId],
@@ -552,7 +550,6 @@ const reducer = (state = defaultState, action) => {
         }),
       });
     case TYPES.changeRlFee:
-      debugger;
       if (+isUsd === 0) {
         totalCurrency = totalCurrency + rlFeeCurrency - action.val;
         rlFeeCurrency = action.val;
