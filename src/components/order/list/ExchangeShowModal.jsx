@@ -16,6 +16,8 @@ const lan = {
   没有换货信息: __('order.list.ExchangeShowModal.没有换货信息'),
   信息不全: __('order.list.ExchangeShowModal.信息不全'),
   删除: __('order.list.ExchangeShowModal.删除'),
+  库存数: '库存数',
+  库存状态: '库存状态',
   exchangeReason: __('order.list.ExchangeShowModal.exchangeReason'),
   paymentOrder: __('order.list.ExchangeShowModal.paymentOrder'),
   paymentAccount: __('order.list.ExchangeShowModal.paymentAccount'),
@@ -114,9 +116,37 @@ const exchangeshowModal = (props) => {
                   }}
                 >
                   {
-                    v.size.map(value => <Option value={value}>{value}</Option>)
+                    v.size.map(value => <Option value={value.size}>{value.size}</Option>)
                   }
                 </Select>
+                <div>
+                  <span>
+                    {
+                      (function (v) {
+                        if (!v) {
+                          return null;
+                        }
+                        if (!v.size.filter(value => value.size === v.selectedValue)[0]) {
+                          return null;
+                        }
+                        return `${lan.库存数}:${v.size.filter(value => value.size === v.selectedValue)[0].stock}`;
+                      }(v))
+                    }
+                  </span>
+                  <span style={{ marginLeft: 20, marginRight: 20 }}>
+                    {
+                      (function (v) {
+                        if (!v) {
+                          return null;
+                        }
+                        if (!v.size.filter(value => value.size === v.selectedValue)[0]) {
+                          return null;
+                        }
+                        return `${lan.库存状态}:${v.size.filter(value => value.size === v.selectedValue)[0].is_virtual_stock}`;
+                      }(v))
+                    }
+                  </span>
+                </div>
                 <Button
                   onClick={() => {
                     if (v.selectedDisabled === false) {
@@ -136,22 +166,20 @@ const exchangeshowModal = (props) => {
           <span className={styles.labelspan}>{lan.exchangeReason}:</span>
           <div className={styles.row}>
             {
-              reason.map((re) => {
-                return (
-                  <Radio.Group
-                    value={selectReason}
-                    className={styles.group}
-                    onChange={e => dispatch(change('selectReason', e.target.value))}
-                  >
-                    <Tag color="#919191" className={styles.rowTag}>{re.name}</Tag>
-                    {
+              reason.map(re => (
+                <Radio.Group
+                  value={selectReason}
+                  className={styles.group}
+                  onChange={e => dispatch(change('selectReason', e.target.value))}
+                >
+                  <Tag color="#919191" className={styles.rowTag}>{re.name}</Tag>
+                  {
                       re.children.map(value =>
                         <Radio value={value.id} key={value.name}>{value.name}</Radio>,
                       )
                     }
-                  </Radio.Group>
-                );
-              })
+                </Radio.Group>
+                ))
             }
           </div>
         </div>
