@@ -74,17 +74,24 @@ const ChnageGoods = (props) => {
         {/* <Spin spinning={exchange.load}> */}
         <span className={styles.changeSpan}>{__('common.submitName5')}:</span>
         <Select
-          disabled={fetchgoodSize.length < 1}
+          disabled={
+            fetchgoodSize.length < 1 || fetchgoodSize[0].size === ''}
            // allowClear
           className={styles.colSpace}
           value={goods_size}
           onChange={val => dispatch(commit3('goods_size', val))}
         >
           {
-              fetchgoodSize.map(item => (
-                <Option key={item.size} > {item.size}</Option>
-              ))
-            }
+            (function (v) {
+              return v.map((item, idx) => {
+                if (item.size === '') {
+                  return <Option key={idx} value={item.size} >{item.size}</Option>;
+                }
+                return <Option key={idx} value={item.size} >{item.size}</Option>;
+              },
+              );
+            }(fetchgoodSize))
+          }
         </Select>
         <span style={{ marginLeft: 20 }}>
           {
@@ -166,7 +173,7 @@ const ChnageGoods = (props) => {
               loading={exchange.load}
               type="primary"
               onClick={() => {
-                if (fetchgoodSize.length > 0 && !goods_size) {
+                if (fetchgoodSize.length > 0 && !goods_size && fetchgoodSize[0].size !== '') {
                   return message.warning(__('common.choose1')); // size 有值，必填
                 }
                 if (!selectReason) {
