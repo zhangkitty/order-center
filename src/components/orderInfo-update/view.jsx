@@ -16,7 +16,7 @@ export default class Order extends Component {
   };
 
   componentDidMount() {
-    fetch('/OrderUpload/getOrderUploadList', { method: 'get' })
+    fetch('index_new.php/OrderUpload/getOrderUploadList', { method: 'get' })
         .then((res) => {
           this.setState({
             value: res.data,
