@@ -135,7 +135,7 @@ form .colSpace2{
     color:#49a9ee;
 }
 .buttonBorder, .buttonBorderBg > span {
-    margin: 5px;
+    margin: 5px 3px;
     cursor: pointer;
     outline: 0;
     text-align: center;
@@ -254,14 +254,19 @@ form .colSpace2{
 }
 
 .priceStyle {
-    display: flex;
-    flex-wrap: wrap;
     min-width: 150px;
 }
 .priceStyle > div {
-     text-align: center;
-     margin: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*flex-wrap: wrap;*/
 }
-.priceStyle > div > p {
+.priceStyle > div > span {
+    margin: 0 3px;
+    min-width: 40px;
+    text-align: center;
+}
+.priceStyle > div.callout {
     color: #f00;
 }
