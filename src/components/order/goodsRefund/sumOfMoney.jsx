@@ -2,6 +2,7 @@ import React from 'react';
 import { Input } from 'antd';
 import PropTypes from 'prop-types';
 import style from './style.css';
+import { change } from './action';
 
 const priceTypes = data => (
   <p key={data.key || data.name}>{`${data.name} : $${data.us}`} <span>{`${data.currency ? ` , ${data.currency}` : ''}`}</span></p>
@@ -13,7 +14,10 @@ const lan = {
   用户退款已溢出: '用户退款已溢出',
   待退金额: '待退金额',
 };
-const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
+const SumOfMoney = (props) => {
+  const { dataSource: { orderPriceInfo } } = props;
+  console.log(props);
+  const { showtotalAmount, showtotalCurrency, rate, dispatch } = props;
   const {
     totalPrice: {
       priceUsd: { amount: totalPrice },
@@ -223,9 +227,56 @@ const SumOfMoney = ({ dataSource: { orderPriceInfo } }) => {
             refundPrice.map(v => priceTypes(v))
           }
         <div>
-          <Input style={{ width: 100 }} />
-          <span>*</span>
-          <Input style={{ width: 100 }} />
+          <Input
+            style={{ width: 100 }}
+            value={
+              (function () {
+                if (showtotalAmount === '') {
+                  return '';
+                }
+                return showtotalAmount;
+              }())
+            }
+            onChange={(e) => {
+              const val = e.target.value;
+              if (val !== '' && (isNaN(+e.target.value) || isNaN(+Number(e.target.value * rate).toFixed(2)))) {
+                return null;
+              }
+              const rex = /\d+[.]\d{3}/g;
+              if (rex.test(val)) {
+                return null;
+              }
+              dispatch(change('showtotalAmount', e.target.value));
+              dispatch(change('showtotalCurrency', +Number(e.target.value * rate).toFixed(2)));
+            }
+            }
+
+          />
+          <span>*{rate}=</span>
+          <Input
+            style={{ width: 100 }}
+            value={
+              (function () {
+                if (showtotalCurrency === '') {
+                  return '';
+                }
+                return showtotalCurrency;
+              }())
+            }
+            onChange={(e) => {
+              const val = e.target.value;
+              if (isNaN(+e.target.value) || isNaN(+Number(e.target.value * rate).toFixed(2))) {
+                return null;
+              }
+              const rex = /\d+[.]\d{3}/g;
+              if (rex.test(val)) {
+                return null;
+              }
+              dispatch(change('showtotalCurrency', e.target.value));
+              dispatch(change('showtotalAmount', +Number(e.target.value / rate).toFixed(2)));
+            }
+            }
+          />
         </div>
       </div>
       <span className={style.descWidth}>{lan.溢出金额}:</span>

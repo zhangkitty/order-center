@@ -7,11 +7,11 @@ import { under2Camal } from '../../../lib/camal';
 
 
 const defaultState = {
+  showtotalAmount: null,
+  showtotalCurrency: null,
   ready: false,
   dataSource: {},
   reasons: [],
-  dataSource: {
-  },
   reasonId: null,
   remark: '',
   fetchType: [],
@@ -30,7 +30,6 @@ const defaultState = {
   rate: null,
   hasShippingInsurancePriceRefunded: 0, // 运费险是否已经退过
   hasShippingPriceRefunded: 0, // 运费是否已经退过
-  isUsd: null,
   submitValue: {
     orderId: null,
     goodsIds: [],
@@ -459,6 +458,8 @@ const reducer = (state = defaultState, action) => {
         account: orderRefundUnderlineAccount.accountInfo,
       }));
       return assign({}, state, {
+        showtotalAmount: totalAmount,
+        showtotalCurrency: totalCurrency,
         maxTips,
         dataSource: action.data,
         refundPaths,
