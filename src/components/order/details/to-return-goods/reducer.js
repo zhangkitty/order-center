@@ -65,6 +65,8 @@ export default (state = defaultState, action) => {
               goods_id,
               img_thumb: [],
               reason_ids: [],
+              exchanged: 0,
+              exchange_remark: '',
             }
           )),
           refund_path: action.data.refund_path.find(v => Number(v.id) === 1) ? action.data.refund_path.find(v => Number(v.id) === 1).id : '',
