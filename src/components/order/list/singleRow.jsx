@@ -9,7 +9,7 @@ import {
   change, remarkShow, openModal, searchHistory,
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange, commit,
-  getOrderRewardPointInfo, remarkSave, changeArray, getPaymentComplain, initExchange
+  getOrderRewardPointInfo, remarkSave, changeArray, getPaymentComplain, initExchange,
 } from './action';
 
 import Styles from './style.css';
@@ -348,7 +348,14 @@ const SingleRow = (props) => {
             title: '价格',
             dataIndex: 'price',
             width: '10%',
-            render: (d, res) => (<div style={{ textAlign: 'center' }}> ${d} <p style={{ color: '#f00' }}>(${res.coupon_price})</p></div>),
+            render: (d, res) => (
+              <div className={Styles.priceStyle}>
+                <div>${d} <p>($ {res.coupon_price})</p></div>
+                <div>
+                  {res.currency_code} {res.currency_price}
+                  <p>({res.currency_code} {res.currency_avg_price})</p>
+                </div>
+              </div>),
           }, {
             title: '退款单状态',
             dataIndex: 'refund_bill_status',
