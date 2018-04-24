@@ -28,7 +28,7 @@ export default class Order extends Component {
   render() {
     const setProps = {
       name: 'file',
-      action: 'index_new.php/Order/OrderUpload/orderUpload',
+      action: '/index_new.php/Order/OrderUpload/orderUpload',
       headers: {
         authorization: 'authorization-text',
       },
