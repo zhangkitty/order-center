@@ -26,6 +26,8 @@ const lan = {
   vat_fee: __('order.entry.payment_19'),
   tariff_fee: __('order.entry.payment_20'),
   taxpayer_type: __('order.entry.payment_21'),
+  汇率名称: '汇率名称',
+  汇率值: '汇率值',
 };
 const Payment = (
   {
@@ -34,7 +36,7 @@ const Payment = (
       pay_way, discount_total_price, wallet, favor_coupon, favor_discount,
       options, pay_voucher, insurance_fee, tran_fee, points, gift_discount,
       pay_total_price, log,
-      vat_fee, tariff_fee, taxpayer_type,
+      vat_fee, tariff_fee, taxpayer_type, currency_code, currency_value,
     } },
     profit,
     profitShow,
@@ -60,6 +62,9 @@ const Payment = (
     { name: lan.yunfei, value: tran_fee },
     { name: lan.jifen, value: points },
     { name: lan.lipinka, value: gift_discount },
+    { name: lan.汇率名称, value: currency_code },
+    { name: lan.汇率值, value: currency_value },
+
   ];
   return (
     <div className={style.contentPadding}>
