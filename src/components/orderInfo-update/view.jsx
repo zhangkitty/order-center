@@ -16,7 +16,7 @@ export default class Order extends Component {
   };
 
   componentDidMount() {
-    fetch('index_new.php/OrderUpload/getOrderUploadList', { method: 'get' })
+    fetch('/OrderUpload/getOrderUploadList', { method: 'get' })
         .then((res) => {
           this.setState({
             value: res.data,
@@ -28,7 +28,7 @@ export default class Order extends Component {
   render() {
     const setProps = {
       name: 'file',
-      action: '/Order/OrderUpload/getOrderUploadList',
+      action: 'index_new.php/Order/OrderUpload/orderUpload',
       headers: {
         authorization: 'authorization-text',
       },
@@ -37,17 +37,16 @@ export default class Order extends Component {
       },
       beforeUpload: () => {
         if (!this.state.type) {
-          message.warn('请先选择站点');
+          message.warn('请先选择上传类型');
           return false;
         }
         return true;
       },
-      // onChange(info) {
-      //   if (info.file.status === 'done') {
-      //     const blob = new Blob([info.file.response], { type: 'application/vnd.ms-excel' });
-      //     saveAs(blob, `下载${info.file.name}`);
-      //   }
-      // },
+      onChange(info) {
+        if (info.fileList[0].response.code === 0) {
+          message.success(info.fileList[0].response.msg);
+        }
+      },
     };
     return (
       <div>
