@@ -19,8 +19,8 @@ class OrderInfoUpdate extends Component {
     const {
       SelectValue,
       uploadType,
-        selectValueReady,
-        dispatch,
+      selectValueReady,
+      dispatch,
     } = this.props;
     return (
       selectValueReady ? <div>
@@ -43,14 +43,17 @@ class OrderInfoUpdate extends Component {
           <span>{lan.上传订单xls}</span>
           <Upload
             name="file"
-            action="//jsonplaceholder.typicode.com/posts/"
+            action="Order/OrderUpload/orderUpload"
+            data={{ type: '批量送积分' }}
             beforeUpload={(file, fileList) => {
-              debugger;
               console.log(file);
-              console.log(fileList);
-              return false;
+              return true;
             }}
-            onChange={info => console.log(info)}
+            onChange={(info) => {
+              if (info.file.status === 'done') {
+                console.log(123);
+              }
+            }}
           >
             <Button>
               <Icon type="upload" /> xls文件上传
