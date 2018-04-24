@@ -7,12 +7,6 @@ import fetch from '../../lib/fetch';
 const { Option } = Select;
 const reqImg = require.context('./image');
 
-const siteList = [
-  // { id: '-1', value: '请选择' },
-  { id: '7', value: 'shein' },
-  { id: '9', value: 'romwe' },
-  { id: '10', value: 'makemechic' },
-];
 
 export default class Order extends Component {
   state = {
@@ -34,7 +28,7 @@ export default class Order extends Component {
   render() {
     const setProps = {
       name: 'file',
-      action: '/OrderUpload/getOrderUploadList',
+      action: '/Order/OrderUpload/getOrderUploadList',
       headers: {
         authorization: 'authorization-text',
       },
@@ -57,7 +51,7 @@ export default class Order extends Component {
     };
     return (
       <div>
-        <span className={style.span}><span style={{ color: 'red' }}>*</span>站点</span>
+        <span className={style.span}><span style={{ color: 'red' }}>*</span>上传类型</span>
         <Select
           placeholder="请选择站点"
           onChange={(e) => {
@@ -78,7 +72,7 @@ export default class Order extends Component {
         <div>
           <img src={reqImg('./upload.png')} className={style.img} alt="" />
           <div className={style.txt}>联盟订单匹配，仅支持.xls格式的自定义名称文件，文件大小需小于500k，</div>
-          <div className={style.txt}>文件第一栏填写“订单号”或“订单ID”</div>
+          <div className={style.txt}>xls文件中一次上传订单的数量最好不要超过1000</div>
         </div>
         <div className={style.upload}>
           <Upload {...setProps}>
