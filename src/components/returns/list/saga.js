@@ -35,7 +35,10 @@ function* searchSaga(action) {
 }
 
 function* exportSaga(action) {
-  const data = yield exportSubmit(action.data);
+  const temp = assign({}, action.data, {
+    shipping_method: action.data.LogisticsChannels,
+  });
+  const data = yield exportSubmit(temp);
   if (!data || data.code !== 0) {
     yield put(change('exportLoad', false));
     return message.error(`${__('returns.list.submitTitle3')}${data.msg}`);
