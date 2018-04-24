@@ -43,8 +43,9 @@ export const searchSubmit = (page) => {
 
 // 导出
 export const exportSubmit = (page) => {
+  debugger
   const keys = [
-    'return_order_id', 'order_no', 'email', 'tracking_no', 'good_sn', 'source_site', 'insurance_states', 'trouble_state',
+    'return_order_id', 'order_no', 'email', 'tracking_no', 'good_sn', 'source_site', 'insurance_states', 'trouble_state','shipping_method',
     'return_order_status', 'refund_status', 'shipping_status', 'order_type', 'receiver_country', 'return_label_type', 'warehouse',
     'member_level', 'payment', 'time_tag', 'start_time', 'end_time', 'sort_order'];
   return fetch(list.export, {
