@@ -431,14 +431,24 @@ const Packge = ({
         dataIndex: 'attr',
       },
       {
-        title: `${lan.sale}($)`,
+        title: `${lan.sale}`,
         dataIndex: 'sale_price',
-        render: d => <span>{d.amount_with_symbol}</span>,
+        render: (d, res) => (
+          <div>
+            <div>{d.amount_with_symbol}</div>
+            <div style={{ color: '#f00' }}>({res.currency_code}{res.currency_price})</div>
+          </div>
+        ),
       },
       {
-        title: `${lan.discount}($)`,
+        title: `${lan.discount}`,
         dataIndex: 'discount_price',
-        render: d => <span>{d.amount_with_symbol}</span>,
+        render: (d, res) => (
+          <div>
+            <div>{d.amount_with_symbol}</div>
+            <div style={{ color: '#f00' }}>({res.currency_code}{res.currency_avg_price})</div>
+          </div>
+        ),
       },
     ].filter(res => res);
   return (

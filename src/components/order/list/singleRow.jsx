@@ -350,10 +350,10 @@ const SingleRow = (props) => {
             width: '10%',
             render: (d, res) => (
               <div className={Styles.priceStyle}>
-                <div>${d} <p>($ {res.coupon_price})</p></div>
+                <div>${d} <p>(${res.coupon_price})</p></div>
                 <div>
-                  {res.currency_code} {res.currency_price}
-                  <p>({res.currency_code} {res.currency_avg_price})</p>
+                  {res.currency_code}{res.currency_price}
+                  <p>({res.currency_code}{res.currency_avg_price})</p>
                 </div>
               </div>),
           }, {
