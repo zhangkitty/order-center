@@ -446,7 +446,7 @@ const Packge = ({
         dataIndex: 'sale_price',
         render: (d, res) => (
           <div>
-            <div>${d.amount_with_symbol}</div>
+            <div>{d.amount_with_symbol}</div>
             <div style={{ color: '#f00' }}>({res.currency_code}{res.currency_price})</div>
           </div>
         ),
@@ -456,7 +456,7 @@ const Packge = ({
         dataIndex: 'discount_price',
         render: (d, res) => (
           <div>
-            <div>${d.amount_with_symbol}</div>
+            <div>{d.amount_with_symbol}</div>
             <div style={{ color: '#f00' }}>({res.currency_code}{res.currency_avg_price})</div>
           </div>
         ),
