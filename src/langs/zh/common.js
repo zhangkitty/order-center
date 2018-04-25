@@ -168,4 +168,5 @@ module.exports = {
   change_rl: '修改RL费用',
   not_RL: '未选择RL费用',
   stocking: '备货中',
+  exchange: '换货信息',
 };

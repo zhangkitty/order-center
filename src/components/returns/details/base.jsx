@@ -139,11 +139,14 @@ const Base = ({
           </div>
           <div className={styles.baseSpace}>
             {
-              returnsInfoData.returnOrderGoods.map(v => (
+              returnsInfoData.returnOrderGoods.filter(v => v.exchanged > 0).length > 0 &&
+              <span>{__('common.exchange')} :</span>
+            }
+            {
+              returnsInfoData.returnOrderGoods.filter(v => v.exchanged > 0).map(v => (
                 <div>{v.goodsSort} : {v.exchangeRemark}</div>
               ))
             }
-            {console.log(returnsInfoData.returnOrderGoods, 'returnsInfoData.returnOrderGoods')}
           </div>
           <div>
             {/* <Button icon="plus" onClick={()=>dispatch( */}
