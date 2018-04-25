@@ -238,6 +238,10 @@ const SumOfMoney = (props) => {
               }())
             }
             onChange={(e) => {
+              function decimal(num, v) {
+                const vv = Math.pow(10, v);
+                return Math.round(num * vv) / vv;
+              }
               const val = e.target.value;
               if (val !== '' && (isNaN(+e.target.value) || isNaN(+Number(e.target.value * rate).toFixed(2)))) {
                 return null;
@@ -247,7 +251,7 @@ const SumOfMoney = (props) => {
                 return null;
               }
               dispatch(change('showtotalAmount', e.target.value));
-              dispatch(change('showtotalCurrency', +Number(e.target.value * rate).toFixed(2)));
+              dispatch(change('showtotalCurrency', decimal(+Number(e.target.value * rate), 2)));
             }
             }
 
@@ -264,6 +268,10 @@ const SumOfMoney = (props) => {
               }())
             }
             onChange={(e) => {
+              function decimal(num, v) {
+                const vv = Math.pow(10, v);
+                return Math.round(num * vv) / vv;
+              }
               const val = e.target.value;
               if (isNaN(+e.target.value) || isNaN(+Number(e.target.value * rate).toFixed(2))) {
                 return null;
@@ -273,7 +281,7 @@ const SumOfMoney = (props) => {
                 return null;
               }
               dispatch(change('showtotalCurrency', e.target.value));
-              dispatch(change('showtotalAmount', +Number(e.target.value / rate).toFixed(2)));
+              dispatch(change('showtotalAmount', decimal(+Number(e.target.value / rate), 2)));
             }
             }
           />
