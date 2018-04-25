@@ -252,3 +252,16 @@ form .colSpace2{
     float: left;
     margin-right: 20px;
 }
+
+.priceStyle {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 150px;
+}
+.priceStyle > div {
+     text-align: center;
+     margin: 0 5px;
+}
+.priceStyle > div > p {
+    color: #f00;
+}
