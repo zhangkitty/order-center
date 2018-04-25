@@ -7,11 +7,11 @@ import { under2Camal } from '../../../lib/camal';
 
 
 const defaultState = {
+  showtotalAmount: null,
+  showtotalCurrency: null,
   ready: false,
   dataSource: {},
   reasons: [],
-  dataSource: {
-  },
   reasonId: null,
   remark: '',
   fetchType: [],
@@ -30,7 +30,6 @@ const defaultState = {
   rate: null,
   hasShippingInsurancePriceRefunded: 0, // 运费险是否已经退过
   hasShippingPriceRefunded: 0, // 运费是否已经退过
-  isUsd: null,
   submitValue: {
     orderId: null,
     goodsIds: [],
@@ -419,7 +418,6 @@ const reducer = (state = defaultState, action) => {
         3: orderPriceInfo.cardCanRefundPrice,
         4: orderPriceInfo.overflowCanRefundPrice,
       };
-      debugger;
       if (DefaultValue && isAllCancel) {
         // totalAmount = canRefund.priceUsd.amount + shippingAmount + insuranceAmount;
         // totalCurrency = canRefund.priceWithExchangeRate.amount + shippingCurrency + insuranceCurrency;
@@ -448,7 +446,6 @@ const reducer = (state = defaultState, action) => {
 
       let resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       let resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
-      debugger;
       let refundPaths = action.data.orderRefundPathList.map(v => assign({}, v, {
         checked: !!v.isShow,
         refundAmount: resultAmount[v.refundPathId],
@@ -461,6 +458,8 @@ const reducer = (state = defaultState, action) => {
         account: orderRefundUnderlineAccount.accountInfo,
       }));
       return assign({}, state, {
+        showtotalAmount: totalAmount,
+        showtotalCurrency: totalCurrency,
         maxTips,
         dataSource: action.data,
         refundPaths,
@@ -552,7 +551,6 @@ const reducer = (state = defaultState, action) => {
         }),
       });
     case TYPES.changeRlFee:
-      debugger;
       if (+isUsd === 0) {
         totalCurrency = totalCurrency + rlFeeCurrency - action.val;
         rlFeeCurrency = action.val;
