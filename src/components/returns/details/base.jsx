@@ -140,7 +140,7 @@ const Base = ({
           <div className={styles.baseSpace}>
             {
               returnsInfoData.returnOrderGoods.filter(v => v.exchanged > 0).length > 0 &&
-              <span>{__('common.exchange')} :</span>
+              <div style={{ marginBottom: 5 }}>{__('common.exchange')}:</div>
             }
             {
               returnsInfoData.returnOrderGoods.filter(v => v.exchanged > 0).map(v => (
