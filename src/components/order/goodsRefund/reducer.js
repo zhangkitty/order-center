@@ -459,7 +459,7 @@ const reducer = (state = defaultState, action) => {
       }));
       return assign({}, state, {
         showtotalAmount: totalAmount,
-        showtotalCurrency: totalCurrency,
+        showtotalCurrency: totalAmount * (+orderPriceInfo.totalPrice.priceWithExchangeRate.rate),
         maxTips,
         dataSource: action.data,
         refundPaths,
