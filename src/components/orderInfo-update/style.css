@@ -1,0 +1,20 @@
+:local(.span) {
+    margin-right:10px;
+}
+:local(.select) {
+    margin-right:10px;
+    width:130px;
+    height: 26px;
+}
+:local(.img) {
+    margin:120px auto 10px;
+    display: block;
+}
+:local(.txt){
+    font-size: 20px;
+    text-align: center;
+}
+:local(.upload){
+    margin-top:10px;
+    text-align: center;
+}
