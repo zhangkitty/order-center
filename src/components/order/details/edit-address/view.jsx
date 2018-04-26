@@ -153,6 +153,7 @@ class EditAddress extends Component {
                       value={state}
                       style={{ width: '25em' }}
                       showSearch
+                      mode={cities.length === 0 ? 'combobox' : null}
                       filterOption={(ip, { props }) => (
                         props.children.toLowerCase().startsWith(ip.toLowerCase())
                       )}
@@ -182,6 +183,7 @@ class EditAddress extends Component {
                     <Select
                       value={city}
                       style={{ width: '25em' }}
+                      mode={citySource.length === 0 ? 'combobox' : null}
                       showSearch
                       filterOption={(ip, { props }) => (
                         props.children.toLowerCase().startsWith(ip.toLowerCase())
