@@ -407,7 +407,6 @@ const Packge = ({
 
               {/* 换货 */}
               <span style={{ color: '#ff0000' }}>
-                {/* TODO  字段名 缺失 */}
                 {
                   replaceGoods(rec.is_replace, rec.replace_goods_sort) // res.goods_status
                 }
@@ -431,14 +430,36 @@ const Packge = ({
         dataIndex: 'attr',
       },
       {
-        title: `${lan.sale}($)`,
-        dataIndex: 'sale_price',
-        render: d => <span>{d.amount_with_symbol}</span>,
+        title: __('order.entry.price'),
+        dataIndex: 'mkc_retail_usd_price',
+        render: (d, res) => (
+          +res.is_show_mck === 0 ?
+            null
+            : <div>
+              <div>${d}</div>
+              <div style={{ color: '#f00' }}>({res.currency_code}{res.mkc_pay_price})</div>
+            </div>
+        ),
       },
       {
-        title: `${lan.discount}($)`,
+        title: `${lan.sale}`,
+        dataIndex: 'sale_price',
+        render: (d, res) => (
+          <div>
+            <div>{d.amount_with_symbol}</div>
+            <div style={{ color: '#f00' }}>({res.currency_code}{res.currency_price})</div>
+          </div>
+        ),
+      },
+      {
+        title: `${lan.discount}`,
         dataIndex: 'discount_price',
-        render: d => <span>{d.amount_with_symbol}</span>,
+        render: (d, res) => (
+          <div>
+            <div>{d.amount_with_symbol}</div>
+            <div style={{ color: '#f00' }}>({res.currency_code}{res.currency_avg_price})</div>
+          </div>
+        ),
       },
     ].filter(res => res);
   return (
