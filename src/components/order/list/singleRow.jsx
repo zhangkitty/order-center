@@ -372,8 +372,8 @@ const SingleRow = (props) => {
                   <Tooltip placement="left" title={__('order.entry.discount_price')}>
                     <Icon type="left-circle" />
                   </Tooltip>
-                  <span>(${res.coupon_price})</span>
-                  <span>({res.currency_code}{res.currency_avg_price})</span>
+                  <span>${res.coupon_price}</span>
+                  <span>{res.currency_code}{res.currency_avg_price}</span>
                 </div>
               </div>),
           }, {
