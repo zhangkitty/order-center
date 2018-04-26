@@ -261,10 +261,14 @@ const SumOfMoney = (props) => {
             style={{ width: 100 }}
             value={
               (function () {
+                function decimal(num, v) {
+                  const vv = Math.pow(10, v);
+                  return Math.round(num * vv) / vv;
+                }
                 if (showtotalCurrency === '') {
                   return '';
                 }
-                return showtotalCurrency;
+                return decimal(showtotalCurrency, 2);
               }())
             }
             onChange={(e) => {
