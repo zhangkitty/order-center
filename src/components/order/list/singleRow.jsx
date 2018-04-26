@@ -347,7 +347,7 @@ const SingleRow = (props) => {
           }, {
             title: '价格',
             dataIndex: 'price',
-            width: '12%',
+            width: '13%',
             render: (d, res) => (
               <div className={Styles.priceStyle}>
                 {
