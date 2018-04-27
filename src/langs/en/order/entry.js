@@ -62,6 +62,7 @@ module.exports = {
   image: 'Picture',
   sku: 'sku',
   code: 'Size',
+  price: 'Original Price',
   sale_price: 'Retail Price',
   discount_price: 'Discount Price',
   send_goods_channel: 'Shipping Method',

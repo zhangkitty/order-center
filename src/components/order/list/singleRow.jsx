@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin, Affix } from 'antd';
+import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin, Affix, Tooltip, Icon } from 'antd';
 import { Link } from 'react-router';
 import assign from 'object-assign';
 import { publish } from '../../../lib/Event';
@@ -347,19 +347,39 @@ const SingleRow = (props) => {
           }, {
             title: '价格',
             dataIndex: 'price',
-            width: '10%',
+            width: '13%',
             render: (d, res) => (
               <div className={Styles.priceStyle}>
-                <div>${d} <p>($ {res.coupon_price})</p></div>
+                {
+                  +res.is_show_mck === 0 ?
+                    null
+                    : <div>
+                      <Tooltip placement="left" title={__('order.entry.price')}>
+                        <Icon type="left-circle" />
+                      </Tooltip>
+                      <span>${res.mkc_retail_usd_price}</span>
+                      <span>{res.currency_code}{res.mkc_pay_price}</span>
+                    </div>
+                }
                 <div>
-                  {res.currency_code} {res.currency_price}
-                  <p>({res.currency_code} {res.currency_avg_price})</p>
+                  <Tooltip placement="left" title={__('order.entry.sale_price')}>
+                    <Icon type="left-circle" />
+                  </Tooltip>
+                  <span>${d}</span>
+                  <span>{res.currency_code}{res.currency_price}</span>
+                </div>
+                <div className={Styles.callout}>
+                  <Tooltip placement="left" title={__('order.entry.discount_price')}>
+                    <Icon type="left-circle" />
+                  </Tooltip>
+                  <span>${res.coupon_price}</span>
+                  <span>{res.currency_code}{res.currency_avg_price}</span>
                 </div>
               </div>),
           }, {
             title: '退款单状态',
             dataIndex: 'refund_bill_status',
-            width: '12%',
+            width: '10%',
             render: (d, res) => (
               <div style={{ textAlign: 'center' }}>
                 { // 非COD订单，显示商品对应的退款单状态名称
@@ -395,7 +415,7 @@ const SingleRow = (props) => {
             ),
           }, {
             title: '操作',
-            width: '18%',
+            width: '14%',
             render: rec => (
               <div className={Styles.buttonBorderBg} key={rec.order_goods_id}>
                 {/* 操作查询 */}

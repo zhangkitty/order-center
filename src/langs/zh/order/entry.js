@@ -62,6 +62,7 @@ module.exports = {
   image: '图片',
   sku: 'sku',
   code: '型号',
+  price: '原价',
   sale_price: '销售价',
   discount_price: '折后价',
   send_goods_channel: '发货渠道',
