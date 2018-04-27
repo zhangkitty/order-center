@@ -168,4 +168,5 @@ module.exports = {
   change_rl: 'change RL fee',
   not_RL: 'no RL fee selected',
   stocking: 'In Stock',
+  exchange: 'Exchange Info',
 };

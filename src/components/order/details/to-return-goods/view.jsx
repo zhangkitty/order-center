@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Spin, Table, Checkbox, Upload, Button, Radio, Select, Modal, message } from 'antd';
+import { Spin, Table, Checkbox, Upload, Button, Radio, Select, Modal, Input, message } from 'antd';
 import { commit, getInfo, batchChoose, infoCommit, save } from './action';
 import styles from './style.css';
 
@@ -59,7 +59,10 @@ class ToReturnGoods extends Component {
       ready, dataSource, paths, load, sucModal,
       shippingType, warehouse, submitValue, sucModalHtml, rlFee, spinloading, refundCurrency,
     } = this.props;
-    const { return_info, refund_path, return_shipping_type, return_warehouse } = submitValue;
+    const {
+      return_info, refund_path, return_shipping_type, return_warehouse,
+      // exchanged, exchange_remark,
+    } = submitValue;
     if (ready) {
       return (
         <form
@@ -75,6 +78,11 @@ class ToReturnGoods extends Component {
                 !return_info[i].img_thumb.length
               ) {
                 return message.warning(lan.needPic);
+              }
+              if (
+                return_info[i].exchanged === 1 && return_info[i].exchange_remark.trim().length < 1
+              ) {
+                return message.warning(__('order.entry.submit_title6'));
               }
             }
             if (!refund_path || !return_shipping_type || !return_warehouse) {
@@ -137,6 +145,43 @@ class ToReturnGoods extends Component {
                   </CG>
 
                 ),
+              },
+              {
+                title: __('order.entry.return_goods12'),
+                width: 150,
+                dataIndex: 'exchanged',
+                render: (d, rec) => (<span>
+                  <div>{Star}{__('order.entry.return_goods12')}</div>
+                  <RadioGroup
+                    value={return_info.find(v => v.goods_id === rec.goods_id).exchanged}
+                    onChange={e => dispatch(infoCommit('return_info', return_info.map(j => (
+                      j.goods_id === rec.goods_id ?
+                        assign({}, j, { exchanged: e.target.value })
+                        : j
+                    ))))}
+                    // onChange={e => dispatch(infoCommit('exchanged', e.target.value));}
+                  >
+                    <Radio value={1} key={1}>{__('order.entry.address_cancel_stock1')}</Radio>
+                    <Radio value={0} key={0}>{__('order.entry.address_cancel_stock2')}</Radio>
+                  </RadioGroup>
+                  {
+                    return_info.find(v => v.goods_id === rec.goods_id).exchanged !== 0 &&
+                    <div>
+                      <div style={{ marginTop: 10 }}>{Star}{__('order.entry.return_goods13')} </div>
+                      <Input
+                        placeholder={__('order.entry.submit_title6')}
+                        value={return_info.find(v => v.goods_id === rec.goods_id).exchange_remark}
+                        onChange={e => dispatch(infoCommit('return_info', return_info.map(j => (
+                          j.goods_id === rec.goods_id ?
+                            assign({}, j,
+                              { exchange_remark: e.target.value })
+                            : j
+                        ))))}
+                        // onChange={e => dispatch(infoCommit('exchange_remark', e.target.value))}
+                      />
+                    </div>
+                  }
+                </span>),
               },
               {
                 title: lan.num,
