@@ -16,6 +16,10 @@ const defaultState = {
 
   // SKU的值
   SKU: null,
+  // 订单类型
+  orderType: null,
+  // 是否cod
+  isCod: null,
   // 订单号
   billno: null,
   // 时间范围
