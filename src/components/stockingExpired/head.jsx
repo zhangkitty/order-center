@@ -27,9 +27,9 @@ const lan = {
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const Head = (props) => {
-  const { InitInfo: { site } } = props;
+  const { InitInfo: { site, isCod, status, isTrouble } } = props;
   const { InitInfo: { overStockDate } } = props;
-  const { chooseSite, chooseDays, dispatch, orderType, commodityStatus, isCod } = props;
+  const { chooseSite, chooseDays, dispatch, orderType, commodityStatus, is_cod } = props;
 
   return (<div style={{ marginLeft: 40, marginTop: 20, marginBottom: 20 }}>
     <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -72,24 +72,25 @@ const Head = (props) => {
       <Select
         style={{ flexBasis: 100 }}
         value={orderType}
+        allowClear
         onChange={value => dispatch(change('orderType', value))}
       >
-        <Option key={1}>
-          2
-        </Option>
+        {
+          isTrouble.map(v =>
+            <Option value={v.id}>{v.name}</Option>,
+          )
+        }
       </Select>
       <div style={{ marginLeft: 30, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.商品状态}:</div>
       <Select
         style={{ flexBasis: 100 }}
+        allowClear
         value={commodityStatus}
         onChange={value => dispatch(change('commodityStatus', value))}
       >
-        <Option key={1}>
-          1
-        </Option>
-        <Option key={2}>
-          2
-        </Option>
+        {
+          status.map(v => <Option value={v.id}>{v.name}</Option>)
+        }
       </Select>
     </div>
 
@@ -107,11 +108,15 @@ const Head = (props) => {
       <div style={{ marginLeft: 30, padding: '5px 10px 5px 0', textAlign: 'right' }}>{lan.是否COD}:</div>
       <Select
         style={{ flexBasis: 100 }}
-        value={isCod}
-        onChange={value => dispatch('isCod', value)}
+        value={is_cod}
+        allowClear
+        onChange={value => dispatch(change('is_cod', value))}
       >
-        <Option value={1}>是</Option>
-        <Option value={1}>是</Option>
+        {
+          isCod.map(v =>
+            <Option value={v.id}>{v.name}</Option>,
+          )
+        }
       </Select>
       <Button
         style={{ marginLeft: '10px' }}
