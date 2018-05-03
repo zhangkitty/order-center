@@ -7,10 +7,12 @@ import {
   changePageSer,
   addLogisticChannelSer,
   editSer,
+  delLogisticChannelSer,
+  modifyLogisticChannelSer,
 } from './server';
 import {
   change,
-  fetchEditDataSuccess
+  fetchEditDataSuccess, getListLogisticChannel,
 } from './action';
 
 export function* getListPlatFormSaga(action) {
@@ -45,6 +47,7 @@ export function* addLogisticChannelSaga(action) {
     return message.info(`${data.msg}`);
   }
   yield put(change('addShow', false));
+  return message.info(`${data.msg}`);
 }
 
 export function* editSaga(action) {
@@ -52,8 +55,31 @@ export function* editSaga(action) {
   if (data.code !== 0) {
     return message.info(`${data.msg}`);
   }
+  yield put(change('id', action.id));
   yield put(fetchEditDataSuccess(data.data));
   yield put(change('editShow', true));
+  return null;
+}
+
+export function* delLogisticChannelSaga(action) {
+  const data = yield delLogisticChannelSer(action);
+  if (data.code !== 0) {
+    return message.info(`${data.msg}`);
+  }
+  message.success(`${data.msg}`);
+  yield put(change('selectedRows', []));
+  yield put(getListLogisticChannel(action.props));
+  return null;
+}
+
+export function* modifyLogisticChannelSaga(action) {
+  const data = yield modifyLogisticChannelSer(action);
+  if (data.code !== 0) {
+    return message.info(`${data.msg}`);
+  }
+  message.success(`${data.msg}`);
+  yield put(change('editShow', false));
+  return null;
 }
 
 
@@ -63,4 +89,6 @@ export default function* () {
   yield takeLatest(types.changePage, changePageSaga);
   yield takeLatest(types.addLogisticChannel, addLogisticChannelSaga);
   yield takeLatest(types.edit, editSaga);
+  yield takeLatest(types.delLogisticChannel, delLogisticChannelSaga);
+  yield takeLatest(types.modifyLogisticChannel, modifyLogisticChannelSaga);
 }

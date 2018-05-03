@@ -38,7 +38,17 @@ export const addLogisticChannel = props => ({
   props,
 });
 
+export const modifyLogisticChannel = props => ({
+  type: types.modifyLogisticChannel,
+  props,
+});
+
 export const fetchEditDataSuccess = data => ({
   type: types.fetchEditDataSuccess,
   data,
+});
+
+export const delLogisticChannel = props => ({
+  type: types.delLogisticChannel,
+  props,
 });

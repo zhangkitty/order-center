@@ -55,8 +55,38 @@ export const addLogisticChannelSer=action=>{
   })
 }
 
+export const modifyLogisticChannelSer=action=>{
+  const keys = ['id','platform','support_custom','custom_channel','platform_channel','tracking_website']
+  const table = {
+    '是':1,
+    '否':0,
+  }
+  const temp = assign({},action.props,{
+    'id':action.props.id,
+    'platform':action.props.addChoosePlatForm,
+    'support_custom':table[action.props.addChooseIsCustomize],
+    'custom_channel':action.props.editLogistics1,
+    'platform_channel':action.props.editLogistics2,
+    'tracking_website':action.props.editTrackSite,
+  })
+  debugger
+  return fetch(`/FlatOrder/modifyLogisticChannel`,{
+    method:'post',
+    body:JSON.stringify(parseQuery(keys,temp))
+  })
+}
+
 export const editSer = action=>{
   return fetch(`/FlatOrder/findLogisticChannelById?id=${+action.id}`,{
+    method:'get'
+  })
+}
+
+export const delLogisticChannelSer = action=>{
+  const arr = action.props.selectedRows
+  const temp  = arr.map(v=>v.id)
+  debugger
+  return fetch(`/FlatOrder/delLogisticChannel?ids=${temp.join(",")}`,{
     method:'get'
   })
 }

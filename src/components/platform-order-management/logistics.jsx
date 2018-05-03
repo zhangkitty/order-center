@@ -1,7 +1,7 @@
 import React from 'react';
-import { Select, Input, Button, Table } from 'antd';
+import { Select, Input, Button, Table, Popover, message } from 'antd';
 import styles from './style.css';
-import { change, getListLogisticChannel, changePage, add, edit } from './action';
+import { change, getListLogisticChannel, changePage, add, edit, delLogisticChannel } from './action';
 import Page from '../publicComponent/pagination';
 import Add from './add';
 import Edit from './edit';
@@ -19,11 +19,6 @@ const lan = {
 
 
 const logistics = (props) => {
-  const rowSelection = {
-    getCheckboxProps: record => ({
-      disabled: false,
-    }),
-  };
   const Option = Select.Option;
   const {
     allPlatForm,
@@ -36,7 +31,15 @@ const logistics = (props) => {
     logistic_channel_list,
     totalItem,
     currentPage,
+    selectedRows,
+    popVisiable,
   } = props;
+  const rowSelection = {
+    type: 'checkbox',
+    onChange: (selectedRowKeys, selectedRows) => {
+      dispatch(change('selectedRows', selectedRows));
+    },
+  };
   const columns = [
     {
       title: '平台',
@@ -84,17 +87,14 @@ const logistics = (props) => {
       title: '操作',
       dataIndex: 'id',
       key: 'id',
-      render: (text, record) => {
-        console.log(1);
-        return (<Button
-          value={text}
-          size="small"
-          onClick={(e) => {
-            dispatch(edit(e.target.value, props));
-          }}
-        >编辑
-        </Button>);
-      },
+      render: (text, record) => (<Button
+        value={text}
+        size="small"
+        onClick={(e) => {
+          dispatch(edit(e.target.value, props));
+        }}
+      >编辑
+        </Button>),
     },
 
   ];
@@ -145,12 +145,37 @@ const logistics = (props) => {
 
 
       <section className={styles.threeButtons}>
-        <Button
-          className={styles.button}
-          size="small"
+        <Popover
+          visiable={popVisiable}
+          trigger="click"
+          content={
+            <div>
+              <span>是否确认删除</span>
+              <div className={styles.Popover}>
+                <Button
+                  size="small" style={{ marginLeft: 2 }}
+                  onClick={
+                    () => {
+                      if (selectedRows.length === 0) {
+                        return message.info('没有选择任何项');
+                      }
+                      return dispatch(delLogisticChannel(props));
+                    }
+                  }
+                >
+                是
+                </Button>
+              </div>
+            </div>
+          }
         >
-          {lan.删除}
-        </Button>
+          <Button
+            className={styles.button}
+            size="small"
+          >
+            {lan.删除}
+          </Button>
+        </Popover>
         <Button
           className={styles.button}
           size="small"

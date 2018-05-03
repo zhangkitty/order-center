@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Select, Input } from 'antd';
+import { Modal, Select, Input, message } from 'antd';
 import styles from './style.css';
 import { change, addLogisticChannel } from './action';
 
@@ -14,12 +14,17 @@ const add = (props) => {
     isCustomize,
     addChooseIsCustomize,
     addTrackSite,
+    addLogistics1,
+    addLogistics2,
   } = props;
   return (
     <Modal
       title="新增"
       visible={addShow}
       onOk={() => {
+        if (addLogistics1 === '' || addLogistics2 === '') {
+          return message.info('有内容没填');
+        }
         dispatch(addLogisticChannel(props));
       }}
       onCancel={() => {

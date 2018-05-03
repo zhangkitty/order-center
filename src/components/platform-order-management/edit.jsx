@@ -1,7 +1,7 @@
 import React from 'react';
-import { Modal, Select, Input } from 'antd';
+import { Modal, Select, Input, message } from 'antd';
 import styles from './style.css';
-import { change, addLogisticChannel } from './action';
+import { change, modifyLogisticChannel } from './action';
 
 const add = (props) => {
   const Option = Select.Option;
@@ -22,7 +22,10 @@ const add = (props) => {
       title="编辑"
       visible={editShow}
       onOk={() => {
-        dispatch(addLogisticChannel(props));
+        if (editLogistics1 === '' || editLogistics2 === '') {
+          return message.info('有内容没填');
+        }
+        dispatch(modifyLogisticChannel(props));
       }}
       onCancel={() => {
         dispatch(change('editShow', false));

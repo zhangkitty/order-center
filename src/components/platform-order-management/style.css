@@ -25,3 +25,9 @@
     display: flex;
 }
 
+.Popover{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 3px;
+}
+

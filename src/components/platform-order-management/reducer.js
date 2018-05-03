@@ -12,13 +12,13 @@ const defaultState = {
   addChooseIsCustomize: '否',
   editChooseIsCustomize: '否',
   // 自发物流渠道
-  Logistics1: null,
-  addLogistics1: null,
-  editLogistics1: null,
+  Logistics1: '',
+  addLogistics1: '',
+  editLogistics1: '',
   // 平台物流渠道
-  Logistics2: null,
-  addLogistics2: null,
-  editLogistics2: null,
+  Logistics2: '',
+  addLogistics2: '',
+  editLogistics2: '',
   // 追踪网址
   addTrackSite: '',
   editTrackSite: '',
@@ -29,6 +29,9 @@ const defaultState = {
   currentPage: 1,
   addShow: false,
   editShow: false,
+  selectedRows: [],
+  popVisiable: false,
+  id: null,
 };
 const reducer = (state = defaultState, action) => {
   switch (action.type) {

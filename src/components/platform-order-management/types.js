@@ -7,3 +7,5 @@ export const add = `${prefix}add`;
 export const edit = `${prefix}edit`;
 export const addLogisticChannel = `${prefix}addLogisticChannel`;
 export const fetchEditDataSuccess = `${prefix}fetchEditDataSuccess`;
+export const delLogisticChannel = `${prefix}delLogisticChannel`;
+export const modifyLogisticChannel = `${prefix}modifyLogisticChannel`;
