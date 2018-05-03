@@ -7,6 +7,9 @@ const defaultState = {
   InitInfo: {
     site: [],
     overStockDate: [],
+    isCod: [],
+    status: [],
+    isTrouble: [],
   },
 
   // 选中的site
@@ -16,6 +19,12 @@ const defaultState = {
 
   // SKU的值
   SKU: null,
+  // 订单类型
+  orderType: null,
+  // 是否cod
+  is_cod: null,
+  // 商品状态
+  commodityStatus: null,
   // 订单号
   billno: null,
   // 时间范围

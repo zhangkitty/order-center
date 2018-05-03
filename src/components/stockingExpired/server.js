@@ -18,6 +18,10 @@ export const getoverstocklistSer = (temp)=>{
     'over_date',
     'start_time',
     'end_time',
+    'status',
+    'is_cod',
+    'is_trouble',
+
   ];
   return fetch('/Order/getOverStockList',{
     method:'POST',

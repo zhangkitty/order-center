@@ -37,6 +37,12 @@ function* getOverStockListSaga(action) {
     over_date: val.chooseDays === '__ALL__' ? '' : val.chooseDays,
     start_time: moment(val.dataRange[0]).format('YYYY-MM-DD'),
     end_time: moment(val.dataRange[1]).format('YYYY-MM-DD'),
+    // 订单状态
+    status: val.commodityStatus,
+    // 是否cod
+    is_cod: val.is_cod,
+    // 订单类型
+    is_trouble: val.orderType,
   };
   const data = yield getoverstocklistSer(temp);
   yield put(change('tableLoading', false));
