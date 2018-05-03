@@ -58,5 +58,4 @@ Om.propTypes = {
   dataSource: PropTypes.arrayOf(PropTypes.shape()),
 };
 
-const mapStateToProps = state => state['order-management/list'];
-export default connect(mapStateToProps)(Om);
+export default Om;

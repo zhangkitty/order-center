@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Tabs } from 'antd';
 import Logistics from './logistics';
 import { getListPlatForm } from './action';
-
+import LogView from './logview';
 
 const lan = {
   日志下载: '日志下载',
@@ -19,11 +19,10 @@ class PlatformOrderManagement extends Component {
     const TabPane = Tabs.TabPane;
     return (
       <div>
-        <Tabs defaultActiveKey="2" >
+        <Tabs defaultActiveKey="1" >
           <TabPane tab={lan.日志下载} key="1">
-          Content of Tab Pane 1
-        </TabPane>
-
+            <LogView {...this.props} />
+          </TabPane>
           <TabPane tab={lan.物流渠道配置} key="2">
             <Logistics {...this.props} />
           </TabPane>
