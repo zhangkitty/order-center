@@ -33,11 +33,14 @@ const logistics = (props) => {
     currentPage,
     selectedRows,
     popVisiable,
+    selectedRowKeys,
   } = props;
   const rowSelection = {
     type: 'checkbox',
-    onChange: (selectedRowKeys, selectedRows) => {
-      dispatch(change('selectedRows', selectedRows));
+    selectedRowKeys,
+    onChange: (selectedRowKeys1, selectedRows1) => {
+      dispatch(change('selectedRows', selectedRows1));
+      dispatch(change('selectedRowKeys', selectedRowKeys1));
     },
   };
   const columns = [
@@ -109,7 +112,7 @@ const logistics = (props) => {
           value={choosePlatForm}
           onChange={value => dispatch(change('choosePlatForm', value))}
         >
-          <Option value="__ALL__">{lan.全部}</Option>
+          <Option value="">{lan.全部}</Option>
           {
             allPlatForm.map(v =>
               <Option value={v}>{v}</Option>,
@@ -122,7 +125,7 @@ const logistics = (props) => {
           value={chooseIsCustomize}
           onChange={value => dispatch(change('chooseIsCustomize', value))}
         >
-          <Option value="__ALL_">{lan.全部}</Option>
+          <Option value="">{lan.全部}</Option>
           {
             isCustomize.map(v =>
               <Option value={v}>{v}</Option>,

@@ -29,6 +29,7 @@ export function* getListLogisticChannelSaga(action) {
     return message.info(`${data.msg}`);
   }
   yield put(change('totalItem', data.data.total_count));
+  yield put(change('currentPage', 1));
   return yield put(change('logistic_channel_list', data.data.logistic_channel_list));
 }
 
@@ -38,6 +39,7 @@ export function* changePageSaga(action) {
     return message.info(`${data.msg}`);
   }
   yield put(change('currentPage', action.page));
+  yield put(change('page_size', action.pageSize));
   return yield put(change('logistic_channel_list', data.data.logistic_channel_list));
 }
 
@@ -47,6 +49,9 @@ export function* addLogisticChannelSaga(action) {
     return message.info(`${data.msg}`);
   }
   yield put(change('addShow', false));
+  yield put(change('addLogistics1', ''));
+  yield put(change('addLogistics2', ''));
+  yield put(change('addTrackSite', ''));
   return message.info(`${data.msg}`);
 }
 
@@ -68,6 +73,7 @@ export function* delLogisticChannelSaga(action) {
   }
   message.success(`${data.msg}`);
   yield put(change('selectedRows', []));
+  yield put(change('selectedRowKeys', []));
   yield put(getListLogisticChannel(action.props));
   return null;
 }

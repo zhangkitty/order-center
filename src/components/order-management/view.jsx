@@ -32,5 +32,5 @@ class PlatformOrderManagement extends Component {
   }
 }
 
-const mapStateToProps = state => state['platform-order-management'];
+const mapStateToProps = state => state['order-management'];
 export default connect(mapStateToProps)(PlatformOrderManagement);

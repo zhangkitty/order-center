@@ -9,3 +9,5 @@ export const addLogisticChannel = `${prefix}addLogisticChannel`;
 export const fetchEditDataSuccess = `${prefix}fetchEditDataSuccess`;
 export const delLogisticChannel = `${prefix}delLogisticChannel`;
 export const modifyLogisticChannel = `${prefix}modifyLogisticChannel`;
+export const CHNAGE_DATE = `${prefix}change_date`;
+

@@ -1,14 +1,22 @@
 import assign from 'object-assign';
 import * as types from './types';
+import moment from 'moment/moment';
+import * as TYPES from '../order-management/list/types';
 
 const defaultState = {
+  logDataSource: [{
+    id: 1,
+    name: 'Aliexpress',
+    load: false,
+    date: moment(Date.now()).format('YYYYMMDD'),
+  }],
   allPlatForm: [],
-  choosePlatForm: null,
+  choosePlatForm: '',
   addChoosePlatForm: 'Joom',
   editChoosePlatForm: 'Joom',
   // 是否自定义
   isCustomize: ['是', '否'],
-  chooseIsCustomize: null,
+  chooseIsCustomize: '',
   addChooseIsCustomize: '否',
   editChooseIsCustomize: '否',
   // 自发物流渠道
@@ -30,6 +38,7 @@ const defaultState = {
   addShow: false,
   editShow: false,
   selectedRows: [],
+  selectedRowKeys: [],
   popVisiable: false,
   id: null,
 };
@@ -55,6 +64,11 @@ const reducer = (state = defaultState, action) => {
         editLogistics1: temp.custom_channel,
         editLogistics2: temp.platform_channel,
         editTrackSite: temp.tracking_website,
+      });
+    case TYPES.CHNAGE_DATE:
+      return assign({}, state, {
+        logDataSource: state.logDataSource.map((v, i) => (i === +action.index ?
+            assign({}, v, { date: action.date }) : v)),
       });
     default:
       return state;

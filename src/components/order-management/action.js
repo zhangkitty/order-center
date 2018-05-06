@@ -1,4 +1,5 @@
 import * as types from './types';
+import * as TYPES from '../order-management/list/types';
 
 
 export const change = (key, value) => ({
@@ -52,3 +53,10 @@ export const delLogisticChannel = props => ({
   type: types.delLogisticChannel,
   props,
 });
+
+export const changeDate = (date, index) => ({
+  type: TYPES.CHNAGE_DATE,
+  date,
+  index,
+});
+

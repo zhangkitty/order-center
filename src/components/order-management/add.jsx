@@ -73,6 +73,7 @@ const add = (props) => {
         <div className={styles.divinline}>自发物流渠道</div>
         <Input
           className={styles.allPlatForm}
+          value={addLogistics1}
           onChange={e => dispatch(change('addLogistics1', e.target.value))}
         />
       </div>
@@ -82,6 +83,7 @@ const add = (props) => {
         <div className={styles.divinline}>平台物流渠道</div>
         <Input
           className={styles.allPlatForm}
+          value={addLogistics2}
           onChange={e => dispatch(change('addLogistics2', e.target.value))}
         />
       </div>
