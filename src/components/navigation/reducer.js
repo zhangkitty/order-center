@@ -133,6 +133,13 @@ const menus = [
         crumbName: __('nav.GrabOrder'),
         nav: true,
       },
+      {
+        link: '/bulk-processing-refund',
+        name: '批量处理退款',
+        crumbName: '批量处理退款',
+        nav: true,
+      },
+
     ],
   },
 ];
