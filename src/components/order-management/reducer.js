@@ -65,7 +65,7 @@ const reducer = (state = defaultState, action) => {
         editLogistics2: temp.platform_channel,
         editTrackSite: temp.tracking_website,
       });
-    case TYPES.CHNAGE_DATE:
+    case types.CHNAGE_DATE:
       return assign({}, state, {
         logDataSource: state.logDataSource.map((v, i) => (i === +action.index ?
             assign({}, v, { date: action.date }) : v)),
