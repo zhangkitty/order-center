@@ -6,9 +6,12 @@ import style from './style.css';
 const lan = {
   批量上传物流原因退款: '批量上传物流原因退款',
   批量上传投诉订单退款: '批量上传投诉订单退款',
+  下载样例: '下载样例',
 };
 export default class Order extends Component {
   state = {
+    value1: {},
+    value2: {},
   };
 
 
@@ -22,8 +25,16 @@ export default class Order extends Component {
       beforeUpload: () => {
       },
       onChange(info) {
-        if (info.fileList[0].response.code === 0) {
-          message.success(info.fileList[0].response.msg);
+        if (info.file.response !== undefined) {
+          if (info.file.response.code === 0) {
+            this.setState({
+              value1: info.file.response.data,
+              value2: this.state.value2,
+            });
+            message.success(info.file.response.msg);
+          } else {
+            message.error(info.file.response.msg);
+          }
         }
       },
     };
@@ -36,24 +47,75 @@ export default class Order extends Component {
       },
       beforeUpload: () => {
       },
-      onChange(info) {
-        if (info.fileList[0].response.code === 0) {
-          message.success(info.fileList[0].response.msg);
+      onChange: (info) => {
+        if (info.file.response !== undefined) {
+          if (info.file.response.code === 0) {
+            this.setState({
+              value1: this.state.value1,
+              value2: info.file.response.data,
+            });
+            message.success(info.file.response.msg);
+          } else {
+            message.error(info.file.response.msg);
+          }
         }
       },
     };
-
     return (
       <div className={style.all}>
         <div className={style.one}>
           <Upload {...setProps1}>
             <Button>{lan.批量上传物流原因退款}</Button>
           </Upload>
+          <a href="/Public/File/upload_excel/expresss_refund.xls" style={{ marginLeft: 10 }}>
+            {lan.下载样例}
+          </a>
         </div>
         <div className={style.two}>
           <Upload {...setProps2}>
             <Button>{lan.批量上传投诉订单退款}</Button>
+            <a href="/Public/File/upload_excel/expresss_refund.xls" style={{ marginLeft: 10 }}>
+              {lan.下载样例}
+            </a>
           </Upload>
+        </div>
+        <div>
+          {
+            (Array.isArray(this.state.value1.records) && Array.isArray(this.state.value1.errors)) ?
+              <div>
+                <div>{lan.批量上传物流原因退款}</div>
+                <div>
+                  {
+                    this.state.value1.records.map(v => <div>{v}</div>)
+                  }
+                </div>
+                <div>
+                  {
+                    this.state.value1.errors.map(v => <div>{v}</div>)
+                  }
+                </div>
+              </div>
+                : null
+          }
+        </div>
+        <div>
+          {
+            (Array.isArray(this.state.value2.records) && Array.isArray(this.state.value2.errors)) ?
+              <div>
+                <div>{lan.批量上传投诉订单退款}</div>
+                <div>
+                  {
+                    this.state.value1.records.map(v => <div>{v}</div>)
+                  }
+                </div>
+                <div>
+                  {
+                    this.state.value1.errors.map(v => <div>{v}</div>)
+                  }
+                </div>
+              </div>
+                : null
+          }
         </div>
       </div>
     );

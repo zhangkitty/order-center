@@ -26,4 +26,9 @@
 
 .one{
     margin-bottom: 20px;
+    display: flex;
+}
+
+.two{
+    display: flex;
 }
