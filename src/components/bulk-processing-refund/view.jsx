@@ -79,10 +79,10 @@ export default class Order extends Component {
             </a>
           </Upload>
         </div>
-        <div>
+        <div >
           {
             (Array.isArray(this.state.value1.records) && Array.isArray(this.state.value1.errors)) ?
-              <div>
+              <div className={style.reason1}>
                 <div>{lan.批量上传物流原因退款}</div>
                 <div>
                   {
@@ -101,16 +101,16 @@ export default class Order extends Component {
         <div>
           {
             (Array.isArray(this.state.value2.records) && Array.isArray(this.state.value2.errors)) ?
-              <div>
+              <div className={style.reason2}>
                 <div>{lan.批量上传投诉订单退款}</div>
                 <div>
                   {
-                    this.state.value1.records.map(v => <div>{v}</div>)
+                    this.state.value2.records.map(v => <div>{v}</div>)
                   }
                 </div>
                 <div>
                   {
-                    this.state.value1.errors.map(v => <div>{v}</div>)
+                    this.state.value2.errors.map(v => <div>{v}</div>)
                   }
                 </div>
               </div>

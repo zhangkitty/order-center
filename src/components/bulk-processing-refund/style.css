@@ -32,3 +32,14 @@
 .two{
     display: flex;
 }
+
+
+.reason1{
+    border: 1px solid black;
+    width: 500px;
+}
+.reason2{
+    border: 1px solid black;
+    width:500px;
+
+}
