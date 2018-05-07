@@ -1,5 +1,4 @@
 import * as types from './types';
-import * as TYPES from '../order-management/list/types';
 
 
 export const change = (key, value) => ({
