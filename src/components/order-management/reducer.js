@@ -1,7 +1,7 @@
 import assign from 'object-assign';
+import moment from 'moment';
+
 import * as types from './types';
-import moment from 'moment/moment';
-import * as TYPES from '../order-management/list/types';
 
 const defaultState = {
   logDataSource: [{
