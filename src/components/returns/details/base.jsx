@@ -76,11 +76,12 @@ const Base = ({
                 }
                 {(function (key) {
                   if (key === 'refundStatus') {
-                    if (returnsInfoData[key] === 0) {
-                      return <span>{lan.未退款}</span>;
-        // return <span>{lan.未退款}<Link target="_blank" to={`order/details/entry/${returnsInfoData.orderId}/${returnsInfoData.orderNo}`}>{lan.去退款}</Link></span>;
-                    }
-                    return <span>{lan.已退款}</span>;
+                    return <span>{['未退款', '已退款', '待退款'][returnsInfoData[key]]}</span>;
+        //             if (returnsInfoData[key] === 0) {
+        //               return <span>{lan.未退款}</span>;
+        // // return <span>{lan.未退款}<Link target="_blank" to={`order/details/entry/${returnsInfoData.orderId}/${returnsInfoData.orderNo}`}>{lan.去退款}</Link></span>;
+        //             }
+        //             return <span>{lan.已退款}</span>;
                   }
                   if (key === 'refundPath') {
                     return <span style={{ color: 'red' }}>{returnsInfoData[key].toString()}</span>;
