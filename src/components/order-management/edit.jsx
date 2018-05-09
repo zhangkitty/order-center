@@ -56,7 +56,9 @@ const add = (props) => {
         <Select
           className={styles.allPlatForm}
           value={editChooseIsCustomize}
-          onChange={value => dispatch(change('editChooseIsCustomize', value))}
+          onChange={value =>
+            dispatch(change('editChooseIsCustomize', value))
+          }
           disabled={editChoosePlatForm === 'Joom' || editChoosePlatForm === 'Amazon'}
         >
           {

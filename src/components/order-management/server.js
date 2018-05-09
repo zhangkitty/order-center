@@ -75,9 +75,8 @@ export const modifyLogisticChannelSer=action=>{
     'support_custom':table[action.props.editChooseIsCustomize],
     'custom_channel':action.props.editLogistics1,
     'platform_channel':action.props.editLogistics2,
-    'tracking_website':action.props.editTrackSite,
+    'tracking_website':table[action.props.editChooseIsCustomize]?action.props.editTrackSite:null,
   })
-  debugger
   return fetch(`/FlatOrder/modifyLogisticChannel`,{
     method:'post',
     body:JSON.stringify(parseQuery(keys,temp))

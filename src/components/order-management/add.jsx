@@ -29,6 +29,10 @@ const add = (props) => {
       }}
       onCancel={() => {
         dispatch(change('addShow', false));
+        dispatch(change('addChoosePlatForm', 'Joom'));
+        dispatch(change('addChooseIsCustomize', '否'));
+        dispatch(change('addLogistics1', ''));
+        dispatch(change('addLogistics2', ''));
       }}
 
     >
