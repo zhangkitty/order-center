@@ -65,7 +65,7 @@ class TabsHeader extends Component {
     const {
       refund_bill_id, billno, email, add_user, handle_user, trouble_type,
       refund_bill_type, refund_bill_status, refund_path_id, refund_path_status, site_from, apply_start_time, apply_end_time,
-      country_id, member_level, refund_start_time, refund_end_time, refund_method, payment_start_time, payment_end_time,
+      country_id, member_level, refund_start_time, refund_end_time, refund_method, payment_start_time, payment_end_time, trouble_mark, auto_refund,
     } = queryString;
 
     const exportSubmit = () => { // param
@@ -473,7 +473,14 @@ class TabsHeader extends Component {
           <div className={styles.ButtonBg}>
             {/* 全部 */}
             <Button
-              style={(refund_bill_status == null && trouble_type !== 6) ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              style={
+                (
+                    refund_bill_status === null &&
+                 trouble_type === null &&
+                 auto_refund === null &&
+                 trouble_mark === null
+                )
+                    ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
               onClick={() => {
                 if (
                   moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
