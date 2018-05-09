@@ -488,6 +488,8 @@ class TabsHeader extends Component {
                     pageNumber: 1,
                     refund_bill_status: null,
                     trouble_type: null,
+                    auto_refund: null,
+                    trouble_mark: null,
                   })));
               }}
             >
@@ -510,6 +512,8 @@ class TabsHeader extends Component {
                     pageNumber: 1,
                     refund_bill_status: '1',
                     trouble_type: null,
+                    auto_refund: null,
+                    trouble_mark: null,
                   })));
               }}
             >
@@ -532,6 +536,8 @@ class TabsHeader extends Component {
                     pageNumber: 1,
                     refund_bill_status: '4',
                     trouble_type: null,
+                    auto_refund: null,
+                    trouble_mark: null,
                   })));
               }}
             >
@@ -551,7 +557,10 @@ class TabsHeader extends Component {
                       queryString,
                   {
                     pageNumber: 1,
+                    refund_bill_status: null,
+                    trouble_type: null,
                     auto_refund: 1,
+                    trouble_mark: null,
                   })));
               }}
             >
@@ -572,8 +581,10 @@ class TabsHeader extends Component {
                       queryString,
                   {
                     pageNumber: 1,
-                    trouble_type: 6,
                     refund_bill_status: null,
+                    trouble_type: 6,
+                    auto_refund: null,
+                    trouble_mark: null,
                   })));
               }}
             >
@@ -593,8 +604,10 @@ class TabsHeader extends Component {
                       queryString,
                   {
                     pageNumber: 1,
-                    trouble_mark: 1,
                     refund_bill_status: null,
+                    trouble_type: null,
+                    auto_refund: null,
+                    trouble_mark: 1,
                   })));
               }}
             >
