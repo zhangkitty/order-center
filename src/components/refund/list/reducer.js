@@ -69,7 +69,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.SEARCH:
       return assign({}, state, {
-        queryString: action.data,
+        // queryString: action.data,
         searchLoad: true,
       });
     case TYPES.SEARCH_FAIL:
@@ -97,6 +97,8 @@ const reducer = (state = defaultState, action) => {
         waitTotal: action.data.data.wait_refund_bill_number, // 等待退款单数
         rejectTotal: action.data.data.reject_refund_bill_number, // 驳回退款单数
         complain_refund_bill_number: action.data.data.complain_refund_bill_number,
+        trouble_refund_bill_number: action.data.data.trouble_refund_bill_number,
+        underline_refund_bill_number: action.data.data.underline_refund_bill_number,
         searchLoad: false,
       });
     case TYPES.INIT_COUNTRY:
