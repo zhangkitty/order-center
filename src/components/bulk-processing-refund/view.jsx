@@ -75,7 +75,7 @@ export default class Order extends Component {
           <Upload {...setProps2}>
             <Button>{lan.批量上传投诉订单退款}</Button>
           </Upload>
-          <a href="/Public/File/upload_excel/upload_refund_records.xls" style={{ marginLeft: 10 }}>
+          <a href="/Public/File/upload_excel/complain_refund.xls" style={{ marginLeft: 10 }}>
             {lan.下载样例}
           </a>
         </div>
