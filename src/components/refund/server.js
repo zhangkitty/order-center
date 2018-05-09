@@ -113,3 +113,15 @@ export const canceltherefundbillSer=(refund_bill_id,reasonRecord)=>(
     })
   })
 )
+
+export const markTroubleBillSer = action =>{
+  return fetch(`/OrderRefund/markTroubleBill`,{
+    method:'post',
+    body:JSON.stringify(
+        {
+          refund_bill_id:+action.refund_bill_id,
+          action:action.action,
+        }
+    )
+  })
+}

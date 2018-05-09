@@ -26,4 +26,6 @@ export const DO_REFUND_PASS = `${prefix}do_refund_pass`;
 export const CHANGE_ORDER = `${prefix}change_order`;
 export const CANCELTHEREFUNDBILL = `${prefix}cancelTheRefundBill`;
 export const CANCELTHEREFUNDBILLSUCCESS = `${prefix}cancelTheRefundBill_success`;
+export const MARKTROUBLEBILL = `${prefix}marktroublebill`;
+export const MARKTROUBLEBILLSUCCESS = `${prefix}marktroublebillsuccess`;
 

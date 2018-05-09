@@ -69,7 +69,7 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.SEARCH:
       return assign({}, state, {
-        // queryString: action.data,
+        queryString: action.data,
         searchLoad: true,
       });
     case TYPES.SEARCH_FAIL:

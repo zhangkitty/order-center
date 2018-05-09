@@ -552,6 +552,7 @@ class TabsHeader extends Component {
             </Button>
             {/* 线下打款 */}
             <Button
+              style={+auto_refund === 1 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
               onClick={() => {
                 if (
                       moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
@@ -599,6 +600,7 @@ class TabsHeader extends Component {
             </Button>
             {/* 问题件 */}
             <Button
+              style={+trouble_mark === 1 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
               onClick={() => {
                 if (
                       moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()

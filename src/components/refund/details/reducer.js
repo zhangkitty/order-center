@@ -179,6 +179,8 @@ export default (state = defaultState, action) => {
       return assign({}, state, {
         [action.key]: action.value,
       });
+    case TYPES.MARKTROUBLEBILLSUCCESS:
+      return _.merge({}, state, { dataSource: { refund_detail: { trouble_mark: !state.dataSource.refund_detail.trouble_mark } } });
     case TYPES.CANCELTHEREFUNDBILLSUCCESS:
       return _.merge({}, state, { dataSource: { refund_detail: { refund_status: lan.取消退款 } } }, { cancelTheRefundBill: { show: false } }, { cancelTheRefundBill: { load: false } });
     default:
