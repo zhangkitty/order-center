@@ -1,3 +1,4 @@
+import assign from 'object-assign';
 import { takeLatest, put } from 'redux-saga/effects';
 import { message } from 'antd';
 import * as types from './types';
@@ -52,6 +53,12 @@ export function* addLogisticChannelSaga(action) {
   yield put(change('addLogistics1', ''));
   yield put(change('addLogistics2', ''));
   yield put(change('addTrackSite', ''));
+  yield put(change('Logistics1', ''));
+  yield put(change('Logistics2', ''));
+  yield put(getListLogisticChannel(assign({}, action.props, {
+    Logistics1: '',
+    Logistics2: '',
+  })));
   return message.info(`${data.msg}`);
 }
 
@@ -61,8 +68,8 @@ export function* editSaga(action) {
     return message.info(`${data.msg}`);
   }
   yield put(change('id', action.id));
-  yield put(fetchEditDataSuccess(data.data));
   yield put(change('editShow', true));
+  yield put(fetchEditDataSuccess(data.data));
   return null;
 }
 
@@ -85,6 +92,7 @@ export function* modifyLogisticChannelSaga(action) {
   }
   message.success(`${data.msg}`);
   yield put(change('editShow', false));
+  yield put(getListLogisticChannel(action.props));
   return null;
 }
 
