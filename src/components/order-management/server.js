@@ -71,8 +71,8 @@ export const modifyLogisticChannelSer=action=>{
   }
   const temp = assign({},action.props,{
     'id':action.props.id,
-    'platform':action.props.addChoosePlatForm,
-    'support_custom':table[action.props.addChooseIsCustomize],
+    'platform':action.props.editChoosePlatForm,
+    'support_custom':table[action.props.editChooseIsCustomize],
     'custom_channel':action.props.editLogistics1,
     'platform_channel':action.props.editLogistics2,
     'tracking_website':action.props.editTrackSite,
