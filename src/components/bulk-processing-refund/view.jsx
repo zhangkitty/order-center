@@ -24,7 +24,7 @@ export default class Order extends Component {
       },
       beforeUpload: () => {
       },
-      onChange(info) {
+      onChange: (info) => {
         if (info.file.response !== undefined) {
           if (info.file.response.code === 0) {
             this.setState({
@@ -79,7 +79,7 @@ export default class Order extends Component {
             </a>
           </Upload>
         </div>
-        <div >
+        <div style={{ marginTop: 20 }}>
           {
             (Array.isArray(this.state.value1.records) && Array.isArray(this.state.value1.errors)) ?
               <div className={style.reason1}>
