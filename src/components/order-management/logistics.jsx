@@ -78,8 +78,8 @@ const logistics = (props) => {
     },
     {
       title: '配置时间',
-      dataIndex: 'add_time',
-      key: 'add_time',
+      dataIndex: 'last_update_time',
+      key: 'last_update_time',
     },
     {
       title: '配置人',
