@@ -71,7 +71,7 @@ class TabsHeader extends Component {
     const {
       dispatch, fetchCountry, fetchSite, fetchPayment, fetchTrouble, dataSource, batchChooseOrder,
       queryString, searchLoad, partDeliveryBase,
-      queryString2, fetchMemberLevel, fetchOrderStatus, fetchCancelReason, fetchGoodsStatus,
+      queryString2, fetchMemberLevel, fetchOrderStatus, fetchCancelReason, fetchGoodsStatus, fetchCurrency_code,
     } = this.props;
     const {
       billno, orderId, shippingNo, referenceNumber, telephone, email, paytimeStart, paytimeEnd,
@@ -516,6 +516,7 @@ class TabsHeader extends Component {
                     <span className={styles.filterName}>{__('order.name.order_status')}</span>
                     <Select
                       allowClear
+                      mode="multiple"
                       className={styles.colSpace}
                       value={orderStatus}
                       onChange={val => dispatch(commit2('orderStatus', val))}
@@ -526,6 +527,29 @@ class TabsHeader extends Component {
                         ))
                       }
                     </Select>
+                  </div>
+                  {/* 支付币种 */}
+                  <div className={styles.rowSpaceList}>
+                    <span className={styles.filterName}>支付币种</span>
+                    {
+                      console.log(fetchCurrency_code, 'sb')
+                    }
+                    <Select
+                      showSearch
+                      allowClear
+                      className={styles.colSpace}
+                      onChange={value => console.log(value)}
+                    >
+                      {
+                        fetchCurrency_code.map(val =>
+                            (<Option
+                              value={val.id}
+                            >
+                              {val.name}
+                            </Option>))
+                      }
+                    </Select>
+
                   </div>
                   {/* 取消类型 */}
                   {
@@ -557,6 +581,7 @@ class TabsHeader extends Component {
                     <span className={styles.filterName}>{__('order.name.goods_status')}</span>
                     <Select
                       allowClear
+                      mode="multiple"
                       className={styles.colSpace}
                       value={goodsStatus}
                       onChange={(val) => {
@@ -736,5 +761,6 @@ TabsHeader.propTypes = {
   fetchOrderStatus: PropTypes.arrayOf(PropTypes.shape()),   // 订单状态 - 高
   fetchCancelReason: PropTypes.arrayOf(PropTypes.shape()),   // 取消类型 - 高
   fetchGoodsStatus: PropTypes.arrayOf(PropTypes.shape()),   // 商品状态 - 高
+  fetchCurrency_code: PropTypes.arrayOf(PropTypes.shape()),
 };
 export default TabsHeader;
