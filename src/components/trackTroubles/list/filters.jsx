@@ -217,8 +217,7 @@ const Filters = ({
           >
             {__('returns.list.download')}
           </a>
-          <br /><br />
-          <p>{__('common.upload_logist')}</p>
+          <br />
           <Upload
             name={'file'}
             action="/index_new.php/Order/OrderLogisticsTroubles/logisticsTroublesUpload"
@@ -231,12 +230,12 @@ const Filters = ({
               return true;
             }}
             onChange={(info) => {
+              console.log(info, 'info');
+              console.log(info.file.response.info, 'info.file.response.info');
               if (info.file.status === 'done') {
                 if (info.file.response.code !== 0) {
                   message.error(info.file.response.msg, 10);
                 } else {
-                  console.log(info.file, 'info.file');
-                  console.log(info.file.response.info, 'info.file.response.info');
                   message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
                   dispatch(commit('tracking_update', info.file.response.msg));
                 }
@@ -246,8 +245,10 @@ const Filters = ({
             }}
           >
             <Button type="primary" className={style.upload}>
-              <Icon type="upload" />{__('returns.list.update')}
+              <Icon type="upload" />{__('common.upload_logist')}
+              {/* {__('returns.list.update')} */}
             </Button>
+            <p style={{ marginTop: 10 }}>（xls格式，文件中一次上传订单数量最好不要超过1000，xls文件大小最好不要超过500k。）</p>
           </Upload>
           <br /><br />
           {/* 更新运单号返回信息 */}
