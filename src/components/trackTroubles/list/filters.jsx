@@ -230,12 +230,11 @@ const Filters = ({
               return true;
             }}
             onChange={(info) => {
-              console.log(info, 'info');
-              console.log(info.file.response.info, 'info.file.response.info');
               if (info.file.status === 'done') {
                 if (info.file.response.code !== 0) {
                   message.error(info.file.response.msg, 10);
                 } else {
+                  // console.log(info, 'info');
                   message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
                   dispatch(commit('tracking_update', info.file.response.msg));
                 }
