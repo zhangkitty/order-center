@@ -58,3 +58,26 @@
 .tipAll {
     padding-right: 10px;
 }
+
+/*   */
+.downloadCon {
+    width: 30%;
+    min-width: 400px;
+    padding: 20px 0;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 13px;
+    color: #000;
+}
+.downloadCon span {
+    /*display: inline;*/
+}
+.upload {
+    margin-top: 15px;
+}
+.uploadName {
+    margin-bottom: 10px;
+}
+.uploadName > span {
+    margin-right: 10px;
+}
