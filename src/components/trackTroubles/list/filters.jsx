@@ -201,7 +201,7 @@ const Filters = ({
       >
         <div className={style.downloadCon}>
           <div className={style.uploadName} style={{ marginBottom: 10 }}>
-            <span>包裹号已存在问题:</span>
+            <span>{__('common.upload_name')}</span>
             <Group
               value={is_ignore}
               onChange={e => dispatch(commit('is_ignore', e.target.value))}
@@ -218,14 +218,14 @@ const Filters = ({
             {__('returns.list.download')}
           </a>
           <br /><br />
-          <p>{__('returns.list.tracking_update')}</p>
+          <p>{__('common.upload_logist')}</p>
           <Upload
             name={'file'}
             action="/index_new.php/Order/OrderLogisticsTroubles/logisticsTroublesUpload"
             data={{ is_ignore, flag: 'add' }}
             beforeUpload={() => {
               if (is_ignore.length < 1) {
-                message.warn('请先选择包裹号已存在问题');
+                message.warn(__('common.please_choose'));
                 return false;
               }
               return true;

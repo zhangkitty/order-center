@@ -169,4 +169,7 @@ module.exports = {
   not_RL: 'no RL fee selected',
   stocking: 'In Stock',
   exchange: 'Exchange Info',
+  upload_name: '包裹号已存在问题',
+  upload_logist: '上传物流问题',
+  please_choose: '请先选择包裹号已存在问题',
 };
