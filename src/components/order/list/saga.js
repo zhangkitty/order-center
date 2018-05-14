@@ -59,6 +59,7 @@ function* searchSaga(action) {
 }
 
 function* searchHighSaga(action) {
+  debugger;
   const {
     goodsSn, count, totalInput, goodsId,
   } = action.data;
@@ -67,6 +68,9 @@ function* searchHighSaga(action) {
     count: count ? encodeURIComponent(count.trim()) : null,
     totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
     goodsId: goodsId ? encodeURIComponent(goodsId.trim()) : null,
+    goodsStatus: action.data.goodsStatus.join(','),
+    orderStatus: action.data.orderStatus.join(','),
+    currency_code: action.data.Currency_code,
   }));
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle1')} ${data.msg}`);

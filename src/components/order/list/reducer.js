@@ -68,6 +68,7 @@ const defaultState = {
     goodsStatus: [],  // 商品状态  -选中订单状态，显示 商品状态
     handleTimeStart: null,   // 商品状态更新时间
     handleTimeEnd: null,          // 商品状态更新时间
+    Currency_code: null,
   },
   queryString3: {   // 历史订单
     pageSize: 10,

@@ -88,7 +88,7 @@ class TabsHeader extends Component {
       totalInput2,
       goodsId2,
       goodsSn, yoho_count, memberLevel, orderStatus,
-      cancelReason, goodsStatus, handleTimeStart, handleTimeEnd,
+      cancelReason, goodsStatus, handleTimeStart, handleTimeEnd, Currency_code,
     } = queryString2;
     return (
       <Collapse defaultActiveKey={['1']}>
@@ -537,8 +537,12 @@ class TabsHeader extends Component {
                     <Select
                       showSearch
                       allowClear
+                      value={Currency_code}
                       className={styles.colSpace}
-                      onChange={value => console.log(value)}
+                      filterOption={
+                        (input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                      onChange={value => dispatch(commit2('Currency_code', value))}
                     >
                       {
                         fetchCurrency_code.map(val =>
