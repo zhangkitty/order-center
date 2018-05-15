@@ -1,7 +1,7 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import * as TYPES from './types';
-import { getoverstocksearchconditionsSer, getoverstocklistSer } from './server';
+import { getoverstocksearchconditionsSer, getoverstocklistSer, batchRefundSer, updateSer } from './server';
 import { change } from './action';
 import moment from 'moment';
 
@@ -54,7 +54,29 @@ function* getOverStockListSaga(action) {
   return null;
 }
 
+function* batchRefundSaga(action) {
+  if (action.value.refundReason === null) {
+    return message.info('退款原因必填');
+  }
+  if (action.value.choose_order_goods.length === 0) {
+    return message.info('商品没有选');
+  }
+  const data = yield batchRefundSer(action);
+  if (!data || data.code !== 0) {
+    return message.error(`${data.msg}`);
+  }
+  yield put(change('batchRefundModalShow', false));
+  return null;
+}
+
+
+function* updateSaga(action) {
+  const data = yield updateSer(action);
+}
+
 export default function* () {
   yield takeLatest(TYPES.GETOVERSTOCKSEARCHCONDITIONS, getOverStockSearchConditionsSaga);
   yield takeLatest(TYPES.GETOVERSTOCKLIST, getOverStockListSaga);
+  yield takeLatest(TYPES.BATCHREFUND, batchRefundSaga);
+  yield takeLatest(TYPES.UPDATE, updateSaga);
 }

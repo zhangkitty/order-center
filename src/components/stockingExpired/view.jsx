@@ -94,10 +94,26 @@ class StockingExpired extends React.Component {
       key: 'returnTime',
     }];
     const { TableData, total, dispatch, pageNumber, tableLoading } = this.props;
+    const rowSelection = {
+      type: 'checkbox',
+      onChange: (selectedRowKeys, selectedRows) => {
+        const temp = [];
+        selectedRows.map(v => temp.push(v.orderGoodsId));
+        dispatch(change('choose_order_goods', temp));
+      },
+    };
     return (
       <div>
         <Head {...this.props} />
-        <Table style={{ margin: '10px 20px' }} bordered columns={columns} dataSource={TableData} pagination={false} loading={tableLoading} />
+        <Table
+          style={{ margin: '10px 20px' }}
+          bordered
+          columns={columns}
+          dataSource={TableData}
+          pagination={false}
+          loading={tableLoading}
+          rowSelection={rowSelection}
+        />
         <Pagination
           style={style}
           showSizeChanger

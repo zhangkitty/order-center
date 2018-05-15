@@ -1,0 +1,12 @@
+.refundReason{
+    display: flex;
+}
+
+.left{
+    flex-basis: 100px;
+    margin-right: 10px;
+}
+
+.foot{
+    margin-top: 20px;
+}
