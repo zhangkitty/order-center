@@ -110,3 +110,13 @@ export const cancelTheRefundBillAction = (refund_bill_id, reasonRecord) => ({
 export const cancelTheRefundBillSuccessAction = () => ({
   type: TYPES.CANCELTHEREFUNDBILLSUCCESS,
 });
+
+export const markTroubleBill = (refund_bill_id, action) => ({
+  type: TYPES.MARKTROUBLEBILL,
+  refund_bill_id,
+  action,
+});
+
+export const markTroubleBillSuccess = () => ({
+  type: TYPES.MARKTROUBLEBILLSUCCESS,
+});

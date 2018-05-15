@@ -7,6 +7,7 @@ import {
   getInfo,
   getInfoSuccess,
   remarkInfoSuccess,
+  markTroubleBillSuccess,
   refundFail,
   refundSucess,
   doRefundFail,
@@ -24,6 +25,7 @@ import {
   doRefundPassSer,
   changeOrderSer,
   canceltherefundbillSer,
+  markTroubleBillSer,
 } from '../server';
 
 const lan = {
@@ -130,6 +132,15 @@ function* canceltherefundbillSaga(action) {
   return yield put(getInfo(action.refund_bill_id, sessionStorage.getItem('details-bn')));
 }
 
+function* markTroubleBillSaga(action) {
+  const data = yield markTroubleBillSer(action);
+  if (!data || data.code !== 0) {
+    return message.error(`${lan.ofail}:${data.msg}`);
+  }
+  // yield put(change('dataSource'))
+  return yield put(markTroubleBillSuccess());
+}
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.REMARK_INFO, remarkInfoSaga);
@@ -141,4 +152,5 @@ export default function* () {
   yield takeLatest(TYPES.DO_REFUND_PASS, doRefundPassSaga);
   yield takeLatest(TYPES.CHANGE_ORDER, changeOrderSaga);
   yield takeLatest(TYPES.CANCELTHEREFUNDBILL, canceltherefundbillSaga);
+  yield takeLatest(TYPES.MARKTROUBLEBILL, markTroubleBillSaga);
 }
