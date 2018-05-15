@@ -88,8 +88,15 @@ const reducer = (state = defaultState, action) => {
         dataSource: under2Camal(action.res),
         refundTypeList: under2Camal(action.res).refundTypeList, // 退款路径列表
         refundAccountTypeList: under2Camal(action.res).refundAccountTypeList, // 退款方式列表
-        canWithdrawAmount: under2Camal(action.res).walletExtractable.priceWithExchangeRate.amount, // 钱包可提现金额（下单币种）
-        notWithdrawAmount: under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount, // 钱包不提现（下单币种）
+        canWithdrawAmount:
+            under2Camal(action.res).isUsd === 0 ?
+                under2Camal(action.res).walletExtractable.priceWithExchangeRate.amount
+                : under2Camal(action.res).walletExtractable.priceUsd.amount,
+                // 钱包可提现金额（下单币种）
+        notWithdrawAmount:
+            under2Camal(action.res).isUsd === 0 ?
+        under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount
+        : under2Camal(action.res).walletNotExtractable.priceUsd.amount, // 钱包不提现（下单币种）
         submitValue: assign({}, state.submitValue, {
           refundAmount: max3 < max4 ? max3 : max4, // 美元金额
           refundCurrency: max1 < max2 ? max1 : max2, // 金额（下单币种）

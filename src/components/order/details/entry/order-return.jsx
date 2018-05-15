@@ -110,7 +110,7 @@ class OrderReturn extends Component {
             <Button onClick={() => this.props.dispatch(uploadTrackShow(this.props.orderId, rec.return_order_id))} style={{ margin: '5px' }}>
               {lan.sahngchuan}
             </Button>
-            {(rec.return_label_type === 'RL' && rec.return_refund_status === '未退款') ?
+            {(rec.return_label_type === 'RL' && (rec.return_refund_status === '未退款' || rec.return_refund_status === 'No refund')) ?
               <Button
                 onClick={() => this.props.dispatch(showRLModal(rec.currency_code, rec.return_order_id))}
               >{lan.changeRL}</Button> : null}
