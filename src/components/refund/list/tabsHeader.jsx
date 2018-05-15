@@ -59,13 +59,13 @@ class TabsHeader extends Component {
     const {
       dispatch, queryString, searchLoad, waitTotal, rejectTotal, total, complain_refund_bill_number,
       refund_update_err, refund_update,
-      fetchType, fetchStatus, fetchPath, fetchPathStatus, fetchSite,
-      fetchCountry, fetchMember, fetchRefund,
+      fetchType, fetchStatus, fetchPath, fetchPathStatus, fetchSite, underline_refund_bill_number,
+      fetchCountry, fetchMember, fetchRefund, trouble_refund_bill_number,
     } = this.props;
     const {
       refund_bill_id, billno, email, add_user, handle_user, trouble_type,
       refund_bill_type, refund_bill_status, refund_path_id, refund_path_status, site_from, apply_start_time, apply_end_time,
-      country_id, member_level, refund_start_time, refund_end_time, refund_method, payment_start_time, payment_end_time,
+      country_id, member_level, refund_start_time, refund_end_time, refund_method, payment_start_time, payment_end_time, trouble_mark, auto_refund,
     } = queryString;
 
     const exportSubmit = () => { // param
@@ -469,11 +469,18 @@ class TabsHeader extends Component {
 
         {/* 按钮 */}
         {
-          !!total &&
+          // !!total &&
           <div className={styles.ButtonBg}>
             {/* 全部 */}
             <Button
-              style={(refund_bill_status == null && trouble_type !== 6) ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              style={
+                (
+                    refund_bill_status === null &&
+                 trouble_type === null &&
+                 auto_refund === null &&
+                 trouble_mark === null
+                )
+                    ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
               onClick={() => {
                 if (
                   moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
@@ -488,6 +495,8 @@ class TabsHeader extends Component {
                     pageNumber: 1,
                     refund_bill_status: null,
                     trouble_type: null,
+                    auto_refund: null,
+                    trouble_mark: null,
                   })));
               }}
             >
@@ -510,6 +519,8 @@ class TabsHeader extends Component {
                     pageNumber: 1,
                     refund_bill_status: '1',
                     trouble_type: null,
+                    auto_refund: null,
+                    trouble_mark: null,
                   })));
               }}
             >
@@ -532,10 +543,36 @@ class TabsHeader extends Component {
                     pageNumber: 1,
                     refund_bill_status: '4',
                     trouble_type: null,
+                    auto_refund: null,
+                    trouble_mark: null,
                   })));
               }}
             >
               {__('refund.list.submitName4')}({rejectTotal})
+            </Button>
+            {/* 线下打款 */}
+            <Button
+              style={+auto_refund === 1 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              onClick={() => {
+                if (
+                      moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
+                      ||
+                      moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
+                  ) {
+                  return message.warning(__('refund.list.submitTitle'));
+                }
+                return dispatch(search(assign({},
+                      queryString,
+                  {
+                    pageNumber: 1,
+                    refund_bill_status: null,
+                    trouble_type: null,
+                    auto_refund: 1,
+                    trouble_mark: null,
+                  })));
+              }}
+            >
+              线下打款({underline_refund_bill_number})
             </Button>
             {/* 投诉订单 */}
             <Button
@@ -552,12 +589,38 @@ class TabsHeader extends Component {
                       queryString,
                   {
                     pageNumber: 1,
-                    trouble_type: 6,
                     refund_bill_status: null,
+                    trouble_type: 6,
+                    auto_refund: null,
+                    trouble_mark: null,
                   })));
               }}
             >
               {lan.投诉订单}({complain_refund_bill_number})
+            </Button>
+            {/* 问题件 */}
+            <Button
+              style={+trouble_mark === 1 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              onClick={() => {
+                if (
+                      moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
+                      ||
+                      moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
+                  ) {
+                  return message.warning(__('refund.list.submitTitle'));
+                }
+                return dispatch(search(assign({},
+                      queryString,
+                  {
+                    pageNumber: 1,
+                    refund_bill_status: null,
+                    trouble_type: null,
+                    auto_refund: null,
+                    trouble_mark: 1,
+                  })));
+              }}
+            >
+              问题件({trouble_refund_bill_number})
             </Button>
           </div>
         }
