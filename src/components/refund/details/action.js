@@ -120,3 +120,8 @@ export const markTroubleBill = (refund_bill_id, action) => ({
 export const markTroubleBillSuccess = () => ({
   type: TYPES.MARKTROUBLEBILLSUCCESS,
 });
+
+export const remark = order_id => ({
+  type: TYPES.REMARK,
+  order_id,
+});

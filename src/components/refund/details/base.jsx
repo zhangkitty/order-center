@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Popconfirm, Popover } from 'antd';
 import assign from 'object-assign';
 import styles from './style.css';
-import { remarkInfoShow, commit, doRefundPass, markTroubleBill } from './action';
+import { remarkInfoShow, commit, doRefundPass, markTroubleBill, remark } from './action';
 
 const language = {
   退款编号: __('refund.details.base_refund_code'),
@@ -199,6 +199,21 @@ const Base = ({
             loading={remarkInfo.load}
             onClick={() => dispatch(remarkInfoShow(refundBillId, remarkInfo))}
           >{language.查看备注信息}</Button>
+
+          <Popover
+            content={
+              <div>
+
+              </div>
+            }
+            trigger="click"
+          >
+            <Button
+              onClick={() => dispatch(remark(refund_detail.order_id))}
+            >
+            备注
+          </Button>
+          </Popover>
           {
             refund_detail.refund_status_code === '4' && refund_detail.apply_user_name === '用户'
             && refund_detail.refund_type_code === '3'

@@ -531,9 +531,6 @@ class TabsHeader extends Component {
                   {/* 支付币种 */}
                   <div className={styles.rowSpaceList}>
                     <span className={styles.filterName}>支付币种</span>
-                    {
-                      console.log(fetchCurrency_code, 'sb')
-                    }
                     <Select
                       showSearch
                       allowClear

@@ -6,6 +6,7 @@ const lan = {
 };
 
 const defaultState = {
+  logInfo: null,
   ready: false,
   refundBillId: '',
   dataSource: {},

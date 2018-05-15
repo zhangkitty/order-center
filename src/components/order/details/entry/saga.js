@@ -269,7 +269,6 @@ function* getefundbBillistbyorderidSaga(action) {
 }
 // 物流问题反馈备注保存
 function* questionRemarkSaga(action) {
-  console.log(action.numbers);
   const data = yield questionRemarkSer(action.types, action.note, action.numbers);
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle12')}${data.msg}`);
