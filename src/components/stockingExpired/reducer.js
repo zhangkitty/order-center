@@ -42,6 +42,7 @@ const defaultState = {
   refundReason: null,
   // 选中的order_goods
   choose_order_goods: null,
+  selectedRowKeys: null,
 
 };
 

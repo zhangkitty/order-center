@@ -2,7 +2,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import * as TYPES from './types';
 import { getoverstocksearchconditionsSer, getoverstocklistSer, batchRefundSer, updateSer } from './server';
-import { change } from './action';
+import { change, getOverStockList } from './action';
 import moment from 'moment';
 
 
@@ -20,6 +20,7 @@ function* getOverStockSearchConditionsSaga() {
 }
 
 function* getOverStockListSaga(action) {
+  yield put(change('selectedRowKeys', null));
   const val = action.val;
   if (!Array.isArray(val.dataRange)) {
     return message.info(lan.时间必填);
@@ -71,7 +72,15 @@ function* batchRefundSaga(action) {
 
 
 function* updateSaga(action) {
+  if (action.value.choose_order_goods.length === 0) {
+    return message.info('商品没有选');
+  }
   const data = yield updateSer(action);
+  if (!data || data.code !== 0) {
+    return message.error(`${data.msg}`);
+  }
+  yield put(getOverStockList(action.value));
+  return null;
 }
 
 export default function* () {
