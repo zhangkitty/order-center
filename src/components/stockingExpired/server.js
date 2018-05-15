@@ -43,7 +43,7 @@ export const batchRefundSer = action=>{
 export const updateSer = action=>{
   const temp = {
     order_goods: action.value.choose_order_goods,
-    "status": 28,
+    "status": 11,
   }
   return fetch(`/StockOut/update`,{
     method:'post',
