@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Popconfirm } from 'antd';
+import { Button, Popconfirm, Popover } from 'antd';
 import assign from 'object-assign';
 import styles from './style.css';
-import { remarkInfoShow, commit, doRefundPass } from './action';
+import { remarkInfoShow, commit, doRefundPass, markTroubleBill } from './action';
 
 const language = {
   退款编号: __('refund.details.base_refund_code'),
@@ -87,6 +87,7 @@ const Base = ({
       { name: language.申请时间, key: 'apply_time' },
       { name: language.申请人, key: 'apply_user_name' },
       { name: language.退款单状态, key: 'refund_status' },
+      { name: '是否问题件', key: 'trouble_mark' },
     ],
   };
 
@@ -176,7 +177,20 @@ const Base = ({
             info.right.map(v => (
               <div key={v.key} >
                 <span className={styles.spanWidthL}>{ v.name }: </span>
-                <span>{refund_detail[v.key]}</span>
+                <span>
+                  {
+                    v.key !== 'trouble_mark' && refund_detail[v.key]
+                  }
+                  {
+                    v.key === 'trouble_mark' &&
+                        (function (temp) {
+                          if (temp) {
+                            return <span style={{ color: 'red' }}>是</span>;
+                          }
+                          return <span>否</span>;
+                        }(refund_detail[v.key]))
+                  }
+                </span>
               </div>
             ))
           }
@@ -196,8 +210,72 @@ const Base = ({
               : null
           }
         </div>
-        <div>
-          <Button icon="plus" onClick={() => dispatch(commit('addRemarkInfo', assign({}, addRemarkInfo, { reamrkShow: true, remark: '' })))}>{language.新增备注}</Button>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Button
+            icon="plus"
+            onClick={() => dispatch(commit('addRemarkInfo', assign({}, addRemarkInfo, { reamrkShow: true, remark: '' })))}
+          >
+            {language.新增备注}
+          </Button
+
+          >
+          {
+            !refund_detail.trouble_mark && <Popover
+              trigger="click"
+              content={
+                <div>
+                  <div>
+                    <h3 style={{ color: '#008dff' }}>标记为问题件</h3>
+                  </div>
+                  <div style={{ marginLeft: 40 }}>
+                    <Button
+                      style={{ marginLeft: 5 }} size="small"
+                      onClick={() => dispatch(markTroubleBill(refund_detail.refund_bill_id, 1))}
+                    >
+                        标记
+                      </Button>
+                  </div>
+                </div>
+                }
+            >
+              <Button
+                style={{ marginTop: 10 }}
+              >
+                问题件
+              </Button>
+            </Popover>
+          }
+
+
+          {
+            refund_detail.trouble_mark && <Popover
+              trigger="click"
+              content={
+                <div>
+                  <div>
+                    <h3 style={{ color: '#008dff' }}>取消标记</h3>
+                  </div>
+                  <div style={{ marginLeft: 40 }}>
+                    <Button
+                      style={{ marginLeft: 5 }}
+                      size="small"
+                      onClick={() => dispatch(markTroubleBill(refund_detail.refund_bill_id, 0))}
+                    >
+                        取消标记
+                      </Button>
+                  </div>
+                </div>
+                }
+            >
+              <Button
+                style={{ marginTop: 10 }}
+              >
+                取消问题件
+              </Button>
+            </Popover>
+
+          }
+
         </div>
       </div>
       <div>
