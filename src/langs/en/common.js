@@ -172,4 +172,7 @@ module.exports = {
   upload_name: '包裹号已存在问题',
   upload_logist: '上传物流问题',
   please_choose: '请先选择包裹号已存在问题',
+  ignore1: '忽略',
+  ignore2: '新增',
+  track_upload_name: '（xls格式，文件中一次上传订单数量最好不要超过1000，xls文件大小最好不要超过500k。）',
 };

@@ -206,8 +206,8 @@ const Filters = ({
               value={is_ignore}
               onChange={e => dispatch(commit('is_ignore', e.target.value))}
             >
-              <Radio value={0}>{__('common.orderTrouble4')}</Radio>
-              <Radio value={1}>{__('common.orderTrouble5')}</Radio>
+              <Radio value={0}>{__('common.ignore1')}</Radio>
+              <Radio value={1}>{__('common.ignore2')}</Radio>
             </Group>
           </div>
           <a
@@ -247,7 +247,7 @@ const Filters = ({
               <Icon type="upload" />{__('common.upload_logist')}
               {/* {__('returns.list.update')} */}
             </Button>
-            <p style={{ marginTop: 10 }}>（xls格式，文件中一次上传订单数量最好不要超过1000，xls文件大小最好不要超过500k。）</p>
+            <p style={{ marginTop: 10 }}>{__('common.track_upload_name')}</p>
           </Upload>
           <br /><br />
           {/* 更新运单号返回信息 */}
