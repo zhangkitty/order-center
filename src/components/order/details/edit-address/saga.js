@@ -44,6 +44,7 @@ function* saveSaga(action) {
   }
   yield put(commit('load', false));
   message.success(lan.osucess);
+  localStorage.setItem('defaultKey', 1);
   return hashHistory.push(`order/details/entry/${action.data.order_id}/${action.billno}`);
 }
 
