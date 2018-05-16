@@ -15,16 +15,20 @@ const lan = {
 export default props => (
   <div className={styles.contentPadding}>
     <Collapse
+      onChange={(e) => {
+        if (e.length < 1) {
+          return localStorage.removeItem('defaultKey');
+        }
+        return false;
+      }}
       style={{ marginBottom: 20 }}
-      // defaultActiveKey={['1']}
+      defaultActiveKey={localStorage.getItem('defaultKey') ? localStorage.getItem('defaultKey') : ['0']}
     >
       <Panel header={lan.基本信息} key="1">
         <Base {...props} />
         <Address {...props} />
       </Panel>
-
     </Collapse>
-
     <Package {...props} />
   </div>
 );
