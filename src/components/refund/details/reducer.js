@@ -6,6 +6,7 @@ const lan = {
 };
 
 const defaultState = {
+  newRemark: null,
   logInfo: null,
   ready: false,
   refundBillId: '',

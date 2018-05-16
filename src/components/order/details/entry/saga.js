@@ -37,6 +37,7 @@ import {
   questionRemarkSer,
   showRLModalServer,
   changeRlSerer,
+  newRemarkSaveSer,
 } from '../server';
 
 const lan = {
@@ -301,6 +302,8 @@ function* changeRlSaga(action) {
   }
   return message.error(`${lan.ofail}:${result.msg}`);
 }
+
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);

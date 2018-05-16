@@ -125,3 +125,9 @@ export const remark = order_id => ({
   type: TYPES.REMARK,
   order_id,
 });
+
+export const remarkSave = (order_id, info) => ({
+  type: TYPES.REMARKSAVE,
+  order_id,
+  info,
+});

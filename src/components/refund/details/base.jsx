@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Popconfirm, Popover } from 'antd';
+import { Button, Popconfirm, Popover, Table, Input, message } from 'antd';
 import assign from 'object-assign';
 import styles from './style.css';
-import { remarkInfoShow, commit, doRefundPass, markTroubleBill, remark } from './action';
+import { remarkInfoShow, commit, doRefundPass, markTroubleBill, remark, remarkSave } from './action';
 
 const language = {
   退款编号: __('refund.details.base_refund_code'),
@@ -50,6 +50,8 @@ const Base = ({
                 addRemarkInfo,
                 cancelTheRefundBill,
                 rejectInfo,
+                logInfo,
+                newRemark,
 }) => {
   const {
     card_payment_price, wallet_payment_price, gift_card_payment_price,
@@ -203,7 +205,61 @@ const Base = ({
           <Popover
             content={
               <div>
-
+                <Table
+                  dataSource={logInfo}
+                  columns={[
+                    {
+                      title: '操作人',
+                      dataIndex: 'user_name',
+                      width: '80px',
+                    },
+                    {
+                      title: '时间',
+                      dataIndex: 'add_time',
+                      width: '150px',
+                    },
+                    {
+                      title: '备注',
+                      dataIndex: 'remark',
+                    }]
+                  }
+                  size="small"
+                  pagination={false}
+                  style={{ width: '500px', maxHeight: '400px', overflow: 'auto' }}
+                />
+                <div style={{ margin: '30px 50px 15px' }}>
+                  <div>
+                    <div style={{ textAlign: 'left' }}>
+                      {__('common.order_operation6')}
+                    </div>
+                    <Input.TextArea
+                      style={{ margin: '10px auto' }}
+                      rows={3}
+                      value={newRemark}
+                      onChange={
+                        e => dispatch(commit('newRemark', e.target.value))
+                      }
+                      // onChange={e => dispatch(commit('remarkModal', assign({}, remarkModal, { remark: e.target.value })))}
+                    />
+                  </div>
+                  <Button
+                    key="submit"
+                    type="primary"
+                    onClick={() => {
+                      // if (remarkModal.remark.trim().length === 0) {
+                      //   return message.warning(__('common.order_operation9'));
+                      // }
+                      // return dispatch(remarkSave(orderId, remarkModal.remark));
+                      if (newRemark.trim().length === 0) {
+                        return message.warning('没有备注信息');
+                      }
+                      return dispatch(remarkSave(refund_detail.order_id, newRemark));
+                    }}
+                    // style={btnStyle}
+                  >
+                    保存
+                  </Button>
+                </div>
               </div>
             }
             trigger="click"

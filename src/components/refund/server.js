@@ -134,3 +134,14 @@ export const remarkSer = action=>{
       }
       )
 }
+
+export const newRemarkSaveSer = (action)=>{
+  const temp = {
+    order_id:action.order_id,
+    remark:action.info,
+  }
+  return fetch(`/order/saveRemark`,{
+    method:'post',
+    body:JSON.stringify(temp)
+  })
+}
