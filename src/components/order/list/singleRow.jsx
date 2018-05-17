@@ -503,7 +503,7 @@ const SingleRow = (props) => {
             target="_blank"
           >{__('common.order_operation')}
           </Link>
-          {/*  订单标记 */}
+          {/*  订单标记 is_trouble > 0 ？  取消订单标记  ： 订单标记   */}
           {
             Number(data.is_trouble) > 0 ?
               <Popconfirm
