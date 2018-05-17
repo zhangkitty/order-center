@@ -29,6 +29,7 @@ const lan = {
   支付平台投诉订单: '支付平台投诉订单',
   投诉平台: '投诉平台',
   投诉类型: '投诉类型',
+  缺货: '缺货',
 
 
   //
@@ -344,7 +345,15 @@ const SingleRow = (props) => {
                   </div>
                 </p>
                 <p>
-                  <span style={{ display: 'inline-block', width: 150 }}>{res.goods_attr}</span>
+                  <div style={{ display: 'flex', width: 150 }}>
+                    <div >{res.goods_attr}</div>
+                    <div style={{ marginLeft: 10 }}>
+                      {
+                        (+res.inventory_shortage === 1) &&
+                        <div style={{ color: 'red' }}>{lan.缺货}</div>
+                      }
+                    </div>
+                  </div>
                   <span>{lan.运单号}:{res.shipping_no}</span>
                 </p>
                 <p>
