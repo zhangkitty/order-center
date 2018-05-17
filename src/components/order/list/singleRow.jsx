@@ -340,7 +340,9 @@ const SingleRow = (props) => {
                 <p style={{ display: 'flex' }}>
                   <div style={{ display: 'inline-block', width: 150 }}>{__('order.name.goods_id')}: {res.goods_id}</div>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>{res.is_split ? <span style={{ color: 'red' }}>已拆分</span> : null}</div>
+                    <div style={{ position: 'relative' }}>
+                      {res.is_split ? <div style={{ color: 'red', position: 'absolute', top: '-15px' }}>已拆分</div> : null}
+                    </div>
                     <div>{lan.商品状态}:{res.goods_status_title}</div>
                   </div>
                 </p>
