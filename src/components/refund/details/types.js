@@ -28,4 +28,6 @@ export const CANCELTHEREFUNDBILL = `${prefix}cancelTheRefundBill`;
 export const CANCELTHEREFUNDBILLSUCCESS = `${prefix}cancelTheRefundBill_success`;
 export const MARKTROUBLEBILL = `${prefix}marktroublebill`;
 export const MARKTROUBLEBILLSUCCESS = `${prefix}marktroublebillsuccess`;
+export const REMARK = `${prefix}remark`;
+export const REMARKSAVE = `${prefix}REMARKSAVE`;
 

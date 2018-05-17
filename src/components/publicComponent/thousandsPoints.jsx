@@ -17,7 +17,6 @@ const ThousandsPoints = (mo) => {
     ))
     .reverse()
     .concat(money.slice(ponitIndex));
-//  console.log(mo, result);
   return (
     <span>
       {

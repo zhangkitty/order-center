@@ -125,3 +125,22 @@ export const markTroubleBillSer = action =>{
     )
   })
 }
+
+export const remarkSer = action=>{
+  return fetch(`/order/remark?order_id=${action.order_id}`,
+      {
+        method:'get',
+      }
+      )
+}
+
+export const newRemarkSaveSer = (action)=>{
+  const temp = {
+    order_id:action.order_id,
+    remark:action.info,
+  }
+  return fetch(`/order/saveRemark`,{
+    method:'post',
+    body:JSON.stringify(temp)
+  })
+}

@@ -13,6 +13,7 @@ import {
   doRefundFail,
   reverseRefundSaveFail,
   cancelTheRefundBillSuccessAction,
+  remark,
 } from './action';
 import {
   getRefundDetailsInfo,
@@ -26,6 +27,8 @@ import {
   changeOrderSer,
   canceltherefundbillSer,
   markTroubleBillSer,
+  remarkSer,
+  newRemarkSaveSer,
 } from '../server';
 
 const lan = {
@@ -141,6 +144,25 @@ function* markTroubleBillSaga(action) {
   return yield put(markTroubleBillSuccess());
 }
 
+function* remarkSaga(action) {
+  const data = yield remarkSer(action);
+  if (!data || data.code !== 0) {
+    return message.error(`${data.msg}`);
+  }
+  yield put(commit('logInfo', data.data));
+  return null;
+}
+
+function* remarSaveSaga(action) {
+  const data = yield newRemarkSaveSer(action);
+  if (!data || data.code !== 0) {
+    return message.error(`${data.msg}`);
+  }
+  yield put(remark(action.order_id));
+  yield put(commit('newRemark', ''));
+  return null;
+}
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.REMARK_INFO, remarkInfoSaga);
@@ -153,4 +175,6 @@ export default function* () {
   yield takeLatest(TYPES.CHANGE_ORDER, changeOrderSaga);
   yield takeLatest(TYPES.CANCELTHEREFUNDBILL, canceltherefundbillSaga);
   yield takeLatest(TYPES.MARKTROUBLEBILL, markTroubleBillSaga);
+  yield takeLatest(TYPES.REMARK, remarkSaga);
+  yield takeLatest(TYPES.REMARKSAVE, remarSaveSaga);
 }
