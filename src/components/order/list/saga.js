@@ -59,7 +59,6 @@ function* searchSaga(action) {
 }
 
 function* searchHighSaga(action) {
-  debugger;
   const {
     goodsSn, count, totalInput, goodsId,
   } = action.data;

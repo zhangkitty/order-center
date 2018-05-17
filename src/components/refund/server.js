@@ -127,7 +127,6 @@ export const markTroubleBillSer = action =>{
 }
 
 export const remarkSer = action=>{
-  console.log(action,'action');
   return fetch(`/order/remark?order_id=${action.order_id}`,
       {
         method:'get',
