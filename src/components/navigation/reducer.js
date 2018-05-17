@@ -3,6 +3,10 @@
  */
 import { LOCATION_CHANGE } from 'react-router-redux';
 
+
+const lan = {
+  平台订单管理: '平台订单管理',
+};
 const menus = [
   {
     name: __('common.order_manage'),
@@ -131,6 +135,12 @@ const menus = [
         link: '/manually-grab-the-order',  // 手工抓取订单
         name: __('nav.GrabOrder'),
         crumbName: __('nav.GrabOrder'),
+        nav: true,
+      },
+      {
+        link: '/platform-order-management',
+        name: lan.平台订单管理,
+        crumbName: lan.平台订单管理,
         nav: true,
       },
     ],
