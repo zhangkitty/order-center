@@ -1,0 +1,37 @@
+.line{
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.one{
+    display: flex;
+    width: 300px;
+}
+
+.prefix{
+    line-height: 28px;
+    width: 50px;
+    margin-right:10px;
+    text-align: right;
+
+}
+
+.select{
+    width: 200px;
+}
+
+.range{
+    width: 200px;
+}
+
+.three{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 300px;
+}
+
+.button{
+    margin: 10px;
+}
+
