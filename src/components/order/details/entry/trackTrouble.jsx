@@ -44,7 +44,7 @@ const columnsRemark = [{
 }];
 
 const TrackTrouble = ({
-  dispatch, trackTroubleTypes, trackTroubleForm, trackTroubleShow, trackImages, switchRemarkOpen, switchRemarkList, addRemarkOpen, note
+  dispatch, trackTroubleTypes, trackTroubleForm, trackTroubleShow, trackImages, switchRemarkOpen, switchRemarkList, addRemarkOpen, note,
 }) => (
   <Modal
     footer={null}
@@ -136,7 +136,7 @@ const TrackTrouble = ({
       </div>
       <div style={{ display: !switchRemarkOpen ? 'none' : 'block' }}>
         <Table
-          bordered={true}
+          bordered
           dataSource={switchRemarkList}
           columns={columnsRemark}
           pagination={false}

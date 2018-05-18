@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Table, Card, Button, Modal, Input, Radio, Upload, Popover, message, Tag } from 'antd';
 import { commit, uploadTrackAction, uploadTrackShow, genRl, fetchRlFee, rebuildRl, showRLModal } from './action';
-import {Link} from 'react-router'
+import { Link } from 'react-router';
 
 import styles from './style.css';
 
