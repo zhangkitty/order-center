@@ -347,7 +347,7 @@ const SingleRow = (props) => {
                   </div>
                 </p>
                 <p>
-                  <div style={{ display: 'flex', width: 150 }}>
+                  <div style={{ display: 'inline-block', width: 150 }}>
                     <div >{res.goods_attr}</div>
                     <div style={{ marginLeft: 10 }}>
                       {
