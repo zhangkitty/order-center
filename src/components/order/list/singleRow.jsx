@@ -29,6 +29,7 @@ const lan = {
   支付平台投诉订单: '支付平台投诉订单',
   投诉平台: '投诉平台',
   投诉类型: '投诉类型',
+  缺货: __('order.list.list.缺货'),
 
 
   //
@@ -339,12 +340,22 @@ const SingleRow = (props) => {
                 <p style={{ display: 'flex' }}>
                   <div style={{ display: 'inline-block', width: 150 }}>{__('order.name.goods_id')}: {res.goods_id}</div>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>{res.is_split ? <span style={{ color: 'red' }}>已拆分</span> : null}</div>
+                    <div style={{ position: 'relative' }}>
+                      {res.is_split ? <div style={{ color: 'red', position: 'absolute', top: '-15px' }}>已拆分</div> : null}
+                    </div>
                     <div>{lan.商品状态}:{res.goods_status_title}</div>
                   </div>
                 </p>
                 <p>
-                  <span style={{ display: 'inline-block', width: 150 }}>{res.goods_attr}</span>
+                  <div style={{ display: 'flex', width: 150 }}>
+                    <div >{res.goods_attr}</div>
+                    <div style={{ marginLeft: 10 }}>
+                      {
+                        (+res.inventory_shortage === 1) &&
+                        <div style={{ color: 'red' }}>{lan.缺货}</div>
+                      }
+                    </div>
+                  </div>
                   <span>{lan.运单号}:{res.shipping_no}</span>
                 </p>
                 <p>
