@@ -9,10 +9,11 @@ const defaultState = {
   handle_statusArr: [], // 处理状态
   handle_status: '全部',
   handle_resultArr: [], // 处理结果
-  handel_result: '全部',
+  handle_result: '全部',
   billno: '',
   data: null,
   handler: '',
+  dataSource:[],
 };
 
 

@@ -28,6 +28,9 @@ function* initSaga(action) {
 
 function* searchSaga(action) {
   const data = yield searchSer(action);
+  if (data.code !== 0) {
+    return message.info(`${data.msg}`);
+  }
 }
 
 

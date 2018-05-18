@@ -30,7 +30,7 @@ const head = (props) => {
     siteArr,
     countryArr,
     site_from,
-    handel_result,
+    handle_result,
   } = props;
   const { RangePicker } = DatePicker;
   const Option = Select.Option;
@@ -128,7 +128,7 @@ const head = (props) => {
             <Select
               allowClear
               className={styles.select}
-              value={handel_result}
+              value={handle_result}
               onChange={value => dispatch(change('handel_result', value))}
             >
               {
