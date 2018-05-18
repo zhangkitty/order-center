@@ -1,0 +1,33 @@
+.line{
+    display: flex;
+}
+
+.divinline{
+    flex-basis: 100px;
+    padding: 5px 10px;
+    text-align: right;
+    margin-bottom: 3px;
+}
+
+.allPlatForm{
+    flex-basis: 150px;
+}
+
+.threeButtons{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 300px;
+}
+.button{
+    margin:10px;
+}
+.row{
+    display: flex;
+}
+
+.Popover{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 3px;
+}
+

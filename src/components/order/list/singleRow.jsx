@@ -293,6 +293,11 @@ const SingleRow = (props) => {
           pagination={false}
           showHeader={false}
           dataSource={(function (v) {
+            const m = new Map();
+            v.order_goods.map((val) => {
+              const num = m.get(val.goods_id) ? m.get(val.goods_id) + 1 : 1;
+              m.set(val.goods_id, num);
+            });
             return (
               v.order_goods.map((val) => {
                 val.site_from = v.site_from;
@@ -305,6 +310,7 @@ const SingleRow = (props) => {
                 val.billno = v.billno;
                 val.payment_method = v.payment_method;
                 val.country_name = v.country_name;
+                val.is_split = m.get(val.goods_id) > 1;
                 return val;
               })
             );
@@ -330,9 +336,12 @@ const SingleRow = (props) => {
                     replaceGoods(res.is_replace, res.replace_goods_sort) // res.goods_status
                   }
                 </span>
-                <p>
-                  <span style={{ display: 'inline-block', width: 150 }}>{__('order.name.goods_id')}: {res.goods_id}</span>
-                  <span>{lan.商品状态}:{res.goods_status_title}</span>
+                <p style={{ display: 'flex' }}>
+                  <div style={{ display: 'inline-block', width: 150 }}>{__('order.name.goods_id')}: {res.goods_id}</div>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div>{res.is_split ? <span style={{ color: 'red' }}>已拆分</span> : null}</div>
+                    <div>{lan.商品状态}:{res.goods_status_title}</div>
+                  </div>
                 </p>
                 <p>
                   <span style={{ display: 'inline-block', width: 150 }}>{res.goods_attr}</span>
@@ -503,7 +512,7 @@ const SingleRow = (props) => {
             target="_blank"
           >{__('common.order_operation')}
           </Link>
-          {/*  订单标记 */}
+          {/*  订单标记 is_trouble > 0 ？  取消订单标记  ： 订单标记   */}
           {
             Number(data.is_trouble) > 0 ?
               <Popconfirm

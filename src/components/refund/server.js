@@ -39,7 +39,8 @@ export const searchSubmit = (page) => {
   })
   const keys = ['pageSize', 'pageNumber', 'refund_bill_id', 'billno', 'email', 'add_user', 'handle_user','trouble_type',
     'refund_bill_type', 'refund_bill_status', 'refund_path_id', 'refund_path_status', 'site_from', 'apply_start_time', 'apply_end_time',
-    'country_id', 'member_level', 'refund_method', 'refund_start_time', 'refund_end_time', 'sorting_rule','pay_time_from','pay_time_to'];
+    'country_id', 'member_level', 'refund_method', 'refund_start_time', 'refund_end_time', 'sorting_rule','pay_time_from','pay_time_to',
+  'trouble_mark','auto_refund'];
   return fetch(`${list.init}?${queryString(camel2Under(keys), camel2Under(temp))}`, {
     method: 'GET',
   })
@@ -112,3 +113,34 @@ export const canceltherefundbillSer=(refund_bill_id,reasonRecord)=>(
     })
   })
 )
+
+export const markTroubleBillSer = action =>{
+  return fetch(`/OrderRefund/markTroubleBill`,{
+    method:'post',
+    body:JSON.stringify(
+        {
+          refund_bill_id:+action.refund_bill_id,
+          action:action.action,
+        }
+    )
+  })
+}
+
+export const remarkSer = action=>{
+  return fetch(`/order/remark?order_id=${action.order_id}`,
+      {
+        method:'get',
+      }
+      )
+}
+
+export const newRemarkSaveSer = (action)=>{
+  const temp = {
+    order_id:action.order_id,
+    remark:action.info,
+  }
+  return fetch(`/order/saveRemark`,{
+    method:'post',
+    body:JSON.stringify(temp)
+  })
+}

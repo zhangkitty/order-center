@@ -16,7 +16,6 @@ const lan = {
 };
 const SumOfMoney = (props) => {
   const { dataSource: { orderPriceInfo } } = props;
-  console.log(props);
   const { showtotalAmount, showtotalCurrency, rate, dispatch } = props;
   const {
     totalPrice: {
