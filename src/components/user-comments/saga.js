@@ -16,9 +16,12 @@ function* initSaga(action) {
   if (data[1].code !== 0) {
     return message.info(`${data[0].msg}`);
   }
-  const country = [];
+  const country = [{ country: '请选择', country_id: null }];
   data[0].data.map(v => v.country_info.map(k => country.push(k)));
-  yield put(change('country', country));
+  yield put(change('countryArr', country));
+  yield put(change('siteArr', data[1].data.data.site));
+  yield put(change('handle_resultArr', data[1].data.data.handle_result));
+  yield put(change('handle_statusArr', data[1].data.data.handle_status));
 
   return null;
 }
