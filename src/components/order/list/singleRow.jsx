@@ -348,13 +348,13 @@ const SingleRow = (props) => {
                 </p>
                 <p>
                   <div style={{ display: 'inline-block', width: 150 }}>
-                    <div >{res.goods_attr}</div>
-                    <div style={{ marginLeft: 10 }}>
+                    <span >{res.goods_attr}</span>
+                    <span style={{ marginLeft: 10 }}>
                       {
                         (+res.inventory_shortage === 1) &&
                         <div style={{ color: 'red' }}>{lan.缺货}</div>
                       }
-                    </div>
+                    </span>
                   </div>
                   <span>{lan.运单号}:{res.shipping_no}</span>
                 </p>
