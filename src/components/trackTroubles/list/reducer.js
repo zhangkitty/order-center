@@ -49,6 +49,8 @@ export const defaultState = {
   followShow: false, // 跟进中弹窗开关
   handleStatusList: [],
   handleStatus: '',
+  tracking_update: null, // 上传物流问题返回信息
+  is_ignore: 0, // 包裹号已存在问题，0忽略 1新增
 };
 
 const reducer = (state = defaultState, action) => {
