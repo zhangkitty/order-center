@@ -330,41 +330,36 @@ const SingleRow = (props) => {
             dataIndex: 'goods_sn',
             render: (d, res) => (
               <div>
-                <p>{res.goods_name}</p>
-                <a href={res.goods_url} target="_blank"> {d}</a>
-                <span style={{ color: '#ff0000', marginLeft: '10px' }}>
-                  {
-                    replaceGoods(res.is_replace, res.replace_goods_sort) // res.goods_status
-                  }
-                </span>
-                <p style={{ display: 'flex' }}>
-                  <div style={{ display: 'inline-block', width: 150 }}>{__('order.name.goods_id')}: {res.goods_id}</div>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ position: 'relative' }}>
-                      {res.is_split ? <div style={{ color: 'red', position: 'absolute', top: '-15px' }}>已拆分</div> : null}
+                <div>{res.goods_name}</div>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ flexBasis: 200 }}><a href={res.goods_url} target="_blank">{d}</a></div>
+                  <div>
+                    {
+                      res.is_split ? <div style={{ color: 'red' }}>已拆分</div> : null
+                    }
+                  </div>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ flexBasis: 200 }}>{__('order.name.goods_id')}: {res.goods_id}</div>
+                  <div>{lan.商品状态}:{res.goods_status_title}</div>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ display: 'flex', flexBasis: 200 }}>
+                    <div>{res.goods_attr}</div>
+                    <div style={{ marginLeft: 10 }}>
+                      {(+res.inventory_shortage === 1) && <div style={{ color: 'red' }}>{lan.缺货}</div> }
                     </div>
-                    <div>{lan.商品状态}:{res.goods_status_title}</div>
                   </div>
-                </p>
-                <p>
-                  <div style={{ display: 'inline-block', width: 150 }}>
-                    <span >{res.goods_attr}</span>
-                    <span style={{ marginLeft: 10 }}>
-                      {
-                        (+res.inventory_shortage === 1) &&
-                        <div style={{ color: 'red' }}>{lan.缺货}</div>
-                      }
-                    </span>
-                  </div>
-                  <span>{lan.运单号}:{res.shipping_no}</span>
-                </p>
-                <p>
-                  <span style={{ display: 'inline-block', width: 150 }}>{lan.供应商}:{/* res.supplier_id */}</span>
-                  <span>{lan.物流渠道}:{res.delivery_channel}</span>
-                </p>
+                  <div>{lan.运单号}:{res.shipping_no}</div>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ flexBasis: 200 }}>{lan.供应商}:</div>
+                  <div>{lan.物流渠道}:{res.delivery_channel}</div>
+                </div>
               </div>
             ),
-          }, {
+          },
+          {
             title: '价格',
             dataIndex: 'price',
             width: '13%',
