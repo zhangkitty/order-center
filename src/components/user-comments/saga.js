@@ -5,8 +5,12 @@ import {
   initSer,
   searchSer,
   changePageSer,
+  getRemarksSer,
+  saveRemarkSer,
+  getTransRemarkSer,
+  saveTransRemarkSer,
 } from './server';
-import { change } from './action';
+import { change, getRemarks } from './action';
 
 
 function* initSaga(action) {
@@ -48,9 +52,47 @@ function* changePage(action) {
   return null;
 }
 
+function* getRemarksSaga(action) {
+  yield put(change('remarkValue', ''));
+  yield put(change('fetchRemark', []));
+  const data = yield getRemarksSer(action);
+  if (data.code !== 0) {
+    return message.info(`${data.msg}`);
+  }
+  yield put(change('fetchRemark', data.data));
+  return null;
+}
+
+function* saveRemarkSaga(action) {
+  const data = yield saveRemarkSer(action);
+  if (data.code !== 0) {
+    return message.info(`${data.msg}`);
+  }
+  yield put(change('remarkValue', ''));
+  yield put(getRemarks(action.order_id));
+  return null;
+}
+
+function* getTransRemarkSaga(action) {
+  const data = yield getTransRemarkSer(action);
+  if (data.code !== 0) {
+    return message.info(`${data.msg}`);
+  }
+  yield put(change('transRemark', data.data));
+  return null;
+}
+
+function* saveTransRemarkSaga(action) {
+  const data = yield saveTransRemarkSer(action);
+  return message.info(`${data.msg}`);
+}
 
 export default function* () {
   yield takeLatest(types.init, initSaga);
   yield takeLatest(types.search, searchSaga);
   yield takeLatest(types.changePage, changePage);
+  yield takeLatest(types.getRemarks, getRemarksSaga);
+  yield takeLatest(types.saveRemark, saveRemarkSaga);
+  yield takeLatest(types.getTransRemark, getTransRemarkSaga);
+  yield takeLatest(types.saveTransRemark, saveTransRemarkSaga);
 }

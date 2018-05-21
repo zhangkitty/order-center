@@ -18,6 +18,11 @@ const defaultState = {
   page_number: 1,
   page_size: 10,
   current: 1,
+  fetchRemark: [],
+  remarkValue: '',
+  transRemark: '',
+  markTag: '', // 订单标记中的物流备注
+  markTagShow: false,
 };
 
 

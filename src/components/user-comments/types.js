@@ -3,3 +3,7 @@ export const change = `${prefix}change`;
 export const init = `${prefix}init`;
 export const search = `${prefix}search`;
 export const changePage = `${prefix}changePage`;
+export const getRemarks = `${prefix}getRemarks`;
+export const saveRemark = `${prefix}saveRemark`;
+export const getTransRemark = `${prefix}getTransRemark`;
+export const saveTransRemark = `${prefix}saveTransRemark`;

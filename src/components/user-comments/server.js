@@ -45,3 +45,31 @@ export const changePageSer = action=>{
         body:JSON.stringify(parseQuery(keys,temp))
       })
 }
+
+export const getRemarksSer=action=>{
+  return fetch(`/order/remark?order_id=${action.order_id}`)
+}
+
+export const saveRemarkSer = action=>{
+  const order_id = action.order_id;
+  const remark = action.props.remarkValue;
+  return fetch(`/order/saveRemark`,{
+    method:'post',
+    body:JSON.stringify({order_id,remark})
+  })
+}
+
+
+export const getTransRemarkSer = action=>{
+  return fetch(`/order/logisticsRemark?order_id=${action.order_id}`)
+}
+
+export const saveTransRemarkSer = action=>{
+  console.log(action);
+  const order_id =action.order_id;
+  const remark = action.props.transRemark;
+  return fetch(`/order/saveLogisticsRemark`,{
+    method:'post',
+    body:JSON.stringify({order_id,remark})
+  })
+}
