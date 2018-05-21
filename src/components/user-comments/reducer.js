@@ -13,7 +13,11 @@ const defaultState = {
   billno: '',
   data: null,
   handler: '',
-  dataSource:[],
+  dataSource: [],
+  total: 0,
+  page_number: 1,
+  page_size: 10,
+  current: 1,
 };
 
 

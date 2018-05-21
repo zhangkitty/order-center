@@ -4,6 +4,7 @@ import * as types from './types';
 import {
   initSer,
   searchSer,
+  changePageSer,
 } from './server';
 import { change } from './action';
 
@@ -31,10 +32,25 @@ function* searchSaga(action) {
   if (data.code !== 0) {
     return message.info(`${data.msg}`);
   }
+  yield put(change('dataSource', data.data.list));
+  yield put(change('total', data.data.total));
+  return null;
+}
+
+function* changePage(action) {
+  const data = yield changePageSer(action);
+  if (data.code !== 0) {
+    return message.info(`${data.msg}`);
+  }
+  yield put(change('page_number', action.page));
+  yield put(change('current', action.page));
+  yield put(change('dataSource', data.data.list));
+  return null;
 }
 
 
 export default function* () {
   yield takeLatest(types.init, initSaga);
   yield takeLatest(types.search, searchSaga);
+  yield takeLatest(types.changePage, changePage);
 }
