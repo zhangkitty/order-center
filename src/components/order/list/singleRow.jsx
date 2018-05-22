@@ -294,11 +294,6 @@ const SingleRow = (props) => {
           pagination={false}
           showHeader={false}
           dataSource={(function (v) {
-            const m = new Map();
-            v.order_goods.map((val) => {
-              const num = m.get(val.goods_id) ? m.get(val.goods_id) + 1 : 1;
-              m.set(val.goods_id, num);
-            });
             return (
               v.order_goods.map((val) => {
                 val.site_from = v.site_from;
@@ -311,7 +306,6 @@ const SingleRow = (props) => {
                 val.billno = v.billno;
                 val.payment_method = v.payment_method;
                 val.country_name = v.country_name;
-                val.is_split = m.get(val.goods_id) > 1;
                 return val;
               })
             );
@@ -333,6 +327,9 @@ const SingleRow = (props) => {
                 <div>{res.goods_name}</div>
                 <div style={{ display: 'flex' }}>
                   <div style={{ flexBasis: 200 }}><a href={res.goods_url} target="_blank">{d}</a></div>
+                  {
+                    console.log(res.is_split)
+                  }
                   <div>
                     {
                       res.is_split ? <div style={{ color: 'red' }}>已拆分</div> : null
