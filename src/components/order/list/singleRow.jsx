@@ -326,7 +326,10 @@ const SingleRow = (props) => {
               <div>
                 <div>{res.goods_name}</div>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ flexBasis: 200 }}><a href={res.goods_url} target="_blank">{d}</a></div>
+                  <div style={{ flexBasis: 200 }}>
+                    <a href={res.goods_url} target="_blank">{d}</a>
+                    <span style={{ color: '#ff0000', marginLeft: '10px' }}>{replaceGoods(res.is_replace, res.replace_goods_sort)}</span>
+                  </div>
                   {
                     console.log(res.is_split)
                   }
