@@ -504,7 +504,7 @@ class TabsHeader extends Component {
             </Button>
             {/* 待退款 */}
             <Button
-              style={+refund_bill_status === 1 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
+              // style={+refund_bill_status === 1 ? { color: '#108ee9', borderColor: '#108ee9' } : {}}
               onClick={() => {
                 if (
                   moment(apply_start_time).valueOf() > moment(apply_end_time).valueOf()
