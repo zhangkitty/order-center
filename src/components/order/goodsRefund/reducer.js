@@ -7,6 +7,10 @@ import { under2Camal } from '../../../lib/camal';
 
 
 const defaultState = {
+  ShippingAndInsurance: '',
+  RefundMethod: '',
+  RefundItems: '',
+  RefundAmount: '',
   showtotalAmount: null,
   showtotalCurrency: null,
   ready: false,
@@ -383,6 +387,8 @@ const reducer = (state = defaultState, action) => {
       const {
         orderPriceInfo,
         orderRefundUnderlineAccount,
+          orderGoods,
+        paymentMethod,
       } = action.data;
       const {
         hasShippingInsurancePriceRefunded,
@@ -457,12 +463,50 @@ const reducer = (state = defaultState, action) => {
         issuing_city: orderRefundUnderlineAccount.issuingCity,
         account: orderRefundUnderlineAccount.accountInfo,
       }));
+
+      const refundGoods = [];
+      orderGoods.map(v => refundGoods.push(v.goodsSort));
+      const table = {
+        1: 'gift card',
+        2: 'wallet',
+        3: 'account',
+        4: 'account(yesbank/paytm/paypal)',
+      };
+      const ref = refundPaths.map(v => assign({}, v, {
+        symbol:
+            paymentMethod === 'worldpay' &&
+            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
+                '$' : `${v.priceWithExchangeRate.symbol}`,
+        moneyWithnoSymbol:
+        paymentMethod === 'worldpay' &&
+        (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
+            `${v.amount}`
+            :
+            `${v.refundCurrency}`,
+        refMarkE: table[v.refundPathId],
+        refMakrMoney:
+            paymentMethod === 'worldpay' &&
+            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
+            `${v.amount}${v.priceUsd.symbol}`
+                :
+            `${v.refundCurrency}${v.priceWithExchangeRate.symbol}`,
+      }));
+      const refPRemark = ref.filter(v => v.refundAmount > 0);
+      const RefundM = refPRemark.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`);
+      const tot = refPRemark.reduce((sum, value) => sum += (+value.moneyWithnoSymbol), 0);
+      const sym = refPRemark[0].symbol;
+      const shippingString = DefaultValue ? '（shipping and shipping insurance fee also be refunded)' : '';
+      const RefundItems = `Refund items：${refundGoods.join(',')}\n`;
+      const RefundAmount = `Refund amount:${tot}${sym}-0${sym}    `;
+      const ShippingAndInsurance = `${shippingString}\n`;
+      const RefundMethod = RefundM.join(' , ');
+      const remark = `${RefundItems}${RefundAmount}${ShippingAndInsurance}${RefundMethod}`;
       return assign({}, state, {
         showtotalAmount: totalAmount,
         showtotalCurrency: totalAmount * (+orderPriceInfo.totalPrice.priceWithExchangeRate.rate),
         maxTips,
         dataSource: action.data,
-        refundPaths,
+        refundPaths: ref,
         rate: +orderPriceInfo.totalPrice.priceWithExchangeRate.rate,
         hasShippingInsurancePriceRefunded,
         hasShippingPriceRefunded,
@@ -470,6 +514,11 @@ const reducer = (state = defaultState, action) => {
         shippingInsurance: DefaultValue ? 1 : 0,
         radioValue: isPlatformOrder === 1 ? 3 : (resultCurrency[2] > 0 ? 2 : 0),
         isUsd,
+        remark,
+        RefundItems,
+        RefundAmount,
+        RefundMethod,
+        ShippingAndInsurance,
       });
     case TYPES.GET_REASON_SUCCESS:
       return assign({}, state, {
@@ -496,12 +545,23 @@ const reducer = (state = defaultState, action) => {
       }
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
+      console.log(state.shipping, 'haha');
+      console.log(state.shippingInsurance, 'hehe');
+      const shippingTable = {
+        '00': '\n',
+        '01': '(shipping insurance fee also be refunded)\n',
+        10: '(shipping fee alse be refunded)\n',
+        11: '(shipping and shipping insurance fee also be refunded)\n',
+      };
+      const stringTemp = shippingTable[`${state.shipping}${state.shippingInsurance}`];
       refundPaths = state.refundPaths.map(v => assign({}, v, {
         refundAmount: resultAmount[v.refundPathId],
         refundCurrency: resultCurrency[v.refundPathId],
       }));
       return assign({}, state, {
         refundPaths,
+        remark: `${state.RefundItems}${state.RefundAmount}${stringTemp}${state.RefundMethod}`,
+        ShippingAndInsurance: stringTemp,
       });
     case TYPES.COPY_PAYMENT_METHOD:
       return assign({}, state, {
@@ -517,12 +577,22 @@ const reducer = (state = defaultState, action) => {
       }
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
+      const ShippingInsuranceTable = {
+        '00': '\n',
+        '01': '(shipping insurance fee also be refunded)\n',
+        10: '(shipping fee alse be refunded)\n',
+        11: '(shipping and shipping insurance fee also be refunded)\n',
+      };
+
+      const shippingInsuranceString = ShippingInsuranceTable[`${state.shipping}${state.shippingInsurance}`];
       refundPaths = state.refundPaths.map(v => assign({}, v, {
         refundAmount: resultAmount[v.refundPathId],
         refundCurrency: resultCurrency[v.refundPathId],
       }));
       return assign({}, state, {
         refundPaths,
+        remark: `${state.RefundItems}${state.RefundAmount}${shippingInsuranceString}${state.RefundMethod}`,
+        ShippingAndInsurance: shippingInsuranceString,
       });
     case TYPES.US_PRICE_CHANGE:
       return assign({}, state, {
@@ -565,9 +635,20 @@ const reducer = (state = defaultState, action) => {
       refundPaths = state.refundPaths.map(v => assign({}, v, {
         refundAmount: resultAmount[v.refundPathId],
         refundCurrency: resultCurrency[v.refundPathId],
+        moneyWithnoSymbol: v.symbol === '$' ? resultAmount[v.refundPathId] : resultCurrency[v.refundPathId],
+        refMakrMoney: v.symbol === '$' ? `${resultAmount[v.refundPathId]}${v.symbol}` : `${resultCurrency[v.refundPathId]}${v.symbol}`,
       }));
+      const refPRemarkRl = refundPaths.filter(v => v.refundAmount > 0);
+      const RefundMRl = refPRemarkRl.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`);
+      const totRl = refPRemarkRl.reduce((sum, value) => sum += (+value.moneyWithnoSymbol), 0);
+      const symRl = refPRemarkRl[0].symbol;
+      const RefundAmountRl = `Refund amount:${totRl}${symRl}-${action.val}${symRl}`;
+      const RefundMethodRl = RefundMRl.join(',');
       return assign({}, state, {
         refundPaths,
+        remark: `${state.RefundItems}${RefundAmountRl}${state.ShippingAndInsurance}${RefundMethodRl}`,
+        RefundAmount: RefundAmountRl,
+        RefundMethod: RefundMethodRl,
       });
     case TYPES.ALL_BACK:
       return assign({}, state, {
@@ -602,7 +683,6 @@ const reducer = (state = defaultState, action) => {
             refund_method: v.refund_method,
             account: v.account,
             bank_code: v.bank_code,
-            account: v.account,
             customer: v.customer,
             issuing_city: v.issuing_city,
             check: false,
@@ -615,6 +695,24 @@ const reducer = (state = defaultState, action) => {
           [action.key]: action.value,
         }),
       });
+
+    case TYPES.changeRadioValue:
+      const tempArr = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === action.val) && v.refundAmount > 0);
+      const str = tempArr.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`).join(',');
+      return assign({}, state, {
+        radioValue: action.val,
+        refundMethod: str,
+        remark: `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${str}`,
+      });
+
+    case TYPES.changeInput:
+      const changeInputTempArr = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === state.radioValue) && v.refundAmount > 0);
+      const changeInputstr = changeInputTempArr.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`).join(',');
+      return assign({}, state, {
+        refundMethod: changeInputstr,
+        remark: `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${changeInputstr}`,
+      });
+
     default:
       return state;
   }

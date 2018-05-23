@@ -2,7 +2,7 @@ import React from 'react';
 import { Checkbox, Input, Select, Button, Radio } from 'antd';
 import style from './style.css';
 
-import { changeChannelValue, change } from './action';
+import { changeChannelValue, changeRadioValue, changeInput } from './action';
 
 const star = (<span style={{ color: 'red' }}>*</span>);
 const Rg = Radio.Group;
@@ -47,10 +47,15 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                     if (radioValue === 2 || radioValue === 3) {
                       dispatch(changeChannelValue(3, 'refundAmount', tempAmount2[0].refundAmount));
                       dispatch(changeChannelValue(3, 'refundCurrency', tempCurrency2[0].refundCurrency));
+                      dispatch(changeChannelValue(3, 'moneyWithnoSymbol', tempAmount2[0].moneyWithnoSymbol));
+                      dispatch(changeChannelValue(3, 'refMakrMoney', tempAmount2[0].refMakrMoney));
+
                       dispatch(changeChannelValue(2, 'refundAmount', tempAmount3[0].refundAmount));
                       dispatch(changeChannelValue(2, 'refundCurrency', tempCurrency3[0].refundCurrency));
+                      dispatch(changeChannelValue(2, 'moneyWithnoSymbol', tempAmount3[0].moneyWithnoSymbol));
+                      dispatch(changeChannelValue(2, 'refMakrMoney', tempAmount3[0].refMakrMoney));
                     }
-                    dispatch(change('radioValue', val));
+                    dispatch(changeRadioValue(val));
                   }
                 }
                 >
@@ -101,6 +106,9 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                   const temp = Number(e.target.value * rate).toFixed(2);
                   dispatch(changeChannelValue(v.refundPathId, 'refundAmount', e.target.value));
                   dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', +temp));
+                  dispatch(changeChannelValue(v.refundPathId, 'moneyWithnoSymbol', +e.target.value));
+                  dispatch(changeChannelValue(v.refundPathId, 'refMakrMoney', `${+e.target.value}${v.symbol}`));
+                  dispatch(changeInput());
                 }
               }
               />
@@ -121,6 +129,9 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                   const temp = Number(e.target.value / rate).toFixed(2);
                   dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', e.target.value));
                   dispatch(changeChannelValue(v.refundPathId, 'refundAmount', +temp));
+                  dispatch(changeChannelValue(v.refundPathId, 'moneyWithnoSymbol', +e.target.value));
+                  dispatch(changeChannelValue(v.refundPathId, 'refMakrMoney', `${+e.target.value}${v.symbol}`));
+                  dispatch(changeInput());
                 }
               }
               />
