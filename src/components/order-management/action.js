@@ -54,7 +54,7 @@ export const delLogisticChannel = props => ({
 });
 
 export const changeDate = (date, index) => ({
-  type: TYPES.CHNAGE_DATE,
+  type: types.CHNAGE_DATE,
   date,
   index,
 });
