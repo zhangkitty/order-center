@@ -72,3 +72,9 @@ export const changeInputDisable = isDisable => ({
   type: TYPES.CHANGE_INPUT_DISABLE,
   isDisable,
 });
+
+export const changeRemark = (pathId, checked) => ({
+  type: TYPES.CHANGEREMARK,
+  pathId,
+  checked,
+});

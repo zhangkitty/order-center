@@ -11,6 +11,13 @@ const chanelTypeTable = {
   4: 2,
 };
 
+const remarkTable = {
+  1: 'gift-card',
+  2: 'wallet',
+  3: 'account',
+  4: 'account（yesbank）',
+};
+
 const defaultState = {
   loading: false,
   ready: false,
@@ -122,6 +129,17 @@ const reducer = (state = defaultState, action) => {
       });
     }
     case TYPES.INIT_PRICEINFO_SUCCESS:
+      const payment_method = action.data.orderPriceInfo.cardPaymentPrice.paymentMethod;
+      const table = ['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'];
+      const currency = action.data.orderPriceInfo.cardBalancePrice.priceWithExchangeRate.symbol;
+      let symbol;
+      if (payment_method === 'paypal' && table.filter(v => v === currency).length > 0) {
+        symbol = '$';
+      } else {
+        symbol = currency;
+      }
+
+
       return assign({}, state, {
         ready: true,
         refundPaths: action.data.orderRefundPathList.map(item => assign({}, item, {
@@ -137,6 +155,10 @@ const reducer = (state = defaultState, action) => {
         //  refund_method1: '',
           refundCurrency: 0,
           refundAmount: 0,
+          checked: false,
+          symbol,
+          remark:
+              `Price Difference Refund；Refund method：${remarkTable[item.refundPathId]}:${symbol === '$' ? item.refundAmount || 0 : item.refundCurrency || 0}${symbol}`,
         })),
         cachePaths: action.data.orderRefundPathList.map(item => assign({}, item, {
           channelType: chanelTypeTable[item.refundPathId],
@@ -166,7 +188,10 @@ const reducer = (state = defaultState, action) => {
       });
     case TYPES.CHANGE_CHANNEL_VALUE:
       return assign({}, state, {
-        refundPaths: changeChannelProp(state.refundPaths, action),
+        refundPaths: changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
+          remark: `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}:${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`,
+        })),
+        remark: state.refundPaths.filter(v => v.checked === true).map(value => value.remark).join('\n'),
       });
     case TYPES.CHANGE:
       return assign({}, state, {
@@ -210,6 +235,12 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         otherInputDisable: action.isDisable,
         refundPaths: resetOtherInput(state.refundPaths),
+      });
+
+
+    case TYPES.CHANGEREMARK:
+      return assign({}, state, {
+        remark: state.refundPaths.filter(v => v.checked === true).map(value => value.remark).join('\n'),
       });
 
     default:

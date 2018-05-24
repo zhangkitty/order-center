@@ -30,10 +30,16 @@ const reducer = (state = defaultState, action) => {
     case TYPES.INIT:
       return defaultState;
     case TYPES.GET_DATA_SUCCESS:
+      debugger;
+
+
       return assign({}, state, {
         ready: true,
         dataSource: under2Camal(action.res),
         remainingPriceTotalUnder50: action.res.remainingPriceTotalUnder50,
+        submitValue: assign({}, state.submitValue, {
+          remark: 'sfaf',
+        }),
       });
     case TYPES.GET_REASON_SUCCESS:
       return assign({}, state, {
