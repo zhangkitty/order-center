@@ -98,3 +98,20 @@ export const tagSer=action =>{
   return fetch(`/order/tag`,{method:'post',body:JSON.stringify(table[action.key])})
 
 }
+
+export const userMarkExportSer=action=>{
+  console.log(action)
+  const keys = [
+    'billno', 'start_time','end_time','handle_status',
+    'country_id','site_from','handle_result','handler','page_size','page_number'
+  ]
+  const temp = assign({},action.props,{
+    start_time:(action.props.data)&&(action.props.data)[0],
+    end_time:(action.props.data)&&(action.props.data)[1],
+  })
+  return fetch(`/OrderUserMark/userMarkExport`,
+      {
+        method:'post',
+        body:JSON.stringify(parseQuery(keys,temp))
+      })
+}

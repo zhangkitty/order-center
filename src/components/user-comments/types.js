@@ -9,3 +9,4 @@ export const getTransRemark = `${prefix}getTransRemark`;
 export const saveTransRemark = `${prefix}saveTransRemark`;
 export const operateMarkStatus = `${prefix}operateMarkStatus`;
 export const tag = `${prefix}tag`;
+export const userMarkExport = `${prefix}userMarkExport`;

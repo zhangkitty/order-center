@@ -11,6 +11,7 @@ import {
   saveTransRemarkSer,
   operateMarkStatusSer,
   tagSer,
+  userMarkExportSer,
 } from './server';
 import { change, getRemarks, search } from './action';
 
@@ -108,6 +109,10 @@ function* tagSaga(action) {
   return null;
 }
 
+function* userMarkExportSaga(action) {
+  const data = yield userMarkExportSer(action);
+}
+
 export default function* () {
   yield takeLatest(types.init, initSaga);
   yield takeLatest(types.search, searchSaga);
@@ -118,4 +123,5 @@ export default function* () {
   yield takeLatest(types.saveTransRemark, saveTransRemarkSaga);
   yield takeLatest(types.operateMarkStatus, operateMarkStatusSaga);
   yield takeLatest(types.tag, tagSaga);
+  yield takeLatest(types.userMarkExport, userMarkExportSaga);
 }

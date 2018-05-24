@@ -54,3 +54,8 @@ export const tag = (props, key) => ({
   props,
   key,
 });
+
+export const userMarkExport = props => ({
+  type: types.userMarkExport,
+  props,
+});

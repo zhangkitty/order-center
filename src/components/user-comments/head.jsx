@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, Select, DatePicker, Button, Popconfirm } from 'antd';
 import styles from './style.css';
-import { search, change, operateMarkStatus } from './action';
+import { search, change, operateMarkStatus, userMarkExport} from './action';
 
 
 const lan = {
@@ -162,7 +162,10 @@ const head = (props) => {
             }}
           >{lan.批量跟进中}</Button>
         </Popconfirm>
-        <Button className={styles.button}>{lan.批量导出}</Button>
+        <Button
+          onClick={() => dispatch(userMarkExport(props))}
+          className={styles.button}
+        >{lan.批量导出}</Button>
         <Button
           className={styles.button}
           onClick={() => dispatch(search(props))}
