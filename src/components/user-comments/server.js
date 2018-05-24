@@ -1,4 +1,5 @@
 import assign from 'object-assign'
+import FileSaver from 'file-saver'
 import fetch from '../../lib/fetch'
 import {parseQuery} from '../../lib/query-string'
 
@@ -113,5 +114,8 @@ export const userMarkExportSer=action=>{
       {
         method:'post',
         body:JSON.stringify(parseQuery(keys,temp))
-      })
+      }).then(res=>{
+        FileSaver.saveAs(res, "用户备注导出.xls");
+      }
+  )
 }
