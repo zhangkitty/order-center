@@ -66,7 +66,9 @@ function* batchRefundSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${data.msg}`);
   }
+  message.info(`${data.data.errors}${data.data.logs}`);
   yield put(change('batchRefundModalShow', false));
+  yield put(getOverStockList(action.value, action.value.pageNumber));
   return null;
 }
 
