@@ -9,8 +9,10 @@ import {
   saveRemarkSer,
   getTransRemarkSer,
   saveTransRemarkSer,
+  operateMarkStatusSer,
+  tagSer,
 } from './server';
-import { change, getRemarks } from './action';
+import { change, getRemarks, search } from './action';
 
 
 function* initSaga(action) {
@@ -87,6 +89,25 @@ function* saveTransRemarkSaga(action) {
   return message.info(`${data.msg}`);
 }
 
+function* operateMarkStatusSaga(action) {
+  const data = yield operateMarkStatusSer(action);
+  if (data.code !== 0) {
+    return message.info(`${data.msg}`);
+  }
+  yield put(search(action.props));
+  yield put(change('processedShow', false));
+  return null;
+}
+
+function* tagSaga(action) {
+  const data = yield tagSer(action);
+  if (data.code !== 0) {
+    return message.info(`${data.msg}`);
+  }
+  yield put(change('markTagShow', false));
+  return null;
+}
+
 export default function* () {
   yield takeLatest(types.init, initSaga);
   yield takeLatest(types.search, searchSaga);
@@ -95,4 +116,6 @@ export default function* () {
   yield takeLatest(types.saveRemark, saveRemarkSaga);
   yield takeLatest(types.getTransRemark, getTransRemarkSaga);
   yield takeLatest(types.saveTransRemark, saveTransRemarkSaga);
+  yield takeLatest(types.operateMarkStatus, operateMarkStatusSaga);
+  yield takeLatest(types.tag, tagSaga);
 }

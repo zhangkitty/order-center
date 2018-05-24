@@ -1,7 +1,7 @@
 import React from 'react';
-import { Input, Select, DatePicker, Button } from 'antd';
+import { Input, Select, DatePicker, Button, Popconfirm } from 'antd';
 import styles from './style.css';
-import { search, change } from './action';
+import { search, change, operateMarkStatus } from './action';
 
 
 const lan = {
@@ -31,6 +31,7 @@ const head = (props) => {
     countryArr,
     site_from,
     handle_result,
+    selectedRows,
   } = props;
   const { RangePicker } = DatePicker;
   const Option = Select.Option;
@@ -139,8 +140,28 @@ const head = (props) => {
         </div>
       </section>
       <section className={styles.three}>
-        <Button className={styles.button}>{lan.批量已处理}</Button>
-        <Button className={styles.button}>{lan.批量跟进中}</Button>
+        <Button
+          className={styles.button}
+          onClick={() => {
+            dispatch(change('myhandle_result', 3));
+            dispatch(change('id', selectedRows.map(v => v.id)));
+            dispatch(change('processedShow', true));
+          }}
+        >{lan.批量已处理}</Button>
+        <Popconfirm
+          trigger="click"
+          okText="确认"
+          title="确认跟进这些订单号码"
+          onConfirm={() => dispatch(operateMarkStatus(props))}
+        >
+          <Button
+            className={styles.button}
+            onClick={() => {
+              dispatch(change('myhandle_result', 2));
+              dispatch(change('id', selectedRows.map(v => v.id)));
+            }}
+          >{lan.批量跟进中}</Button>
+        </Popconfirm>
         <Button className={styles.button}>{lan.批量导出}</Button>
         <Button
           className={styles.button}

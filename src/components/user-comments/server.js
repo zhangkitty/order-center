@@ -65,11 +65,36 @@ export const getTransRemarkSer = action=>{
 }
 
 export const saveTransRemarkSer = action=>{
-  console.log(action);
   const order_id =action.order_id;
   const remark = action.props.transRemark;
   return fetch(`/order/saveLogisticsRemark`,{
     method:'post',
     body:JSON.stringify({order_id,remark})
   })
+}
+
+const _isArray = v=>Array.isArray(v)?v:[v];
+
+export const operateMarkStatusSer = action=>{
+  const keys = ['id','handle_result','handle_status']
+  const temp = {
+    id:_isArray(action.props.id),
+      //传值穿反了
+    handle_status:action.props.myhandle_result,
+    handle_result:action.props.myhandle_status,
+  }
+  return fetch(`/OrderUserMark/operateMarkStatus`,{
+    method:'post',
+    body:JSON.stringify(parseQuery(keys,temp))
+  })
+}
+
+export const tagSer=action =>{
+
+  const table  = {
+    1:{is_trouble:action.props.troubleTag,order_id:action.props.order_id,type:action.key,remak:action.props.markTag},
+    2:{is_trouble:0,order_id:action.props.order_id,type:action.key},
+  }
+  return fetch(`/order/tag`,{method:'post',body:JSON.stringify(table[action.key])})
+
 }

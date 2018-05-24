@@ -1,7 +1,8 @@
 import React from 'react';
 import { Modal, Radio, Input } from 'antd';
 import styles from './style.css';
-import { change } from './action';
+import { change, tag } from './action';
+import { message } from 'antd/lib/index';
 
 
 const lan = {
@@ -21,14 +22,18 @@ const lan = {
 const star = (<span style={{ color: 'red' }}>*</span>);
 const TextArea = Input.TextArea;
 const OrderMark = (props) => {
-  console.log(props);
-  const { dispatch, markTag, markTagShow } = props;
+  const { dispatch, markTag, markTagShow, troubleTag } = props;
 
   return (
     <div>
       <Modal
         visible={markTagShow}
-        onOk={() => console.log(3)}
+        onOk={() => {
+          if ((!!troubleTag === false) || (!!markTag === false)) {
+            return message.info('信息没填全');
+          }
+          return dispatch(tag(props, 1));
+        }}
         onCancel={() => dispatch(change('markTagShow', false))}
       >
         <Radio.Group

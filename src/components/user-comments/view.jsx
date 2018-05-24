@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button, Popover, Select, Input } from 'antd';
+import { Table, Button, Popover, Select, Input, Popconfirm } from 'antd';
 import { connect } from 'react-redux';
 import { change,
   init,
@@ -8,10 +8,13 @@ import { change,
   saveRemark,
   getTransRemark,
   saveTransRemark,
+  operateMarkStatus,
+  tag,
 } from './action';
 import Head from './head';
 import OrderMark from './order-mark';
 import Page from '../../lib/pagination';
+import ProcessedModal from './process-modal';
 
 const lan = {
   跟进中: '跟进中',
@@ -50,6 +53,7 @@ class UserComments extends React.Component {
       fetchRemark,
       remarkValue,
       transRemark,
+      processedShow,
         dispatch,
     } = this.props;
     const columnsRemark = [
@@ -93,10 +97,25 @@ class UserComments extends React.Component {
       {
         title: '处理状态',
         dataIndex: 'handle_status',
+        render: (text, record) => {
+          const temp = {
+            1: '待处理',
+            2: '跟进中',
+            3: '已处理',
+          };
+          return temp[+text];
+        },
       },
       {
         title: '处理结果',
         dataIndex: 'handle_result',
+        render: (text) => {
+          const temp = {
+            1: '已完成',
+            2: '未实现',
+          };
+          return temp[+text];
+        },
       },
       {
         title: '处理人',
@@ -113,37 +132,33 @@ class UserComments extends React.Component {
                   <Button
                     style={{ marginLeft: 90 }}
                     size="small"
-                    onClick={
-                        () => console.log(1)
-                      }
+                    onClick={() => dispatch(operateMarkStatus(this.props))}
                   >{lan.确认}</Button>
                 </div>
                 }
               trigger="click"
               title="确认跟进改单号吗？"
             >
-              <Button size="small">{lan.跟进中}</Button>
+              <Button
+                size="small"
+                onClick={() => {
+                  dispatch(change('myhandle_result', 2));
+                  dispatch(change('id', text.id));
+                }}
+              >{lan.跟进中}</Button>
             </Popover>
-            <Popover
-              content={
-                <div>
-                  <div>请选择处理结果:</div>
-                  <Select>
-                    <Option value={1}>1</Option>
-                    <Option value={2}>2</Option>
-                  </Select>
-                  <div>
-                    <Button
-                      size="small"
-                      onClick={() => console.log(3)}
-                    >{lan.确认}</Button>
-                  </div>
 
-                </div>
-                  }
-            >
-              <Button size="small">{lan.已处理}</Button>
-            </Popover>
+            <Button
+              size="small"
+              onClick={
+                () => {
+                  dispatch(change('myhandle_result', 3));
+                  dispatch(change('id', text.id));
+                  dispatch(change('processedShow', true));
+                }
+              }
+            >{lan.已处理}</Button>
+
             <Popover
               placement="bottom"
               trigger="click"
@@ -186,8 +201,6 @@ class UserComments extends React.Component {
                 {lan.备注}
               </Button>
             </Popover>
-
-
             <Popover
               placement="bottomRight"
               trigger="click"
@@ -218,22 +231,68 @@ class UserComments extends React.Component {
                 {lan.物流备注}
               </Button>
             </Popover>
-            <Button
-              size="small"
-              onClick={() => console.log(3)}
-            >
-              路上风景三房
-            </Button>
+            {
+              +record.is_trouble === 0 &&
+              <Button
+                size="small"
+                onClick={() => {
+                  dispatch(change('markTagShow', true));
+                  dispatch(change('order_id', record.order_id));
+                  dispatch(change('markTag', ''));
+                  dispatch(change('troubleTag', null));
+                }}
+              >
+                订单标记
+              </Button>
+            }
+            {
+              +record.is_trouble !== 0 &&
+              <Popconfirm
+                trigger="click"
+                cancelText="保留标记"
+                okText="取消标记"
+                title="是否取消标记"
+                onConfirm={() => dispatch(tag(this.props, 2))}
+              >
+                <Button
+                  size="small"
+                  onClick={() => dispatch(change('order_id', record.order_id))}
+
+                >
+                  {
+                    (function (res) {
+                      const table = {
+                        0: '订单标记',
+                        1: '问题订单',
+                        2: '作废订单',
+                        3: '风控订单',
+                        4: '特殊订单',
+                        5: '紧急订单',
+                        6: '支付平台投诉订单',
+                      };
+                      return table[+res.is_trouble];
+                    }(record))
+                  }
+                </Button>
+              </Popconfirm>
+            }
+
+
           </div>
           ),
       },
     ];
     const rowSelection = {
       type: 'checkbox',
+      onChange: (selectedRowKeys, selectedRows) => {
+        dispatch(change('selectedRowKeys', selectedRowKeys));
+        dispatch(change('selectedRows', selectedRows));
+      },
     };
 
     return (
       <div>
+        <ProcessedModal {...this.props} />
         <Head {...this.props} />
         <OrderMark {...this.props} />
         <div style={{ margin: 20 }}>

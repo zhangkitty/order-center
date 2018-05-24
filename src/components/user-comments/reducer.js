@@ -2,6 +2,11 @@ import assign from 'object-assign';
 import * as types from './types';
 
 const defaultState = {
+  selectedRowKeys:null,
+  selectedRows:null,
+  processedShow: false,
+  order_id: '',
+  id: '',
   countryArr: [],
   country_id: null,
   siteArr: [],
@@ -10,6 +15,8 @@ const defaultState = {
   handle_status: '全部',
   handle_resultArr: [], // 处理结果
   handle_result: '全部',
+  myhandle_result: null,
+  myhandle_status: null,
   billno: '',
   data: null,
   handler: '',

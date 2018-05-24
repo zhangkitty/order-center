@@ -43,3 +43,14 @@ export const saveTransRemark = (order_id, props) => ({
   order_id,
   props,
 });
+
+export const operateMarkStatus = props => ({
+  type: types.operateMarkStatus,
+  props,
+});
+
+export const tag = (props, key) => ({
+  type: types.tag,
+  props,
+  key,
+});
