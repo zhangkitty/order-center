@@ -326,13 +326,10 @@ const SingleRow = (props) => {
               <div>
                 <div>{res.goods_name}</div>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ flexBasis: 200 }}>
+                  <div style={{ flexBasis: 180 }}>
                     <a href={res.goods_url} target="_blank">{d}</a>
                     <span style={{ color: '#ff0000', marginLeft: '10px' }}>{replaceGoods(res.is_replace, res.replace_goods_sort)}</span>
                   </div>
-                  {
-                    console.log(res.is_split)
-                  }
                   <div>
                     {
                       res.is_split ? <div style={{ color: 'red' }}>已拆分</div> : null
@@ -340,20 +337,22 @@ const SingleRow = (props) => {
                   </div>
                 </div>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ flexBasis: 200 }}>{__('order.name.goods_id')}: {res.goods_id}</div>
+                  <div style={{ flexBasis: 180 }}>{__('order.name.goods_id')}: {res.goods_id}</div>
                   <div>{lan.商品状态}:{res.goods_status_title}</div>
                 </div>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ display: 'flex', flexBasis: 200 }}>
+                  <div style={{ display: 'flex', flexBasis: 180 }}>
                     <div>{res.goods_attr}</div>
                     <div style={{ marginLeft: 10 }}>
                       {(+res.inventory_shortage === 1) && <div style={{ color: 'red' }}>{lan.缺货}</div> }
                     </div>
                   </div>
-                  <div>{lan.运单号}:{res.shipping_no}</div>
+                  <div>{lan.运单号}:
+                    <Link target="_blank" to={`/order/details/track-details/${res.shipping_no}?p=${res.package_no}`}>{res.shipping_no}</Link>
+                  </div>
                 </div>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ flexBasis: 200 }}>{lan.供应商}:</div>
+                  <div style={{ flexBasis: 180 }}>{lan.供应商}:</div>
                   <div>{lan.物流渠道}:{res.delivery_channel}</div>
                 </div>
               </div>
