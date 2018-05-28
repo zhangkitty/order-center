@@ -715,7 +715,11 @@ const reducer = (state = defaultState, action) => {
               changeInputTempArr.reduce((sum, value) => sum += value.refundCurrency, 0);
       const symb = changeInputTempArr[0] && changeInputTempArr[0].symbol;
       const rlFee = (+isUsd === 0) ? rlFeeCurrency : rlFeeAmount;
-      const RefundAmountChangeInput = `Refund amount:${tol + rlFee}${symb}-${rlFee}${symb} =  ${tol}${rlFee}`;
+      const RefundAmountChangeInput =
+          (tol && symb) ?
+          `Refund amount:${tol + rlFee}${symb}-${rlFee}${symb} =  ${tol}${symb}`
+              : 'Refund amount:'
+      ;
       return assign({}, state, {
         RefundAmount: RefundAmountChangeInput,
         refundMethod: changeInputstr,
