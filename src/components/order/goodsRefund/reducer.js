@@ -497,7 +497,7 @@ const reducer = (state = defaultState, action) => {
       const sym = refPRemark[0].symbol;
       const shippingString = DefaultValue ? '（shipping and shipping insurance fee also be refunded)' : '';
       const RefundItems = `Refund items：${refundGoods.join(',')}\n`;
-      const RefundAmount = `Refund amount:${tot}${sym}-0${sym}    `;
+      const RefundAmount = `Refund amount:${tot}${sym}-0${sym}=${tot}${sym}`;
       const ShippingAndInsurance = `${shippingString}\n`;
       const RefundMethod = RefundM.join(' , ');
       const remark = `${RefundItems}${RefundAmount}${ShippingAndInsurance}${RefundMethod}`;
@@ -545,8 +545,6 @@ const reducer = (state = defaultState, action) => {
       }
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
-      console.log(state.shipping, 'haha');
-      console.log(state.shippingInsurance, 'hehe');
       const shippingTable = {
         '00': '\n',
         '01': '(shipping insurance fee also be refunded)\n',
@@ -633,16 +631,19 @@ const reducer = (state = defaultState, action) => {
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
       refundPaths = state.refundPaths.map(v => assign({}, v, {
-        refundAmount: resultAmount[v.refundPathId],
-        refundCurrency: resultCurrency[v.refundPathId],
-        moneyWithnoSymbol: v.symbol === '$' ? resultAmount[v.refundPathId] : resultCurrency[v.refundPathId],
-        refMakrMoney: v.symbol === '$' ? `${resultAmount[v.refundPathId]}${v.symbol}` : `${resultCurrency[v.refundPathId]}${v.symbol}`,
+        refundAmount: +Number(resultAmount[v.refundPathId]).toFixed(2),
+        refundCurrency: +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        moneyWithnoSymbol: v.symbol === '$' ? +Number(resultAmount[v.refundPathId]).toFixed(2) :
+            +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        refMakrMoney: v.symbol === '$' ? `${+Number(resultAmount[v.refundPathId]).toFixed(2)}${v.symbol}`
+            : `${+Number(resultCurrency[v.refundPathId]).toFixed(2)}${v.symbol}`,
       }));
+      debugger;
       const refPRemarkRl = refundPaths.filter(v => v.refundAmount > 0);
       const RefundMRl = refPRemarkRl.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`);
-      const totRl = refPRemarkRl.reduce((sum, value) => sum += (+value.moneyWithnoSymbol), 0);
+      const totRl = refPRemarkRl.reduce((sum, value) => sum += (+value.moneyWithnoSymbol), 0).toFixed(2);
       const symRl = refPRemarkRl[0].symbol;
-      const RefundAmountRl = `Refund amount:${totRl}${symRl}-${action.val}${symRl}`;
+      const RefundAmountRl = `Refund amount:${+Number(+totRl + action.val).toFixed(2)}${symRl}-${action.val}${symRl}=${totRl}${symRl}`;
       const RefundMethodRl = RefundMRl.join(',');
       return assign({}, state, {
         refundPaths,
@@ -708,9 +709,17 @@ const reducer = (state = defaultState, action) => {
     case TYPES.changeInput:
       const changeInputTempArr = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === state.radioValue) && v.refundAmount > 0);
       const changeInputstr = changeInputTempArr.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`).join(',');
+      const tol =
+          (changeInputTempArr[0] && changeInputTempArr[0].symbol) === '$' ?
+              changeInputTempArr.reduce((sum, value) => sum += value.refundAmount, 0) :
+              changeInputTempArr.reduce((sum, value) => sum += value.refundCurrency, 0);
+      const symb = changeInputTempArr[0] && changeInputTempArr[0].symbol;
+      const rlFee = (+isUsd === 0) ? rlFeeCurrency : rlFeeAmount;
+      const RefundAmountChangeInput = `Refund amount:${tol + rlFee}${symb}-${rlFee}${symb} =  ${tol}${rlFee}`;
       return assign({}, state, {
+        RefundAmount: RefundAmountChangeInput,
         refundMethod: changeInputstr,
-        remark: `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${changeInputstr}`,
+        remark: `${state.RefundItems}${RefundAmountChangeInput}${state.ShippingAndInsurance}${changeInputstr}`,
       });
 
     default:
