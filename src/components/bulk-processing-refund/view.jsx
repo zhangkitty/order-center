@@ -54,7 +54,13 @@ export default class Order extends Component {
               value1: this.state.value1,
               value2: info.file.response.data,
             });
-            message.success(info.file.response.msg);
+            // message.success(info.file.response.msg);
+            if (info.file.response.data.records.length > 0) {
+              message.success(info.file.response.records);
+            }
+            if (info.file.response.data.errors.length > 0) {
+              message.error(info.file.response.data.errors);
+            }
           } else {
             message.error(info.file.response.msg);
           }
@@ -79,7 +85,9 @@ export default class Order extends Component {
             {lan.下载样例}
           </a>
         </div>
-        <div style={{ marginTop: 20 }}>
+        {
+          /*
+          <div style={{ marginTop: 20 }}>
           {
             (Array.isArray(this.state.value1.records) && Array.isArray(this.state.value1.errors)) ?
               <div className={style.reason1}>
@@ -117,6 +125,8 @@ export default class Order extends Component {
                 : null
           }
         </div>
+           */
+        }
       </div>
     );
   }
