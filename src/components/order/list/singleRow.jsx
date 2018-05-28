@@ -330,9 +330,6 @@ const SingleRow = (props) => {
                     <a href={res.goods_url} target="_blank">{d}</a>
                     <span style={{ color: '#ff0000', marginLeft: '10px' }}>{replaceGoods(res.is_replace, res.replace_goods_sort)}</span>
                   </div>
-                  {
-                    console.log(res.is_split)
-                  }
                   <div>
                     {
                       res.is_split ? <div style={{ color: 'red' }}>已拆分</div> : null
@@ -350,7 +347,9 @@ const SingleRow = (props) => {
                       {(+res.inventory_shortage === 1) && <div style={{ color: 'red' }}>{lan.缺货}</div> }
                     </div>
                   </div>
-                  <div>{lan.运单号}:{res.shipping_no}</div>
+                  <div>{lan.运单号}:
+                    <Link to={`/order/details/track-details/${res.shipping_no}?p={res.package_no}`}>{res.shipping_no}</Link>
+                  </div>
                 </div>
                 <div style={{ display: 'flex' }}>
                   <div style={{ flexBasis: 200 }}>{lan.供应商}:</div>
