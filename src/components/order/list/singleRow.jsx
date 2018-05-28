@@ -348,7 +348,7 @@ const SingleRow = (props) => {
                     </div>
                   </div>
                   <div>{lan.运单号}:
-                    <Link to={`/order/details/track-details/${res.shipping_no}?p={res.package_no}`}>{res.shipping_no}</Link>
+                    <Link to={`/order/details/track-details/${res.shipping_no}?p=${res.package_no}`}>{res.shipping_no}</Link>
                   </div>
                 </div>
                 <div style={{ display: 'flex' }}>
