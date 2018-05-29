@@ -553,10 +553,11 @@ const reducer = (state = defaultState, action) => {
       };
       const stringTemp = shippingTable[`${state.shipping}${state.shippingInsurance}`];
       refundPaths = state.refundPaths.map(v => assign({}, v, {
-        refundAmount: resultAmount[v.refundPathId],
-        refundCurrency: resultCurrency[v.refundPathId],
-        moneyWithnoSymbol: v.symbol === '$' ? resultAmount[v.refundPathId] : resultCurrency[v.refundPathId],
-        refMakrMoney: v.symbol === '$' ? `${resultAmount[v.refundPathId]}${v.symbol}` : `${resultCurrency[v.refundPathId]}${v.symbol}`,
+        refundAmount: +Number(resultAmount[v.refundPathId]).toFixed(2),
+        refundCurrency: +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        moneyWithnoSymbol: v.symbol === '$' ? +Number(resultAmount[v.refundPathId]).toFixed(2) : +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        refMakrMoney: v.symbol === '$' ? `${+Number(resultAmount[v.refundPathId]).toFixed(2)}${v.symbol}`
+            : `${+Number(resultCurrency[v.refundPathId]).toFixed(2)}${v.symbol}`,
       }));
       const arr = refundPaths.filter(v => v.checked === true && v.refundCurrency > 0);
       const methodStr = arr.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`).join(',');
@@ -593,10 +594,11 @@ const reducer = (state = defaultState, action) => {
 
       const shippingInsuranceString = ShippingInsuranceTable[`${state.shipping}${state.shippingInsurance}`];
       refundPaths = state.refundPaths.map(v => assign({}, v, {
-        refundAmount: resultAmount[v.refundPathId],
-        refundCurrency: resultCurrency[v.refundPathId],
-        moneyWithnoSymbol: v.symbol === '$' ? resultAmount[v.refundPathId] : resultCurrency[v.refundPathId],
-        refMakrMoney: v.symbol === '$' ? `${resultAmount[v.refundPathId]}${v.symbol}` : `${resultCurrency[v.refundPathId]}${v.symbol}`,
+        refundAmount: +Number(resultAmount[v.refundPathId]).toFixed(2),
+        refundCurrency: +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        moneyWithnoSymbol: v.symbol === '$' ? +Number(resultAmount[v.refundPathId]).toFixed(2) : +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        refMakrMoney: v.symbol === '$' ? `${+Number(resultAmount[v.refundPathId]).toFixed(2)}${v.symbol}`
+            : `${+Number(resultCurrency[v.refundPathId]).toFixed(2)}${v.symbol}`,
       }));
       const arrInsu = refundPaths.filter(v => v.checked === true && v.refundCurrency > 0);
       const methodStrInsu = arrInsu.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`).join(',');
@@ -729,10 +731,11 @@ const reducer = (state = defaultState, action) => {
       const changeInputstr = changeInputTempArr.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`).join(',');
       const tol =
           (changeInputTempArr[0] && changeInputTempArr[0].symbol) === '$' ?
-              changeInputTempArr.reduce((sum, value) => sum += value.refundAmount, 0) :
-              changeInputTempArr.reduce((sum, value) => sum += value.refundCurrency, 0);
+              changeInputTempArr.reduce((sum, value) => sum += (+value.refundAmount), 0) :
+              changeInputTempArr.reduce((sum, value) => sum += (+value.refundCurrency), 0);
       const symb = changeInputTempArr[0] && changeInputTempArr[0].symbol;
       const rlFee = (+isUsd === 0) ? rlFeeCurrency : rlFeeAmount;
+      debugger;
       const RefundAmountChangeInput =
           (tol && symb) ?
           `Refund amount:${tol + rlFee}${symb}-${rlFee}${symb} =  ${tol}${symb}`

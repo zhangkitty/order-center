@@ -30,11 +30,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.INIT:
       return defaultState;
     case TYPES.GET_DATA_SUCCESS:
-      debugger;
-      const {}  = action.res.order_price_info;
-
-
-
+      console.log(action.res.order_price_info);
       return assign({}, state, {
         ready: true,
         dataSource: under2Camal(action.res),
