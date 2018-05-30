@@ -30,13 +30,19 @@ const reducer = (state = defaultState, action) => {
     case TYPES.INIT:
       return defaultState;
     case TYPES.GET_DATA_SUCCESS:
-      console.log(action.res.order_price_info);
+      const { order_goods } = action.res;
+      const { order_price_info } = action.res;
+      console.log(order_price_info);
+      const { wait_refund_price } = order_price_info;
+      const cancelItems = `Cancel items:${order_goods.map(v => v.goods_sort).join(',')}\n`;
+      const RefundAmount = `Refund amount: ${wait_refund_price.price_usd.amount_with_symbol}`;
+      console.log(cancelItems);
       return assign({}, state, {
         ready: true,
         dataSource: under2Camal(action.res),
         remainingPriceTotalUnder50: action.res.remainingPriceTotalUnder50,
         submitValue: assign({}, state.submitValue, {
-          remark: 'sfaf',
+          remark: `${cancelItems}${RefundAmount}`,
         }),
       });
     case TYPES.GET_REASON_SUCCESS:

@@ -59,7 +59,11 @@ function min(a, b) {
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT:
-      return defaultState;
+      return assign({}, state, {
+        submitValue: assign({}, state.submitValue, {
+          remark: 'aasd',
+        }),
+      });
     case TYPES.GET_DATA_SUCCESS:
       const max1 = Number(Number(
         Number(under2Camal(action.res).walletExtractable.priceWithExchangeRate.amount)
@@ -98,6 +102,7 @@ const reducer = (state = defaultState, action) => {
         under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount
         : under2Camal(action.res).walletNotExtractable.priceUsd.amount, // 钱包不提现（下单币种）
         submitValue: assign({}, state.submitValue, {
+          remark: 'afafa',
           refundAmount: max3 < max4 ? max3 : max4, // 美元金额
           refundCurrency: max1 < max2 ? max1 : max2, // 金额（下单币种）
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
