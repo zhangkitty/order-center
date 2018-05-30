@@ -106,6 +106,7 @@ function* tagSaga(action) {
     return message.info(`${data.msg}`);
   }
   yield put(change('markTagShow', false));
+  yield put(change('trouble_reason', []));
   yield put(search(action.props));
   return null;
 }
