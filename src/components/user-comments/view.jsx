@@ -75,8 +75,8 @@ class UserComments extends React.Component {
     const columns = [
       {
         title: '订单号',
-        dataIndex: 'order_id',
-        key: 'order_id',
+        dataIndex: 'billno',
+        key: 'billno',
       },
       {
         title: '站点',

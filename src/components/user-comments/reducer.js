@@ -2,6 +2,7 @@ import assign from 'object-assign';
 import * as types from './types';
 
 const defaultState = {
+  trouble_reason: [],
   selectedRowKeys: null,
   selectedRows: null,
   processedShow: false,
@@ -12,9 +13,9 @@ const defaultState = {
   siteArr: [],
   site_from: [],
   handle_statusArr: [], // 处理状态
-  handle_status: '待处理',
+  handle_status: 1,
   handle_resultArr: [], // 处理结果
-  handle_result: '全部',
+  handle_result: 0,
   myhandle_status: null,
   myhandle_result: null,
   billno: '',

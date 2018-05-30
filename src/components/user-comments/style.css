@@ -41,3 +41,32 @@
     margin-bottom: 15px;
 }
 
+.troubleListBg {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.troubleList {
+    display: flex;
+    flex-direction: column;
+    /*margin: 0 5px 0 0;*/
+    width: 33%;
+}
+.troubleList2 {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.troubleList > span, .troubleList2 > span {
+    margin: 0 0 5px 0;
+    font-size: 13px;
+    color: #000;
+}
+
+.troubleName  {
+    vertical-align: top;
+    width: 100px;
+    display: inline-block;
+}
+

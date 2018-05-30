@@ -71,7 +71,7 @@ const head = (props) => {
               onChange={value => dispatch(change('handle_status', value))}
             >
               {
-                handle_statusArr.map(v => <Option value={v}>{v}</Option>)
+                handle_statusArr.map((v, idx) => <Option value={idx}>{v}</Option>)
               }
             </Select>
           </div>
@@ -134,10 +134,10 @@ const head = (props) => {
               allowClear
               className={styles.select}
               value={handle_result}
-              onChange={value => dispatch(change('handel_result', value))}
+              onChange={value => dispatch(change('handle_result', value))}
             >
               {
-                handle_resultArr.map(v => <Option value={v}>{v}</Option>)
+                handle_resultArr.map((v, idx) => <Option value={idx}>{v}</Option>)
               }
             </Select>
           </div>
