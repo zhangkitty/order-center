@@ -72,7 +72,13 @@ function* batchRefundSaga(action) {
   if (data.data.errors.length > 0) {
     Modal.error({
       title: lan.批量返回失败的订单,
-      content: `${data.data.errors.join('\n')}`,
+      content: (
+        <div>
+          {
+            data.data.errors.map(v => <div>{v}</div>)
+          }
+        </div>
+      ),
     });
   } else {
     message.success(`${data.msg}`);
@@ -96,7 +102,13 @@ function* updateSaga(action) {
   if (data.data.errors.length > 0) {
     Modal.error({
       title: lan.批量返回失败的订单,
-      content: `${data.data.errors.join('\n')}`,
+      content: (
+        <div>
+          {
+              data.data.errors.map(v => <div>{v}</div>)
+            }
+        </div>
+      ),
     });
   } else {
     message.success(`${data.msg}`);
