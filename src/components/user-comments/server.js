@@ -91,9 +91,8 @@ export const operateMarkStatusSer = action=>{
 }
 
 export const tagSer=action =>{
-
   const table  = {
-    1:{is_trouble:action.props.troubleTag,order_id:action.props.order_id,type:action.key,remak:action.props.markTag},
+    1:{is_trouble:action.props.troubleTag,order_id:action.props.order_id,type:action.key,remark:action.props.markTag},
     2:{is_trouble:0,order_id:action.props.order_id,type:action.key},
   }
   return fetch(`/order/tag`,{method:'post',body:JSON.stringify(table[action.key])})

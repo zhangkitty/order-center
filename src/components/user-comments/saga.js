@@ -106,10 +106,12 @@ function* tagSaga(action) {
     return message.info(`${data.msg}`);
   }
   yield put(change('markTagShow', false));
+  yield put(search(action.props));
   return null;
 }
 
 function* userMarkExportSaga(action) {
+  // 批量导出
   const data = yield userMarkExportSer(action);
 }
 
