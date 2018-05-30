@@ -90,8 +90,7 @@ class DiffRefund extends Component {
                 return message.warning(__('common.submitTitle3'));
               }
               for (let [i, len] = [0, refund_paths.length]; i < len; i += 1) {
-                if (((refund_paths[i].refundPathId === 3 && isCod) || refund_paths[i].refundPathId > 3) && !refund_paths[i].refund_method)
-                  return message.warning(__('common.submitTitle3'));
+                if (((refund_paths[i].refundPathId === 3 && isCod) || refund_paths[i].refundPathId > 3) && !refund_paths[i].refund_method) { return message.warning(__('common.submitTitle3')); }
                 if (refund_paths[i].refund_method === 'PayPal' && !refund_paths[i].account) return message.warning(__('common.submitTitle3'));
                 if (refund_paths[i].refund_method === 'Paytm' && (!refund_paths[i].account || refund_paths[i].account.length !== 10)) {
                   return message.warning(__('common.errorPaytm'));

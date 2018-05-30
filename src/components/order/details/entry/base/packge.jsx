@@ -138,7 +138,7 @@ const colors = {
   91: { bg: '#ccc', border: 'none' },
   94: { bg: '#ccc', border: 'none' },
   126: { bg: '#ccc', border: 'none' },
-  127: { bg: '#ccc', border: 'none' },
+  127: { bg: '#F8E71C' },
   130: { bg: 'rgba(177,0,22,0.20)', border: '2px solid #B10016' },
 };
 
@@ -527,30 +527,30 @@ const Packge = ({
                 <Button disabled={partSendBtn}>{lan.bufenfa}</Button>
               </Popover>
             )}
-            {!!show_priority_shipped_button && ( // 优先发货按钮
-              <Button
-                onClick={() => {
-                  dispatch(commit('preSend', preSend)); // 0
-                  dispatch(
-                    preSendAction(Number(orderId), preSend, billno, activeKey),
-                  ); // preSend
-                }}
-              >
-                {lan.youxianfahuo}
-              </Button>
-            )}
+            {/* {!!show_priority_shipped_button && ( // 优先发货按钮 */}
+            {/* <Button */}
+            {/* onClick={() => { */}
+            {/* dispatch(commit('preSend', preSend)); // 0 */}
+            {/* dispatch( */}
+            {/* preSendAction(Number(orderId), preSend, billno, activeKey), */}
+            {/* ); // preSend */}
+            {/* }} */}
+            {/* > */}
+            {/* {lan.youxianfahuo} */}
+            {/* </Button> */}
+            {/* )} */}
             {!!show_cancel_priority_shipped_button && ( // 取消优先发货按钮
-              <Button
-                onClick={() => {
-                  dispatch(commit('preSend', +!preSend)); // 1
-                  dispatch(
-                    preSendAction(Number(orderId), 1, billno, activeKey),
-                  ); // preSend
-                }}
-              >
-                {lan.quxiaoyouxianfahuo}
-              </Button>
-            )}
+            <Button
+              onClick={() => {
+                dispatch(commit('preSend', +!preSend)); // 1
+                dispatch(
+             preSendAction(Number(orderId), 1, billno, activeKey),
+             ); // preSend
+              }}
+            >
+              {lan.quxiaoyouxianfahuo}
+            </Button>
+             )}
             {!!show_review_order_button && ( // 审核订单按钮
               <Button onClick={() => dispatch(examine(orderId))}>
                 {lan.shenhedingdan}
@@ -600,7 +600,8 @@ const Packge = ({
             <div className={style.tableFloat}>
               <Table
                 dataSource={fetchRemark}
-                columns={columnsRemark} size="small"
+                columns={columnsRemark}
+                size="small"
                 pagination={false}
                 style={{ width: '500px', maxHeight: '400px', overflow: 'auto' }}
               />

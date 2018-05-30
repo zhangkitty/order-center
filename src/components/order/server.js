@@ -48,7 +48,7 @@ export const searchSubmit = (page) => {
 };
 
 export const seachHighSubmit = (page) => {
-  const keys = ['pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'yoho_count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd', 'totalSelect', 'totalInput', 'goodsId'];
+  const keys = ['currency_code','pageSize', 'pageNumber','paytimeStart', 'paytimeEnd', 'siteFrom', 'countryName', 'paymentMethod', 'troubleType', 'goodsSn', 'yoho_count', 'memberLevel', 'orderStatus', 'cancelReason', 'goodsStatus', 'handleTimeStart', 'handleTimeEnd', 'totalSelect', 'totalInput', 'goodsId'];
   return fetch(`${list.initHigh}?${queryString(camel2Under(keys), camel2Under(page))}`, {
     method: 'GET',
   })

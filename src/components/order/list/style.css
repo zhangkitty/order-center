@@ -176,13 +176,13 @@ form .colSpace2{
     padding:20px 20px 0;
     color: #333;
 }
-.troubleBg > span {
+.troubleBg > span, .troubleName  {
     vertical-align: top;
     width: 100px;
     display: inline-block;
 }
 .troubleContent {
-    width: 300px;
+    width: 570px;
     display: inline-block;
     margin-bottom: 15px;
 }
@@ -213,13 +213,20 @@ form .colSpace2{
 .troubleListBg {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 .troubleList {
     display: flex;
     flex-direction: column;
-    margin: 0 5px 0 0;
+    /*margin: 0 5px 0 0;*/
+    width: 33%;
 }
-.troubleList > span {
+.troubleList2 {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.troubleList > span, .troubleList2 > span {
     margin: 0 0 5px 0;
     font-size: 13px;
     color: #000;

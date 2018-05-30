@@ -30,7 +30,6 @@ const defaultState = {
 };
 
 const getMax = (d) => {
-  console.log(d.orderPriceInfo);
   if (d.isUsd === 0) {
     return {
       1: d.orderPriceInfo.giftCardCanRefundPrice.priceWithExchangeRate.amount,

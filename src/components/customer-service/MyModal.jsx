@@ -46,7 +46,6 @@ const MyModal = (props) => {
         <Checkbox.Group
           value={checkedCountrys}
           onChange={(checkedValues) => {
-            console.log(checkedValues);
             dispatch(changeValue('checkedCountrys', checkedValues));
           }}
         >

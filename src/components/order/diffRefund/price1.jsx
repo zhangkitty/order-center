@@ -30,7 +30,7 @@ const price = ({
                maxTips,
                isUsd,
                rate,
-               otherInputDisable
+               otherInputDisable,
                }) => (
                  <div className={style.spaceBg} >
                    <span className={style.descWidth}>{__('order.goodsRefund.need_cancel_price')}{star}</span>
