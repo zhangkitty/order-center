@@ -69,7 +69,14 @@ function* batchRefundSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${data.msg}`);
   }
-  message.info(`${data.data.errors}${data.data.logs}`);
+  if (data.data.errors.length > 0) {
+    Modal.error({
+      title: lan.批量返回失败的订单,
+      content: `${data.data.errors.join('\n')}`,
+    });
+  } else {
+    message.success(`${data.msg}`);
+  }
   yield put(change('batchRefundModalShow', false));
   yield put(getOverStockList(action.value, action.value.pageNumber));
   yield put(change('choose_order_goods', []));
