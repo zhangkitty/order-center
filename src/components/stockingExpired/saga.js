@@ -82,8 +82,8 @@ function* updateSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${data.msg}`);
   }
-  message.error(data.data.errors);
-  message.info(data.data.logs);
+  message.error(`${data.data.errors.join('\n')}`);
+  message.info(`${data.data.logs.join('\n')}`);
   yield put(getOverStockList(action.value));
   return null;
 }
