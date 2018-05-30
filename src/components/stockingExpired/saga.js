@@ -69,6 +69,7 @@ function* batchRefundSaga(action) {
   message.info(`${data.data.errors}${data.data.logs}`);
   yield put(change('batchRefundModalShow', false));
   yield put(getOverStockList(action.value, action.value.pageNumber));
+  yield put(change('choose_order_goods', []));
   return null;
 }
 
@@ -81,6 +82,8 @@ function* updateSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${data.msg}`);
   }
+  message.error(data.data.errors);
+  message.info(data.data.logs);
   yield put(getOverStockList(action.value));
   return null;
 }

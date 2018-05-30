@@ -41,7 +41,7 @@ const defaultState = {
   batchRefundModalShow: false,
   refundReason: null,
   // 选中的order_goods
-  choose_order_goods: null,
+  choose_order_goods: [],
   selectedRowKeys: null,
 
 };
