@@ -24,7 +24,7 @@ function* initSaga(action) {
   if (data[1].code !== 0) {
     return message.info(`${data[0].msg}`);
   }
-  const country = [{ country: '请选择', country_id: null }];
+  const country = [];
   data[0].data.map(v => v.country_info.map(k => country.push(k)));
   yield put(change('countryArr', country));
   yield put(change('siteArr', data[1].data.data.site));

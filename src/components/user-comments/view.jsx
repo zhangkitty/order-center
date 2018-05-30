@@ -126,39 +126,41 @@ class UserComments extends React.Component {
         width: '300px',
         render: (text, record, index) => (
           <div style={{ width: 300 }}>
-            <Popover
-              content={
-                <div>
-                  <Button
-                    style={{ marginLeft: 90 }}
-                    size="small"
-                    onClick={() => dispatch(operateMarkStatus(this.props))}
-                  >{lan.确认}</Button>
-                </div>
-                }
-              trigger="click"
-              title="确认跟进改单号吗？"
-            >
-              <Button
+            {
+              (+record.handle_status < 2) && <Popover
+                content={
+                  <div>
+                    <Button
+                      style={{ marginLeft: 90 }}
+                      size="small"
+                      onClick={() => dispatch(operateMarkStatus(this.props))}
+                    >{lan.确认}</Button>
+                  </div>
+                  }
+                trigger="click"
+                title="确认跟进改单号吗？"
+              >
+                <Button
+                  size="small"
+                  onClick={() => {
+                    dispatch(change('myhandle_result', 2));
+                    dispatch(change('id', text.id));
+                  }}
+                >{lan.跟进中}</Button>
+              </Popover>
+            }
+            {
+              (+record.handle_status < 3) && <Button
                 size="small"
-                onClick={() => {
-                  dispatch(change('myhandle_result', 2));
-                  dispatch(change('id', text.id));
-                }}
-              >{lan.跟进中}</Button>
-            </Popover>
-
-            <Button
-              size="small"
-              onClick={
-                () => {
-                  dispatch(change('myhandle_result', 3));
-                  dispatch(change('id', text.id));
-                  dispatch(change('processedShow', true));
-                }
-              }
-            >{lan.已处理}</Button>
-
+                onClick={
+                    () => {
+                      dispatch(change('myhandle_result', 3));
+                      dispatch(change('id', text.id));
+                      dispatch(change('processedShow', true));
+                    }
+                  }
+              >{lan.已处理}</Button>
+            }
             <Popover
               placement="bottom"
               trigger="click"
@@ -239,7 +241,7 @@ class UserComments extends React.Component {
                   dispatch(change('markTagShow', true));
                   dispatch(change('order_id', record.order_id));
                   dispatch(change('markTag', ''));
-                  dispatch(change('troubleTag', null));
+                  // dispatch(change('troubleTag', 2));
                 }}
               >
                 订单标记

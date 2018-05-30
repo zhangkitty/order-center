@@ -29,7 +29,7 @@ const OrderMark = (props) => {
       <Modal
         visible={markTagShow}
         onOk={() => {
-          if ((!!troubleTag === false) || (!!markTag === false)) {
+          if ((!troubleTag) || (!markTag)) {
             return message.info('信息没填全');
           }
           return dispatch(tag(props, 1));

@@ -2,21 +2,21 @@ import assign from 'object-assign';
 import * as types from './types';
 
 const defaultState = {
-  selectedRowKeys:null,
-  selectedRows:null,
+  selectedRowKeys: null,
+  selectedRows: null,
   processedShow: false,
   order_id: '',
   id: '',
   countryArr: [],
-  country_id: null,
+  country_id: [],
   siteArr: [],
-  site_from: null,
+  site_from: [],
   handle_statusArr: [], // 处理状态
-  handle_status: '全部',
+  handle_status: '待处理',
   handle_resultArr: [], // 处理结果
   handle_result: '全部',
-  myhandle_result: null,
   myhandle_status: null,
+  myhandle_result: null,
   billno: '',
   data: null,
   handler: '',

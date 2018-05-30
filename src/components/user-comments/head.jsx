@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, Select, DatePicker, Button, Popconfirm } from 'antd';
 import styles from './style.css';
-import { search, change, operateMarkStatus, userMarkExport} from './action';
+import { search, change, operateMarkStatus, userMarkExport } from './action';
 
 
 const lan = {
@@ -16,6 +16,7 @@ const lan = {
   批量导出: '批量导出',
   批量跟进中: '批量跟进中',
   批量已处理: '批量已处理',
+  请选择: '请选择',
 };
 
 const head = (props) => {
@@ -91,7 +92,9 @@ const head = (props) => {
           <div >
             <Select
               allowClear
+              placeholder={lan.请选择}
               className={styles.select}
+              mode="multiple"
               value={country_id}
               onChange={value => dispatch(change('country_id', value))}
             >
@@ -110,11 +113,12 @@ const head = (props) => {
           <div >
             <Select
               className={styles.select}
+              placeholder={lan.请选择}
+              mode="multiple"
               allowClear
               value={site_from}
               onChange={value => dispatch(change('site_from', value))}
             >
-              <Option value={null}>请选择</Option>
               {
                 siteArr.map(v => <Option value={v.id}>{v.name}</Option>)
               }
