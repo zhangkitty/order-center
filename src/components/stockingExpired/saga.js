@@ -1,5 +1,5 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import * as TYPES from './types';
 import { getoverstocksearchconditionsSer, getoverstocklistSer, batchRefundSer, updateSer } from './server';
 import { change, getOverStockList } from './action';
@@ -9,6 +9,7 @@ import moment from 'moment';
 const lan = {
   时间必填: '时间必填',
   选择的时间不能超过一个月: '选择的时间不能超过一个月',
+  批量返回失败的订单: '批量返回失败的订单',
 };
 function* getOverStockSearchConditionsSaga() {
   const data = yield getoverstocksearchconditionsSer();
@@ -62,7 +63,9 @@ function* batchRefundSaga(action) {
   if (action.value.choose_order_goods.length === 0) {
     return message.info('商品没有选');
   }
+  yield put(change('confirmLoading', true));
   const data = yield batchRefundSer(action);
+  yield put(change('confirmLoading', false));
   if (!data || data.code !== 0) {
     return message.error(`${data.msg}`);
   }
@@ -82,9 +85,17 @@ function* updateSaga(action) {
   if (!data || data.code !== 0) {
     return message.error(`${data.msg}`);
   }
-  message.error(`${data.data.errors.join('\n')}`);
-  message.info(`${data.data.logs.join('\n')}`);
+
+  if (data.data.errors.length > 0) {
+    Modal.error({
+      title: lan.批量返回失败的订单,
+      content: `${data.data.errors.join('\n')}`,
+    });
+  } else {
+    message.success(`${data.msg}`);
+  }
   yield put(getOverStockList(action.value));
+  yield put(change('choose_order_goods', []));
   return null;
 }
 

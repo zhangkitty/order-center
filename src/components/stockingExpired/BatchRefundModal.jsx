@@ -5,7 +5,7 @@ import { change, batchRefund } from './action';
 
 
 const BatchRefundModal = (props) => {
-  const { dispatch, batchRefundModalShow, refundReason } = props;
+  const { dispatch, batchRefundModalShow, refundReason,confirmLoading } = props;
   const RadioGroup = Radio.Group;
   const lan = {
     选择退款原因: '选择退款原因',
@@ -20,6 +20,7 @@ const BatchRefundModal = (props) => {
       visible={batchRefundModalShow}
       onCancel={() => dispatch(change('batchRefundModalShow', false))}
       onOk={() => dispatch(batchRefund(props))}
+      confirmLoading={confirmLoading}
     >
       <div>
         <div className={styles.refundReason}>
