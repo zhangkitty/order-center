@@ -1,6 +1,8 @@
 /**
  * Create by liufeng on 2017/9/28
  */
+
+import FileSaver from 'file-saver'
 import fetch from "../../lib/fetch";
 import {camel2Under} from "../../lib/camal";
 import queryString from "../../lib/query-string";
@@ -104,8 +106,9 @@ export const doRefundPassSer = data => (
   })
 )
 
-export const exportASer = ()=>{
-  return fetch('/OrderReturn/exportLogisticsCost',{
-    method:'post'
+export const exportASer = (action)=>{
+  return fetch(`/OrderReturn/exportLogisticsCost`,{
+    method:'post',
+    body:JSON.stringify(action.props.queryString)
   })
 }

@@ -45,6 +45,7 @@ export const initCountrySuccess = data => ({
   data,
 });
 
-export  const exportA  =()=>({
-  type:TYPES.exportA,
-})
+export const exportA = props => ({
+  type: TYPES.exportA,
+  props,
+});

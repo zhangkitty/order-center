@@ -7,7 +7,7 @@ import assign from 'object-assign';
 import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Upload, Icon } from 'antd';
 import moment from 'moment';
 import {
-  search, commit, change, initCountry, exportSubmit, initLogisticsChannelsArray,exportA
+  search, commit, change, initCountry, exportSubmit, initLogisticsChannelsArray, exportA,
 } from './action';
 
 import styles from './style.css';
@@ -510,8 +510,7 @@ class TabsHeader extends Component {
                     </Upload>
                     <div style={{ marginTop: 10 }}>
                       <Button
-
-                          onClick={()=>dispatch(exportA())}
+                        onClick={() => dispatch(exportA(this.props))}
                       >
                         {lan.导出成本核算字段}
                       </Button>
