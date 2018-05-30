@@ -30,9 +30,8 @@ export default class Order extends Component {
           if (info.file.response.code === 0) {
             const temp1 = this.state.value1;
             const temp2 = this.state.value2;
-            temp1.push(info.file.response.data.error);
-            temp2.push(info.file.response.data.log);
-
+            info.file.response.data.errors.map(v => temp1.push(v));
+            info.file.response.data.records.map(v => temp2.push(v));
             this.setState({
               value1: temp1,
               value2: temp2,
@@ -61,8 +60,8 @@ export default class Order extends Component {
           if (info.file.response.code === 0) {
             const temp1 = this.state.value1;
             const temp2 = this.state.value2;
-            temp1.push(info.file.response.data.error);
-            temp2.push(info.file.response.data.log);
+            info.file.response.data.errors.map(v => temp1.push(v));
+            info.file.response.data.records.map(v => temp2.push(v));
 
             this.setState({
               value1: temp1,
