@@ -1,0 +1,45 @@
+:local(.span) {
+    margin-right:10px;
+}
+:local(.select) {
+    margin-right:10px;
+    width:130px;
+    height: 26px;
+}
+:local(.img) {
+    margin:120px auto 10px;
+    display: block;
+}
+:local(.txt){
+    font-size: 20px;
+    text-align: center;
+}
+:local(.upload){
+    margin-top:10px;
+    text-align: center;
+}
+
+.all{
+    margin: 20px;
+}
+
+
+.one{
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.two{
+    display: flex;
+}
+
+
+.reason1{
+    border: 1px solid black;
+    width: 500px;
+}
+.reason2{
+    border: 1px solid black;
+    width:500px;
+
+}
