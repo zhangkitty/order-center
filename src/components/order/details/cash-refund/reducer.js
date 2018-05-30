@@ -7,6 +7,7 @@ import { under2Camal } from '../../../../lib/camal';
 
 
 const defaultState = {
+  symbol: '',
   is_usd: null,
   one: '',
   two: '',
@@ -89,10 +90,16 @@ const reducer = (state = defaultState, action) => {
       const rate2 = Number(under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate);   // 下单币种汇率
       const one = state.submitValue.refundType === 3 ? 'Refund Withdraw' : 'Refund Returned';
       const { is_usd } = action.res;
+      const refundAmount = (max3 < max4) ? max3 : max4;// 美元金额
+      const refundCurrency = (max1 < max2) ? max1 : max2; // 金额（下单币种）
+      const { price_usd, price_with_exchange_rate } = action.res.refunded_wallet_amount;
+      const symbol = is_usd ? price_usd.symbol : price_with_exchange_rate.symbol;
+      const two = `Refund method：account,${is_usd ? refundAmount : refundCurrency}${symbol}`;
       return assign({}, state, {
+        symbol,
         is_usd,
         one,
-        two: 'sfa',
+        two,
         ready: true,
         dataSource: under2Camal(action.res),
         refundTypeList: under2Camal(action.res).refundTypeList, // 退款路径列表
@@ -107,9 +114,9 @@ const reducer = (state = defaultState, action) => {
         under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount
         : under2Camal(action.res).walletNotExtractable.priceUsd.amount, // 钱包不提现（下单币种）
         submitValue: assign({}, state.submitValue, {
-          remark: 'afafa',
-          refundAmount: max3 < max4 ? max3 : max4, // 美元金额
-          refundCurrency: max1 < max2 ? max1 : max2, // 金额（下单币种）
+          remark: `${one};\n${two}`,
+          refundAmount, // 美元金额
+          refundCurrency, // 金额（下单币种）
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
           max, // 金额最大值（下单币种
@@ -151,6 +158,21 @@ const reducer = (state = defaultState, action) => {
           [action.key]: action.value,
         }),
       });
+
+    case TYPES.changeRadio:
+      const oneChangeRadio = state.submitValue.refundType === 3 ? 'Refund Withdraw' : 'Refund Returned';
+      return assign({}, state, {
+        one: oneChangeRadio,
+        submitValue: assign({}, state, {
+          remark: `${oneChangeRadio}:\n${state.two}`,
+        }),
+      });
+
+    case TYPES.changeAmount:
+      return state;
+
+    case TYPES.changeCurrency:
+      return state;
     default:
       return state;
   }

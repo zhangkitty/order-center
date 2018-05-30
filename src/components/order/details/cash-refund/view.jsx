@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { connect } from 'react-redux';
 import { Spin, Input, Button, message, Radio, Select } from 'antd';
-import { subchange, getData, submitForward, reset } from './action';
+import { subchange, getData, submitForward, reset, changeRadio } from './action';
 
 import SumOfMoney from './sumOfMoney';
 import Price from './price';
@@ -89,7 +89,10 @@ class cashRefund extends Component {
               <span className={style.descWidth}>{__('order.entry.cash_content4')}: </span>
               <RadioGroup
                 value={refundType}
-                onChange={e => dispatch(subchange('refundType', e.target.value))}
+                onChange={(e) => {
+                  dispatch(changeRadio());
+                  dispatch(subchange('refundType', e.target.value));
+                }}
               >
                 {
                   refundTypeList.map(item => (

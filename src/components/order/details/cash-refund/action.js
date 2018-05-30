@@ -34,3 +34,15 @@ export const reset = () => ({
   type: TYPES.RESET,
 });
 
+export const changeRadio = () => ({
+  type: TYPES.changeRadio,
+});
+
+export const changeCurrency = () => ({
+  type: TYPES.changeCurrency,
+});
+
+export const changeAmount = () => ({
+  type: TYPES.changeAmount,
+});
+

@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Input, InputNumber } from 'antd';
-import { subchange } from './action';
+import { subchange, changeAmount, changeCurrency } from './action';
 import style from './style.css';
 
 const star = (<span style={{ color: 'red' }}>*</span>);
@@ -28,6 +28,7 @@ const Price = ({ submitValue, dispatch, dataSource }) => (
           onChange={(e) => {
             dispatch(subchange('refundAmount', e.target.value));
             dispatch(subchange('refundCurrency', Number(Number(e.target.value) * submitValue.rate2).toFixed(2))); // 取消，美元填写
+            dispatch(changeAmount());
           }}
         />
         <span
@@ -42,6 +43,7 @@ const Price = ({ submitValue, dispatch, dataSource }) => (
           onChange={(e) => {
             dispatch(subchange('refundAmount', Number(Number(e.target.value) / submitValue.rate2).toFixed(2)));
             dispatch(subchange('refundCurrency', e.target.value));
+            dispatch(changeCurrency());
           }}
         />
         <span className={style.tipStyle}>
