@@ -7,6 +7,9 @@ import { under2Camal } from '../../../../lib/camal';
 
 
 const defaultState = {
+  is_usd: null,
+  one: '',
+  two: '',
   ready: false,
   dataSource: {},
   refundInfo: {},
@@ -59,12 +62,9 @@ function min(a, b) {
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT:
-      return assign({}, state, {
-        submitValue: assign({}, state.submitValue, {
-          remark: 'aasd',
-        }),
-      });
+      return state;
     case TYPES.GET_DATA_SUCCESS:
+
       const max1 = Number(Number(
         Number(under2Camal(action.res).walletExtractable.priceWithExchangeRate.amount)
         +
@@ -87,7 +87,12 @@ const reducer = (state = defaultState, action) => {
       const max = under2Camal(action.res).isUsd ? min(max3, max4) : min(max1, max2);
 
       const rate2 = Number(under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate);   // 下单币种汇率
+      const one = state.submitValue.refundType === 3 ? 'Refund Withdraw' : 'Refund Returned';
+      const { is_usd } = action.res;
       return assign({}, state, {
+        is_usd,
+        one,
+        two: 'sfa',
         ready: true,
         dataSource: under2Camal(action.res),
         refundTypeList: under2Camal(action.res).refundTypeList, // 退款路径列表
