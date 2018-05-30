@@ -150,6 +150,13 @@ const menus = [
         crumbName: lan.用户备注列表,
         nav: true,
       },
+      {
+        link: '/bulk-processing-refund',
+        name: '批量处理退款',
+        crumbName: '批量处理退款',
+        nav: true,
+      },
+
     ],
   },
 ];

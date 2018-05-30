@@ -29,6 +29,7 @@ const lan = {
   支付平台投诉订单: '支付平台投诉订单',
   投诉平台: '投诉平台',
   投诉类型: '投诉类型',
+  缺货: __('order.list.list.缺货'),
 
 
   //
@@ -293,11 +294,6 @@ const SingleRow = (props) => {
           pagination={false}
           showHeader={false}
           dataSource={(function (v) {
-            const m = new Map();
-            v.order_goods.map((val) => {
-              const num = m.get(val.goods_id) ? m.get(val.goods_id) + 1 : 1;
-              m.set(val.goods_id, num);
-            });
             return (
               v.order_goods.map((val) => {
                 val.site_from = v.site_from;
@@ -310,7 +306,6 @@ const SingleRow = (props) => {
                 val.billno = v.billno;
                 val.payment_method = v.payment_method;
                 val.country_name = v.country_name;
-                val.is_split = m.get(val.goods_id) > 1;
                 return val;
               })
             );
@@ -329,31 +324,41 @@ const SingleRow = (props) => {
             dataIndex: 'goods_sn',
             render: (d, res) => (
               <div>
-                <p>{res.goods_name}</p>
-                <a href={res.goods_url} target="_blank"> {d}</a>
-                <span style={{ color: '#ff0000', marginLeft: '10px' }}>
-                  {
-                    replaceGoods(res.is_replace, res.replace_goods_sort) // res.goods_status
-                  }
-                </span>
-                <p style={{ display: 'flex' }}>
-                  <div style={{ display: 'inline-block', width: 150 }}>{__('order.name.goods_id')}: {res.goods_id}</div>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div>{res.is_split ? <span style={{ color: 'red' }}>已拆分</span> : null}</div>
-                    <div>{lan.商品状态}:{res.goods_status_title}</div>
+                <div>{res.goods_name}</div>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ flexBasis: 180 }}>
+                    <a href={res.goods_url} target="_blank">{d}</a>
+                    <span style={{ color: '#ff0000', marginLeft: '10px' }}>{replaceGoods(res.is_replace, res.replace_goods_sort)}</span>
                   </div>
-                </p>
-                <p>
-                  <span style={{ display: 'inline-block', width: 150 }}>{res.goods_attr}</span>
-                  <span>{lan.运单号}:{res.shipping_no}</span>
-                </p>
-                <p>
-                  <span style={{ display: 'inline-block', width: 150 }}>{lan.供应商}:{/* res.supplier_id */}</span>
-                  <span>{lan.物流渠道}:{res.delivery_channel}</span>
-                </p>
+                  <div>
+                    {
+                      res.is_split ? <div style={{ color: 'red' }}>已拆分</div> : null
+                    }
+                  </div>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ flexBasis: 180 }}>{__('order.name.goods_id')}: {res.goods_id}</div>
+                  <div>{lan.商品状态}:{res.goods_status_title}</div>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ display: 'flex', flexBasis: 180 }}>
+                    <div>{res.goods_attr}</div>
+                    <div style={{ marginLeft: 10 }}>
+                      {(+res.inventory_shortage === 1) && <div style={{ color: 'red' }}>{lan.缺货}</div> }
+                    </div>
+                  </div>
+                  <div>{lan.运单号}:
+                    <Link target="_blank" to={`/order/details/track-details/${res.shipping_no}?p=${res.package_no}`}>{res.shipping_no}</Link>
+                  </div>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ flexBasis: 180 }}>{lan.供应商}:</div>
+                  <div>{lan.物流渠道}:{res.delivery_channel}</div>
+                </div>
               </div>
             ),
-          }, {
+          },
+          {
             title: '价格',
             dataIndex: 'price',
             width: '13%',
@@ -512,7 +517,7 @@ const SingleRow = (props) => {
             target="_blank"
           >{__('common.order_operation')}
           </Link>
-          {/*  订单标记 */}
+          {/*  订单标记 is_trouble > 0 ？  取消订单标记  ： 订单标记   */}
           {
             Number(data.is_trouble) > 0 ?
               <Popconfirm

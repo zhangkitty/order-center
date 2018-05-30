@@ -19,6 +19,7 @@ export default (url, args = {}, header) => {
   } else {
     newUrl = `${url}?language=${process.env.LOCALE}`;
   }
+  localStorage.setItem('language', process.env.LOCALE);
   return fetch(`${process.env.BASE_URI}${newUrl}`, assign({
     credentials: 'include',
     headers: header || {

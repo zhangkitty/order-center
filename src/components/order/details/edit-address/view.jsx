@@ -255,7 +255,7 @@ class EditAddress extends Component {
                       lineHeight: '100%',
                     }}
                     >
-                      {lan.您已输入的字符个数}:{submitValue[key].length}
+                      {lan.您已输入的字符个数}:{(submitValue[key] || []).length}
                     </span>
                   </div>
                 }

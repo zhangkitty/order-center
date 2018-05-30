@@ -527,30 +527,30 @@ const Packge = ({
                 <Button disabled={partSendBtn}>{lan.bufenfa}</Button>
               </Popover>
             )}
-            {!!show_priority_shipped_button && ( // 优先发货按钮
-              <Button
-                onClick={() => {
-                  dispatch(commit('preSend', preSend)); // 0
-                  dispatch(
-                    preSendAction(Number(orderId), preSend, billno, activeKey),
-                  ); // preSend
-                }}
-              >
-                {lan.youxianfahuo}
-              </Button>
-            )}
+            {/* {!!show_priority_shipped_button && ( // 优先发货按钮 */}
+            {/* <Button */}
+            {/* onClick={() => { */}
+            {/* dispatch(commit('preSend', preSend)); // 0 */}
+            {/* dispatch( */}
+            {/* preSendAction(Number(orderId), preSend, billno, activeKey), */}
+            {/* ); // preSend */}
+            {/* }} */}
+            {/* > */}
+            {/* {lan.youxianfahuo} */}
+            {/* </Button> */}
+            {/* )} */}
             {!!show_cancel_priority_shipped_button && ( // 取消优先发货按钮
-              <Button
-                onClick={() => {
-                  dispatch(commit('preSend', +!preSend)); // 1
-                  dispatch(
-                    preSendAction(Number(orderId), 1, billno, activeKey),
-                  ); // preSend
-                }}
-              >
-                {lan.quxiaoyouxianfahuo}
-              </Button>
-            )}
+            <Button
+              onClick={() => {
+                dispatch(commit('preSend', +!preSend)); // 1
+                dispatch(
+             preSendAction(Number(orderId), 1, billno, activeKey),
+             ); // preSend
+              }}
+            >
+              {lan.quxiaoyouxianfahuo}
+            </Button>
+             )}
             {!!show_review_order_button && ( // 审核订单按钮
               <Button onClick={() => dispatch(examine(orderId))}>
                 {lan.shenhedingdan}
