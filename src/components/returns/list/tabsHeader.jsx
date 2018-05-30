@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Upload, Icon } from 'antd';
+import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Upload, Icon, Modal } from 'antd';
 import moment from 'moment';
 import {
   search, commit, change, initCountry, exportSubmit, initLogisticsChannelsArray, exportA,
@@ -493,11 +493,19 @@ class TabsHeader extends Component {
                       action="/index_new.php/Order/OrderReturn/uploadLogisticsCost"
                       onChange={(info) => {
                         if (info.file.status === 'done') {
+                          // if (info.file.response.code !== 0) {
+                          //   message.error(info.file.response.msg, 10);
+                          // } else {
+                          //   message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
+                          //   dispatch(change('tracking_update', info.file.response.msg));
+                          // }
                           if (info.file.response.code !== 0) {
-                            message.error(info.file.response.msg, 10);
+                            Modal.error({
+                              title: '错误信息提示',
+                              content: info.file.response.msg,
+                            });
                           } else {
                             message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
-                            dispatch(change('tracking_update', info.file.response.msg));
                           }
                         } else if (info.file.status === 'error') {
                           message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
