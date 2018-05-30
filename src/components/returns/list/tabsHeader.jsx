@@ -7,7 +7,7 @@ import assign from 'object-assign';
 import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Upload, Icon } from 'antd';
 import moment from 'moment';
 import {
-  search, commit, change, initCountry, exportSubmit, initLogisticsChannelsArray,
+  search, commit, change, initCountry, exportSubmit, initLogisticsChannelsArray,exportA
 } from './action';
 
 import styles from './style.css';
@@ -508,26 +508,14 @@ class TabsHeader extends Component {
                         <Icon type="upload" />{__('returns.list.update')}
                       </Button>
                     </Upload>
-                    <Upload
-                      name={'file'}
-                      action="/index_new.php/Order/OrderReturn/exportLogisticsCost"
-                      onChange={(info) => {
-                        if (info.file.status === 'done') {
-                          if (info.file.response.code !== 0) {
-                            message.error(info.file.response.msg, 10);
-                          } else {
-                            message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
-                            dispatch(change('tracking_update', info.file.response.msg));
-                          }
-                        } else if (info.file.status === 'error') {
-                          message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
-                        }
-                      }}
-                    >
-                      <Button type="primary" className={styles.upload}>
-                        <Icon type="upload" />{lan.导出成本核算字段}
+                    <div style={{ marginTop: 10 }}>
+                      <Button
+
+                          onClick={()=>dispatch(exportA())}
+                      >
+                        {lan.导出成本核算字段}
                       </Button>
-                    </Upload>
+                    </div>
                     <br /><br />
                     {/* 更新运单号返回信息 */}
                     <span

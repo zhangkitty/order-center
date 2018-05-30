@@ -44,3 +44,7 @@ export const initCountrySuccess = data => ({
   type: TYPES.INIT_COUNTRY_SUCCESS,
   data,
 });
+
+export  const exportA  =()=>({
+  type:TYPES.exportA,
+})

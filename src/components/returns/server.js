@@ -103,3 +103,9 @@ export const doRefundPassSer = data => (
     body: JSON.stringify(data)
   })
 )
+
+export const exportASer = ()=>{
+  return fetch('/OrderReturn/exportLogisticsCost',{
+    method:'post'
+  })
+}
