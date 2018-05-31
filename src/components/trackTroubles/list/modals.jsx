@@ -19,7 +19,7 @@ const Modals = ({
   dispatch,
   remarkShow, remarkLoad, remarkData, remark, troubleId,
   handledShow, filters, handleType, filter, load,
-  uploadShow, imgList, previewVisible, previewImage, followShow, handleStatus, handleStatusList
+  uploadShow, imgList, previewVisible, previewImage, followShow, handleStatus, handleStatusList,
 }) => (
   <div>
     {/* 备注 */}

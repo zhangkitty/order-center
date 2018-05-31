@@ -19,6 +19,7 @@ export default (url, args = {}, header) => {
   } else {
     newUrl = `${url}?language=${process.env.LOCALE}`;
   }
+  localStorage.setItem('language', process.env.LOCALE);
   return fetch(`${process.env.BASE_URI}${newUrl}`, assign({
     credentials: 'include',
     headers: header || {
@@ -44,6 +45,7 @@ export default (url, args = {}, header) => {
     return res.json();
   }).then((data) => {  // body
     const { error_code, msg } = data;
+    console.log(error_code, msg);
     if (error_code == 302) { //  302
      // message.error(msg, 10);
       notification.open({

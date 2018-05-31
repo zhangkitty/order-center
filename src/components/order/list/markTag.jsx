@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Modal, Radio, Input, message } from 'antd';
+import { Modal, Radio, Input, message, Checkbox } from 'antd';
 import { change, updateOrderTag } from './action';
 
 import styles from './style.css';
@@ -21,6 +21,19 @@ const orderTagName = [
   __('common.orderTrouble4'),
   __('common.orderTrouble5'),
 ];
+
+const troubleReason = [
+  { id: 1, name: __('common.special_order1') },
+  { id: 2, name: __('common.special_order2') },
+  { id: 3, name: __('common.special_order3') },
+  { id: 4, name: __('common.special_order4') },
+  { id: 5, name: __('common.special_order5') },
+  { id: 6, name: __('common.special_order6') },
+  { id: 7, name: __('common.special_order7') },
+  { id: 8, name: __('common.special_order8') },
+  { id: 9, name: __('common.special_order9') },
+];
+
 const MarkTag = ({ markTag, dispatch }) => (
   <Modal
     visible={markTag.markTagVisible}
@@ -43,9 +56,14 @@ const MarkTag = ({ markTag, dispatch }) => (
       <div className={styles.troubleContent}>
         <RadioGroup
           value={markTag.is_trouble}
-          onChange={e => dispatch(change('markTag', assign({}, markTag, { is_trouble: e.target.value })))}
+          onChange={(e) => {
+            if (+e.target.value !== 4) {
+              return dispatch(change('markTag', assign({}, markTag, { is_trouble: e.target.value, trouble_reason: [] })));
+            }
+            return dispatch(change('markTag', assign({}, markTag, { is_trouble: e.target.value })));
+          }}
         >
-          <div className={styles.troubleListBg}>
+          <div className={styles.troubleListBg} style={{ width: '570px' }}>
             <div className={styles.troubleList}>
               <span>{__('common.orderTypeTitle1')}</span>
               <Radio value={4}>{__('common.orderTrouble4')}</Radio>
@@ -71,6 +89,32 @@ const MarkTag = ({ markTag, dispatch }) => (
         </RadioGroup>
       </div>
 
+      {
+        +markTag.is_trouble === 4 ?
+          <div>
+            <span className={styles.troubleName}>{__('common.special_order')}</span>
+            <div className={styles.troubleContent}>
+              <Checkbox.Group
+                // checked={markTag.trouble_reason}
+                onChange={(e) => {
+                  dispatch(change('markTag', assign({}, markTag, { trouble_reason: e })));
+                }}
+              >
+                <div className={styles.troubleListBg}>
+                  {
+                    troubleReason.map(v => (
+                      <div className={localStorage.getItem('language') === 'zh' ? styles.troubleList : styles.troubleList2}>
+                        <Checkbox key={v.id} value={v.id}><string>{v.name}</string></Checkbox>
+                      </div>
+                    ))
+                  }
+                </div>
+              </Checkbox.Group>
+            </div>
+          </div>
+          : null
+      }
+      {/* 物流备注 */}
       <span>{star}{__('common.order_operation5')}</span>
       <TextArea
         className={styles.troubleContent}

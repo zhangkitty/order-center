@@ -6,4 +6,5 @@ module.exports = {
   物流渠道: 'Shipping Channel',
   运费: 'Shipping Fee',
   运费险: 'Shipping Insurance',
+  缺货: 'out of stock',
 };

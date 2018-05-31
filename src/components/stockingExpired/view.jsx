@@ -130,8 +130,6 @@ class StockingExpired extends React.Component {
           total={total}
           showTotal={records => `${records} ${__('common.content_name2')}`}
           onShowSizeChange={(current, size) => {
-            console.log(current);
-            console.log(size);
             dispatch(change('pageSize', size));
             dispatch(getOverStockList(assign({}, this.props, {
               pageSize: size,
