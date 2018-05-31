@@ -32,17 +32,23 @@ const reducer = (state = defaultState, action) => {
     case TYPES.GET_DATA_SUCCESS:
       const { order_goods } = action.res;
       const { order_price_info } = action.res;
-      console.log(order_price_info);
+      console.log(order_price_info, 'sfafsfa');
+
+      const { is_all_cancel, order_status } = order_price_info;
+      // 订单状态为已付款、已审核、进行中、已拒收、已报损
+      const orderStatusArray = [1, 2, 3, 8, 9];
+      const isOrderStatMeets = orderStatusArray.filter(v => v === (+order_status)).length;
+      const DefaultValue = is_all_cancel * isOrderStatMeets ? 1 : 0;
       const { wait_refund_price } = order_price_info;
       const cancelItems = `Cancel items:${order_goods.map(v => v.goods_sort).join(',')}\n`;
       const RefundAmount = `Refund amount: ${wait_refund_price.price_usd.amount_with_symbol}`;
-      console.log(cancelItems);
+      const shippingInfo = DefaultValue ? '（shipping and shipping insurance fee also be refunded）' : '';
       return assign({}, state, {
         ready: true,
         dataSource: under2Camal(action.res),
         remainingPriceTotalUnder50: action.res.remainingPriceTotalUnder50,
         submitValue: assign({}, state.submitValue, {
-          remark: `${cancelItems}${RefundAmount}`,
+          remark: `${cancelItems}${RefundAmount}${shippingInfo}`,
         }),
       });
     case TYPES.GET_REASON_SUCCESS:
