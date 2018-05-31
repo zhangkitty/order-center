@@ -1,14 +1,15 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import * as TYPES from './types';
-import { getoverstocksearchconditionsSer, getoverstocklistSer } from './server';
-import { change } from './action';
+import { getoverstocksearchconditionsSer, getoverstocklistSer, batchRefundSer, updateSer } from './server';
+import { change, getOverStockList } from './action';
 import moment from 'moment';
 
 
 const lan = {
   时间必填: '时间必填',
   选择的时间不能超过一个月: '选择的时间不能超过一个月',
+  批量返回失败的订单: '批量返回失败的订单',
 };
 function* getOverStockSearchConditionsSaga() {
   const data = yield getoverstocksearchconditionsSer();
@@ -20,6 +21,7 @@ function* getOverStockSearchConditionsSaga() {
 }
 
 function* getOverStockListSaga(action) {
+  yield put(change('selectedRowKeys', null));
   const val = action.val;
   if (!Array.isArray(val.dataRange)) {
     return message.info(lan.时间必填);
@@ -54,7 +56,71 @@ function* getOverStockListSaga(action) {
   return null;
 }
 
+function* batchRefundSaga(action) {
+  if (action.value.refundReason === null) {
+    return message.info('退款原因必填');
+  }
+  if (action.value.choose_order_goods.length === 0) {
+    return message.info('商品没有选');
+  }
+  yield put(change('confirmLoading', true));
+  const data = yield batchRefundSer(action);
+  yield put(change('confirmLoading', false));
+  if (!data || data.code !== 0) {
+    return message.error(`${data.msg}`);
+  }
+  if (data.data.errors.length > 0) {
+    Modal.error({
+      title: lan.批量返回失败的订单,
+      content: (
+        <div>
+          {
+            data.data.errors.map(v => <div>{v}</div>)
+          }
+        </div>
+      ),
+    });
+  } else {
+    message.success(`${data.msg}`);
+  }
+  yield put(change('batchRefundModalShow', false));
+  yield put(getOverStockList(action.value, action.value.pageNumber));
+  yield put(change('choose_order_goods', []));
+  return null;
+}
+
+
+function* updateSaga(action) {
+  if (action.value.choose_order_goods.length === 0) {
+    return message.info('商品没有选');
+  }
+  const data = yield updateSer(action);
+  if (!data || data.code !== 0) {
+    return message.error(`${data.msg}`);
+  }
+
+  if (data.data.errors.length > 0) {
+    Modal.error({
+      title: lan.批量返回失败的订单,
+      content: (
+        <div>
+          {
+              data.data.errors.map(v => <div>{v}</div>)
+            }
+        </div>
+      ),
+    });
+  } else {
+    message.success(`${data.msg}`);
+  }
+  yield put(getOverStockList(action.value));
+  yield put(change('choose_order_goods', []));
+  return null;
+}
+
 export default function* () {
   yield takeLatest(TYPES.GETOVERSTOCKSEARCHCONDITIONS, getOverStockSearchConditionsSaga);
   yield takeLatest(TYPES.GETOVERSTOCKLIST, getOverStockListSaga);
+  yield takeLatest(TYPES.BATCHREFUND, batchRefundSaga);
+  yield takeLatest(TYPES.UPDATE, updateSaga);
 }

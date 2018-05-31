@@ -9,3 +9,7 @@ export const GETOVERSTOCKSEARCHCONDITIONS = `${prefix}getoverstocksearchconditio
 export const CHANGE = `${prefix}change`;
 
 export const GETOVERSTOCKLIST = `${prefix}getoverstocklist`;
+
+export const BATCHREFUND = `${prefix}batchrefund`;
+
+export const UPDATE = `${prefix}update`;
