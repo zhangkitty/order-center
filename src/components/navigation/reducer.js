@@ -149,7 +149,12 @@ const menus = [
         crumbName: '批量处理退款',
         nav: true,
       },
-
+      {
+        link: '/compensation-points',
+        name: '积分补偿',
+        crumbName: '积分补偿',
+        nav: true,
+      },
     ],
   },
 ];
