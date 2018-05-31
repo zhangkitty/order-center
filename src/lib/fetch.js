@@ -45,6 +45,7 @@ export default (url, args = {}, header) => {
     return res.json();
   }).then((data) => {  // body
     const { error_code, msg } = data;
+    console.log(error_code, msg);
     if (error_code == 302) { //  302
      // message.error(msg, 10);
       notification.open({

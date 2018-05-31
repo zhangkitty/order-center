@@ -608,7 +608,7 @@ const Packge = ({
               <div style={{ margin: '30px 50px 15px' }}>
                 <div>
                   <div style={{ textAlign: 'left' }}>
-                    {__('common.order_operation6')}
+
                   </div>
                   <Input.TextArea
                     style={{ margin: '10px auto' }}
