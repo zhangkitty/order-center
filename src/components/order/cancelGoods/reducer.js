@@ -32,8 +32,6 @@ const reducer = (state = defaultState, action) => {
     case TYPES.GET_DATA_SUCCESS:
       const { order_goods } = action.res;
       const { order_price_info } = action.res;
-      console.log(order_price_info, 'sfafsfa');
-
       const { is_all_cancel, order_status } = order_price_info;
       // 订单状态为已付款、已审核、进行中、已拒收、已报损
       const orderStatusArray = [1, 2, 3, 8, 9];
