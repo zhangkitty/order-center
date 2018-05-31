@@ -4,10 +4,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
-import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Upload, Icon } from 'antd';
+import { Collapse, Tabs, Select, Input, DatePicker, Button, message, Upload, Icon, Modal } from 'antd';
 import moment from 'moment';
 import {
-  search, commit, change, initCountry, exportSubmit, initLogisticsChannelsArray,
+  search, commit, change, initCountry, exportSubmit, initLogisticsChannelsArray, exportA,
 } from './action';
 
 import styles from './style.css';
@@ -29,6 +29,9 @@ const tabConfig = {
 
 const lan = {
   物流渠道: '物流渠道',
+  下载案例: '下载案例',
+  上传物流成本: '上传物流成本',
+  导出成本核算字段: '导出成本核算字段',
 };
 
 class TabsHeader extends Component {
@@ -438,42 +441,95 @@ class TabsHeader extends Component {
 
               {/* 批量操作 */}
               <TabItem tab={__('order.name.search3')} key="2">
-
-                <div className={styles.downloadCon}>
-                  <a
-                    className={styles.buttonStyle} // （下载模板）
-                    href={`${location.origin}/Public/File/upload_excel/example.xls`}
-                    target="_blank"
-                  >
-                    {__('returns.list.download')}
-                  </a>
-                  <br /><br />
-                  <p>{__('returns.list.tracking_update')}</p>
-                  <Upload
-                    name={'file'}
-                    action="/index_new.php/Order/OrderReturn/uploadReturnShip"
-                    onChange={(info) => {
-                      if (info.file.status === 'done') {
-                        if (info.file.response.code !== 0) {
-                          message.error(info.file.response.msg, 10);
-                        } else {
-                          message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
-                          dispatch(change('tracking_update', info.file.response.msg));
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <div className={styles.downloadCon}>
+                    <a
+                      className={styles.buttonStyle} // （下载模板）
+                      href={`${location.origin}/Public/File/upload_excel/example.xls`}
+                      target="_blank"
+                    >
+                      {__('returns.list.download')}
+                    </a>
+                    <br /><br />
+                    <p>{__('returns.list.tracking_update')}</p>
+                    <Upload
+                      name={'file'}
+                      action="/index_new.php/Order/OrderReturn/uploadReturnShip"
+                      onChange={(info) => {
+                        if (info.file.status === 'done') {
+                          if (info.file.response.code !== 0) {
+                            message.error(info.file.response.msg, 10);
+                          } else {
+                            message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
+                            dispatch(change('tracking_update', info.file.response.msg));
+                          }
+                        } else if (info.file.status === 'error') {
+                          message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
                         }
-                      } else if (info.file.status === 'error') {
-                        message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
-                      }
-                    }}
-                  >
-                    <Button type="primary" className={styles.upload}>
-                      <Icon type="upload" />{__('returns.list.update')}
-                    </Button>
-                  </Upload>
-                  <br /><br />
-                  {/* 更新运单号返回信息 */}
-                  <span
-                    dangerouslySetInnerHTML={{ __html: tracking_update }}
-                  />
+                      }}
+                    >
+                      <Button type="primary" className={styles.upload}>
+                        <Icon type="upload" />{__('returns.list.update')}
+                      </Button>
+                    </Upload>
+                    <br /><br />
+                    {/* 更新运单号返回信息 */}
+                    <span
+                      dangerouslySetInnerHTML={{ __html: tracking_update }}
+                    />
+                  </div>
+                  <div className={styles.downloadCon}>
+                    <a
+                      className={styles.buttonStyle} // （下载模板）
+                      href={`${location.origin}/Public/File/upload_excel/example.xls`}
+                      target="_blank"
+                    >
+                      {lan.下载案例}
+                    </a>
+                    <br /><br />
+                    <p>{__('returns.list.tracking_update')}</p>
+                    <Upload
+                      name={'file'}
+                      action="/index_new.php/Order/OrderReturn/uploadLogisticsCost"
+                      onChange={(info) => {
+                        if (info.file.status === 'done') {
+                          // if (info.file.response.code !== 0) {
+                          //   message.error(info.file.response.msg, 10);
+                          // } else {
+                          //   message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
+                          //   dispatch(change('tracking_update', info.file.response.msg));
+                          // }
+                          if (info.file.response.code !== 0) {
+                            Modal.error({
+                              title: '错误信息提示',
+                              content: info.file.response.msg,
+                            });
+                          } else {
+                            message.success(`${info.file.name} ${__('order.goods-control.submitTitle2')}`, 10);
+                          }
+                        } else if (info.file.status === 'error') {
+                          message.error(`${info.file.name} ${__('order.goods-control.submitTitle3')}`, 10);
+                        }
+                      }}
+                    >
+                      <Button type="primary" className={styles.upload}>
+                        <Icon type="upload" />{__('returns.list.update')}
+                      </Button>
+                    </Upload>
+                    <div style={{ marginTop: 10 }}>
+                      <Button
+                        onClick={() => dispatch(exportA(this.props))}
+                      >
+                        {lan.导出成本核算字段}
+                      </Button>
+                    </div>
+                    <br /><br />
+                    {/* 更新运单号返回信息 */}
+                    <span
+                      dangerouslySetInnerHTML={{ __html: tracking_update }}
+                    />
+                  </div>
+
                 </div>
               </TabItem>
             </Tabs>
