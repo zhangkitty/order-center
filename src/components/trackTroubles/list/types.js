@@ -19,3 +19,4 @@ export const exportIdSet = `${prefix}exportIdSet`;
 export const followShow = `${prefix}followShow`;
 export const followShowSet = `${prefix}followShowSet`;
 export const followUp = `${prefix}followUp`;
+export const changeEdit = `${prefix}changeEdit`;

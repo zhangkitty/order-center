@@ -51,6 +51,7 @@ export const defaultState = {
   handleStatus: '',
   tracking_update: null, // 上传物流问题返回信息
   is_ignore: 0, // 包裹号已存在问题，0忽略 1新增
+  edit: {}, // 编辑的数据
 };
 
 const reducer = (state = defaultState, action) => {
@@ -132,6 +133,13 @@ const reducer = (state = defaultState, action) => {
         load: true,
         followShow: false,
       });
+    case types.changeEdit: {
+      const data = assign({}, state.edit);
+      data[action.key] = action.value;
+      return assign({}, state, {
+        edit: data,
+      });
+    }
     default:
       return state;
   }

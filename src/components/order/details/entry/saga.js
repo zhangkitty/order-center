@@ -206,8 +206,8 @@ function* remarkSaveSaga(action) {
   return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
 // 获取物流反馈问题原因
-function* getTrackTroubleReason() {
-  const data = yield getTroubleTypes();
+function* getTrackTroubleReason({ pkgNum }) {
+  const data = yield getTroubleTypes(pkgNum);
   if (!data || data.code !== 0) {
     message.error(`${lan.dataFail}: ${data.msg}`);
     return yield put(commit('trackTroubleLoad', false));

@@ -81,3 +81,14 @@
 .uploadName > span {
     margin-right: 10px;
 }
+.span {
+    display: inline-block;
+    font-size: 15px;
+    margin: 10px;
+}
+.select {
+    width: 156px;
+}
+.content {
+    text-align: center;
+}
