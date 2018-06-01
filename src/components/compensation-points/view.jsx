@@ -29,6 +29,9 @@ class compensationPoints extends Component {
 
 
   render() {
+    const Option = Select.Option;
+    const { dataSource, total, page_number, listselectedRowKeys,
+      all_COD_status, all_country, all_order_status, all_siteFrom, siteFrom1, dispatch, country1, COD_status1, order_status1 } = this.props;
     const columns = [
       {
         title: '站点',
@@ -65,9 +68,10 @@ class compensationPoints extends Component {
               onClick={() => {
                 dispatch(changeValue('id', record.id));
                 dispatch(changeValue('modalShow3', true));
-                // dispatch(changeValue('COD_status3', record.is_cod));
-                // dispatch(changeValue('country3', x_arr(record.country_id)));
-                // dispatch(changeValue('order_status3', record.order_status));
+                dispatch(changeValue('COD_status3', +record.is_cod));
+                dispatch(changeValue('country3', x_arr(record.country_id)));
+                dispatch(changeValue('order_status3', +record.order_status));
+                dispatch(changeValue('siteFrom3', x_arr(record.site_id)));
               }}
             >编辑</Button>
             <Button
@@ -84,9 +88,7 @@ class compensationPoints extends Component {
       },
 
     ];
-    const Option = Select.Option;
-    const { dataSource, total, page_number, listselectedRowKeys,
-      all_COD_status, all_country, all_order_status, all_siteFrom, siteFrom1, dispatch, country1, COD_status1, order_status1 } = this.props;
+
 
     const rowSelection = {
       selectedRowKeys: listselectedRowKeys,
