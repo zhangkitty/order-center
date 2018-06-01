@@ -22,6 +22,7 @@ export const defaultState = {
   order_status1: null,
   siteFrom1: [],
   // 新增
+  selectedRowKeys2: [],
   selectedRows2: [],
   modalShow2: false,
   COD_status2: null,
@@ -29,6 +30,7 @@ export const defaultState = {
   order_status2: null,
   siteFrom2: [],
     // 编辑
+  selectedRowKeys3: [],
   selectedRows3: [],
   modalShow3: false,
   COD_status3: null,
@@ -36,6 +38,7 @@ export const defaultState = {
   order_status3: null,
   siteFrom3: [],
   // 克隆
+  selectedRowKeys4: [],
   selectedRows4: [],
   modalShow4: false,
   COD_status4: null,

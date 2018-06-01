@@ -16,7 +16,7 @@ const lan = {
 };
 const Mymodal2 = (props) => {
   const Option = Select.Option;
-  const { dispatch, all_pointType, selectedRows2, all_siteFrom, all_country, all_COD_status, modalShow2, all_order_status, siteFrom2, country2, COD_status2, order_status2 } = props;
+  const { dispatch, all_pointType, selectedRowKeys2,selectedRows2, all_siteFrom, all_country, all_COD_status, modalShow2, all_order_status, siteFrom2, country2, COD_status2, order_status2 } = props;
   return (
     <Modal
       visible={modalShow2}
@@ -87,8 +87,10 @@ const Mymodal2 = (props) => {
               <Table
                 rowSelection={{
                   type: 'checkbox',
+                  selectedRowKeys: selectedRowKeys2,
                   onChange: (selectedRowKeys, selectedRows) => {
                     dispatch(changeValue('selectedRows2', selectedRows));
+                    dispatch(changeValue('selectedRowKeys2', selectedRowKeys));
                   },
                 }}
                 dataSource={all_pointType}

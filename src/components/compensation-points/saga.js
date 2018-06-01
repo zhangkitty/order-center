@@ -40,6 +40,7 @@ function* addPointRewardHandleSaga(action) {
   yield put(pointRewardList(action.props));
   yield put(changeValue('modalShow2', false));
   yield put(changeValue('selectedRows2', []));
+  yield put(changeValue('selectedRowKeys2', []));
   yield put(changeValue('COD_status2', null));
   yield put(changeValue('country2', []));
   yield put(changeValue('order_status2', null));
@@ -56,6 +57,7 @@ function* editPointRewardHandleSaga(action) {
   yield put(pointRewardList(action.props));
   yield put(changeValue('modalShow3', false));
   yield put(changeValue('selectedRows3', []));
+  yield put(changeValue('selectedRowKeys3', []));
   yield put(changeValue('COD_status3', null));
   yield put(changeValue('country3', []));
   yield put(changeValue('order_status3', null));
@@ -73,6 +75,7 @@ function* copyPointRewardHandleSaga(action) {
   yield put(pointRewardList(action.props));
   yield put(changeValue('modalShow4', false));
   yield put(changeValue('selectedRows4', []));
+  yield put(changeValue('selectedRowKeys4', []));
   yield put(changeValue('COD_status4', null));
   yield put(changeValue('country4', []));
   yield put(changeValue('order_status4', null));
