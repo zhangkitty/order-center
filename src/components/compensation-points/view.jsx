@@ -71,7 +71,13 @@ class compensationPoints extends Component {
               }}
             >编辑</Button>
             <Button
-              onClick={() => dispatch(changeValue('modalShow4', true))}
+              onClick={() => {
+                dispatch(changeValue('modalShow4', true));
+                dispatch(changeValue('COD_status4', +record.is_cod));
+                dispatch(changeValue('country4', x_arr(record.country_id)));
+                dispatch(changeValue('order_status4', +record.order_status));
+                dispatch(changeValue('siteFrom4', x_arr(record.site_id)));
+              }}
             >克隆</Button>
           </div>
           ),
