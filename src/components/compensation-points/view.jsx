@@ -192,10 +192,12 @@ class compensationPoints extends Component {
           onChange={(page, pageSize) => {
             dispatch(changeValue('page_number', page));
             dispatch(pointRewardList(this.props, page, pageSize));
+            dispatch(changeValue('listselectedRowKeys', []));
           }}
           onShowSizeChange={(page, pageSize) => {
             dispatch(changeValue('page_size', pageSize));
             dispatch(pointRewardList(this.props, page, pageSize));
+            dispatch(changeValue('listselectedRowKeys', []));
           }}
           current={page_number}
         />

@@ -85,6 +85,9 @@ const Mymodal3 = (props) => {
             trigger="click"
             content={(
               <Table
+                pagination={{
+                  onChange: () => dispatch(changeValue('selectedRowKeys3', [])),
+                }}
                 rowSelection={{
                   selectedRowKeys: selectedRowKeys3,
                   type: 'checkbox',
