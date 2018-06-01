@@ -27,5 +27,70 @@ export const pointRewardListSer  =action=>{
   })
 }
 
+export const addPointRewardHandleSer =action=>{
+  const {props} = action
+  const keys = ["site_from","country_id","is_cod", "orderStatus", "point_id", "point_name"]
+  const temp = assign({},props,{
+    site_from:props.siteFrom2.join(','),
+    country_id:props.country2.join(','),
+    is_cod:props.COD_status2,
+    orderStatus:props.order_status2,
+    point_id:props.selectedRows2.map(v=>v.point_type_id).join(','),
+    point_name:props.selectedRows2.map(v=>v.type_name).join(','),
+  })
+
+  return fetch('/Order/addPointRewardHandle',{
+    method:'post',
+    body:JSON.stringify(parseQuery(keys,temp))
+  })
+}
+
+export const editPointRewardHandleSer =action=>{
+  const {props} =  action;
+  const keys = ["site_from","country_id","is_cod", "orderStatus", "point_id", "point_name",'id']
+  const temp = assign({},props,{
+    site_from:props.siteFrom3.join(','),
+    country_id:props.country3.join(','),
+    is_cod:props.COD_status3,
+    orderStatus:props.order_status3,
+    point_id:props.selectedRows3.map(v=>v.point_type_id).join(','),
+    point_name:props.selectedRows3.map(v=>v.type_name).join(','),
+  })
+
+  return fetch('/Order/editPointRewardHandle',{
+    method:'post',
+    body:JSON.stringify(parseQuery(keys,temp))
+  })
+}
+
+export const copyPointRewardHandleSer=action=>{
+  const {props} =  action;
+  const keys = ["site_from","country_id","is_cod", "orderStatus", "point_id", "point_name"]
+  const temp = assign({},props,{
+    site_from:props.siteFrom4.join(','),
+    country_id:props.country4.join(','),
+    is_cod:props.COD_status4,
+    orderStatus:props.order_status4,
+    point_id:props.selectedRows4.map(v=>v.point_type_id).join(','),
+    point_name:props.selectedRows4.map(v=>v.type_name).join(','),
+  })
+
+  return fetch('/Order/copyPointRewardHandle',{
+    method:'post',
+    body:JSON.stringify(parseQuery(keys,temp))
+  })
+}
+
+export const delPointRewardSer = action=>{
+  const {listselectedRows}  = action.props
+  const keys = ['id']
+  const temp = assign({},action.props,{
+    id:listselectedRows.map(v=>v.id).join(',')
+  })
+  return fetch('/Order/delPointReward',{
+    method:'post',
+    body:JSON.stringify(parseQuery(keys,temp))
+  })
+}
 
 

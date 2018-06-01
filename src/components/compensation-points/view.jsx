@@ -1,10 +1,13 @@
 
 import React, { Component, PropTypes } from 'react';
-import { Select, Button, Table } from 'antd';
+import { Select, Button, Table, Popconfirm } from 'antd';
 import { connect } from 'react-redux';
-import { pointRewardConfig, changeValue, pointRewardList } from './action';
+import { pointRewardConfig, changeValue, pointRewardList, delPointReward } from './action';
 import styles from './style.css';
 import Page from '../publicComponent/pagination';
+import Mymodal2 from './mymodal2';
+import Mymodal3 from './mymodal3';
+import Mymodal4 from './mymodal4';
 
 const lan = {
   站点: '站点',
@@ -15,6 +18,8 @@ const lan = {
   新增: '新增',
   删除: '删除',
 };
+
+const x_arr = v => Array.isArray(v) ? v : [v];
 class compensationPoints extends Component {
   constructor(props) {
     super(props);
@@ -39,11 +44,13 @@ class compensationPoints extends Component {
         title: '是否COD',
         dataIndex: 'is_cod',
         key: 'is_cod',
+        render: text => text == 1 ? '是' : '否',
       },
       {
         title: '订单状态',
         dataIndex: 'order_status',
         key: 'order_status',
+        render: text => text == 1 ? '已签收' : '未签收',
       },
       {
         title: '赠送场景',
@@ -52,12 +59,37 @@ class compensationPoints extends Component {
       },
       {
         title: '可操作项',
+        render: (text, record) => (
+          <div>
+            <Button
+              onClick={() => {
+                dispatch(changeValue('id', record.id));
+                dispatch(changeValue('modalShow3', true));
+                // dispatch(changeValue('COD_status3', record.is_cod));
+                // dispatch(changeValue('country3', x_arr(record.country_id)));
+                // dispatch(changeValue('order_status3', record.order_status));
+              }}
+            >编辑</Button>
+            <Button
+              onClick={() => dispatch(changeValue('modalShow4', true))}
+            >克隆</Button>
+          </div>
+          ),
       },
 
     ];
     const Option = Select.Option;
-    const { dataSource, total, page_number,
+    const { dataSource, total, page_number, listselectedRowKeys,
       all_COD_status, all_country, all_order_status, all_siteFrom, siteFrom1, dispatch, country1, COD_status1, order_status1 } = this.props;
+
+    const rowSelection = {
+      selectedRowKeys: listselectedRowKeys,
+      type: 'checkbox',
+      onChange: (selectedRowKeys, selectedRows) => {
+        dispatch(changeValue('listselectedRowKeys', selectedRowKeys));
+        dispatch(changeValue('listselectedRows', selectedRows));
+      },
+    };
     return (
       <div>
         <article>
@@ -96,7 +128,7 @@ class compensationPoints extends Component {
               onChange={value => dispatch(changeValue('COD_status1', value))}
             >
               {
-               all_COD_status.map((v, idx) => <Option value={idx++}>{v}</Option>)
+               all_COD_status.map((v, idx) => <Option value={++idx}>{v}</Option>)
               }
 
             </Select>
@@ -110,7 +142,7 @@ class compensationPoints extends Component {
               onChange={value => dispatch(changeValue('order_status1', value))}
             >
               {
-                all_order_status.map((v, idx) => <Option value={idx++}>{v}</Option>)
+                all_order_status.map((v, idx) => <Option value={++idx}>{v}</Option>)
               }
             </Select>
 
@@ -122,14 +154,21 @@ class compensationPoints extends Component {
             </Button>
             <Button
               className={styles.button}
+              onClick={() => dispatch(changeValue('modalShow2', true))}
             >
               {lan.新增}
             </Button>
-            <Button
-              className={styles.button}
+            <Popconfirm
+              title="确定要删除吗？"
+              onConfirm={() => dispatch(delPointReward(this.props))}
             >
-              {lan.删除}
-            </Button>
+              <Button
+                className={styles.button}
+              >
+                {lan.删除}
+              </Button>
+            </Popconfirm>
+
           </div>
         </article>
         <Table
@@ -137,6 +176,7 @@ class compensationPoints extends Component {
           pagination={false}
           dataSource={dataSource}
           columns={columns}
+          rowSelection={rowSelection}
         />
 
         <Page
@@ -151,6 +191,10 @@ class compensationPoints extends Component {
           }}
           current={page_number}
         />
+
+        <Mymodal2 {...this.props} />
+        <Mymodal3 {...this.props} />
+        <Mymodal4 {...this.props} />
       </div>
     );
   }
