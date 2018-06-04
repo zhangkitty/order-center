@@ -85,9 +85,9 @@ const Mymodal3 = (props) => {
             trigger="click"
             content={(
               <Table
-                pagination={{
-                  onChange: () => dispatch(changeValue('selectedRowKeys3', [])),
-                }}
+                // pagination={{
+                //   onChange: () => dispatch(changeValue('selectedRowKeys3', [])),
+                // }}
                 rowSelection={{
                   selectedRowKeys: selectedRowKeys3,
                   type: 'checkbox',
@@ -96,6 +96,7 @@ const Mymodal3 = (props) => {
                     dispatch(changeValue('selectedRows3', selectedRows));
                   },
                 }}
+                rowKey="point_type_id"
                 dataSource={all_pointType}
                 columns={
                 [
