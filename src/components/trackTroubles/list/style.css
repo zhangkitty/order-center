@@ -84,11 +84,13 @@
 .span {
     display: inline-block;
     font-size: 15px;
+    width: 40%;
     margin: 10px;
+    text-align: right;
 }
 .select {
     width: 156px;
 }
 .content {
-    text-align: center;
+    /*text-align: center;*/
 }
