@@ -519,7 +519,13 @@ const SingleRow = (props) => {
              <Icon type="message" style={{ color: 'rgb(255,35,0)' }}
             */}
           </p>
-          <p>afafa</p>
+          <p>
+            {
+              data.is_usps == 1 ?
+                <div>UPS失败</div>
+                  : null
+            }
+          </p>
           {/*  查看 */}
           <Link
             to={`/order/details/entry/${data.order_id}/${data.billno}`}
