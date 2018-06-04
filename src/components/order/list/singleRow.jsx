@@ -332,10 +332,10 @@ const SingleRow = (props) => {
                       {replaceGoods(res.is_replace, res.replace_goods_sort)}
                     </span>
                     {
-                      replaceGoods(res.is_replace, res.replace_goods_sort) !== '' &&
-                      <Tooltip placement="right" title={res.exchange_reason}>
-                        <Icon type="right-circle" />
-                      </Tooltip>
+                       res.replace_goods_sort !== '' &&
+                       <Tooltip placement="right" title={res.exchange_reason}>
+                         <Icon type="right-circle" />
+                       </Tooltip>
                     }
                   </div>
                   <div>
