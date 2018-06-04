@@ -436,3 +436,9 @@ export const closeAllRemark = () => ({
 export const initExchange = () => ({
   type: TYPES.INIT_EXCHANGE,
 });
+
+export const operateReturn = (oid, gid) => ({
+  oid,
+  gid,
+  type: TYPES.OPERATE_RETURN,
+});

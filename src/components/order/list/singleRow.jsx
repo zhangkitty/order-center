@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin, Affix, Tooltip, Icon } from 'antd';
 import { Link } from 'react-router';
 import assign from 'object-assign';
@@ -13,7 +14,7 @@ import {
 } from './action';
 
 import Styles from './style.css';
-import { operateReturn } from '../details/entry/action';
+import { operateReturn } from './action';
 
 // 语言包
 const lan = {
@@ -34,6 +35,7 @@ const lan = {
   取消退款: '取消/退款',
   退货: '退货',
   复制退货链接: '复制退货链接',
+  复制成功: '复制成功',
 
 
   //
@@ -757,10 +759,10 @@ const SingleRow = (props) => {
             <Button
               onClick={() => {
                 if (data.payment_method.toLowerCase === 'cod') {
-                  if (BulkReturnInfo.every(v => v.goods_status == 54)) {
+                  if (!BulkReturnInfo.every(v => v.goods_status == 54)) {
                     return message.info('商品状态不符合退货状态，请确认');
                   }
-                } else if (BulkReturnInfo.every(v => (v.goods_status == 16) || (v.goods_status == 57))) {
+                } else if (!BulkReturnInfo.every(v => (v.goods_status == 16) || (v.goods_status == 57))) {
                   return message.info('商品状态不符合退货状态，请确认');
                 }
                 dispatch(
@@ -772,11 +774,11 @@ const SingleRow = (props) => {
             </Button>
           }
           {
-            (!!data.button_list.return_url) && <a
-              className={Styles.buttonStyle}
-              href={data.button_list.return_url}
-              target="_blank"
-            >{lan.复制退货链接}</a>
+            (!!data.button_list.return_url) && <CopyToClipboard
+              text={data.button_list.return_url}
+            >
+              <Button>{lan.复制退货链接}</Button>
+            </CopyToClipboard>
           }
         </div>
       </div>

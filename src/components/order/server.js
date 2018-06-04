@@ -329,3 +329,9 @@ export const getReasonServer = () => {
     method: 'GET',
   })
 }
+
+export const operateReturnSer = (oid, gid) => (
+    fetch(`/OrderReturn/validateReturn?order_id=${oid}&goods_id=${gid}`, {
+      method: 'get',
+    })
+);
