@@ -280,7 +280,7 @@ function* questionRemarkSaga(action) {
 }
 
 function* showRLModalSaga({ code, id }) {
-  const result = yield showRLModalServer(code);
+  const result = yield showRLModalServer(id);
   if (result.code === 0) {
     yield put(putRLList({
       list: result.data,

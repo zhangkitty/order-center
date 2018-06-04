@@ -47,6 +47,7 @@ const reqImg = require.context('../../images');
 class OrderReturn extends Component {
   constructor(props) {
     super(props);
+    const {orderId}  = props
     this.columns = [
       {
         title: lan.bianhao,
@@ -112,7 +113,9 @@ class OrderReturn extends Component {
             </Button>
             {(rec.return_label_type === 'RL' && (rec.return_refund_status === '未退款' || rec.return_refund_status === 'No refund')) ?
               <Button
-                onClick={() => this.props.dispatch(showRLModal(rec.currency_code, rec.return_order_id))}
+                onClick={() => {
+                  this.props.dispatch(showRLModal(rec.currency_code, orderId));
+                }}
               >{lan.changeRL}</Button> : null}
           </div>
         ),
