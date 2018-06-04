@@ -13,6 +13,7 @@ export const defaultState = {
     handle_result: [],
     country: [],
     site_from: [],
+    payment_method: [],
   },
   filter: { // 搜索条件
     pageSize: 10,

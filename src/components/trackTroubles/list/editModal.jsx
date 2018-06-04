@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Select } from 'antd';
-import { commit, changeEdit } from './action';
+import PropTypes from 'prop-types';
+import { commit, changeEdit, submitEdit } from './action';
 import style from './style.css';
 
 const lang = {
@@ -13,15 +14,16 @@ const lang = {
 
 export default class EditModal extends React.Component {
   render() {
-    const { editModal, dispatch, filters } = this.props;
+    const { editModal, dispatch, filters, edit } = this.props;
     return (
       <Modal
         visible={editModal}
         onCancel={() => dispatch(commit('editModal', false))}
+        onOk={() => dispatch(submitEdit(edit))}
       >
         <div className={style.content}>
           <span className={style.span}>{lang.result}:</span>
-          <Select className={style.select} onChange={data => dispatch(changeEdit('handle_result', data))}>
+          <Select className={style.select} value={edit.handle_result} onChange={data => dispatch(changeEdit('handle_result', data))}>
             {
               filters.handle_result.map(a => (
                 <Select.Option value={a.id}>{a.name}</Select.Option>
@@ -31,7 +33,7 @@ export default class EditModal extends React.Component {
         </div>
         <div className={style.content}>
           <span className={style.span}>{lang.problemType}:</span>
-          <Select className={style.select} onChange={data => dispatch(changeEdit('trouble_type', data))}>
+          <Select className={style.select} value={edit.trouble_type} onChange={data => dispatch(changeEdit('trouble_type', data))}>
             {
               filters.trouble_type.map(a => (
                 <Select.Option value={a.id}>{a.name}</Select.Option>
@@ -41,7 +43,7 @@ export default class EditModal extends React.Component {
         </div>
         <div className={style.content}>
           <span className={style.span}>{lang.status}:</span>
-          <Select className={style.select} onChange={data => dispatch(changeEdit('handle_status', data))}>
+          <Select className={style.select} value={edit.handle_status} onChange={data => dispatch(changeEdit('handle_status', data))}>
             {
               filters.handle_status.map(a => (
                 <Select.Option value={a.id}>{a.name}</Select.Option>
@@ -53,3 +55,10 @@ export default class EditModal extends React.Component {
     );
   }
 }
+
+EditModal.propTypes = {
+  editModal: PropTypes.bool,
+  dispatch: PropTypes.func,
+  filters: PropTypes.shape(),
+  edit: PropTypes.shape(),
+};

@@ -13,6 +13,8 @@ const list = {
   getStatusInfo: '/OrderLogisticsTroubles/getStatistics',
   exportId: '/OrderLogisticsTroubles/export',
   getFollowShow: '/OrderLogisticsTroubles/getFollowConfig',
+  submitEdit: '/OrderLogisticsTroubles/modify',
+  submitDelete: '/OrderLogisticsTroubles/batchDelete',
 };
 
 export const getDataSer = (filter) => {
@@ -20,6 +22,7 @@ export const getDataSer = (filter) => {
     'pageSize', 'pageNumber',
     'reference_number', 'shipping_method_real', 'shipping_no', 'trouble_type', 'handle_status', 'handle_result', 'handle_user_name',
     'shipping_country_name', 'site_from', 'add_time_from', 'add_time_to', 'delivery_time_from', 'delivery_time_to', 'add_user_name',
+    'payment_method'
   ];
   return fetch(`${list.getData}?${queryString(camel2Under(keys), camel2Under(filter))}`, {
     method: 'GET',
@@ -93,3 +96,17 @@ export const followUpSer =()=>{
     method:'get'
   })
 }
+
+export const submitEditServer = da => {
+  return fetch(list.submitEdit, {
+    method: 'POST',
+    body: JSON.stringify(da)
+  })
+};
+
+export const submitDeleteServer = li => {
+  return fetch(list.submitDelete, {
+    method: 'POST',
+    body: JSON.stringify({ trouble_ids: li.join(',') })
+  })
+};

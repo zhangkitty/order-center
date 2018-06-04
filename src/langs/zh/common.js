@@ -185,4 +185,5 @@ module.exports = {
   special_order7: '指定重量',
   special_order8: '附箱单',
   special_order9: '特制红人箱',
+  BatchDelete: '批量删除',
 };

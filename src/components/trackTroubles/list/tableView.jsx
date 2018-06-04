@@ -171,7 +171,7 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
               {
                 rec.can_modify &&
                 <Button
-                  onClick={() => dispatch(commit('editModal', true))}
+                  onClick={() => { dispatch(commit('editModal', true)); dispatch(commit('edit', { trouble_id: rec.id })); }}
                 >
                   {lan.edit}
                 </Button>
