@@ -352,7 +352,7 @@ const SingleRow = (props) => {
                   </div>
                 </div>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ flexBasis: 180 }}>{lan.供应商}:</div>
+                  <div style={{ flexBasis: 180 }}>{lan.供应商}:{res.supplier_name}</div>
                   <div>{lan.物流渠道}:{res.delivery_channel}</div>
                 </div>
               </div>
