@@ -69,7 +69,7 @@ const Mymodal3 = (props) => {
           <Select
             allowClear
             className={styles.lineright}
-            value={order_status3}
+            value={order_status3 || null}
             onChange={value => dispatch(changeValue('order_status3', value))}
           >
             {

@@ -53,7 +53,13 @@ class compensationPoints extends Component {
         title: '订单状态',
         dataIndex: 'order_status',
         key: 'order_status',
-        render: text => text == 1 ? '已签收' : '未签收',
+        render: (text) => {
+          const table = {
+            1: '已签收',
+            2: '未签收',
+          };
+          return table[text];
+        },
       },
       {
         title: '赠送场景',
