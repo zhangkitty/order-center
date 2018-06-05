@@ -30,7 +30,7 @@ class DetailsEntry extends Component {
     dispatch(commit('activeKey', active || 'base'));
   }
   render() {
-    const { ready, activeKey, dispatch, orderId, billno, tabsLoad, RlModal, RlList, rl_charge, orderID } = this.props;
+    const { ready, activeKey, dispatch, orderId, billno, tabsLoad, RlModal, RlList, rl_charge, orderID, mycode } = this.props;
     const info = props => [{
       name: `${billno}`, // order.entry.basic
       key: 'base',
@@ -78,7 +78,7 @@ class DetailsEntry extends Component {
             }
           </Tabs>
           <TrackTrouble {...this.props} />
-          <RLModal RlModal={RlModal} list={RlList} dispatch={dispatch} rl_charge={rl_charge} code={orderID} orderId={orderId} billno={billno} activeKey={activeKey} />
+          <RLModal RlModal={RlModal} list={RlList} dispatch={dispatch} rl_charge={rl_charge} code={mycode} orderId={orderId} billno={billno} activeKey={activeKey} />
         </div>
       );
     }
