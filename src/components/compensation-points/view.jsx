@@ -45,21 +45,13 @@ class compensationPoints extends Component {
       },
       {
         title: '是否COD',
-        dataIndex: 'is_cod',
-        key: 'is_cod',
-        render: text => text == 1 ? '是' : '否',
+        dataIndex: 'cod_name',
+        key: 'cod_name',
       },
       {
         title: '订单状态',
-        dataIndex: 'order_status',
-        key: 'order_status',
-        render: (text) => {
-          const table = {
-            1: '已签收',
-            2: '未签收',
-          };
-          return table[text];
-        },
+        dataIndex: 'order_status_name',
+        key: 'order_status_name',
       },
       {
         title: '赠送场景',
