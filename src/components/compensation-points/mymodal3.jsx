@@ -28,7 +28,7 @@ const Mymodal3 = (props) => {
           <div className={styles.lineleft}>{lan.站点}</div>
           <Select
             className={styles.lineright}
-            value={siteFrom3}
+            value={siteFrom3.toLocaleString() === 'all' ? undefined : siteFrom3}
             onChange={value => dispatch(changeValue('siteFrom3', value))}
             mode="multiple"
           >
@@ -41,7 +41,7 @@ const Mymodal3 = (props) => {
           <div className={styles.lineleft}>{lan.国家}</div>
           <Select
             className={styles.lineright}
-            value={country3}
+            value={country3.toLocaleString() === 'all' ? undefined : country3}
             onChange={value => dispatch(changeValue('country3', value))}
             mode="multiple"
           >
@@ -54,7 +54,7 @@ const Mymodal3 = (props) => {
           <div className={styles.lineleft}>{lan.是否COD}</div>
           <Select
             allowClear
-            value={COD_status3}
+            value={COD_status3 || null}
             className={styles.lineright}
             onChange={value => dispatch(changeValue('COD_status3', value))}
           >
