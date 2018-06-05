@@ -154,7 +154,10 @@ class compensationPoints extends Component {
 
             <Button
               className={styles.button}
-              onClick={() => dispatch(pointRewardList(this.props))}
+              onClick={() => {
+                dispatch(changeValue('page_number', 1));
+                dispatch(pointRewardList(this.props, 1));
+              }}
             >
               {lan.搜索}
             </Button>
