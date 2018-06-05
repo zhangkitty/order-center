@@ -775,21 +775,22 @@ const SingleRow = (props) => {
             </Button>
           }
           {
-            (!!data.button_list.return_url) &&
+            // (!!data.button_list.return_url) &&
             <CopyToClipboard
               text={data.button_list.return_url}
               onCopy={() => {
-                if (data.button_list.return_url == '') {
+                if (data.button_list.return_url && data.button_list.return_url.length > 0) {
+                  dispatch(changeReturnCopied(data.order_id, true));
+                } else {
                   return message.info('链接为空');
                 }
-                dispatch(changeReturnCopied(data.order_id, true));
               }}
             >
               <Button>{lan.复制退货链接}</Button>
             </CopyToClipboard>
           }
           {
-            data.returnCopied && <span style={{color:'red'}}>{lan.复制成功}</span>
+            data.returnCopied && <span style={{ color: 'red' }}>{lan.复制成功}</span>
           }
         </div>
       </div>
