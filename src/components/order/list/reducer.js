@@ -169,6 +169,14 @@ function changePopOverVisible(list, id, bool) {
   return arr;
 }
 
+function changeCopy(list, id, bool) {
+  const arr = list.map(v => (
+      v.order_id == id ?
+          assign({}, v, { returnCopied: bool }) : false
+  ));
+  return arr;
+}
+
 function closeAllRemark(list, bool) {
   const arr = list.map(v => (
       assign({}, v, { popOvervisible: bool }) : v
@@ -304,7 +312,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.SEARCH_SUCCESS:
       return assign({}, state, {
         // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
-        dataSource: (action.data.data || []).map((v) => { v.popOvervisible = false; return v; }),
+        dataSource: (action.data.data || []).map((v) => { v.popOvervisible = false; v.returnCopied = false; return v; }),
         batchChooseGoods: [], // 置空
         total: action.data.total,
         searchLoad: false,
@@ -672,6 +680,11 @@ const reducer = (state = defaultState, action) => {
         payment_account: '',
         currency_code: '',
         payment_amount: '',
+      });
+
+    case TYPES.CHANGERETURNCOPIED:
+      return assign({}, state, {
+        dataSource: changeCopy(state.dataSource, action.order, action.value),
       });
     default:
       return state;

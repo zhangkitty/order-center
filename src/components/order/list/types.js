@@ -150,5 +150,7 @@ export const CLOSEALLREMARK = `${prefix}closeAllRemark`;
 
 export const INIT_EXCHANGE = `${prefix}initExchange`;
 
-export const OPERATE_RETURN  = `${prefix}operate_return`;
+export const OPERATE_RETURN = `${prefix}operate_return`;
+
+export const CHANGERETURNCOPIED = `${prefix}CHANGERETURNCOPIED`;
 

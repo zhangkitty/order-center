@@ -11,6 +11,7 @@ import {
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange, commit,
   getOrderRewardPointInfo, remarkSave, changeArray, getPaymentComplain, initExchange,
+  changeReturnCopied,
 } from './action';
 
 import Styles from './style.css';
@@ -191,7 +192,7 @@ const refundBillStatus = {
 };
 const SingleRow = (props) => {
   const { data, index, dispatch, fetchRemark,
-    record, fetchOperation, operationVisible,
+    record, fetchOperation, operationVisible, returnCopied,
     logisticsVisible, remark, fetchLogisticsRemark, dataSource,
     batchChooseOrder, batchChooseGoods, cancelRiskDesc,
     queryString3, selectAllStateStatus, BulkReturnInfo, remarkModal, loadUpdata, visible,
@@ -774,11 +775,21 @@ const SingleRow = (props) => {
             </Button>
           }
           {
-            (!!data.button_list.return_url) && <CopyToClipboard
+            (!!data.button_list.return_url) &&
+            <CopyToClipboard
               text={data.button_list.return_url}
+              onCopy={() => {
+                if (data.button_list.return_url == '') {
+                  return message.info('链接为空');
+                }
+                dispatch(changeReturnCopied(data.order_id, true));
+              }}
             >
               <Button>{lan.复制退货链接}</Button>
             </CopyToClipboard>
+          }
+          {
+            data.returnCopied && <span style={{color:'red'}}>{lan.复制成功}</span>
           }
         </div>
       </div>

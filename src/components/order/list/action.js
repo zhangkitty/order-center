@@ -442,3 +442,9 @@ export const operateReturn = (oid, gid) => ({
   gid,
   type: TYPES.OPERATE_RETURN,
 });
+
+export const changeReturnCopied = (order, value) => ({
+  type: TYPES.CHANGERETURNCOPIED,
+  order,
+  value,
+});
