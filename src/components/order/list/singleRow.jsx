@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Table, Checkbox, Button, Input, Popover, message, Popconfirm, Spin, Affix, Tooltip, Icon } from 'antd';
 import { Link } from 'react-router';
 import assign from 'object-assign';
@@ -10,9 +11,11 @@ import {
   logisticsRemark, logisticsRemarkSave, operationGoods,
   openModalCgs, cancelRisk, cancelTroubleTag, markTag, delChange, commit,
   getOrderRewardPointInfo, remarkSave, changeArray, getPaymentComplain, initExchange,
+  changeReturnCopied,
 } from './action';
 
 import Styles from './style.css';
+import { operateReturn } from './action';
 
 // 语言包
 const lan = {
@@ -30,6 +33,10 @@ const lan = {
   投诉平台: '投诉平台',
   投诉类型: '投诉类型',
   缺货: __('order.list.list.缺货'),
+  取消退款: '取消/退款',
+  退货: '退货',
+  复制退货链接: '复制退货链接',
+  复制成功: '复制成功',
 
 
   //
@@ -41,6 +48,9 @@ const lan = {
     // 运费: 'Shipping Fee',
     // 运费险: 'Shipping Insurance',
 };
+
+// 取消退款表
+const cancel_or_refund_table = [5, 7, 20, 82, 74, 75];
 
 // 订单状态的标记
 const colors = {
@@ -182,7 +192,7 @@ const refundBillStatus = {
 };
 const SingleRow = (props) => {
   const { data, index, dispatch, fetchRemark,
-    record, fetchOperation, operationVisible,
+    record, fetchOperation, operationVisible, returnCopied,
     logisticsVisible, remark, fetchLogisticsRemark, dataSource,
     batchChooseOrder, batchChooseGoods, cancelRiskDesc,
     queryString3, selectAllStateStatus, BulkReturnInfo, remarkModal, loadUpdata, visible,
@@ -492,7 +502,6 @@ const SingleRow = (props) => {
         />
       </div>
       <div className={Styles.orderOperateBg}>
-
         <div className={Styles.orderOperate}>
           {data.goods_quantity > 1 ?
             <div style={{ height: '30px' }} />
@@ -729,8 +738,60 @@ const SingleRow = (props) => {
           >
             {lan.换货}
           </Button>
-
-
+          {
+            (!!data.order_status) && (data.order_status <= 9) &&
+            <Button
+              onClick={() => {
+                if (BulkReturnInfo.find(v => cancel_or_refund_table.includes(v.goods_status))) {
+                  return message.info('勾选商品不符合退款状态，请确认');
+                }
+                return window.open(
+                    `${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${batchChooseGoods.join(
+                        ',',
+                    )}`,
+                );
+              }}
+            >
+              {lan.取消退款}
+            </Button>
+          }
+          {
+            (!!data.button_list.show_refund_button) &&
+            <Button
+              onClick={() => {
+                if (data.payment_method.toLowerCase === 'cod') {
+                  if (!BulkReturnInfo.every(v => v.goods_status == 54)) {
+                    return message.info('商品状态不符合退货状态，请确认');
+                  }
+                } else if (!BulkReturnInfo.every(v => (v.goods_status == 16) || (v.goods_status == 57))) {
+                  return message.info('商品状态不符合退货状态，请确认');
+                }
+                dispatch(
+                    operateReturn(data.order_id, batchChooseGoods.join(',')),
+                );
+              }}
+            >
+              {lan.退货}
+            </Button>
+          }
+          {
+            (!!data.button_list.return_url) &&
+            <CopyToClipboard
+              text={data.button_list.return_url}
+              onCopy={() => {
+                if (data.button_list.return_url && data.button_list.return_url.length > 0) {
+                  dispatch(changeReturnCopied(data.order_id, true));
+                } else {
+                  return message.info('链接为空');
+                }
+              }}
+            >
+              <Button>{lan.复制退货链接}</Button>
+            </CopyToClipboard>
+          }
+          {
+            data.returnCopied && <span style={{ color: 'red' }}>{lan.复制成功}</span>
+          }
         </div>
       </div>
     </div>
