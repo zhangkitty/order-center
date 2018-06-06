@@ -17,7 +17,7 @@ import {
   updateOrderTagSer, delChangeSer,
   batchCheckSer, batchDeleteSer, batchPartSer, noStockApplySer, noStockSer, returnAlreadyAuditSer,
   getNoGoodsListSer, underCarriageSer, getorderrewardpointinfoSer, addpointSer, batchexchangeordergoodsSer,
-  getPaymentComplainSer, getReasonServer,
+  getPaymentComplainSer, getReasonServer, operateReturnSer,
 } from '../server';
 import {
   searchSuccess, searchFail, searchHighFail, searchHighSuccess, searchHistoryFail, searchHistorySuccess,
@@ -67,6 +67,9 @@ function* searchHighSaga(action) {
     count: count ? encodeURIComponent(count.trim()) : null,
     totalInput: totalInput ? encodeURIComponent(totalInput.trim()) : null,
     goodsId: goodsId ? encodeURIComponent(goodsId.trim()) : null,
+    goodsStatus: action.data.goodsStatus.join(','),
+    orderStatus: action.data.orderStatus.join(','),
+    currency_code: action.data.Currency_code,
   }));
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle1')} ${data.msg}`);
@@ -367,6 +370,14 @@ function* getPaymentComplainSaga(action) {
 }
 
 
+function* operate_returnSaga(action) {
+  const data = yield operateReturnSer(action.oid, action.gid);
+  if (!data || data.code !== 0) {
+    return message.warning(`${data.msg}`);
+  }
+  return hashHistory.push(`order/details/to-return-goods/${action.oid}/${action.gid}`);
+}
+
 export default function* () {
   yield takeEvery(TYPES.SEARCH, searchSaga);
   yield takeEvery(TYPES.SEARCH_HIGH, searchHighSaga);
@@ -396,6 +407,7 @@ export default function* () {
   yield takeLatest(TYPES.ADDPOINT, addpointSaga);
   yield takeLatest(TYPES.BATCHEXCHANGEORDERGOODS, batchexchangeordergoodsSaga);
   yield takeLatest(TYPES.GETPAYMENTCOMPLAIN, getPaymentComplainSaga);
+  yield takeLatest(TYPES.OPERATE_RETURN, operate_returnSaga);
 }
 
 // 刷新订单

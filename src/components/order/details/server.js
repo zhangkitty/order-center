@@ -401,8 +401,8 @@ export const questionRemarkSer = (trouble_type, note, reference_number) => (
 );
 
 // 获取修改rl金额
-export const showRLModalServer = (code) => (
-  fetch(`/OrderReturn/getRlFeeByCurrencyCode?currency_code=${code}`, {
+export const showRLModalServer = (id) => (
+  fetch(`/OrderReturn/getRlFeeByCurrencyCode?order_id=${id}`, {
     method: 'GET',
   })
 )
@@ -412,3 +412,6 @@ export const changeRlSerer = (id, rl) => (
     method: 'GET',
   })
 )
+
+
+

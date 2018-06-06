@@ -1,6 +1,8 @@
 /**
  * Create by liufeng on 2017/9/28
  */
+
+import FileSaver from 'file-saver'
 import fetch from "../../lib/fetch";
 import {camel2Under} from "../../lib/camal";
 import queryString from "../../lib/query-string";
@@ -43,7 +45,6 @@ export const searchSubmit = (page) => {
 
 // 导出
 export const exportSubmit = (page) => {
-  debugger
   const keys = [
     'return_order_id', 'order_no', 'email', 'tracking_no', 'good_sn', 'source_site', 'insurance_states', 'trouble_state','shipping_method',
     'return_order_status', 'refund_status', 'shipping_status', 'order_type', 'receiver_country', 'return_label_type', 'warehouse',
@@ -104,3 +105,10 @@ export const doRefundPassSer = data => (
     body: JSON.stringify(data)
   })
 )
+
+export const exportASer = (action)=>{
+  return fetch(`/OrderReturn/exportLogisticsCost`,{
+    method:'post',
+    body:JSON.stringify(action.props.queryString)
+  })
+}

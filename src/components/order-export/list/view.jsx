@@ -88,7 +88,7 @@ class returnsList extends Component {
                 style={{ width: '120px' }}
                 placeholder={__('order-export.submitTitle5')}
                 value={enter_amount}
-                onChange={e => {
+                onChange={(e) => {
                   if (e.target.value && e.target.value.trim().length > 11) {
                     return false;
                   }

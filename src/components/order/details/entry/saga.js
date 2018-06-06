@@ -37,6 +37,7 @@ import {
   questionRemarkSer,
   showRLModalServer,
   changeRlSerer,
+  newRemarkSaveSer,
 } from '../server';
 
 const lan = {
@@ -269,7 +270,6 @@ function* getefundbBillistbyorderidSaga(action) {
 }
 // 物流问题反馈备注保存
 function* questionRemarkSaga(action) {
-  console.log(action.numbers);
   const data = yield questionRemarkSer(action.types, action.note, action.numbers);
   if (!data || data.code !== 0) {
     message.error(`${__('common.sagaTitle12')}${data.msg}`);
@@ -280,7 +280,7 @@ function* questionRemarkSaga(action) {
 }
 
 function* showRLModalSaga({ code, id }) {
-  const result = yield showRLModalServer(code);
+  const result = yield showRLModalServer(id);
   if (result.code === 0) {
     yield put(putRLList({
       list: result.data,
@@ -292,6 +292,7 @@ function* showRLModalSaga({ code, id }) {
 }
 
 function* changeRlSaga(action) {
+  console.log(action, 'action');
   if (!action.rl.rl_charge) return message.error(__('common.not_RL'));
   const result = yield changeRlSerer(action.rl.code, action.rl.rl_charge);
   if (result.code === 0) {
@@ -302,6 +303,8 @@ function* changeRlSaga(action) {
   }
   return message.error(`${lan.ofail}:${result.msg}`);
 }
+
+
 export default function* () {
   yield takeEvery(TYPES.GET_INFO, getInfoSaga);
   yield takeLatest(TYPES.UPDATE_EAMIL, updateEmailSaga);

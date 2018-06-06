@@ -19,6 +19,7 @@ const defaultState = {
   fetchOrderStatus: [],    // 订单状态
   fetchCancelReason: [],  // 取消类型
   fetchGoodsStatus: [],  // 商品状态
+  fetchCurrency_code: [],
   fetchOperation: [],  // 操作状态
   fetchRemark: [], // 备注
   fetchLogisticsRemark: '', // 物流备注
@@ -62,11 +63,12 @@ const defaultState = {
     goodsSn: null,    // sku
     yoho_count: null,   // 有货件数
     memberLevel: null,    // 会员等级
-    orderStatus: null,  // 订单状态 - 订单状态=“已取消”，显示 取消类型
+    orderStatus: [],  // 订单状态 - 订单状态=“已取消”，显示 取消类型
     cancelReason: null,  // 取消类型
-    goodsStatus: null,  // 商品状态  -选中订单状态，显示 商品状态
+    goodsStatus: [],  // 商品状态  -选中订单状态，显示 商品状态
     handleTimeStart: null,   // 商品状态更新时间
     handleTimeEnd: null,          // 商品状态更新时间
+    Currency_code: null,
   },
   queryString3: {   // 历史订单
     pageSize: 10,
@@ -163,6 +165,14 @@ function changePopOverVisible(list, id, bool) {
   const arr = list.map(v => (
       v.order_id == id ?
           assign({}, v, { popOvervisible: bool }) : v
+  ));
+  return arr;
+}
+
+function changeCopy(list, id, bool) {
+  const arr = list.map(v => (
+      v.order_id == id ?
+          assign({}, v, { returnCopied: bool }) : assign({}, v, { returnCopied: false })
   ));
   return arr;
 }
@@ -302,7 +312,10 @@ const reducer = (state = defaultState, action) => {
     case TYPES.SEARCH_SUCCESS:
       return assign({}, state, {
         // dataSource: action.data.data.map((v, i) => assign({}, v, { key: i })),
-        dataSource: (action.data.data || []).map((v) => { v.popOvervisible = false; return v; }),
+        dataSource: (action.data.data || []).map(v => assign({}, v, {
+          popOvervisible: false,
+          returnCopied: false,
+        })),
         batchChooseGoods: [], // 置空
         total: action.data.total,
         searchLoad: false,
@@ -360,6 +373,7 @@ const reducer = (state = defaultState, action) => {
         fetchOrderStatus: data.data.order_status || [], // 订单状态
         fetchCancelReason: data.data.cancel_type || [], // 取消类型
         fetchGoodsStatus: data.data.order_goods_status || [],   // 商品状态
+        fetchCurrency_code: data.data.currency_code,
         reason: reason.data, // 用户取消原因
         load: false,
       });
@@ -669,6 +683,11 @@ const reducer = (state = defaultState, action) => {
         payment_account: '',
         currency_code: '',
         payment_amount: '',
+      });
+
+    case TYPES.CHANGERETURNCOPIED:
+      return assign({}, state, {
+        dataSource: changeCopy(state.dataSource, action.order, action.value),
       });
     default:
       return state;

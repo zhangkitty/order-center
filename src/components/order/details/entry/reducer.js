@@ -3,6 +3,7 @@ import assign from 'object-assign';
 import * as TYPES from './types';
 
 const defaultState = {
+  mycode: '',
   ready: false,
   tabsLoad: false,
   orderId: '',

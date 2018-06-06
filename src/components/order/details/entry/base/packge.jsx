@@ -57,6 +57,8 @@ const lan = {
   必须勾选整个订单的全部商品: '必须勾选整个订单的全部商品',
   prepared_goods: __('order.entry.prepared_goods'),
   shipping_warehouse: __('order.entry.shipping_warehouse'),
+  商品名: '商品名',
+  商品ID: '商品ID',
 };
 const disableArr = [5, 7, 75, 82, 20, 74];
 
@@ -138,7 +140,7 @@ const colors = {
   91: { bg: '#ccc', border: 'none' },
   94: { bg: '#ccc', border: 'none' },
   126: { bg: '#ccc', border: 'none' },
-  127: { bg: '#ccc', border: 'none' },
+  127: { bg: '#F8E71C' },
   130: { bg: 'rgba(177,0,22,0.20)', border: '2px solid #B10016' },
 };
 
@@ -416,6 +418,14 @@ const Packge = ({
         ),
       },
       {
+        render: () => (
+          <div>
+            <div>{lan.商品名}:</div>
+            <div>{lan.商品ID}:</div>
+          </div>
+        ),
+      },
+      {
         title: lan.sku,
         dataIndex: 'sku',
         render: (d, rec) => (
@@ -527,30 +537,30 @@ const Packge = ({
                 <Button disabled={partSendBtn}>{lan.bufenfa}</Button>
               </Popover>
             )}
-            {!!show_priority_shipped_button && ( // 优先发货按钮
-              <Button
-                onClick={() => {
-                  dispatch(commit('preSend', preSend)); // 0
-                  dispatch(
-                    preSendAction(Number(orderId), preSend, billno, activeKey),
-                  ); // preSend
-                }}
-              >
-                {lan.youxianfahuo}
-              </Button>
-            )}
+            {/* {!!show_priority_shipped_button && ( // 优先发货按钮 */}
+            {/* <Button */}
+            {/* onClick={() => { */}
+            {/* dispatch(commit('preSend', preSend)); // 0 */}
+            {/* dispatch( */}
+            {/* preSendAction(Number(orderId), preSend, billno, activeKey), */}
+            {/* ); // preSend */}
+            {/* }} */}
+            {/* > */}
+            {/* {lan.youxianfahuo} */}
+            {/* </Button> */}
+            {/* )} */}
             {!!show_cancel_priority_shipped_button && ( // 取消优先发货按钮
-              <Button
-                onClick={() => {
-                  dispatch(commit('preSend', +!preSend)); // 1
-                  dispatch(
-                    preSendAction(Number(orderId), 1, billno, activeKey),
-                  ); // preSend
-                }}
-              >
-                {lan.quxiaoyouxianfahuo}
-              </Button>
-            )}
+            <Button
+              onClick={() => {
+                dispatch(commit('preSend', +!preSend)); // 1
+                dispatch(
+             preSendAction(Number(orderId), 1, billno, activeKey),
+             ); // preSend
+              }}
+            >
+              {lan.quxiaoyouxianfahuo}
+            </Button>
+             )}
             {!!show_review_order_button && ( // 审核订单按钮
               <Button onClick={() => dispatch(examine(orderId))}>
                 {lan.shenhedingdan}
@@ -600,15 +610,14 @@ const Packge = ({
             <div className={style.tableFloat}>
               <Table
                 dataSource={fetchRemark}
-                columns={columnsRemark} size="small"
+                columns={columnsRemark}
+                size="small"
                 pagination={false}
                 style={{ width: '500px', maxHeight: '400px', overflow: 'auto' }}
               />
               <div style={{ margin: '30px 50px 15px' }}>
                 <div>
-                  <div style={{ textAlign: 'left' }}>
-                    {__('common.order_operation6')}
-                  </div>
+                  <div style={{ textAlign: 'left' }} />
                   <Input.TextArea
                     style={{ margin: '10px auto' }}
                     rows={3}

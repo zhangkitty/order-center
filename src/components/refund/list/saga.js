@@ -16,7 +16,7 @@ import * as TYPES from './types';
 
 function* searchSaga(action) {
   const {
-    refund_bill_id, billno, email, add_user, handle_user,
+    refund_bill_id, billno, email, add_user, handle_user, trouble_mark,
   } = action.data;
   const data = yield searchSubmit(assign({}, action.data, {
     refund_bill_id: refund_bill_id ? encodeURIComponent(refund_bill_id.trim()) : null,
@@ -24,6 +24,7 @@ function* searchSaga(action) {
     email: email ? encodeURIComponent(email.trim()) : null,
     add_user: add_user ? encodeURIComponent(add_user.trim()) : null,
     handle_user: handle_user ? encodeURIComponent(handle_user.trim()) : null,
+    trouble_mark: trouble_mark || null,
   }));
   if (!data || data.code !== 0) {
     message.error(`${__('refund.list.submitTitle2')}${data.msg}`);

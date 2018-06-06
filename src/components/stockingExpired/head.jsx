@@ -2,7 +2,8 @@ import React from 'react';
 import { Input, Button, Select, DatePicker } from 'antd';
 import moment from 'moment';
 
-import { change, getOverStockList } from './action';
+import { change, getOverStockList, update } from './action';
+import BatchRefundModal from './BatchRefundModal';
 
 const lan = {
   order: __('stockExpired.order'),
@@ -22,14 +23,16 @@ const lan = {
   订单类型: '订单类型',
   商品状态: '商品状态',
   是否COD: '是否COD',
+  批量返回已审核: '批量返回已审核',
+  批量退款: '批量退款',
 };
 
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const Head = (props) => {
-  const { InitInfo: { site, isCod, status, isTrouble } } = props;
+  const { InitInfo: { site, isCod, status, isTrouble }, dispatch, batchRefundModalShow } = props;
   const { InitInfo: { overStockDate } } = props;
-  const { chooseSite, chooseDays, dispatch, orderType, commodityStatus, is_cod } = props;
+  const { chooseSite, chooseDays, orderType, commodityStatus, is_cod } = props;
 
   return (<div style={{ marginLeft: 40, marginTop: 20, marginBottom: 20 }}>
     <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -118,6 +121,22 @@ const Head = (props) => {
           )
         }
       </Select>
+      <Button
+        style={{ marginLeft: 10 }}
+        onClick={() => dispatch(update(props))}
+      >
+        {lan.批量返回已审核}
+      </Button>
+      <Button
+        style={{ marginLeft: 10 }}
+        onClick={() => dispatch(change('batchRefundModalShow', true))}
+      >
+        {lan.批量退款}
+        {
+          <BatchRefundModal {...props} />
+        }
+      </Button>
+
       <Button
         style={{ marginLeft: '10px' }}
         onClick={() => dispatch(getOverStockList(props))}

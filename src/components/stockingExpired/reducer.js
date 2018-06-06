@@ -37,6 +37,14 @@ const defaultState = {
   tableLoading: false,
   pageNumber: 1,
   pageSize: 10,
+  // 批量退款Modal展示
+  batchRefundModalShow: false,
+  refundReason: null,
+  // 选中的order_goods
+  choose_order_goods: [],
+  selectedRowKeys: null,
+  confirmLoading:false,
+
 };
 
 const reducer = (state = defaultState, action) => {

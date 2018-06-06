@@ -5,7 +5,7 @@ import { message } from 'antd';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 import assign from 'object-assign';
 import {
-  searchSubmit, initCountrySer, exportSubmit,
+  searchSubmit, initCountrySer, exportSubmit, exportASer,
 } from '../server';
 import {
   searchSuccess, initCountrySuccess,
@@ -57,8 +57,17 @@ function* initCountrySaga() {
   return yield put(initCountrySuccess(data));
 }
 
+function* exportASaga(action) {
+  const data = yield exportASer(action);
+  if (data.code !== 0) {
+    return message.error(`${data.msg}`);
+  }
+  return window.open(data.data);
+}
+
 export default function* () {
   yield takeLatest(TYPES.SEARCH, searchSaga);
   yield takeLatest(TYPES.EXPORT, exportSaga);
   yield takeEvery(TYPES.INIT_COUNTRY, initCountrySaga);
+  yield takeEvery(TYPES.exportA, exportASaga);
 }
