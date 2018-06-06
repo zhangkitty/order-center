@@ -34,9 +34,9 @@ const lan = {
   投诉类型: '投诉类型',
   缺货: __('order.list.list.缺货'),
   取消退款: __('order.list.list.取消退款'),
-  退货: '退货',
-  复制退货链接: '复制退货链接',
-  复制成功: '复制成功',
+  退货: __('order.list.list.退货'),
+  复制退货链接: __('order.list.list.复制退货链接'),
+  复制成功: __('order.list.list.复制成功'),
 
 
   //
@@ -746,9 +746,7 @@ const SingleRow = (props) => {
                   return message.info('勾选商品不符合退款状态，请确认');
                 }
                 const temp = data.order_goods.map(v => v.order_goods_id);
-                console.log(temp, 'temp');
                 const tempbatch = batchChooseGoods.filter(v => temp.includes(v));
-                console.log(tempbatch, 'tempbatch');
                 return window.open(
                     `${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${tempbatch.join(
                         ',',
@@ -770,8 +768,10 @@ const SingleRow = (props) => {
                 } else if (!BulkReturnInfo.every(v => (v.goods_status == 16) || (v.goods_status == 57))) {
                   return message.info('商品状态不符合退货状态，请确认');
                 }
+                const temp = data.order_goods.map(v => v.order_goods_id);
+                const tempbatch = batchChooseGoods.filter(v => temp.includes(v));
                 dispatch(
-                    operateReturn(data.order_id, batchChooseGoods.join(',')),
+                    operateReturn(data.order_id, tempbatch.join(',')),
                 );
               }}
             >
