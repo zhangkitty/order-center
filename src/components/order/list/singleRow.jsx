@@ -775,7 +775,7 @@ const SingleRow = (props) => {
             </Button>
           }
           {
-            // (!!data.button_list.return_url) &&
+            (!!data.button_list.return_url) &&
             <CopyToClipboard
               text={data.button_list.return_url}
               onCopy={() => {
