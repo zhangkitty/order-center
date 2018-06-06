@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import { Link } from 'react-router';
-import { clickRefundedButton, clickAlreadyDoneButton } from './action';
+import { clickRefundedButton, clickAlreadyDoneButton, applyRefundedButton } from './action';
 
 import styles from './style.css';
 
@@ -26,12 +26,14 @@ const lan = {
   未退款: __('returns.details.未退款'),
   已退款: __('returns.details.已退款'),
   去退款: __('returns.details.去退款'),
+  申请退款: __('returns.details.申请退款'),
   已办结: __('returns.details.已办结'),
   退款路径: __('returns.details.退款路径'),
   退货单类型: '退货单类型',
 };
 const Base = ({
-                dispatch, returnsInfoData, remarkInfo, params, tracking_no_url, buttonIsDone, buttonIsRefund,
+  dispatch, returnsInfoData, remarkInfo, params, tracking_no_url, buttonIsDone, buttonIsRefund,
+  buttonIsRefundStatus,
 }) => {
   const info = {
     left: [
@@ -74,10 +76,12 @@ const Base = ({
                 }
                 {(function (key) {
                   if (key === 'refundStatus') {
-                    if (returnsInfoData[key] === 0) { // old href={`${location.origin}${returnsInfoData.refundUrl}`}
-                      return <span>{lan.未退款} <Link target="_blank" to={`order/details/entry/${returnsInfoData.orderId}/${returnsInfoData.orderNo}`}>{lan.去退款}</Link></span>;
-                    }
-                    return <span>{lan.已退款}</span>;
+                    return <span>{['未退款', '已退款', '待退款'][returnsInfoData[key]]}</span>;
+        //             if (returnsInfoData[key] === 0) {
+        //               return <span>{lan.未退款}</span>;
+        // // return <span>{lan.未退款}<Link target="_blank" to={`order/details/entry/${returnsInfoData.orderId}/${returnsInfoData.orderNo}`}>{lan.去退款}</Link></span>;
+        //             }
+        //             return <span>{lan.已退款}</span>;
                   }
                   if (key === 'refundPath') {
                     return <span style={{ color: 'red' }}>{returnsInfoData[key].toString()}</span>;
@@ -178,6 +182,16 @@ const Base = ({
               onClick={() => dispatch(clickRefundedButton(params.id))}
             >
               {lan.已退款}
+            </Button>
+          }
+          {/*   申请退款 */}
+          {
+            !buttonIsRefundStatus && <Button
+              style={{ marginLeft: 20 }}
+              type="primary"
+              onClick={() => dispatch(applyRefundedButton(params.id))}
+            >
+              {lan.申请退款}
             </Button>
           }
           {

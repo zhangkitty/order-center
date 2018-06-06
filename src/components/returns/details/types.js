@@ -8,3 +8,6 @@ export const CLICKREFUNDEDBUTTONSUCCESS = `${prefix}clickRefundedButtonSuccess`;
 // 点击已办结按钮
 export const CLICKALREADYDONEBUTTON = `${prefix}clickAlreadyDoneButton`;
 export const CLICKALREADYDONEBUTTONSUCCESS = `${prefix}clickAlreadyDoneButtonSuccess`;
+
+// 点击申请退款按钮
+export const APPLYREFUNDEDBUTTON = `${prefix}applyRefundedButton`;

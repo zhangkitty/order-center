@@ -2,8 +2,11 @@ import { takeEvery, put, takeLatest } from 'redux-saga/effects';
 import { message } from 'antd';
 import assign from 'object-assign';
 import * as TYPES from './types';
-import { getOrderReturnDetailSer, getOrderRefundSer, getUpdateStatusSer } from './server';
-import { getOrderReturnDetailSuccess, clickRefundedButtonSagaSuccess, getOrderReturnDetail } from './action';
+import { getOrderReturnDetailSer, getOrderRefundSer, getUpdateStatusSer, applyOrderRefundSer } from './server';
+import {
+  getOrderReturnDetailSuccess, getOrderReturnDetail,
+  // clickRefundedButtonSagaSuccess,
+} from './action';
 import { hashHistory } from 'react-router';
 
 const lan = {
@@ -30,7 +33,17 @@ function* clickRefundedButtonSaga(action) {
     return message.error(`${lan.fail}:${data.msg}`);
   }
   message.success(`${lan.推送消息成功}`);
-  yield put(getOrderReturnDetail(action.id));
+  return yield put(getOrderReturnDetail(action.id));
+}
+
+// 点击申请退款按钮
+function* applyRefundedButtonSaga(action) {
+  const data = yield applyOrderRefundSer(action.id);
+  if (!data || data.code !== 0) {
+    return message.error(`${lan.fail}:${data.msg}`);
+  }
+  message.success(`${lan.推送消息成功}`);
+  return yield put(getOrderReturnDetail(action.id));
 }
 
 // 点击已办结按钮
@@ -40,11 +53,12 @@ function* clickAlreadyDoneButtonSaga(action) {
     return message.error(`${lan.fail}:${data.msg}`);
   }
   message.success(`${lan.推送消息成功}`);
-  yield put(getOrderReturnDetail(action.id));
+  return yield put(getOrderReturnDetail(action.id));
 }
 
 export default function* () {
   yield takeLatest(TYPES.GETORDERRETURNDETAIL, getOrderReturnDetailSaga);
   yield takeLatest(TYPES.CLICKREFUNDEDBUTTON, clickRefundedButtonSaga);
+  yield takeLatest(TYPES.APPLYREFUNDEDBUTTON, applyRefundedButtonSaga);
   yield takeLatest(TYPES.CLICKALREADYDONEBUTTON, clickAlreadyDoneButtonSaga);
 }
