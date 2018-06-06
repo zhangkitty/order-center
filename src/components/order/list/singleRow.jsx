@@ -745,8 +745,12 @@ const SingleRow = (props) => {
                 if (BulkReturnInfo.find(v => cancel_or_refund_table.includes(v.goods_status))) {
                   return message.info('勾选商品不符合退款状态，请确认');
                 }
+                const temp = data.order_goods.map(v => v.order_goods_id);
+                console.log(temp, 'temp');
+                const tempbatch = batchChooseGoods.filter(v => temp.includes(v));
+                console.log(tempbatch, 'tempbatch');
                 return window.open(
-                    `${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${batchChooseGoods.join(
+                    `${location.origin}${location.pathname}#/order/goodsRefund/${data.order_id}/${tempbatch.join(
                         ',',
                     )}`,
                 );
