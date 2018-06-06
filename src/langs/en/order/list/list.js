@@ -7,5 +7,8 @@ module.exports = {
   运费: 'Shipping Fee',
   运费险: 'Shipping Insurance',
   缺货: 'out of stock',
-  取消退款:'Cancel/Refund',
+  取消退款: 'Cancel/Refund',
+  退货: 'Returns',
+  复制退货链接: 'Copy return link',
+  复制成功: 'Successfully copied',
 };
