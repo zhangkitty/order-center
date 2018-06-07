@@ -32,3 +32,9 @@ export const clickAlreadyDoneSuccess = id => ({
   type: TYPES.CLICKALREADYDONEBUTTONSUCCESS,
   id,
 });
+
+// 点击已退款按钮
+export const applyRefundedButton = id => ({
+  type: TYPES.APPLYREFUNDEDBUTTON,
+  id,
+});
