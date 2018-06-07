@@ -531,7 +531,7 @@ const SingleRow = (props) => {
           <p>
             {
               data.is_usps == 1 ?
-                <div>UPS失败</div>
+                <div>USPS失败</div>
                   : null
             }
           </p>
