@@ -422,7 +422,7 @@ const Packge = ({
         dataIndex: 'goods',
         render: (d, res) => (
           <div>
-            <div>{`${lan.商品名}: ${res.id}`}</div>
+            <div>{`${lan.商品名}: ${res.goods_name}`}</div>
             <div>{`${lan.商品ID}: ${res.id}`}</div>
           </div>
         ),
