@@ -57,6 +57,8 @@ const lan = {
   必须勾选整个订单的全部商品: '必须勾选整个订单的全部商品',
   prepared_goods: __('order.entry.prepared_goods'),
   shipping_warehouse: __('order.entry.shipping_warehouse'),
+  商品名: '商品名',
+  商品ID: '商品ID',
 };
 const disableArr = [5, 7, 75, 82, 20, 74];
 
@@ -416,6 +418,14 @@ const Packge = ({
         ),
       },
       {
+        render: () => (
+          <div>
+            <div>{lan.商品名}:</div>
+            <div>{lan.商品ID}:</div>
+          </div>
+        ),
+      },
+      {
         title: lan.sku,
         dataIndex: 'sku',
         render: (d, rec) => (
@@ -607,9 +617,7 @@ const Packge = ({
               />
               <div style={{ margin: '30px 50px 15px' }}>
                 <div>
-                  <div style={{ textAlign: 'left' }}>
-                    {__('common.order_operation6')}
-                  </div>
+                  <div style={{ textAlign: 'left' }} />
                   <Input.TextArea
                     style={{ margin: '10px auto' }}
                     rows={3}

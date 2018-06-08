@@ -47,6 +47,7 @@ const reqImg = require.context('../../images');
 class OrderReturn extends Component {
   constructor(props) {
     super(props);
+    const { orderId } = props;
     this.columns = [
       {
         title: lan.bianhao,
@@ -100,7 +101,7 @@ class OrderReturn extends Component {
               style={{ margin: '5px' }}
               onClick={() => {
             // dispatch(commit('rlLoading', true));
-            // dispatch(genRl(rec.return_order_id, orderId, billno));
+            // dispatch(genRl(rec.return_order_id, billno));
                 this.props.dispatch(commit('modal_return_order_id', rec.return_order_id));
                 this.props.dispatch(fetchRlFee(this.props.orderId));
                 this.props.dispatch(commit('rlmodal', true));
@@ -112,7 +113,10 @@ class OrderReturn extends Component {
             </Button>
             {(rec.return_label_type === 'RL' && (rec.return_refund_status === '未退款' || rec.return_refund_status === 'No refund')) ?
               <Button
-                onClick={() => this.props.dispatch(showRLModal(rec.currency_code, rec.return_order_id))}
+                onClick={() => {
+                  this.props.dispatch(showRLModal(rec.currency_code, orderId));
+                  this.props.dispatch(commit('mycode', rec.return_order_id));
+                }}
               >{lan.changeRL}</Button> : null}
           </div>
         ),
@@ -164,6 +168,7 @@ class OrderReturn extends Component {
                   return_order_id: modal_return_order_id,
                   billno,
                 };
+                console.log(d);
                 if (reFeeValue === null) {
                   dispatch(commit('confirmLoading', false));
                   return message.error(lan.rl费用必填);
@@ -187,7 +192,10 @@ class OrderReturn extends Component {
               {
                 Array.isArray(rlFee) ?
                   <div>
-                    <Radio.Group disabled={confirmLoading} value={reFeeValue || 0} onChange={e => dispatch(commit('reFeeValue', e.target.value))}>{
+                    <Radio.Group
+                      disabled={confirmLoading} value={reFeeValue || 0}
+                      onChange={e => dispatch(commit('reFeeValue', e.target.value))}
+                    >{
                       (rlFee || []).map(v => (
                         <Radio value={v.amount}>{v.amountWithSymbol}</Radio>
                       ))

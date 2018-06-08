@@ -17,3 +17,14 @@ export const getOverStockList = val => ({
   type: TYPES.GETOVERSTOCKLIST,
   val,
 });
+
+export const batchRefund = value => ({
+  type: TYPES.BATCHREFUND,
+  value,
+});
+
+
+export const update = value => ({
+  type: TYPES.UPDATE,
+  value,
+});

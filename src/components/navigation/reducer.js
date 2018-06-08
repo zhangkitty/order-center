@@ -6,6 +6,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 
 const lan = {
   平台订单管理: '平台订单管理',
+  用户备注列表: '用户备注列表',
 };
 const menus = [
   {
@@ -143,6 +144,19 @@ const menus = [
         crumbName: lan.平台订单管理,
         nav: true,
       },
+      {
+        link: '/user-comments',
+        name: lan.用户备注列表,
+        crumbName: lan.用户备注列表,
+        nav: true,
+      },
+      {
+        link: '/bulk-processing-refund',
+        name: '批量处理退款',
+        crumbName: '批量处理退款',
+        nav: true,
+      },
+
     ],
   },
 ];

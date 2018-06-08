@@ -196,11 +196,11 @@ const Base = ({
               </div>
             ))
           }
-          <Button
-            icon="eye" style={{ marginTop: '30px' }}
-            loading={remarkInfo.load}
-            onClick={() => dispatch(remarkInfoShow(refundBillId, remarkInfo))}
-          >{language.查看备注信息}</Button>
+          {/* <Button */}
+          {/* icon="eye" style={{ marginTop: '30px' }} */}
+          {/* loading={remarkInfo.load} */}
+          {/* onClick={() => dispatch(remarkInfoShow(refundBillId, remarkInfo))} */}
+          {/* >{language.查看备注信息}</Button> */}
 
           <Popover
             content={
@@ -282,14 +282,12 @@ const Base = ({
           }
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Button
-            icon="plus"
-            onClick={() => dispatch(commit('addRemarkInfo', assign({}, addRemarkInfo, { reamrkShow: true, remark: '' })))}
-          >
-            {language.新增备注}
-          </Button
-
-          >
+          {/* <Button */}
+          {/* icon="plus" */}
+          {/* onClick={() => dispatch(commit('addRemarkInfo', assign({}, addRemarkInfo, { reamrkShow: true, remark: '' })))} */}
+          {/* > */}
+          {/* {language.新增备注} */}
+          {/* </Button> */}
           {
             !refund_detail.trouble_mark && <Popover
               trigger="click"

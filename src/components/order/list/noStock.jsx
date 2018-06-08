@@ -225,20 +225,20 @@ class TabsHeader extends Component {
           {' '}
           {__('common.order_operation12')}
         </Button>
-        {/* 批量无货 */}
-        <Button
-          onClick={() => {
-            // if (_batchChooseGoods !== batchChooseGoods) {
-            dispatch(noStock(batchChooseGoods));
-            //  _batchChooseGoods = batchChooseGoods;
-            // } else {
-            //  dispatch(change('showBatchNoGoods', true));
-            // }
-          }}
-        >
-          {' '}
-          {__('common.order_operation13')}
-        </Button>
+        {/* /!* 批量无货 *!/ */}
+        {/* <Button */}
+        {/* onClick={() => { */}
+        {/* // if (_batchChooseGoods !== batchChooseGoods) { */}
+        {/* dispatch(noStock(batchChooseGoods)); */}
+        {/* //  _batchChooseGoods = batchChooseGoods; */}
+        {/* // } else { */}
+        {/* //  dispatch(change('showBatchNoGoods', true)); */}
+        {/* // } */}
+        {/* }} */}
+        {/* > */}
+        {/* {' '} */}
+        {/* {__('common.order_operation13')} */}
+        {/* </Button> */}
         {/* 弹窗 */}
         <Modal
           title={

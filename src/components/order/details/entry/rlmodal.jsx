@@ -12,13 +12,16 @@ class RLModal extends Component {
       visible={this.props.RlModal}
       title={__('common.change_rl')}
       onCancel={() => this.props.dispatch(clearRL())}
-      onOk={() => this.props.dispatch(changeRl({
-        rl_charge: this.props.rl_charge,
-        code: this.props.code,
-        orderId: this.props.orderId,
-        billno: this.props.billno,
-        activeKey: this.props.activeKey,
-      }))}
+      onOk={() => {
+        console.log(this.props, 'this.props');
+        this.props.dispatch(changeRl({
+          rl_charge: this.props.rl_charge,
+          code: this.props.code,
+          orderId: this.props.orderId,
+          billno: this.props.billno,
+          activeKey: this.props.activeKey,
+        }));
+      }}
     >
       <Radio.Group onChange={e => this.props.dispatch(commit('rl_charge', e.target.value))} value={this.props.rl_charge}>
         {
