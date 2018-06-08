@@ -170,18 +170,22 @@ const reducer = (state = defaultState, action) => {
     case TYPES.changeAmount:
       const twoChangeAmount = state.submitValue.refundAmount;
       return assign({}, state, {
-        two: twoChangeAmount,
+        two: `${twoChangeAmount}$`,
         submitValue: assign({}, state.submitValue, {
           remark: `${state.one}:\nRefund method：${state.four}:${twoChangeAmount}$`,
         }),
       });
 
     case TYPES.changeCurrency:
-      return state;
-
+      const twoChangeCurrency = state.submitValue.refundCurrency;
+      return assign({}, state, {
+        two: `${twoChangeCurrency}${state.symbol}`,
+        submitValue: assign({}, state.submitValue, {
+          remark: `${state.one}:\nRefund method：${state.four}:${twoChangeCurrency}${state.symbol}`,
+        }),
+      });
 
     case TYPES.selectRemark:
-      console.log(state.submitValue.refundMethod);
       return assign({}, state, {
         four: state.submitValue.refundMethod,
         submitValue: assign({}, state.submitValue, {
