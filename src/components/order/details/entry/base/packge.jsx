@@ -57,8 +57,9 @@ const lan = {
   必须勾选整个订单的全部商品: '必须勾选整个订单的全部商品',
   prepared_goods: __('order.entry.prepared_goods'),
   shipping_warehouse: __('order.entry.shipping_warehouse'),
-  商品名: '商品名',
-  商品ID: '商品ID',
+  goods_name_id: __('order.entry.goods_name_id'),
+  goods_name: __('order.entry.goods_name'),
+  goods_id: __('order.entry.goods_id'),
 };
 const disableArr = [5, 7, 75, 82, 20, 74];
 
@@ -418,12 +419,12 @@ const Packge = ({
         ),
       },
       {
-        title: '商品名称 ID',
+        title: lan.goods_name_id,
         dataIndex: 'goods',
         render: (d, res) => (
           <div>
-            <div>{`${lan.商品名}: ${res.goods_name}`}</div>
-            <div>{`${lan.商品ID}: ${res.id}`}</div>
+            <div>{`${lan.goods_name}: ${res.goods_name}`}</div>
+            <div>{`${lan.goods_id}: ${res.id}`}</div>
           </div>
         ),
       },
