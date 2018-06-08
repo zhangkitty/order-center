@@ -15,4 +15,4 @@ export const RESET = `${prefix}reset`;
 export const changeRadio = `${prefix}changeRadio`;
 export const changeCurrency = `${prefix}changeCurrency`;
 export const changeAmount = `${prefix}changeAmount`;
-
+export const selectRemark = `${prefix}selectRemark`;

@@ -9,8 +9,10 @@ import { under2Camal } from '../../../../lib/camal';
 const defaultState = {
   symbol: '',
   is_usd: null,
-  one: '',
-  two: '',
+  one: '', // 记录是提现退款还是退款返还
+  two: '', // 记录美金价格
+  three: '', // 记录支付货币价格
+  four: 'account', // 记录account
   ready: false,
   dataSource: {},
   refundInfo: {},
@@ -94,7 +96,7 @@ const reducer = (state = defaultState, action) => {
       const refundCurrency = (max1 < max2) ? max1 : max2; // 金额（下单币种）
       const { price_usd, price_with_exchange_rate } = action.res.refunded_wallet_amount;
       const symbol = is_usd ? price_usd.symbol : price_with_exchange_rate.symbol;
-      const two = `Refund method：account,${is_usd ? refundAmount : refundCurrency}${symbol}`;
+      const two = `${is_usd ? refundAmount : refundCurrency}${symbol}`;
       return assign({}, state, {
         symbol,
         is_usd,
@@ -114,18 +116,12 @@ const reducer = (state = defaultState, action) => {
         under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount
         : under2Camal(action.res).walletNotExtractable.priceUsd.amount, // 钱包不提现（下单币种）
         submitValue: assign({}, state.submitValue, {
-          remark: `${one};\n${two}`,
+          remark: `${one};\nRefund method：account,${two}`,
           refundAmount, // 美元金额
           refundCurrency, // 金额（下单币种）
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
-          max, // 金额最大值（下单币种
-          // refundMethod: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
-          // account: under2Camal(action.res).orderRefundUnderlineAccount.accountInfo,
-          // bankCode: under2Camal(action.res).orderRefundUnderlineAccount.bankCode,
-          // cardNumber: under2Camal(action.res).orderRefundUnderlineAccount.cardNumber,
-          // customer: under2Camal(action.res).orderRefundUnderlineAccount.customerName,
-          // issuingCity: under2Camal(action.res).orderRefundUnderlineAccount.issuingCity,
+          max, // 金额最大值（下单币种)
         }),
         valueTitle: assign({}, state.valueTitle, {  // 提示
           refundMethodTitle: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
@@ -160,19 +156,38 @@ const reducer = (state = defaultState, action) => {
       });
 
     case TYPES.changeRadio:
-      const oneChangeRadio = state.submitValue.refundType === 3 ? 'Refund Withdraw' : 'Refund Returned';
+      const oneChangeRadio = state.submitValue.refundType === 4 ? 'Refund Withdraw' : 'Refund Returned';
       return assign({}, state, {
         one: oneChangeRadio,
+        two: '', // 记录美金价格
+        three: '', // 记录支付货币价格
+        four: 'account', // 记录account
         submitValue: assign({}, state, {
-          remark: `${oneChangeRadio}:\n${state.two}`,
+          remark: `${oneChangeRadio}`,
         }),
       });
 
     case TYPES.changeAmount:
-      return state;
+      const twoChangeAmount = state.submitValue.refundAmount;
+      return assign({}, state, {
+        two: twoChangeAmount,
+        submitValue: assign({}, state.submitValue, {
+          remark: `${state.one}:\nRefund method：${state.four}:${twoChangeAmount}$`,
+        }),
+      });
 
     case TYPES.changeCurrency:
       return state;
+
+
+    case TYPES.selectRemark:
+      console.log(state.submitValue.refundMethod);
+      return assign({}, state, {
+        four: state.submitValue.refundMethod,
+        submitValue: assign({}, state.submitValue, {
+          remark: `${state.one}:\nRefund method:${state.submitValue.refundMethod}:${state.two}`,
+        }),
+      });
     default:
       return state;
   }

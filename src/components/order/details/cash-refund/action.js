@@ -46,3 +46,7 @@ export const changeAmount = () => ({
   type: TYPES.changeAmount,
 });
 
+export const selectRemark = () => ({
+  type: TYPES.selectRemark,
+});
+
