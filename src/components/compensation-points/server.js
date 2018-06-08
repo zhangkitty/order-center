@@ -29,7 +29,6 @@ export const pointRewardListSer  =action=>{
 
 export const addPointRewardHandleSer =action=>{
   const {props} = action
-  debugger;
   const keys = ["site_from","country_id","is_cod", "orderStatus", "point_id", "point_name",'parent_id','point_type_id']
   const temp = assign({},props,{
     site_from:props.siteFrom2.join(','),
