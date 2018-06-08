@@ -2,7 +2,7 @@ import { Checkbox, Input, Select } from 'antd';
 import React from 'react';
 
 import style from './style.css';
-import { changeChannelValue, changeInputDisable, changeRemark } from './action';
+import { changeChannelValue, changeInputDisable, changeRemark ,selectRemark} from './action';
 
 
 const Option = Select.Option;
@@ -95,6 +95,7 @@ const price = ({
                        value={v.refund_method}
                        onChange={(e) => {
                          dispatch(changeChannelValue(v.refundPathId, 'refund_method', e));
+                         dispatch(selectRemark());
                        }}
                      >
                        {

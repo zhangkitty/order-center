@@ -15,7 +15,7 @@ const remarkTable = {
   1: 'gift-card',
   2: 'wallet',
   3: 'account',
-  4: 'account（yesbank）',
+  4: 'account',
 };
 
 const defaultState = {
@@ -189,7 +189,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.CHANGE_CHANNEL_VALUE:
       return assign({}, state, {
         refundPaths: changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
-          remark: `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}:${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`,
+          remark: `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}):${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`,
         })),
         remark: state.refundPaths.filter(v => v.checked === true).map(value => value.remark).join('\n'),
       });
@@ -240,6 +240,14 @@ const reducer = (state = defaultState, action) => {
 
     case TYPES.CHANGEREMARK:
       return assign({}, state, {
+        remark: state.refundPaths.filter(v => v.checked === true).map(value => value.remark).join('\n'),
+      });
+
+    case TYPES.selectRemark:
+      return assign({}, state, {
+        refundPaths: changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
+          remark: `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}${v.refund_method}:${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`,
+        })),
         remark: state.refundPaths.filter(v => v.checked === true).map(value => value.remark).join('\n'),
       });
 

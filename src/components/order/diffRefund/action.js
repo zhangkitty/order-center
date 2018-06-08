@@ -78,3 +78,7 @@ export const changeRemark = (pathId, checked) => ({
   pathId,
   checked,
 });
+
+export const selectRemark = () => ({
+  type: TYPES.selectRemark,
+});
