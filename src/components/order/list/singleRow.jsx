@@ -340,7 +340,15 @@ const SingleRow = (props) => {
                 <div style={{ display: 'flex' }}>
                   <div style={{ flexBasis: 180 }}>
                     <a href={res.goods_url} target="_blank">{d}</a>
-                    <span style={{ color: '#ff0000', marginLeft: '10px' }}>{replaceGoods(res.is_replace, res.replace_goods_sort)}</span>
+                    <span style={{ color: '#ff0000', marginLeft: '10px' }}>
+                      {replaceGoods(res.is_replace, res.replace_goods_sort)}
+                    </span>
+                    {
+                       res.replace_goods_sort !== '' &&
+                       <Tooltip placement="right" title={res.exchange_reason}>
+                         <Icon type="right-circle" />
+                       </Tooltip>
+                    }
                   </div>
                   <div>
                     {
@@ -364,7 +372,7 @@ const SingleRow = (props) => {
                   </div>
                 </div>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ flexBasis: 180 }}>{lan.供应商}:</div>
+                  <div style={{ flexBasis: 180 }}>{lan.供应商}:{res.supplier_name}</div>
                   <div>{lan.物流渠道}:{res.delivery_channel}</div>
                 </div>
               </div>
@@ -521,6 +529,13 @@ const SingleRow = (props) => {
             {/*
              <Icon type="message" style={{ color: 'rgb(255,35,0)' }}
             */}
+          </p>
+          <p>
+            {
+              data.is_usps == 1 ?
+                <div>USPS失败</div>
+                  : null
+            }
           </p>
           {/*  查看 */}
           <Link
