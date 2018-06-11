@@ -98,7 +98,7 @@ const Filters = ({
             </div>
             <div>
               <span>{ lan.leixing }</span>
-              <Select value={filter.trouble_type} onChange={v => dispatch(filterCommit('trouble_type', v))} allowClear>
+              <Select multiple value={filter.trouble_type} onChange={v => dispatch(filterCommit('trouble_type', v))} allowClear>
                 {filters.trouble_type.map(v => (<OP key={v.id}>{v.name}</OP>))}
               </Select>
             </div>
@@ -107,28 +107,28 @@ const Filters = ({
           <div>
             <div>
               <span>{ lan.zhaungtai }</span>
-              <Select value={filter.handle_status} onChange={v => dispatch(filterCommit('handle_status', v))} allowClear>
+              <Select multiple value={filter.handle_status} onChange={v => dispatch(filterCommit('handle_status', v))} allowClear>
                 {filters.handle_status.map(v => (<OP key={v.id}>{v.name}</OP>))}
               </Select>
             </div>
             <div>
               <span>{ lan.jieguo }</span>
-              <Select value={filter.handle_result} onChange={v => dispatch(filterCommit('handle_result', v))} allowClear>
+              <Select multiple value={filter.handle_result} onChange={v => dispatch(filterCommit('handle_result', v))} allowClear>
                 {filters.handle_result.map(v => (<OP key={v.id}>{v.name}</OP>))}
               </Select>
             </div>
             <div>
               <span>{ lan.payType }</span>
-              <Select value={filter.payment_method} onChange={v => dispatch(filterCommit('payment_method', v))} allowClear>
+              <Select multiple value={filter.payment_method} onChange={v => dispatch(filterCommit('payment_method', v))} allowClear>
                 {filters.payment_method.map(v => (<OP key={v.id}>{v.name}</OP>))}
               </Select>
             </div>
-            {/*<div>*/}
-              {/*<span>{ lan.productState }</span>*/}
-              {/*<Select value={filter.handle_result} onChange={v => dispatch(filterCommit('handle_result', v))} allowClear>*/}
-                {/*{filters.handle_result.map(v => (<OP key={v.id}>{v.name}</OP>))}*/}
-              {/*</Select>*/}
-            {/*</div>*/}
+            {/* <div> */}
+            {/* <span>{ lan.productState }</span> */}
+            {/* <Select value={filter.handle_result} onChange={v => dispatch(filterCommit('handle_result', v))} allowClear> */}
+            {/* {filters.handle_result.map(v => (<OP key={v.id}>{v.name}</OP>))} */}
+            {/* </Select> */}
+            {/* </div> */}
             <div>
               <span>{ lan.chuliren }</span>
               <Input value={filter.handle_user_name} onChange={e => dispatch(filterCommit('handle_user_name', e.target.value))} />
