@@ -7,6 +7,8 @@ import { under2Camal } from '../../../lib/camal';
 
 
 const defaultState = {
+  is_platform_order: null,
+  is_web_celebrity_order: null,
   ShippingAndInsurance: '',
   RefundMethod: '',
   RefundItems: '',
@@ -382,6 +384,8 @@ const reducer = (state = defaultState, action) => {
         }),
         cachePaths: svInit(under2Camal(action.res)),
         isUsd: under2Camal(action.res).isUsd,
+        is_platform_order: action.res.order_price_info.is_platform_order,
+        is_web_celebrity_order: action.res.order_price_info.is_web_celebrity_order,
       });
     case TYPES.initSerSuccess:
       const {
@@ -514,7 +518,7 @@ const reducer = (state = defaultState, action) => {
         shippingInsurance: DefaultValue ? 1 : 0,
         radioValue: isPlatformOrder === 1 ? 3 : (resultCurrency[2] > 0 ? 2 : 0),
         isUsd,
-        remark,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : remark,
         RefundItems,
         RefundAmount,
         RefundMethod,
@@ -568,7 +572,7 @@ const reducer = (state = defaultState, action) => {
         refundPaths,
         RefundMethod: methodStr,
         RefundAmount: refundAmountStr,
-        remark: `${state.RefundItems}${refundAmountStr}${stringTemp}${methodStr}`,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${refundAmountStr}${stringTemp}${methodStr}`,
         ShippingAndInsurance: stringTemp,
       });
     case TYPES.COPY_PAYMENT_METHOD:
@@ -610,7 +614,7 @@ const reducer = (state = defaultState, action) => {
         refundPaths,
         RefundMethod: methodStrInsu,
         RefundAmount: refundAmountStrInsu,
-        remark: `${state.RefundItems}${refundAmountStrInsu}${shippingInsuranceString}${methodStrInsu}`,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${refundAmountStrInsu}${shippingInsuranceString}${methodStrInsu}`,
         ShippingAndInsurance: shippingInsuranceString,
       });
     case TYPES.US_PRICE_CHANGE:
@@ -667,7 +671,7 @@ const reducer = (state = defaultState, action) => {
       const RefundMethodRl = RefundMRl.join(',');
       return assign({}, state, {
         refundPaths,
-        remark: `${state.RefundItems}${RefundAmountRl}${state.ShippingAndInsurance}${RefundMethodRl}`,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${RefundAmountRl}${state.ShippingAndInsurance}${RefundMethodRl}`,
         RefundAmount: RefundAmountRl,
         RefundMethod: RefundMethodRl,
       });
@@ -723,7 +727,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         radioValue: action.val,
         refundMethod: str,
-        remark: `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${str}`,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${str}`,
       });
 
     case TYPES.changeInput:
@@ -735,7 +739,6 @@ const reducer = (state = defaultState, action) => {
               changeInputTempArr.reduce((sum, value) => sum += (+value.refundCurrency), 0);
       const symb = changeInputTempArr[0] && changeInputTempArr[0].symbol;
       const rlFee = (+isUsd === 0) ? rlFeeCurrency : rlFeeAmount;
-      debugger;
       const RefundAmountChangeInput =
           (tol && symb) ?
           `Refund amount:${tol + rlFee}${symb}-${rlFee}${symb} =  ${tol}${symb}`
@@ -744,7 +747,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         RefundAmount: RefundAmountChangeInput,
         refundMethod: changeInputstr,
-        remark: `${state.RefundItems}${RefundAmountChangeInput}${state.ShippingAndInsurance}${changeInputstr}`,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${RefundAmountChangeInput}${state.ShippingAndInsurance}${changeInputstr}`,
       });
 
     default:
