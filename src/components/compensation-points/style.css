@@ -1,0 +1,24 @@
+.line{
+    display:flex;
+    margin:5px;
+}
+
+.lineleft{
+    flex-basis: 150px;
+    margin-right: 20px;
+    text-align: right;
+    line-height: 28px;
+}
+
+.lineright{
+    width:150px;
+}
+
+.button{
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.table{
+    margin: 20px;
+}
