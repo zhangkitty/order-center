@@ -280,7 +280,7 @@ function* questionRemarkSaga(action) {
 }
 
 function* showRLModalSaga({ code, id }) {
-  const result = yield showRLModalServer(code);
+  const result = yield showRLModalServer(id);
   if (result.code === 0) {
     yield put(putRLList({
       list: result.data,
@@ -292,6 +292,7 @@ function* showRLModalSaga({ code, id }) {
 }
 
 function* changeRlSaga(action) {
+  console.log(action, 'action');
   if (!action.rl.rl_charge) return message.error(__('common.not_RL'));
   const result = yield changeRlSerer(action.rl.code, action.rl.rl_charge);
   if (result.code === 0) {
