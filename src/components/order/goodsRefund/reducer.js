@@ -474,27 +474,27 @@ const reducer = (state = defaultState, action) => {
       };
       const ref = refundPaths.map(v => assign({}, v, {
         symbol:
-            paymentMethod === 'worldpay' &&
-            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
+            paymentMethod === 'PayPal-paypal' &&
+            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR ', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
                 '$' : `${v.priceWithExchangeRate.symbol}`,
         moneyWithnoSymbol:
-        paymentMethod === 'worldpay' &&
-        (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
+        paymentMethod === 'PayPal-paypal' &&
+        (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR ', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
             `${v.amount}`
             :
             `${v.refundCurrency}`,
         refMarkE: table[v.refundPathId],
         refMakrMoney:
-            paymentMethod === 'worldpay' &&
-            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
+            paymentMethod === 'PayPal-paypal' &&
+            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR ', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
             `${v.amount}${v.priceUsd.symbol}`
                 :
             `${v.refundCurrency}${v.priceWithExchangeRate.symbol}`,
       }));
-      const refPRemark = ref.filter(v => v.refundAmount >0);
+      const refPRemark = ref.filter(v => v.refundAmount > 0);
       const RefundM = refPRemark.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`);
       const tot = refPRemark.reduce((sum, value) => sum += (+value.moneyWithnoSymbol), 0);
-      const sym = (refPRemark[0]||{}).symbol;
+      const sym = (refPRemark[0] || {}).symbol;
       const shippingString = DefaultValue ? '（shipping and shipping insurance fee also be refunded)' : '';
       const RefundItems = `Refund items：${refundGoods.join(',')}\n`;
       const RefundAmount = `Refund amount:${tot}${sym}-0${sym}=${tot}${sym}`;
