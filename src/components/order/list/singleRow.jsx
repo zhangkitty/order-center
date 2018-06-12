@@ -142,6 +142,8 @@ const checkboxChecked = {
   20: true, // 被换
   91: true, // COD已报损
   77: true, // 'COD已拒收',
+  126: true, // 已申请退货
+  127: true, // 已退货
 };
 // 操作查询
 const columns = [{
@@ -222,7 +224,7 @@ const SingleRow = (props) => {
               const bulkarr = (data.order_goods.filter(v =>
                   checkboxChecked[v.goods_status]
                   || (v.goods_status == 57 && v.payment_method !== 'cod')
-                  || (v.goods_status == 54 && v.country_name === 'India'),
+                  || (v.goods_status == 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(v.country_name) > -1),
               )).map((value) => {
                 value.site_from = data.site_from;
                 return value;
@@ -230,7 +232,7 @@ const SingleRow = (props) => {
               let arr = data.order_goods
                 .filter(v => checkboxChecked[v.goods_status]
                   || (v.goods_status == 57 && v.payment_method !== 'cod')
-                  || (v.goods_status == 54 && v.country_name === 'India'),
+                  || (v.goods_status == 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(v.country_name) > -1),
                 )
                 .map(v => v.order_goods_id);
               if (arr.length) {
@@ -290,7 +292,7 @@ const SingleRow = (props) => {
                 if (rec.goods_status === 57 && rec.payment_method !== 'cod') {
                   return false;
                 }
-                if (rec.goods_status === 54 && rec.country_name === 'India') {
+                if (rec.goods_status === 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(rec.country_name) > -1) {
                   return false;
                 }
                 return checkboxChecked[rec.goods_status] === undefined || rec.is_replace === '2';
@@ -338,7 +340,15 @@ const SingleRow = (props) => {
                 <div style={{ display: 'flex' }}>
                   <div style={{ flexBasis: 180 }}>
                     <a href={res.goods_url} target="_blank">{d}</a>
-                    <span style={{ color: '#ff0000', marginLeft: '10px' }}>{replaceGoods(res.is_replace, res.replace_goods_sort)}</span>
+                    <span style={{ color: '#ff0000', marginLeft: '10px' }}>
+                      {replaceGoods(res.is_replace, res.replace_goods_sort)}
+                    </span>
+                    {
+                       res.replace_goods_sort !== '' &&
+                       <Tooltip placement="right" title={res.exchange_reason}>
+                         <Icon type="right-circle" />
+                       </Tooltip>
+                    }
                   </div>
                   <div>
                     {
@@ -362,7 +372,7 @@ const SingleRow = (props) => {
                   </div>
                 </div>
                 <div style={{ display: 'flex' }}>
-                  <div style={{ flexBasis: 180 }}>{lan.供应商}:</div>
+                  <div style={{ flexBasis: 180 }}>{lan.供应商}:{res.supplier_name}</div>
                   <div>{lan.物流渠道}:{res.delivery_channel}</div>
                 </div>
               </div>
@@ -468,7 +478,7 @@ const SingleRow = (props) => {
                 {/* 换货 */}
                 {
                   (rec.goods_status == 57 && rec.payment_method !== 'cod')
-                  || (rec.goods_status == 54 && rec.country_name === 'India')
+                  || (rec.goods_status == 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(rec.country_name) > -1)
                   || (changshow[rec.goods_status] && Number(rec.is_replace) !== 2) ?
                     <span
                       onClick={() => {
@@ -519,6 +529,13 @@ const SingleRow = (props) => {
             {/*
              <Icon type="message" style={{ color: 'rgb(255,35,0)' }}
             */}
+          </p>
+          <p>
+            {
+              data.is_usps == 1 ?
+                <div>USPS失败</div>
+                  : null
+            }
           </p>
           {/*  查看 */}
           <Link
