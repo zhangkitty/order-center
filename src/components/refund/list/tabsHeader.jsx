@@ -100,6 +100,9 @@ class TabsHeader extends Component {
                     ) {
                       return message.warning(__('refund.list.submitTitle'));
                     }
+                    if (!(moment(apply_end_time).valueOf() - moment(apply_start_time).valueOf() <= 7 * 86400000)) {
+                      return message.warning('退款申请日期要小于七天');
+                    }
                     return dispatch(search(assign({},
                       queryString,
                       {
@@ -489,6 +492,10 @@ class TabsHeader extends Component {
                 ) {
                   return message.warning(__('refund.list.submitTitle'));
                 }
+                if (!(moment(apply_end_time).valueOf() - moment(apply_start_time).valueOf() <= 7 * 86400000)) {
+                  return message.warning('退款申请日期要小于七天');
+                }
+
                 return dispatch(search(assign({},
                   queryString,
                   {
@@ -512,6 +519,9 @@ class TabsHeader extends Component {
                   moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
                 ) {
                   return message.warning(__('refund.list.submitTitle'));
+                }
+                if (!(moment(apply_end_time).valueOf() - moment(apply_start_time).valueOf() <= 7 * 86400000)) {
+                  return message.warning('退款申请日期要小于七天');
                 }
                 return dispatch(search(assign({},
                   queryString,
@@ -537,6 +547,9 @@ class TabsHeader extends Component {
                 ) {
                   return message.warning(__('refund.list.submitTitle'));
                 }
+                if (!(moment(apply_end_time).valueOf() - moment(apply_start_time).valueOf() <= 7 * 86400000)) {
+                  return message.warning('退款申请日期要小于七天');
+                }
                 return dispatch(search(assign({},
                   queryString,
                   {
@@ -560,6 +573,9 @@ class TabsHeader extends Component {
                       moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
                   ) {
                   return message.warning(__('refund.list.submitTitle'));
+                }
+                if (!(moment(apply_end_time).valueOf() - moment(apply_start_time).valueOf() <= 7 * 86400000)) {
+                  return message.warning('退款申请日期要小于七天');
                 }
                 return dispatch(search(assign({},
                       queryString,
@@ -585,6 +601,9 @@ class TabsHeader extends Component {
                   ) {
                   return message.warning(__('refund.list.submitTitle'));
                 }
+                if (!(moment(apply_end_time).valueOf() - moment(apply_start_time).valueOf() <= 7 * 86400000)) {
+                  return message.warning('退款申请日期要小于七天');
+                }
                 return dispatch(search(assign({},
                       queryString,
                   {
@@ -608,6 +627,9 @@ class TabsHeader extends Component {
                       moment(refund_start_time).valueOf() > moment(refund_end_time).valueOf()
                   ) {
                   return message.warning(__('refund.list.submitTitle'));
+                }
+                if (!(moment(apply_end_time).valueOf() - moment(apply_start_time).valueOf() <= 7 * 86400000)) {
+                  return message.warning('退款申请日期要小于七天');
                 }
                 return dispatch(search(assign({},
                       queryString,

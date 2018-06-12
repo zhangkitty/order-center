@@ -35,8 +35,8 @@ class compensationPoints extends Component {
     const columns = [
       {
         title: '站点',
-        dataIndex: 'site_name',
-        key: 'site_name',
+        dataIndex: 'site_from',
+        key: 'site_from',
       },
       {
         title: '国家',
