@@ -478,19 +478,19 @@ const reducer = (state = defaultState, action) => {
       };
       const ref = refundPaths.map(v => assign({}, v, {
         symbol:
-            paymentMethod === 'PayPal-paypal' &&
-            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR ', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
+            paymentMethod.substr(0, 6) === 'PayPal' &&
+            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol.trim()}`)) ?
                 '$' : `${v.priceWithExchangeRate.symbol}`,
         moneyWithnoSymbol:
-        paymentMethod === 'PayPal-paypal' &&
-        (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR ', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
+            paymentMethod.substr(0, 6) === 'PayPal' &&
+        (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol.trim()}`)) ?
             `${v.refundAmount}`
             :
             `${v.refundCurrency}`,
         refMarkE: table[v.refundPathId],
         refMakrMoney:
-            paymentMethod === 'PayPal-paypal' &&
-            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR ', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol}`)) ?
+            paymentMethod.substr(0, 6) === 'PayPal' &&
+            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol.trim()}`)) ?
             `${v.refundAmount}${v.priceUsd.symbol}`
                 :
             `${v.refundCurrency}${v.priceWithExchangeRate.symbol}`,
