@@ -142,8 +142,6 @@ const checkboxChecked = {
   20: true, // 被换
   91: true, // COD已报损
   77: true, // 'COD已拒收',
-  126: true, // 已申请退货
-  127: true, // 已退货
 };
 // 操作查询
 const columns = [{
@@ -293,6 +291,11 @@ const SingleRow = (props) => {
                   return false;
                 }
                 if (rec.goods_status === 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(rec.country_name) > -1) {
+                  return false;
+                }
+                // 126: 已申请退货 127: 已退货
+                if (rec.goods_status === (126 || 127) &&
+                  ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(rec.country_name) < 0) {
                   return false;
                 }
                 return checkboxChecked[rec.goods_status] === undefined || rec.is_replace === '2';
