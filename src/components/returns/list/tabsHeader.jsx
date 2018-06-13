@@ -481,7 +481,7 @@ class TabsHeader extends Component {
                   <div className={styles.downloadCon}>
                     <a
                       className={styles.buttonStyle} // （下载模板）
-                      href={`${location.origin}/Public/File/upload_excel/example.xls`}
+                      href={`${location.origin}/Public/File/upload_excel/upload_logistics_cost.xls`}
                       target="_blank"
                     >
                       {lan.下载案例}
