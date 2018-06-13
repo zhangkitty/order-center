@@ -62,6 +62,13 @@ function min(a, b) {
   return a;
 }
 
+function chooseMax(a, b) {
+  if (a > b) {
+    return a;
+  }
+  return b;
+}
+
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT:
@@ -96,12 +103,15 @@ const reducer = (state = defaultState, action) => {
       const refundCurrency = (max1 < max2) ? max1 : max2; // 金额（下单币种）
       const { price_usd, price_with_exchange_rate } = action.res.refunded_wallet_amount;
       const symbol = is_usd ? price_usd.symbol : price_with_exchange_rate.symbol;
-      const two = `${is_usd ? refundAmount : refundCurrency}${symbol}`;
+      const two = `${is_usd ? min(refundAmount, action.res.wallet_extractable.amount) : min(refundCurrency, action.res.wallet_extractable.price_with_exchange_rate.amount)}${symbol}`;
+      const three =
+          `${is_usd ? chooseMax(refundAmount - action.res.wallet_extractable.amount, 0) : chooseMax(refundCurrency - action.res.wallet_extractable.price_with_exchange_rate.amount, 0)}${symbol}`;
       return assign({}, state, {
         symbol,
         is_usd,
         one,
         two,
+        three,
         ready: true,
         dataSource: under2Camal(action.res),
         refundTypeList: under2Camal(action.res).refundTypeList, // 退款路径列表
@@ -116,7 +126,7 @@ const reducer = (state = defaultState, action) => {
         under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount
         : under2Camal(action.res).walletNotExtractable.priceUsd.amount, // 钱包不提现（下单币种）
         submitValue: assign({}, state.submitValue, {
-          remark: `${one};\nRefund method：account,${two}`,
+          remark: `${one};\nRefund method：account,${two}\n${`Refund method：account,${three}`}`,
           refundAmount, // 美元金额
           refundCurrency, // 金额（下单币种）
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
@@ -168,20 +178,26 @@ const reducer = (state = defaultState, action) => {
       });
 
     case TYPES.changeAmount:
-      const twoChangeAmount = state.submitValue.refundAmount;
+      debugger;
+      const twoChangeAmount = min(state.submitValue.refundAmount, state.dataSource.walletExtractable.priceUsd.amount);
+      const threeChangeAmount = chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0);
       return assign({}, state, {
         two: `${twoChangeAmount}$`,
+        three: `${threeChangeAmount}$`,
         submitValue: assign({}, state.submitValue, {
-          remark: `${state.one}:\nRefund method：${state.four}:${twoChangeAmount}$`,
+          remark: `${state.one}:\nRefund method：account:${twoChangeAmount}$\nRefund method：${state.four}:${threeChangeAmount}$`,
         }),
       });
 
     case TYPES.changeCurrency:
-      const twoChangeCurrency = state.submitValue.refundCurrency;
+      debugger;
+      const twoChangeCurrency = min(state.submitValue.refundCurrency, state.dataSource.walletExtractable.priceWithExchangeRate.amount);
+      const threeChangeCurrency = chooseMax(state.submitValue.refundCurrency - state.dataSource.walletExtractable.priceWithExchangeRate.amount, 0);
       return assign({}, state, {
         two: `${twoChangeCurrency}${state.symbol}`,
+        three: `${threeChangeCurrency}${state.symbol}`,
         submitValue: assign({}, state.submitValue, {
-          remark: `${state.one}:\nRefund method：${state.four}:${twoChangeCurrency}${state.symbol}`,
+          remark: `${state.one}:\nRefund method：account:${twoChangeCurrency}${state.symbol}\nRefund method：${state.four}:${threeChangeCurrency}${state.symbol}`,
         }),
       });
 
@@ -189,7 +205,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         four: state.submitValue.refundMethod,
         submitValue: assign({}, state.submitValue, {
-          remark: `${state.one}:\nRefund method:${state.submitValue.refundMethod}:${state.two}`,
+          remark: `${state.one}:\nRefund method:account:${state.two}\nRefund method:${state.submitValue.refundMethod}:${state.three}`,
         }),
       });
     default:
