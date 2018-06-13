@@ -44,6 +44,7 @@ const defaultState = {
     canWithdrawAmount: '',   // 可提现金额（下单时的币种）
     notWithdrawAmount: '',   // 不可提现金额（下单时的币种）
     remark: '',
+    max: null,
   },
   valueTitle: { // 提示
     refundMethodTitle: '',
