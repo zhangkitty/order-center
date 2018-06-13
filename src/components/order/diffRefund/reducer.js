@@ -158,7 +158,7 @@ const reducer = (state = defaultState, action) => {
           checked: false,
           symbol,
           remark:
-              `Price Difference Refund；Refund method：${remarkTable[item.refundPathId]}:${symbol === '$' ? item.refundAmount || 0 : item.refundCurrency || 0}${symbol}`,
+              `Price Difference Refund；Refund method：${remarkTable[item.refundPathId]},${symbol === '$' ? item.refundAmount || 0 : item.refundCurrency || 0}${symbol}`,
         })),
         cachePaths: action.data.orderRefundPathList.map(item => assign({}, item, {
           channelType: chanelTypeTable[item.refundPathId],
@@ -189,7 +189,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.CHANGE_CHANNEL_VALUE:
       return assign({}, state, {
         refundPaths: changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
-          remark: `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}):${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`,
+          remark: `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`,
         })),
         remark: state.refundPaths.filter(v => v.checked === true).map(value => value.remark).join('\n'),
       });
@@ -246,7 +246,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.selectRemark:
       return assign({}, state, {
         refundPaths: changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
-          remark: `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}${v.refund_method}:${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`,
+          remark: `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}${v.refund_method},${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`,
         })),
         remark: state.refundPaths.filter(v => v.checked === true).map(value => value.remark).join('\n'),
       });
