@@ -487,7 +487,7 @@ class TabsHeader extends Component {
                       {lan.下载案例}
                     </a>
                     <br /><br />
-                    <p>{__('returns.list.tracking_update')}</p>
+                    <p />
                     <Upload
                       name={'file'}
                       action="/index_new.php/Order/OrderReturn/uploadLogisticsCost"
