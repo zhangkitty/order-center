@@ -388,6 +388,8 @@ const reducer = (state = defaultState, action) => {
         is_web_celebrity_order: action.res.order_price_info.is_web_celebrity_order,
       });
     case TYPES.initSerSuccess:
+      console.log(action.data.orderPriceInfo.isPlatformOrder);
+      console.log(action.data.orderPriceInfo.isWebCelebrityOrder);
       const {
         orderPriceInfo,
         orderRefundUnderlineAccount,
@@ -518,11 +520,14 @@ const reducer = (state = defaultState, action) => {
         shippingInsurance: DefaultValue ? 1 : 0,
         radioValue: isPlatformOrder === 1 ? 3 : (resultCurrency[2] > 0 ? 2 : 0),
         isUsd,
-        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : remark,
+        remark: action.data.orderPriceInfo.isPlatformOrder || action.data.orderPriceInfo.isWebCelebrityOrder ? '' : remark,
         RefundItems,
         RefundAmount,
         RefundMethod,
         ShippingAndInsurance,
+        is_platform_order: action.data.orderPriceInfo.isPlatformOrder,
+        is_web_celebrity_order: action.data.orderPriceInfo.isWebCelebrityOrder,
+
       });
     case TYPES.GET_REASON_SUCCESS:
       return assign({}, state, {

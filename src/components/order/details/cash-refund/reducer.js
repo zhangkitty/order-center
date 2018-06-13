@@ -178,7 +178,6 @@ const reducer = (state = defaultState, action) => {
       });
 
     case TYPES.changeAmount:
-      debugger;
       const twoChangeAmount = min(state.submitValue.refundAmount, state.dataSource.walletExtractable.priceUsd.amount);
       const threeChangeAmount = chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0);
       return assign({}, state, {
