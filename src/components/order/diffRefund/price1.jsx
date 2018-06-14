@@ -105,7 +105,7 @@ const price = ({
                        value={v.refund_method}
                        onChange={(e) => {
                          dispatch(changeChannelValue(v.refundPathId, 'refund_method', e));
-                         dispatch(selectRemark());
+                         dispatch(selectRemark(v.refundPathId));
                        }}
                      >
                        {

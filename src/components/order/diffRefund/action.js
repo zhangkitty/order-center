@@ -79,8 +79,9 @@ export const changeRemark = (pathId, checked) => ({
   checked,
 });
 
-export const selectRemark = () => ({
+export const selectRemark = channel => ({
   type: TYPES.selectRemark,
+  channel,
 });
 
 export const changeAmount = channel => ({

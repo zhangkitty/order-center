@@ -270,13 +270,13 @@ const reducer = (state = defaultState, action) => {
     case TYPES.selectRemark:
       return assign({}, state, {
         refundPaths: changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
-          remark: v.refundPathId === 4 ?
-              `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}(${v.refund_method}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+          remark: v.refundPathId === action.channel ?
+              `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
         })),
         remark: changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
-          remark: v.refundPathId === 4 ?
-              `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}(${v.refund_method}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+          remark: v.refundPathId === action.channel ?
+              `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
         })).filter(v => v.checked === true).map(value => value.remark).join('\n'),
       });
