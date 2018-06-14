@@ -185,6 +185,9 @@ module.exports = {
   cash_content13: '请输入发卡城市',
   fankui: '物流问题反馈',
   fankuishow: '查看物流问题',
+  problemType: '问题类型',
+  problemDes: '问题描述',
+  disRecord: '沟通记录',
   rl_fee_required: 'rl费用必填',
   rl_deducted_costs: 'RL扣除费用',
   chaifen: '已拆分',
@@ -200,4 +203,6 @@ module.exports = {
   只可上传请确认: '只可上传jpg、jpeg、png，请确认！',
   prepared_goods: '已备货商品',
   shipping_warehouse: '发货仓',
+  result: '处理结果',
+  status: '处理状态',
 };

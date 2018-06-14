@@ -5,11 +5,11 @@ import { commit, trackTroubleSubmit, switchRemark, closeRemark, questionRemarkSa
 import Styles from './style.css';
 // TODO: lan
 const lan = {
-  qsType: '问题类型',
-  qsDesc: '问题描述',
+  qsType: __('order.entry.problemType'),
+  qsDesc: __('order.entry.problemDes'),
   save: __('order.entry.confirm'),
   need: __('order.entry.order_return_15'),
-  goutongjilu: '沟通记录',
+  goutongjilu: __('order.entry.disRecord'),
   xinzengbeizhu: '新增备注',
   guanbibeizhu: '关闭沟通记录',
   baochun: '保存备注',
@@ -62,7 +62,7 @@ const TrackTrouble = ({
         >
           {
             trackTroubleTypes.map(v => (
-              <Radio value={v.id} style={{ width: '40%' }}>{v.name}</Radio>
+              <Radio disabled={!v.available} value={v.id} style={{ width: '40%' }}>{v.name}</Radio>
             ))
           }
         </RG>

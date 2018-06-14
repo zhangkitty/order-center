@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Input, Select, DatePicker, Button, message, Modal, Tabs, Upload, Icon, Radio } from 'antd';
 import moment from 'moment';
-import { filterCommit, getData, exportOrder, exportIdSet, followUp, commit } from './action';
+import { filterCommit, getData, exportOrder, exportIdSet, followUp, commit, submitDelete } from './action';
 import style from './style.css';
 
 // TODO: lan
@@ -20,7 +20,10 @@ const lan = {
   fahuoDate: '发货日期',
   search: __('common.search'),
   tijiaoren: '提交人',
+  payType: '支付方式',
+  productState: '商品状态',
   跟进客服管理: '跟进客服管理',
+  BatchDelete: __('common.BatchDelete'),
 };
 
 const OP = Select.Option;
@@ -95,7 +98,7 @@ const Filters = ({
             </div>
             <div>
               <span>{ lan.leixing }</span>
-              <Select value={filter.trouble_type} onChange={v => dispatch(filterCommit('trouble_type', v))} allowClear>
+              <Select multiple value={filter.trouble_type} onChange={v => dispatch(filterCommit('trouble_type', v))} allowClear>
                 {filters.trouble_type.map(v => (<OP key={v.id}>{v.name}</OP>))}
               </Select>
             </div>
@@ -104,16 +107,28 @@ const Filters = ({
           <div>
             <div>
               <span>{ lan.zhaungtai }</span>
-              <Select value={filter.handle_status} onChange={v => dispatch(filterCommit('handle_status', v))} allowClear>
+              <Select multiple value={filter.handle_status} onChange={v => dispatch(filterCommit('handle_status', v))} allowClear>
                 {filters.handle_status.map(v => (<OP key={v.id}>{v.name}</OP>))}
               </Select>
             </div>
             <div>
               <span>{ lan.jieguo }</span>
-              <Select value={filter.handle_result} onChange={v => dispatch(filterCommit('handle_result', v))} allowClear>
+              <Select multiple value={filter.handle_result} onChange={v => dispatch(filterCommit('handle_result', v))} allowClear>
                 {filters.handle_result.map(v => (<OP key={v.id}>{v.name}</OP>))}
               </Select>
             </div>
+            <div>
+              <span>{ lan.payType }</span>
+              <Select multiple value={filter.payment_method} onChange={v => dispatch(filterCommit('payment_method', v))} allowClear>
+                {filters.payment_method.map(v => (<OP key={v.id}>{v.name}</OP>))}
+              </Select>
+            </div>
+            {/* <div> */}
+            {/* <span>{ lan.productState }</span> */}
+            {/* <Select value={filter.handle_result} onChange={v => dispatch(filterCommit('handle_result', v))} allowClear> */}
+            {/* {filters.handle_result.map(v => (<OP key={v.id}>{v.name}</OP>))} */}
+            {/* </Select> */}
+            {/* </div> */}
             <div>
               <span>{ lan.chuliren }</span>
               <Input value={filter.handle_user_name} onChange={e => dispatch(filterCommit('handle_user_name', e.target.value))} />
@@ -180,18 +195,30 @@ const Filters = ({
           </div>
           <div className={style.searchBtn}>
             <Button
-              style={{ marginRight: 10 }}
+              loading={load}
+              type={'primary'}
+              htmlType={'submit'}
+              id="submit"
+              style={{ marginRight: '10px' }}
+            >
+              {lan.search}
+            </Button>
+            <Button
               onClick={() => exportId()}
             >
               {__('failedaddrorder.list.piliangdaochu')}
             </Button>
-            <Button
-              loading={load}
-              type={'primary'}
-              htmlType={'submit'}
-            >
-              {lan.search}
-            </Button>
+            {
+              filters.show_batch_delete ?
+                <Button
+                  style={{ marginLeft: '10px' }}
+                  id="delete"
+                  disabled={idList.length === 0}
+                  onClick={() => dispatch(submitDelete(idList))}
+                >
+                  {lan.BatchDelete}
+                </Button> : null
+            }
           </div>
         </form>
       </TabPane>
