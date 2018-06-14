@@ -26,3 +26,6 @@ export const CHANGE_CHANNEL_VALUE = `${prefix}CHANGE_CHANNEL_VALUE`;
 export const CHANGE_INPUT_DISABLE = `${prefix}CHANGE_INPUT_DISABLE`;
 export const CHANGEREMARK = `${prefix}CHANGEREMARK`;
 export const selectRemark = `${prefix}selectRemark`;
+export const changeAmount = `${prefix}changeAmount`;
+export const changeCurrency = `${prefix}changeCurrency`;
+export const changeChecked = `${prefix}changeChecked`;

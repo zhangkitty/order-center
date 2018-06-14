@@ -26,8 +26,8 @@ const Price = ({ submitValue, dispatch, dataSource }) => (
           value={submitValue.refundAmount}
           disabled={!dataSource.isUsd}
           onChange={(e) => {
-            dispatch(subchange('refundAmount', e.target.value));
             dispatch(subchange('refundCurrency', Number(Number(e.target.value) * submitValue.rate2).toFixed(2))); // 取消，美元填写
+            dispatch(subchange('refundAmount', e.target.value));
             dispatch(changeAmount());
           }}
         />
