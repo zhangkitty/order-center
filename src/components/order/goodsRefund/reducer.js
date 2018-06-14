@@ -500,7 +500,7 @@ const reducer = (state = defaultState, action) => {
       const refPRemark = ref.filter(v => v.refundAmount > 0);
       const RefundM = refPRemark.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`);
       const tot = refPRemark.reduce((sum, value) => sum += (+value.moneyWithnoSymbol), 0);
-      const sym = (refPRemark[0] || {}).symbol;
+      const sym = (refPRemark[0] || {}).symbol || '';
       const shippingString = DefaultValue ? '（shipping and shipping insurance fee also be refunded)' : '';
       const RefundItems = `Refund items：${refundGoods.join(',')}\n`;
       const RefundAmount = `Refund amount:${tot}${sym}-0${sym}(RL)=${tot}${sym}`;
