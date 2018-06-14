@@ -100,7 +100,6 @@ export const tagSer=action =>{
 }
 
 export const userMarkExportSer=action=>{
-  console.log(action)
   const keys = [
     'billno', 'start_time','end_time','handle_status',
     'country_id','site_from','handle_result','handler','page_size','page_number'

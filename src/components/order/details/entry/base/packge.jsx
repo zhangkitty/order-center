@@ -267,6 +267,7 @@ const Packge = ({
     returned_goods_list,
     refund_goods_list,
     new_not_packaged_goods_list,
+    returned_logistics,
   } = order_goods_info;
   const {
     show_refund_button,
@@ -917,6 +918,29 @@ const Packge = ({
               >
                 {__('common.allChoose')}
               </Button>
+              {
+                !!returned_logistics.show_troubles_publish_button &&
+                <Button
+                  className={style.btnSpace}
+                  size="small"
+                  onClick={() => {
+                    if (trackTroubleTypes.length) {
+                      dispatch(commit('trackTroubleForm', { reference_number: returned_goods_list[0].package_number }));
+                      return dispatch(commit('trackTroubleShow', true));
+                    }
+                    return dispatch(createQs(returned_goods_list[0].package_number));
+                  }}
+                  loading={trackTroubleLoad}
+                >
+                  {lan.fankui}
+                </Button>
+              }
+              {
+                !!returned_logistics.show_troubles_list_link &&
+                <Link to={`/trackTroubles/list/${returned_goods_list[0].package_number}`}>
+                  {lan.fankuishow}
+                </Link>
+              }
             </div>
           }
           className={style.cardBottom}
