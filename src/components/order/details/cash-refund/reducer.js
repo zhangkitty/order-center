@@ -127,7 +127,7 @@ const reducer = (state = defaultState, action) => {
         under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount
         : under2Camal(action.res).walletNotExtractable.priceUsd.amount, // 钱包不提现（下单币种）
         submitValue: assign({}, state.submitValue, {
-          remark: `${one};\nRefund method：account,${two}\n${`Refund method：account,${three}`}`,
+          remark: `${one};\nRefund method：account,${two}\n${chooseMax(refundAmount - action.res.wallet_extractable.amount, 0) === 0 ? '' : `${`Refund method：account,${three}`}`}`,
           refundAmount, // 美元金额
           refundCurrency, // 金额（下单币种）
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
@@ -167,45 +167,62 @@ const reducer = (state = defaultState, action) => {
       });
 
     case TYPES.changeRadio:
-      const oneChangeRadio = state.submitValue.refundType === 4 ? 'Refund Withdraw' : 'Refund Returned';
+      const oneChangeRadio = state.submitValue.refundType === 3 ? 'Refund Withdraw' : 'Refund Returned';
       return assign({}, state, {
         one: oneChangeRadio,
-        two: '', // 记录美金价格
-        three: '', // 记录支付货币价格
+        two: '', // 记录可提现价格
+        three: '', // 记录不可提现价格
         four: 'account', // 记录account
         submitValue: assign({}, state.submitValue, {
-          remark: `${oneChangeRadio}`,
+          remark: state.submitValue.refundType === 4 ?
+              `${oneChangeRadio}\nRefund method：account, ${state.is_usd ? state.submitValue.RefundAmount : state.submitValue.refundCurrency}${state.symbol}`
+              : `${oneChangeRadio}`,
         }),
       });
 
     case TYPES.changeAmount:
-      const twoChangeAmount = min(state.submitValue.refundAmount, state.dataSource.walletExtractable.priceUsd.amount);
-      const threeChangeAmount = chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0);
+      if (state.submitValue.refundType === 3) {
+        const twoChangeAmount = min(state.submitValue.refundAmount, state.dataSource.walletExtractable.priceUsd.amount);
+        const threeChangeAmount = chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0);
+        return assign({}, state, {
+          two: `${twoChangeAmount}$`,
+          three: `${threeChangeAmount}$`,
+          submitValue: assign({}, state.submitValue, {
+            remark: `${state.one}:\nRefund method：account,${twoChangeAmount}$\n${threeChangeAmount === 0 ? '' : `Refund method：${state.four},${threeChangeAmount}$`}`,
+          }),
+        });
+      }
       return assign({}, state, {
-        two: `${twoChangeAmount}$`,
-        three: `${threeChangeAmount}$`,
         submitValue: assign({}, state.submitValue, {
-          remark: `${state.one}:\nRefund method：account:${twoChangeAmount}$\nRefund method：${state.four}:${threeChangeAmount}$`,
+          remark: `${state.one}:\nRefund method：account,${state.submitValue.refundAmount}${state.symbol}`,
         }),
       });
 
+
     case TYPES.changeCurrency:
-      debugger;
-      const twoChangeCurrency = min(state.submitValue.refundCurrency, state.dataSource.walletExtractable.priceWithExchangeRate.amount);
-      const threeChangeCurrency = chooseMax(state.submitValue.refundCurrency - state.dataSource.walletExtractable.priceWithExchangeRate.amount, 0);
+      if (state.submitValue.refundType === 3) {
+        const twoChangeCurrency = min(state.submitValue.refundCurrency, state.dataSource.walletExtractable.priceWithExchangeRate.amount);
+        const threeChangeCurrency = chooseMax(state.submitValue.refundCurrency - state.dataSource.walletExtractable.priceWithExchangeRate.amount, 0);
+        return assign({}, state, {
+          two: `${twoChangeCurrency}${state.symbol}`,
+          three: `${threeChangeCurrency}${state.symbol}`,
+          submitValue: assign({}, state.submitValue, {
+            remark: `${state.one}:\nRefund method：account,${twoChangeCurrency}${state.symbol}\n${threeChangeCurrency === 0 ? '' : `Refund method：${state.four},${threeChangeCurrency}${state.symbol}`}`,
+          }),
+        });
+      }
       return assign({}, state, {
-        two: `${twoChangeCurrency}${state.symbol}`,
-        three: `${threeChangeCurrency}${state.symbol}`,
         submitValue: assign({}, state.submitValue, {
-          remark: `${state.one}:\nRefund method：account:${twoChangeCurrency}${state.symbol}\nRefund method：${state.four}:${threeChangeCurrency}${state.symbol}`,
+          remark: `${state.one}:\nRefund method：account,${state.submitValue.refundCurrency}${state.symbol}`,
         }),
       });
+
 
     case TYPES.selectRemark:
       return assign({}, state, {
         four: state.submitValue.refundMethod,
         submitValue: assign({}, state.submitValue, {
-          remark: `${state.one}:\nRefund method:account:${state.two}\nRefund method:${state.submitValue.refundMethod}:${state.three}`,
+          remark: `${state.one}:\nRefund method:account,${state.two}\n${parseFloat(state.three) === 0 ? '' : `Refund method:${state.submitValue.refundMethod},${state.three}`}`,
         }),
       });
     default:

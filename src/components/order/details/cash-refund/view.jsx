@@ -91,8 +91,8 @@ class cashRefund extends Component {
               <RadioGroup
                 value={refundType}
                 onChange={(e) => {
-                  dispatch(changeRadio());
                   dispatch(subchange('refundType', e.target.value));
+                  dispatch(changeRadio());
                 }}
               >
                 {
