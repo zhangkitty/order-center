@@ -173,7 +173,7 @@ const reducer = (state = defaultState, action) => {
         two: '', // 记录美金价格
         three: '', // 记录支付货币价格
         four: 'account', // 记录account
-        submitValue: assign({}, state, {
+        submitValue: assign({}, state.submitValue, {
           remark: `${oneChangeRadio}`,
         }),
       });
