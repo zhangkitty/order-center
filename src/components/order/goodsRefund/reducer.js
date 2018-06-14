@@ -493,9 +493,9 @@ const reducer = (state = defaultState, action) => {
         refMakrMoney:
             paymentMethod.substr(0, 6) === 'PayPal' &&
             (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol.trim()}`)) ?
-            `${v.refundAmount}${v.priceUsd.symbol}`
+            `${+Number(v.refundAmount).toFixed(2)}${v.priceUsd.symbol}`
                 :
-            `${v.refundCurrency}${v.priceWithExchangeRate.symbol}`,
+            `${+Number(v.refundCurrency).toFixed(2)}${v.priceWithExchangeRate.symbol}`,
       }));
       const refPRemark = ref.filter(v => v.refundAmount > 0);
       const RefundM = refPRemark.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`);
