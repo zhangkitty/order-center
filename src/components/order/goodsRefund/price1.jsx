@@ -2,7 +2,7 @@ import React from 'react';
 import { Checkbox, Input, Select, Button, Radio } from 'antd';
 import style from './style.css';
 
-import { changeChannelValue, changeRadioValue, changeInput } from './action';
+import { changeChannelValue, changeRadioValue, changeInput, changeRefundMethod } from './action';
 
 const star = (<span style={{ color: 'red' }}>*</span>);
 const Rg = Radio.Group;
@@ -170,6 +170,7 @@ const price = ({ refundPaths, dispatch, maxTips, isUsd, rate, radioValue }) => (
                     onChange={(e) => {
                       dispatch(changeChannelValue(v.refundPathId, 'account', ''));
                       dispatch(changeChannelValue(v.refundPathId, 'refund_method', e));
+                      dispatch(changeRefundMethod());
                     }}
                   >
                     {

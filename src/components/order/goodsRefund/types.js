@@ -27,4 +27,5 @@ export const ALL_BACK = `${prefix}all_back`;
 export const COPY_PAYMENT_METHOD = `${prefix}copy_payment_method`;
 export const changeRadioValue = `${prefix}changeRadioValue`;
 export const changeInput = `${prefix}changeInput`;
+export const changeRefundMethod = `${prefix}changeRefundMethod`;
 

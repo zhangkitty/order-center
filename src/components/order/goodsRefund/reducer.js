@@ -728,7 +728,7 @@ const reducer = (state = defaultState, action) => {
 
     case TYPES.changeRadioValue:
       const tempArr = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === action.val) && v.refundAmount > 0);
-      const str = tempArr.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`).join(',');
+      const str = tempArr.map(v => `Refund method：${v.refMarkE}${v.refundPathId === 3 ? '(' : ''}${v.refundPathId == 3 ? v.refund_method || '' : ''}${v.refundPathId === 3 ? ')' : ''},${v.refMakrMoney}`).join(',');
       return assign({}, state, {
         radioValue: action.val,
         refundMethod: str,
@@ -754,6 +754,17 @@ const reducer = (state = defaultState, action) => {
         refundMethod: changeInputstr,
         remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${RefundAmountChangeInput}${state.ShippingAndInsurance}${changeInputstr}`,
       });
+
+
+    case TYPES.changeRefundMethod:
+      if (state.radioValue === 3) {
+        return assign({}, state, {
+          refundMethod: `Refund method：account(${state.refundPaths[2].refund_method})${state.refundPaths[2].refMakrMoney}`,
+          remark: `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}Refund method：account(${state.refundPaths[2].refund_method})${state.refundPaths[2].refMakrMoney}`,
+        });
+      }
+      return state;
+
 
     default:
       return state;

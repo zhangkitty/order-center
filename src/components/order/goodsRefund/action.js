@@ -77,3 +77,7 @@ export const allback = (back, rl, typeId) => ({
 export const copyPaymentMethod = () => ({
   type: types.COPY_PAYMENT_METHOD,
 });
+
+export const changeRefundMethod = () => ({
+  type: types.changeRefundMethod,
+});
