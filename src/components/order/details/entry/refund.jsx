@@ -125,25 +125,18 @@ class Refund extends Component {
               {
                 title: `${lan.lujin} : ${lan.jine}`,
                 dataIndex: 'refund_record_list',
-                width: '130px',
+                // width: '130px',
                 render: d => (
                   d.map(v => (
                     <p key={v.refund_path_name}>{v.refund_path_name}: {v.amount.price_usd.amount_with_symbol} --- {v.amount.price_with_exchange_rate.amount_with_symbol}</p>
                   ))
-
                 ),
               },
               {
                 title: lan.shangpin,
                 dataIndex: 'refund_goods_list',
-                // width: '180px',
+                width: '180px',
                 render: d => (<span>{d.join('、')}</span>),
-              },
-              {
-                title: lan.lujin,
-                dataIndex: 'refund_record_list',
-                width: '70px',
-                render: d => (<span>{d.map(v => v.refund_path_name).join('、')}</span>),
               },
               {
                 title: lan.yuanyin,
@@ -242,28 +235,20 @@ class Refund extends Component {
                   width: '60px',
                 },
                 {
-                  title: lan.jine,
-                  dataIndex: 'apply_for_refund_amount',
-                  width: '130px',
+                  title: `${lan.lujin} : ${lan.jine}`,
+                  dataIndex: 'refund_record_list',
+                  // width: '130px',
                   render: d => (
-                    <span>
-                      {d.price_usd.amount_with_symbol}
-                          ---
-                      {d.price_with_exchange_rate.amount_with_symbol}
-                    </span>
-                    ),
+                    d.map(v => (
+                      <p key={v.refund_path_name}>{v.refund_path_name}: {v.amount.price_usd.amount_with_symbol} --- {v.amount.price_with_exchange_rate.amount_with_symbol}</p>
+                    ))
+                  ),
                 },
                 {
                   title: lan.shangpin,
                   dataIndex: 'refund_goods_list',
-                    // width: '180px',
+                  width: '180px',
                   render: d => (<span>{d.join('、')}</span>),
-                },
-                {
-                  title: lan.lujin,
-                  dataIndex: 'refund_record_list',
-                  width: '70px',
-                  render: d => (<span>{d.map(v => v.refund_path_name).join('、')}</span>),
                 },
                 {
                   title: lan.yuanyin,
