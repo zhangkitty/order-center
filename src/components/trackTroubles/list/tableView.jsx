@@ -19,6 +19,7 @@ const lan = {
   m: '处理状态',
   n: '处理人',
   o: '处理结果',
+  r: '是否退换货',
   p: '图片',
   q: '操作',
   beizhu: '备注',
@@ -28,6 +29,7 @@ const lan = {
   genjinDesc: '确认认领该物流问题?',
   cancel: '取消',
   save: '确认',
+  edit: __('order.entry.edit'),
 };
 const Bg = Button.Group;
 const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
@@ -121,6 +123,12 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
           width: 100,
         },
         {
+          title: lan.r,
+          dataIndex: 'is_replaced',
+          render: x => (<span>{x ? '是' : '否'}</span>),
+          width: 100,
+        },
+        {
           title: lan.p,
           dataIndex: 'attachments',
           width: 100,
@@ -153,11 +161,19 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
                 <Button onClick={() => dispatch(followShow(rec.id))}>{lan.genjinzhong}</Button>
               }
               {
-                +rec.handle_status === 1 && (rec.attachments || []).length < 4 &&
+                +rec.handle_status !== 4 &&
                 <Button
                   onClick={() => dispatch(uploadShow(rec.id, rec.attachments || []))}
                 >
                   {lan.upload}
+                </Button>
+              }
+              {
+                rec.can_modify &&
+                <Button
+                  onClick={() => { dispatch(commit('editModal', true)); dispatch(commit('edit', { trouble_id: rec.id })); }}
+                >
+                  {lan.edit}
                 </Button>
               }
             </Bg>

@@ -5,7 +5,7 @@ import { hashHistory } from 'react-router';
 import * as types from './types';
 import { commit, getDataSuccess, remarkShow, getData, getStatusAllSet, followShowSet } from './action';
 import { getFilters, getDataSer, getRemarks, addRemark, followTroubleSer, followUpSer,
-  handledSer, uploadImgSer, getStatusAllSer, exportId, followShow } from '../server';
+  handledSer, uploadImgSer, getStatusAllSer, exportId, followShow, submitEditServer, submitDeleteServer } from '../server';
 
 const FileSaver = require('file-saver');
 
@@ -119,6 +119,25 @@ function* followUpSaga() {
   }
   return hashHistory.push('customer-service');
 }
+
+function* submitEditSaga({ data }) {
+  const result = yield submitEditServer(data);
+  if (result.code === 0) {
+    yield put(commit('editModal', false));
+    document.getElementById('submit').click();
+    return message.success(lan.osucess);
+  }
+  return message.error(`${lan.fail}: ${result.msg}`);
+}
+
+function* submitDeleteSaga({ list }) {
+  const result = yield submitDeleteServer(list);
+  if (result.code === 0) {
+    document.getElementById('submit').click();
+    return message.success(lan.osucess);
+  }
+  return message.error(`${lan.fail}: ${result.msg}`);
+}
 function* saga() {
   yield takeEvery(types.getFilters, getFiltersSaga);
   yield takeEvery(types.getData, getDataSaga);
@@ -131,5 +150,7 @@ function* saga() {
   yield takeLatest(types.exportOrder, exportIdSer);
   yield takeLatest(types.followShow, handleStatusSer);
   yield takeLatest(types.followUp, followUpSaga);
+  yield takeLatest(types.submitEdit, submitEditSaga);
+  yield takeLatest(types.submitDelete, submitDeleteSaga);
 }
 export default saga;

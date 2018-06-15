@@ -8,6 +8,7 @@ import Tableview from './tableView';
 import Modals from './modals';
 import Pagination from '../../publicComponent/pagination';
 import style from './style.css';
+import EditModal from './editModal';
 
 // TODO: lan
 const lan = {
@@ -63,6 +64,7 @@ class TrackTroublesList extends Component {
             pageChange(filter, pageNumber, pageSize, dispatch)}
         />
         <Modals {...this.props} />
+        <EditModal {...this.props} />
       </div>
     );
   }
