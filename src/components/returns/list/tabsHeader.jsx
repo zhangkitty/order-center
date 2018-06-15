@@ -481,13 +481,13 @@ class TabsHeader extends Component {
                   <div className={styles.downloadCon}>
                     <a
                       className={styles.buttonStyle} // （下载模板）
-                      href={`${location.origin}/Public/File/upload_excel/example.xls`}
+                      href={`${location.origin}/Public/File/upload_excel/upload_logistics_cost.xls`}
                       target="_blank"
                     >
                       {lan.下载案例}
                     </a>
                     <br /><br />
-                    <p>{__('returns.list.tracking_update')}</p>
+                    <p />
                     <Upload
                       name={'file'}
                       action="/index_new.php/Order/OrderReturn/uploadLogisticsCost"
