@@ -13,16 +13,18 @@ export const defaultState = {
     handle_result: [],
     country: [],
     site_from: [],
+    payment_method: [],
   },
   filter: { // 搜索条件
+    trouble_type: [],
+    handle_status: [],
+    handle_result: [],
+    payment_method: [],
     pageSize: 10,
     pageNumber: 1,
     reference_number: '',
     shipping_method_real: '',
     shipping_no: '',
-    trouble_type: '',
-    handle_status: '',
-    handle_result: '',
     handle_user_name: '',
     shipping_country_name: '',
     site_from: '',
@@ -51,6 +53,7 @@ export const defaultState = {
   handleStatus: '',
   tracking_update: null, // 上传物流问题返回信息
   is_ignore: 0, // 包裹号已存在问题，0忽略 1新增
+  edit: {}, // 编辑的数据
 };
 
 const reducer = (state = defaultState, action) => {
@@ -132,6 +135,13 @@ const reducer = (state = defaultState, action) => {
         load: true,
         followShow: false,
       });
+    case types.changeEdit: {
+      const data = assign({}, state.edit);
+      data[action.key] = action.value;
+      return assign({}, state, {
+        edit: data,
+      });
+    }
     default:
       return state;
   }

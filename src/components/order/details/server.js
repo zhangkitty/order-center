@@ -19,7 +19,7 @@ const entry = {
   orderProfit: '/OrderDetail/orderProfit',
   rebuildRl: '/orderReturn/rebuildRl',
   cancelTheRefundBill: '/OrderDiffRefund/cancelTheRefundBill',
-  getTroubleTypes: '/OrderLogisticsTroubles/getTroubleTypes',
+  getTroubleTypes: '/OrderLogisticsTroubles/getAvailableTypes',
   trackTroublePublish: '/OrderLogisticsTroubles/publish',
   refundAccount: '/OrderRefund/addUnderlineRefund',    // 填写账户信息
 };
@@ -332,8 +332,8 @@ export const remarkSaveSer = (orderId, remark) => (
 );
 
 // 物流问题记录 问题类型
-export const getTroubleTypes = () => {
-  return fetch(entry.getTroubleTypes, {
+export const getTroubleTypes = (pkgNum) => {
+  return fetch(`${entry.getTroubleTypes}?reference_number=${pkgNum}`, {
     method: 'GET',
   })
 };

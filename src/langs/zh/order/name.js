@@ -10,6 +10,7 @@ module.exports = {
   order_number: '订单号',
   order_id: '订单ID',
   goods_id: '商品ID',
+  goods_name: '商品名',
   email: '邮箱',
   shipping_no: '发货号',
   reference: '包裹号',
