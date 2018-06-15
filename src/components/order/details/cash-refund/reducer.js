@@ -106,7 +106,7 @@ const reducer = (state = defaultState, action) => {
       const symbol = is_usd ? price_usd.symbol : price_with_exchange_rate.symbol;
       const two = `${is_usd ? min(refundAmount, action.res.wallet_extractable.amount) : min(refundCurrency, action.res.wallet_extractable.price_with_exchange_rate.amount)}${symbol}`;
       const three =
-          `${is_usd ? chooseMax(refundAmount - action.res.wallet_extractable.amount, 0) : chooseMax(refundCurrency - action.res.wallet_extractable.price_with_exchange_rate.amount, 0)}${symbol}`;
+          `${is_usd ? +Number(chooseMax(refundAmount - action.res.wallet_extractable.amount, 0)).toFixed(2) : +Number(chooseMax(refundCurrency - action.res.wallet_extractable.price_with_exchange_rate.amount, 0)).toFixed(2)}${symbol}`;
       return assign({}, state, {
         symbol,
         is_usd,
@@ -183,7 +183,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.changeAmount:
       if (state.submitValue.refundType === 3) {
         const twoChangeAmount = min(state.submitValue.refundAmount, state.dataSource.walletExtractable.priceUsd.amount);
-        const threeChangeAmount = chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0);
+        const threeChangeAmount = +Number(chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0)).toFixed(2);
         return assign({}, state, {
           two: `${twoChangeAmount}$`,
           three: `${threeChangeAmount}$`,
@@ -202,7 +202,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.changeCurrency:
       if (state.submitValue.refundType === 3) {
         const twoChangeCurrency = min(state.submitValue.refundCurrency, state.dataSource.walletExtractable.priceWithExchangeRate.amount);
-        const threeChangeCurrency = chooseMax(state.submitValue.refundCurrency - state.dataSource.walletExtractable.priceWithExchangeRate.amount, 0);
+        const threeChangeCurrency = +Number(chooseMax(state.submitValue.refundCurrency - state.dataSource.walletExtractable.priceWithExchangeRate.amount, 0)).toFixed(2);
         return assign({}, state, {
           two: `${twoChangeCurrency}${state.symbol}`,
           three: `${threeChangeCurrency}${state.symbol}`,
