@@ -6,7 +6,7 @@ import { parseQuery } from '../../../lib/query-string';
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
   payShow: '/orderDetail/payShow', // 支付信息
-  refund: '/OrderDiffRefund/getRefundBillListOfOrder', // 退款信息
+  refund: '/OrderDiffRefund/getRefundBillList', // 退款信息
   orderReturn: '/orderReturn/getReturnOrder', // 退货信息
   orderRecord: '/Order/getOrderRecord', // 订单日志
   refundEmail: '/orderDetail/refundEmail', // 更新邮箱
@@ -105,7 +105,7 @@ export const getInfoSer = (id, bill) => {
 }
 
 export const getefundbBillistbyorderidSer = (orderId)=>(
-  fetch(`/OrderDiffRefund/getRefundBillListByOrderId?order_id=${orderId}`,{
+  fetch(`/OrderDiffRefund/getRefundBillList?order_id=${orderId}&by=user`,{
     method:'get'
   })
 )

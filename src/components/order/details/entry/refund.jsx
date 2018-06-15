@@ -29,6 +29,7 @@ const lan = {
   quxiaotuikuai: __('order.entry.refund_15'),
   cancelRefund: __('order.entry.refund_16'),
   展示更多: '展示更多',
+  更多退款单: '更多退款单',
 };
 
 class Refund extends Component {
@@ -122,15 +123,14 @@ class Refund extends Component {
                 width: '60px',
               },
               {
-                title: lan.jine,
-                dataIndex: 'apply_for_refund_amount',
+                title: `${lan.lujin} : ${lan.jine}`,
+                dataIndex: 'refund_record_list',
                 width: '130px',
                 render: d => (
-                  <span>
-                    {d.price_usd.amount_with_symbol}
-                    ---
-                    {d.price_with_exchange_rate.amount_with_symbol}
-                  </span>
+                  d.map(v => (
+                    <p key={v.refund_path_name}>{v.refund_path_name}: {v.amount.price_usd.amount_with_symbol} --- {v.amount.price_with_exchange_rate.amount_with_symbol}</p>
+                  ))
+
                 ),
               },
               {
@@ -197,18 +197,19 @@ class Refund extends Component {
             ]}
           />
           {
-            !!(refund.isPlatformOrders === 0) &&
-            <div
-              style={{ marginBottom: 5 }}
-            >
-              <Button
-                onClick={e => dispatch(getRefundBillListByOrderIdSer(orderId))}
-                loading={moreLoading}
-              >
-                {lan.展示更多}
-              </Button>
-            </div>
-          }
+          !!(refund.isPlatformOrders === 0) &&
+          <div
+            style={{ marginBottom: 5 }}
+          >
+            <span>{lan.更多退款单}</span>
+            {/* <Button */}
+            {/* onClick={e => dispatch(getRefundBillListByOrderIdSer(orderId))} */}
+            {/* loading={moreLoading} */}
+            {/* > */}
+            {/* {lan.展示更多} */}
+            {/* </Button> */}
+          </div>
+           }
           {
             Array.isArray(refund.add_refund_bill_list) &&
             <Table
@@ -248,7 +249,7 @@ class Refund extends Component {
                     <span>
                       {d.price_usd.amount_with_symbol}
                           ---
-                          {d.price_with_exchange_rate.amount_with_symbol}
+                      {d.price_with_exchange_rate.amount_with_symbol}
                     </span>
                     ),
                 },
