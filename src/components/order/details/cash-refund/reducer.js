@@ -175,7 +175,7 @@ const reducer = (state = defaultState, action) => {
         four: 'account', // 记录account
         submitValue: assign({}, state.submitValue, {
           remark: state.submitValue.refundType === 4 ?
-              `${oneChangeRadio}\nRefund method：account, ${state.is_usd ? state.submitValue.RefundAmount : state.submitValue.refundCurrency}${state.symbol}`
+              `${oneChangeRadio}\nRefund method：account, ${state.is_usd ? state.submitValue.refundAmount : state.submitValue.refundCurrency}${state.symbol}`
               : `${oneChangeRadio}`,
         }),
       });
