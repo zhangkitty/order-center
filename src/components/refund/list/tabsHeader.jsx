@@ -113,7 +113,16 @@ class TabsHeader extends Component {
                       <Input
                         className={styles.colSpace}
                         value={refund_bill_id}
-                        onChange={e => dispatch(commit('refund_bill_id', e.target.value))}
+                        onChange={(e) => {
+                          dispatch(commit('refund_bill_id', e.target.value));
+                          if (e.target.value) {
+                            dispatch(commit('apply_start_time', null));
+                            dispatch(commit('apply_end_time', null));
+                          } else {
+                            dispatch(commit('apply_start_time', moment((new Date()).valueOf() - 30 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD h:mm:ss')));
+                            dispatch(commit('apply_end_time', moment(new Date()).format('YYYY-MM-DD h:mm:ss')));
+                          }
+                        }}
                       />
                     </div>
                     <div className={styles.rowSpaceList}>
@@ -121,7 +130,16 @@ class TabsHeader extends Component {
                       <Input
                         className={styles.colSpace}
                         value={billno}
-                        onChange={e => dispatch(commit('billno', e.target.value))}
+                        onChange={(e) => {
+                          dispatch(commit('billno', e.target.value));
+                          if (e.target.value) {
+                            dispatch(commit('apply_start_time', null));
+                            dispatch(commit('apply_end_time', null));
+                          } else {
+                            dispatch(commit('apply_start_time', moment((new Date()).valueOf() - 30 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD h:mm:ss')));
+                            dispatch(commit('apply_end_time', moment(new Date()).format('YYYY-MM-DD h:mm:ss')));
+                          }
+                        }}
                       />
                     </div>
                     <div className={styles.rowSpaceList}>
@@ -129,7 +147,16 @@ class TabsHeader extends Component {
                       <Input
                         className={styles.colSpace}
                         value={email}
-                        onChange={e => dispatch(commit('email', e.target.value))}
+                        onChange={(e) => {
+                          dispatch(commit('email', e.target.value));
+                          if (e.target.value) {
+                            dispatch(commit('apply_start_time', null));
+                            dispatch(commit('apply_end_time', null));
+                          } else {
+                            dispatch(commit('apply_start_time', moment((new Date()).valueOf() - 30 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD h:mm:ss')));
+                            dispatch(commit('apply_end_time', moment(new Date()).format('YYYY-MM-DD h:mm:ss')));
+                          }
+                        }}
                       />
                     </div>
                     <div className={styles.rowSpaceList}>
@@ -137,7 +164,16 @@ class TabsHeader extends Component {
                       <Input
                         className={styles.colSpace}
                         value={add_user}
-                        onChange={e => dispatch(commit('add_user', e.target.value))}
+                        onChange={(e) => {
+                          dispatch(commit('add_user', e.target.value));
+                          if (e.target.value) {
+                            dispatch(commit('apply_start_time', null));
+                            dispatch(commit('apply_end_time', null));
+                          } else {
+                            dispatch(commit('apply_start_time', moment((new Date()).valueOf() - 30 * 24 * 60 * 60 * 1000).format('YYYY-MM-DD h:mm:ss')));
+                            dispatch(commit('apply_end_time', moment(new Date()).format('YYYY-MM-DD h:mm:ss')));
+                          }
+                        }}
                       />
                     </div>
                     <div className={styles.rowSpaceList}>
