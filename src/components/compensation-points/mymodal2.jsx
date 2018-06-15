@@ -44,6 +44,8 @@ const Mymodal2 = (props) => {
             value={country2}
             onChange={value => dispatch(changeValue('country2', value))}
             mode="multiple"
+            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+
           >
             {
               all_country.map(v => <Option value={v.id}>{v.country}</Option>)
@@ -58,6 +60,7 @@ const Mymodal2 = (props) => {
             className={styles.lineright}
             onChange={value => dispatch(changeValue('COD_status2', value))}
           >
+            <Option value={null}>全部</Option>
             {
               all_COD_status.map((v, idx) => <Option value={++idx}>{v}</Option>)
             }
@@ -72,6 +75,7 @@ const Mymodal2 = (props) => {
             value={order_status2}
             onChange={value => dispatch(changeValue('order_status2', value))}
           >
+            <Option value={null}>全部</Option>
             {
               all_order_status.map((v, idx) => <Option value={++idx}>{v}</Option>)
             }
@@ -81,18 +85,15 @@ const Mymodal2 = (props) => {
 
         <div className={styles.line}>
           <div className={styles.lineleft} />
+
           <Popover
             trigger="click"
             content={(
               <Table
-                // pagination={{
-                //   onChange: () => dispatch(changeValue('selectedRowKeys2', [])),
-                // }}
                 rowSelection={{
                   type: 'checkbox',
                   selectedRowKeys: selectedRowKeys2,
                   onChange: (selectedRowKeys, selectedRows) => {
-                    console.log(selectedRowKeys, selectedRows);
                     dispatch(changeValue('selectedRows2', selectedRows));
                     dispatch(changeValue('selectedRowKeys2', selectedRowKeys));
                   },
@@ -122,7 +123,12 @@ const Mymodal2 = (props) => {
             </Button>
           </Popover>
 
+        </div>
 
+        <div className={styles.line} style={{ flexDirection: 'column' }}>
+          {
+            selectedRows2.map(v => <div style={{ margin: 5, textAlign: 'center' }}>{v.point_type_id}{v.type_name}</div>)
+          }
         </div>
 
       </article>
