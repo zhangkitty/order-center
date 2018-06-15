@@ -168,15 +168,17 @@ const reducer = (state = defaultState, action) => {
 
     case TYPES.changeRadio:
       const oneChangeRadio = state.submitValue.refundType === 3 ? 'Refund Withdraw' : 'Refund Returned';
+      const twoChangeRadio = state.is_usd ? min(state.submitValue.refundAmount, state.dataSource.walletExtractable.priceUsd.amount) : min(state.submitValue.refundCurrency, state.dataSource.walletExtractable.priceWithExchangeRate.amount);
+      const threeChangeRadio = state.is_usd ? +Number(chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0)).toFixed(2) : +Number(chooseMax(state.submitValue.refundCurrency - state.dataSource.walletExtractable.priceWithExchangeRate.amount, 0)).toFixed(2);
       return assign({}, state, {
         one: oneChangeRadio,
-        two: '', // 记录可提现价格
-        three: '', // 记录不可提现价格
-        four: 'account', // 记录account
+        two: twoChangeRadio, // 记录可提现价格
+        three: threeChangeRadio, // 记录不可提现价格
+        // four: 'account', // 记录account
         submitValue: assign({}, state.submitValue, {
           remark: state.submitValue.refundType === 4 ?
               `${oneChangeRadio}\nRefund method：account, ${state.is_usd ? state.submitValue.refundAmount : state.submitValue.refundCurrency}${state.symbol}`
-              : `${oneChangeRadio}`,
+              : `${oneChangeRadio}\nRefund method：account,${twoChangeRadio}${state.symbol}\n${threeChangeRadio === 0 ? '' : `Refund method：${state.four},${threeChangeRadio}${state.symbol}`}`,
         }),
       });
 
