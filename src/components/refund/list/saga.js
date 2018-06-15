@@ -25,8 +25,6 @@ function* searchSaga(action) {
     add_user: add_user ? encodeURIComponent(add_user.trim()) : null,
     handle_user: handle_user ? encodeURIComponent(handle_user.trim()) : null,
     trouble_mark: trouble_mark || null,
-    apply_start_time: refund_bill_id || billno || email || add_user ? '' : action.data.apply_start_time,
-    apply_end_time: refund_bill_id || billno || email || add_user ? '' : action.data.apply_end_time,
   }));
   if (!data || data.code !== 0) {
     message.error(`${__('refund.list.submitTitle2')}${data.msg}`);
