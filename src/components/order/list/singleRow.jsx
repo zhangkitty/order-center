@@ -142,6 +142,8 @@ const checkboxChecked = {
   20: true, // 被换
   91: true, // COD已报损
   77: true, // 'COD已拒收',
+  126: true, // 已申请退货
+  127: true, // 已退货
 };
 // 操作查询
 const columns = [{
@@ -219,19 +221,11 @@ const SingleRow = (props) => {
             className={Styles.orderSelect}
             size="small"
             onClick={() => {
-              const bulkarr = (data.order_goods.filter(v =>
-                  checkboxChecked[v.goods_status]
-                  || (v.goods_status == 57 && v.payment_method !== 'cod')
-                  || (v.goods_status == 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(v.country_name) > -1),
-              )).map((value) => {
+              const bulkarr = data.order_goods.map((value) => {
                 value.site_from = data.site_from;
                 return value;
               });
               let arr = data.order_goods
-                .filter(v => checkboxChecked[v.goods_status]
-                  || (v.goods_status == 57 && v.payment_method !== 'cod')
-                  || (v.goods_status == 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(v.country_name) > -1),
-                )
                 .map(v => v.order_goods_id);
               if (arr.length) {
                 if (batchChooseGoods.length === arr.length) {
@@ -285,22 +279,6 @@ const SingleRow = (props) => {
           rowSelection={{
             type: 'checkbox',
             selectedRowKeys: batchChooseGoods,
-            getCheckboxProps: rec => ({
-              disabled: (function () {
-                if (rec.goods_status === 57 && rec.payment_method !== 'cod') {
-                  return false;
-                }
-                if (rec.goods_status === 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(rec.country_name) > -1) {
-                  return false;
-                }
-                // 126: 已申请退货 127: 已退货
-                if (rec.goods_status === (126 || 127) &&
-                  ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(rec.country_name) < 0) {
-                  return false;
-                }
-                return checkboxChecked[rec.goods_status] === undefined || rec.is_replace === '2';
-              }(rec)),
-            }),
             onChange: (selectedRowKeys, selectedRows) => {
               dispatch(change('BulkReturnInfo', selectedRows));
               dispatch(change('batchChooseGoods', selectedRowKeys));
@@ -482,7 +460,9 @@ const SingleRow = (props) => {
                 {
                   (rec.goods_status == 57 && rec.payment_method !== 'cod')
                   || (rec.goods_status == 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(rec.country_name) > -1)
-                  || (changshow[rec.goods_status] && Number(rec.is_replace) !== 2) ?
+                  || (changshow[rec.goods_status] && Number(rec.is_replace) !== 2) ||
+                  (rec.goods_status === (126 || 127) &&
+                  ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(rec.country_name)) < 0?
                     <span
                       onClick={() => {
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
@@ -745,15 +725,39 @@ const SingleRow = (props) => {
           }
           {/* 批量换货 */}
           <Button
-            onClick={
-              () => {
-                if (BulkReturnInfo.length > 0) {
-                  dispatch(change('ExchangeShow', true));
-                  dispatch(initExchange());
-                } else {
-                  return message.info(lan.没有选择换货商品);
+            onClick={() => {
+              // 判断勾选商品哪些不能换货
+              let flag = false;
+              const tipArr = [];
+              const str = '该状态下不满足换货条件';
+              const batchOrderGoods = data.order_goods.filter(item => batchChooseGoods.indexOf(item.order_goods_id) > -1);
+              batchOrderGoods.forEach((item, i) => {
+                // 判断条件太多，建议if分开，不然会看到爆炸
+                if (item.goods_status === 57 && item.payment_method.toLowerCase === 'cod') {
+                  flag = true;
+                  tipArr.push(`${i} ${item.goods_name} ${str};`);
                 }
+                if (item.goods_status === 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(item.country_name) < 0) {
+                  flag = true;
+                  tipArr.push(`${i} ${item.goods_name} ${str};`);
+                }
+                if (checkboxChecked[item.goods_status] === undefined || item.is_replace === '2') {
+                  flag = true;
+                  tipArr.push(`${i} ${item.goods_name} ${str};`);
+                }
+                if (item.goods_status === (126 || 127) &&
+                  ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(item.country_name) > -1) {
+                  flag = true;
+                  tipArr.push(`${i} ${item.goods_name} ${str};`);
+                }
+              });
+              if (BulkReturnInfo.length > 0) {
+                if (flag) return message.info(tipArr.join('\n'));
+                dispatch(change('ExchangeShow', true));
+                return dispatch(initExchange());
               }
+              return message.info(lan.没有选择换货商品);
+            }
             }
           >
             {lan.换货}
