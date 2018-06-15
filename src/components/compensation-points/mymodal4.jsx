@@ -44,6 +44,7 @@ const Mymodal4 = (props) => {
             value={country4.toLocaleString() === 'all' ? undefined : country4}
             onChange={value => dispatch(changeValue('country4', value))}
             mode="multiple"
+            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
             {
               all_country.map(v => <Option value={v.id}>{v.country}</Option>)
@@ -58,6 +59,7 @@ const Mymodal4 = (props) => {
             className={styles.lineright}
             onChange={value => dispatch(changeValue('COD_status4', value))}
           >
+            <Option value={null}>全部</Option>
             {
               all_COD_status.map((v, idx) => <Option value={++idx}>{v}</Option>)
             }
@@ -72,6 +74,7 @@ const Mymodal4 = (props) => {
             value={order_status4 || null}
             onChange={value => dispatch(changeValue('order_status4', value))}
           >
+            <Option value={null}>全部</Option>
             {
               all_order_status.map((v, idx) => <Option value={++idx}>{v}</Option>)
             }
