@@ -127,6 +127,12 @@ const Mymodal4 = (props) => {
 
         </div>
 
+        <div className={styles.line} style={{ flexDirection: 'column' }}>
+          {
+            selectedRows4.map(v => <div style={{ margin: 5, textAlign: 'center' }}>{v.point_type_id}{v.type_name}</div>)
+          }
+        </div>
+
       </article>
 
     </Modal>

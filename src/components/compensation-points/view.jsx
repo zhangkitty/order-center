@@ -71,6 +71,7 @@ class compensationPoints extends Component {
                 dispatch(changeValue('order_status3', +record.order_status));
                 dispatch(changeValue('siteFrom3', x_arr(record.site_from)));
                 dispatch(changeValue('selectedRowKeys3', x_arr(record.point_type_id)));
+                dispatch(changeValue('selectedRows3', x_arr({ point_type_id: record.point_type_id, type_name: record.point_name })));
               }}
             >编辑</Button>
             <Button
@@ -81,6 +82,7 @@ class compensationPoints extends Component {
                 dispatch(changeValue('order_status4', +record.order_status));
                 dispatch(changeValue('siteFrom4', x_arr(record.site_from)));
                 dispatch(changeValue('selectedRowKeys4', x_arr(record.point_type_id)));
+                dispatch(changeValue('selectedRows4', x_arr({ point_type_id: record.point_type_id, type_name: record.point_name })));
               }}
             >克隆</Button>
           </div>

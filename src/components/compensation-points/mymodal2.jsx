@@ -85,18 +85,15 @@ const Mymodal2 = (props) => {
 
         <div className={styles.line}>
           <div className={styles.lineleft} />
+
           <Popover
             trigger="click"
             content={(
               <Table
-                // pagination={{
-                //   onChange: () => dispatch(changeValue('selectedRowKeys2', [])),
-                // }}
                 rowSelection={{
                   type: 'checkbox',
                   selectedRowKeys: selectedRowKeys2,
                   onChange: (selectedRowKeys, selectedRows) => {
-                    console.log(selectedRowKeys, selectedRows);
                     dispatch(changeValue('selectedRows2', selectedRows));
                     dispatch(changeValue('selectedRowKeys2', selectedRowKeys));
                   },
@@ -126,7 +123,12 @@ const Mymodal2 = (props) => {
             </Button>
           </Popover>
 
+        </div>
 
+        <div className={styles.line} style={{ flexDirection: 'column' }}>
+          {
+            selectedRows2.map(v => <div style={{ margin: 5, textAlign: 'center' }}>{v.point_type_id}{v.type_name}</div>)
+          }
         </div>
 
       </article>
