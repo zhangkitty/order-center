@@ -1,4 +1,5 @@
 import assign from 'object-assign';
+import moment from 'moment';
 import * as types from './types';
 
 const defaultState = {
@@ -13,6 +14,8 @@ const defaultState = {
   checkedCountrys: null,
   addOrEdit: null, // edit为1,add为2
   selectedNameDisabled: false,
+  troubleInfoConfig: [],
+  post_trouble_cate: '1',
 };
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -36,30 +39,24 @@ const reducer = (state = defaultState, action) => {
         dataSource: state.dataSource.filter(v => v.user_id !== action.val.user_id),
         total: state.total - 1,
       });
-    case types.addOrEditSerSuccess:
-      const arr = action.val;
-      if (action.action.val) {
-        return assign({}, state, {
-          ModalVisiable: true,
-          AllUserList: arr[0].data,
-          Countrys: arr[1].data,
-          selectedName: action.action.val.user_id,
-          checkedCountrys: action.action.val.country_id.split(','),
-          addOrEdit: 1,
-          selectedNameDisabled: true,
-        });
-      }
+    case types.addOrEditVisible:
       return assign({}, state, {
         ModalVisiable: true,
-        AllUserList: arr[0].data,
-        Countrys: arr[1].data,
-        selectedName: null,
-        checkedCountrys: null,
-        addOrEdit: 2,
-        selectedNameDisabled: false,
+        selectedName: action.data ? action.data.user_id : '',
+        checkedCountrys: action.data ? action.data.country_id.split(',') : [],
+        addOrEdit: action.data ? 1 : 2,
+        post_trouble_cate: action.data ? action.data.post_trouble_cate : '',
+        trouble_type: action.data ? action.data.trouble_type.split(',') : [],
+        start_time: action.data ? action.data.effect_time && moment(Number(action.data.start_time)).format('YYYY-MM-DD HH:mm') : '',
+        end_time: action.data ? action.data.effect_time && moment(Number(action.data.end_time)).format('YYYY-MM-DD HH:mm') : '',
+        selectedNameDisabled: !!(action.data),
       });
-
-
+    case types.addOrEditSerSuccess:
+      return assign({}, state, {
+        AllUserList: action.val[0].data,
+        Countrys: action.val[1].data,
+        troubleInfoConfig: action.val[2],
+      });
     case types.changeValue:
       return assign({}, state, {
         [action.key]: action.val,
