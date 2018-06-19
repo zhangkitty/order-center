@@ -1,5 +1,4 @@
 import assign from 'object-assign';
-import moment from 'moment';
 import * as types from './types';
 
 const defaultState = {
@@ -47,8 +46,8 @@ const reducer = (state = defaultState, action) => {
         addOrEdit: action.data ? 1 : 2,
         post_trouble_cate: action.data ? action.data.post_trouble_cate : '',
         trouble_type: action.data ? action.data.trouble_type.split(',') : [],
-        start_time: action.data ? action.data.effect_time && moment(Number(action.data.start_time)).format('YYYY-MM-DD HH:mm') : '',
-        end_time: action.data ? action.data.effect_time && moment(Number(action.data.end_time)).format('YYYY-MM-DD HH:mm') : '',
+        start_time: action.data ? action.data.effect_time && action.data.start_time_format : '',
+        end_time: action.data ? action.data.effect_time && action.data.end_time_format : '',
         selectedNameDisabled: !!(action.data),
       });
     case types.addOrEditSerSuccess:
