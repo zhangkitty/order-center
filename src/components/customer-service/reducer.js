@@ -44,7 +44,7 @@ const reducer = (state = defaultState, action) => {
         selectedName: action.data ? action.data.user_id : '',
         checkedCountrys: action.data ? action.data.country_id.split(',') : [],
         addOrEdit: action.data ? 1 : 2,
-        post_trouble_cate: action.data ? action.data.post_trouble_cate : '',
+        post_trouble_cate: action.data ? `${action.data.post_trouble_cate}` : '',
         trouble_type: action.data ? action.data.trouble_type.split(',') : [],
         start_time: action.data ? action.data.effect_time && action.data.start_time_format : '',
         end_time: action.data ? action.data.effect_time && action.data.end_time_format : '',
