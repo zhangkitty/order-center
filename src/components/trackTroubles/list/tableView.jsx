@@ -30,6 +30,10 @@ const lan = {
   cancel: '取消',
   save: '确认',
   edit: __('order.entry.edit'),
+  tijiaoleixing: '提交类型',
+  dingdanzhifushjian: '订单支付时间',
+  zhifufangshi: '支付方式',
+  dijicigoumai: '第几次购买',
 };
 const Bg = Button.Group;
 const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
@@ -48,6 +52,11 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
       rowKey={'id'}
       columns={[
         {
+          title: lan.tijiaoleixing,
+          dataIndex: 'post_trouble_name',
+          width: 100,
+        },
+        {
           title: lan.a,
           dataIndex: 'add_time',
           width: 100,
@@ -55,6 +64,16 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
         {
           title: lan.b,
           dataIndex: 'order_id',
+          width: 100,
+        },
+        {
+          title: lan.dingdanzhifushjian,
+          dataIndex: 'pay_time',
+          width: 100,
+        },
+        {
+          title: lan.zhifufangshi,
+          dataIndex: 'payment_method',
           width: 100,
         },
         {
@@ -105,6 +124,11 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
         {
           title: lan.l,
           dataIndex: 'level',
+          width: 50,
+        },
+        {
+          title: lan.dijicigoumai,
+          dataIndex: 'buy_cnt',
           width: 50,
         },
         {

@@ -44,7 +44,8 @@ const columnsRemark = [{
 }];
 
 const TrackTrouble = ({
-  dispatch, trackTroubleTypes, trackTroubleForm, trackTroubleShow, trackImages, switchRemarkOpen, switchRemarkList, addRemarkOpen, note,
+  dispatch, trackTroubleTypes, trackTroubleForm, trackTroubleShow, trackImages,
+  switchRemarkOpen, switchRemarkList, addRemarkOpen, note,
 }) => (
   <Modal
     footer={null}
@@ -62,7 +63,7 @@ const TrackTrouble = ({
         >
           {
             trackTroubleTypes.map(v => (
-              <Radio disabled={!v.available} value={v.id} style={{ width: '40%' }}>{v.name}</Radio>
+              <Radio disabled={!v.available} value={v.id} style={{ width: '30%' }}>{v.name}</Radio>
             ))
           }
         </RG>
