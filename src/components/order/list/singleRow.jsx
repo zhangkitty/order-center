@@ -142,8 +142,6 @@ const checkboxChecked = {
   20: true, // 被换
   91: true, // COD已报损
   77: true, // 'COD已拒收',
-  126: true, // 已申请退货
-  127: true, // 已退货
 };
 // 操作查询
 const columns = [{
@@ -462,7 +460,7 @@ const SingleRow = (props) => {
                   || (rec.goods_status == 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(rec.country_name) > -1)
                   || (changshow[rec.goods_status] && Number(rec.is_replace) !== 2) ||
                   (rec.goods_status === (126 || 127) &&
-                  ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(rec.country_name)) < 0?
+                  ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(rec.country_name)) < 0 ?
                     <span
                       onClick={() => {
                         dispatch(openModalCgs(rec.order_goods_id, data.order_id, data.site_from));
@@ -733,28 +731,25 @@ const SingleRow = (props) => {
               const batchOrderGoods = data.order_goods.filter(item => batchChooseGoods.indexOf(item.order_goods_id) > -1);
               batchOrderGoods.forEach((item, i) => {
                 // 判断条件太多，建议if分开，不然会看到爆炸
-                if (item.goods_status === 57 && item.payment_method.toLowerCase === 'cod') {
+                if (item.goods_status === 57 && item.payment_method.toLowerCase !== 'cod') {
                   flag = true;
-                  tipArr.push(`${i} ${item.goods_name} ${str};`);
-                }
-                if (item.goods_status === 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(item.country_name) < 0) {
+                } else if (item.goods_status === 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(item.country_name) > -1) {
                   flag = true;
-                  tipArr.push(`${i} ${item.goods_name} ${str};`);
-                }
-                if (checkboxChecked[item.goods_status] === undefined || item.is_replace === '2') {
+                } else if (item.goods_status === (126 || 127) &&
+                  ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(item.country_name) < 0) {
                   flag = true;
-                  tipArr.push(`${i} ${item.goods_name} ${str};`);
-                }
-                if (item.goods_status === (126 || 127) &&
-                  ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(item.country_name) > -1) {
+                } else if (checkboxChecked[item.goods_status] && item.is_replace !== '2') {
                   flag = true;
-                  tipArr.push(`${i} ${item.goods_name} ${str};`);
+                } else {
+                  tipArr.push(`${i + 1} ${item.goods_name} ${str};`);
                 }
               });
               if (BulkReturnInfo.length > 0) {
-                if (flag) return message.info(tipArr.join('\n'));
-                dispatch(change('ExchangeShow', true));
-                return dispatch(initExchange());
+                if (flag) {
+                  dispatch(change('ExchangeShow', true));
+                  return dispatch(initExchange());
+                }
+                return message.info(tipArr.join('\n'));
               }
               return message.info(lan.没有选择换货商品);
             }
