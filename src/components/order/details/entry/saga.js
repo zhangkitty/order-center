@@ -149,7 +149,8 @@ function* fetchrlfeeSaga(action) {
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
   }
-  yield put(commit('rlFee', data.data));
+  yield put(commit('rlFee', data.data.rlFee));
+  yield put(commit('shipping_type', data.data.shippingType));
   if (data.data === null) {
     yield put(commit('reFeeValue', 0));
   }

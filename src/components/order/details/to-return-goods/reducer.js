@@ -2,6 +2,9 @@ import assign from 'object-assign';
 import * as TYPES from './types';
 
 const defaultState = {
+  return_label_url: '',
+  shipping_type: null,
+  choose_shipping_type: null,
   ready: false,
   batchShow: false,
   orderId: '',
@@ -48,6 +51,7 @@ export default (state = defaultState, action) => {
     case TYPES.GET_INFO_SUCCESS:
       return assign({}, state, {
         ready: true,
+        shipping_type: action.data.shipping_type,
         dataSource: action.data.goods_info.map((v, i) => assign({}, v, {
           reason: action.data.return_reason,
           key: i,

@@ -3,6 +3,8 @@ import assign from 'object-assign';
 import * as TYPES from './types';
 
 const defaultState = {
+  choose_shipping_type: 'Mondial Relay',
+  shipping_type: [],
   mycode: '',
   ready: false,
   tabsLoad: false,

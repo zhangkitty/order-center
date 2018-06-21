@@ -31,6 +31,9 @@ const lan = {
   上传的图片大小不能超过8M: __('order.entry.上传的图片大小不能超过8M'),
   只可上传: __('order.entry.只可上传'),
   只可上传请确认: __('order.entry.只可上传请确认'),
+  物流渠道: '物流渠道',
+  下载附件: '下载附件',
+
 };
 const CG = Checkbox.Group;
 const RadioGroup = Radio.Group;
@@ -44,6 +47,7 @@ const defaultRL = {
   2: '美东仓', 3: '比利时仓',
 };
 
+
 class ToReturnGoods extends Component {
   constructor(props) {
     super(props);
@@ -55,8 +59,8 @@ class ToReturnGoods extends Component {
   }
   render() {
     const {
-      dispatch, batchShow, chooses, reasons,
-      ready, dataSource, paths, load, sucModal,
+      dispatch, batchShow, chooses, reasons, choose_shipping_type,
+      ready, dataSource, paths, load, sucModal, shipping_type, return_label_url,
       shippingType, warehouse, submitValue, sucModalHtml, rlFee, spinloading, refundCurrency,
     } = this.props;
     const {
@@ -89,7 +93,11 @@ class ToReturnGoods extends Component {
               return message.warning(lan.need);
             }
             dispatch(commit('spinloading', false));
-            return dispatch(save(submitValue));
+            const temp = Object.assign({}, submitValue, {
+              shipping_type: choose_shipping_type,
+            });
+
+            return dispatch(save(temp));
           }}
         >
           <Button
@@ -316,6 +324,7 @@ class ToReturnGoods extends Component {
             </RadioGroup>
           </div>
 
+
           <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{lan.warehouse}{Star}:</span>
             <Select
@@ -338,6 +347,19 @@ class ToReturnGoods extends Component {
               }
             </Select>
           </div>
+          {
+            shipping_type && return_shipping_type === 1 && <div>
+              <span style={spanWidth}>{lan.物流渠道}{Star}:</span>
+              <RadioGroup
+                value={choose_shipping_type}
+                onChange={e => dispatch(commit('choose_shipping_type', e.target.value))}
+              >
+                {
+                  (shipping_type || []).map(v => <Radio value={v.id}>{v.name}</Radio>)
+                }
+              </RadioGroup>
+            </div>
+          }
           <div style={{ margin: '20px 0' }}>
             <span style={spanWidth}>{__('order.entry.return_goods11')}:</span>
             {refundCurrency.amount}&nbsp;
@@ -371,11 +393,10 @@ class ToReturnGoods extends Component {
             onCancel={() => dispatch(commit('sucModal', false))}
             footer={null}
           >
-            <p
-              style={{ textAlign: 'center', marginBottom: '15px', fontWeight: '700', color: '#000' }}
-            >
-              {__('order.entry.submit_info1')}
-            </p>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ width: 80 }}>{__('order.entry.submit_info1')}</div>
+              <div style={{ width: 80, color: 'red' }}><a href={return_label_url}>{lan.下载附件}</a></div>
+            </div>
             <div dangerouslySetInnerHTML={{ __html: sucModalHtml }} />
           </Modal>
           <div className={styles.spin} style={{ display: spinloading ? 'none' : '' }}>
