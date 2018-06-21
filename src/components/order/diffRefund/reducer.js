@@ -156,7 +156,7 @@ const reducer = (state = defaultState, action) => {
           checked: false,
           symbol,
           remark:
-              `Price Difference Refund；Refund method：${remarkTable[item.refundPathId]},${symbol === '$' ? item.refundAmount || 0 : item.refundCurrency || 0}${symbol}`,
+              `Refund method：${remarkTable[item.refundPathId]},${symbol === '$' ? item.refundAmount || 0 : item.refundCurrency || 0}${symbol}`,
         })),
         cachePaths: action.data.orderRefundPathList.map(item => assign({}, item, {
           channelType: chanelTypeTable[item.refundPathId],
@@ -194,28 +194,28 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         refundPaths: state.refundPaths.map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
                        : v.remark,
         })),
-        remark: state.refundPaths.map(v => assign({}, v, {
+        remark: `Price Difference Refund；${state.refundPaths.map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
-        })).filter(v => v.checked === true).map(val => val.remark).join('\n'),
+        })).filter(v => v.checked === true).map(val => val.remark).join('\n')}`,
       });
 
     case TYPES.changeCurrency:
       return assign({}, state, {
         refundPaths: state.refundPaths.map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
         })),
-        remark: state.refundPaths.map(v => assign({}, v, {
+        remark: `Price Difference Refund；${state.refundPaths.map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
-        })).filter(v => v.checked === true).map(val => val.remark).join('\n'),
+        })).filter(v => v.checked === true).map(val => val.remark).join('\n')}`,
       });
     case TYPES.CHANGE:
       return assign({}, state, {
@@ -264,21 +264,21 @@ const reducer = (state = defaultState, action) => {
 
     case TYPES.CHANGEREMARK:
       return assign({}, state, {
-        remark: state.refundPaths.filter(v => v.checked === true).map(value => value.remark).join('\n'),
+        remark: `Price Difference Refund；${state.refundPaths.filter(v => v.checked === true).map(value => value.remark).join('\n')}`,
       });
 
     case TYPES.selectRemark:
       return assign({}, state, {
         refundPaths: changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
         })),
-        remark: changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
+        remark: `Price Difference Refund； ${changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Price Difference Refund；Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
-        })).filter(v => v.checked === true).map(value => value.remark).join('\n'),
+        })).filter(v => v.checked === true).map(value => value.remark).join('\n')}`,
       });
 
     default:
