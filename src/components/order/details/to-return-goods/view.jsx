@@ -92,10 +92,6 @@ class ToReturnGoods extends Component {
             if (!refund_path || !return_shipping_type || !return_warehouse) {
               return message.warning(lan.need);
             }
-            if (!choose_shipping_type) {
-              return message.warning('需要选择物流渠道');
-            }
-
             dispatch(commit('spinloading', false));
             const temp = Object.assign({}, submitValue, {
               shipping_type: choose_shipping_type,
