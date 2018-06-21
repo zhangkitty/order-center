@@ -5,7 +5,7 @@
     "react/require-default-props": "off",
     "react/jsx-max-props-per-line": "off",
     "camelcase": 1,
-    "max-len": "off"
+    "max-len":"off"
   },
   "env": {
     "browser": true

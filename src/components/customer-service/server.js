@@ -14,6 +14,7 @@ export const editAdminInfoSer = (val)=>{
   })
 }
 
+
 export const addOrEditSer = () =>{
   return Promise.all([
       fetch(`/AdminUserManage/getAllUserList`,{
@@ -21,6 +22,10 @@ export const addOrEditSer = () =>{
       }),
       fetch('/AdminUserManage/getCountry',{
         method:'get'
-      })
+      }),
+    fetch('/AdminUserManage/getTroubleInfoConfig',{
+      method:'post',
+      body:JSON.stringify({})
+    })
   ])
 }
