@@ -12,3 +12,6 @@ export const addOrEdit = `${prefix}addOrEdit`;
 export const addOrEditSerSuccess = `${prefix}addOrEditSerSuccess`;
 export const changeValue = `${prefix}changeValue`;
 export const addAdminUserManage = `${prefix}addAdminUserManage`;
+export const getTroubleInfoConfig = `${prefix}getTroubleInfoConfig`;
+export const getDatabase = `${prefix}getDatabase`;
+export const addOrEditVisible = `${prefix}addOrEditVisible`;
