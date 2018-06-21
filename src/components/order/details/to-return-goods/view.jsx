@@ -352,7 +352,7 @@ class ToReturnGoods extends Component {
             </Select>
           </div>
           {
-            shipping_type && <div>
+            shipping_type && return_shipping_type === 1 && <div>
               <span style={spanWidth}>{lan.物流渠道}{Star}:</span>
               <RadioGroup
                 value={choose_shipping_type}
