@@ -826,10 +826,10 @@ const Packge = ({
                     className={style.btnSpace}
                     size="small"
                     onClick={() => {
-                      if (trackTroubleTypes.length) {
-                        dispatch(commit('trackTroubleForm', { reference_number: v.package_number }));
-                        return dispatch(commit('trackTroubleShow', true));
-                      }
+                      // if (trackTroubleTypes.length) {
+                      //   dispatch(commit('trackTroubleForm', { reference_number: v.package_number }));
+                      //   return dispatch(commit('trackTroubleShow', true));
+                      // }
                       return dispatch(createQs(v.package_number));
                     }}
                     loading={trackTroubleLoad}
