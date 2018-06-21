@@ -9,7 +9,7 @@ const defaultState = {
   batchShow: false,
   orderId: '',
   load: false,
-  sucModal: true,
+  sucModal: false,
   sucModalHtml: '',
   chooses: [],
   modalChooses: [],
