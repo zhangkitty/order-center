@@ -24,8 +24,6 @@ export const getDataSer = (filter) => {
     'shipping_country_name', 'site_from', 'add_time_from', 'add_time_to', 'delivery_time_from', 'delivery_time_to', 'add_user_name',
     'payment_method', 'post_trouble_type', 'member_level'
   ];
-  console.log(filter);
-  console.log(queryString(camel2Under(keys), camel2Under(filter)));
   return fetch(`${list.getData}?${queryString(camel2Under(keys), camel2Under(filter))}`, {
     method: 'GET',
   })
