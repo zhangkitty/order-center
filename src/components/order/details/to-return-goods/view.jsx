@@ -60,7 +60,7 @@ class ToReturnGoods extends Component {
   render() {
     const {
       dispatch, batchShow, chooses, reasons, choose_shipping_type,
-      ready, dataSource, paths, load, sucModal, shipping_type,
+      ready, dataSource, paths, load, sucModal, shipping_type, return_label_url,
       shippingType, warehouse, submitValue, sucModalHtml, rlFee, spinloading, refundCurrency,
     } = this.props;
     const {
