@@ -736,7 +736,8 @@ const SingleRow = (props) => {
                 } else if (item.goods_status === 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(item.country_name) > -1) {
                   flag = true;
                 } else if (item.goods_status === (126 || 127) &&
-                  ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(item.country_name) < 0) {
+                  ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(item.country_name) < 0
+                  && item.payment_method.toLowerCase !== 'cod') {
                   flag = true;
                 } else if (checkboxChecked[item.goods_status] && item.is_replace !== '2') {
                   flag = true;
