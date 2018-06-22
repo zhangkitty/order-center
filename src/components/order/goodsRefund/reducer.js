@@ -758,9 +758,11 @@ const reducer = (state = defaultState, action) => {
 
     case TYPES.changeRefundMethod:
       if (state.radioValue === 3) {
+        const tempArrChangeRefundMethod = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === 3) && v.refundAmount > 0);
+        const strChangeRefundMethod = tempArrChangeRefundMethod.map(v => `Refund method：${v.refMarkE}${v.refundPathId === 3 ? '(' : ''}${v.refundPathId == 3 ? v.refund_method || '' : ''}${v.refundPathId === 3 ? ')' : ''},${v.refMakrMoney}`).join(',');
         return assign({}, state, {
-          refundMethod: `Refund method：account(${state.refundPaths[2].refund_method})${state.refundPaths[2].refMakrMoney}`,
-          remark: `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}Refund method：account(${state.refundPaths[2].refund_method})${state.refundPaths[2].refMakrMoney}`,
+          refundMethod: strChangeRefundMethod,
+          remark: `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${strChangeRefundMethod}`,
         });
       }
       return state;
