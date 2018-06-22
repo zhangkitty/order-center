@@ -260,3 +260,17 @@
     padding: 0 10px;
     border-radius: 20px;
 }
+.troubleIssueLay {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.troubleDesc {
+    color: #0e8ee9;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.troubleIssueLay2 {
+    margin-top: 20px;
+    display: flex;
+}

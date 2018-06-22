@@ -425,7 +425,7 @@ const Packge = ({
         render: (d, res) => (
           <div>
             <div>{`${lan.goods_name}: ${res.goods_name}`}</div>
-            <div>{`${lan.goods_id}: ${res.id}`}</div>
+            <div>{`${lan.goods_id}: ${res.goods_id}`}</div>
           </div>
         ),
       },
@@ -826,10 +826,10 @@ const Packge = ({
                     className={style.btnSpace}
                     size="small"
                     onClick={() => {
-                      if (trackTroubleTypes.length) {
-                        dispatch(commit('trackTroubleForm', { reference_number: v.package_number }));
-                        return dispatch(commit('trackTroubleShow', true));
-                      }
+                      // if (trackTroubleTypes.length) {
+                      //   dispatch(commit('trackTroubleForm', { reference_number: v.package_number }));
+                      //   return dispatch(commit('trackTroubleShow', true));
+                      // }
                       return dispatch(createQs(v.package_number));
                     }}
                     loading={trackTroubleLoad}

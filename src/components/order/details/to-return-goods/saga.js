@@ -27,6 +27,7 @@ function* saveSaga(action) {
   }
   yield put(commit('sucModal', true));
   yield put(commit('spinloading', true));
+  yield put(commit('return_label_url', data.data.return_label_url));
   return yield put(commit('sucModalHtml', data.data.return_label_message));
 //  return message.success(lan.osucess);
 }
