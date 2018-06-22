@@ -266,6 +266,11 @@
     flex-wrap: wrap;
 }
 .troubleDesc {
-    text-align: center;
     color: #0e8ee9;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.troubleIssueLay2 {
+    margin-top: 20px;
+    display: flex;
 }
