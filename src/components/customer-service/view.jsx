@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Table, Button, Pagination, Popconfirm } from 'antd';
-import { init, changePage, changePageSize, deleteItem, addOrEdit } from './action';
+import { init, changePage, changePageSize, deleteItem, addOrEdit, addOrEditVisible } from './action';
 import MyModal from './MyModal';
 
 const lan = {
@@ -14,6 +14,9 @@ const lan = {
   删除: '删除',
   添加物流客服: '添加物流客服',
   是否确认要删除: '是否确认要删除',
+  提交类型: '提交类型',
+  问题类型: '问题类型',
+  生效时间: '生效时间',
 };
 
 const style = {
@@ -27,6 +30,7 @@ class CustomerService extends Component {
     super(props);
     const { dispatch, pageNumber, pageSize } = props;
     dispatch(init(pageNumber, pageSize));
+    dispatch(addOrEdit());
   }
 
   render() {
@@ -47,6 +51,21 @@ class CustomerService extends Component {
       key: 'country',
       width: 200,
     }, {
+      title: lan.提交类型,
+      dataIndex: 'post_cate_name',
+      key: 'post_cate_name',
+      width: 200,
+    }, {
+      title: lan.问题类型,
+      dataIndex: 'trouble_type_name',
+      key: 'trouble_type_name',
+      width: 200,
+    }, {
+      title: lan.生效时间,
+      dataIndex: 'effect_time',
+      key: 'effect_time',
+      width: 200,
+    }, {
       title: lan.操作,
       dataIndex: 'type',
       key: 'type',
@@ -55,7 +74,7 @@ class CustomerService extends Component {
         (<span>
           <Button
             style={{ marginRight: 10 }}
-            onClick={() => dispatch(addOrEdit(record))}
+            onClick={() => dispatch(addOrEditVisible(record))}
           >
             {lan.编辑}
           </Button>
@@ -82,7 +101,7 @@ class CustomerService extends Component {
           }}
         >
           <Button
-            onClick={() => dispatch(addOrEdit())}
+            onClick={() => dispatch(addOrEditVisible())}
           >
             <a>{lan.添加物流客服}</a>
           </Button>

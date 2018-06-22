@@ -35,8 +35,8 @@ class compensationPoints extends Component {
     const columns = [
       {
         title: '站点',
-        dataIndex: 'site_name',
-        key: 'site_name',
+        dataIndex: 'site_from',
+        key: 'site_from',
       },
       {
         title: '国家',
@@ -69,7 +69,9 @@ class compensationPoints extends Component {
                 dispatch(changeValue('COD_status3', +record.is_cod));
                 dispatch(changeValue('country3', x_arr(record.country_id)));
                 dispatch(changeValue('order_status3', +record.order_status));
-                dispatch(changeValue('siteFrom3', x_arr(record.site_id)));
+                dispatch(changeValue('siteFrom3', x_arr(record.site_from)));
+                dispatch(changeValue('selectedRowKeys3', x_arr(record.point_type_id)));
+                dispatch(changeValue('selectedRows3', x_arr({ point_type_id: record.point_type_id, type_name: record.point_name })));
               }}
             >编辑</Button>
             <Button
@@ -78,7 +80,9 @@ class compensationPoints extends Component {
                 dispatch(changeValue('COD_status4', +record.is_cod));
                 dispatch(changeValue('country4', x_arr(record.country_id)));
                 dispatch(changeValue('order_status4', +record.order_status));
-                dispatch(changeValue('siteFrom4', x_arr(record.site_id)));
+                dispatch(changeValue('siteFrom4', x_arr(record.site_from)));
+                dispatch(changeValue('selectedRowKeys4', x_arr(record.point_type_id)));
+                dispatch(changeValue('selectedRows4', x_arr({ point_type_id: record.point_type_id, type_name: record.point_name })));
               }}
             >克隆</Button>
           </div>
@@ -119,6 +123,7 @@ class compensationPoints extends Component {
               value={country1}
               onChange={value => dispatch(changeValue('country1', value))}
               mode="multiple"
+              filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
             >
               {
              all_country.map(v => <Option value={v.id}>{v.country}</Option>)
@@ -133,6 +138,7 @@ class compensationPoints extends Component {
               className={styles.lineright}
               onChange={value => dispatch(changeValue('COD_status1', value))}
             >
+              <Option value={null}>全部</Option>
               {
                all_COD_status.map((v, idx) => <Option value={++idx}>{v}</Option>)
               }
@@ -147,6 +153,7 @@ class compensationPoints extends Component {
               value={order_status1}
               onChange={value => dispatch(changeValue('order_status1', value))}
             >
+              <Option value={null}>全部</Option>
               {
                 all_order_status.map((v, idx) => <Option value={++idx}>{v}</Option>)
               }

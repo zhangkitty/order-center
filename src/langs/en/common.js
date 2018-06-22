@@ -185,4 +185,5 @@ module.exports = {
   special_order7: 'Requested weight',
   special_order8: 'Packing list',
   special_order9: 'Package for bloggers/influencers',
+  BatchDelete: 'BatchDelete',
 };

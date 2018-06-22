@@ -149,7 +149,8 @@ function* fetchrlfeeSaga(action) {
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
   }
-  yield put(commit('rlFee', data.data));
+  yield put(commit('rlFee', data.data.rlFee));
+  yield put(commit('shipping_type', data.data.shippingType));
   if (data.data === null) {
     yield put(commit('reFeeValue', 0));
   }
@@ -206,8 +207,8 @@ function* remarkSaveSaga(action) {
   return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
 // 获取物流反馈问题原因
-function* getTrackTroubleReason() {
-  const data = yield getTroubleTypes();
+function* getTrackTroubleReason({ pkgNum }) {
+  const data = yield getTroubleTypes(pkgNum);
   if (!data || data.code !== 0) {
     message.error(`${lan.dataFail}: ${data.msg}`);
     return yield put(commit('trackTroubleLoad', false));

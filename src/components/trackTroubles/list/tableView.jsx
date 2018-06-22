@@ -19,6 +19,7 @@ const lan = {
   m: '处理状态',
   n: '处理人',
   o: '处理结果',
+  r: '是否退换货',
   p: '图片',
   q: '操作',
   beizhu: '备注',
@@ -28,6 +29,11 @@ const lan = {
   genjinDesc: '确认认领该物流问题?',
   cancel: '取消',
   save: '确认',
+  edit: __('order.entry.edit'),
+  tijiaoleixing: '提交类型',
+  dingdanzhifushjian: '订单支付时间',
+  zhifufangshi: '支付方式',
+  dijicigoumai: '第几次购买',
 };
 const Bg = Button.Group;
 const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
@@ -46,6 +52,11 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
       rowKey={'id'}
       columns={[
         {
+          title: lan.tijiaoleixing,
+          dataIndex: 'post_trouble_name',
+          width: 100,
+        },
+        {
           title: lan.a,
           dataIndex: 'add_time',
           width: 100,
@@ -53,6 +64,16 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
         {
           title: lan.b,
           dataIndex: 'order_id',
+          width: 100,
+        },
+        {
+          title: lan.dingdanzhifushjian,
+          dataIndex: 'pay_time',
+          width: 100,
+        },
+        {
+          title: lan.zhifufangshi,
+          dataIndex: 'payment_method',
           width: 100,
         },
         {
@@ -106,6 +127,11 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
           width: 50,
         },
         {
+          title: lan.dijicigoumai,
+          dataIndex: 'buy_cnt',
+          width: 50,
+        },
+        {
           title: lan.m,
           dataIndex: 'handle_status_description',
           width: 100,
@@ -118,6 +144,12 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
         {
           title: lan.o,
           dataIndex: 'handle_result_description',
+          width: 100,
+        },
+        {
+          title: lan.r,
+          dataIndex: 'is_replaced',
+          render: x => (<span>{x ? '是' : '否'}</span>),
           width: 100,
         },
         {
@@ -153,11 +185,19 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
                 <Button onClick={() => dispatch(followShow(rec.id))}>{lan.genjinzhong}</Button>
               }
               {
-                +rec.handle_status === 1 && (rec.attachments || []).length < 4 &&
+                +rec.handle_status !== 4 &&
                 <Button
                   onClick={() => dispatch(uploadShow(rec.id, rec.attachments || []))}
                 >
                   {lan.upload}
+                </Button>
+              }
+              {
+                rec.can_modify &&
+                <Button
+                  onClick={() => { dispatch(commit('editModal', true)); dispatch(commit('edit', { trouble_id: rec.id })); }}
+                >
+                  {lan.edit}
                 </Button>
               }
             </Bg>

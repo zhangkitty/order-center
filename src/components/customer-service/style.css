@@ -1,0 +1,14 @@
+:local(.formLay) {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+:local(.formSpan) {
+    width: 100px;
+}
+:local(.modal) {
+    overflow: auto;
+    height: 500px;
+    padding: 25px 0;
+
+}

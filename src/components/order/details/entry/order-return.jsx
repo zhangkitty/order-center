@@ -10,6 +10,8 @@ import { Link } from 'react-router';
 import styles from './style.css';
 
 const RG = Radio.Group;
+const star = (<span style={{ color: 'red' }}>*</span>);
+
 
 const lan = {
   jilu: __('order.entry.goods_rejected_record'),
@@ -40,6 +42,7 @@ const lan = {
   只可上传: __('order.entry.只可上传'),
   只可上传请确认: __('order.entry.只可上传请确认'),
   changeRL: __('order.entry.changeRL'),
+  物流渠道: '物流渠道',
 };
 
 const reqImg = require.context('../../images');
@@ -139,6 +142,8 @@ class OrderReturn extends Component {
       modal_return_order_id,
       confirmLoading,
       returnCopied,
+      shipping_type,
+      choose_shipping_type,
     } = this.props;
     return (
       <div className={styles.contentPadding}>
@@ -161,14 +166,15 @@ class OrderReturn extends Component {
             onOk={
               () => {
                 dispatch(commit('confirmLoading', true));
+                dispatch(commit('choose_shipping_type', 'Mondial Relay'));
                 const d = {
                   language: 'zh',
                   order_id: orderId,
                   rl_fee: reFeeValue,
                   return_order_id: modal_return_order_id,
+                  shipping_type: choose_shipping_type,
                   billno,
                 };
-                console.log(d);
                 if (reFeeValue === null) {
                   dispatch(commit('confirmLoading', false));
                   return message.error(lan.rl费用必填);
@@ -180,6 +186,7 @@ class OrderReturn extends Component {
               () => {
                 dispatch(commit('rlmodal', false));
                 dispatch(commit('reFeeValue', 0));
+                dispatch(commit('choose_shipping_type', 'Mondial Relay'));
               }
             }
             okText="确认"
@@ -207,6 +214,26 @@ class OrderReturn extends Component {
                   </div>
               }
             </div>
+
+            {
+              shipping_type && shipping_type.length > 0 && <div>
+                <div>
+                  {lan.物流渠道}{star}:
+                  </div>
+
+                <div>
+                  <RG
+                    value={choose_shipping_type}
+                    onChange={e => dispatch(commit('choose_shipping_type', e.target.value))}
+                  >
+                    {
+                        shipping_type.map(v => <Radio value={v.id}>{v.name}</Radio>)
+                      }
+                  </RG>
+                </div>
+                </div>
+              }
+
           </Modal>
           <Modal
             onCancel={() => dispatch(commit('uploadTrack', assign({}, uploadTrack, { show: false })))}
