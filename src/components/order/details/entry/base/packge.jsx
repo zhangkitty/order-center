@@ -425,7 +425,7 @@ const Packge = ({
         render: (d, res) => (
           <div>
             <div>{`${lan.goods_name}: ${res.goods_name}`}</div>
-            <div>{`${lan.goods_id}: ${res.id}`}</div>
+            <div>{`${lan.goods_id}: ${res.goods_id}`}</div>
           </div>
         ),
       },
