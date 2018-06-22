@@ -216,21 +216,21 @@ class OrderReturn extends Component {
             </div>
 
             {
-                shipping_type.length > 0 && <div>
-                  <div>
-                    {lan.物流渠道}{star}:
+              shipping_type && shipping_type.length > 0 && <div>
+                <div>
+                  {lan.物流渠道}{star}:
                   </div>
 
-                  <div>
-                    <RG
-                      value={choose_shipping_type}
-                      onChange={e => dispatch(commit('choose_shipping_type', e.target.value))}
-                    >
-                      {
+                <div>
+                  <RG
+                    value={choose_shipping_type}
+                    onChange={e => dispatch(commit('choose_shipping_type', e.target.value))}
+                  >
+                    {
                         shipping_type.map(v => <Radio value={v.id}>{v.name}</Radio>)
                       }
-                    </RG>
-                  </div>
+                  </RG>
+                </div>
                 </div>
               }
 
