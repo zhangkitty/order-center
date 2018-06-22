@@ -24,6 +24,8 @@ const lan = {
   productState: '商品状态',
   跟进客服管理: '跟进客服管理',
   BatchDelete: __('common.BatchDelete'),
+  tijiaoleixing: '提交类型',
+  huiyuandengji: '会员等级',
 };
 
 const OP = Select.Option;
@@ -162,6 +164,31 @@ const Filters = ({
                 {filters.site_from.map(v => (<OP key={v.id}>{v.name}</OP>))}
               </Select>
             </div>
+            <div>
+              <span>{ lan.tijiaoleixing }</span>
+              <Select
+                mode={'multiple'}
+                value={(filter.post_trouble_type ? filter.post_trouble_type.split(',') : [])}
+                onChange={v => dispatch(filterCommit('post_trouble_type', v.join(',')))}
+                allowClear
+              >
+                {Object.keys(filters.post_trouble_type || {}).map(v => (<OP key={v}>{filters.post_trouble_type[v]}</OP>))}
+              </Select>
+            </div>
+            <div>
+              <span>{ lan.huiyuandengji }</span>
+              <Select
+                mode={'multiple'}
+                value={(filter.member_level ? filter.member_level.split(',') : [])}
+                onChange={v => dispatch(filterCommit('member_level', v.join(',')))}
+                allowClear
+              >
+                {Object.keys(filters.member_level || {}).map(v => (<OP key={v}>{filters.member_level[v]}</OP>))}
+              </Select>
+            </div>
+          </div>
+          {/* row 4 */}
+          <div>
             <div >
               <span>{ lan.tijiaoDate }</span>
               <RP

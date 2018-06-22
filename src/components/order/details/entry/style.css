@@ -260,3 +260,12 @@
     padding: 0 10px;
     border-radius: 20px;
 }
+.troubleIssueLay {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.troubleDesc {
+    text-align: center;
+    color: #0e8ee9;
+}

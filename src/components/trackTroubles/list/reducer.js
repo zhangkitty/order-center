@@ -14,6 +14,8 @@ export const defaultState = {
     country: [],
     site_from: [],
     payment_method: [],
+    post_trouble_type: {},
+    member_level: {},
   },
   filter: { // 搜索条件
     trouble_type: [],
@@ -33,6 +35,8 @@ export const defaultState = {
     delivery_time_from: '',
     delivery_time_to: '',
     add_user_name: '',
+    post_trouble_type: '',
+    member_level: '',
   },
   remarkShow: false, // 备注弹窗开关
   remarkLoad: false, // 备注弹窗数据loading
