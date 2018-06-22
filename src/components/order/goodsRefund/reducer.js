@@ -728,7 +728,7 @@ const reducer = (state = defaultState, action) => {
 
     case TYPES.changeRadioValue:
       const tempArr = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === action.val) && v.refundAmount > 0);
-      const str = tempArr.map(v => `Refund method：${v.refMarkE}${v.refundPathId === 3 ? '(' : ''}${v.refundPathId == 3 ? v.refund_method || '' : ''}${v.refundPathId === 3 ? ')' : ''},${v.refMakrMoney}`).join(',');
+      const str = tempArr.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? `${v.refund_method || ''}` : ''},${v.refMakrMoney}`).join(',');
       return assign({}, state, {
         radioValue: action.val,
         refundMethod: str,
@@ -759,7 +759,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.changeRefundMethod:
       if (state.radioValue === 3) {
         const tempArrChangeRefundMethod = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === 3) && v.refundAmount > 0);
-        const strChangeRefundMethod = tempArrChangeRefundMethod.map(v => `Refund method：${v.refMarkE}${v.refundPathId === 3 ? '(' : ''}${v.refundPathId == 3 ? v.refund_method || '' : ''}${v.refundPathId === 3 ? ')' : ''},${v.refMakrMoney}`).join(',');
+        const strChangeRefundMethod = tempArrChangeRefundMethod.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? `(${v.refund_method || ''})` || '' : ''},${v.refMakrMoney}`).join(',');
         return assign({}, state, {
           refundMethod: strChangeRefundMethod,
           remark: `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${strChangeRefundMethod}`,
