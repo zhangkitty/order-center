@@ -187,10 +187,10 @@ const reducer = (state = defaultState, action) => {
         const twoChangeAmount = min(state.submitValue.refundAmount, state.dataSource.walletExtractable.priceUsd.amount);
         const threeChangeAmount = +Number(chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0)).toFixed(2);
         return assign({}, state, {
-          two: `${twoChangeAmount}$`,
-          three: `${threeChangeAmount}$`,
+          two: `${twoChangeAmount}USD`,
+          three: `${threeChangeAmount}USD`,
           submitValue: assign({}, state.submitValue, {
-            remark: `${state.one}:\nRefund method：account,${twoChangeAmount}$\n${threeChangeAmount === 0 ? '' : `Refund method：${state.four},${threeChangeAmount}$`}`,
+            remark: `${state.one}:\nRefund method：account,${twoChangeAmount}$\n${threeChangeAmount === 0 ? '' : `Refund method：(${state.four}),${threeChangeAmount}USD`}`,
           }),
         });
       }
@@ -209,7 +209,7 @@ const reducer = (state = defaultState, action) => {
           two: `${twoChangeCurrency}${state.symbol}`,
           three: `${threeChangeCurrency}${state.symbol}`,
           submitValue: assign({}, state.submitValue, {
-            remark: `${state.one}:\nRefund method：account,${twoChangeCurrency}${state.symbol}\n${threeChangeCurrency === 0 ? '' : `Refund method：${state.four},${threeChangeCurrency}${state.symbol}`}`,
+            remark: `${state.one}:\nRefund method：account,${twoChangeCurrency}${state.symbol}\n${threeChangeCurrency === 0 ? '' : `Refund method：(${state.four}),${threeChangeCurrency}${state.symbol}`}`,
           }),
         });
       }
@@ -224,7 +224,7 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         four: state.submitValue.refundMethod,
         submitValue: assign({}, state.submitValue, {
-          remark: `${state.one}:\nRefund method:account,${state.two}\n${parseFloat(state.three) === 0 ? '' : `Refund method:${state.submitValue.refundMethod},${state.three}`}`,
+          remark: `${state.one}:\nRefund method:account,${state.two}\n${parseFloat(state.three) === 0 ? '' : `Refund method:account(${state.submitValue.refundMethod}),${state.three}`}`,
         }),
       });
     default:
