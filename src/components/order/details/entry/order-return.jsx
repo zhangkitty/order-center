@@ -172,7 +172,7 @@ class OrderReturn extends Component {
                   order_id: orderId,
                   rl_fee: reFeeValue,
                   return_order_id: modal_return_order_id,
-                  shipping_type: choose_shipping_type,
+                  shipping_type: (shipping_type && (shipping_type.length > 0)) ? choose_shipping_type : null,
                   billno,
                 };
                 if (reFeeValue === null) {
