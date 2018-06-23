@@ -572,7 +572,7 @@ const reducer = (state = defaultState, action) => {
       const methodStr = arr.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
       const totalChangeShipping = arr.reduce((sum, value) => sum += value.moneyWithnoSymbol, 0);
       const symbStr = arr[0] && arr[0].symbol;
-      const refundAmountStr = `Refund amount:${totalChangeShipping + state.rlFee}${symbStr}-${state.rlFee}${symbStr}(RL) = ${totalChangeShipping}${symbStr}`;
+      const refundAmountStr = `Refund amount:${Number(totalChangeShipping + state.rlFee).toFixed(2)}${symbStr}-${Number(state.rlFee).toFixed(2)}${symbStr}(RL) = ${Number(totalChangeShipping).toFixed(2)}${symbStr}`;
       return assign({}, state, {
         refundPaths,
         RefundMethod: methodStr,
@@ -613,7 +613,7 @@ const reducer = (state = defaultState, action) => {
       const methodStrInsu = arrInsu.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
       const totalChangeInsu = arrInsu.reduce((sum, value) => sum += value.moneyWithnoSymbol, 0);
       const symbStrInsu = arrInsu[0] && arrInsu[0].symbol;
-      const refundAmountStrInsu = `Refund amount:${totalChangeInsu + state.rlFee}${symbStrInsu}-${state.rlFee}${symbStrInsu}(RL) = ${totalChangeInsu}${symbStrInsu}`;
+      const refundAmountStrInsu = `Refund amount:${Number(totalChangeInsu + state.rlFee).toFixed(2)}${symbStrInsu}-${Number(state.rlFee).toFixed(2)}${symbStrInsu}(RL) = ${Number(totalChangeInsu).toFixed(2)}${symbStrInsu}`;
       return assign({}, state, {
         refundPaths,
         RefundMethod: methodStrInsu,
