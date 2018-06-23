@@ -744,7 +744,7 @@ const reducer = (state = defaultState, action) => {
       const rlFee = (+isUsd === 0) ? rlFeeCurrency : rlFeeAmount;
       const RefundAmountChangeInput =
           (tol && symb) ?
-          `Refund amount:${tol + rlFee}${symb}-${rlFee}${symb} =  ${tol}${symb}`
+          `Refund amount:${Number(tol + rlFee).toFixed(2)}${symb}-${Number(rlFee).toFixed(2)}${symb} =  ${Number(tol).toFixed(2)}${symb}`
               : 'Refund amount:'
       ;
       return assign({}, state, {
