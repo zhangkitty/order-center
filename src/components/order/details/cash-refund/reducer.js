@@ -190,7 +190,7 @@ const reducer = (state = defaultState, action) => {
           two: `${twoChangeAmount}$`,
           three: `${threeChangeAmount}$`,
           submitValue: assign({}, state.submitValue, {
-            remark: `${state.one}:\nRefund method：account,${twoChangeAmount}$\n${threeChangeAmount === 0 ? '' : `Refund method：(${state.four}),${threeChangeAmount}$`}`,
+            remark: `${state.one}:\nRefund method：account,${twoChangeAmount}$\n${threeChangeAmount === 0 || state.four === 'account' ? '' : `Refund method：(${state.four}),${threeChangeAmount}$`}`,
           }),
         });
       }
@@ -202,6 +202,7 @@ const reducer = (state = defaultState, action) => {
 
 
     case TYPES.changeCurrency:
+      console.log(state.four);
       if (state.submitValue.refundType === 3) {
         const twoChangeCurrency = min(state.submitValue.refundCurrency, state.dataSource.walletExtractable.priceWithExchangeRate.amount);
         const threeChangeCurrency = +Number(chooseMax(state.submitValue.refundCurrency - state.dataSource.walletExtractable.priceWithExchangeRate.amount, 0)).toFixed(2);
@@ -209,7 +210,7 @@ const reducer = (state = defaultState, action) => {
           two: `${twoChangeCurrency}${state.symbol}`,
           three: `${threeChangeCurrency}${state.symbol}`,
           submitValue: assign({}, state.submitValue, {
-            remark: `${state.one}:\nRefund method：account,${twoChangeCurrency}${state.symbol}\n${threeChangeCurrency === 0 ? '' : `Refund method：(${state.four}),${threeChangeCurrency}${state.symbol}`}`,
+            remark: `${state.one}:\nRefund method：account,${twoChangeCurrency}${state.symbol}\n${threeChangeCurrency === 0 || state.four === 'account' ? '' : `Refund method：(${state.four}),${threeChangeCurrency}${state.symbol}`}`,
           }),
         });
       }
