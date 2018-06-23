@@ -187,10 +187,10 @@ const reducer = (state = defaultState, action) => {
         const twoChangeAmount = min(state.submitValue.refundAmount, state.dataSource.walletExtractable.priceUsd.amount);
         const threeChangeAmount = +Number(chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0)).toFixed(2);
         return assign({}, state, {
-          two: `${twoChangeAmount}USD`,
-          three: `${threeChangeAmount}USD`,
+          two: `${twoChangeAmount}$`,
+          three: `${threeChangeAmount}$`,
           submitValue: assign({}, state.submitValue, {
-            remark: `${state.one}:\nRefund method：account,${twoChangeAmount}$\n${threeChangeAmount === 0 ? '' : `Refund method：(${state.four}),${threeChangeAmount}USD`}`,
+            remark: `${state.one}:\nRefund method：account,${twoChangeAmount}$\n${threeChangeAmount === 0 ? '' : `Refund method：(${state.four}),${threeChangeAmount}$`}`,
           }),
         });
       }

@@ -569,7 +569,7 @@ const reducer = (state = defaultState, action) => {
             : `${+Number(resultCurrency[v.refundPathId]).toFixed(2)}${v.symbol}`,
       }));
       const arr = refundPaths.filter(v => v.checked === true && v.refundCurrency > 0);
-      const methodStr = arr.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`).join(',');
+      const methodStr = arr.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
       const totalChangeShipping = arr.reduce((sum, value) => sum += value.moneyWithnoSymbol, 0);
       const symbStr = arr[0] && arr[0].symbol;
       const refundAmountStr = `Refund amount:${totalChangeShipping + state.rlFee}${symbStr}-${state.rlFee}${symbStr}(RL) = ${totalChangeShipping}${symbStr}`;
@@ -610,7 +610,7 @@ const reducer = (state = defaultState, action) => {
             : `${+Number(resultCurrency[v.refundPathId]).toFixed(2)}${v.symbol}`,
       }));
       const arrInsu = refundPaths.filter(v => v.checked === true && v.refundCurrency > 0);
-      const methodStrInsu = arrInsu.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`).join(',');
+      const methodStrInsu = arrInsu.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
       const totalChangeInsu = arrInsu.reduce((sum, value) => sum += value.moneyWithnoSymbol, 0);
       const symbStrInsu = arrInsu[0] && arrInsu[0].symbol;
       const refundAmountStrInsu = `Refund amount:${totalChangeInsu + state.rlFee}${symbStrInsu}-${state.rlFee}${symbStrInsu}(RL) = ${totalChangeInsu}${symbStrInsu}`;
@@ -728,16 +728,15 @@ const reducer = (state = defaultState, action) => {
 
     case TYPES.changeRadioValue:
       const tempArr = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === action.val) && v.refundAmount > 0);
-      const str = tempArr.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? `${v.refund_method || ''}` : ''},${v.refMakrMoney}`).join(',');
+      const str = tempArr.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
       return assign({}, state, {
         radioValue: action.val,
         refundMethod: str,
         remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${str}`,
       });
-
     case TYPES.changeInput:
       const changeInputTempArr = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === state.radioValue) && v.refundAmount > 0);
-      const changeInputstr = changeInputTempArr.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`).join(',');
+      const changeInputstr = changeInputTempArr.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
       const tol =
           (changeInputTempArr[0] && changeInputTempArr[0].symbol) === '$' ?
               changeInputTempArr.reduce((sum, value) => sum += (+value.refundAmount), 0) :
@@ -759,7 +758,7 @@ const reducer = (state = defaultState, action) => {
     case TYPES.changeRefundMethod:
       if (state.radioValue === 3) {
         const tempArrChangeRefundMethod = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === 3) && v.refundAmount > 0);
-        const strChangeRefundMethod = tempArrChangeRefundMethod.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? `(${v.refund_method || ''})` || '' : ''},${v.refMakrMoney}`).join(',');
+        const strChangeRefundMethod = tempArrChangeRefundMethod.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
         return assign({}, state, {
           refundMethod: strChangeRefundMethod,
           remark: `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${strChangeRefundMethod}`,
