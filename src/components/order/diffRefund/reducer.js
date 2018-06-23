@@ -194,26 +194,27 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         refundPaths: state.refundPaths.map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]}${v.refund_method ? `(${v.refund_method})` : ''},${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
                        : v.remark,
         })),
         remark: `Price Difference Refund；${state.refundPaths.map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]}${v.refund_method ? `(${v.refund_method})` : ''}, ${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
         })).filter(v => v.checked === true).map(val => val.remark).join('\n')}`,
       });
 
     case TYPES.changeCurrency:
+      console.log(state.refundPaths);
       return assign({}, state, {
         refundPaths: state.refundPaths.map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]}${v.refund_method ? `(${v.refund_method})` : ''}, ${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
         })),
         remark: `Price Difference Refund；${state.refundPaths.map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Refund method：${remarkTable[v.refundPathId]}${v.refundPathId === 4 ? '(' : ''}${v.refundPathId === 4 ? v.refund_method || '' : ''}${v.refundPathId === 4 ? ')' : ''} ,${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]} ${v.refund_method ? `(${v.refund_method})` : ''}, ${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
         })).filter(v => v.checked === true).map(val => val.remark).join('\n')}`,
       });
@@ -271,12 +272,12 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         refundPaths: changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]} ${v.refund_method ? `(${v.refund_method})` : ''}, ${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
         })),
         remark: `Price Difference Refund； ${changeChannelProp(state.refundPaths, action).map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
-              `Refund method：${remarkTable[v.refundPathId]}(${v.refund_method || ''}),${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
+              `Refund method：${remarkTable[v.refundPathId]} ${v.refund_method ? `(${v.refund_method})` : ''}, ${v.symbol === '$' ? v.refundAmount || 0 : v.refundCurrency || 0}${v.symbol}`
               : v.remark,
         })).filter(v => v.checked === true).map(value => value.remark).join('\n')}`,
       });
