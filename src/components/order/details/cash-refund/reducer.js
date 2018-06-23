@@ -178,7 +178,7 @@ const reducer = (state = defaultState, action) => {
         submitValue: assign({}, state.submitValue, {
           remark: state.submitValue.refundType === 4 ?
               `${oneChangeRadio}\nRefund method：account, ${state.is_usd ? state.submitValue.refundAmount : state.submitValue.refundCurrency}${state.symbol}`
-              : `${oneChangeRadio}\nRefund method：account,${twoChangeRadio}${state.symbol}\n${threeChangeRadio === 0 ? '' : `Refund method：${state.four},${threeChangeRadio}${state.symbol}`}`,
+              : `${oneChangeRadio}\nRefund method：account,${twoChangeRadio}${state.symbol}\n${threeChangeRadio === 0 ? '' : `Refund method：  account${state.four},${threeChangeRadio}${state.symbol}`}`,
         }),
       });
 
@@ -190,7 +190,7 @@ const reducer = (state = defaultState, action) => {
           two: `${twoChangeAmount}$`,
           three: `${threeChangeAmount}$`,
           submitValue: assign({}, state.submitValue, {
-            remark: `${state.one}:\nRefund method：account,${twoChangeAmount}$\n${threeChangeAmount === 0 || state.four === 'account' ? '' : `Refund method：(${state.four}),${threeChangeAmount}$`}`,
+            remark: `${state.one}:\nRefund method：account,${twoChangeAmount}$\n${threeChangeAmount === 0 || state.four === 'account' ? '' : `Refund method：  account(${state.four}),${threeChangeAmount}$`}`,
           }),
         });
       }
@@ -210,7 +210,7 @@ const reducer = (state = defaultState, action) => {
           two: `${twoChangeCurrency}${state.symbol}`,
           three: `${threeChangeCurrency}${state.symbol}`,
           submitValue: assign({}, state.submitValue, {
-            remark: `${state.one}:\nRefund method：account,${twoChangeCurrency}${state.symbol}\n${threeChangeCurrency === 0 || state.four === 'account' ? '' : `Refund method：(${state.four}),${threeChangeCurrency}${state.symbol}`}`,
+            remark: `${state.one}:\nRefund method：account,${twoChangeCurrency}${state.symbol}\n${threeChangeCurrency === 0 || state.four === 'account' ? '' : `Refund method:  account(${state.four}),${threeChangeCurrency}${state.symbol}`}`,
           }),
         });
       }
