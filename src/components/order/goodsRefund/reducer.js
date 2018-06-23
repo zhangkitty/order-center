@@ -503,7 +503,7 @@ const reducer = (state = defaultState, action) => {
       const sym = (refPRemark[0] || {}).symbol || '';
       const shippingString = DefaultValue ? '（shipping and shipping insurance fee also be refunded)' : '';
       const RefundItems = `Refund items：${refundGoods.join(',')}\n`;
-      const RefundAmount = `Refund amount:${tot}${sym}-0${sym}(RL)=${tot}${sym}`;
+      const RefundAmount = `Refund amount:${Number(tot).toFixed(2)}${sym}-0${sym}(RL)=${Number(tot).toFixed(2)}${sym}`;
       const ShippingAndInsurance = `${shippingString}\n`;
       const RefundMethod = RefundM.join(' , ');
       const remark = `${RefundItems}${RefundAmount}${ShippingAndInsurance}${RefundMethod}`;
@@ -614,7 +614,6 @@ const reducer = (state = defaultState, action) => {
       const totalChangeInsu = arrInsu.reduce((sum, value) => sum += value.moneyWithnoSymbol, 0);
       const symbStrInsu = arrInsu[0] && arrInsu[0].symbol;
       const refundAmountStrInsu = `Refund amount:${totalChangeInsu + state.rlFee}${symbStrInsu}-${state.rlFee}${symbStrInsu}(RL) = ${totalChangeInsu}${symbStrInsu}`;
-
       return assign({}, state, {
         refundPaths,
         RefundMethod: methodStrInsu,
@@ -669,7 +668,7 @@ const reducer = (state = defaultState, action) => {
             : `${+Number(resultCurrency[v.refundPathId]).toFixed(2)}${v.symbol}`,
       }));
       const refPRemarkRl = refundPaths.filter(v => v.refundAmount > 0);
-      const RefundMRl = refPRemarkRl.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`);
+      const RefundMRl = refPRemarkRl.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`);
       const totRl = refPRemarkRl.reduce((sum, value) => sum += (+value.moneyWithnoSymbol), 0).toFixed(2);
       const symRl = refPRemarkRl[0].symbol;
       const RefundAmountRl = `Refund amount:${+Number(+totRl + action.val).toFixed(2)}${symRl}-${action.val}${symRl}(RL)=${totRl}${symRl}`;

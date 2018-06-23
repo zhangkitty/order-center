@@ -205,7 +205,6 @@ const reducer = (state = defaultState, action) => {
       });
 
     case TYPES.changeCurrency:
-      console.log(state.refundPaths);
       return assign({}, state, {
         refundPaths: state.refundPaths.map(v => assign({}, v, {
           remark: v.refundPathId === action.channel ?
