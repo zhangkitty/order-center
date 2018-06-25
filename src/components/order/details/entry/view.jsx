@@ -62,7 +62,10 @@ class DetailsEntry extends Component {
             onChange={(v) => {
               dispatch(getInfo(orderId, billno, v));
               if (v === 'refund') {
-                dispatch(getRefundBillListByOrderIdSer(orderId, 'user', 1));
+                dispatch(commit('refundTableMoreLoad', true));
+                setTimeout(() => {
+                  dispatch(getRefundBillListByOrderIdSer(orderId, 'user', 1));
+                }, 2000);
               }
               dispatch(commit('activeKey', v));
             }}

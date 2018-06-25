@@ -221,11 +221,11 @@ class Refund extends Component {
           </div>
            }
           {
-            Array.isArray(refund.add_refund_bill_list) &&
+            Array.isArray(refund.add_refund_bill_list || []) &&
               <div>
                 <Table
                   rowKey="id"
-                  dataSource={[...refund.add_refund_bill_list] || []}
+                  dataSource={[...(refund.add_refund_bill_list || [])]}
                   pagination={false}
                   loading={refundTableMoreLoad}
                   columns={[
