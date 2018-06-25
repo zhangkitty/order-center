@@ -7,6 +7,12 @@ import { under2Camal } from '../../../../lib/camal';
 
 
 const defaultState = {
+  symbol: '',
+  is_usd: null,
+  one: '', // 记录是提现退款还是退款返还
+  two: '', // 记录美金价格
+  three: '', // 记录支付货币价格
+  four: 'account', // 记录account
   ready: false,
   dataSource: {},
   refundInfo: {},
@@ -38,6 +44,7 @@ const defaultState = {
     canWithdrawAmount: '',   // 可提现金额（下单时的币种）
     notWithdrawAmount: '',   // 不可提现金额（下单时的币种）
     remark: '',
+    max: null,
   },
   valueTitle: { // 提示
     refundMethodTitle: '',
@@ -56,11 +63,19 @@ function min(a, b) {
   return a;
 }
 
+function chooseMax(a, b) {
+  if (a > b) {
+    return a;
+  }
+  return b;
+}
+
 const reducer = (state = defaultState, action) => {
   switch (action.type) {
     case TYPES.INIT:
-      return defaultState;
+      return state;
     case TYPES.GET_DATA_SUCCESS:
+
       const max1 = Number(Number(
         Number(under2Camal(action.res).walletExtractable.priceWithExchangeRate.amount)
         +
@@ -83,7 +98,21 @@ const reducer = (state = defaultState, action) => {
       const max = under2Camal(action.res).isUsd ? min(max3, max4) : min(max1, max2);
 
       const rate2 = Number(under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate);   // 下单币种汇率
+      const one = state.submitValue.refundType === 3 ? 'Refund Withdraw' : 'Refund Returned';
+      const { is_usd } = action.res;
+      const refundAmount = (max3 < max4) ? max3 : max4;// 美元金额
+      const refundCurrency = (max1 < max2) ? max1 : max2; // 金额（下单币种）
+      const { price_usd, price_with_exchange_rate } = action.res.refunded_wallet_amount;
+      const symbol = is_usd ? price_usd.symbol : price_with_exchange_rate.symbol;
+      const two = `${is_usd ? min(refundAmount, action.res.wallet_extractable.amount) : min(refundCurrency, action.res.wallet_extractable.price_with_exchange_rate.amount)}${symbol}`;
+      const three =
+          `${is_usd ? +Number(chooseMax(refundAmount - action.res.wallet_extractable.amount, 0)).toFixed(2) : +Number(chooseMax(refundCurrency - action.res.wallet_extractable.price_with_exchange_rate.amount, 0)).toFixed(2)}${symbol}`;
       return assign({}, state, {
+        symbol,
+        is_usd,
+        one,
+        two,
+        three,
         ready: true,
         dataSource: under2Camal(action.res),
         refundTypeList: under2Camal(action.res).refundTypeList, // 退款路径列表
@@ -98,17 +127,12 @@ const reducer = (state = defaultState, action) => {
         under2Camal(action.res).walletNotExtractable.priceWithExchangeRate.amount
         : under2Camal(action.res).walletNotExtractable.priceUsd.amount, // 钱包不提现（下单币种）
         submitValue: assign({}, state.submitValue, {
-          refundAmount: max3 < max4 ? max3 : max4, // 美元金额
-          refundCurrency: max1 < max2 ? max1 : max2, // 金额（下单币种）
+          remark: `${one};\nRefund method：account,${two}\n${chooseMax(refundAmount - action.res.wallet_extractable.amount, 0) === 0 ? '' : `${`Refund method：account,${three}`}`}`,
+          refundAmount, // 美元金额
+          refundCurrency, // 金额（下单币种）
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
-          max, // 金额最大值（下单币种
-          // refundMethod: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
-          // account: under2Camal(action.res).orderRefundUnderlineAccount.accountInfo,
-          // bankCode: under2Camal(action.res).orderRefundUnderlineAccount.bankCode,
-          // cardNumber: under2Camal(action.res).orderRefundUnderlineAccount.cardNumber,
-          // customer: under2Camal(action.res).orderRefundUnderlineAccount.customerName,
-          // issuingCity: under2Camal(action.res).orderRefundUnderlineAccount.issuingCity,
+          max, // 金额最大值（下单币种)
         }),
         valueTitle: assign({}, state.valueTitle, {  // 提示
           refundMethodTitle: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
@@ -139,6 +163,69 @@ const reducer = (state = defaultState, action) => {
       return assign({}, state, {
         submitValue: assign({}, state.submitValue, {
           [action.key]: action.value,
+        }),
+      });
+
+    case TYPES.changeRadio:
+      const oneChangeRadio = state.submitValue.refundType === 3 ? 'Refund Withdraw' : 'Refund Returned';
+      const twoChangeRadio = state.is_usd ? min(state.submitValue.refundAmount, state.dataSource.walletExtractable.priceUsd.amount) : min(state.submitValue.refundCurrency, state.dataSource.walletExtractable.priceWithExchangeRate.amount);
+      const threeChangeRadio = state.is_usd ? +Number(chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0)).toFixed(2) : +Number(chooseMax(state.submitValue.refundCurrency - state.dataSource.walletExtractable.priceWithExchangeRate.amount, 0)).toFixed(2);
+      return assign({}, state, {
+        one: oneChangeRadio,
+        two: `${twoChangeRadio}${state.symbol}`, // 记录可提现价格
+        three: `${threeChangeRadio}${state.symbol}`, // 记录不可提现价格
+        // four: 'account', // 记录account
+        submitValue: assign({}, state.submitValue, {
+          remark: state.submitValue.refundType === 4 ?
+              `${oneChangeRadio}\nRefund method：account, ${state.is_usd ? state.submitValue.refundAmount : state.submitValue.refundCurrency}${state.symbol}`
+              : `${oneChangeRadio}\nRefund method：account,${twoChangeRadio}${state.symbol}\n${threeChangeRadio === 0 ? '' : `Refund method：  account${state.four === 'account' ? '' : `(${state.four})`},${threeChangeRadio}${state.symbol}`}`,
+        }),
+      });
+
+    case TYPES.changeAmount:
+      if (state.submitValue.refundType === 3) {
+        const twoChangeAmount = min(state.submitValue.refundAmount, state.dataSource.walletExtractable.priceUsd.amount);
+        const threeChangeAmount = +Number(chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0)).toFixed(2);
+        return assign({}, state, {
+          two: `${twoChangeAmount}$`,
+          three: `${threeChangeAmount}$`,
+          submitValue: assign({}, state.submitValue, {
+            remark: `${state.one}:\nRefund method：account,${twoChangeAmount}$\n${threeChangeAmount === 0 || state.four === 'account' ? '' : `Refund method：  account(${state.four}),${threeChangeAmount}$`}`,
+          }),
+        });
+      }
+      return assign({}, state, {
+        submitValue: assign({}, state.submitValue, {
+          remark: `${state.one}:\nRefund method：account,${state.submitValue.refundAmount}${state.symbol}`,
+        }),
+      });
+
+
+    case TYPES.changeCurrency:
+      console.log(state.four);
+      if (state.submitValue.refundType === 3) {
+        const twoChangeCurrency = min(state.submitValue.refundCurrency, state.dataSource.walletExtractable.priceWithExchangeRate.amount);
+        const threeChangeCurrency = +Number(chooseMax(state.submitValue.refundCurrency - state.dataSource.walletExtractable.priceWithExchangeRate.amount, 0)).toFixed(2);
+        return assign({}, state, {
+          two: `${twoChangeCurrency}${state.symbol}`,
+          three: `${threeChangeCurrency}${state.symbol}`,
+          submitValue: assign({}, state.submitValue, {
+            remark: `${state.one}:\nRefund method：account,${twoChangeCurrency}${state.symbol}\n${threeChangeCurrency === 0 || state.four === 'account' ? '' : `Refund method:  account(${state.four}),${threeChangeCurrency}${state.symbol}`}`,
+          }),
+        });
+      }
+      return assign({}, state, {
+        submitValue: assign({}, state.submitValue, {
+          remark: `${state.one}:\nRefund method：account,${state.submitValue.refundCurrency}${state.symbol}`,
+        }),
+      });
+
+
+    case TYPES.selectRemark:
+      return assign({}, state, {
+        four: state.submitValue.refundMethod,
+        submitValue: assign({}, state.submitValue, {
+          remark: `${state.one}:\nRefund method:account,${state.two}\n${parseFloat(state.three) === 0 ? '' : `Refund method:account(${state.submitValue.refundMethod}),${state.three}`}`,
         }),
       });
     default:

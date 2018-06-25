@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Radio, Input, Checkbox, Select } from 'antd';
-import { changeChannelValue, change } from './action';
+import { changeChannelValue, change, changeAmount, changeCurrency } from './action';
 import style from './style.css';
 
 const inline = {
@@ -83,8 +83,8 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                 value={+Number(refundAmount).toFixed(2)}
                 onChange={(e) => {
                   const value = e.target.value;
-                  dispatch(changeChannelValue(refundPathId, 'refundAmount', +Number(value).toFixed(2)));
                   dispatch(changeChannelValue(refundPathId, 'refundCurrency', +Number(value * priceWithExchangeRate.rate).toFixed(2)));
+                  dispatch(changeChannelValue(refundPathId, 'refundAmount', +Number(value).toFixed(2)));
                   if (refundPathId === 3) {
                     dispatch(changeChannelValue(4, 'checked', false));
                     if (+Number(value).toFixed(2) === maxTips[refundPathId].priceUsd.amount) {
@@ -95,6 +95,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                     dispatch(changeChannelValue(refundPathId, 'refundAmount', 0));
                     dispatch(changeChannelValue(refundPathId, 'refundCurrency', 0));
                   }
+                  dispatch(changeAmount());
                 }}
               />
               <span className={style.spanMargin}>{priceWithExchangeRate.symbol}</span>
@@ -105,8 +106,8 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                 value={Number(refundCurrency).toFixed(2)}
                 onChange={(e) => {
                   const value = e.target.value;
-                  dispatch(changeChannelValue(refundPathId, 'refundCurrency', Number(e.target.value).toFixed(2)));
                   dispatch(changeChannelValue(refundPathId, 'refundAmount', Number(e.target.value / priceWithExchangeRate.rate).toFixed(2)));
+                  dispatch(changeChannelValue(refundPathId, 'refundCurrency', Number(e.target.value).toFixed(2)));
                   if (refundPathId === 3) {
                     dispatch(changeChannelValue(4, 'checked', false));
                     if (+Number(value).toFixed(2) === maxTips[refundPathId].priceWithExchangeRate.amount) {
@@ -117,6 +118,7 @@ const RefundChannelGroup = ({ channels, dispatch, maxTips, isUsd }) => {
                     dispatch(changeChannelValue(refundPathId, 'refundCurrency', 0));
                     dispatch(changeChannelValue(refundPathId, 'refundAmount', 0));
                   }
+                  dispatch(changeCurrency());
                 }}
               />
               {
