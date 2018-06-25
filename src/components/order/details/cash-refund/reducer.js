@@ -178,7 +178,7 @@ const reducer = (state = defaultState, action) => {
         submitValue: assign({}, state.submitValue, {
           remark: state.submitValue.refundType === 4 ?
               `${oneChangeRadio}\nRefund method：account, ${state.is_usd ? state.submitValue.refundAmount : state.submitValue.refundCurrency}${state.symbol}`
-              : `${oneChangeRadio}\nRefund method：account,${twoChangeRadio}${state.symbol}\n${threeChangeRadio === 0 ? '' : `Refund method：  account${state.four},${threeChangeRadio}${state.symbol}`}`,
+              : `${oneChangeRadio}\nRefund method：account,${twoChangeRadio}${state.symbol}\n${threeChangeRadio === 0 ? '' : `Refund method：  account${state.four === 'account' ? '' : `(${state.four})`},${threeChangeRadio}${state.symbol}`}`,
         }),
       });
 
