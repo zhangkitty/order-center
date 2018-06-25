@@ -59,25 +59,27 @@ const TrackTrouble = ({
           <span>{lan.qsType}</span>
           <span style={{ color: 'red' }}>*</span>
         </div>
-        {
-          trackTroubleTypes.map(v => (
-            <div key={v.desc.type}>
-              <p className={Styles.troubleDesc}>{v.desc.type}</p>
-              <RG
-                required
-                value={trackTroubleForm.trouble_type}
-                onChange={(e) => {
-                  dispatch(commit('trackTroubleForm', assign({}, trackTroubleForm, { trouble_type: e.target.value, post_trouble_cate: v.desc.id })));
-                }}
-              >
-                {
-                  Object.keys(v.value).map(d => v.value[d])
-                    .map(d => <Radio disabled={!d.available} value={d.id} style={{ width: '30%' }}>{d.name}</Radio>)
-                }
-              </RG>
-            </div>
-          ))
-        }
+        <div className={Styles.troubleIssueLay2}>
+          {
+            trackTroubleTypes.sort((a, b) => b.desc.id - a.desc.id).map(v => (
+              <div key={v.desc.type} style={{ width: '45%', marginLeft: '5%' }}>
+                <p className={Styles.troubleDesc}>{v.desc.type}:</p>
+                <RG
+                  required
+                  value={trackTroubleForm.trouble_type}
+                  onChange={(e) => {
+                    dispatch(commit('trackTroubleForm', assign({}, trackTroubleForm, { trouble_type: e.target.value, post_trouble_cate: v.desc.id })));
+                  }}
+                >
+                  {
+                    Object.keys(v.value).map(d => v.value[d])
+                      .map(d => <Radio disabled={!d.available} value={d.id} style={{ width: '50%' }}>{d.name}</Radio>)
+                  }
+                </RG>
+              </div>
+            ))
+          }
+        </div>
       </div>
       <div style={{ marginBottom: '20px' }}>
         <span>{lan.qsDesc}</span>

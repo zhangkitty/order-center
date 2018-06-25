@@ -735,7 +735,7 @@ const SingleRow = (props) => {
                   flag = true;
                 } else if (item.goods_status === 54 && ['India', 'Thailand', 'Taiwan', 'Indonesia'].indexOf(item.country_name) > -1) {
                   flag = true;
-                } else if (item.goods_status === (126 || 127) &&
+                } else if ((item.goods_status === 126 || item.goods_status === 127) &&
                   ['Saudi Arabia', 'United Arab Emirates', 'Kuwait', 'Qatar', 'Oman', 'Bahrain'].indexOf(item.country_name) < 0
                   && item.payment_method.toLowerCase !== 'cod') {
                   flag = true;
