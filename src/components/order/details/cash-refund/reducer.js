@@ -172,8 +172,8 @@ const reducer = (state = defaultState, action) => {
       const threeChangeRadio = state.is_usd ? +Number(chooseMax(state.submitValue.refundAmount - state.dataSource.walletExtractable.priceUsd.amount, 0)).toFixed(2) : +Number(chooseMax(state.submitValue.refundCurrency - state.dataSource.walletExtractable.priceWithExchangeRate.amount, 0)).toFixed(2);
       return assign({}, state, {
         one: oneChangeRadio,
-        two: twoChangeRadio, // 记录可提现价格
-        three: threeChangeRadio, // 记录不可提现价格
+        two: `${twoChangeRadio}${state.symbol}`, // 记录可提现价格
+        three: `${threeChangeRadio}${state.symbol}`, // 记录不可提现价格
         // four: 'account', // 记录account
         submitValue: assign({}, state.submitValue, {
           remark: state.submitValue.refundType === 4 ?
