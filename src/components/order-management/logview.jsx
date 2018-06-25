@@ -12,8 +12,10 @@ const lan = {
 };
 
 const table = {
-  0: 'exportNotifyAliSellerShipmentLog',
-  1: 'exportSyncAliOrderLog',
+  0: 'AliOrder/exportNotifyAliSellerShipmentLog',
+  1: 'AliOrder/exportSyncAliOrderLog',
+  2: 'JoomOrder/exportNotifyJoomSellerShipmentLog',
+  3: 'JoomOrder/exportSyncJoomOrderLog',
 };
 
 const Om = (props) => {
@@ -52,7 +54,7 @@ const Om = (props) => {
 
 
               <a
-                href={`${location.origin}/index_new.php/Order/AliOrder/${table[index]}?date=${rec.date}`}
+                href={`${location.origin}/index_new.php/Order/${table[index]}?date=${rec.date}`}
                 target="_blank"
                 style={{ marginLeft: '25px' }}
               >{lan.日志下载}</a>
