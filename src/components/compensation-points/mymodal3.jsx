@@ -44,6 +44,8 @@ const Mymodal3 = (props) => {
             value={country3.toLocaleString() === 'all' ? undefined : country3}
             onChange={value => dispatch(changeValue('country3', value))}
             mode="multiple"
+            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+
           >
             {
               all_country.map(v => <Option value={v.id}>{v.country}</Option>)
@@ -58,10 +60,10 @@ const Mymodal3 = (props) => {
             className={styles.lineright}
             onChange={value => dispatch(changeValue('COD_status3', value))}
           >
+            <Option value={null}>全部</Option>
             {
               all_COD_status.map((v, idx) => <Option value={++idx}>{v}</Option>)
             }
-
           </Select>
         </div>
         <div className={styles.line}>
@@ -72,6 +74,7 @@ const Mymodal3 = (props) => {
             value={order_status3 || null}
             onChange={value => dispatch(changeValue('order_status3', value))}
           >
+            <Option value={null}>全部</Option>
             {
               all_order_status.map((v, idx) => <Option value={++idx}>{v}</Option>)
             }
@@ -122,6 +125,12 @@ const Mymodal3 = (props) => {
           </Popover>
 
 
+        </div>
+
+        <div className={styles.line} style={{ flexDirection: 'column' }}>
+          {
+            selectedRows3.map(v => <div style={{ margin: 5, textAlign: 'center' }}>{v.point_type_id}{v.type_name}</div>)
+          }
         </div>
 
       </article>

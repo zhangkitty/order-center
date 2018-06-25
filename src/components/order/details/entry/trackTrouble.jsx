@@ -44,7 +44,8 @@ const columnsRemark = [{
 }];
 
 const TrackTrouble = ({
-  dispatch, trackTroubleTypes, trackTroubleForm, trackTroubleShow, trackImages, switchRemarkOpen, switchRemarkList, addRemarkOpen, note,
+  dispatch, trackTroubleTypes, trackTroubleForm, trackTroubleShow, trackImages,
+  switchRemarkOpen, switchRemarkList, addRemarkOpen, note,
 }) => (
   <Modal
     footer={null}
@@ -53,19 +54,32 @@ const TrackTrouble = ({
     onCancel={() => dispatch(commit('trackTroubleShow', false))}
   >
     <form style={{ padding: '15px' }}>
-      <div style={{ marginBottom: '20px' }}>
-        <span>{lan.qsType}</span><span style={{ color: 'red' }}>*</span>
-        <RG
-          required
-          value={trackTroubleForm.trouble_type}
-          onChange={e => dispatch(commit('trackTroubleForm', assign({}, trackTroubleForm, { trouble_type: e.target.value })))}
-        >
+      <div className={Styles.troubleIssueLay}>
+        <div>
+          <span>{lan.qsType}</span>
+          <span style={{ color: 'red' }}>*</span>
+        </div>
+        <div className={Styles.troubleIssueLay2}>
           {
-            trackTroubleTypes.map(v => (
-              <Radio disabled={!v.available} value={v.id} style={{ width: '40%' }}>{v.name}</Radio>
+            trackTroubleTypes.sort((a, b) => b.desc.id - a.desc.id).map(v => (
+              <div key={v.desc.type} style={{ width: '45%', marginLeft: '5%' }}>
+                <p className={Styles.troubleDesc}>{v.desc.type}:</p>
+                <RG
+                  required
+                  value={trackTroubleForm.trouble_type}
+                  onChange={(e) => {
+                    dispatch(commit('trackTroubleForm', assign({}, trackTroubleForm, { trouble_type: e.target.value, post_trouble_cate: v.desc.id })));
+                  }}
+                >
+                  {
+                    Object.keys(v.value).map(d => v.value[d])
+                      .map(d => <Radio disabled={!d.available} value={d.id} style={{ width: '50%' }}>{d.name}</Radio>)
+                  }
+                </RG>
+              </div>
             ))
           }
-        </RG>
+        </div>
       </div>
       <div style={{ marginBottom: '20px' }}>
         <span>{lan.qsDesc}</span>
