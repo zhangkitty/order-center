@@ -356,12 +356,15 @@ export const fetchrlfeeSer = (orderId)=>(
 )
 
 //提交RL费用
-export const rebuildrlSer = (d)=>(
-    fetch((`${RL.postRlFeeSer}`),{
-      method:'POST',
-      body:JSON.stringify(camel2Under(d))
-    })
-)
+export const rebuildrlSer = (d)=>{
+  const keys =  ['language', 'order_id', 'rl_fee', 'return_order_id', 'shipping_type', 'billno']
+  return fetch((`${RL.postRlFeeSer}`),{
+    method:'POST',
+    body:JSON.stringify(camel2Under(d))
+  })
+}
+
+
 
 //填写账户信息
 export const refundAccountSer = (data)=> {

@@ -9,6 +9,8 @@ export const change = makeActionCreator(types.change, 'key', 'val');
 export const initSerSuccess = makeActionCreator(types.initSerSuccess, 'data');
 export const changeChannelValue = makeActionCreator(types.changeChannelValue, 'channel', 'key', 'val');
 export const changeShipping = makeActionCreator(types.changeShipping, 'val');
+export const changeRadioValue = makeActionCreator(types.changeRadioValue, 'val');
+export const changeInput = makeActionCreator(types.changeInput);
 export const changeRlFee = makeActionCreator(types.changeRlFee, 'val');
 export const submit = makeActionCreator(types.submit, 'val');
 export const changeShippingInsurance = makeActionCreator(types.changeShippingInsurance, 'val');
@@ -74,4 +76,8 @@ export const allback = (back, rl, typeId) => ({
 });
 export const copyPaymentMethod = () => ({
   type: types.COPY_PAYMENT_METHOD,
+});
+
+export const changeRefundMethod = () => ({
+  type: types.changeRefundMethod,
 });
