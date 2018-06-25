@@ -1,12 +1,12 @@
 import assign from 'object-assign';
 import fetch from '../../../lib/fetch';
 import { camel2Under,under2Camal } from  '../../../lib/camal';
-import { parseQuery } from '../../../lib/query-string';
+import queryString, { parseQuery } from '../../../lib/query-string';
 
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
   payShow: '/orderDetail/payShow', // 支付信息
-  refund: '/OrderDiffRefund/getRefundBillListOfOrder', // 退款信息
+  refund: '/OrderDiffRefund/getRefundBillList', // 退款信息
   orderReturn: '/orderReturn/getReturnOrder', // 退货信息
   orderRecord: '/Order/getOrderRecord', // 订单日志
   refundEmail: '/orderDetail/refundEmail', // 更新邮箱
@@ -84,14 +84,14 @@ const question = {
 };
 
 
-export const getInfoSer = (id, bill) => {
+export const getInfoSer = (id, bill, page) => {
   const base = () => fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
     method: 'GET',
   });
   const pay = () => fetch(`${entry.payShow}?order_id=${id}`, {
     method: 'GET',
   });
-  const refund = () => fetch(`${entry.refund}?order_id=${id}`, {
+  const refund = () => fetch(`${entry.refund}?order_id=${id}&page=${page || 1}`, {
     method: 'GET',
   });
   const orderReturn = () => fetch(entry.orderReturn, {
@@ -104,11 +104,14 @@ export const getInfoSer = (id, bill) => {
   return {base, pay, refund, orderReturn, logs};
 }
 
-export const getefundbBillistbyorderidSer = (orderId)=>(
-  fetch(`/OrderDiffRefund/getRefundBillListByOrderId?order_id=${orderId}`,{
-    method:'get'
-  })
-)
+export const getefundbBillistbyorderidSer = (orderId, by, page)=> {
+  const req = queryString(['order_id', 'by', 'page'], {order_id: orderId, by, page});
+  return (
+    fetch(`/OrderDiffRefund/getRefundBillList?${req}`,{
+      method:'get'
+    })
+  )
+}
 
 
 export const updateEmailSer = (order_id, email) => (

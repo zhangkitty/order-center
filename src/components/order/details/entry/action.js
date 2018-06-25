@@ -10,20 +10,23 @@ export const commit2 = (key, value) => ({
   key,
   value,
 });
-export const getInfo = (id, bill, key) => ({
+export const getInfo = (id, bill, key, page) => ({
   type: TYPES.GET_INFO,
   id,
   bill,
   key,
+  page,
 });
 export const getInfoSuccess = (data, key) => ({
   type: TYPES.GET_INFO_SUCCESS,
   data,
   key,
 });
-export const getRefundBillListByOrderIdSer = orderId => ({
+export const getRefundBillListByOrderIdSer = (orderId, by, page) => ({
   type: TYPES.GETREFUNDBILLLISTBYORDERIDSER,
   orderId,
+  by,
+  page,
 });
 export const addOrderRefundInfo = val => ({
   type: TYPES.ADDORDERREFUNDINFO,
@@ -230,3 +233,5 @@ export const changeRl = rl => ({
 export const clearRL = () => ({
   type: TYPES.CLEAR_RL,
 });
+export const refundChangePage = (orderId, page) => ({ type: TYPES.refundChangePage, orderId, page });
+export const refundChangePageSuccess = data => ({ type: TYPES.refundChangePageSuccess, data });
