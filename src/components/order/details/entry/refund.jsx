@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import assign from 'object-assign';
 import { Link } from 'react-router';
-import { Table, Card, Popconfirm, Button, Modal, Input, Select, Icon, message } from 'antd';
-import { cancelRefund, commit, commit2, refundAccount, getRefundBillListByOrderIdSer } from './action';
+import { Table, Card, Popconfirm, Button, Modal, Input, Select, Icon, message, Pagination } from 'antd';
+import { cancelRefund, commit, commit2, refundAccount, getRefundBillListByOrderIdSer, refundChangePage } from './action';
 import style from './style.css';
 
 
@@ -43,6 +43,9 @@ class Refund extends Component {
       refund_account,
       dispatch,
       RefundShow,
+      refundCurrentPage,
+      refundTableLoad,
+      refundTableMoreLoad,
     } = this.props;
     const {
       order_id,
@@ -53,6 +56,7 @@ class Refund extends Component {
       customer,
       card_number,
       issuing_city,
+      add_refund_bill_list_count,
     //  refund_method_account,
     } = refund_account;
     return (
@@ -96,6 +100,8 @@ class Refund extends Component {
           <Table
             rowKey="id"
             dataSource={[...refund.refund_bill_list] || []}
+            pagination={false}
+            loading={refundTableLoad}
             columns={[
               {
                 title: lan.bianhao,
@@ -189,6 +195,17 @@ class Refund extends Component {
               },
             ]}
           />
+          <div className={style.pageLay}>
+            <Pagination
+              defaultCurrent={1} total={refund.count}
+              current={refundCurrentPage || 1}
+              onChange={(page) => {
+                dispatch(commit('refundCurrentPage', page));
+                dispatch(refundChangePage(orderId, page));
+              }}
+            />
+          </div>
+
           {
           !!(refund.isPlatformOrders === 0) &&
           <div
@@ -205,77 +222,80 @@ class Refund extends Component {
            }
           {
             Array.isArray(refund.add_refund_bill_list) &&
-            <Table
-              rowKey="id"
-              dataSource={[...refund.add_refund_bill_list] || []}
-              columns={[
-                {
-                  title: lan.bianhao,
-                  dataIndex: 'id',
-                  width: '60px',
-                },
-                {
-                  title: __('order.name.order_number'),
-                  dataIndex: 'billno',
-                  width: '80px',
-                },
-                {
-                  title: lan.leixing,
-                  dataIndex: 'type',
-                  width: '80px',
-                },
-                {
-                  title: lan.shijian,
-                  dataIndex: 'date_of_application',
-                  width: '130px',
-                },
-                {
-                  title: lan.ren,
-                  dataIndex: 'applicant',
-                  width: '60px',
-                },
-                {
-                  title: `${lan.lujin} : ${lan.jine}`,
-                  dataIndex: 'refund_record_list',
-                  // width: '130px',
-                  render: d => (
-                    d.map(v => (
-                      <p key={v.refund_path_name}>{v.refund_path_name}: {v.amount.price_usd.amount_with_symbol} --- {v.amount.price_with_exchange_rate.amount_with_symbol}</p>
-                    ))
-                  ),
-                },
-                {
-                  title: lan.shangpin,
-                  dataIndex: 'refund_goods_list',
-                  width: '180px',
-                  render: d => (<span>{d.join('、')}</span>),
-                },
-                {
-                  title: lan.yuanyin,
-                  dataIndex: 'refund_reason',
-                  width: '70px',
-                },
-                {
-                  title: lan.zhaungtai,
-                  dataIndex: 'status',
-                  width: '80px',
-                },
-                {
-                  title: lan.bohuiyuanyin,
-                  dataIndex: 'reject_reason',
-                  width: '100px',
-                },
-                {
-                  title: lan.pingzhenghao,
-                  dataIndex: 'refund_txn_id',
-                  width: '100px',
-                },
-                {
-                  title: lan.caozuo,
-                  width: '100px',
-                  render: rec => (
-                    <div>
-                      {
+              <div>
+                <Table
+                  rowKey="id"
+                  dataSource={[...refund.add_refund_bill_list] || []}
+                  pagination={false}
+                  loading={refundTableMoreLoad}
+                  columns={[
+                    {
+                      title: lan.bianhao,
+                      dataIndex: 'id',
+                      width: '60px',
+                    },
+                    {
+                      title: __('order.name.order_number'),
+                      dataIndex: 'billno',
+                      width: '80px',
+                    },
+                    {
+                      title: lan.leixing,
+                      dataIndex: 'type',
+                      width: '80px',
+                    },
+                    {
+                      title: lan.shijian,
+                      dataIndex: 'date_of_application',
+                      width: '130px',
+                    },
+                    {
+                      title: lan.ren,
+                      dataIndex: 'applicant',
+                      width: '60px',
+                    },
+                    {
+                      title: `${lan.lujin} : ${lan.jine}`,
+                      dataIndex: 'refund_record_list',
+                      // width: '130px',
+                      render: d => (
+                        d.map(v => (
+                          <p key={v.refund_path_name}>{v.refund_path_name}: {v.amount.price_usd.amount_with_symbol} --- {v.amount.price_with_exchange_rate.amount_with_symbol}</p>
+                        ))
+                      ),
+                    },
+                    {
+                      title: lan.shangpin,
+                      dataIndex: 'refund_goods_list',
+                      width: '180px',
+                      render: d => (<span>{d.join('、')}</span>),
+                    },
+                    {
+                      title: lan.yuanyin,
+                      dataIndex: 'refund_reason',
+                      width: '70px',
+                    },
+                    {
+                      title: lan.zhaungtai,
+                      dataIndex: 'status',
+                      width: '80px',
+                    },
+                    {
+                      title: lan.bohuiyuanyin,
+                      dataIndex: 'reject_reason',
+                      width: '100px',
+                    },
+                    {
+                      title: lan.pingzhenghao,
+                      dataIndex: 'refund_txn_id',
+                      width: '100px',
+                    },
+                    {
+                      title: lan.caozuo,
+                      width: '100px',
+                      render: rec => (
+                        <div>
+                          {
                             Number(rec.type_id) < 3 &&
                             (Number(rec.status_code) === 4 || Number(rec.status_code) === 1) ?
                               <Link
@@ -285,7 +305,7 @@ class Refund extends Component {
                                 {lan.xiugaishenqing}
                               </Link> : null
                           }
-                      {
+                          {
                             rec.status_code === 4 || rec.status_code === 1 ?
                               <Popconfirm
                                 title={lan.cancelRefund}
@@ -293,13 +313,21 @@ class Refund extends Component {
                               >
                                 <Button>{lan.quxiaotuikuai}</Button>
                               </Popconfirm>
-                                : null
+                              : null
                           }
-                    </div>
-                    ),
-                },
-              ]}
-            />
+                        </div>
+                      ),
+                    },
+                  ]}
+                />
+                <div className={style.pageLay}>
+                  <Pagination
+                    defaultCurrent={1} total={refund.add_refund_bill_list_count}
+                    onChange={page => dispatch(getRefundBillListByOrderIdSer(orderId, 'user', page))}
+                  />
+                </div>
+              </div>
+
           }
 
           <div>

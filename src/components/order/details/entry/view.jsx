@@ -62,7 +62,7 @@ class DetailsEntry extends Component {
             onChange={(v) => {
               dispatch(getInfo(orderId, billno, v));
               if (v === 'refund') {
-                dispatch(getRefundBillListByOrderIdSer(orderId));
+                dispatch(getRefundBillListByOrderIdSer(orderId, 'user', 1));
               }
               dispatch(commit('activeKey', v));
             }}
@@ -85,7 +85,7 @@ class DetailsEntry extends Component {
         </div>
       );
     }
-    return <Spin />;
+    return null;
   }
 }
 DetailsEntry.propTypes = {

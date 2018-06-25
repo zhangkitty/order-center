@@ -9,6 +9,7 @@ import {
   operationGoodsSuccess,
   remarkShowSuccess, remarkSaveSuccess, remarkShow, addOrderRefundInfo,
   switchRemarkSet, questionRemarkSaveSet, switchRemark, putRLList, clearRL,
+  refundChangePageSuccess,
 } from './action';
 
 import {
@@ -51,7 +52,7 @@ const lan = {
 /* eslint prefer-const: 0 */
 /* eslint consistent-return: 0 */
 function* getInfoSaga(action) {
-  const promise = getInfoSer(action.id, action.bill)[action.key];
+  const promise = getInfoSer(action.id, action.bill, action.page)[action.key];
   const data = yield promise();
   if (!data || data.code !== 0) {
     return message.warning(`${lan.fail}:${data.msg}`);
@@ -259,15 +260,25 @@ function* switchRemarkSaga(action) {
   }
   return yield put(switchRemarkSet(data.data));
 }
-function* getefundbBillistbyorderidSaga(action) {
-  yield put(commit('moreLoading', true));
-  const data = yield getefundbBillistbyorderidSer(action.orderId);
-  yield put(commit('moreLoading', false));
+function* getefundbBillistbyorderidSaga({ orderId, by, page }) {
+  yield put(commit('refundTableMoreLoad', true));
+  const data = yield getefundbBillistbyorderidSer(orderId, by, page);
+  yield put(commit('refundTableMoreLoad', false));
   if (!data || data.code !== 0) {
     return message.warning(`${lan.fail}:${data.msg}`);
   }
   yield put(addOrderRefundInfo(data.data));
 }
+function* refundChangePageSaga({ orderId, page }) {
+  yield put(commit('refundTableLoad', true));
+  const data = yield getefundbBillistbyorderidSer(orderId, '', page);
+  yield put(commit('refundTableLoad', false));
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.fail}:${data.msg}`);
+  }
+  yield put(refundChangePageSuccess(data.data));
+}
+
 // 物流问题反馈备注保存
 function* questionRemarkSaga(action) {
   const data = yield questionRemarkSer(action.types, action.note, action.numbers);
@@ -292,7 +303,6 @@ function* showRLModalSaga({ code, id }) {
 }
 
 function* changeRlSaga(action) {
-  console.log(action, 'action');
   if (!action.rl.rl_charge) return message.error(__('common.not_RL'));
   const result = yield changeRlSerer(action.rl.code, action.rl.rl_charge);
   if (result.code === 0) {
@@ -326,6 +336,7 @@ export default function* () {
   yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
   yield takeLatest(TYPES.REFUND_ACCOUNT, refundAccountSaga);
   yield takeLatest(TYPES.GETREFUNDBILLLISTBYORDERIDSER, getefundbBillistbyorderidSaga);
+  yield takeLatest(TYPES.refundChangePage, refundChangePageSaga);
   yield takeLatest(TYPES.CONFIRM_RECEIVED, confirmReceivedSaga);
   yield takeLatest(TYPES.SWITCH_REMARK, switchRemarkSaga);
   yield takeLatest(TYPES.QUESTION_REMARK_SAVE, questionRemarkSaga);
