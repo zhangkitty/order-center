@@ -2,7 +2,15 @@ import { Checkbox, Input, Select } from 'antd';
 import React from 'react';
 
 import style from './style.css';
-import { changeChannelValue, changeInputDisable } from './action';
+import {
+  changeChannelValue,
+  changeInputDisable,
+  changeRemark,
+  selectRemark,
+  changeAmount,
+  changeCurrency,
+  changeChecked,
+} from './action';
 
 
 const Option = Select.Option;
@@ -47,6 +55,7 @@ const price = ({
                      (e) => {
                        dispatch(changeChannelValue(v.refundPathId, 'checked', e.target.checked));
                        if (v.refundPathId === 2) dispatch(changeInputDisable(e.target.checked));
+                       dispatch(changeRemark(v.refundPathId, e.target.checked));
                      }
                    }
                  >
@@ -61,8 +70,9 @@ const price = ({
                  value={v.refundAmount}
                  onChange={
                      (e) => {
-                       dispatch(changeChannelValue(v.refundPathId, 'refundAmount', e.target.value));
                        dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', +Number(e.target.value * rate).toFixed(2)));
+                       dispatch(changeChannelValue(v.refundPathId, 'refundAmount', e.target.value));
+                       dispatch(changeAmount(v.refundPathId));
                      }
                    }
                />
@@ -72,8 +82,9 @@ const price = ({
                  disabled={isUsd !== 0}
                  value={v.refundCurrency}
                  onChange={(e) => {
-                   dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', e.target.value));
                    dispatch(changeChannelValue(v.refundPathId, 'refundAmount', +Number(e.target.value / rate).toFixed(2)));
+                   dispatch(changeChannelValue(v.refundPathId, 'refundCurrency', e.target.value));
+                   dispatch(changeCurrency(v.refundPathId));
                  }}
                />
 
@@ -94,6 +105,7 @@ const price = ({
                        value={v.refund_method}
                        onChange={(e) => {
                          dispatch(changeChannelValue(v.refundPathId, 'refund_method', e));
+                         dispatch(selectRemark(v.refundPathId));
                        }}
                      >
                        {

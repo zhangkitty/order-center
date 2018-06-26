@@ -7,6 +7,12 @@ import { under2Camal } from '../../../lib/camal';
 
 
 const defaultState = {
+  is_platform_order: null,
+  is_web_celebrity_order: null,
+  ShippingAndInsurance: '',
+  RefundMethod: '',
+  RefundItems: '',
+  RefundAmount: '',
   showtotalAmount: null,
   showtotalCurrency: null,
   ready: false,
@@ -378,11 +384,17 @@ const reducer = (state = defaultState, action) => {
         }),
         cachePaths: svInit(under2Camal(action.res)),
         isUsd: under2Camal(action.res).isUsd,
+        is_platform_order: action.res.order_price_info.is_platform_order,
+        is_web_celebrity_order: action.res.order_price_info.is_web_celebrity_order,
       });
     case TYPES.initSerSuccess:
+      console.log(action.data.orderPriceInfo.isPlatformOrder);
+      console.log(action.data.orderPriceInfo.isWebCelebrityOrder);
       const {
         orderPriceInfo,
         orderRefundUnderlineAccount,
+          orderGoods,
+        paymentMethod,
       } = action.data;
       const {
         hasShippingInsurancePriceRefunded,
@@ -457,12 +469,50 @@ const reducer = (state = defaultState, action) => {
         issuing_city: orderRefundUnderlineAccount.issuingCity,
         account: orderRefundUnderlineAccount.accountInfo,
       }));
+
+      const refundGoods = [];
+      orderGoods.map(v => refundGoods.push(v.goodsSort));
+      const table = {
+        1: 'gift card',
+        2: 'wallet',
+        3: 'account',
+        4: 'account(yesbank/paytm/paypal)',
+      };
+      const ref = refundPaths.map(v => assign({}, v, {
+        symbol:
+            paymentMethod.substr(0, 6) === 'PayPal' &&
+            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol.trim()}`)) ?
+                '$' : `${v.priceWithExchangeRate.symbol}`,
+        moneyWithnoSymbol:
+            paymentMethod.substr(0, 6) === 'PayPal' &&
+        (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol.trim()}`)) ?
+            `${v.refundAmount}`
+            :
+            `${v.refundCurrency}`,
+        refMarkE: table[v.refundPathId],
+        refMakrMoney:
+            paymentMethod.substr(0, 6) === 'PayPal' &&
+            (['ARS', 'BRL', 'KWD', 'AED', 'SAR', 'INR', 'BHD ', 'OMR'].includes(`${v.priceWithExchangeRate.symbol.trim()}`)) ?
+            `${+Number(v.refundAmount).toFixed(2)}${v.priceUsd.symbol}`
+                :
+            `${+Number(v.refundCurrency).toFixed(2)}${v.priceWithExchangeRate.symbol}`,
+      }));
+      const refPRemark = ref.filter(v => v.refundAmount > 0);
+      const RefundM = refPRemark.map(v => `Refund method：${v.refMarkE},${v.refMakrMoney}`);
+      const tot = refPRemark.reduce((sum, value) => sum += (+value.moneyWithnoSymbol), 0);
+      const sym = (refPRemark[0] || {}).symbol || '';
+      const shippingString = DefaultValue ? '（shipping and shipping insurance fee also be refunded)' : '';
+      const RefundItems = `Refund items：${refundGoods.join(',')}\n`;
+      const RefundAmount = `Refund amount:${Number(tot).toFixed(2)}${sym}-0${sym}(RL)=${Number(tot).toFixed(2)}${sym}`;
+      const ShippingAndInsurance = `${shippingString}\n`;
+      const RefundMethod = RefundM.join(' , ');
+      const remark = `${RefundItems}${RefundAmount}${ShippingAndInsurance}${RefundMethod}`;
       return assign({}, state, {
         showtotalAmount: totalAmount,
         showtotalCurrency: totalAmount * (+orderPriceInfo.totalPrice.priceWithExchangeRate.rate),
         maxTips,
         dataSource: action.data,
-        refundPaths,
+        refundPaths: ref,
         rate: +orderPriceInfo.totalPrice.priceWithExchangeRate.rate,
         hasShippingInsurancePriceRefunded,
         hasShippingPriceRefunded,
@@ -470,6 +520,14 @@ const reducer = (state = defaultState, action) => {
         shippingInsurance: DefaultValue ? 1 : 0,
         radioValue: isPlatformOrder === 1 ? 3 : (resultCurrency[2] > 0 ? 2 : 0),
         isUsd,
+        remark: action.data.orderPriceInfo.isPlatformOrder || action.data.orderPriceInfo.isWebCelebrityOrder ? '' : remark,
+        RefundItems,
+        RefundAmount,
+        RefundMethod,
+        ShippingAndInsurance,
+        is_platform_order: action.data.orderPriceInfo.isPlatformOrder,
+        is_web_celebrity_order: action.data.orderPriceInfo.isWebCelebrityOrder,
+
       });
     case TYPES.GET_REASON_SUCCESS:
       return assign({}, state, {
@@ -496,12 +554,31 @@ const reducer = (state = defaultState, action) => {
       }
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
+      const shippingTable = {
+        '00': '\n',
+        '01': '(shipping insurance fee also be refunded)\n',
+        10: '(shipping fee alse be refunded)\n',
+        11: '(shipping and shipping insurance fee also be refunded)\n',
+      };
+      const stringTemp = shippingTable[`${state.shipping}${state.shippingInsurance}`];
       refundPaths = state.refundPaths.map(v => assign({}, v, {
-        refundAmount: resultAmount[v.refundPathId],
-        refundCurrency: resultCurrency[v.refundPathId],
+        refundAmount: +Number(resultAmount[v.refundPathId]).toFixed(2),
+        refundCurrency: +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        moneyWithnoSymbol: v.symbol === '$' ? +Number(resultAmount[v.refundPathId]).toFixed(2) : +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        refMakrMoney: v.symbol === '$' ? `${+Number(resultAmount[v.refundPathId]).toFixed(2)}${v.symbol}`
+            : `${+Number(resultCurrency[v.refundPathId]).toFixed(2)}${v.symbol}`,
       }));
+      const arr = refundPaths.filter(v => v.checked === true && v.refundCurrency > 0);
+      const methodStr = arr.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
+      const totalChangeShipping = arr.reduce((sum, value) => sum += value.moneyWithnoSymbol, 0);
+      const symbStr = arr[0] && arr[0].symbol;
+      const refundAmountStr = `Refund amount:${Number(totalChangeShipping + state.rlFee).toFixed(2)}${symbStr}-${Number(state.rlFee).toFixed(2)}${symbStr}(RL) = ${Number(totalChangeShipping).toFixed(2)}${symbStr}`;
       return assign({}, state, {
         refundPaths,
+        RefundMethod: methodStr,
+        RefundAmount: refundAmountStr,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${refundAmountStr}${stringTemp}${methodStr}`,
+        ShippingAndInsurance: stringTemp,
       });
     case TYPES.COPY_PAYMENT_METHOD:
       return assign({}, state, {
@@ -517,12 +594,32 @@ const reducer = (state = defaultState, action) => {
       }
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
+      const ShippingInsuranceTable = {
+        '00': '\n',
+        '01': '(shipping insurance fee also be refunded)\n',
+        10: '(shipping fee alse be refunded)\n',
+        11: '(shipping and shipping insurance fee also be refunded)\n',
+      };
+
+      const shippingInsuranceString = ShippingInsuranceTable[`${state.shipping}${state.shippingInsurance}`];
       refundPaths = state.refundPaths.map(v => assign({}, v, {
-        refundAmount: resultAmount[v.refundPathId],
-        refundCurrency: resultCurrency[v.refundPathId],
+        refundAmount: +Number(resultAmount[v.refundPathId]).toFixed(2),
+        refundCurrency: +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        moneyWithnoSymbol: v.symbol === '$' ? +Number(resultAmount[v.refundPathId]).toFixed(2) : +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        refMakrMoney: v.symbol === '$' ? `${+Number(resultAmount[v.refundPathId]).toFixed(2)}${v.symbol}`
+            : `${+Number(resultCurrency[v.refundPathId]).toFixed(2)}${v.symbol}`,
       }));
+      const arrInsu = refundPaths.filter(v => v.checked === true && v.refundCurrency > 0);
+      const methodStrInsu = arrInsu.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
+      const totalChangeInsu = arrInsu.reduce((sum, value) => sum += value.moneyWithnoSymbol, 0);
+      const symbStrInsu = arrInsu[0] && arrInsu[0].symbol;
+      const refundAmountStrInsu = `Refund amount:${Number(totalChangeInsu + state.rlFee).toFixed(2)}${symbStrInsu}-${Number(state.rlFee).toFixed(2)}${symbStrInsu}(RL) = ${Number(totalChangeInsu).toFixed(2)}${symbStrInsu}`;
       return assign({}, state, {
         refundPaths,
+        RefundMethod: methodStrInsu,
+        RefundAmount: refundAmountStrInsu,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${refundAmountStrInsu}${shippingInsuranceString}${methodStrInsu}`,
+        ShippingAndInsurance: shippingInsuranceString,
       });
     case TYPES.US_PRICE_CHANGE:
       return assign({}, state, {
@@ -563,11 +660,24 @@ const reducer = (state = defaultState, action) => {
       resultAmount = evaluate(totalAmount, maxTipsAmount, state.radioValue);
       resultCurrency = evaluate(totalCurrency, maxTipsCurrency, state.radioValue);
       refundPaths = state.refundPaths.map(v => assign({}, v, {
-        refundAmount: resultAmount[v.refundPathId],
-        refundCurrency: resultCurrency[v.refundPathId],
+        refundAmount: +Number(resultAmount[v.refundPathId]).toFixed(2),
+        refundCurrency: +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        moneyWithnoSymbol: v.symbol === '$' ? +Number(resultAmount[v.refundPathId]).toFixed(2) :
+            +Number(resultCurrency[v.refundPathId]).toFixed(2),
+        refMakrMoney: v.symbol === '$' ? `${+Number(resultAmount[v.refundPathId]).toFixed(2)}${v.symbol}`
+            : `${+Number(resultCurrency[v.refundPathId]).toFixed(2)}${v.symbol}`,
       }));
+      const refPRemarkRl = refundPaths.filter(v => v.refundAmount > 0);
+      const RefundMRl = refPRemarkRl.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`);
+      const totRl = refPRemarkRl.reduce((sum, value) => sum += (+value.moneyWithnoSymbol), 0).toFixed(2);
+      const symRl = refPRemarkRl[0].symbol;
+      const RefundAmountRl = `Refund amount:${+Number(+totRl + action.val).toFixed(2)}${symRl}-${action.val}${symRl}(RL)=${totRl}${symRl}`;
+      const RefundMethodRl = RefundMRl.join(',');
       return assign({}, state, {
         refundPaths,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${RefundAmountRl}${state.ShippingAndInsurance}${RefundMethodRl}`,
+        RefundAmount: RefundAmountRl,
+        RefundMethod: RefundMethodRl,
       });
     case TYPES.ALL_BACK:
       return assign({}, state, {
@@ -602,7 +712,6 @@ const reducer = (state = defaultState, action) => {
             refund_method: v.refund_method,
             account: v.account,
             bank_code: v.bank_code,
-            account: v.account,
             customer: v.customer,
             issuing_city: v.issuing_city,
             check: false,
@@ -615,6 +724,48 @@ const reducer = (state = defaultState, action) => {
           [action.key]: action.value,
         }),
       });
+
+    case TYPES.changeRadioValue:
+      const tempArr = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === action.val) && v.refundAmount > 0);
+      const str = tempArr.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
+      return assign({}, state, {
+        radioValue: action.val,
+        refundMethod: str,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${str}`,
+      });
+    case TYPES.changeInput:
+      const changeInputTempArr = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === state.radioValue) && v.refundAmount > 0);
+      const changeInputstr = changeInputTempArr.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
+      const tol =
+          (changeInputTempArr[0] && changeInputTempArr[0].symbol) === '$' ?
+              changeInputTempArr.reduce((sum, value) => sum += (+value.refundAmount), 0) :
+              changeInputTempArr.reduce((sum, value) => sum += (+value.refundCurrency), 0);
+      const symb = changeInputTempArr[0] && changeInputTempArr[0].symbol;
+      const rlFee = (+isUsd === 0) ? rlFeeCurrency : rlFeeAmount;
+      const RefundAmountChangeInput =
+          (tol && symb) ?
+          `Refund amount:${Number(tol + rlFee).toFixed(2)}${symb}-${Number(rlFee).toFixed(2)}${symb} =  ${Number(tol).toFixed(2)}${symb}`
+              : 'Refund amount:'
+      ;
+      return assign({}, state, {
+        RefundAmount: RefundAmountChangeInput,
+        refundMethod: changeInputstr,
+        remark: state.is_platform_order || state.is_web_celebrity_order ? '' : `${state.RefundItems}${RefundAmountChangeInput}${state.ShippingAndInsurance}${changeInputstr}`,
+      });
+
+
+    case TYPES.changeRefundMethod:
+      if (state.radioValue === 3) {
+        const tempArrChangeRefundMethod = state.refundPaths.filter(v => (v.refundPathId === 1 || v.refundPathId === 3) && v.refundAmount > 0);
+        const strChangeRefundMethod = tempArrChangeRefundMethod.map(v => `Refund method：${v.refMarkE}${v.refundPathId == 3 ? (v.refund_method ? `(${v.refund_method})` : '') : ''},${v.refMakrMoney}`).join(',');
+        return assign({}, state, {
+          refundMethod: strChangeRefundMethod,
+          remark: `${state.RefundItems}${state.RefundAmount}${state.ShippingAndInsurance}${strChangeRefundMethod}`,
+        });
+      }
+      return state;
+
+
     default:
       return state;
   }

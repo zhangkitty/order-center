@@ -274,3 +274,7 @@
     margin-top: 20px;
     display: flex;
 }
+.pageLay {
+    text-align: right;
+    margin: 20px 0;
+}

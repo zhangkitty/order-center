@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Tabs, Spin } from 'antd';
-import { commit, getInfo } from './action';
+import {commit, getInfo, getRefundBillListByOrderIdSer} from './action';
 import BaseInfo from './base/index';
 import Payment from './payment-desc';
 import Refund from './refund';
@@ -61,6 +61,12 @@ class DetailsEntry extends Component {
             activeKey={activeKey} defaultActiveKey="base"
             onChange={(v) => {
               dispatch(getInfo(orderId, billno, v));
+              if (v === 'refund') {
+                dispatch(commit('refundTableMoreLoad', true));
+                setTimeout(() => {
+                  dispatch(getRefundBillListByOrderIdSer(orderId, 'user', 1));
+                }, 2000);
+              }
               dispatch(commit('activeKey', v));
             }}
           >
@@ -82,7 +88,7 @@ class DetailsEntry extends Component {
         </div>
       );
     }
-    return <Spin />;
+    return null;
   }
 }
 DetailsEntry.propTypes = {

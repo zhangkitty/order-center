@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import { Radio, Button, Input, Tag, message, Spin } from 'antd';
 import { initPriceInfo, initReasonList, submitForward, change, reset } from './action';
 import SumOfMoney from './sumof-money';
-import Price from './price';
 import Price1 from './price1';
 
 import styles from './style.css';

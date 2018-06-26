@@ -109,6 +109,16 @@ export default (state = defaultState, action) => {
         dataSource: assign({}, state.dataSource, {
           refund: assign({}, state.dataSource.refund, {
             add_refund_bill_list: action.val.refund_bill_list,
+            add_refund_bill_list_count: action.val.count,
+          }),
+        }),
+      });
+    case TYPES.refundChangePageSuccess:
+      return assign({}, state, {
+        dataSource: assign({}, state.dataSource, {
+          refund: assign({}, state.dataSource.refund, {
+            refund_bill_list: action.data.refund_bill_list,
+            count: action.data.count,
           }),
         }),
       });

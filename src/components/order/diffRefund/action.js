@@ -72,3 +72,29 @@ export const changeInputDisable = isDisable => ({
   type: TYPES.CHANGE_INPUT_DISABLE,
   isDisable,
 });
+
+export const changeRemark = (pathId, checked) => ({
+  type: TYPES.CHANGEREMARK,
+  pathId,
+  checked,
+});
+
+export const selectRemark = channel => ({
+  type: TYPES.selectRemark,
+  channel,
+});
+
+export const changeAmount = channel => ({
+  type: TYPES.changeAmount,
+  channel,
+});
+
+export const changeCurrency = channel => ({
+  type: TYPES.changeCurrency,
+  channel,
+});
+
+export const changeChecked = channel => ({
+  type: TYPES.changeChecked,
+  changeChecked,
+});
