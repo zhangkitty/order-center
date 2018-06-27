@@ -431,18 +431,22 @@ const reducer = (state = defaultState, action) => {
         4: orderPriceInfo.overflowCanRefundPrice,
       };
       if (DefaultValue && isAllCancel) {
+        const rl = orderPriceInfo.refundedRl;
+        const rate = orderPriceInfo.orderBalancePrice.priceWithExchangeRate.amount / orderPriceInfo.orderBalancePrice.priceUsd.amount;
         // totalAmount = canRefund.priceUsd.amount + shippingAmount + insuranceAmount;
         // totalCurrency = canRefund.priceWithExchangeRate.amount + shippingCurrency + insuranceCurrency;
-        totalAmount = orderPriceInfo.orderBalancePrice.priceUsd.amount;
-        totalCurrency = orderPriceInfo.orderBalancePrice.priceWithExchangeRate.amount;
+        totalAmount = orderPriceInfo.orderBalancePrice.priceUsd.amount - rl;
+        totalCurrency = orderPriceInfo.orderBalancePrice.priceWithExchangeRate.amount - rl * rate;
       } else if (DefaultValue && !isAllCancel) {
         totalAmount = orderPriceInfo.waitRefundPrice.priceUsd.amount + shippingAmount + insuranceAmount;
         totalCurrency = orderPriceInfo.waitRefundPrice.priceWithExchangeRate.amount + shippingCurrency + insuranceCurrency;
         // totalAmount = canRefund.priceUsd.amount;
         // totalCurrency = canRefund.priceWithExchangeRate.amount;
       } else if (!DefaultValue && isAllCancel) {
-        totalAmount = orderPriceInfo.orderBalancePrice.priceUsd.amount - shippingAmount - insuranceAmount;
-        totalCurrency = orderPriceInfo.orderBalancePrice.priceWithExchangeRate.amount - shippingCurrency - insuranceCurrency;
+        const rl = orderPriceInfo.refundedRl;
+        const rate = orderPriceInfo.orderBalancePrice.priceWithExchangeRate.amount / orderPriceInfo.orderBalancePrice.priceUsd.amount;
+        totalAmount = orderPriceInfo.orderBalancePrice.priceUsd.amount - shippingAmount - insuranceAmount - rl / rate;
+        totalCurrency = orderPriceInfo.orderBalancePrice.priceWithExchangeRate.amount - shippingCurrency - insuranceCurrency - rl;
         if (orderPriceInfo.hasShippingInsurancePriceRefunded) {
           totalAmount += insuranceAmount;
           totalCurrency += insuranceCurrency;
