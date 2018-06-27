@@ -282,8 +282,8 @@
 
 .codspanWidthR{
     font-size: 1.17em;
-    -webkit-margin-before: 1em;
-    -webkit-margin-after: 1em;
+    /*-webkit-margin-before: 1em;*/
+    /*-webkit-margin-after: 1em;*/
     -webkit-margin-start: 0px;
     -webkit-margin-end: 0px;
     min-width: 180px;
