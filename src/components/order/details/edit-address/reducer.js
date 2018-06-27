@@ -121,10 +121,10 @@ export default (state = defaultState, action) => {
     case TYPES.GET_INFO_SHOW_SUCCESS:
       return assign({}, state, {
         ready: true,
-        addressShow: action.data.map(v => assign({
-          name: addresName[Object.keys(v)[0]] || Object.keys(v)[0],
-          validate: Object.values(v)[0] === 1,  // 必填
-          key: Object.keys(v)[0],
+        addressShow: action.data.map(v => ({
+          name: v.name,
+          validate: v.required,  // 必填
+          key: v.key,
         })),
         show: false,
       });
