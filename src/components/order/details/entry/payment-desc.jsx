@@ -74,9 +74,9 @@ const Payment = (
             left.map(v => (
               <div key={v.name} className={style.paymentInfo}>
                 <span className={style.spanWidthL}>{v.name}: </span>
-                <span className={style.spanWidthR}>
+                <pre className={style.spanWidthR}>
                   {v.value}
-                </span>
+                </pre>
               </div>
             ))
           }
@@ -86,19 +86,19 @@ const Payment = (
             right.map(v => (
               <div key={v.name}>
                 <span className={style.spanWidthL}>{v.name}: </span>
-                <span className={style.spanWidthR}>{v.value}</span>
+                <pre className={style.spanWidthR}>{v.value}</pre>
               </div>
             ))
           }
           <div style={{ marginTop: '30px' }}>
             <h3 className={style.spanWidthL}>{lan.zongjia}:</h3>
-            <h3 className={style.spanWidthR}>{pay_total_price}</h3>
+            <pre className={style.codspanWidthR}>{pay_total_price}</pre>
           </div>
           {
             cod ?
               <div>
                 <h3 className={style.spanWidthL}>{lan.CODyingfu}: </h3>
-                <h3 className={style.spanWidthR}>{options.cod_pay_money }</h3>
+                <pre className={style.codspanWidthR}>{options.cod_pay_money}</pre>
               </div>
               : null
           }

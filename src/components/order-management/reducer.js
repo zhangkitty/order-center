@@ -4,12 +4,36 @@ import moment from 'moment';
 import * as types from './types';
 
 const defaultState = {
-  logDataSource: [{
-    id: 1,
-    name: 'Aliexpress',
-    load: false,
-    date: moment(Date.now()).format('YYYYMMDD'),
-  }],
+  logDataSource: [
+    {
+      id: 1,
+      name: 'Aliexpress',
+      logType: '同步运单号日志',
+      load: false,
+      date: moment(Date.now()).format('YYYYMMDD'),
+    },
+    {
+      id: 2,
+      name: 'Aliexpress',
+      logType: '自动抓单日志',
+      load: false,
+      date: moment(Date.now()).format('YYYYMMDD'),
+    },
+    {
+      id: 3,
+      name: 'Joom',
+      logType: '同步运单号日志',
+      load: false,
+      date: moment(Date.now()).format('YYYYMMDD'),
+    },
+    {
+      id: 4,
+      name: 'Joom',
+      logType: '自动抓单日志',
+      load: false,
+      date: moment(Date.now()).format('YYYYMMDD'),
+    },
+  ],
   allPlatForm: [],
   choosePlatForm: '',
   addChoosePlatForm: 'Joom',

@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Tabs, Spin } from 'antd';
-import { commit, getInfo } from './action';
+import {commit, getInfo, getRefundBillListByOrderIdSer} from './action';
 import BaseInfo from './base/index';
 import Payment from './payment-desc';
 import Refund from './refund';
@@ -30,7 +30,7 @@ class DetailsEntry extends Component {
     dispatch(commit('activeKey', active || 'base'));
   }
   render() {
-    const { ready, activeKey, dispatch, orderId, billno, tabsLoad, RlModal, RlList, rl_charge, orderID } = this.props;
+    const { ready, activeKey, dispatch, orderId, billno, tabsLoad, RlModal, RlList, rl_charge, orderID, mycode } = this.props;
     const info = props => [{
       name: `${billno}`, // order.entry.basic
       key: 'base',
@@ -61,6 +61,12 @@ class DetailsEntry extends Component {
             activeKey={activeKey} defaultActiveKey="base"
             onChange={(v) => {
               dispatch(getInfo(orderId, billno, v));
+              if (v === 'refund') {
+                dispatch(commit('refundTableMoreLoad', true));
+                setTimeout(() => {
+                  dispatch(getRefundBillListByOrderIdSer(orderId, 'user', 1));
+                }, 2000);
+              }
               dispatch(commit('activeKey', v));
             }}
           >
@@ -78,11 +84,11 @@ class DetailsEntry extends Component {
             }
           </Tabs>
           <TrackTrouble {...this.props} />
-          <RLModal RlModal={RlModal} list={RlList} dispatch={dispatch} rl_charge={rl_charge} code={orderID} orderId={orderId} billno={billno} activeKey={activeKey} />
+          <RLModal RlModal={RlModal} list={RlList} dispatch={dispatch} rl_charge={rl_charge} code={mycode} orderId={orderId} billno={billno} activeKey={activeKey} />
         </div>
       );
     }
-    return <Spin />;
+    return null;
   }
 }
 DetailsEntry.propTypes = {

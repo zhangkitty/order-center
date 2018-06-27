@@ -277,3 +277,16 @@ form .colSpace2{
 .priceStyle > div.callout {
     color: #f00;
 }
+
+.buttonStyle {
+    border: 1px solid #d9d9d9;
+    padding: 0 15px;
+    border-radius: 4px;
+    color: #333;
+    line-height: 26px;
+    display: inline-block;
+}
+.buttonStyle:hover {
+    color: #108ee9;
+    border-color: #108ee9;
+}

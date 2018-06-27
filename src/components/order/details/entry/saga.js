@@ -9,6 +9,7 @@ import {
   operationGoodsSuccess,
   remarkShowSuccess, remarkSaveSuccess, remarkShow, addOrderRefundInfo,
   switchRemarkSet, questionRemarkSaveSet, switchRemark, putRLList, clearRL,
+  refundChangePageSuccess,
 } from './action';
 
 import {
@@ -51,7 +52,7 @@ const lan = {
 /* eslint prefer-const: 0 */
 /* eslint consistent-return: 0 */
 function* getInfoSaga(action) {
-  const promise = getInfoSer(action.id, action.bill)[action.key];
+  const promise = getInfoSer(action.id, action.bill, action.page)[action.key];
   const data = yield promise();
   if (!data || data.code !== 0) {
     return message.warning(`${lan.fail}:${data.msg}`);
@@ -149,7 +150,8 @@ function* fetchrlfeeSaga(action) {
   if (!data || data.code !== 0) {
     return message.warning(`${lan.ofail}:${data.msg}`);
   }
-  yield put(commit('rlFee', data.data));
+  yield put(commit('rlFee', data.data.rlFee));
+  yield put(commit('shipping_type', data.data.shippingType));
   if (data.data === null) {
     yield put(commit('reFeeValue', 0));
   }
@@ -206,8 +208,8 @@ function* remarkSaveSaga(action) {
   return yield put(remarkSaveSuccess({ orderId: action.orderId, mark: action.remark }));
 }
 // 获取物流反馈问题原因
-function* getTrackTroubleReason() {
-  const data = yield getTroubleTypes();
+function* getTrackTroubleReason({ pkgNum }) {
+  const data = yield getTroubleTypes(pkgNum);
   if (!data || data.code !== 0) {
     message.error(`${lan.dataFail}: ${data.msg}`);
     return yield put(commit('trackTroubleLoad', false));
@@ -259,15 +261,25 @@ function* switchRemarkSaga(action) {
   }
   return yield put(switchRemarkSet(data.data));
 }
-function* getefundbBillistbyorderidSaga(action) {
-  yield put(commit('moreLoading', true));
-  const data = yield getefundbBillistbyorderidSer(action.orderId);
-  yield put(commit('moreLoading', false));
+function* getefundbBillistbyorderidSaga({ orderId, by, page }) {
+  yield put(commit('refundTableMoreLoad', true));
+  const data = yield getefundbBillistbyorderidSer(orderId, by, page);
+  yield put(commit('refundTableMoreLoad', false));
   if (!data || data.code !== 0) {
     return message.warning(`${lan.fail}:${data.msg}`);
   }
   yield put(addOrderRefundInfo(data.data));
 }
+function* refundChangePageSaga({ orderId, page }) {
+  yield put(commit('refundTableLoad', true));
+  const data = yield getefundbBillistbyorderidSer(orderId, '', page);
+  yield put(commit('refundTableLoad', false));
+  if (!data || data.code !== 0) {
+    return message.warning(`${lan.fail}:${data.msg}`);
+  }
+  yield put(refundChangePageSuccess(data.data));
+}
+
 // 物流问题反馈备注保存
 function* questionRemarkSaga(action) {
   const data = yield questionRemarkSer(action.types, action.note, action.numbers);
@@ -280,7 +292,7 @@ function* questionRemarkSaga(action) {
 }
 
 function* showRLModalSaga({ code, id }) {
-  const result = yield showRLModalServer(code);
+  const result = yield showRLModalServer(id);
   if (result.code === 0) {
     yield put(putRLList({
       list: result.data,
@@ -325,6 +337,7 @@ export default function* () {
   yield takeLatest(TYPES.TRACK_TROUBLE_SUBMIT, trackTroubleSubmit);
   yield takeLatest(TYPES.REFUND_ACCOUNT, refundAccountSaga);
   yield takeLatest(TYPES.GETREFUNDBILLLISTBYORDERIDSER, getefundbBillistbyorderidSaga);
+  yield takeLatest(TYPES.refundChangePage, refundChangePageSaga);
   yield takeLatest(TYPES.CONFIRM_RECEIVED, confirmReceivedSaga);
   yield takeLatest(TYPES.SWITCH_REMARK, switchRemarkSaga);
   yield takeLatest(TYPES.QUESTION_REMARK_SAVE, questionRemarkSaga);

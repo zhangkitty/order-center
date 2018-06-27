@@ -36,8 +36,8 @@ class WrapperUpload extends Component {
         }}
         beforeUpload={(file, list) => {
           const isImg = file.type === 'image/jpeg' || file.type === 'image/png';
-          if (list.concat(fileList).length > 4 || !isImg) {
-            message.error('最多只能上传4张图片,且格式为jpeg 或者 png');
+          if (!isImg) {
+            message.error('只能上传格式为jpeg 或者 png');
             return false;
           }
           const res = [...fileList, ...list.map(f => ({
@@ -65,7 +65,6 @@ class WrapperUpload extends Component {
         }}
       >
         {
-          fileList.length >= 4 ? null :
           <div>
             <Icon type="plus" />
             <div>Upload</div>

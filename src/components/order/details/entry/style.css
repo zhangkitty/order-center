@@ -80,6 +80,7 @@
     min-width: 180px;
     max-width: 250px;
     display: inline-block;
+    font-family: Helvetica Neue For Number,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;;
 }
 .payLog {
     margin-bottom: 10px;
@@ -259,4 +260,34 @@
     cursor: pointer;
     padding: 0 10px;
     border-radius: 20px;
+}
+.troubleIssueLay {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.troubleDesc {
+    color: #0e8ee9;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.troubleIssueLay2 {
+    margin-top: 20px;
+    display: flex;
+}
+.pageLay {
+    text-align: right;
+    margin: 20px 0;
+}
+
+.codspanWidthR{
+    font-size: 1.17em;
+    /*-webkit-margin-before: 1em;*/
+    /*-webkit-margin-after: 1em;*/
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    min-width: 180px;
+    max-width: 250px;
+    display: inline-block;
+    font-family: Helvetica Neue For Number,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;;
 }

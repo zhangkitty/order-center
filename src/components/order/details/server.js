@@ -1,12 +1,12 @@
 import assign from 'object-assign';
 import fetch from '../../../lib/fetch';
 import { camel2Under,under2Camal } from  '../../../lib/camal';
-import { parseQuery } from '../../../lib/query-string';
+import queryString, { parseQuery } from '../../../lib/query-string';
 
 const entry = {
   orderDetailInfo: '/Order/getOrderDetailInfo', // 基本
   payShow: '/orderDetail/payShow', // 支付信息
-  refund: '/OrderDiffRefund/getRefundBillListOfOrder', // 退款信息
+  refund: '/OrderDiffRefund/getRefundBillList', // 退款信息
   orderReturn: '/orderReturn/getReturnOrder', // 退货信息
   orderRecord: '/Order/getOrderRecord', // 订单日志
   refundEmail: '/orderDetail/refundEmail', // 更新邮箱
@@ -19,7 +19,7 @@ const entry = {
   orderProfit: '/OrderDetail/orderProfit',
   rebuildRl: '/orderReturn/rebuildRl',
   cancelTheRefundBill: '/OrderDiffRefund/cancelTheRefundBill',
-  getTroubleTypes: '/OrderLogisticsTroubles/getTroubleTypes',
+  getTroubleTypes: '/OrderLogisticsTroubles/getAvailableTypes',
   trackTroublePublish: '/OrderLogisticsTroubles/publish',
   refundAccount: '/OrderRefund/addUnderlineRefund',    // 填写账户信息
 };
@@ -84,14 +84,14 @@ const question = {
 };
 
 
-export const getInfoSer = (id, bill) => {
+export const getInfoSer = (id, bill, page) => {
   const base = () => fetch(`${entry.orderDetailInfo}?order_id=${id}`, {
     method: 'GET',
   });
   const pay = () => fetch(`${entry.payShow}?order_id=${id}`, {
     method: 'GET',
   });
-  const refund = () => fetch(`${entry.refund}?order_id=${id}`, {
+  const refund = () => fetch(`${entry.refund}?order_id=${id}&page=${page || 1}`, {
     method: 'GET',
   });
   const orderReturn = () => fetch(entry.orderReturn, {
@@ -104,11 +104,14 @@ export const getInfoSer = (id, bill) => {
   return {base, pay, refund, orderReturn, logs};
 }
 
-export const getefundbBillistbyorderidSer = (orderId)=>(
-  fetch(`/OrderDiffRefund/getRefundBillListByOrderId?order_id=${orderId}`,{
-    method:'get'
-  })
-)
+export const getefundbBillistbyorderidSer = (orderId, by, page)=> {
+  const req = queryString(['order_id', 'by', 'page'], {order_id: orderId, by, page});
+  return (
+    fetch(`/OrderDiffRefund/getRefundBillList?${req}`,{
+      method:'get'
+    })
+  )
+}
 
 
 export const updateEmailSer = (order_id, email) => (
@@ -332,8 +335,8 @@ export const remarkSaveSer = (orderId, remark) => (
 );
 
 // 物流问题记录 问题类型
-export const getTroubleTypes = () => {
-  return fetch(entry.getTroubleTypes, {
+export const getTroubleTypes = (pkgNum) => {
+  return fetch(`${entry.getTroubleTypes}?reference_number=${pkgNum}`, {
     method: 'GET',
   })
 };
@@ -353,12 +356,15 @@ export const fetchrlfeeSer = (orderId)=>(
 )
 
 //提交RL费用
-export const rebuildrlSer = (d)=>(
-    fetch((`${RL.postRlFeeSer}`),{
-      method:'POST',
-      body:JSON.stringify(camel2Under(d))
-    })
-)
+export const rebuildrlSer = (d)=>{
+  const keys =  ['language', 'order_id', 'rl_fee', 'return_order_id', 'shipping_type', 'billno']
+  return fetch((`${RL.postRlFeeSer}`),{
+    method:'POST',
+    body:JSON.stringify(camel2Under(d))
+  })
+}
+
+
 
 //填写账户信息
 export const refundAccountSer = (data)=> {
@@ -401,8 +407,8 @@ export const questionRemarkSer = (trouble_type, note, reference_number) => (
 );
 
 // 获取修改rl金额
-export const showRLModalServer = (code) => (
-  fetch(`/OrderReturn/getRlFeeByCurrencyCode?currency_code=${code}`, {
+export const showRLModalServer = (id) => (
+  fetch(`/OrderReturn/getRlFeeByCurrencyCode?order_id=${id}`, {
     method: 'GET',
   })
 )

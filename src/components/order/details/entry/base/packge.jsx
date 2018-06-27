@@ -57,6 +57,9 @@ const lan = {
   必须勾选整个订单的全部商品: '必须勾选整个订单的全部商品',
   prepared_goods: __('order.entry.prepared_goods'),
   shipping_warehouse: __('order.entry.shipping_warehouse'),
+  goods_name_id: __('order.entry.goods_name_id'),
+  goods_name: __('order.entry.goods_name'),
+  goods_id: __('order.entry.goods_id'),
 };
 const disableArr = [5, 7, 75, 82, 20, 74];
 
@@ -264,6 +267,7 @@ const Packge = ({
     returned_goods_list,
     refund_goods_list,
     new_not_packaged_goods_list,
+    returned_logistics,
   } = order_goods_info;
   const {
     show_refund_button,
@@ -413,6 +417,16 @@ const Packge = ({
               </span>
             </div>
           </span>
+        ),
+      },
+      {
+        title: lan.goods_name_id,
+        dataIndex: 'goods',
+        render: (d, res) => (
+          <div>
+            <div>{`${lan.goods_name}: ${res.goods_name}`}</div>
+            <div>{`${lan.goods_id}: ${res.goods_id}`}</div>
+          </div>
         ),
       },
       {
@@ -607,9 +621,7 @@ const Packge = ({
               />
               <div style={{ margin: '30px 50px 15px' }}>
                 <div>
-                  <div style={{ textAlign: 'left' }}>
-
-                  </div>
+                  <div style={{ textAlign: 'left' }} />
                   <Input.TextArea
                     style={{ margin: '10px auto' }}
                     rows={3}
@@ -814,10 +826,10 @@ const Packge = ({
                     className={style.btnSpace}
                     size="small"
                     onClick={() => {
-                      if (trackTroubleTypes.length) {
-                        dispatch(commit('trackTroubleForm', { reference_number: v.package_number }));
-                        return dispatch(commit('trackTroubleShow', true));
-                      }
+                      // if (trackTroubleTypes.length) {
+                      //   dispatch(commit('trackTroubleForm', { reference_number: v.package_number }));
+                      //   return dispatch(commit('trackTroubleShow', true));
+                      // }
                       return dispatch(createQs(v.package_number));
                     }}
                     loading={trackTroubleLoad}
@@ -906,6 +918,29 @@ const Packge = ({
               >
                 {__('common.allChoose')}
               </Button>
+              {
+                !!returned_logistics.show_troubles_publish_button &&
+                <Button
+                  className={style.btnSpace}
+                  size="small"
+                  onClick={() => {
+                    if (trackTroubleTypes.length) {
+                      dispatch(commit('trackTroubleForm', { reference_number: returned_goods_list[0].package_number }));
+                      return dispatch(commit('trackTroubleShow', true));
+                    }
+                    return dispatch(createQs(returned_goods_list[0].package_number));
+                  }}
+                  loading={trackTroubleLoad}
+                >
+                  {lan.fankui}
+                </Button>
+              }
+              {
+                !!returned_logistics.show_troubles_list_link &&
+                <Link to={`/trackTroubles/list/${returned_goods_list[0].package_number}`}>
+                  {lan.fankuishow}
+                </Link>
+              }
             </div>
           }
           className={style.cardBottom}

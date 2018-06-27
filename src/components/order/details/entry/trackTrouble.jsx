@@ -5,11 +5,11 @@ import { commit, trackTroubleSubmit, switchRemark, closeRemark, questionRemarkSa
 import Styles from './style.css';
 // TODO: lan
 const lan = {
-  qsType: '问题类型',
-  qsDesc: '问题描述',
+  qsType: __('order.entry.problemType'),
+  qsDesc: __('order.entry.problemDes'),
   save: __('order.entry.confirm'),
   need: __('order.entry.order_return_15'),
-  goutongjilu: '沟通记录',
+  goutongjilu: __('order.entry.disRecord'),
   xinzengbeizhu: '新增备注',
   guanbibeizhu: '关闭沟通记录',
   baochun: '保存备注',
@@ -44,7 +44,8 @@ const columnsRemark = [{
 }];
 
 const TrackTrouble = ({
-  dispatch, trackTroubleTypes, trackTroubleForm, trackTroubleShow, trackImages, switchRemarkOpen, switchRemarkList, addRemarkOpen, note,
+  dispatch, trackTroubleTypes, trackTroubleForm, trackTroubleShow, trackImages,
+  switchRemarkOpen, switchRemarkList, addRemarkOpen, note,
 }) => (
   <Modal
     footer={null}
@@ -53,19 +54,32 @@ const TrackTrouble = ({
     onCancel={() => dispatch(commit('trackTroubleShow', false))}
   >
     <form style={{ padding: '15px' }}>
-      <div style={{ marginBottom: '20px' }}>
-        <span>{lan.qsType}</span><span style={{ color: 'red' }}>*</span>
-        <RG
-          required
-          value={trackTroubleForm.trouble_type}
-          onChange={e => dispatch(commit('trackTroubleForm', assign({}, trackTroubleForm, { trouble_type: e.target.value })))}
-        >
+      <div className={Styles.troubleIssueLay}>
+        <div>
+          <span>{lan.qsType}</span>
+          <span style={{ color: 'red' }}>*</span>
+        </div>
+        <div className={Styles.troubleIssueLay2}>
           {
-            trackTroubleTypes.map(v => (
-              <Radio value={v.id} style={{ width: '40%' }}>{v.name}</Radio>
+            trackTroubleTypes.sort((a, b) => b.desc.id - a.desc.id).map(v => (
+              <div key={v.desc.type} style={{ width: '45%', marginLeft: '5%' }}>
+                <p className={Styles.troubleDesc}>{v.desc.type}:</p>
+                <RG
+                  required
+                  value={trackTroubleForm.trouble_type}
+                  onChange={(e) => {
+                    dispatch(commit('trackTroubleForm', assign({}, trackTroubleForm, { trouble_type: e.target.value, post_trouble_cate: v.desc.id })));
+                  }}
+                >
+                  {
+                    Object.keys(v.value).map(d => v.value[d])
+                      .map(d => <Radio disabled={!d.available} value={d.id} style={{ width: '50%' }}>{d.name}</Radio>)
+                  }
+                </RG>
+              </div>
             ))
           }
-        </RG>
+        </div>
       </div>
       <div style={{ marginBottom: '20px' }}>
         <span>{lan.qsDesc}</span>
