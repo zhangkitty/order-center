@@ -9,19 +9,30 @@ import {
   changeValue,
 } from './action';
 
-const wrapperTroubleInfo = (data) => {
-  const res = [];
-  Object.keys(data.postTroubleCate).forEach((v) => {
-    res.push({ label: data.postTroubleCate[v], value: v });
+const wrapperTroubleInfo = (data = {}) => {
+  const res = {};
+  res.troubleInfoConfig = [];
+  res.payMathods = [];
+  res.siteFrom = [];
+  // 组装 troubleInfoConfig
+  Object.keys(data.postTroubleCate || {}).forEach((v) => {
+    res.troubleInfoConfig.push({ label: data.postTroubleCate[v], value: v });
   });
-  Object.keys(data.roubleType).forEach((v) => {
-    const index = res.findIndex(d => d.value === v);
+  Object.keys(data.roubleType || {}).forEach((v) => {
+    const index = res.troubleInfoConfig.findIndex(d => d.value === v);
     if (index > -1) {
-      res[index].children = (res[index].children || []).concat(
+      res.troubleInfoConfig[index].children = (res.troubleInfoConfig[index].children || []).concat(
         Object.keys(data.roubleType[v]).map(d => ({ label: data.roubleType[v][d], value: d })),
       );
     }
   });
+  // 组装payMathods
+  Object.keys(data.pay_method || {}).forEach((v) => {
+    res.payMathods.push({ key: Number(v), value: data.pay_method[v] });
+  });
+  // 组装siteFrom
+  res.siteFrom = data.site_from.data || [];
+
   return res;
 };
 
@@ -95,7 +106,6 @@ function* addOrEditSaga(action) {
   if (data[2]) {
     data[2] = wrapperTroubleInfo(data[2]);
   }
-  console.log(data);
   return yield put(addOrEditSerSuccess(data, action));
 }
 
@@ -103,7 +113,7 @@ function* addAdminUserManageSaga(action) {
   const { props } = action.val;
   const {
     AllUserList, selectedName, Countrys, checkedCountrys,
-    dispatch, pageNumber, pageSize, addOrEdit,
+    dispatch, pageNumber, pageSize, addOrEdit, pay_method, site_from,
     post_trouble_cate, trouble_type, start_time, end_time,
   } = props;
   const user_id = (+selectedName);
@@ -128,6 +138,8 @@ function* addAdminUserManageSaga(action) {
     trouble_type: trouble_type.join(','),
     start_time,
     end_time,
+    pay_method,
+    site_from: site_from.join(','),
   });
   const data = yield editAdminInfoSer(temp);
   if (!data || data.code !== 0) {
