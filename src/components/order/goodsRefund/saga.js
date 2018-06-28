@@ -62,12 +62,13 @@ function* submitSaga({ val }) {
       .filter(v => v.isShow === 1)
       .filter(v => v.refundPathId === 1 || v.refundPathId === val.radioValue)
       .map(v => assign({}, v, {
-        account: v.card_number ? v.card_number : v.account,
+        // account: v.card_number ? v.card_number : v.account,
         customer: v.customer_name,
       }));
   if (arr.length === 0) {
     return message.warning(lan.缺少必填项);
   }
+  console.log(arr);
   for (let [i, len] = [0, arr.length]; i < len; i += 1) {
     if (arr[i].refund_method === 'Paytm' && (arr[i].account.length !== 10)) {
       return message.warning(__('common.errorPaytm'));
