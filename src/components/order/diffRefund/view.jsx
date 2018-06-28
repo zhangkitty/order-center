@@ -65,21 +65,21 @@ class DiffRefund extends Component {
                   if (x.refund_method === 'yes bank') {
                     x.account = x.account1;
                   }
-                  if (x.refundPathId < 3) {
-                    x.refund_method = null;
-                    x.account = null;
-                    x.bank_code = null;
-                    x.customer = null;
-                    x.issuing_city = null;
-                    x.card_number = null;
-                  } else if (x.refundPathId === 3 && !isCod) {
-                    x.refund_method = null;
-                    x.account = null;
-                    x.bank_code = null;
-                    x.customer = null;
-                    x.issuing_city = null;
-                    x.card_number = null;
-                  }
+                  // if (x.refundPathId < 3) {
+                  //   x.refund_method = null;
+                  //   x.account = null;
+                  //   x.bank_code = null;
+                  //   x.customer = null;
+                  //   x.issuing_city = null;
+                  //   x.card_number = null;
+                  // } else if (x.refundPathId === 3 && !isCod) {
+                  //   x.refund_method = null;
+                  //   x.account = null;
+                  //   x.bank_code = null;
+                  //   x.customer = null;
+                  //   x.issuing_city = null;
+                  //   x.card_number = null;
+                  // }
                   return assign({}, x, {
                     account: x.account ? x.account : x.card_number,
                     customer: x.customer_name,
