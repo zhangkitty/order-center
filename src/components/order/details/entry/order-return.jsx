@@ -70,7 +70,9 @@ class OrderReturn extends Component {
       }, {
         title: lan.lujin,
         dataIndex: 'return_tracking_no',
-      }, {
+        render: (text, record) => <a target="_blank" href={record.track_link}>{record.return_tracking_no}</a>,
+      },
+      {
         title: lan.RL扣除费用,
         dataIndex: 'shipping_fee',
       }, {
