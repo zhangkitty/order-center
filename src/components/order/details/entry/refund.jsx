@@ -133,8 +133,8 @@ class Refund extends Component {
                 dataIndex: 'refund_record_list',
                 // width: '130px',
                 render: d => (
-                  d.map(v => (
-                    <p key={v.refund_path_name}>{v.refund_path_name}: {v.amount.price_usd.amount_with_symbol} --- {v.amount.price_with_exchange_rate.amount_with_symbol}</p>
+                  d.map((v, i) => (
+                    <p key={i}>{v.refund_path_name}: {v.amount.price_usd.amount_with_symbol} --- {v.amount.price_with_exchange_rate.amount_with_symbol}</p>
                   ))
                 ),
               },
