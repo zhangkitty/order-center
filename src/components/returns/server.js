@@ -109,6 +109,8 @@ export const doRefundPassSer = data => (
 export const exportASer = (action)=>{
   return fetch(`/OrderReturn/exportLogisticsCost`,{
     method:'post',
-    body:JSON.stringify(action.props.queryString)
+    body:JSON.stringify(Object.assign({},action.props.queryString,{
+      shipping_method:action.props.queryString.LogisticsChannels
+    }))
   })
 }
