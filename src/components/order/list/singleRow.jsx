@@ -254,7 +254,7 @@ const SingleRow = (props) => {
               }
             >{data.buy_cnt}</a>)
           </span>
-          <Button type="ghost" style={{ border: 'none' }}>{data.member_level}</Button>
+          <Button type="ghost" style={{ border: 'none', color: '#000', cursor: 'default' }}>{data.member_level}</Button>
           <span>{data.pay_time}</span>
           <span> {data.site_from}</span>
           <span>{data.country_name}</span>
