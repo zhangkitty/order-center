@@ -80,7 +80,6 @@ class cashRefund extends Component {
               notWithdrawAmount,   // 不提现金额
               remark,
             };
-            debugger;
             return dispatch(submitForward(temp));
           }}
         >
