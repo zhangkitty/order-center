@@ -70,15 +70,17 @@ class cashRefund extends Component {
                 refundAmount: Number(refundAmount).toFixed(2),
                 refundCurrency: Number(refundCurrency).toFixed(2),
                 refundMethod,
-                bankCode: refundMethod === 'yes bank' ? bankCode : '',
-                account: refundMethod === 'yes bank' ? cardNumber : account,
-                customer: refundMethod === 'yes bank' ? customer : '',
-                issuingCity: refundMethod === 'yes bank' ? issuingCity : '',
+                bankCode,
+                cardNumber,
+                customer,
+                issuingCity,
+                account,
               }],
               canWithdrawAmount,   // 可提现金额
               notWithdrawAmount,   // 不提现金额
               remark,
             };
+            debugger;
             return dispatch(submitForward(temp));
           }}
         >
