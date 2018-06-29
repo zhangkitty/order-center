@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Table, Button, Popconfirm, message } from 'antd';
 import { remarkShow, followTrouble, handledModal, uploadShow, commit, doSelect, followShow } from './action';
+import * as styles from './style.css';
 
 // TODO： lan
 const lan = {
@@ -80,6 +81,7 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
           title: lan.c,
           dataIndex: 'reference_number',
           width: 100,
+          render: (text, record) => <a href={`${location.origin}${location.pathname}#/order/list/${record.billno}`}>{record.reference_number}</a>,
         },
         {
           title: lan.d,
@@ -173,6 +175,7 @@ const TableView = ({ dataSource, load, dispatch, filter, idList }) => {
             <Bg>
               <Button
                 onClick={() => dispatch(remarkShow(rec.id))}
+                type={rec.is_remark === 1 ? 'danger' : 'primary'}
               >
                 {lan.beizhu}
               </Button>
