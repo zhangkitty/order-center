@@ -92,13 +92,13 @@ const Payment = (
           }
           <div style={{ marginTop: '30px' }}>
             <h3 className={style.spanWidthL}>{lan.zongjia}:</h3>
-            <pre className={style.spanWidthR}>{pay_total_price}</pre>
+            <pre className={style.codspanWidthR}>{pay_total_price}</pre>
           </div>
           {
             cod ?
               <div>
                 <h3 className={style.spanWidthL}>{lan.CODyingfu}: </h3>
-                <pre className={style.spanWidthR}>{options.cod_pay_money}</pre>
+                <pre className={style.codspanWidthR}>{options.cod_pay_money}</pre>
               </div>
               : null
           }

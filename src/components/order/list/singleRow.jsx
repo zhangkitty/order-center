@@ -202,7 +202,7 @@ const SingleRow = (props) => {
   return (
     <div className={Styles.orderList}>
       <div className={Styles.orderTitle}>
-        <div className={Styles.orderTitleL} >
+        <div className={Styles.orderTitleL}>
           <Checkbox
             checked={!!batchChooseOrder.find(v => v === data.order_id)}
             onChange={(e) => {
@@ -254,8 +254,10 @@ const SingleRow = (props) => {
               }
             >{data.buy_cnt}</a>)
           </span>
-          <span>{data.member_level}</span> <span>{data.pay_time}</span>
-          <span> {data.site_from}</span> <span>{data.country_name}</span>
+          <Button type="ghost" style={{ border: 'none', color: '#000', cursor: 'default' }}>{data.member_level}</Button>
+          <span>{data.pay_time}</span>
+          <span> {data.site_from}</span>
+          <span>{data.country_name}</span>
         </div>
         <div className={Styles.orderTitleR}>
           { // 红人订单
