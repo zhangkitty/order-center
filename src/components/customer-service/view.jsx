@@ -17,6 +17,8 @@ const lan = {
   提交类型: '提交类型',
   问题类型: '问题类型',
   生效时间: '生效时间',
+  支付方式: '支付方式',
+  站点: '站点',
 };
 
 const style = {
@@ -59,6 +61,16 @@ class CustomerService extends Component {
       title: lan.问题类型,
       dataIndex: 'trouble_type_name',
       key: 'trouble_type_name',
+      width: 200,
+    }, {
+      title: lan.支付方式,
+      dataIndex: 'pay_method',
+      key: 'pay_method',
+      width: 200,
+    }, {
+      title: lan.站点,
+      dataIndex: 'site_from',
+      key: 'site_from',
       width: 200,
     }, {
       title: lan.生效时间,
