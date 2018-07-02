@@ -47,7 +47,7 @@ const reducer = (state = defaultState, action) => {
         post_trouble_cate: action.data ? `${action.data.post_trouble_cate}` : '',
         trouble_type: action.data ? action.data.trouble_type.split(',') : [],
         start_time: action.data ? action.data.effect_time && action.data.start_time_format : '',
-        end_time: action.daxta ? action.data.effect_time && action.data.end_time_format : '',
+        end_time: action.data ? action.data.effect_time && action.data.end_time_format : '',
         selectedNameDisabled: !!(action.data),
         pay_method: action.data ? Number(action.data.pay_method_id) : '',
         site_from: action.data ? action.data.site_from.split(',').filter(v => v) : [],
