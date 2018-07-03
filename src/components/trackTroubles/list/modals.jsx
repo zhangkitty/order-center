@@ -97,11 +97,11 @@ const Modals = ({
           type={'primary'}
           loading={load}
           onClick={() => {
-            if (handleType) {
-              dispatch(handled(troubleId, handleType, filter));
-            } else {
-              message.warning(lan.yichuliDesc);
-            }
+            // if (handleType) {
+            dispatch(handled(troubleId, handleType, filter));
+            // } else {
+            //   message.warning(lan.yichuliDesc);
+            // }
           }}
         >
           {lan.save}
