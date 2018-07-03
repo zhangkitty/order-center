@@ -69,8 +69,9 @@ class OrderReturn extends Component {
         dataIndex: 'return_goods',
       }, {
         title: lan.lujin,
-        dataIndex: 'return_tracking_no',
-      }, {
+        render: (text, record) => <a target="_blank" href={record.track_link ? record.track_link : record.return_tracking_no}>{record.return_tracking_no}</a>,
+      },
+      {
         title: lan.RL扣除费用,
         dataIndex: 'shipping_fee',
       }, {
@@ -99,17 +100,24 @@ class OrderReturn extends Component {
             </Popover>
             }
             {
-            rec.return_label_type === 'RAN' && rec.can_generate_rl === true &&
-            <Button
-              style={{ margin: '5px' }}
-              onClick={() => {
+              (
+                  (rec.return_label_type === 'RAN' && rec.can_generate_rl === true)
+                  ||
+                  (rec.return_label_type === 'RL' && (rec.receiver_country.toLocaleLowerCase() === 'france' || rec.receiver_country.toLocaleLowerCase() === 'spain')
+                  ||
+                  (rec.return_label_type === 'RL' && rec.receiver_country.toLocaleLowerCase() === 'india' && rec.shipping_status === 10))
+              )
+              &&
+              <Button
+                style={{ margin: '5px' }}
+                onClick={() => {
             // dispatch(commit('rlLoading', true));
             // dispatch(genRl(rec.return_order_id, billno));
-                this.props.dispatch(commit('modal_return_order_id', rec.return_order_id));
-                this.props.dispatch(fetchRlFee(this.props.orderId));
-                this.props.dispatch(commit('rlmodal', true));
-              }}
-            >{lan.rl}</Button>
+                  this.props.dispatch(commit('modal_return_order_id', rec.return_order_id));
+                  this.props.dispatch(fetchRlFee(this.props.orderId));
+                  this.props.dispatch(commit('rlmodal', true));
+                }}
+              >{lan.rl}</Button>
             }
             <Button onClick={() => this.props.dispatch(uploadTrackShow(this.props.orderId, rec.return_order_id))} style={{ margin: '5px' }}>
               {lan.sahngchuan}
