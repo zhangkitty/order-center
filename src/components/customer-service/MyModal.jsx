@@ -11,6 +11,8 @@ const lan = {
   分配国家: '分配国家',
   提交类型: '提交类型',
   问题类型: '问题类型',
+  支付方式: '支付方式',
+  站点: '站点',
   submitTitle3: __('order.entry.order_return_15'),
 };
 const RedStar = () => (<span style={{ color: 'red' }}>*</span>);
@@ -21,7 +23,8 @@ const CG = Checkbox.Group;
 const MyModal = (props) => {
   const {
     dispatch, AllUserList, Countrys, selectedName, checkedCountrys, selectedNameDisabled,
-    troubleInfoConfig, post_trouble_cate, trouble_type, start_time, end_time,
+    troubleInfoConfig, post_trouble_cate, trouble_type, start_time, end_time, payMathods,
+    pay_method, site_from, siteFrom,
   } = props;
   const checkItems = ((troubleInfoConfig.find(v => v.value === post_trouble_cate) || {}).children || []);
   return (<div>
@@ -77,6 +80,37 @@ const MyModal = (props) => {
           </Select>
         </div>
         <div className={styles.formLay}>
+          <span className={styles.formSpan}>{lan.支付方式}</span>
+          <RG
+            value={pay_method}
+            onChange={e => dispatch(changeValue('pay_method', e.target.value))}
+          >
+            {
+              (payMathods || []).map(v => (
+                <Radio value={v.key}>{v.value}</Radio>),
+              )
+            }
+          </RG>
+        </div>
+        <div className={styles.formLay}>
+          <span className={styles.formSpan}>
+            {lan.站点}
+          </span>
+          <Select
+            showSearch
+            style={{ minWidth: 300 }}
+            allowClear
+            onChange={value => dispatch(changeValue('site_from', value))}
+            mode="multiple"
+            value={site_from}
+            filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+          >
+            {
+              (siteFrom || []).map(v => (<Option value={v.id}>{v.name}</Option>))
+            }
+          </Select>
+        </div>
+        <div className={styles.formLay}>
           <span className={styles.formSpan}><RedStar />{lan.提交类型}</span>
           <RG
             value={post_trouble_cate}
@@ -119,7 +153,19 @@ const MyModal = (props) => {
           </div>
         }
         <div style={{ marginTop: 20 }}>
-          <div>{lan.分配国家}</div>
+          <div>
+            {lan.分配国家}
+            <Checkbox
+              style={{ marginLeft: 15 }}
+              checked={(checkedCountrys || []).length === (Countrys || []).map(v => v.country_info.map(d => d.country_id)).reduce((a, b) => a.concat(b), []).length}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  return dispatch(changeValue('checkedCountrys', Countrys.map(v => v.country_info.map(d => d.country_id)).reduce((a, b) => a.concat(b), [])));
+                }
+                return dispatch(changeValue('checkedCountrys', []));
+              }}
+            />
+          </div>
           <Checkbox.Group
             value={checkedCountrys}
             onChange={(checkedValues) => {

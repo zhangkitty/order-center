@@ -49,12 +49,16 @@ const reducer = (state = defaultState, action) => {
         start_time: action.data ? action.data.effect_time && action.data.start_time_format : '',
         end_time: action.data ? action.data.effect_time && action.data.end_time_format : '',
         selectedNameDisabled: !!(action.data),
+        pay_method: action.data ? Number(action.data.pay_method_id) : '',
+        site_from: action.data ? action.data.site_from.split(',').filter(v => v) : [],
       });
     case types.addOrEditSerSuccess:
       return assign({}, state, {
         AllUserList: action.val[0].data,
         Countrys: action.val[1].data,
-        troubleInfoConfig: action.val[2],
+        troubleInfoConfig: action.val[2].troubleInfoConfig,
+        payMathods: action.val[2].payMathods,
+        siteFrom: action.val[2].siteFrom,
       });
     case types.changeValue:
       return assign({}, state, {
