@@ -133,6 +133,12 @@ const reducer = (state = defaultState, action) => {
           rate2, // : under2Camal(action.res).walletExtractable.priceWithExchangeRate.rate, // 汇率（转$）
           currency: under2Camal(action.res).walletExtractable.priceWithExchangeRate.symbol, // 非美元币种
           max, // 金额最大值（下单币种)
+          bankCode: under2Camal(action.res).orderRefundUnderlineAccount.bankCode,
+          cardNumber: under2Camal(action.res).orderRefundUnderlineAccount.cardNumber,
+          customer: under2Camal(action.res).orderRefundUnderlineAccount.customerName,
+          issuingCity: under2Camal(action.res).orderRefundUnderlineAccount.issuingCity,
+          account: under2Camal(action.res).orderRefundUnderlineAccount.accountInfo,
+          refundMethod: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,
         }),
         valueTitle: assign({}, state.valueTitle, {  // 提示
           refundMethodTitle: under2Camal(action.res).orderRefundUnderlineAccount.refundMethod,

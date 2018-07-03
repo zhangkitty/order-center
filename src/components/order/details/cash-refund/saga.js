@@ -18,11 +18,11 @@ const lan = {
 function filterAccount(path) {
   switch (path.refundMethod) {
     case 'Paytm':
-      return path.account;
+      return !!(path.account);
     case 'PayPal':
-      return path.account;
+      return !!(path.account);
     case 'yes bank':
-      return path.bankCode && path.account && path.customer && path.issuingCity;
+      return !!(path.bankCode && path.cardNumber && path.customer && path.issuingCity);
     default:
       return true;
   }
@@ -39,9 +39,11 @@ function* getDataSaga(action) {
 }
 
 function* submitSaga(action) {
-  // if (action.data.refundPaths.filter(filterAccount).length < 1) {
-  //   return message.warning(lan.缺少必填项);
-  // }
+  console.log(action, 'action');
+  console.log(action.data.refundPaths.filter(filterAccount).length);
+  if (action.data.refundPaths.filter(filterAccount).length < 1) {
+    return message.warning(lan.缺少必填项);
+  }
   yield put(change('submitLoad', true));
   const data = yield cashRefundSubmit(action.data);
   if (!data || data.code !== 0) {
@@ -51,7 +53,7 @@ function* submitSaga(action) {
   message.success(__('common.sagaTitle25'));
   yield put(change('submitDisabled', true));  // 提交成功，按钮置灰
   yield put(change('submitLoad', false));
-  return setTimeout(window.close, 3000); // 关闭窗口
+  // return setTimeout(window.close, 3000); // 关闭窗口
 }
 
 export default function* () {
