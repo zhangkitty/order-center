@@ -39,9 +39,9 @@ function* getDataSaga(action) {
 }
 
 function* submitSaga(action) {
-  if (action.data.refundPaths.filter(filterAccount).length < 1) {
-    return message.warning(lan.缺少必填项);
-  }
+  // if (action.data.refundPaths.filter(filterAccount).length < 1) {
+  //   return message.warning(lan.缺少必填项);
+  // }
   yield put(change('submitLoad', true));
   const data = yield cashRefundSubmit(action.data);
   if (!data || data.code !== 0) {
