@@ -39,8 +39,6 @@ function* getDataSaga(action) {
 }
 
 function* submitSaga(action) {
-  console.log(action, 'action');
-  console.log(action.data.refundPaths.filter(filterAccount).length);
   if (action.data.refundPaths.filter(filterAccount).length < 1) {
     return message.warning(lan.缺少必填项);
   }
