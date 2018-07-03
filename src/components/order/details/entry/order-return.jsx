@@ -105,7 +105,7 @@ class OrderReturn extends Component {
                   ||
                   (rec.return_label_type === 'RL' && (rec.receiver_country.toLocaleLowerCase() === 'france' || rec.receiver_country.toLocaleLowerCase() === 'spain')
                   ||
-                  (rec.return_label_type === 'RL' && rec.receiver_country.toLocaleLowerCase() === 'India' && rec.shipping_status === 10))
+                  (rec.return_label_type === 'RL' && rec.receiver_country.toLocaleLowerCase() === 'india' && rec.shipping_status === 10))
               )
               &&
               <Button
