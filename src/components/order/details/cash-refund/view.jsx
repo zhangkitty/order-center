@@ -115,6 +115,7 @@ class cashRefund extends Component {
                     <Select
                       style={{ width: '150px', marginRight: '10px' }}
                       value={refundMethod}
+                      allowClear
                       onChange={(val) => {
                         dispatch(subchange('refundMethod', val));
                         dispatch(subchange('account', ''));
